@@ -1,0 +1,1862 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>SUPER RAHULLL</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sky-top:#7EC8F2;
+    --sky-bottom:#BFE8FF;
+    --grass:#4CAF50;
+    --dirt:#8B5A2B;
+    --dirt-dark:#6b431f;
+    --sun:#FFD34D;
+    --ink:#2B2118;
+    --cream:#FFF8E7;
+    --run-1:#3EA6F2; --run-2:#2273B5;
+    --back-1:#7E57C2; --back-2:#4A2C82;
+    --jump-1:#F2543E; --jump-2:#B52222;
+  }
+  *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html,body{ margin:0; padding:0; height:100%; overflow:hidden; background:#000; font-family:'Baloo 2',sans-serif; }
+  #stage{ position:fixed; top:0; left:0; width:100vw; height:100dvh; overflow:hidden; transform-origin:center center; }
+  canvas{ display:block; width:100%; height:100%; touch-action:none; }
+
+  #hud{ position:absolute; top:max(12px,env(safe-area-inset-top)); left:12px; right:12px;
+    display:flex; justify-content:space-between; align-items:flex-start; pointer-events:none; z-index:5; }
+  .hud-pill{ background:var(--cream); border:3px solid var(--ink); border-radius:999px;
+    padding:8px 14px; font-family:'Press Start 2P',monospace; font-size:clamp(10px,3vw,14px);
+    color:var(--ink); box-shadow:0 3px 0 var(--ink); display:flex; align-items:center; gap:6px; }
+  .hud-left{ display:flex; flex-direction:column; gap:6px; align-items:flex-start; }
+  .hud-toggle-row{ display:flex; flex-direction:row; align-items:center; gap:8px; }
+  .hud-pill.level-pill{ padding:5px 12px; font-size:clamp(8px,2.4vw,11px); background:var(--sun); }
+  .mute-toggle-btn{ pointer-events:auto; cursor:pointer; padding:0; width:clamp(30px,8vw,38px);
+    height:clamp(30px,8vw,38px); border-radius:50%; display:flex; align-items:center; justify-content:center;
+    box-shadow:0 3px 0 var(--ink); background:var(--cream); }
+  .mute-toggle-btn:active{ transform:translateY(3px); box-shadow:0 0 0 var(--ink); }
+  .mute-toggle-btn svg{ width:60%; height:60%; }
+  .mute-toggle-btn .icon-off{ display:none; }
+  .mute-toggle-btn.muted .icon-on{ display:none; }
+  .mute-toggle-btn.muted .icon-off{ display:block; }
+  .settings-toggle-btn{ pointer-events:auto; cursor:pointer; padding:0; width:clamp(30px,8vw,38px);
+    height:clamp(30px,8vw,38px); border-radius:50%; display:flex; align-items:center; justify-content:center;
+    box-shadow:0 3px 0 var(--ink); background:var(--cream); border:3px solid var(--ink); }
+  .settings-toggle-btn:active{ transform:translateY(3px); box-shadow:0 0 0 var(--ink); }
+  .settings-toggle-btn svg{ width:62%; height:62%; }
+  #settingsPopup{ z-index:20; }
+  .popup-btn{ font-family:'Baloo 2',sans-serif; font-weight:800; font-size:clamp(13px,3.6vw,16px); color:#fff;
+    border:3px solid var(--ink); border-radius:14px; padding:12px 26px; cursor:pointer; width:min(78vw,300px);
+    transition:transform .08s, box-shadow .08s; box-shadow:0 5px 0 rgba(0,0,0,.4); }
+  .popup-btn:active{ transform:translateY(5px); box-shadow:0 0 0 rgba(0,0,0,.4); }
+  .popup-btn.pause{ background:linear-gradient(var(--run-1),var(--run-2)); }
+  .popup-btn.home{ background:linear-gradient(var(--jump-1),var(--jump-2)); }
+  .popup-btn.resume{ background:linear-gradient(#7CFC7C,#3d9142); color:var(--ink); }
+  .home-btn{ font-family:'Baloo 2',sans-serif; font-weight:700; font-size:clamp(11px,3vw,13px); color:#fff;
+    background:rgba(0,0,0,0.35); border:2px solid rgba(255,255,255,0.7); border-radius:999px;
+    padding:9px 20px; cursor:pointer; display:flex; align-items:center; gap:6px; }
+  .home-btn svg{ width:14px; height:14px; }
+  .hud-right{ display:flex; align-items:center; gap:8px; }
+  #livesWrap{ background:var(--cream); border:3px solid var(--ink); border-radius:999px;
+    padding:8px 12px; box-shadow:0 3px 0 var(--ink); display:flex; gap:3px; align-items:center; }
+  #livesWrap span{ font-size:clamp(14px,4vw,20px); line-height:1; }
+
+  .overlay{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center;
+    justify-content:center; gap:16px; background:rgba(10,25,45,0.55); backdrop-filter:blur(2px);
+    text-align:center; padding:24px; z-index:10; }
+  .overlay.hidden{ display:none; }
+  .title{ font-family:'Press Start 2P',monospace; color:#fff; font-size:clamp(28px,9vw,56px);
+    line-height:1.35; letter-spacing:2px; margin:0;
+    text-shadow:4px 4px 0 var(--jump-1), 0 0 24px rgba(0,0,0,.45); }
+  .title.small{ font-size:clamp(20px,6vw,32px); }
+  .tagline{ font-family:'Baloo 2',sans-serif; font-weight:700; color:#fff; font-size:clamp(14px,4vw,18px); margin:0; }
+  .hint{ font-family:'Baloo 2',sans-serif; color:#f0f0f0; font-size:clamp(11px,3vw,13px);
+    max-width:360px; line-height:1.6; margin:0; }
+  .big-btn{ font-family:'Press Start 2P',monospace; font-size:clamp(14px,4vw,18px); color:var(--ink);
+    background:var(--sun); border:4px solid var(--ink); border-radius:16px; padding:14px 30px;
+    box-shadow:0 6px 0 #b8860b; cursor:pointer; transition:transform .08s, box-shadow .08s; }
+  .big-btn:active{ transform:translateY(6px); box-shadow:0 0 0 #b8860b; }
+  .big-btn.big-btn-alt{ background:linear-gradient(var(--back-1),var(--back-2)); color:#fff;
+    box-shadow:0 6px 0 var(--back-2); display:flex; align-items:center; gap:10px; }
+  .big-btn.big-btn-alt:active{ box-shadow:0 0 0 var(--back-2); }
+  .big-btn.big-btn-alt svg{ width:16px; height:16px; flex:none; }
+  .big-btn.shake{ animation:skinShake .32s; }
+  .cost-hint{ font-family:'Baloo 2',sans-serif; font-weight:700; color:#fff; font-size:clamp(11px,3vw,13px);
+    display:flex; align-items:center; justify-content:center; gap:5px; margin:0; }
+  .cost-hint img{ width:14px; height:14px; object-fit:contain; }
+  .cost-error{ font-family:'Baloo 2',sans-serif; font-weight:700; color:#FFB3B3; font-size:clamp(11px,3vw,13px);
+    margin:0; display:none; }
+  .cost-error.show{ display:block; }
+  .home-btn-below-skins{ margin-top:26px; }
+
+  #controls{ position:absolute; bottom:max(20px,env(safe-area-inset-bottom)); left:0; right:0;
+    display:flex; justify-content:space-between; align-items:flex-end; padding:0 24px; z-index:5; pointer-events:none; }
+  #moveBtns{ display:flex; gap:clamp(20px,6vw,32px); }
+  .ctrl-btn{ pointer-events:auto; width:clamp(78px,22vw,108px); height:clamp(78px,22vw,108px);
+    border-radius:50%; border:4px solid var(--ink); font-family:'Press Start 2P',monospace;
+    font-size:clamp(9px,2.6vw,12px); color:#fff; user-select:none; touch-action:none;
+    display:flex; align-items:center; justify-content:center; box-shadow:0 6px 0 rgba(0,0,0,.35);
+    transition:transform .06s, box-shadow .06s; opacity:0.95; }
+  .back-btn{ background:linear-gradient(var(--back-1),var(--back-2));
+    width:clamp(62px,17vw,86px); height:clamp(62px,17vw,86px); font-size:clamp(8px,2.2vw,10px); align-self:flex-end; }
+  .run-btn{ background:linear-gradient(var(--run-1),var(--run-2)); }
+  .jump-btn{ background:linear-gradient(var(--jump-1),var(--jump-2)); }
+  .ctrl-btn.pressed{ transform:translateY(6px); box-shadow:0 0 0 rgba(0,0,0,.35); }
+  .ctrl-btn img.ctrl-icon{ width:62%; height:62%; object-fit:contain; pointer-events:none; }
+  .ctrl-btn .ctrl-fallback{ display:none; }
+  #jumpGroup{ display:flex; flex-direction:row; align-items:flex-end; gap:12px; }
+  .jump-col{ display:flex; flex-direction:column; align-items:center; gap:10px; }
+  .sound-btn{ width:clamp(42px,12vw,56px); height:clamp(42px,12vw,56px);
+    font-size:clamp(15px,4vw,20px); background:linear-gradient(#FFD34D,#B8860B);
+    box-shadow:0 4px 0 rgba(0,0,0,.35); }
+
+  .skin-row{ display:flex; align-items:center; justify-content:center; gap:clamp(14px,4vw,26px); }
+  .skin-box{ position:relative; width:clamp(78px,22vw,110px); height:clamp(78px,22vw,110px);
+    border-radius:24%; border:4px solid var(--ink); background:linear-gradient(#FFF8E7,#F2E2BE);
+    box-shadow:0 6px 0 var(--ink); display:flex; align-items:center; justify-content:center;
+    padding:0; cursor:pointer; overflow:visible; transition:transform .08s, box-shadow .08s; }
+  .skin-box[data-skin="rahul"]{ width:clamp(96px,27vw,134px); height:clamp(96px,27vw,134px); }
+  .skin-box img{ width:78%; height:78%; object-fit:contain; border-radius:18%; pointer-events:none; }
+  .skin-box .skin-name{ position:absolute; bottom:-30px; left:50%; transform:translateX(-50%);
+    font-family:'Baloo 2',sans-serif; font-weight:700; color:#fff; font-size:clamp(11px,3vw,14px);
+    white-space:nowrap; text-shadow:0 2px 3px rgba(0,0,0,.5); }
+  .skin-box:not(.locked):active{ transform:translateY(6px); box-shadow:0 0 0 var(--ink); }
+  .skin-box.locked{ cursor:not-allowed; filter:grayscale(0.6) brightness(0.75); }
+  .skin-box .skin-lock{ position:absolute; top:-10px; right:-10px; background:var(--ink);
+    border:3px solid var(--cream); border-radius:50%; width:30px; height:30px; display:flex;
+    align-items:center; justify-content:center; font-size:14px; }
+  .skin-box.locked.shake{ animation:skinShake .32s; }
+  @keyframes skinShake{
+    0%,100%{ transform:translateX(0); } 25%{ transform:translateX(-6px); }
+    50%{ transform:translateX(6px); } 75%{ transform:translateX(-4px); }
+  }
+
+  /* ===== BUFF CANGKUL: ring progres di tombol lompat + tombol klaim buff ===== */
+  .jump-wrap{ position:relative; width:clamp(78px,22vw,108px); height:clamp(78px,22vw,108px); }
+  .jump-wrap .jump-btn{ position:absolute; inset:0; width:100%; height:100%; }
+  .jump-ring{ position:absolute; inset:-9px; width:calc(100% + 18px); height:calc(100% + 18px);
+    pointer-events:none; transform:rotate(-90deg); }
+  .jump-ring circle{ fill:none; stroke-width:7; }
+  .jump-ring .ring-bg{ stroke:rgba(0,0,0,0.25); }
+  .jump-ring .ring-fg{ stroke:#FFD34D; stroke-linecap:round; transition:stroke-dashoffset .15s linear; }
+  .jump-ring.full .ring-fg{ stroke:#7CFC7C; }
+  .buff-btn{ position:relative; background:linear-gradient(#B5762A,#6b431f);
+    width:clamp(50px,14vw,64px); height:clamp(50px,14vw,64px); }
+  .buff-btn img{ width:70%; height:70%; object-fit:contain; pointer-events:none; }
+  .buff-btn .buff-fallback{ font-size:clamp(18px,5vw,24px); }
+  .buff-btn.locked{ filter:grayscale(0.75) brightness(0.7); }
+  .buff-badge{ position:absolute; top:-8px; right:-8px; background:#F2543E; color:#fff;
+    border:2px solid var(--cream); border-radius:999px; min-width:20px; height:20px; padding:0 4px;
+    font-family:'Press Start 2P',monospace; font-size:10px; display:flex; align-items:center;
+    justify-content:center; pointer-events:none; }
+  .buff-badge.hidden{ display:none; }
+  .buff-btn.ready{ animation:buffPulse 1s ease-in-out infinite; }
+  @keyframes buffPulse{ 0%,100%{ box-shadow:0 6px 0 rgba(0,0,0,.35); } 50%{ box-shadow:0 6px 0 rgba(0,0,0,.35), 0 0 0 6px rgba(255,211,77,0.45); } }
+</style>
+</head>
+<body>
+<div id="stage">
+  <canvas id="game"></canvas>
+
+  <div id="hud">
+    <div class="hud-left">
+      <div class="hud-toggle-row">
+        <button id="settingsToggleBtn" class="settings-toggle-btn" title="Pengaturan">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="12" cy="12" r="3.4" fill="none" stroke="#2B2118" stroke-width="1.8"/>
+            <path d="M12 3.2l.9 2.3 2.3.5 1.3 2 2.3.5-.3 2.3 1.6 1.8-1.6 1.8.3 2.3-2.3.5-1.3 2-2.3.5-.9 2.3-.9-2.3-2.3-.5-1.3-2-2.3-.5.3-2.3-1.6-1.8 1.6-1.8-.3-2.3 2.3-.5 1.3-2 2.3-.5z"
+              fill="none" stroke="#2B2118" stroke-width="1.4" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <button id="muteToggleBtn" class="mute-toggle-btn" title="Suara game">
+          <svg class="icon-on" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M4 9.5v5h3.4l4.6 3.6V5.9L7.4 9.5H4z" fill="#2B2118"/>
+            <path d="M15.8 8.3c1.4 1.1 1.4 6.3 0 7.4" stroke="#2B2118" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+            <path d="M18.3 6.2c2.6 2.3 2.6 9.3 0 11.6" stroke="#2B2118" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.75"/>
+          </svg>
+          <svg class="icon-off" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M4 9.5v5h3.4l4.6 3.6V5.9L7.4 9.5H4z" fill="#2B2118"/>
+            <path d="M16 9l5 6M21 9l-5 6" stroke="#2B2118" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="hud-pill level-pill">LV <span id="levelVal">1</span></div>
+      <div class="hud-pill">SKOR <span id="scoreVal">0</span></div>
+      <div class="hud-pill">🏁 <span id="meterVal">0</span>m</div>
+    </div>
+    <div class="hud-right">
+      <div id="livesWrap"></div>
+      <div class="hud-pill"><img src="zusmo-assets/onzrii.png" alt="diamond" style="width:13px;height:13px;object-fit:contain;vertical-align:middle;margin-right:3px" onerror="this.style.display='none'"><span id="diamondVal">0</span></div>
+      <div class="hud-pill" id="cangkulPill" style="display:none"><img src="zusmo-assets/skilcangkul.png" alt="cangkul" style="width:13px;height:13px;object-fit:contain;vertical-align:middle;margin-right:3px" onerror="this.style.display='none'"><span id="cangkulVal">0</span></div>
+    </div>
+  </div>
+
+  <div id="settingsPopup" class="overlay hidden">
+    <h2 class="title small">PENGATURAN</h2>
+    <button id="pauseResumeBtn" class="popup-btn pause">⏸ PAUSE</button>
+    <button id="settingsHomeBtn" class="popup-btn home">KEMBALI KE BERANDA</button>
+  </div>
+
+  <div id="skinScreen" class="overlay">
+    <h2 class="title small">PILIH SKIN</h2>
+    <div class="skin-row">
+      <button class="skin-box locked" data-skin="gem" disabled>
+        <img src="zusmo-assets/gemskin.png" alt="Gem" onerror="this.style.display='none'">
+        <span class="skin-lock">🔒</span>
+        <span class="skin-name">Gem</span>
+      </button>
+      <button class="skin-box" data-skin="rahul">
+        <img src="zusmo-assets/rahulskin.png" alt="Rahul" onerror="this.style.display='none'">
+        <span class="skin-name">Rahul</span>
+      </button>
+      <button class="skin-box locked" data-skin="vincent" disabled>
+        <img src="zusmo-assets/vincentskin.png" alt="Vincent" onerror="this.style.display='none'">
+        <span class="skin-lock">🔒</span>
+        <span class="skin-name">Vincent</span>
+      </button>
+    </div>
+    <button id="homeBtnSkin" class="home-btn home-btn-below-skins">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M3.5 11.5L12 4l8.5 7.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M6 10.5V20h5v-5h2v5h5v-9.5" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"/>
+      </svg>
+      BERANDA
+    </button>
+  </div>
+
+  <div id="startScreen" class="overlay hidden">
+    <h1 class="title">SUPER<br>RAHULLL</h1>
+    <p class="tagline">Berlari, melompat, kumpulkan diamond!</p>
+    <p class="cost-hint">Biaya main: <img src="zusmo-assets/onzrii.png" alt="diamond" onerror="this.style.display='none'">100</p>
+    <button id="startBtn" class="big-btn">MULAI</button>
+    <button id="homeBtnStart" class="big-btn big-btn-alt">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M3.5 11.5L12 4l8.5 7.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M6 10.5V20h5v-5h2v5h5v-9.5" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"/>
+      </svg>
+      BERANDA
+    </button>
+    <p class="cost-error" id="startCostError">Diamond kamu tidak cukup buat main (butuh 100)</p>
+  </div>
+
+  <div id="gameOverScreen" class="overlay hidden">
+    <h2 class="title small">GAME OVER</h2>
+    <p class="tagline" id="finalStats"></p>
+    <p class="cost-hint">Biaya main lagi: <img src="zusmo-assets/onzrii.png" alt="diamond" onerror="this.style.display='none'">100</p>
+    <button id="retryBtn" class="big-btn">MAIN LAGI</button>
+    <p class="cost-error" id="retryCostError">Diamond kamu tidak cukup buat main lagi (butuh 100)</p>
+  </div>
+
+  <div id="controls">
+    <div id="moveBtns">
+      <button id="backBtn" class="ctrl-btn back-btn">
+        <img class="ctrl-icon" src="zusmo-assets/mundur.png" alt="Mundur" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+        <span class="ctrl-fallback">MUNDUR</span>
+      </button>
+      <button id="runBtn" class="ctrl-btn run-btn">
+        <img class="ctrl-icon" src="zusmo-assets/lari.png" alt="Lari" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+        <span class="ctrl-fallback">LARI</span>
+      </button>
+    </div>
+    <div id="jumpGroup">
+      <button id="buffBtn" class="ctrl-btn buff-btn locked" title="Klaim / pakai Cangkul">
+        <img src="zusmo-assets/buffcangkul.png" alt="Buff Cangkul" onerror="this.style.display='none'; this.parentElement.querySelector('.buff-fallback').style.display='block';">
+        <span class="buff-fallback" style="display:none">⛏️</span>
+        <span id="buffBadge" class="buff-badge hidden">0</span>
+      </button>
+      <div class="jump-col">
+        <button id="soundBtn" class="ctrl-btn sound-btn" title="Suara karakter">
+          <svg viewBox="0 0 24 24" width="58%" height="58%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M4 9.5v5h3.4l4.6 3.6V5.9L7.4 9.5H4z" fill="#2B2118"/>
+            <path d="M15.8 8.3c1.4 1.1 1.4 6.3 0 7.4" stroke="#2B2118" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+            <path d="M18.3 6.2c2.6 2.3 2.6 9.3 0 11.6" stroke="#2B2118" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.75"/>
+          </svg>
+        </button>
+        <div class="jump-wrap">
+          <svg class="jump-ring" id="jumpRing" viewBox="0 0 100 100">
+            <circle class="ring-bg" cx="50" cy="50" r="44"></circle>
+            <circle class="ring-fg" id="ringFg" cx="50" cy="50" r="44" stroke-dasharray="276.46" stroke-dashoffset="276.46"></circle>
+          </svg>
+          <button id="jumpBtn" class="ctrl-btn jump-btn">
+            <img class="ctrl-icon" src="zusmo-assets/lompat.png" alt="Lompat" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <span class="ctrl-fallback">LOMPAT</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  // ================= SETUP CANVAS =================
+  var canvas = document.getElementById('game');
+  var ctx = canvas.getContext('2d');
+  var CW = 0, CH = 0, DPR = Math.min(window.devicePixelRatio || 1, 3);
+  var stage = document.getElementById('stage');
+
+  // ================= PAKSA LANDSCAPE (tanpa perlu miringin HP) =================
+  // Kalau layar HP lagi portrait (tinggi > lebar), seluruh #stage diputar 90 derajat
+  // via CSS transform supaya game langsung tampil landscape, tanpa minta user rotasi.
+  function applyOrientationLock(){
+    var w = window.innerWidth;
+    var h = window.innerHeight;
+    if(h > w){
+      // Portrait: putar stage jadi landscape, ukuran "logika" stage = h x w (dibalik)
+      stage.style.width = h + 'px';
+      stage.style.height = w + 'px';
+      stage.style.transform = 'translate(-50%, -50%) rotate(90deg)';
+      stage.style.top = '50%';
+      stage.style.left = '50%';
+    } else {
+      // Sudah landscape asli: tampil normal, tanpa rotasi
+      stage.style.width = w + 'px';
+      stage.style.height = h + 'px';
+      stage.style.transform = 'none';
+      stage.style.top = '0';
+      stage.style.left = '0';
+    }
+  }
+
+  function resize(){
+    applyOrientationLock();
+    // Pakai ukuran nyata #stage (bukan window langsung), karena setelah rotasi
+    // ukuran logika stage sudah otomatis jadi landscape (lebar > tinggi).
+    CW = stage.offsetWidth;
+    CH = stage.offsetHeight;
+    canvas.width = CW * DPR;
+    canvas.height = CH * DPR;
+    canvas.style.width = CW + 'px';
+    canvas.style.height = CH + 'px';
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    computeMetrics();
+  }
+
+  // ================= KARAKTER =================
+  // Diam.png = pose diam. runA/runB/runC/runD = 4 pose lari, bergantian tiap 250ms
+  // (total 4 x 250ms = 1 detik per siklus, berulang terus selama tombol LARI ditahan).
+  var ASSET_PATH = 'zusmo-assets/';
+  // ================= INTEGRASI DIAMOND DENGAN APK KZRIZUSMO =================
+  // Pakai key localStorage yang SAMA PERSIS dengan apk utama (index.html),
+  // Sky Hopper Max, dan Kuis FF, supaya diamond yang didapat di Super Rahul
+  // langsung nambah ke saldo diamond apk juga (real-time, bukan hitungan terpisah).
+  var LS_DIAMOND = 'zusmo_diamond_balance';
+  function getGlobalDiamond(){
+    var v = parseInt(localStorage.getItem(LS_DIAMOND), 10);
+    return isNaN(v) ? 0 : v;
+  }
+  function addGlobalDiamond(n){
+    var v = Math.max(0, getGlobalDiamond() + n);
+    localStorage.setItem(LS_DIAMOND, String(v));
+    return v;
+  }
+  // ================= BIAYA MAIN: -100 DIAMOND SETIAP KALI MAIN =================
+  // Tiap kali pencet MULAI atau MAIN LAGI, saldo diamond global (punya apk kzrizusmo)
+  // dipotong 100. Kalau saldo kurang dari 100, game TIDAK dimulai dan muncul pesan error.
+  var PLAY_COST = 100;
+  function trySpendPlayCost(){
+    if (getGlobalDiamond() < PLAY_COST) return false;
+    addGlobalDiamond(-PLAY_COST);
+    return true;
+  }
+  function shakeBtn(btn){
+    btn.classList.remove('shake');
+    void btn.offsetWidth; // restart animasi kalau diklik berkali-kali
+    btn.classList.add('shake');
+  }
+  function showCostError(el){
+    el.classList.add('show');
+    clearTimeout(el._hideTimer);
+    el._hideTimer = setTimeout(function(){ el.classList.remove('show'); }, 2200);
+  }
+  var spriteFiles = { idle:'Diam.png', a:'runA.png', b:'runB.png', c:'runC.png', d:'runD.png',
+    j1:'jump1.png', j2:'jump2.png', j3:'jump3.png', j4:'jump4.png', j5:'jump5.png', j6:'jump6.png' };
+  var sprites = {};
+  Object.keys(spriteFiles).forEach(function(key){
+    var img = new Image();
+    var entry = { img: img, ready:false, failed:false };
+    img.onload = function(){ entry.ready = true; };
+    img.onerror = function(){ entry.failed = true; };
+    img.src = ASSET_PATH + spriteFiles[key];
+    sprites[key] = entry;
+  });
+  var runOrder = ['a','b','c','d'];
+  var jumpOrder = ['j1','j2','j3','j4','j5','j6'];
+
+  // Gambar diamond yang dikumpulkan di game pakai ikon diamond asli apk (onzrii.png),
+  // biar konsisten sama tampilan diamond di kzrizusmo/Sky Hopper/Kuis FF.
+  var diamondSprite = { img: new Image(), ready:false, failed:false };
+  diamondSprite.img.onload = function(){ diamondSprite.ready = true; };
+  diamondSprite.img.onerror = function(){ diamondSprite.failed = true; };
+  diamondSprite.img.src = ASSET_PATH + 'onzrii.png';
+
+  // Sprite "skil cangkul" (skilcangkul.png) dipakai buat gambar cangkul yang melesat dari
+  // belakang karakter ke rintangan di depan sampai hancur. Kalau file belum ada, dipakai
+  // gambar cangkul sederhana lewat canvas (lihat drawCangkulProjectile).
+  var cangkulSprite = { img: new Image(), ready:false, failed:false };
+  cangkulSprite.img.onload = function(){ cangkulSprite.ready = true; };
+  cangkulSprite.img.onerror = function(){ cangkulSprite.failed = true; };
+  cangkulSprite.img.src = ASSET_PATH + 'skilcangkul.png';
+
+  // ================= NPC DEKORASI: KARAKTER YANG NYAPA DI JALAN =================
+  // Karakter dekorasi yang kadang muncul berdiri di jalan sambil nyapa & kasih bubble chat.
+  // BUKAN rintangan -> tidak pernah dicek tabrakan, tidak bikin kena/hilang nyawa.
+  var vincentSopoSprite = { img: new Image(), ready:false, failed:false };
+  vincentSopoSprite.img.onload = function(){ vincentSopoSprite.ready = true; };
+  vincentSopoSprite.img.onerror = function(){ vincentSopoSprite.failed = true; };
+  vincentSopoSprite.img.src = ASSET_PATH + 'vincentsopo.png';
+
+  var gemSapaSprite = { img: new Image(), ready:false, failed:false };
+  gemSapaSprite.img.onload = function(){ gemSapaSprite.ready = true; };
+  gemSapaSprite.img.onerror = function(){ gemSapaSprite.failed = true; };
+  gemSapaSprite.img.src = ASSET_PATH + 'gemsapa.png';
+
+  // Daftar semua karakter sapa: tinggal nambah entry baru di sini kalau ada karakter baru lagi
+  var NPC_TYPES = {
+    vincentsopo: { sprite: vincentSopoSprite, text: 'DUA LAH', letter: 'V', color: 'rgba(126,87,194,0.9)' },
+    gemsapa:     { sprite: gemSapaSprite,     text: 'PAHAM !', letter: 'G', color: 'rgba(46,168,166,0.9)' }
+  };
+  var NPC_TYPE_KEYS = Object.keys(NPC_TYPES);
+
+
+
+  // ================= KONSTANTA GAME =================
+  var GRAVITY = 2200;
+  var JUMP_VELOCITY = -780;
+  var RUN_SPEED = 280; // px/detik saat tombol LARI ditahan
+  var JUMP_SPEED_MULT = 1.4; // pengali kecepatan scroll saat sedang di udara (melompat)
+  var FRAME_TIME = 0.25/1.5; // detik per frame animasi lari, dipercepat 1.5x dari semula 0.25
+
+  // ================= STATE GAME =================
+  var state = 'start'; // start | playing | gameover
+  var paused = false; // true kalau game lagi di-pause lewat menu pengaturan
+  var groundBaseY = 0; // garis referensi rata-rata (dipakai elemen non-tanah spt burung, bukan tinggi tanah aktual)
+  var player = { xRatio:0.5, w:0, h:0, y:0, vy:0, onGround:true, standingPlatform:null, running:false, movingBack:false, facing:1, invincible:0, frameIdx:0, frameTimer:0 };
+  var score = 0, diamonds = 0, lives = 3;
+  var scrollX = 0;
+  var obstacles = [];
+  var orbs = [];
+  var platforms = [];
+  var npcs = []; // karakter dekorasi di jalan (mis. Vincent nyapa) -> bukan rintangan, ga ada tabrakan
+  var npcSpawnTimer = 6; // detik sampai NPC dekorasi berikutnya muncul
+  var spawnTimer = 1;
+  var platformSpawnTimer = 2.5;
+  var playTime = 0; // detik sejak game dimulai, dipakai buat menaikkan kesulitan pelan-pelan
+  var hitFlash = 0;
+  var rushActive = false, rushTimer = 5, rushDuration = 0; // gelombang "rush": periode rintangan bertubi-tubi, lalu jeda napas
+  var level = 1, levelUpFlash = 0; // naik 1 level tiap 100 meter jarak tempuh
+  var meters = 0; // jarak tempuh dalam "meter" game, dihitung dari scrollX
+  var tauntText = '', tauntTimer = 0; // bubble chat di atas karakter waktu tombol suara dipencet
+
+  // ================= BUFF CANGKUL =================
+  // Klik tombol LOMPAT 50x -> dapat 1 buff Cangkul (ditunjukkan ring progres di tombol lompat).
+  // Klik tombol buff -> klaim/buka buff itu -> dapat 3 "cangkul" (cangkulCharges).
+  // Selama cangkulCharges>0, cangkul otomatis melesat dari belakang karakter menghancurkan
+  // rintangan tanah (rock/bush/spike) di depan, satu per satu, sampai charge habis.
+  var JUMP_PROGRESS_GOAL = 50;
+  var jumpProgressCount = 0; // hitungan klik tombol lompat menuju 50
+  var buffCangkulCount = 0;  // jumlah buff Cangkul yang sudah didapat tapi belum diklaim
+  var cangkulCharges = 0;    // jumlah "pakai cangkul" aktif setelah buff diklaim (1 buff = 3 cangkul)
+  var cangkulProjectiles = []; // cangkul yang sedang melesat menuju rintangan
+  var cangkulBursts = [];      // efek kilatan sesaat rintangan hancur kena cangkul
+  var CANGKUL_RING_CIRC = 2*Math.PI*44; // keliling lingkaran ring progres (r=44 sesuai viewBox svg)
+  var CANGKUL_EXTRA_SPEED = 1600; // px/detik tambahan di atas kecepatan scroll biasa -> jauh lebih ngebut, kesan "menyerang" bukan cuma jalan
+  var CANGKUL_SPIN_SPEED = 22; // radian/detik -> cangkul muter-muter cepat di udara waktu melesat
+  // Kalibrasi: 100 meter = 1 menit (60 detik) kalau tombol LARI ditahan terus-menerus
+  // di kecepatan dasar (RUN_SPEED, tanpa bonus lompat/kesulitan).
+  // -> RUN_SPEED px/detik harus setara (100/60) meter/detik.
+  var METERS_PER_PIXEL = (100/60) / RUN_SPEED;
+
+  // Tingkat kesulitan 0->1 selama ~32 detik pertama: rintangan makin variatif & scroll makin cepat
+  function getDifficulty(){ return Math.min(1, playTime/50); }
+  var clouds = [];
+
+  function initClouds(){
+    clouds = [];
+    for (var i=0;i<5;i++){
+      clouds.push({ xRatio: Math.random(), yRatio: 0.08+Math.random()*0.18, scale: 0.6+Math.random()*0.8, speed: 8+Math.random()*10 });
+    }
+  }
+  initClouds();
+
+  // ================= KONTUR TANAH (naik-turun) =================
+  // Gabungan beberapa gelombang sinus frekuensi beda -> permukaan tanah terasa
+  // beriak/bertekstur (ripple halus), bukan pola berulang yg gampang ketebak.
+  var TERRAIN_WAVES = [
+    { amp:0.055, freq:0.0016, phase:0.0 },
+    { amp:0.032, freq:0.0037, phase:2.1 },
+    { amp:0.018, freq:0.0071, phase:4.6 }
+  ];
+  function terrainOffset(worldX){
+    var off = 0;
+    for (var i=0;i<TERRAIN_WAVES.length;i++){
+      var tw = TERRAIN_WAVES[i];
+      off += Math.sin(worldX*tw.freq + tw.phase) * CH*tw.amp;
+    }
+    return off;
+  }
+
+  // ---- ELEVASI TANAH (perbukitan sungguhan, beda dari ripple di atas) ----
+  // Dunia dibagi jadi segmen sepanjang ELEV_SEG_LEN. Tiap batas segmen dapat
+  // ketinggian target acak (tapi tetap/konsisten lewat hash "seededRand"),
+  // lalu diinterpolasi mulus (smoothstep) antar segmen -> jalan naik & turun
+  // beneran ke tanjakan/turunan, bukan cuma riak bergelombang.
+  var ELEV_SEG_LEN = 900;
+  var ELEV_AMP = 0.13; // rasio thd tinggi layar (CH) -> seberapa tinggi bukit/lembahnya
+  function seededRand(i){
+    var x = Math.sin(i*12.9898 + 78.233) * 43758.5453;
+    return x - Math.floor(x);
+  }
+  function elevTargetAt(segIdx){
+    return (seededRand(segIdx)*2 - 1) * CH*ELEV_AMP;
+  }
+  function smoothstep(t){ return t*t*(3-2*t); }
+  function elevationAt(worldX){
+    var segIdx = Math.floor(worldX/ELEV_SEG_LEN);
+    var t = (worldX - segIdx*ELEV_SEG_LEN)/ELEV_SEG_LEN;
+    var a = elevTargetAt(segIdx), b = elevTargetAt(segIdx+1);
+    return a + (b-a)*smoothstep(t);
+  }
+
+  function groundYAt(screenX){
+    var worldX = scrollX + screenX;
+    return groundBaseY - elevationAt(worldX) - terrainOffset(worldX);
+  }
+
+  function computeMetrics(){
+    player.h = CH*0.26;
+    player.w = player.h*0.78;
+    groundBaseY = CH*0.80;
+    if (player.onGround || state !== 'playing'){
+      player.y = (player.standingPlatform ? player.standingPlatform.y : groundYAt(CW*player.xRatio)) - player.h;
+    }
+  }
+
+  // ================= HUD =================
+  var scoreVal = document.getElementById('scoreVal');
+  var diamondVal = document.getElementById('diamondVal');
+  var levelVal = document.getElementById('levelVal');
+  var meterVal = document.getElementById('meterVal');
+  var livesWrap = document.getElementById('livesWrap');
+  var skinScreen = document.getElementById('skinScreen');
+  var startScreen = document.getElementById('startScreen');
+  var gameOverScreen = document.getElementById('gameOverScreen');
+  var finalStats = document.getElementById('finalStats');
+  var runBtn = document.getElementById('runBtn');
+  var backBtn = document.getElementById('backBtn');
+  var jumpBtn = document.getElementById('jumpBtn');
+  var soundBtn = document.getElementById('soundBtn');
+  var startBtn = document.getElementById('startBtn');
+  var retryBtn = document.getElementById('retryBtn');
+  var buffBtn = document.getElementById('buffBtn');
+  var buffBadge = document.getElementById('buffBadge');
+  var jumpRing = document.getElementById('jumpRing');
+  var ringFg = document.getElementById('ringFg');
+  var cangkulPill = document.getElementById('cangkulPill');
+  var cangkulVal = document.getElementById('cangkulVal');
+
+  // Sinkronkan tampilan ring progres lompat, badge jumlah buff siap klaim, dan pill jumlah cangkul aktif
+  function updateBuffUI(){
+    var frac = Math.min(1, jumpProgressCount/JUMP_PROGRESS_GOAL);
+    ringFg.setAttribute('stroke-dashoffset', String(CANGKUL_RING_CIRC*(1-frac)));
+    jumpRing.classList.toggle('full', frac>=1);
+
+    // Badge nunjukin jumlah charge siap serang (kalau ada), atau jumlah buff siap diklaim (kalau charge habis)
+    var showNum = cangkulCharges>0 ? cangkulCharges : buffCangkulCount;
+    if (showNum>0){
+      buffBadge.textContent = showNum;
+      buffBadge.classList.remove('hidden');
+      buffBtn.classList.remove('locked');
+    } else {
+      buffBadge.classList.add('hidden');
+      buffBtn.classList.add('locked');
+    }
+    // Animasi "ready" (nyala/pulsing) cuma buat kasih tau ada buff baru yang perlu diklaim
+    buffBtn.classList.toggle('ready', cangkulCharges<=0 && buffCangkulCount>0);
+
+    if (cangkulCharges>0){
+      cangkulVal.textContent = cangkulCharges;
+      cangkulPill.style.display = 'flex';
+    } else {
+      cangkulPill.style.display = 'none';
+    }
+  }
+
+  function updateHUD(){
+    scoreVal.textContent = score;
+    // Diamond di HUD nampilin SALDO GLOBAL apk kzrizusmo (localStorage zusmo_diamond_balance),
+    // bukan hitungan diamond sesi game ini doang. Jadi kalau di apk lagi 1100, di sini juga 1100,
+    // dan langsung naik real-time tiap ambil diamond di game (addGlobalDiamond dipanggil pas ambil).
+    diamondVal.textContent = getGlobalDiamond();
+    levelVal.textContent = level;
+    meterVal.textContent = Math.floor(meters);
+    livesWrap.innerHTML = '';
+    for (var i=0;i<3;i++){
+      var span = document.createElement('span');
+      span.textContent = i < lives ? '❤' : '🖤';
+      livesWrap.appendChild(span);
+    }
+  }
+
+  // ================= AUDIO (bunyi sederhana, tanpa file) =================
+  var audioCtx = null;
+  function ensureAudio(){
+    if (!audioCtx){
+      try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e){}
+    }
+  }
+
+  // ================= MUTE / UNMUTE SUARA GAME =================
+  // Nyimpen preferensi mute di localStorage biar keinget tiap buka lagi.
+  var LS_MUTED = 'superrahul_sound_muted';
+  var muteToggleBtn = document.getElementById('muteToggleBtn');
+  function isSoundMuted(){ return localStorage.getItem(LS_MUTED) === '1'; }
+  function applyMuteUI(){
+    var m = isSoundMuted();
+    muteToggleBtn.classList.toggle('muted', m);
+    muteToggleBtn.title = m ? 'Suara game: MATI (tap buat nyalain)' : 'Suara game: NYALA (tap buat matiin)';
+  }
+  function setSoundMuted(v){
+    localStorage.setItem(LS_MUTED, v ? '1' : '0');
+    bgMusic.muted = v;
+    charVoiceAudio.muted = v;
+    if (!v){ ensureAudio(); startBgMusic(); }
+    applyMuteUI();
+  }
+  muteToggleBtn.addEventListener('click', function(){ setSoundMuted(!isSoundMuted()); });
+
+  // ================= MUSIK LATAR (BACKGROUND GAME SOUND) =================
+  // File musiknya taruh di zusmo-assets/bgm.mp3 -- kalau belum ada filenya,
+  // play() bakal gagal diam-diam (di-catch) dan game tetap jalan normal tanpa musik.
+  var bgMusic = new Audio();
+  bgMusic.loop = true;
+  bgMusic.volume = 0.45;
+  bgMusic.src = ASSET_PATH + 'bgm.mp3';
+  bgMusic.muted = isSoundMuted();
+  function startBgMusic(){
+    if (isSoundMuted()) return;
+    bgMusic.play().catch(function(){});
+  }
+  applyMuteUI();
+
+  // ================= MENU PENGATURAN: PAUSE/LANJUT & KEMBALI KE BERANDA =================
+  // "Beranda" = balik ke apk kzrizusmo (index.html, satu folder yang sama dengan game ini).
+  var HOME_URL = 'index.html';
+  function goHome(){ window.location.href = HOME_URL; }
+  var settingsToggleBtn = document.getElementById('settingsToggleBtn');
+  var settingsPopup = document.getElementById('settingsPopup');
+  var pauseResumeBtn = document.getElementById('pauseResumeBtn');
+  var settingsHomeBtn = document.getElementById('settingsHomeBtn');
+  function updatePauseBtnLabel(){
+    if (paused){
+      pauseResumeBtn.textContent = '▶ LANJUT MAIN';
+      pauseResumeBtn.classList.add('resume'); pauseResumeBtn.classList.remove('pause');
+    } else {
+      pauseResumeBtn.textContent = '⏸ PAUSE';
+      pauseResumeBtn.classList.add('pause'); pauseResumeBtn.classList.remove('resume');
+    }
+  }
+  function setPaused(v){
+    paused = v;
+    if (v){ bgMusic.pause(); } else if (!isSoundMuted()){ bgMusic.play().catch(function(){}); }
+    updatePauseBtnLabel();
+  }
+  function openSettings(){
+    if (state==='playing'){ setPaused(true); }
+    settingsPopup.classList.remove('hidden');
+  }
+  settingsToggleBtn.addEventListener('click', openSettings);
+  pauseResumeBtn.addEventListener('click', function(){
+    if (paused){
+      setPaused(false);
+      settingsPopup.classList.add('hidden');
+    } else {
+      setPaused(true);
+    }
+  });
+  settingsHomeBtn.addEventListener('click', goHome);
+  var homeBtnSkin = document.getElementById('homeBtnSkin');
+  var homeBtnStart = document.getElementById('homeBtnStart');
+  if (homeBtnSkin) homeBtnSkin.addEventListener('click', goHome);
+  if (homeBtnStart) homeBtnStart.addEventListener('click', goHome);
+
+  function beep(type){
+    if (!audioCtx || isSoundMuted()) return;
+    if (type==='levelup'){
+      [660,990].forEach(function(freq, i){
+        setTimeout(function(){
+          if (!audioCtx) return;
+          var o2 = audioCtx.createOscillator(), g2 = audioCtx.createGain();
+          o2.connect(g2); g2.connect(audioCtx.destination);
+          o2.type = 'triangle'; o2.frequency.value = freq; g2.gain.value = 0.07;
+          o2.start();
+          g2.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.14);
+          o2.stop(audioCtx.currentTime + 0.16);
+        }, i*90);
+      });
+      return;
+    }
+    var o = audioCtx.createOscillator();
+    var g = audioCtx.createGain();
+    o.connect(g); g.connect(audioCtx.destination);
+    var freq = 440, dur = 0.09, wave = 'sine';
+    if (type==='coin'){ freq=880; dur=0.09; wave='square'; }
+    else if (type==='jump'){ freq=520; dur=0.08; wave='triangle'; }
+    else if (type==='hit'){ freq=140; dur=0.18; wave='sawtooth'; }
+    o.type = wave; o.frequency.value = freq;
+    g.gain.value = 0.06;
+    o.start();
+    g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + dur);
+    o.stop(audioCtx.currentTime + dur + 0.02);
+  }
+
+  // ================= INPUT =================
+  function handleRunStart(){ if (state==='playing' && !paused){ player.running = true; player.movingBack = false; player.facing = 1; } }
+  function handleRunEnd(){ player.running = false; }
+  function handleBackStart(){ if (state==='playing' && !paused){ player.movingBack = true; player.running = false; player.facing = -1; } }
+  function handleBackEnd(){ player.movingBack = false; }
+  function handleJump(){
+    if (state!=='playing' || paused) return;
+    // Progres menuju buff Cangkul cuma jalan kalau tombol LARI sedang ditahan
+    // BARENGAN waktu tombol LOMPAT diklik (dua tombol dipencet sekaligus).
+    if (player.running){
+      jumpProgressCount++;
+      if (jumpProgressCount >= JUMP_PROGRESS_GOAL){
+        jumpProgressCount = 0;
+        buffCangkulCount++;
+        beep('levelup');
+      }
+      updateBuffUI();
+    }
+    if (player.onGround){
+      player.vy = JUMP_VELOCITY;
+      player.onGround = false;
+      beep('jump');
+    }
+  }
+
+  runBtn.addEventListener('pointerdown', function(e){ e.preventDefault(); runBtn.classList.add('pressed'); handleRunStart(); });
+  ['pointerup','pointercancel','pointerleave'].forEach(function(ev){
+    runBtn.addEventListener(ev, function(){ runBtn.classList.remove('pressed'); handleRunEnd(); });
+  });
+  backBtn.addEventListener('pointerdown', function(e){ e.preventDefault(); backBtn.classList.add('pressed'); handleBackStart(); });
+  ['pointerup','pointercancel','pointerleave'].forEach(function(ev){
+    backBtn.addEventListener(ev, function(){ backBtn.classList.remove('pressed'); handleBackEnd(); });
+  });
+  jumpBtn.addEventListener('pointerdown', function(e){ e.preventDefault(); jumpBtn.classList.add('pressed'); handleJump(); });
+  ['pointerup','pointercancel','pointerleave'].forEach(function(ev){
+    jumpBtn.addEventListener(ev, function(){ jumpBtn.classList.remove('pressed'); });
+  });
+
+  // Tombol Cangkul kerjanya dua tahap:
+  // 1) Kalau ada buff siap diklaim (buffCangkulCount>0) & belum ada charge aktif -> klik = klaim (1 buff jadi 3 charge).
+  // 2) Kalau sudah punya charge (cangkulCharges>0) -> klik = serang manual (luncurkan 1 cangkul ke rintangan di depan).
+  function handleBuffBtnClick(){
+    if (state!=='playing' || paused) return;
+    if (cangkulCharges>0){
+      fireCangkul();
+      return;
+    }
+    if (buffCangkulCount>0){
+      buffCangkulCount--;
+      cangkulCharges += 3;
+      beep('coin');
+      updateBuffUI();
+    }
+  }
+  buffBtn.addEventListener('pointerdown', function(e){ e.preventDefault(); buffBtn.classList.add('pressed'); handleBuffBtnClick(); });
+  ['pointerup','pointercancel','pointerleave'].forEach(function(ev){
+    buffBtn.addEventListener(ev, function(){ buffBtn.classList.remove('pressed'); });
+  });
+
+  // ================= TOMBOL SUARA (SOUNDPACK KARAKTER) =================
+  // Mainkan file suara sesuai skin yang lagi dipakai, dan tampilkan bubble chat
+  // "OH YA BANG!" di atas kepala karakter selama 3 detik.
+  var charVoiceAudio = new Audio();
+  function playCharacterVoice(){
+    try {
+      charVoiceAudio.src = ASSET_PATH + 'soundpack-' + selectedSkin + '.mp3';
+      charVoiceAudio.currentTime = 0;
+      charVoiceAudio.play().catch(function(){});
+    } catch(e){}
+  }
+  function triggerTaunt(text){
+    tauntText = text;
+    tauntTimer = 3;
+  }
+  soundBtn.addEventListener('pointerdown', function(e){
+    e.preventDefault();
+    soundBtn.classList.add('pressed');
+    ensureAudio();
+    playCharacterVoice();
+    triggerTaunt('OH YA BANG!');
+  });
+  ['pointerup','pointercancel','pointerleave'].forEach(function(ev){
+    soundBtn.addEventListener(ev, function(){ soundBtn.classList.remove('pressed'); });
+  });
+
+  window.addEventListener('keydown', function(e){
+    if (e.code==='ArrowRight' || e.code==='KeyD'){ handleRunStart(); }
+    if (e.code==='ArrowLeft' || e.code==='KeyA'){ handleBackStart(); }
+    if (e.code==='Space' || e.code==='ArrowUp' || e.code==='KeyW'){ e.preventDefault(); handleJump(); }
+  });
+  window.addEventListener('keyup', function(e){
+    if (e.code==='ArrowRight' || e.code==='KeyD'){ handleRunEnd(); }
+    if (e.code==='ArrowLeft' || e.code==='KeyA'){ handleBackEnd(); }
+  });
+
+  // ================= SPAWN RINTANGAN & DIAMOND =================
+  // Tipe rintangan darat & terbang dikumpulin di sini biar gampang nambah jenis baru lagi nanti.
+  var GROUND_OBSTACLE_TYPES = ['rock','bush','log','crate','cactus','barrel','spike'];
+  var FLYING_OBSTACLE_TYPES = ['bird','bat','wasp'];
+
+  // Ukuran tiap jenis rintangan darat (beda-beda biar polanya kebaca beda pas main)
+  function groundObstacleDims(type){
+    var h;
+    if (type === 'rock'){ h = CH*(0.10+Math.random()*0.05); return { h:h, w:h*1.1 }; }
+    if (type === 'bush'){ h = CH*(0.09+Math.random()*0.04); return { h:h, w:h*1.3 }; }
+    if (type === 'log'){ h = CH*(0.06+Math.random()*0.015); return { h:h, w:h*2.8 }; } // rebahan, pendek tapi lebar
+    if (type === 'crate'){ h = CH*(0.11+Math.random()*0.03); return { h:h, w:h*0.95 }; } // peti kayu kotak
+    if (type === 'cactus'){ h = CH*(0.15+Math.random()*0.05); return { h:h, w:h*0.62 }; } // kaktus, tinggi & ramping
+    if (type === 'barrel'){ h = CH*(0.13+Math.random()*0.03); return { h:h, w:h*0.72 }; } // drum/tong
+    h = CH*(0.17+Math.random()*0.05); return { h:h, w:h*0.5 }; // spike (default)
+  }
+
+  // Bobot kemunculan tiap jenis rintangan. Yang gampang dihindari (rock/bush/log/crate/barrel) jadi andalan,
+  // yang butuh presisi (spike/cactus/bird/bat/wasp) makin sering muncul kalau kesulitan sudah naik.
+  function pickObstacleType(diff){
+    var pool = [
+      { type:'rock',   w:0.20 },
+      { type:'bush',   w:0.16 },
+      { type:'log',    w:0.10 },
+      { type:'crate',  w:0.09 },
+      { type:'barrel', w:0.08 },
+      { type:'cactus', w:0.07+diff*0.05 },
+      { type:'spike',  w:0.09+diff*0.14 },
+      { type:'bird',   w:0.06+diff*0.12 },
+      { type:'bat',    w:0.03+diff*0.08 },
+      { type:'wasp',   w:0.02+diff*0.06 }
+    ];
+    var total = 0;
+    pool.forEach(function(p){ total += p.w; });
+    var roll = Math.random()*total;
+    for (var i=0;i<pool.length;i++){
+      roll -= pool[i].w;
+      if (roll < 0) return pool[i].type;
+    }
+    return pool[pool.length-1].type;
+  }
+
+  // Jarak terbang & kelakuan tiap jenis rintangan udara beda-beda (burung tenang, kelelawar gesit, tawon paling ricuh)
+  function flyingObstacleSpec(type){
+    if (type === 'bat') return { h:CH*0.065, w:CH*0.065*1.6, rangeMin:0.12, rangeMax:0.30, diveChance:true };
+    if (type === 'wasp') return { h:CH*0.05, w:CH*0.05*1.3, rangeMin:0.10, rangeMax:0.24, diveChance:false };
+    return { h:CH*0.085, w:CH*0.085*1.5, rangeMin:0.16, rangeMax:0.38, diveChance:true }; // bird (default)
+  }
+
+  function spawnObstacle(){
+    var diff = getDifficulty();
+    var type = pickObstacleType(diff);
+
+    if (FLYING_OBSTACLE_TYPES.indexOf(type) !== -1){
+      // Rintangan terbang: kadang rendah (wajib lompat), kadang tinggi (wajib jangan lompat)
+      var spec = flyingObstacleSpec(type);
+      var flightLevel = Math.random();
+      var baseY = groundBaseY - CH*(spec.rangeMin + flightLevel*(spec.rangeMax-spec.rangeMin));
+      // Sebagian menukik turun lalu naik lagi (dive) -> pola kelakuan baru, bukan cuma naik-turun halus
+      var isDiver = spec.diveChance && Math.random() < 0.15+diff*0.15;
+      obstacles.push({ x: CW+40, w:spec.w, h:spec.h, type:type, ground:false, baseY:baseY, bob:Math.random()*Math.PI*2, dive:isDiver });
+      // Kadang datang berombongan biar makin rame di udara
+      if (Math.random() < 0.15+diff*0.2){
+        var flightLevel2 = Math.random();
+        var baseY2 = groundBaseY - CH*(spec.rangeMin + flightLevel2*(spec.rangeMax-spec.rangeMin));
+        var isDiver2 = spec.diveChance && Math.random() < 0.15+diff*0.15;
+        obstacles.push({ x: CW+40+spec.w+CH*0.09, w:spec.w, h:spec.h, type:type, ground:false, baseY:baseY2, bob:Math.random()*Math.PI*2, dive:isDiver2 });
+      }
+      return;
+    }
+
+    var dims = groundObstacleDims(type);
+    obstacles.push({ x: CW+40, w:dims.w, h:dims.h, type:type, ground:true });
+    var lastX = CW+40+dims.w;
+
+    // Kombo rintangan kedua: lebih jarang dan baru sering muncul di kesulitan tinggi
+    if (diff > 0.25 && Math.random() < 0.14+diff*0.22){
+      var type2 = GROUND_OBSTACLE_TYPES[Math.floor(Math.random()*GROUND_OBSTACLE_TYPES.length)];
+      var dims2 = groundObstacleDims(type2);
+      lastX += CH*0.055;
+      obstacles.push({ x: lastX, w:dims2.w, h:dims2.h, type:type2, ground:true });
+      lastX += dims2.w;
+
+      // Kombo tripel jadi langka, cuma di kesulitan yang sudah cukup tinggi
+      if (diff > 0.55 && Math.random() < 0.12+diff*0.15){
+        var type3 = GROUND_OBSTACLE_TYPES[Math.floor(Math.random()*GROUND_OBSTACLE_TYPES.length)];
+        var dims3 = groundObstacleDims(type3);
+        lastX += CH*0.06;
+        obstacles.push({ x: lastX, w:dims3.w, h:dims3.h, type:type3, ground:true });
+      }
+    }
+  }
+  function spawnDiamondGroup(){
+    var count = 1 + Math.floor(Math.random()*4);
+    var low = Math.random()<0.5;
+    var localGY = groundYAt(CW+40);
+    var baseY = low ? localGY-CH*0.10 : localGY-CH*0.30;
+    for (var i=0;i<count;i++){
+      orbs.push({ x: CW+40+i*CH*0.09, y: baseY, r: CH*0.028, taken:false, bob: Math.random()*Math.PI*2 });
+    }
+  }
+  function spawnPlatform(){
+    // tinggi lompatan maksimum ~= JUMP_VELOCITY^2/(2*GRAVITY) ~ 138px, jadi elevasi platform
+    // sengaja dijaga di 70-115px biar selalu bisa dicapai & didarati dari atas.
+    var elevation = 70 + Math.random()*45;
+    var pw = CH*(0.30+Math.random()*0.18);
+    var py = groundYAt(CW+40) - elevation;
+    var plat = { x: CW+40, y: py, w: pw, h: 18 };
+    platforms.push(plat);
+    if (Math.random()<0.75){
+      var count = 1 + Math.floor(Math.random()*3);
+      for (var pi=0; pi<count; pi++){
+        orbs.push({ x: plat.x+plat.w*0.22+pi*plat.w*0.28, y: py-CH*0.07, r: CH*0.028, taken:false, bob: Math.random()*Math.PI*2 });
+      }
+    }
+
+    // Sering banget dilanjut platform kedua (bukan rintangan!) biar berasa panjatan kayu
+    // bertingkat, bukan cuma satu papan lalu balik ke tanah lagi.
+    if (Math.random()<0.5){
+      var elevation2 = 70 + Math.random()*45;
+      var pw2 = CH*(0.26+Math.random()*0.16);
+      var gap = CH*(0.14+Math.random()*0.08);
+      var px2 = plat.x+plat.w+gap;
+      var py2 = groundYAt(px2+pw2/2) - elevation2;
+      var plat2 = { x: px2, y: py2, w: pw2, h: 18 };
+      platforms.push(plat2);
+      if (Math.random()<0.75){
+        var count2 = 1 + Math.floor(Math.random()*3);
+        for (var pj=0; pj<count2; pj++){
+          orbs.push({ x: plat2.x+plat2.w*0.22+pj*plat2.w*0.28, y: py2-CH*0.07, r: CH*0.028, taken:false, bob: Math.random()*Math.PI*2 });
+        }
+      }
+    }
+  }
+
+  // Vincent/Gem muncul berdiri di tanah kayak obstacle "ground", tapi TIDAK dimasukkan ke
+  // array obstacles -> checkCollisions() ga pernah lihat dia, jadi ga mungkin bikin kena/mati.
+  function spawnNpc(){
+    var h = CH*0.24, w = h*0.72;
+    var type = NPC_TYPE_KEYS[Math.floor(Math.random()*NPC_TYPE_KEYS.length)];
+    npcs.push({ x: CW+40, w:w, h:h, type:type });
+  }
+
+  // ================= LOGIKA CANGKUL (buff) =================
+  function spawnCangkulBurst(x,y){
+    cangkulBursts.push({ x:x, y:y, t:0 });
+  }
+  // Serangan cangkul manual: dipanggil waktu tombol buff diklik & cangkulCharges>0.
+  // Langsung melesat SANGAT cepat lurus ke depan begitu diklik (bukan pelan-pelan ngikutin
+  // posisi karakter), sambil muter-muter di udara, ga peduli ada rintangan atau tidak di
+  // depan; kalau kebetulan lewat rintangan tanah di jalurnya, rintangan itu baru hancur
+  // (lihat updateCangkul).
+  function fireCangkul(){
+    if (cangkulProjectiles.length>0) return; // satu cangkul aktif dalam satu waktu
+    cangkulCharges--;
+    var pxCenter = CW*player.xRatio;
+    var cs = CH*0.085;
+    // Muncul sudah agak di depan karakter (bukan di belakang) biar langsung kelihatan "nembak maju",
+    // bukan nongol nempel/deket badan lalu pelan2 lepas.
+    cangkulProjectiles.push({ x: pxCenter+player.w*0.35, w:cs, h:cs, life:1.4, rot:0 });
+    updateBuffUI();
+  }
+  // d = jarak dunia yang bergeser frame ini (sama seperti yang dipakai buat geser obstacles/orbs/platforms).
+  // Cangkul dikasih kecepatan sendiri yang jauh lebih ngebut dari scroll biasa, plus efek muter
+  // (rotasi cepat) tiap frame, biar keliatan jelas dia "menyerang sendiri" bukan sekadar geser bareng dunia.
+  function updateCangkul(dt, d){
+    for (var i=cangkulProjectiles.length-1; i>=0; i--){
+      var pr = cangkulProjectiles[i];
+      pr.x += -d + CANGKUL_EXTRA_SPEED*dt;
+      pr.rot = (pr.rot||0) + CANGKUL_SPIN_SPEED*dt;
+      pr.life -= dt;
+      // Lewat rintangan tanah manapun yang lagi ada di jalurnya -> hancur (boleh kena lebih dari satu)
+      for (var k=obstacles.length-1; k>=0; k--){
+        var ob = obstacles[k];
+        if (!ob.ground) continue;
+        if (pr.x+pr.w*0.5 > ob.x && pr.x-pr.w*0.5 < ob.x+ob.w){
+          spawnCangkulBurst(ob.x+ob.w/2, groundYAt(ob.x+ob.w/2));
+          obstacles.splice(k,1);
+        }
+      }
+      if (pr.life<=0 || pr.x > CW+80){
+        cangkulProjectiles.splice(i,1);
+      }
+    }
+    cangkulBursts.forEach(function(b){ b.x -= d; b.t += dt; });
+    cangkulBursts = cangkulBursts.filter(function(b){ return b.t < 0.4; });
+  }
+
+  // ================= COLLISION =================
+  function checkCollisions(){
+    var px = CW*player.xRatio - player.w/2, pw = player.w, ph = player.h, py = player.y;
+    if (player.invincible<=0){
+      // Hitbox sengaja dibikin lebih kecil dari kotak sprite penuh, karena gambar karakter
+      // punya banyak ruang kosong/transparan di sekitarnya -> biar "kena" beneran cuma
+      // kalau badan karakter (bukan kotak sprite-nya) betulan tumpang tindih rintangan.
+      var insetX = pw*0.26;
+      var topInset = ph*0.22; // abaikan bagian atas sprite (kepala & ruang kosong di atasnya)
+      var effLeft = px+insetX, effRight = px+pw-insetX;
+      var effTop = py+topInset, effBottom = py+ph-ph*0.03;
+      for (var i=0;i<obstacles.length;i++){
+        var o = obstacles[i];
+        if (effRight <= o.x || effLeft >= o.x+o.w) continue; // tidak overlap horizontal
+        if (o.ground){
+          var groundHereY = groundYAt(o.x+o.w/2);
+          if (effBottom > groundHereY-o.h+6){ loseLife(); break; }
+        } else {
+          var oy = birdFlightY(o);
+          if (effTop < oy+o.h && effBottom > oy){ loseLife(); break; }
+        }
+      }
+    }
+    for (var j=0;j<orbs.length;j++){
+      var c = orbs[j];
+      if (c.taken) continue;
+      var cy = c.y + Math.sin(performance.now()/300 + c.bob)*4;
+      var dx = (px+pw/2)-c.x, dy=(py+ph/2)-cy;
+      if (Math.sqrt(dx*dx+dy*dy) < (pw*0.4+c.r)){
+        c.taken = true; diamonds++; score += 10; addGlobalDiamond(1); beep('coin'); updateHUD();
+      }
+    }
+  }
+  function loseLife(){
+    lives--; player.invincible = 1.2; hitFlash = 0.4; beep('hit'); updateHUD();
+    if (lives<=0) endGame();
+  }
+
+  // ================= UPDATE =================
+  function update(dt){
+    if (paused) return;
+    clouds.forEach(function(c){
+      c.xRatio -= (c.speed*dt)/CW;
+      if (c.xRatio < -0.2) c.xRatio = 1.1;
+    });
+
+    if (tauntTimer>0) tauntTimer = Math.max(0, tauntTimer-dt);
+
+    if (state!=='playing') return;
+    playTime += dt;
+
+    var newLevel = 1 + Math.floor(meters/100);
+    if (newLevel > level){
+      level = newLevel;
+      score += 50;
+      levelUpFlash = 1.6;
+      beep('levelup');
+      updateHUD();
+    }
+    if (levelUpFlash>0) levelUpFlash = Math.max(0, levelUpFlash-dt);
+
+    var pxCenter = CW*player.xRatio;
+
+    if (!player.onGround){
+      var prevFeetY = player.y + player.h;
+      player.vy += GRAVITY*dt;
+      player.y += player.vy*dt;
+      var feetY = player.y + player.h;
+      var localGroundY = groundYAt(pxCenter);
+
+      var landedOn = null; // null = tanah kontur kalau kena
+      if (player.vy >= 0){
+        for (var pi2=0; pi2<platforms.length; pi2++){
+          var pl2 = platforms[pi2];
+          if (pxCenter > pl2.x && pxCenter < pl2.x+pl2.w && prevFeetY <= pl2.y+1 && feetY >= pl2.y){
+            if (!landedOn || pl2.y < landedOn.y) landedOn = pl2;
+          }
+        }
+        if (landedOn){
+          player.y = landedOn.y - player.h; player.vy = 0; player.onGround = true; player.standingPlatform = landedOn;
+        } else if (feetY >= localGroundY){
+          player.y = localGroundY - player.h; player.vy = 0; player.onGround = true; player.standingPlatform = null;
+        }
+      }
+    } else if (player.standingPlatform){
+      // masih di atas platform yang sama? kalau sudah lewat tepinya, mulai jatuh lagi
+      var sp = player.standingPlatform;
+      if (pxCenter > sp.x && pxCenter < sp.x+sp.w){
+        player.y = sp.y - player.h;
+      } else {
+        player.onGround = false; player.standingPlatform = null;
+      }
+    } else {
+      // di darat & bukan di atas platform: ikuti kontur tanah yang naik-turun tiap frame
+      player.y = groundYAt(pxCenter) - player.h;
+    }
+
+    var d = 0;
+    if (player.running || player.movingBack){
+      var speedMult = player.onGround ? 1 : JUMP_SPEED_MULT;
+      var diffMult = 1 + getDifficulty()*0.25; // makin lama bertahan, scroll makin cepat sedikit demi sedikit
+      d = RUN_SPEED*speedMult*diffMult*dt*(player.movingBack ? -1 : 1);
+      scrollX += d;
+      if (d > 0){ meters += d*METERS_PER_PIXEL; meterVal.textContent = Math.floor(meters); } // jarak cuma nambah kalau maju, bukan pas mundur
+      obstacles.forEach(function(o){ o.x -= d; });
+      orbs.forEach(function(c){ c.x -= d; });
+      platforms.forEach(function(p){ p.x -= d; });
+      npcs.forEach(function(n){ n.x -= d; });
+      if (!player.movingBack){
+        // Gelombang "rush": sesekali ada periode singkat rintangan agak lebih rapat,
+        // lalu jeda napas yang lebih panjang sebelum gelombang berikutnya -> tetap ada variasi tanpa kebanyakan
+        if (rushActive){
+          rushDuration -= dt;
+          if (rushDuration<=0){ rushActive=false; rushTimer = 8+Math.random()*4 - getDifficulty()*1.5; }
+        } else {
+          rushTimer -= dt;
+          if (rushTimer<=0){ rushActive=true; rushDuration = 1.4+Math.random()*0.8; }
+        }
+
+        spawnTimer -= dt;
+        if (spawnTimer<=0){
+          if (rushActive){
+            spawnObstacle();
+            spawnTimer = 0.4+Math.random()*0.2;
+          } else {
+            if (Math.random()<0.5) spawnDiamondGroup(); else spawnObstacle();
+            spawnTimer = Math.max(0.45, 0.95 + Math.random()*0.6 - getDifficulty()*0.3);
+          }
+        }
+        platformSpawnTimer -= dt;
+        if (platformSpawnTimer<=0){
+          spawnPlatform();
+          platformSpawnTimer = 2.2 + Math.random()*1.6;
+        }
+        npcSpawnTimer -= dt;
+        if (npcSpawnTimer<=0){
+          spawnNpc();
+          npcSpawnTimer = 16 + Math.random()*12; // Vincent ga sesering rintangan, cuma sesekali nongol nyapa
+        }
+      }
+      player.frameTimer += dt;
+      if (player.frameTimer >= FRAME_TIME){
+        player.frameTimer = 0;
+        player.frameIdx = (player.frameIdx+1)%4;
+      }
+    } else {
+      player.frameIdx = 0; player.frameTimer = 0;
+    }
+
+    // Cangkul jalan terus tiap frame, ga peduli Rahul lagi lari/diam/mundur -> begitu diklik
+    // langsung melesat sendiri dengan kecepatannya sendiri, ga "nempel"/ngikutin karakter lagi.
+    updateCangkul(dt, d);
+
+    if (player.invincible>0) player.invincible -= dt;
+    if (hitFlash>0) hitFlash = Math.max(0, hitFlash-dt*1.5);
+
+    checkCollisions();
+    obstacles = obstacles.filter(function(o){ return o.x+o.w > -20; });
+    orbs = orbs.filter(function(c){ return !c.taken && c.x+c.r > -20; });
+    platforms = platforms.filter(function(p){
+      var keep = p.x+p.w > -20;
+      if (!keep && player.standingPlatform===p){ player.standingPlatform = null; }
+      return keep;
+    });
+    npcs = npcs.filter(function(n){ return n.x+n.w > -20; });
+  }
+
+  // ================= DRAW HELPERS =================
+  function shade(hex, amt){
+    var num = parseInt(hex.slice(1),16);
+    var r = Math.max(0,Math.min(255,(num>>16)+amt));
+    var g = Math.max(0,Math.min(255,((num>>8)&0xff)+amt));
+    var b = Math.max(0,Math.min(255,(num&0xff)+amt));
+    return 'rgb('+r+','+g+','+b+')';
+  }
+
+  function roundRect(x,y,w,h,r){
+    ctx.beginPath();
+    ctx.moveTo(x+r,y);
+    ctx.arcTo(x+w,y,x+w,y+h,r);
+    ctx.arcTo(x+w,y+h,x,y+h,r);
+    ctx.arcTo(x,y+h,x,y,r);
+    ctx.arcTo(x,y,x+w,y,r);
+    ctx.closePath();
+  }
+
+  function drawHillLayer(color, baseYRatio, speedFactor, spacing, ampRatio){
+    var baseY = CH*baseYRatio;
+    var offset = (scrollX*speedFactor) % spacing;
+    var grad = ctx.createLinearGradient(0, baseY-CH*ampRatio, 0, CH);
+    grad.addColorStop(0, shade(color, 26));
+    grad.addColorStop(1, shade(color, -24));
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.moveTo(-spacing*2, CH);
+    for (var x=-spacing*2-offset; x<CW+spacing*2; x+=spacing){
+      ctx.lineTo(x, baseY);
+      ctx.quadraticCurveTo(x+spacing/2, baseY-CH*ampRatio, x+spacing, baseY);
+    }
+    ctx.lineTo(CW+spacing*2, CH);
+    ctx.closePath();
+    ctx.fill();
+  }
+
+  function drawCloud(xRatio,yRatio,scale){
+    var x = xRatio*CW, y = yRatio*CH;
+    ctx.fillStyle = 'rgba(255,255,255,0.92)';
+    [[-20,0,18],[0,-10,22],[20,0,18],[0,8,20]].forEach(function(p){
+      ctx.beginPath();
+      ctx.arc(x+p[0]*scale, y+p[1]*scale, p[2]*scale, 0, Math.PI*2);
+      ctx.fill();
+    });
+  }
+
+  function drawPlatform(p){
+    var grad = ctx.createLinearGradient(p.x, p.y, p.x, p.y+p.h);
+    grad.addColorStop(0, '#E8A857'); grad.addColorStop(1, '#B5762A');
+    ctx.fillStyle = grad;
+    roundRect(p.x, p.y, p.w, p.h, 6);
+    ctx.fill();
+    ctx.strokeStyle = '#2B2118'; ctx.lineWidth = 3;
+    roundRect(p.x, p.y, p.w, p.h, 6);
+    ctx.stroke();
+    ctx.strokeStyle = 'rgba(43,33,24,0.35)'; ctx.lineWidth = 1.5;
+    var seg = p.w/4;
+    for (var si=1; si<4; si++){
+      ctx.beginPath(); ctx.moveTo(p.x+seg*si, p.y+3); ctx.lineTo(p.x+seg*si, p.y+p.h-3); ctx.stroke();
+    }
+  }
+
+  // Bubble chat statis "DUA LAH" yang muncul di atas kepala Vincent waktu Rahul lagi deket dia
+  function drawGreetBubble(cx, topY, w, text){
+    ctx.save();
+    ctx.font = "bold " + Math.max(11, w*0.16) + "px 'Baloo 2', sans-serif";
+    var padX = 10, padY = 7;
+    var textW = ctx.measureText(text).width;
+    var bw = textW + padX*2, bh = Math.max(11,w*0.16) + padY*2;
+    var bx = cx - bw/2, by = topY - bh - 14;
+    ctx.fillStyle = '#FFF8E7';
+    ctx.strokeStyle = '#2B2118';
+    ctx.lineWidth = 3;
+    var r = 9;
+    ctx.beginPath();
+    ctx.moveTo(bx+r, by);
+    ctx.lineTo(bx+bw-r, by);
+    ctx.quadraticCurveTo(bx+bw, by, bx+bw, by+r);
+    ctx.lineTo(bx+bw, by+bh-r);
+    ctx.quadraticCurveTo(bx+bw, by+bh, bx+bw-r, by+bh);
+    ctx.lineTo(bx+bw/2+7, by+bh);
+    ctx.lineTo(bx+bw/2, by+bh+9); // ekor bubble ngarah ke Vincent
+    ctx.lineTo(bx+bw/2-4, by+bh);
+    ctx.lineTo(bx+r, by+bh);
+    ctx.quadraticCurveTo(bx, by+bh, bx, by+bh-r);
+    ctx.lineTo(bx, by+r);
+    ctx.quadraticCurveTo(bx, by, bx+r, by);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+    ctx.fillStyle = '#2B2118';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(text, bx+bw/2, by+bh/2);
+    ctx.restore();
+  }
+
+  // Gambar NPC berdiri di jalan sambil nyapa. Cuma dekorasi -> ga pernah dicek tabrakan
+  // di checkCollisions(), jadi Rahul aman lewat di sebelahnya, ga kena/hilang nyawa.
+  function drawNpc(n){
+    var cfg = NPC_TYPES[n.type] || NPC_TYPES.vincentsopo;
+    var baseY = groundYAt(n.x+n.w/2);
+    var x = n.x, y = baseY - n.h;
+    ctx.fillStyle = 'rgba(0,0,0,0.22)';
+    ctx.beginPath();
+    ctx.ellipse(x+n.w/2, baseY+4, n.w*0.32, 6, 0, 0, Math.PI*2);
+    ctx.fill();
+    if (cfg.sprite.ready && !cfg.sprite.failed){
+      ctx.drawImage(cfg.sprite.img, x, y, n.w, n.h);
+    } else {
+      // placeholder selagi gambar aslinya belum ada/gagal dimuat
+      ctx.fillStyle = cfg.color;
+      roundRect(x, y, n.w, n.h, n.w*0.18); ctx.fill();
+      ctx.strokeStyle = '#2B2118'; ctx.lineWidth = 3;
+      roundRect(x, y, n.w, n.h, n.w*0.18); ctx.stroke();
+      ctx.fillStyle = '#fff';
+      ctx.font = 'bold ' + (n.w*0.4) + 'px sans-serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(cfg.letter, x+n.w/2, y+n.h*0.42);
+    }
+    // Bubble chat cuma nongol pas Rahul lagi deket/ketemu karakternya di jalan
+    var pxCenter = CW*player.xRatio;
+    var dist = Math.abs(pxCenter - (x+n.w/2));
+    if (dist < CH*0.42){
+      drawGreetBubble(x+n.w/2, y, n.w, cfg.text);
+    }
+  }
+
+  function birdFlightY(o){
+    // Lintasan naik-turun (dipakai sinkron oleh collision & gambar biar konsisten).
+    // Tiap jenis terbang punya kecepatan/amplitudo beda: burung tenang, kelelawar gesit, tawon paling ricuh.
+    var speedDiv = 260, amp = CH*0.02;
+    if (o.type === 'bat'){ speedDiv = 140; amp = CH*0.035; }
+    else if (o.type === 'wasp'){ speedDiv = 85; amp = CH*0.05; }
+    var y = o.baseY + Math.sin(performance.now()/speedDiv + o.bob)*amp;
+    if (o.dive){
+      // Menukik: satu siklus turun-dalam lalu naik lagi, jauh lebih besar dari bob halus di atas
+      var diveT = (performance.now()/1000 + o.bob) % 2.4;
+      var diveWave = Math.sin(diveT/2.4 * Math.PI); // 0 -> 1 -> 0 sepanjang siklus
+      y += diveWave*CH*0.16;
+    }
+    return y;
+  }
+
+  function drawObstacle(o){
+    var baseY = groundYAt(o.x+o.w/2);
+    if (o.type==='rock'){
+      var rg = ctx.createRadialGradient(o.x+o.w*0.34, baseY-o.h*0.68, o.w*0.04, o.x+o.w/2, baseY-o.h/2, o.w*0.62);
+      rg.addColorStop(0, '#BDB7AE'); rg.addColorStop(0.6, '#8B8680'); rg.addColorStop(1, '#5E5A54');
+      ctx.fillStyle = rg;
+      ctx.beginPath();
+      ctx.ellipse(o.x+o.w/2, baseY-o.h/2, o.w/2, o.h/2, 0, 0, Math.PI*2);
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(0,0,0,0.2)'; ctx.lineWidth = 1.5; ctx.stroke();
+      ctx.fillStyle = 'rgba(0,0,0,0.16)';
+      [[0.62,0.55,0.15],[0.42,0.72,0.10],[0.68,0.30,0.08]].forEach(function(p){
+        ctx.beginPath();
+        ctx.ellipse(o.x+o.w*p[0], baseY-o.h*p[1], o.w*p[2], o.h*p[2]*0.75, 0, 0, Math.PI*2);
+        ctx.fill();
+      });
+    } else if (o.type==='bush'){
+      for (var i=0;i<3;i++){
+        var bx = o.x + (i*o.w/3);
+        var bg = ctx.createLinearGradient(bx, baseY-o.h, bx, baseY);
+        bg.addColorStop(0, '#3F9A45'); bg.addColorStop(1, '#1F5C22');
+        ctx.fillStyle = bg;
+        ctx.beginPath();
+        ctx.moveTo(bx, baseY);
+        ctx.lineTo(bx+o.w/6, baseY-o.h);
+        ctx.lineTo(bx+o.w/3, baseY);
+        ctx.closePath();
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(0,0,0,0.22)'; ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+    } else if (o.type==='spike'){
+      // Dua bilah paku tajam warna metal - lebih tinggi & ramping dari batu biar butuh lompatan presisi
+      for (var si=0; si<2; si++){
+        var sx = o.x + si*(o.w*0.5);
+        var sg = ctx.createLinearGradient(sx, baseY-o.h, sx, baseY);
+        sg.addColorStop(0, '#EDEDED'); sg.addColorStop(0.6, '#ADADAD'); sg.addColorStop(1, '#6E6E6E');
+        ctx.fillStyle = sg;
+        ctx.beginPath();
+        ctx.moveTo(sx, baseY);
+        ctx.lineTo(sx+o.w*0.25, baseY-o.h);
+        ctx.lineTo(sx+o.w*0.5, baseY);
+        ctx.closePath();
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(0,0,0,0.35)'; ctx.lineWidth = 1.5;
+        ctx.stroke();
+      }
+    } else if (o.type==='log'){
+      // Batang kayu rebah: pendek tapi lebar, ada tampang lingkaran kayu di ujung kanan
+      var lg = ctx.createLinearGradient(o.x, baseY-o.h, o.x, baseY);
+      lg.addColorStop(0, '#A9713C'); lg.addColorStop(1, '#6b431f');
+      ctx.fillStyle = lg;
+      ctx.fillRect(o.x, baseY-o.h, o.w, o.h);
+      ctx.strokeStyle = 'rgba(0,0,0,0.25)'; ctx.lineWidth = 1.5;
+      ctx.strokeRect(o.x, baseY-o.h, o.w, o.h);
+      var capX = o.x+o.w-o.h*0.42;
+      ctx.fillStyle = '#C68A4B';
+      ctx.beginPath(); ctx.ellipse(capX, baseY-o.h/2, o.h*0.42, o.h/2, 0, 0, Math.PI*2); ctx.fill();
+      ctx.strokeStyle = '#8B5A2B'; ctx.lineWidth = 1.6;
+      ctx.beginPath(); ctx.ellipse(capX, baseY-o.h/2, o.h*0.26, o.h*0.32, 0, 0, Math.PI*2); ctx.stroke();
+      ctx.beginPath(); ctx.ellipse(capX, baseY-o.h/2, o.h*0.11, o.h*0.15, 0, 0, Math.PI*2); ctx.stroke();
+    } else if (o.type==='crate'){
+      // Peti kayu kotak dengan garis silang & bingkai
+      var cg = ctx.createLinearGradient(o.x, baseY-o.h, o.x, baseY);
+      cg.addColorStop(0, '#C68A4B'); cg.addColorStop(1, '#8B5A2B');
+      ctx.fillStyle = cg;
+      ctx.fillRect(o.x, baseY-o.h, o.w, o.h);
+      ctx.strokeStyle = '#5b3a1a'; ctx.lineWidth = Math.max(1.6, o.w*0.05);
+      ctx.strokeRect(o.x+1.5, baseY-o.h+1.5, o.w-3, o.h-3);
+      ctx.beginPath();
+      ctx.moveTo(o.x+2, baseY-o.h+2); ctx.lineTo(o.x+o.w-2, baseY-2);
+      ctx.moveTo(o.x+o.w-2, baseY-o.h+2); ctx.lineTo(o.x+2, baseY-2);
+      ctx.stroke();
+    } else if (o.type==='cactus'){
+      // Kaktus hijau: badan ramping + dua lengan pendek, ada guratan duri
+      var cxg = ctx.createLinearGradient(o.x, baseY-o.h, o.x, baseY);
+      cxg.addColorStop(0, '#4CAF50'); cxg.addColorStop(1, '#2E7D32');
+      ctx.fillStyle = cxg;
+      var bw = o.w*0.42, bx = o.x+(o.w-bw)/2;
+      ctx.fillRect(bx, baseY-o.h, bw, o.h);
+      ctx.fillRect(o.x, baseY-o.h*0.55, bw*0.62, o.h*0.16);
+      ctx.fillRect(o.x+o.w-bw*0.62, baseY-o.h*0.72, bw*0.62, o.h*0.16);
+      ctx.strokeStyle = 'rgba(0,0,0,0.28)'; ctx.lineWidth = 1;
+      for (var ci=0; ci<4; ci++){
+        var csy = baseY - o.h*0.12 - ci*(o.h*0.2);
+        ctx.beginPath(); ctx.moveTo(bx, csy); ctx.lineTo(bx-3, csy-3); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(bx+bw, csy); ctx.lineTo(bx+bw+3, csy-3); ctx.stroke();
+      }
+    } else if (o.type==='barrel'){
+      // Drum/tong logam berdiri dengan dua lingkar sabuk metal
+      var capH = o.w*0.18;
+      var brg = ctx.createLinearGradient(o.x, 0, o.x+o.w, 0);
+      brg.addColorStop(0, '#6b431f'); brg.addColorStop(0.5, '#C68A4B'); brg.addColorStop(1, '#6b431f');
+      ctx.fillStyle = brg;
+      ctx.fillRect(o.x, baseY-o.h+capH, o.w, o.h-capH*2);
+      ctx.beginPath(); ctx.ellipse(o.x+o.w/2, baseY-o.h+capH, o.w/2, capH, 0, 0, Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.ellipse(o.x+o.w/2, baseY-capH, o.w/2, capH, 0, 0, Math.PI*2); ctx.fill();
+      ctx.strokeStyle = '#3a3a3a'; ctx.lineWidth = Math.max(2, o.w*0.09);
+      [0.32, 0.7].forEach(function(fr){
+        ctx.beginPath();
+        ctx.ellipse(o.x+o.w/2, baseY-o.h+o.h*fr, o.w/2*0.97, capH*0.85, 0, 0, Math.PI*2);
+        ctx.stroke();
+      });
+    } else if (o.type==='bird'){
+      var oy = birdFlightY(o), cx = o.x+o.w/2, cy = oy+o.h/2;
+      var flap = Math.sin(performance.now()/90 + o.bob)*0.5+0.5;
+      ctx.fillStyle = 'rgba(0,0,0,0.15)';
+      ctx.beginPath(); ctx.ellipse(cx, groundYAt(cx)+4, o.w*0.28, 5, 0, 0, Math.PI*2); ctx.fill();
+      ctx.fillStyle = '#4A2C82';
+      ctx.beginPath(); ctx.ellipse(cx, cy, o.w*0.32, o.h*0.34, 0, 0, Math.PI*2); ctx.fill();
+      ctx.fillStyle = '#7E57C2';
+      ctx.beginPath();
+      ctx.moveTo(cx-o.w*0.08, cy);
+      ctx.lineTo(cx-o.w*0.55, cy-o.h*(0.3+flap*0.35));
+      ctx.lineTo(cx-o.w*0.05, cy+o.h*0.12);
+      ctx.closePath(); ctx.fill();
+      ctx.beginPath();
+      ctx.moveTo(cx+o.w*0.08, cy);
+      ctx.lineTo(cx+o.w*0.55, cy-o.h*(0.3+flap*0.35));
+      ctx.lineTo(cx+o.w*0.05, cy+o.h*0.12);
+      ctx.closePath(); ctx.fill();
+      ctx.fillStyle = '#F2543E';
+      ctx.beginPath();
+      ctx.moveTo(cx+o.w*0.28, cy);
+      ctx.lineTo(cx+o.w*0.46, cy-o.h*0.06);
+      ctx.lineTo(cx+o.w*0.28, cy+o.h*0.12);
+      ctx.closePath(); ctx.fill();
+    } else if (o.type==='bat'){
+      // Kelelawar: badan gelap + sayap tajam bercabang, terbang gesit & lebih erratic dari burung
+      var oyB = birdFlightY(o), cxB = o.x+o.w/2, cyB = oyB+o.h/2;
+      var flapB = Math.sin(performance.now()/70 + o.bob)*0.5+0.5;
+      ctx.fillStyle = 'rgba(0,0,0,0.15)';
+      ctx.beginPath(); ctx.ellipse(cxB, groundYAt(cxB)+4, o.w*0.22, 4, 0, 0, Math.PI*2); ctx.fill();
+      ctx.fillStyle = '#3d3450';
+      [-1,1].forEach(function(side){
+        ctx.beginPath();
+        ctx.moveTo(cxB+side*o.w*0.06, cyB);
+        ctx.lineTo(cxB+side*o.w*0.5, cyB-o.h*(0.1+flapB*0.5));
+        ctx.lineTo(cxB+side*o.w*0.3, cyB-o.h*0.05);
+        ctx.lineTo(cxB+side*o.w*0.42, cyB+o.h*0.18);
+        ctx.lineTo(cxB+side*o.w*0.04, cyB+o.h*0.08);
+        ctx.closePath(); ctx.fill();
+      });
+      ctx.fillStyle = '#2B2118';
+      ctx.beginPath(); ctx.ellipse(cxB, cyB, o.w*0.2, o.h*0.3, 0, 0, Math.PI*2); ctx.fill();
+      ctx.fillStyle = '#F2543E';
+      ctx.beginPath(); ctx.arc(cxB-o.w*0.06, cyB-o.h*0.06, o.w*0.035, 0, Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.arc(cxB+o.w*0.06, cyB-o.h*0.06, o.w*0.035, 0, Math.PI*2); ctx.fill();
+    } else if (o.type==='wasp'){
+      // Tawon kecil belang kuning-hitam: paling kecil & gerakannya paling ricuh, mengecoh mata
+      var oyW = birdFlightY(o), cxW = o.x+o.w/2, cyW = oyW+o.h/2;
+      var flapW = Math.sin(performance.now()/45 + o.bob);
+      ctx.fillStyle = 'rgba(0,0,0,0.12)';
+      ctx.beginPath(); ctx.ellipse(cxW, groundYAt(cxW)+3, o.w*0.18, 3, 0, 0, Math.PI*2); ctx.fill();
+      ctx.fillStyle = 'rgba(255,255,255,0.6)';
+      ctx.beginPath(); ctx.ellipse(cxW-o.w*0.14, cyW-o.h*0.22, o.w*0.2, o.h*0.11, -0.4+flapW*0.2, 0, Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.ellipse(cxW+o.w*0.14, cyW-o.h*0.22, o.w*0.2, o.h*0.11, 0.4-flapW*0.2, 0, Math.PI*2); ctx.fill();
+      ctx.fillStyle = '#FFD34D';
+      ctx.beginPath(); ctx.ellipse(cxW, cyW, o.w*0.34, o.h*0.42, 0, 0, Math.PI*2); ctx.fill();
+      ctx.fillStyle = '#2B2118';
+      [-0.2, 0.1, 0.4].forEach(function(fr){
+        ctx.beginPath();
+        ctx.ellipse(cxW+o.w*0.34*fr, cyW, o.w*0.07, o.h*0.4, 0, 0, Math.PI*2);
+        ctx.fill();
+      });
+    }
+  }
+
+  function drawDiamond(c){
+    var t = performance.now()/300 + c.bob;
+    var cy = c.y + Math.sin(t)*4;
+    var squash = Math.max(0.25, Math.abs(Math.cos(t*1.3)));
+    var r = c.r;
+    ctx.save();
+    ctx.translate(c.x, cy);
+    ctx.scale(squash, 1);
+    if (diamondSprite.ready && !diamondSprite.failed){
+      // Pakai gambar diamond asli apk (onzrii.png)
+      var s = r*2.1;
+      ctx.drawImage(diamondSprite.img, -s/2, -s/2, s, s);
+      ctx.restore();
+      return;
+    }
+    // Fallback: bentuk permata segi delapan sederhana kalau gambar belum/gagal dimuat
+    ctx.beginPath();
+    ctx.moveTo(0, -r);
+    ctx.lineTo(r*0.62, -r*0.42);
+    ctx.lineTo(r*0.62, r*0.42);
+    ctx.lineTo(0, r);
+    ctx.lineTo(-r*0.62, r*0.42);
+    ctx.lineTo(-r*0.62, -r*0.42);
+    ctx.closePath();
+    var grad = ctx.createLinearGradient(0, -r, 0, r);
+    grad.addColorStop(0, '#DFF8FF'); grad.addColorStop(0.45, '#4DC8FF'); grad.addColorStop(1, '#0A6FBF');
+    ctx.fillStyle = grad;
+    ctx.fill();
+    ctx.strokeStyle = '#053E70'; ctx.lineWidth = Math.max(1,r*0.12); ctx.stroke();
+    // Facet tengah biar keliatan berkilau seperti permata
+    ctx.beginPath();
+    ctx.moveTo(0, -r); ctx.lineTo(0, r);
+    ctx.moveTo(-r*0.62, -r*0.42); ctx.lineTo(0, -r*0.15); ctx.lineTo(r*0.62, -r*0.42);
+    ctx.strokeStyle = 'rgba(255,255,255,.55)'; ctx.lineWidth = Math.max(1,r*0.07); ctx.stroke();
+    ctx.restore();
+  }
+
+  function drawCangkulProjectile(pr){
+    var groundY = groundYAt(pr.x);
+    var baseline = groundY - pr.h*0.6; // melayang sedikit di atas tanah, sejajar mengikuti kontur tanah di posisinya
+    ctx.save();
+    ctx.translate(pr.x, baseline);
+    ctx.rotate(pr.rot||0); // efek muter-muter waktu melesat
+    if (cangkulSprite.ready && !cangkulSprite.failed){
+      ctx.drawImage(cangkulSprite.img, -pr.w/2, -pr.h/2, pr.w, pr.h);
+    } else {
+      // fallback: gambar cangkul sederhana (gagang kayu + mata cangkul) kalau skilcangkul.png belum ada
+      ctx.strokeStyle = '#6b431f'; ctx.lineWidth = pr.w*0.14; ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.moveTo(-pr.w*0.4,0); ctx.lineTo(pr.w*0.4,0); ctx.stroke();
+      ctx.fillStyle = '#B5B5B5';
+      ctx.beginPath();
+      ctx.moveTo(pr.w*0.15,-pr.h*0.22); ctx.lineTo(pr.w*0.55,0); ctx.lineTo(pr.w*0.15,pr.h*0.22);
+      ctx.closePath(); ctx.fill();
+      ctx.strokeStyle = 'rgba(0,0,0,0.3)'; ctx.lineWidth = 1.5; ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  function drawCangkulBurst(b){
+    var t = b.t/0.4, alpha = 1-t, r = CH*0.05*(0.5+t*1.3);
+    ctx.save();
+    ctx.globalAlpha = Math.max(0, alpha);
+    ctx.strokeStyle = '#FFD34D'; ctx.lineWidth = 4;
+    ctx.beginPath(); ctx.arc(b.x, b.y-CH*0.03, r, 0, Math.PI*2); ctx.stroke();
+    ctx.fillStyle = 'rgba(255,211,77,0.35)';
+    ctx.beginPath(); ctx.arc(b.x, b.y-CH*0.03, r*0.6, 0, Math.PI*2); ctx.fill();
+    ctx.restore();
+  }
+
+  function drawCharacter(x, y, w, h, running, frameIdx, jumping, jumpFrameIdx, facing){
+    var key = jumping ? jumpOrder[jumpFrameIdx] : (running ? runOrder[frameIdx] : 'idle');
+    var spr = sprites[key];
+
+    ctx.save();
+    ctx.translate(x, y);
+    if (facing < 0){
+      // hadap belakang/kiri: cerminkan sprite secara horizontal di tempat
+      ctx.translate(w, 0);
+      ctx.scale(-1, 1);
+    }
+
+    if (spr && spr.ready && !spr.failed){
+      ctx.drawImage(spr.img, 0, 0, w, h);
+    } else {
+      // placeholder netral selagi gambar belum berhasil dimuat dari folder Rahul
+      ctx.fillStyle = 'rgba(255,255,255,0.35)';
+      roundRect(0, 0, w, h, w*0.15); ctx.fill();
+      ctx.strokeStyle = 'rgba(255,255,255,0.8)'; ctx.lineWidth = 3;
+      roundRect(0, 0, w, h, w*0.15); ctx.stroke();
+      ctx.fillStyle = '#fff';
+      ctx.font = 'bold ' + (w*0.4) + 'px sans-serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText('?', w/2, h/2);
+    }
+    ctx.restore();
+  }
+
+  function drawTauntBubble(cx, topY, w){
+    if (tauntTimer<=0 || !tauntText) return;
+    ctx.save();
+    ctx.font = "bold " + Math.max(11, w*0.13) + "px 'Baloo 2', sans-serif";
+    var padX = 12, padY = 8;
+    var textW = ctx.measureText(tauntText).width;
+    var bw = textW + padX*2, bh = Math.max(11,w*0.13) + padY*2;
+    var bx = cx - bw/2, by = topY - bh - 16;
+    // muncul cepat lalu memudar di 0.5 detik terakhir dari 3 detik
+    var alpha = tauntTimer < 0.5 ? tauntTimer/0.5 : 1;
+    ctx.globalAlpha = alpha;
+    // badan bubble
+    ctx.fillStyle = '#FFF8E7';
+    ctx.strokeStyle = '#2B2118';
+    ctx.lineWidth = 3;
+    var r = 10;
+    ctx.beginPath();
+    ctx.moveTo(bx+r, by);
+    ctx.lineTo(bx+bw-r, by);
+    ctx.quadraticCurveTo(bx+bw, by, bx+bw, by+r);
+    ctx.lineTo(bx+bw, by+bh-r);
+    ctx.quadraticCurveTo(bx+bw, by+bh, bx+bw-r, by+bh);
+    ctx.lineTo(bx+bw/2+8, by+bh);
+    ctx.lineTo(bx+bw/2, by+bh+10); // ekor bubble mengarah ke karakter
+    ctx.lineTo(bx+bw/2-4, by+bh);
+    ctx.lineTo(bx+r, by+bh);
+    ctx.quadraticCurveTo(bx, by+bh, bx, by+bh-r);
+    ctx.lineTo(bx, by+r);
+    ctx.quadraticCurveTo(bx, by, bx+r, by);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+    // teks
+    ctx.fillStyle = '#2B2118';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(tauntText, bx+bw/2, by+bh/2);
+    ctx.restore();
+  }
+
+  function drawPlayer(){
+    var px = CW*player.xRatio - player.w/2, py = player.y, w = player.w, h = player.h;
+    ctx.save();
+    if (player.invincible>0 && Math.floor(performance.now()/100)%2===0){ ctx.globalAlpha = 0.35; }
+    // bayangan di bawah karakter
+    var localGroundY = groundYAt(px+w/2);
+    var jumpProgress = Math.min(1, Math.max(0, (localGroundY-(py+h))/(CH*0.35)));
+    var shadowScale = Math.max(0.3, 1-jumpProgress);
+    ctx.fillStyle = 'rgba(0,0,0,0.25)';
+    ctx.beginPath();
+    ctx.ellipse(px+w/2, localGroundY+4, w*0.35*shadowScale, 6*shadowScale, 0, 0, Math.PI*2);
+    ctx.fill();
+
+    var jumpFrameIdx = 0;
+    var jumpXOffset = 0, jumpYExtra = 0;
+    if (!player.onGround){
+      // vy negatif = sedang naik, vy positif = sedang turun.
+      // Peta rentang kecepatan vertikal ke 6 pose: naik cepat -> naik pelan -> puncak -> mulai turun -> turun cepat -> turun sangat cepat.
+      var vRatio = Math.max(-1, Math.min(1, player.vy / Math.abs(JUMP_VELOCITY)));
+      jumpFrameIdx = Math.min(5, Math.floor((vRatio + 1) / 2 * 6));
+
+      // Karakter condong maju selama melompat: dorong ke depan seiring lompatan berlangsung,
+      // memakai kurva naik-turun (0 di lepas landas & mendarat, puncak di tengah lompatan) berbasis fase vertikal (vRatio),
+      // supaya proporsional walau tinggi lompatan aktualnya kecil dibanding tinggi layar.
+      var airProgress = (vRatio + 1) / 2; // 0 = baru lompat, 0.5 = puncak, 1 = hampir mendarat
+      jumpXOffset = Math.sin(airProgress * Math.PI) * w * 0.35 * player.facing;
+
+      // jump5 dinaikkan sekitar 15% dari tinggi karakter
+      if (jumpFrameIdx === 4){ jumpYExtra = -h * 0.15; }
+    }
+    drawCharacter(px + jumpXOffset, py + jumpYExtra, w, h, player.running || player.movingBack, player.frameIdx, !player.onGround, jumpFrameIdx, player.facing);
+    drawTauntBubble(px + jumpXOffset + w/2, py + jumpYExtra, w);
+    ctx.restore();
+  }
+
+  // ================= DRAW UTAMA =================
+  function draw(){
+    ctx.clearRect(0,0,CW,CH);
+
+    var sky = ctx.createLinearGradient(0,0,0,CH);
+    sky.addColorStop(0, '#7EC8F2'); sky.addColorStop(1, '#BFE8FF');
+    ctx.fillStyle = sky;
+    ctx.fillRect(0,0,CW,CH);
+
+    var sx = CW*0.86, sy = CH*0.14, sr = Math.min(CW,CH)*0.06;
+    var glow = ctx.createRadialGradient(sx,sy,0,sx,sy,sr*2.2);
+    glow.addColorStop(0, '#FFF3B0'); glow.addColorStop(0.5, 'rgba(255,211,77,0.55)'); glow.addColorStop(1, 'rgba(255,211,77,0)');
+    ctx.fillStyle = glow;
+    ctx.beginPath(); ctx.arc(sx,sy,sr*2.2,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#FFD34D';
+    ctx.beginPath(); ctx.arc(sx,sy,sr,0,Math.PI*2); ctx.fill();
+
+    drawHillLayer('#8FD49A', 0.62, 0.15, CH*0.9, 0.10);
+    clouds.forEach(function(c){ drawCloud(c.xRatio, c.yRatio, c.scale); });
+    drawHillLayer('#5FBF6E', 0.72, 0.35, CH*0.7, 0.08);
+
+    // Sampel kontur tanah di sepanjang lebar layar, dipakai buat gambar dirt & rumput
+    // sebagai bidang yang ikut naik-turun (bukan kotak lurus seperti sebelumnya)
+    var groundStep = 18;
+    var groundPts = [];
+    for (var gx=0; gx<CW; gx+=groundStep){ groundPts.push({ x:gx, y:groundYAt(gx) }); }
+    groundPts.push({ x:CW, y:groundYAt(CW) });
+    var minGroundY = CH;
+    groundPts.forEach(function(p){ if (p.y<minGroundY) minGroundY = p.y; });
+
+    var dirtGrad = ctx.createLinearGradient(0, minGroundY, 0, CH);
+    dirtGrad.addColorStop(0, '#9C6B37'); dirtGrad.addColorStop(1, '#5c3a1a');
+    ctx.fillStyle = dirtGrad;
+    ctx.beginPath();
+    ctx.moveTo(groundPts[0].x, CH);
+    groundPts.forEach(function(p){ ctx.lineTo(p.x, p.y); });
+    ctx.lineTo(groundPts[groundPts.length-1].x, CH);
+    ctx.closePath();
+    ctx.fill();
+
+    var speckleSpacing = 34, speckleOffset = scrollX % speckleSpacing;
+    ctx.fillStyle = 'rgba(0,0,0,0.13)';
+    for (var spx=-speckleOffset; spx<CW+speckleSpacing; spx+=speckleSpacing){
+      var row = Math.round((spx+speckleOffset)/speckleSpacing);
+      var localGY1 = groundYAt(spx);
+      var dirtH1 = Math.max(1, CH-localGY1-16);
+      var spy = localGY1 + 12 + ((row*37) % dirtH1);
+      ctx.beginPath(); ctx.arc(spx + (row%2)*speckleSpacing*0.5, spy, 2.1, 0, Math.PI*2); ctx.fill();
+    }
+    ctx.fillStyle = 'rgba(255,255,255,0.08)';
+    for (var spx2=-speckleOffset+14; spx2<CW+speckleSpacing; spx2+=speckleSpacing){
+      var row2 = Math.round((spx2+speckleOffset)/speckleSpacing);
+      var localGY2 = groundYAt(spx2);
+      var dirtH2 = Math.max(1, CH-localGY2-16);
+      var spy2 = localGY2 + 12 + ((row2*61+9) % dirtH2);
+      ctx.beginPath(); ctx.arc(spx2, spy2, 1.6, 0, Math.PI*2); ctx.fill();
+    }
+
+    var grassH = CH*0.025;
+    var grassGrad = ctx.createLinearGradient(0, minGroundY, 0, minGroundY+grassH);
+    grassGrad.addColorStop(0, '#63C169'); grassGrad.addColorStop(1, '#3d9142');
+    ctx.fillStyle = grassGrad;
+    ctx.beginPath();
+    ctx.moveTo(groundPts[0].x, groundPts[0].y);
+    groundPts.forEach(function(p){ ctx.lineTo(p.x, p.y); });
+    for (var gi=groundPts.length-1; gi>=0; gi--){ ctx.lineTo(groundPts[gi].x, groundPts[gi].y+grassH); }
+    ctx.closePath();
+    ctx.fill();
+
+    var dashSpacing = 40, dashOffset = scrollX % dashSpacing;
+    ctx.strokeStyle = '#6b431f'; ctx.lineWidth = 3;
+    for (var x=-dashOffset; x<CW; x+=dashSpacing){
+      var dashGY = groundYAt(x)+12;
+      ctx.beginPath(); ctx.moveTo(x, dashGY); ctx.lineTo(x+18, dashGY); ctx.stroke();
+    }
+
+    obstacles.forEach(drawObstacle);
+    npcs.forEach(drawNpc);
+    platforms.forEach(drawPlatform);
+    orbs.forEach(function(c){ if(!c.taken) drawDiamond(c); });
+    cangkulProjectiles.forEach(drawCangkulProjectile);
+    cangkulBursts.forEach(drawCangkulBurst);
+    drawPlayer();
+
+    if (hitFlash>0){
+      ctx.fillStyle = 'rgba(220,30,30,' + (hitFlash*0.5) + ')';
+      ctx.fillRect(0,0,CW,CH);
+    }
+
+    if (levelUpFlash>0){
+      // Muncul cepat (scale-in) lalu memudar pelan sampai levelUpFlash habis
+      var t = 1.6 - levelUpFlash; // waktu sejak level naik
+      var scaleIn = Math.min(1, t/0.25);
+      var alpha = Math.min(1, levelUpFlash/0.5);
+      var bannerY = CH*0.3;
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.translate(CW/2, bannerY);
+      ctx.scale(0.7+scaleIn*0.3, 0.7+scaleIn*0.3);
+      ctx.font = "bold " + Math.round(CH*0.06) + "px 'Press Start 2P', monospace";
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.lineWidth = 6; ctx.strokeStyle = '#2B2118';
+      ctx.strokeText('LEVEL ' + level, 0, 0);
+      ctx.fillStyle = '#FFD34D';
+      ctx.fillText('LEVEL ' + level, 0, 0);
+      ctx.restore();
+    }
+  }
+
+  // ================= GAME FLOW =================
+  function startGame(preserveLevel){
+    ensureAudio();
+    startBgMusic();
+    if (!isFullscreen()){
+      try { toggleFullscreen(); } catch(e){}
+    }
+    state = 'playing';
+    score = 0; diamonds = 0; lives = 3;
+    obstacles = []; orbs = []; platforms = []; npcs = [];
+    jumpProgressCount = 0; buffCangkulCount = 0; cangkulCharges = 0;
+    cangkulProjectiles = []; cangkulBursts = [];
+    scrollX = 0; spawnTimer = 1; platformSpawnTimer = 2.5; npcSpawnTimer = 6; playTime = 0;
+    rushActive = false; rushTimer = 10; rushDuration = 0;
+    if (preserveLevel){
+      // Mati lalu main lagi: level TIDAK direset ke 1, dilanjut dari level terakhir.
+      levelUpFlash = 0;
+      meters = (level-1)*100; // biar progress jarak konsisten sama level yang dipertahankan
+    } else {
+      // Main dari awal (pertama kali buka game): mulai dari level 1.
+      level = 1; levelUpFlash = 0; meters = 0;
+    }
+    player.vy = 0; player.onGround = true; player.standingPlatform = null; player.running = false; player.invincible = 0;
+    player.frameIdx = 0; player.frameTimer = 0;
+    computeMetrics();
+    startScreen.classList.add('hidden');
+    gameOverScreen.classList.add('hidden');
+    updateHUD();
+    updateBuffUI();
+  }
+  function endGame(){
+    state = 'gameover';
+    player.running = false;
+    finalStats.textContent = 'Skor: ' + score + ' \u00b7 Diamond: ' + diamonds;
+    gameOverScreen.classList.remove('hidden');
+  }
+
+  startBtn.addEventListener('click', function(){
+    if (!trySpendPlayCost()){ shakeBtn(startBtn); showCostError(document.getElementById('startCostError')); return; }
+    startGame(false);
+  });
+  retryBtn.addEventListener('click', function(){
+    if (!trySpendPlayCost()){ shakeBtn(retryBtn); showCostError(document.getElementById('retryCostError')); return; }
+    startGame(true);
+  });
+
+  // ================= LAYAR PILIH SKIN =================
+  // Cuma Rahul yang terbuka sekarang; Gem & Vincent masih terkunci (belum ada karakternya).
+  var selectedSkin = 'rahul';
+  document.querySelectorAll('.skin-box').forEach(function(box){
+    box.addEventListener('click', function(){
+      if (box.classList.contains('locked')){
+        box.classList.remove('shake');
+        void box.offsetWidth; // restart animasi shake kalau diklik berkali-kali
+        box.classList.add('shake');
+        return;
+      }
+      selectedSkin = box.dataset.skin;
+      skinScreen.classList.add('hidden');
+      startScreen.classList.remove('hidden');
+    });
+  });
+
+  // ================= LAYAR PENUH =================
+  // Tombol layar penuh sudah dihapus dari HUD; fungsi ini masih dipakai
+  // buat auto-fullscreen otomatis waktu game dimulai (lihat startGame()).
+  function isFullscreen(){
+    return !!(document.fullscreenElement || document.webkitFullscreenElement);
+  }
+  function toggleFullscreen(){
+    var el = document.documentElement;
+    if (!isFullscreen()){
+      var req = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen;
+      if (req) req.call(el);
+    } else {
+      var exit = document.exitFullscreen || document.webkitExitFullscreen || document.mozCancelFullScreen || document.msExitFullscreen;
+      if (exit) exit.call(document);
+    }
+  }
+
+  // ================= LOOP =================
+  var lastTime = performance.now();
+  function loop(now){
+    var dt = Math.min((now-lastTime)/1000, 0.033);
+    lastTime = now;
+    update(dt);
+    draw();
+    requestAnimationFrame(loop);
+  }
+
+  window.addEventListener('resize', resize);
+  window.addEventListener('orientationchange', function(){ setTimeout(resize, 50); });
+  resize();
+  updateHUD();
+  updateBuffUI();
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
