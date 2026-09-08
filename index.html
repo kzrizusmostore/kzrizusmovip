@@ -9672,18 +9672,32 @@ function orderSuntikLike(){
 <style>
 #sosmeddl{padding-bottom:80px;}
 
+.smdl-cat-tabs{display:flex;gap:7px;margin-bottom:12px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.smdl-cat-tabs::-webkit-scrollbar{display:none;}
+.smdl-cat{
+  flex:0 0 auto;padding:8px 15px;border-radius:50px;cursor:pointer;white-space:nowrap;
+  font-size:11px;font-weight:800;letter-spacing:.2px;color:#999;
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
+  transition:.18s;
+}
+.smdl-cat.active{background:linear-gradient(135deg,#ff2b2b,#961020);color:#fff;border-color:transparent;box-shadow:0 4px 14px rgba(255,43,43,.25);}
+
 .smdl-tabs{display:flex;gap:8px;margin-bottom:18px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px;}
 .smdl-tabs::-webkit-scrollbar{display:none;}
 .smdl-tab{
-  flex:0 0 auto;width:76px;display:flex;flex-direction:column;align-items:center;gap:6px;
-  padding:12px 6px;border-radius:14px;cursor:pointer;
+  flex:0 0 auto;width:74px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  padding:12px 5px;border-radius:14px;cursor:pointer;min-height:64px;
   background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);
   transition:.18s;
 }
 .smdl-tab i{font-size:17px;color:#888;}
-.smdl-tab span{font-size:9.5px;font-weight:800;color:#888;letter-spacing:.4px;}
+.smdl-tab span{
+  font-size:9.5px;font-weight:800;color:#888;letter-spacing:.3px;
+  max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
 .smdl-tab.active{background:rgba(255,43,43,.09);border-color:rgba(255,43,43,.4);box-shadow:0 0 14px rgba(255,43,43,.12);}
 .smdl-tab.active i,.smdl-tab.active span{color:#ff5252;}
+.smdl-tab[style*="display: none"]{display:none;}
 
 .smdl-panel{display:none;}
 .smdl-panel.active{display:block;}
@@ -9726,45 +9740,70 @@ function orderSuntikLike(){
 <p class="pc-title"><span class="red">SOSMED</span>&nbsp;<span class="wht">DOWNLOADER</span></p>
 <p class="pc-sub">Download Video &amp; Cari Konten Tanpa Watermark</p>
 
+<div class="smdl-cat-tabs">
+  <div class="smdl-cat active" data-cat="all" onclick="smdlSwitchCat('all')">Semua</div>
+  <div class="smdl-cat" data-cat="video" onclick="smdlSwitchCat('video')">Video &amp; Sosmed</div>
+  <div class="smdl-cat" data-cat="audio" onclick="smdlSwitchCat('audio')">Musik &amp; Audio</div>
+  <div class="smdl-cat" data-cat="file" onclick="smdlSwitchCat('file')">File &amp; Lainnya</div>
+</div>
+
 <div class="smdl-tabs">
-  <div class="smdl-tab active" id="smdlTab_cc" onclick="smdlSwitchTab('cc')">
+  <div class="smdl-tab active" id="smdlTab_cc" data-cat="video" onclick="smdlSwitchTab('cc')">
     <i class="fa-solid fa-layer-group"></i><span>AIO</span>
   </div>
-  <div class="smdl-tab" id="smdlTab_tt" onclick="smdlSwitchTab('tt')">
+  <div class="smdl-tab" id="smdlTab_tt" data-cat="video" onclick="smdlSwitchTab('tt')">
     <i class="fa-brands fa-tiktok"></i><span>TIKTOK</span>
   </div>
-  <div class="smdl-tab" id="smdlTab_ig" onclick="smdlSwitchTab('ig')">
+  <div class="smdl-tab" id="smdlTab_ig" data-cat="video" onclick="smdlSwitchTab('ig')">
     <i class="fa-brands fa-instagram"></i><span>INSTAGRAM</span>
   </div>
-  <div class="smdl-tab" id="smdlTab_ytdl" onclick="smdlSwitchTab('ytdl')">
-    <i class="fa-brands fa-youtube"></i><span>YOUTUBE</span>
+  <div class="smdl-tab" id="smdlTab_yt" data-cat="video" onclick="smdlSwitchTab('yt')">
+    <i class="fa-brands fa-youtube"></i><span>YT SEARCH</span>
   </div>
-  <div class="smdl-tab" id="smdlTab_yt" onclick="smdlSwitchTab('yt')">
-    <i class="fa-brands fa-youtube"></i><span>YOUTUBE</span>
+  <div class="smdl-tab" id="smdlTab_ytdl" data-cat="video" onclick="smdlSwitchTab('ytdl')">
+    <i class="fa-solid fa-download"></i><span>YT DOWNLOAD</span>
   </div>
-  <div class="smdl-tab" id="smdlTab_fb" onclick="smdlSwitchTab('fb')">
+  <div class="smdl-tab" id="smdlTab_fb" data-cat="video" onclick="smdlSwitchTab('fb')">
     <i class="fa-brands fa-facebook"></i><span>FACEBOOK</span>
   </div>
-  <div class="smdl-tab" id="smdlTab_dy" onclick="smdlSwitchTab('dy')">
+  <div class="smdl-tab" id="smdlTab_dy" data-cat="video" onclick="smdlSwitchTab('dy')">
     <i class="fa-solid fa-music"></i><span>DOUYIN</span>
   </div>
-  <div class="smdl-tab" id="smdlTab_th" onclick="smdlSwitchTab('th')">
+  <div class="smdl-tab" id="smdlTab_th" data-cat="video" onclick="smdlSwitchTab('th')">
     <i class="fa-brands fa-threads"></i><span>THREADS</span>
   </div>
-  <div class="smdl-tab" id="smdlTab_x" onclick="smdlSwitchTab('x')">
+  <div class="smdl-tab" id="smdlTab_x" data-cat="video" onclick="smdlSwitchTab('x')">
     <i class="fa-brands fa-x-twitter"></i><span>X</span>
   </div>
-  <div class="smdl-tab" id="smdlTab_pin" onclick="smdlSwitchTab('pin')">
+  <div class="smdl-tab" id="smdlTab_pin" data-cat="video" onclick="smdlSwitchTab('pin')">
     <i class="fa-brands fa-pinterest"></i><span>PINTEREST</span>
   </div>
-  <div class="smdl-tab" id="smdlTab_vd" onclick="smdlSwitchTab('vd')">
+  <div class="smdl-tab" id="smdlTab_vd" data-cat="video" onclick="smdlSwitchTab('vd')">
     <i class="fa-solid fa-video"></i><span>VIDEY</span>
   </div>
-  <div class="smdl-tab" id="smdlTab_mf" onclick="smdlSwitchTab('mf')">
+  <div class="smdl-tab" id="smdlTab_cpc" data-cat="video" onclick="smdlSwitchTab('cpc')">
+    <i class="fa-solid fa-clapperboard"></i><span>CAPCUT</span>
+  </div>
+  <div class="smdl-tab" id="smdlTab_sp" data-cat="audio" onclick="smdlSwitchTab('sp')">
+    <i class="fa-brands fa-spotify"></i><span>SPOTIFY</span>
+  </div>
+  <div class="smdl-tab" id="smdlTab_sc" data-cat="audio" onclick="smdlSwitchTab('sc')">
+    <i class="fa-brands fa-soundcloud"></i><span>SOUNDCLOUD</span>
+  </div>
+  <div class="smdl-tab" id="smdlTab_am" data-cat="audio" onclick="smdlSwitchTab('am')">
+    <i class="fa-brands fa-apple"></i><span>APPLE MUSIC</span>
+  </div>
+  <div class="smdl-tab" id="smdlTab_mf" data-cat="file" onclick="smdlSwitchTab('mf')">
     <i class="fa-solid fa-cloud-arrow-down"></i><span>MEDIAFIRE</span>
   </div>
-  <div class="smdl-tab" id="smdlTab_sp" onclick="smdlSwitchTab('sp')">
-    <i class="fa-brands fa-spotify"></i><span>SPOTIFY</span>
+  <div class="smdl-tab" id="smdlTab_tb" data-cat="file" onclick="smdlSwitchTab('tb')">
+    <i class="fa-solid fa-box-archive"></i><span>TERABOX</span>
+  </div>
+  <div class="smdl-tab" id="smdlTab_gh" data-cat="file" onclick="smdlSwitchTab('gh')">
+    <i class="fa-brands fa-github"></i><span>GITHUB</span>
+  </div>
+  <div class="smdl-tab" id="smdlTab_xxxx" data-cat="file" onclick="smdlSwitchTab('xxxx')">
+    <i class="fa-solid fa-file-arrow-down"></i><span>XXXX</span>
   </div>
 </div>
 
@@ -9942,6 +9981,102 @@ function orderSuntikLike(){
   <button class="pc-btn" id="smdlSpBtn" onclick="smdlDownload('sp')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>
 </div>
 <div class="smdl-result" id="smdlSpResult"></div>
+</div>
+
+<!-- CAPCUT PANEL -->
+<div class="smdl-panel" id="smdlPanel_cpc">
+<div class="pc-card">
+  <div class="pc-head">
+    <div class="pc-head-icon"><i class="fa-solid fa-clapperboard"></i></div>
+    <div class="pc-head-text"><h3>CAPCUT DOWNLOADER</h3><p>Download video template CapCut</p></div>
+  </div>
+  <div class="pc-input-wrap">
+    <i class="fa-solid fa-link pc-input-icon"></i>
+    <input class="pc-input" id="smdlCpcUrl" type="text" placeholder="Tempel link video CapCut di sini" style="font-size:13px;font-weight:600;padding-left:40px;"/>
+  </div>
+  <button class="pc-btn" id="smdlCpcBtn" onclick="smdlDownload('cpc')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>
+</div>
+<div class="smdl-result" id="smdlCpcResult"></div>
+</div>
+
+<!-- SOUNDCLOUD PANEL -->
+<div class="smdl-panel" id="smdlPanel_sc">
+<div class="pc-card">
+  <div class="pc-head">
+    <div class="pc-head-icon"><i class="fa-brands fa-soundcloud"></i></div>
+    <div class="pc-head-text"><h3>SOUNDCLOUD DOWNLOADER</h3><p>Download lagu ke MP3</p></div>
+  </div>
+  <div class="pc-input-wrap">
+    <i class="fa-solid fa-link pc-input-icon"></i>
+    <input class="pc-input" id="smdlScUrl" type="text" placeholder="Tempel link SoundCloud di sini" style="font-size:13px;font-weight:600;padding-left:40px;"/>
+  </div>
+  <button class="pc-btn" id="smdlScBtn" onclick="smdlDownload('sc')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>
+</div>
+<div class="smdl-result" id="smdlScResult"></div>
+</div>
+
+<!-- XXXX PANEL -->
+<div class="smdl-panel" id="smdlPanel_xxxx">
+<div class="pc-card">
+  <div class="pc-head">
+    <div class="pc-head-icon"><i class="fa-solid fa-file-arrow-down"></i></div>
+    <div class="pc-head-text"><h3>XXXX DOWNLOADER</h3><p>Download video/media dari link XXXX</p></div>
+  </div>
+  <div class="pc-input-wrap">
+    <i class="fa-solid fa-link pc-input-icon"></i>
+    <input class="pc-input" id="smdlXxxxUrl" type="text" placeholder="Tempel link di sini" style="font-size:13px;font-weight:600;padding-left:40px;"/>
+  </div>
+  <button class="pc-btn" id="smdlXxxxBtn" onclick="smdlDownload('xxxx')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>
+</div>
+<div class="smdl-result" id="smdlXxxxResult"></div>
+</div>
+
+<!-- GITHUB REPO PANEL -->
+<div class="smdl-panel" id="smdlPanel_gh">
+<div class="pc-card">
+  <div class="pc-head">
+    <div class="pc-head-icon"><i class="fa-brands fa-github"></i></div>
+    <div class="pc-head-text"><h3>GITHUB REPO DOWNLOADER</h3><p>Download repository GitHub sebagai ZIP</p></div>
+  </div>
+  <div class="pc-input-wrap">
+    <i class="fa-solid fa-link pc-input-icon"></i>
+    <input class="pc-input" id="smdlGhUrl" type="text" placeholder="Tempel link repo GitHub di sini" style="font-size:13px;font-weight:600;padding-left:40px;"/>
+  </div>
+  <button class="pc-btn" id="smdlGhBtn" onclick="smdlDownload('gh')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>
+</div>
+<div class="smdl-result" id="smdlGhResult"></div>
+</div>
+
+<!-- APPLE MUSIC PANEL -->
+<div class="smdl-panel" id="smdlPanel_am">
+<div class="pc-card">
+  <div class="pc-head">
+    <div class="pc-head-icon"><i class="fa-brands fa-apple"></i></div>
+    <div class="pc-head-text"><h3>APPLE MUSIC DOWNLOADER</h3><p>Download lagu ke MP3</p></div>
+  </div>
+  <div class="pc-input-wrap">
+    <i class="fa-solid fa-link pc-input-icon"></i>
+    <input class="pc-input" id="smdlAmUrl" type="text" placeholder="Tempel link Apple Music di sini" style="font-size:13px;font-weight:600;padding-left:40px;"/>
+  </div>
+  <button class="pc-btn" id="smdlAmBtn" onclick="smdlDownload('am')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>
+</div>
+<div class="smdl-result" id="smdlAmResult"></div>
+</div>
+
+<!-- TERABOX PANEL -->
+<div class="smdl-panel" id="smdlPanel_tb">
+<div class="pc-card">
+  <div class="pc-head">
+    <div class="pc-head-icon"><i class="fa-solid fa-box-archive"></i></div>
+    <div class="pc-head-text"><h3>TERABOX DOWNLOADER</h3><p>Ambil link download file Terabox</p></div>
+  </div>
+  <div class="pc-input-wrap">
+    <i class="fa-solid fa-link pc-input-icon"></i>
+    <input class="pc-input" id="smdlTbUrl" type="text" placeholder="Tempel link Terabox di sini" style="font-size:13px;font-weight:600;padding-left:40px;"/>
+  </div>
+  <button class="pc-btn" id="smdlTbBtn" onclick="smdlDownload('tb')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>
+</div>
+<div class="smdl-result" id="smdlTbResult"></div>
 </div>
 
 <!-- YOUTUBE PANEL -->
@@ -13748,7 +13883,7 @@ function gmFinish(correct,timeup,giveup){
 <div id="islArea"><div class="isl-empty"><i class="fa-solid fa-mosque"></i>Pilih menu di atas untuk mulai</div></div>
 </div>
 <script>
-const ISL_BASE='https://sylvatica.my.id/api/islam/';
+const ISL_BASE='https://www.api-xyurei.my.id/api/islam/';
 const ISL_MENU=[
   {key:'bacaanshalat',label:'Bacaan Shalat',icon:'fa-hands-praying',type:'list'},
   {key:'niatshalat',label:'Niat Shalat',icon:'fa-note-sticky',type:'list'},
@@ -13813,11 +13948,43 @@ async function islFetchAny(url){
 }
 
 function islFetchJson(endpoint,extraParams){
-  return xyureiRequest(function(key){
-    let url=ISL_BASE+endpoint+'?apikey='+encodeURIComponent(key);
-    if(extraParams) url+='&'+extraParams;
-    return url;
-  });
+  return (async function(){
+    const keys=xyureiFallbackShuffledKeys();
+    let lastErr=null;
+    for(let i=0;i<keys.length;i++){
+      const key=keys[i];
+      let url=ISL_BASE+endpoint+'?apikey='+encodeURIComponent(key);
+      if(extraParams) url+='&'+extraParams;
+      try{
+        let res,text;
+        try{
+          res=await fetch(url,{headers:{'Accept':'application/json'}});
+          text=await res.text();
+        }catch(networkErr){
+          res=await fetch('https://api.allorigins.win/raw?url='+encodeURIComponent(url));
+          text=await res.text();
+        }
+        let json=null;
+        try{ json=JSON.parse(text); }catch(parseErr){
+          lastErr=new Error('Respons bukan JSON valid.');
+          console.warn('[ISL] apiKey xyurei gagal parse JSON:',key);
+          continue;
+        }
+        if(xyureiIsFailure(res,json)){
+          lastErr=new Error('apiKey xyurei gagal/limit.');
+          console.warn('[ISL] apiKey xyurei gagal/limit:',key);
+          continue;
+        }
+        return json;
+      }catch(e){
+        lastErr=e;
+        console.warn('[ISL] apiKey xyurei exception:',key,e);
+        continue;
+      }
+    }
+    console.error('[ISL] SEMUA apiKey xyurei gagal untuk endpoint "'+endpoint+'".');
+    throw lastErr||new Error('Semua apiKey xyurei gagal.');
+  })();
 }
 
 // ===== TIPE LIST (bacaanshalat, niatshalat, doaharian) =====
@@ -14188,7 +14355,7 @@ function islEsc(str){
 <div id="kmkArea"><div class="kmk-empty"><i class="fa-solid fa-book"></i>Pilih menu di atas untuk mulai</div></div>
 </div>
 <script>
-const KMK_BASE='https://sylvatica.my.id/api/komiku/';
+const KMK_BASE='https://www.api-xyurei.my.id/api/komiku/';
 const KMK_MENU=[
   {key:'komiku-search',label:'Cari Komik',icon:'fa-magnifying-glass',type:'search'},
   {key:'komiku-info',label:'Info Komik',icon:'fa-circle-info',type:'info'},
@@ -14251,11 +14418,30 @@ async function kmkFetchAny(url){
 }
 
 function kmkFetchJson(endpoint,extraParams){
-  return xyureiRequest(function(key){
-    let url=KMK_BASE+endpoint+'?apikey='+encodeURIComponent(key);
-    if(extraParams) url+='&'+extraParams;
-    return url;
-  });
+  return (async function(){
+    const keys=xyureiFallbackShuffledKeys();
+    let lastErr=null;
+    for(let i=0;i<keys.length;i++){
+      const key=keys[i];
+      let url=KMK_BASE+endpoint+'?apikey='+encodeURIComponent(key);
+      if(extraParams) url+='&'+extraParams;
+      try{
+        let res,text;
+        try{
+          res=await fetch(url,{headers:{'Accept':'application/json'}});
+          text=await res.text();
+        }catch(networkErr){
+          res=await fetch('https://api.allorigins.win/raw?url='+encodeURIComponent(url));
+          text=await res.text();
+        }
+        let json=null;
+        try{ json=JSON.parse(text); }catch(parseErr){ lastErr=new Error('Respons bukan JSON valid.'); continue; }
+        if(xyureiIsFailure(res,json)){ lastErr=new Error('apiKey xyurei gagal/limit.'); continue; }
+        return json;
+      }catch(e){ lastErr=e; continue; }
+    }
+    throw lastErr||new Error('Semua apiKey xyurei gagal.');
+  })();
 }
 
 // ===== CARI KOMIK =====
@@ -14994,7 +15180,7 @@ async function mkrDownload(url,keyName){
 <div id="nwsArea"><div class="nws-empty"><i class="fa-solid fa-newspaper"></i>Pilih menu di atas untuk mulai</div></div>
 </div>
 <script>
-const NWS_BASE='https://sylvatica.my.id/api/news/';
+const NWS_BASE='https://www.api-xyurei.my.id/api/news/';
 const NWS_MENU=[
   {key:'cnn-news',label:'CNN News',icon:'fa-globe',type:'list'},
   {key:'detiknews',label:'Detik News',icon:'fa-newspaper',type:'list'},
@@ -15028,11 +15214,30 @@ function nwsEscAttr(str){
 }
 
 function nwsFetchJson(endpoint,extraParams){
-  return xyureiRequest(function(key){
-    let url=NWS_BASE+endpoint+'?apikey='+encodeURIComponent(key);
-    if(extraParams) url+='&'+extraParams;
-    return url;
-  });
+  return (async function(){
+    const keys=xyureiFallbackShuffledKeys();
+    let lastErr=null;
+    for(let i=0;i<keys.length;i++){
+      const key=keys[i];
+      let url=NWS_BASE+endpoint+'?apikey='+encodeURIComponent(key);
+      if(extraParams) url+='&'+extraParams;
+      try{
+        let res,text;
+        try{
+          res=await fetch(url,{headers:{'Accept':'application/json'}});
+          text=await res.text();
+        }catch(networkErr){
+          res=await fetch('https://api.allorigins.win/raw?url='+encodeURIComponent(url));
+          text=await res.text();
+        }
+        let json=null;
+        try{ json=JSON.parse(text); }catch(parseErr){ lastErr=new Error('Respons bukan JSON valid.'); continue; }
+        if(xyureiIsFailure(res,json)){ lastErr=new Error('apiKey xyurei gagal/limit.'); continue; }
+        return json;
+      }catch(e){ lastErr=e; continue; }
+    }
+    throw lastErr||new Error('Semua apiKey xyurei gagal.');
+  })();
 }
 
 function nwsSelect(key){
@@ -15324,7 +15529,7 @@ function nwsRenderDetail(data,url,result){
 <div id="qtsArea"><div class="qts-empty"><i class="fa-solid fa-quote-left"></i>Pilih kategori di atas untuk mulai</div></div>
 </div>
 <script>
-const QTS_BASE='https://sylvatica.my.id/api/quotes/';
+const QTS_BASE='https://www.api-xyurei.my.id/api/quotes/';
 const QTS_MENU=[
   {key:'anime-quotes',label:'Anime Quotes',icon:'fa-dragon'},
   {key:'anime',label:'Anime',icon:'fa-tv'},
@@ -15369,9 +15574,29 @@ function qtsEsc(str){
 }
 
 function qtsFetchJson(endpoint){
-  return xyureiRequest(function(key){
-    return QTS_BASE+endpoint+'?apikey='+encodeURIComponent(key);
-  });
+  return (async function(){
+    const keys=xyureiFallbackShuffledKeys();
+    let lastErr=null;
+    for(let i=0;i<keys.length;i++){
+      const key=keys[i];
+      let url=QTS_BASE+endpoint+'?apikey='+encodeURIComponent(key);
+      try{
+        let res,text;
+        try{
+          res=await fetch(url,{headers:{'Accept':'application/json'}});
+          text=await res.text();
+        }catch(networkErr){
+          res=await fetch('https://api.allorigins.win/raw?url='+encodeURIComponent(url));
+          text=await res.text();
+        }
+        let json=null;
+        try{ json=JSON.parse(text); }catch(parseErr){ lastErr=new Error('Respons bukan JSON valid.'); continue; }
+        if(xyureiIsFailure(res,json)){ lastErr=new Error('apiKey xyurei gagal/limit.'); continue; }
+        return json;
+      }catch(e){ lastErr=e; continue; }
+    }
+    throw lastErr||new Error('Semua apiKey xyurei gagal.');
+  })();
 }
 
 function qtsSelect(key){
@@ -15495,13 +15720,12 @@ function qtsCopy(){
 <div id="rndArea"><div class="rnd-empty"><i class="fa-solid fa-image"></i>Pilih kategori di atas untuk mulai</div></div>
 </div>
 <script>
-const RND_BASE='https://sylvatica.my.id/api/random/';
+const RND_BASE='https://www.api-xyurei.my.id/api/random/';
 const RND_MENU=[
   {key:'animehot',label:'Anime Hot',icon:'fa-fire'},
   {key:'ba',label:'Blue Archive',icon:'fa-star'},
   {key:'randompics',label:'Random Pics',icon:'fa-images'},
   {key:'waifu',label:'Waifu',icon:'fa-heart'},
-  {key:'loli',label:'Loli',icon:'fa-icicles'},
   {key:'hentai',label:'Hentai',icon:'fa-fish-fins'},
   {key:'nsfw',label:'Nsfw',icon:'fa-shuffle'},
   {key:'tobrut',label:'Tobrut',icon:'fa-video',type:'video'}
@@ -15531,9 +15755,29 @@ function rndEscAttr(str){
 }
 
 function rndFetchJson(endpoint){
-  return xyureiRequest(function(key){
-    return RND_BASE+endpoint+'?apikey='+encodeURIComponent(key);
-  });
+  return (async function(){
+    const keys=xyureiFallbackShuffledKeys();
+    let lastErr=null;
+    for(let i=0;i<keys.length;i++){
+      const key=keys[i];
+      const url=RND_BASE+endpoint+'?apikey='+encodeURIComponent(key);
+      try{
+        let res,text;
+        try{
+          res=await fetch(url,{headers:{'Accept':'application/json'}});
+          text=await res.text();
+        }catch(networkErr){
+          res=await fetch('https://api.allorigins.win/raw?url='+encodeURIComponent(url));
+          text=await res.text();
+        }
+        let json=null;
+        try{ json=JSON.parse(text); }catch(parseErr){ lastErr=new Error('Respons bukan JSON valid.'); continue; }
+        if(xyureiIsFailure(res,json)){ lastErr=new Error('apiKey xyurei gagal/limit.'); continue; }
+        return json;
+      }catch(e){ lastErr=e; continue; }
+    }
+    throw lastErr||new Error('Semua apiKey xyurei gagal.');
+  })();
 }
 
 function rndSelect(key){
@@ -15549,7 +15793,8 @@ function rndSelect(key){
 // di-fetch+parse sebagai JSON seperti quotes/news — cukup arahkan <img src>
 // langsung ke URL endpoint-nya (dengan apikey + cache-buster acak).
 function rndBuildImgUrl(key){
-  return RND_BASE+key+'?apikey='+encodeURIComponent(XYUREI_API_KEY)+'&_t='+Date.now()+Math.floor(Math.random()*1e6);
+  const fbKey=xyureiFallbackShuffledKeys()[0];
+  return RND_BASE+key+'?apikey='+encodeURIComponent(fbKey)+'&_t='+Date.now()+Math.floor(Math.random()*1e6);
 }
 
 function rndLoad(key){
@@ -15880,13 +16125,29 @@ function srhRenderResult(menu,items){
 
 
 <script>
+const SMDL_TAB_ORDER=['cc','tt','ig','yt','ytdl','fb','dy','th','x','pin','vd','cpc','sp','sc','am','mf','tb','gh','xxxx'];
+
 function smdlSwitchTab(tab){
-  ['cc','tt','ig','fb','dy','th','x','pin','vd','mf','sp','yt','ytdl'].forEach(t=>{
+  SMDL_TAB_ORDER.forEach(t=>{
     const tabEl=document.getElementById('smdlTab_'+t);
     const panelEl=document.getElementById('smdlPanel_'+t);
     if(tabEl) tabEl.classList.toggle('active',t===tab);
     if(panelEl) panelEl.classList.toggle('active',t===tab);
   });
+}
+
+function smdlSwitchCat(cat){
+  document.querySelectorAll('.smdl-cat').forEach(b=>b.classList.toggle('active',b.dataset.cat===cat));
+  let firstVisible=null;
+  SMDL_TAB_ORDER.forEach(t=>{
+    const tabEl=document.getElementById('smdlTab_'+t);
+    if(!tabEl) return;
+    const show=(cat==='all')||(tabEl.dataset.cat===cat);
+    tabEl.style.display=show?'':'none';
+    if(show&&!firstVisible) firstVisible=t;
+  });
+  const activeTab=document.querySelector('.smdl-tab.active');
+  if((!activeTab||activeTab.style.display==='none')&&firstVisible) smdlSwitchTab(firstVisible);
 }
 
 function smdlSetLoading(btn,loading,label){
@@ -15971,17 +16232,61 @@ function smdlExtractMedia(json,platform){
     }
   }
 
-  // Struktur khusus Facebook (endpoint fbdl): biasanya ada hd/sd atau url_hd/url_sd
+  // Struktur khusus Facebook (endpoint facebook): result.links = [{quality,url}],
+  // ambil kualitas tertinggi (parse angka di depan "quality", mis. "720p (HD)")
   if(platform==='fb'){
+    const fbLinks=d&&Array.isArray(d.links)?d.links:null;
+    if(fbLinks&&fbLinks.length){
+      let best=null,bestScore=-1;
+      fbLinks.forEach(function(l){
+        if(!l||!smdlLooksLikeUrl(l.url)) return;
+        const q=parseInt(String(l.quality||'').replace(/[^0-9]/g,''),10);
+        const score=isNaN(q)?0:q;
+        if(score>bestScore){ bestScore=score; best=l; }
+      });
+      if(best) return {videoUrl:best.url,imageList:null,title:d.title||'',thumb:d.img||d.thumbnail||''};
+    }
     const fbVideo=d&&(d.hd||d.sd||d.url_hd||d.url_sd||d.HD||d.SD||d.video||d.video_url||d.url);
     if(smdlLooksLikeUrl(fbVideo)){
-      return {videoUrl:fbVideo,imageList:null,title:d.title||d.caption||'',thumb:d.thumbnail||d.cover||''};
+      return {videoUrl:fbVideo,imageList:null,title:d.title||d.caption||'',thumb:d.thumbnail||d.cover||d.img||''};
     }
   }
 
   // Struktur khusus AIO (endpoint aio-downloader): all-in-one, mendukung banyak platform
   // (semua sosmed), umumnya field video/url/hd/no_watermark atau array "medias"/"links"
   if(platform==='cc'){
+    // Format baru endpoint /api/download/aio: result.media = [{type:'video'|'audio',
+    // resources:[{download_url,quality,format,size}], thumbnail}]. Ambil resource video
+    // dengan kualitas tertinggi (angka di depan "quality", mis. "720P" > "540P").
+    const ccMediaList=d&&Array.isArray(d.media)?d.media:null;
+    if(ccMediaList&&ccMediaList.length){
+      const videoItem=ccMediaList.find(function(m){ return m&&m.type==='video'; });
+      const audioItem=ccMediaList.find(function(m){ return m&&m.type==='audio'; });
+      function ccBestResource(item){
+        if(!item||!Array.isArray(item.resources)||!item.resources.length) return null;
+        let best=null,bestScore=-1;
+        item.resources.forEach(function(r){
+          if(!r||!smdlLooksLikeUrl(r.download_url)) return;
+          const q=parseInt(String(r.quality||'').replace(/[^0-9]/g,''),10);
+          const score=isNaN(q)?(r.size||0):q;
+          if(score>bestScore){ bestScore=score; best=r; }
+        });
+        return best;
+      }
+      const bestVideo=ccBestResource(videoItem);
+      const bestAudio=ccBestResource(audioItem);
+      if(bestVideo){
+        return {
+          videoUrl:bestVideo.download_url,
+          imageList:null,
+          title:d.title||'',
+          thumb:(videoItem&&videoItem.thumbnail)||d.thumbnail||''
+        };
+      }
+      if(bestAudio){
+        return {videoUrl:null,imageList:null,audioUrl:bestAudio.download_url,title:d.title||'',thumb:(audioItem&&audioItem.thumbnail)||d.thumbnail||''};
+      }
+    }
     const ccVideo=d&&(d.video||d.video_url||d.no_watermark||d.hd||d.url||d.download_url);
     if(smdlLooksLikeUrl(ccVideo)){
       return {videoUrl:ccVideo,imageList:null,title:d.title||d.desc||'',thumb:d.thumbnail||d.cover||''};
@@ -15990,6 +16295,25 @@ function smdlExtractMedia(json,platform){
     if(Array.isArray(ccList)&&ccList.length){
       const urls=ccList.map(s=>typeof s==='string'?s:(s&&(s.url||s.link))).filter(smdlLooksLikeUrl);
       if(urls.length) return {videoUrl:urls[0],imageList:null,title:d.title||'',thumb:d.thumbnail||''};
+    }
+  }
+
+  // CapCut: endpoint /api/download/capcut -> data.video_url langsung, data.cover_url,
+  // data.title, data.author
+  if(platform==='capcut'){
+    if(smdlLooksLikeUrl(d&&d.video_url)){
+      return {videoUrl:d.video_url,imageList:null,title:(d.title||'')+(d.author?(' - '+d.author):''),thumb:d.cover_url||''};
+    }
+  }
+
+  // SoundCloud: belum ada contoh response resmi, pakai pola field umum yg sama dengan
+  // downloader audio lain di keluarga sylvatica.my.id (link/download/url utk mp3 + judul/artist)
+  if(platform==='sc'){
+    const scAudio=d&&(d.download||d.download_url||d.url||d.audio||d.mp3||d.link||(d.links&&d.links.mp3));
+    if(smdlLooksLikeUrl(scAudio)){
+      const scTitle=(d.title||d.name||(d.metadata&&d.metadata.name)||'')+
+        ((d.artist||d.author||(d.metadata&&d.metadata.artist))?(' - '+(d.artist||d.author||(d.metadata&&d.metadata.artist))):'');
+      return {videoUrl:null,imageList:null,audioUrl:scAudio,title:scTitle,thumb:d.image||d.cover||d.thumbnail||(d.links&&d.links.cover)||(d.metadata&&d.metadata.cover)||''};
     }
   }
 
@@ -16007,8 +16331,34 @@ function smdlExtractMedia(json,platform){
     }
   }
 
-  // Pinterest: hasil biasanya berupa gambar (kadang video pin)
+  // Pinterest: response endpoint /api/download/pinterest = GraphQL asli Pinterest,
+  // struktur json.data.d1/d2 -> data.v3GetPinQueryv2.data (nested). Gali khusus field
+  // "images_orig.url" (resolusi asli) atau "imageLargeUrl" sebagai fallback, supaya
+  // gak ikut kepancing avatar/thumbnail user yang juga punya "image" di nama field-nya.
   if(platform==='pin'){
+    function pinGetQueryData(branch){
+      return branch&&branch.data&&branch.data.v3GetPinQueryv2&&branch.data.v3GetPinQueryv2.data;
+    }
+    const pinRoot=d||{};
+    const c1=pinGetQueryData(pinRoot.d1);
+    const c2=pinGetQueryData(pinRoot.d2);
+    const pinData=(c2&&c2.images_orig&&smdlLooksLikeUrl(c2.images_orig.url))?c2:
+      (c1&&c1.images_orig&&smdlLooksLikeUrl(c1.images_orig.url))?c1:(c2||c1);
+    if(pinData){
+      const imgUrl=(pinData.images_orig&&pinData.images_orig.url)||pinData.imageLargeUrl||
+        (pinData.images_736x&&pinData.images_736x.url)||'';
+      const title=pinData.title||pinData.closeupUnifiedTitle||pinData.gridTitle||'';
+      // pin video jika ada (jarang, kebanyakan pin cuma gambar statis)
+      let pinVideoUrl=null;
+      const vids=pinData.videos;
+      if(vids&&typeof vids==='object'){
+        const vl=vids.video_list||vids;
+        const cand=Object.values(vl||{}).map(function(v){ return v&&(v.url||v.URL); }).find(smdlLooksLikeUrl);
+        if(cand) pinVideoUrl=cand;
+      }
+      if(pinVideoUrl) return {videoUrl:pinVideoUrl,imageList:null,title,thumb:imgUrl};
+      if(smdlLooksLikeUrl(imgUrl)) return {videoUrl:null,imageList:[imgUrl],title,thumb:''};
+    }
     const pinVideo=d&&(d.video||d.video_url);
     if(smdlLooksLikeUrl(pinVideo)){
       return {videoUrl:pinVideo,imageList:null,title:d.title||'',thumb:d.thumbnail||''};
@@ -16027,12 +16377,22 @@ function smdlExtractMedia(json,platform){
   if(platform==='mf'){
     const fileUrl=d&&(d.url||d.link||d.download_url||d.direct_link);
     if(smdlLooksLikeUrl(fileUrl)){
-      return {videoUrl:null,imageList:null,audioUrl:null,fileUrl,title:d.filename||d.name||d.title||'',thumb:''};
+      // filename kadang berupa string HTML mentah dari API-nya (mis. "<a href=...>MediaFire</a>"),
+      // dibersihkan dulu tag HTML-nya sebelum ditampilkan
+      const rawName=d.filename||d.name||d.title||'';
+      const cleanName=String(rawName).replace(/<[^>]+>/g,'').trim();
+      return {videoUrl:null,imageList:null,audioUrl:null,fileUrl,title:cleanName,thumb:''};
     }
   }
 
   // Spotify: hasil berupa link audio mp3 + metadata lagu
   if(platform==='sp'){
+    const spLinks=d&&d.links;
+    const spMeta=d&&d.metadata;
+    if(spLinks&&smdlLooksLikeUrl(spLinks.mp3)){
+      const title=(spMeta&&spMeta.name||d.title||d.name||'')+((spMeta&&spMeta.artist)||d.artist?(' - '+((spMeta&&spMeta.artist)||d.artist)):'');
+      return {videoUrl:null,imageList:null,audioUrl:spLinks.mp3,title,thumb:spLinks.cover||(spMeta&&spMeta.cover)||''};
+    }
     const audioUrl=d&&(d.download||d.download_url||d.url||d.audio||d.mp3);
     if(smdlLooksLikeUrl(audioUrl)){
       return {videoUrl:null,imageList:null,audioUrl,title:(d.title||d.name||'')+(d.artist?(' - '+d.artist):''),thumb:d.image||d.cover||d.thumbnail||''};
@@ -16090,12 +16450,18 @@ const SMDL_SIMPLE_CONFIG={
   dy:{endpoint:'douyindl',input:'smdlDyUrl',btn:'smdlDyBtn',box:'smdlDyResult',label:'Douyin',err:'Pastikan link Douyin valid.'},
   th:{endpoint:'threads',input:'smdlThUrl',btn:'smdlThBtn',box:'smdlThResult',label:'Threads',err:'Pastikan link Threads valid.',fallback:true},
   x:{endpoint:'xdl',input:'smdlXUrl',btn:'smdlXBtn',box:'smdlXResult',label:'X',err:'Pastikan link X valid.'},
-  pin:{endpoint:'pinterestdl',input:'smdlPinUrl',btn:'smdlPinBtn',box:'smdlPinResult',label:'Pinterest',err:'Pastikan link Pinterest valid.',fallback:true},
+  pin:{endpoint:'pinterest',input:'smdlPinUrl',btn:'smdlPinBtn',box:'smdlPinResult',label:'Pinterest',err:'Pastikan link Pinterest valid.',fallback:true},
   vd:{endpoint:'videy',input:'smdlVdUrl',btn:'smdlVdBtn',box:'smdlVdResult',label:'Videy',err:'Pastikan link Videy valid.'},
-  mf:{endpoint:'mediafiredl',input:'smdlMfUrl',btn:'smdlMfBtn',box:'smdlMfResult',label:'Mediafire',err:'Pastikan link Mediafire valid.',fallback:true},
-  sp:{endpoint:'spotifydl',input:'smdlSpUrl',btn:'smdlSpBtn',box:'smdlSpResult',label:'Spotify',err:'Pastikan link Spotify valid.',fallback:true},
+  mf:{endpoint:'mediafire',input:'smdlMfUrl',btn:'smdlMfBtn',box:'smdlMfResult',label:'Mediafire',err:'Pastikan link Mediafire valid.',fallback:true},
+  sp:{endpoint:'spotify',input:'smdlSpUrl',btn:'smdlSpBtn',box:'smdlSpResult',label:'Spotify',err:'Pastikan link Spotify valid.',fallback:true},
+  cpc:{endpoint:'capcut',input:'smdlCpcUrl',btn:'smdlCpcBtn',box:'smdlCpcResult',label:'CapCut',err:'Pastikan link CapCut valid.',fallback:true},
+  sc:{endpoint:'soundcloud',input:'smdlScUrl',btn:'smdlScBtn',box:'smdlScResult',label:'SoundCloud',err:'Pastikan link SoundCloud valid.',fallback:true},
   ytdlmp4:{endpoint:'ytmp4',input:'smdlYtdlUrl',btn:'smdlYtdlMp4Btn',box:'smdlYtdlResult',label:'YouTube (MP4)',err:'Pastikan link YouTube valid.'},
-  ytdlmp3:{endpoint:'ytmp3',input:'smdlYtdlUrl',btn:'smdlYtdlMp3Btn',box:'smdlYtdlResult',label:'YouTube (MP3)',err:'Pastikan link YouTube valid.'}
+  ytdlmp3:{endpoint:'ytmp3',input:'smdlYtdlUrl',btn:'smdlYtdlMp3Btn',box:'smdlYtdlResult',label:'YouTube (MP3)',err:'Pastikan link YouTube valid.'},
+  xxxx:{endpoint:'xxxx',input:'smdlXxxxUrl',btn:'smdlXxxxBtn',box:'smdlXxxxResult',label:'XXXX',err:'Pastikan link valid.'},
+  gh:{endpoint:'github',input:'smdlGhUrl',btn:'smdlGhBtn',box:'smdlGhResult',label:'GitHub Repo',err:'Pastikan link repo GitHub valid.'},
+  am:{endpoint:'applemusic',input:'smdlAmUrl',btn:'smdlAmBtn',box:'smdlAmResult',label:'Apple Music',err:'Pastikan link Apple Music valid.'},
+  tb:{endpoint:'terabox',input:'smdlTbUrl',btn:'smdlTbBtn',box:'smdlTbResult',label:'Terabox',err:'Pastikan link Terabox valid.'}
 };
 
 async function smdlSimpleDownload(type){
@@ -16181,7 +16547,7 @@ async function smdlDownload(type){
     box.classList.remove('show'); box.innerHTML='';
     smdlSetLoading(btn,true,'MEMPROSES...');
     try{
-      const json=await smdlDownloadRequest('fbdl',url,{
+      const json=await smdlDownloadRequest('facebook',url,{
         isDataOk:function(j){ return smdlHasMedia(smdlExtractMedia(j,'fb')); }
       });
       const media=smdlExtractMedia(json,'fb');
@@ -16202,7 +16568,7 @@ async function smdlDownload(type){
     box.classList.remove('show'); box.innerHTML='';
     smdlSetLoading(btn,true,'MEMPROSES...');
     try{
-      const json=await smdlDownloadRequest('aio-downloader',url,{
+      const json=await smdlDownloadRequest('aio',url,{
         isDataOk:function(j){ return smdlHasMedia(smdlExtractMedia(j,'cc')); }
       });
       const media=smdlExtractMedia(json,'cc');
