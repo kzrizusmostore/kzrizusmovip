@@ -10925,7 +10925,7 @@ function saiGenerate(){
   <div class="aic-inputbar aiflt-inputbar" id="aicInputBarFilter" style="display:none">
     <div class="aiflt-inputs">
       <input class="aic-textarea" id="aifltUrlInput" type="text" placeholder="Link gambar..." oninput="aifltUpdatePreview(this.value)" onkeydown="if(event.key==='Enter'){event.preventDefault();aicUnifiedSend();}">
-      <div class="aiflt-preview" id="aifltPreview"><img id="aifltPreviewImg" src="" alt="" referrerpolicy="no-referrer-when-downgrade"></div>
+      <div class="aiflt-preview" id="aifltPreview"><img id="aifltPreviewImg" src="" alt="" referrerpolicy="no-referrer"></div>
       <textarea class="aic-textarea" id="aifltCustomInput" rows="1" placeholder="Tulis prompt filter, cth: ganti outfit jadi jas hitam" oninput="aicAutoGrow(this)" onkeydown="if(event.key==='Enter'&amp;&amp;!event.shiftKey){event.preventDefault();aicUnifiedSend();}"></textarea>
     </div>
     <button class="aic-sendbtn" id="aifltGenBtn" onclick="aicUnifiedSend()"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
@@ -10941,7 +10941,7 @@ function saiGenerate(){
   <div class="aic-inputbar aiflt-inputbar" id="aicInputBarAnime" style="display:none">
     <div class="aiflt-inputs">
       <input class="aic-textarea" id="animeUrlInput" type="text" placeholder="Link gambar anime..." oninput="animeUpdatePreview(this.value)" onkeydown="if(event.key==='Enter'){event.preventDefault();aicUnifiedSend();}">
-      <div class="aiflt-preview" id="animePreview"><img id="animePreviewImg" src="" alt="" referrerpolicy="no-referrer-when-downgrade"></div>
+      <div class="aiflt-preview" id="animePreview"><img id="animePreviewImg" src="" alt="" referrerpolicy="no-referrer"></div>
     </div>
     <button class="aic-sendbtn" id="animeGenBtn" onclick="aicUnifiedSend()"><i class="fa-solid fa-image-portrait"></i></button>
   </div>
@@ -10959,7 +10959,7 @@ function saiGenerate(){
   <div class="aic-inputbar aiflt-inputbar" id="aicInputBarImg2Prompt" style="display:none">
     <div class="aiflt-inputs">
       <input class="aic-textarea" id="img2promptUrlInput" type="text" placeholder="Link gambar..." oninput="img2promptUpdatePreview(this.value)" onkeydown="if(event.key==='Enter'){event.preventDefault();aicUnifiedSend();}">
-      <div class="aiflt-preview" id="img2promptPreview"><img id="img2promptPreviewImg" src="" alt="" referrerpolicy="no-referrer-when-downgrade"></div>
+      <div class="aiflt-preview" id="img2promptPreview"><img id="img2promptPreviewImg" src="" alt="" referrerpolicy="no-referrer"></div>
     </div>
     <button class="aic-sendbtn" id="img2promptGenBtn" onclick="aicUnifiedSend()"><i class="fa-solid fa-file-image"></i></button>
   </div>
@@ -10970,7 +10970,7 @@ function saiGenerate(){
   <div class="aic-inputbar aiflt-inputbar" id="aicInputBarNanoBanana" style="display:none">
     <div class="aiflt-inputs">
       <input class="aic-textarea" id="nanobananaUrlInput" type="text" placeholder="Link gambar yang ingin diedit..." oninput="nanobananaUpdatePreview(this.value)" onkeydown="if(event.key==='Enter'){event.preventDefault();aicUnifiedSend();}">
-      <div class="aiflt-preview" id="nanobananaPreview"><img id="nanobananaPreviewImg" src="" alt="" referrerpolicy="no-referrer-when-downgrade"></div>
+      <div class="aiflt-preview" id="nanobananaPreview"><img id="nanobananaPreviewImg" src="" alt="" referrerpolicy="no-referrer"></div>
       <textarea class="aic-textarea" id="nanobananaPromptInput" rows="1" placeholder="Instruksi editan gambar, cth: ganti background jadi pantai" oninput="aicAutoGrow(this)" onkeydown="if(event.key==='Enter'&amp;&amp;!event.shiftKey){event.preventDefault();aicUnifiedSend();}"></textarea>
     </div>
     <button class="aic-sendbtn" id="nanobananaGenBtn" onclick="aicUnifiedSend()"><i class="fa-solid fa-image"></i></button>
@@ -11031,7 +11031,7 @@ function saiGenerate(){
   <div class="aic-inputbar aiflt-inputbar" id="aicInputBarToonmix" style="display:none">
     <div class="aiflt-inputs">
       <input class="aic-textarea" id="toonmixUrlInput" type="text" placeholder="Link gambar (opsional, untuk Image to Image)..." oninput="toonmixUpdatePreview(this.value)" onkeydown="if(event.key==='Enter'){event.preventDefault();aicUnifiedSend();}">
-      <div class="aiflt-preview" id="toonmixPreview"><img id="toonmixPreviewImg" src="" alt="" referrerpolicy="no-referrer-when-downgrade"></div>
+      <div class="aiflt-preview" id="toonmixPreview"><img id="toonmixPreviewImg" src="" alt="" referrerpolicy="no-referrer"></div>
       <textarea class="aic-textarea" id="toonmixPromptInput" rows="1" placeholder="Tulis prompt Toonmix..." oninput="aicAutoGrow(this)" onkeydown="if(event.key==='Enter'&amp;&amp;!event.shiftKey){event.preventDefault();aicUnifiedSend();}"></textarea>
     </div>
     <button class="aic-sendbtn" id="toonmixGenBtn" onclick="aicUnifiedSend()"><i class="fa-solid fa-shapes"></i></button>
@@ -11492,7 +11492,7 @@ function aicRenderChat(){
       }
       return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">AI ART</span>'+
         '<div class="aic-msg aic-msg-ai aiart-imgmsg">'+
-          '<div class="aiart-imgwrap"><img class="aiart-img" src="'+aiartEscAttr(m.url)+'" alt="AI Art" referrerpolicy="no-referrer-when-downgrade" onerror="aiImgErr(this)" onclick="aiOpenLightbox(\''+aiartEscAttr(m.url)+'\',\'art\')"></div>'+
+          '<div class="aiart-imgwrap"><img class="aiart-img" src="'+aiartEscAttr(m.url)+'" alt="AI Art" referrerpolicy="no-referrer" onerror="aiImgErr(this)" onclick="aiOpenLightbox(\''+aiartEscAttr(m.url)+'\',\'art\')"></div>'+
           '<div class="aiart-actions">'+
             '<button class="aiart-dlbtn" onclick="aiartDownload(\''+aiartEscAttr(m.url)+'\')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>'+
             '<button class="aiart-regenbtn" onclick="aiartRegen(\''+aiartEscAttr(m.prompt)+'\')"><i class="fa-solid fa-rotate-right"></i> ULANGI</button>'+
@@ -11502,7 +11502,7 @@ function aicRenderChat(){
     }
     if(kind==='filter'){
       const userMsg='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user aiflt-usermsg">'+
-        '<img class="aiflt-userthumb" src="'+aifltEscAttr(m.srcUrl)+'" referrerpolicy="no-referrer-when-downgrade" onerror="this.style.visibility=\'hidden\'">'+
+        '<img class="aiflt-userthumb" src="'+aifltEscAttr(m.srcUrl)+'" referrerpolicy="no-referrer" onerror="this.style.visibility=\'hidden\'">'+
         '<span class="aiflt-usertext allow-copy">'+aifltEscapeHtml(m.filterLabel||m.filter||'Filter')+'</span>'+
       '</div></div>';
       if(m.error){
@@ -11514,7 +11514,7 @@ function aicRenderChat(){
       const imgsHtml=(m.images||[]).map(function(im){
         return '<div class="aiflt-resimgwrap">'+
           (im.nsfw?'<span class="aiflt-nsfw">NSFW</span>':'')+
-          '<img class="aiflt-resimg" src="'+aifltEscAttr(im.url)+'" alt="Hasil AI Filter" referrerpolicy="no-referrer-when-downgrade" onerror="aiImgErr(this)" onclick="aiOpenLightbox(\''+aifltEscAttr(im.url)+'\',\'filter\')">'+
+          '<img class="aiflt-resimg" src="'+aifltEscAttr(im.url)+'" alt="Hasil AI Filter" referrerpolicy="no-referrer" onerror="aiImgErr(this)" onclick="aiOpenLightbox(\''+aifltEscAttr(im.url)+'\',\'filter\')">'+
           '<button class="aiflt-dlmini" onclick="aifltDownload(\''+aifltEscAttr(im.url)+'\')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>'+
         '</div>';
       }).join('');
@@ -11535,7 +11535,7 @@ function aicRenderChat(){
       }
       return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">AI SONG</span>'+
         '<div class="aic-msg aic-msg-ai aiart-imgmsg">'+
-          '<audio controls style="width:100%" src="'+aiartEscAttr(m.url)+'" referrerpolicy="no-referrer-when-downgrade" onerror="aiImgErr(this)"></audio>'+
+          '<audio controls style="width:100%" src="'+aiartEscAttr(m.url)+'" referrerpolicy="no-referrer" onerror="aiImgErr(this)"></audio>'+
           '<div class="aiart-actions">'+
             '<button class="aiart-dlbtn" onclick="aiartDownload(\''+aiartEscAttr(m.url)+'\')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>'+
             '<button class="aiart-regenbtn" onclick="aisongRegen(\''+aiartEscAttr(m.prompt)+'\',\''+aiartEscAttr(m.title||'')+'\',\''+aiartEscAttr(m.tags||'')+'\')"><i class="fa-solid fa-rotate-right"></i> ULANGI</button>'+
@@ -11545,7 +11545,7 @@ function aicRenderChat(){
     }
     if(kind==='anime'){
       const userMsg='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user aiflt-usermsg">'+
-        '<img class="aiflt-userthumb" src="'+aifltEscAttr(m.srcUrl)+'" referrerpolicy="no-referrer-when-downgrade" onerror="this.style.visibility=\'hidden\'">'+
+        '<img class="aiflt-userthumb" src="'+aifltEscAttr(m.srcUrl)+'" referrerpolicy="no-referrer" onerror="this.style.visibility=\'hidden\'">'+
         '<span class="aiflt-usertext allow-copy">Anime to Real</span>'+
       '</div></div>';
       if(m.error){
@@ -11556,7 +11556,7 @@ function aicRenderChat(){
       }
       return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">ANIME TO REAL</span>'+
         '<div class="aic-msg aic-msg-ai aiart-imgmsg">'+
-          '<div class="aiart-imgwrap"><img class="aiart-img" src="'+aifltEscAttr(m.url)+'" alt="Anime to Real" referrerpolicy="no-referrer-when-downgrade" onerror="aiImgErr(this)" onclick="aiOpenLightbox(\''+aifltEscAttr(m.url)+'\',\'anime\')"></div>'+
+          '<div class="aiart-imgwrap"><img class="aiart-img" src="'+aifltEscAttr(m.url)+'" alt="Anime to Real" referrerpolicy="no-referrer" onerror="aiImgErr(this)" onclick="aiOpenLightbox(\''+aifltEscAttr(m.url)+'\',\'anime\')"></div>'+
           '<div class="aiart-actions">'+
             '<button class="aiart-dlbtn" onclick="aiartDownload(\''+aifltEscAttr(m.url)+'\')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>'+
             '<button class="aiart-regenbtn" onclick="animeRegen(\''+aifltEscAttr(m.srcUrl)+'\')"><i class="fa-solid fa-rotate-right"></i> ULANGI</button>'+
@@ -11586,7 +11586,7 @@ function aicRenderChat(){
       }
       return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">IMAGEN AI</span>'+
         '<div class="aic-msg aic-msg-ai aiart-imgmsg">'+
-          '<div class="aiart-imgwrap"><img class="aiart-img" src="'+aiartEscAttr(m.url)+'" alt="Imagen AI" referrerpolicy="no-referrer-when-downgrade" onerror="aiImgErr(this)" onclick="aiOpenLightbox(\''+aiartEscAttr(m.url)+'\',\'imagenai\')"></div>'+
+          '<div class="aiart-imgwrap"><img class="aiart-img" src="'+aiartEscAttr(m.url)+'" alt="Imagen AI" referrerpolicy="no-referrer" onerror="aiImgErr(this)" onclick="aiOpenLightbox(\''+aiartEscAttr(m.url)+'\',\'imagenai\')"></div>'+
           '<div class="aiart-actions">'+
             '<button class="aiart-dlbtn" onclick="aiartDownload(\''+aiartEscAttr(m.url)+'\')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>'+
             '<button class="aiart-regenbtn" onclick="imagenRegen(\''+aiartEscAttr(m.prompt)+'\',\''+aiartEscAttr(m.style)+'\')"><i class="fa-solid fa-rotate-right"></i> ULANGI</button>'+
@@ -11596,7 +11596,7 @@ function aicRenderChat(){
     }
     if(kind==='img2prompt'){
       const userMsg='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user aiflt-usermsg">'+
-        '<img class="aiflt-userthumb" src="'+aifltEscAttr(m.srcUrl)+'" referrerpolicy="no-referrer-when-downgrade" onerror="this.style.visibility=\'hidden\'">'+
+        '<img class="aiflt-userthumb" src="'+aifltEscAttr(m.srcUrl)+'" referrerpolicy="no-referrer" onerror="this.style.visibility=\'hidden\'">'+
         '<span class="aiflt-usertext allow-copy">Image to Prompt</span>'+
       '</div></div>';
       if(m.error){
@@ -11621,7 +11621,7 @@ function aicRenderChat(){
     }
     if(kind==='nanobanana'){
       const userMsg='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user aiflt-usermsg">'+
-        '<img class="aiflt-userthumb" src="'+aifltEscAttr(m.srcUrl)+'" referrerpolicy="no-referrer-when-downgrade" onerror="this.style.visibility=\'hidden\'">'+
+        '<img class="aiflt-userthumb" src="'+aifltEscAttr(m.srcUrl)+'" referrerpolicy="no-referrer" onerror="this.style.visibility=\'hidden\'">'+
         '<span class="aiflt-usertext allow-copy">'+aifltEscapeHtml(m.prompt||'Edit Gambar')+'</span>'+
       '</div></div>';
       if(m.error){
@@ -11632,7 +11632,7 @@ function aicRenderChat(){
       }
       return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">NANO BANANA</span>'+
         '<div class="aic-msg aic-msg-ai aiart-imgmsg">'+
-          '<div class="aiart-imgwrap"><img class="aiart-img" src="'+aifltEscAttr(m.url)+'" alt="Nano Banana" referrerpolicy="no-referrer-when-downgrade" onerror="aiImgErr(this)" onclick="aiOpenLightbox(\''+aifltEscAttr(m.url)+'\',\'nanobanana\')"></div>'+
+          '<div class="aiart-imgwrap"><img class="aiart-img" src="'+aifltEscAttr(m.url)+'" alt="Nano Banana" referrerpolicy="no-referrer" onerror="aiImgErr(this)" onclick="aiOpenLightbox(\''+aifltEscAttr(m.url)+'\',\'nanobanana\')"></div>'+
           '<div class="aiart-actions">'+
             '<button class="aiart-dlbtn" onclick="aiartDownload(\''+aifltEscAttr(m.url)+'\')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>'+
             '<button class="aiart-regenbtn" onclick="nanobananaRegen(\''+aifltEscAttr(m.srcUrl)+'\',\''+aifltEscAttr(m.prompt)+'\')"><i class="fa-solid fa-rotate-right"></i> ULANGI</button>'+
@@ -11651,7 +11651,7 @@ function aicRenderChat(){
       }
       return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">TEXT TO IMAGE</span>'+
         '<div class="aic-msg aic-msg-ai aiart-imgmsg">'+
-          '<div class="aiart-imgwrap"><img class="aiart-img" src="'+aiartEscAttr(m.url)+'" alt="Text to Image" referrerpolicy="no-referrer-when-downgrade" onerror="aiImgErr(this)" onclick="aiOpenLightbox(\''+aiartEscAttr(m.url)+'\',\'txt2img\')"></div>'+
+          '<div class="aiart-imgwrap"><img class="aiart-img" src="'+aiartEscAttr(m.url)+'" alt="Text to Image" referrerpolicy="no-referrer" onerror="aiImgErr(this)" onclick="aiOpenLightbox(\''+aiartEscAttr(m.url)+'\',\'txt2img\')"></div>'+
           '<div class="aiart-actions">'+
             '<button class="aiart-dlbtn" onclick="aiMediaDownload(\''+aiartEscAttr(m.url)+'\',\'jpg\',\'txt2img\')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>'+
             '<button class="aiart-regenbtn" onclick="txt2imgRegen(\''+aiartEscAttr(m.prompt)+'\',\''+aiartEscAttr(m.ratio)+'\')"><i class="fa-solid fa-rotate-right"></i> ULANGI</button>'+
@@ -11670,7 +11670,7 @@ function aicRenderChat(){
       }
       return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">TEXT TO VIDEO</span>'+
         '<div class="aic-msg aic-msg-ai aiart-imgmsg">'+
-          '<div class="aiart-imgwrap"><video class="aiart-img" controls playsinline src="'+aiartEscAttr(m.url)+'" referrerpolicy="no-referrer-when-downgrade" onerror="aiImgErr(this)"></video></div>'+
+          '<div class="aiart-imgwrap"><video class="aiart-img" controls playsinline src="'+aiartEscAttr(m.url)+'" referrerpolicy="no-referrer" onerror="aiImgErr(this)"></video></div>'+
           '<div class="aiart-actions">'+
             '<button class="aiart-dlbtn" onclick="aiMediaDownload(\''+aiartEscAttr(m.url)+'\',\'mp4\',\'text2vid\')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>'+
             '<button class="aiart-regenbtn" onclick="text2vidRegen(\''+aiartEscAttr(m.prompt)+'\',\''+aiartEscAttr(m.ratio)+'\',\''+aiartEscAttr(m.sound)+'\')"><i class="fa-solid fa-rotate-right"></i> ULANGI</button>'+
@@ -11689,7 +11689,7 @@ function aicRenderChat(){
       }
       return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">TEXT TO SPEECH</span>'+
         '<div class="aic-msg aic-msg-ai aiart-imgmsg">'+
-          '<audio controls style="width:100%" src="'+aiartEscAttr(m.url)+'" referrerpolicy="no-referrer-when-downgrade" onerror="aiImgErr(this)"></audio>'+
+          '<audio controls style="width:100%" src="'+aiartEscAttr(m.url)+'" referrerpolicy="no-referrer" onerror="aiImgErr(this)"></audio>'+
           '<div class="aiart-actions">'+
             '<button class="aiart-dlbtn" onclick="aiMediaDownload(\''+aiartEscAttr(m.url)+'\',\'mp3\',\'tts\')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>'+
             '<button class="aiart-regenbtn" onclick="ttsRegen(\''+aiartEscAttr(m.text)+'\',\''+aiartEscAttr(m.model)+'\')"><i class="fa-solid fa-rotate-right"></i> ULANGI</button>'+
@@ -11701,7 +11701,7 @@ function aicRenderChat(){
       const hasImg=!!(m.srcUrl&&m.srcUrl.trim());
       const userMsg=hasImg?
         ('<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user aiflt-usermsg">'+
-          '<img class="aiflt-userthumb" src="'+aifltEscAttr(m.srcUrl)+'" referrerpolicy="no-referrer-when-downgrade" onerror="this.style.visibility=\'hidden\'">'+
+          '<img class="aiflt-userthumb" src="'+aifltEscAttr(m.srcUrl)+'" referrerpolicy="no-referrer" onerror="this.style.visibility=\'hidden\'">'+
           '<span class="aiflt-usertext allow-copy">'+aifltEscapeHtml(m.prompt)+'</span>'+
         '</div></div>'):
         ('<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user allow-copy">'+aicEscapeHtml(m.prompt)+'</div>'+
@@ -11714,7 +11714,7 @@ function aicRenderChat(){
       }
       return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">TOONMIX AI</span>'+
         '<div class="aic-msg aic-msg-ai aiart-imgmsg">'+
-          '<div class="aiart-imgwrap"><img class="aiart-img" src="'+aiartEscAttr(m.url)+'" alt="Toonmix AI" referrerpolicy="no-referrer-when-downgrade" onerror="aiImgErr(this)" onclick="aiOpenLightbox(\''+aiartEscAttr(m.url)+'\',\'toonmix\')"></div>'+
+          '<div class="aiart-imgwrap"><img class="aiart-img" src="'+aiartEscAttr(m.url)+'" alt="Toonmix AI" referrerpolicy="no-referrer" onerror="aiImgErr(this)" onclick="aiOpenLightbox(\''+aiartEscAttr(m.url)+'\',\'toonmix\')"></div>'+
           '<div class="aiart-actions">'+
             '<button class="aiart-dlbtn" onclick="aiMediaDownload(\''+aiartEscAttr(m.url)+'\',\'jpg\',\'toonmix\')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>'+
             '<button class="aiart-regenbtn" onclick="toonmixRegen(\''+aiartEscAttr(m.prompt)+'\',\''+aifltEscAttr(m.srcUrl||'')+'\')"><i class="fa-solid fa-rotate-right"></i> ULANGI</button>'+
@@ -11739,7 +11739,7 @@ function aicRenderChat(){
   if(aifltLoading){
     const urlVal=document.getElementById('aifltUrlInput')?document.getElementById('aifltUrlInput').value:'';
     html+='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user aiflt-usermsg">'+
-      '<img class="aiflt-userthumb" src="'+aifltEscAttr(urlVal)+'" referrerpolicy="no-referrer-when-downgrade" onerror="this.style.visibility=\'hidden\'">'+
+      '<img class="aiflt-userthumb" src="'+aifltEscAttr(urlVal)+'" referrerpolicy="no-referrer" onerror="this.style.visibility=\'hidden\'">'+
       '<span class="aiflt-usertext allow-copy">'+aifltEscapeHtml(aifltLoadingLabel||'Memproses...')+'</span>'+
     '</div></div>'+
     '<div class="aic-msg-wrap ai"><span class="aic-msg-tag">AI FILTER</span>'+
@@ -11752,7 +11752,7 @@ function aicRenderChat(){
   }
   if(animeLoading){
     html+='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user aiflt-usermsg">'+
-      '<img class="aiflt-userthumb" src="'+aifltEscAttr(animeLoadingUrl)+'" referrerpolicy="no-referrer-when-downgrade" onerror="this.style.visibility=\'hidden\'">'+
+      '<img class="aiflt-userthumb" src="'+aifltEscAttr(animeLoadingUrl)+'" referrerpolicy="no-referrer" onerror="this.style.visibility=\'hidden\'">'+
       '<span class="aiflt-usertext allow-copy">Anime to Real</span>'+
     '</div></div>'+
     '<div class="aic-msg-wrap ai"><span class="aic-msg-tag">ANIME TO REAL</span>'+
@@ -11770,7 +11770,7 @@ function aicRenderChat(){
   }
   if(img2promptLoading){
     html+='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user aiflt-usermsg">'+
-      '<img class="aiflt-userthumb" src="'+aifltEscAttr(img2promptLoadingUrl)+'" referrerpolicy="no-referrer-when-downgrade" onerror="this.style.visibility=\'hidden\'">'+
+      '<img class="aiflt-userthumb" src="'+aifltEscAttr(img2promptLoadingUrl)+'" referrerpolicy="no-referrer" onerror="this.style.visibility=\'hidden\'">'+
       '<span class="aiflt-usertext allow-copy">Image to Prompt</span>'+
     '</div></div>'+
     '<div class="aic-msg-wrap ai"><span class="aic-msg-tag">IMAGE TO PROMPT</span>'+
@@ -11783,7 +11783,7 @@ function aicRenderChat(){
   }
   if(nanobananaLoading){
     html+='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user aiflt-usermsg">'+
-      '<img class="aiflt-userthumb" src="'+aifltEscAttr(nanobananaLoadingUrl)+'" referrerpolicy="no-referrer-when-downgrade" onerror="this.style.visibility=\'hidden\'">'+
+      '<img class="aiflt-userthumb" src="'+aifltEscAttr(nanobananaLoadingUrl)+'" referrerpolicy="no-referrer" onerror="this.style.visibility=\'hidden\'">'+
       '<span class="aiflt-usertext allow-copy">'+aifltEscapeHtml(nanobananaLoadingPrompt||'Edit Gambar')+'</span>'+
     '</div></div>'+
     '<div class="aic-msg-wrap ai"><span class="aic-msg-tag">NANO BANANA</span>'+
@@ -11812,7 +11812,7 @@ function aicRenderChat(){
   if(toonmixLoading){
     html+=(toonmixLoadingUrl?
       ('<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user aiflt-usermsg">'+
-        '<img class="aiflt-userthumb" src="'+aifltEscAttr(toonmixLoadingUrl)+'" referrerpolicy="no-referrer-when-downgrade" onerror="this.style.visibility=\'hidden\'">'+
+        '<img class="aiflt-userthumb" src="'+aifltEscAttr(toonmixLoadingUrl)+'" referrerpolicy="no-referrer" onerror="this.style.visibility=\'hidden\'">'+
         '<span class="aiflt-usertext allow-copy">'+aifltEscapeHtml(toonmixLoadingPrompt)+'</span>'+
       '</div></div>'):
       ('<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user allow-copy">'+aicEscapeHtml(toonmixLoadingPrompt)+'</div></div>'))+
@@ -12225,8 +12225,10 @@ function aiImgRecover(el,attempt){
     if(!origUrl) return;
     if(!el.getAttribute('data-origsrc')) el.setAttribute('data-origsrc',origUrl);
 
-    const MAX_ATTEMPT=2;
-    if(attempt>=MAX_ATTEMPT){
+    const MAX_NATIVE=2;   // percobaan reload native pakai url yg SAMA persis (jangan ditambah query,
+                           // banyak url media pakai signed-token yg langsung invalid kalau query diubah)
+    const MAX_TOTAL=4;    // total percobaan sebelum benar2 nyerah
+    if(attempt>=MAX_TOTAL){
       wrap.innerHTML='<div class="aic-msg-err" style="cursor:pointer" onclick="aiSaveMediaFallback(\''+String(origUrl).replace(/'/g,"\\'")+'\')"><i class="fa-solid fa-triangle-exclamation"></i> Gagal memuat media, tap untuk buka langsung</div>';
       return;
     }
@@ -12234,6 +12236,21 @@ function aiImgRecover(el,attempt){
     // jangan langsung tampilkan pesan gagal, coba pulihkan dulu secara diam-diam
     el.style.opacity='0.35';
 
+    if(attempt<MAX_NATIVE){
+      // percobaan 1-2: reload native apa adanya. Banyak kasus gagal di WebView APK cuma
+      // race-condition/timeout sesaat, url yg sama sering sukses kalau dicoba ulang.
+      setTimeout(function(){
+        el.onerror=function(){ aiImgRecover(el,attempt+1); };
+        el.removeAttribute('src');
+        el.src=origUrl;
+        el.style.opacity='';
+        if(el.tagName==='VIDEO'||el.tagName==='AUDIO'){ try{ el.load(); }catch(e){} }
+      },400);
+      return;
+    }
+
+    // percobaan lanjutan: fetch()+blob. Ini cuma jalan kalau CDN mengizinkan CORS -
+    // kalau tidak, fetch akan gagal cepat dan lanjut ke percobaan berikutnya / fallback.
     fetch(origUrl,{cache:'no-store'}).then(function(res){
       if(!res.ok) throw new Error('http '+res.status);
       return res.blob();
@@ -12525,7 +12542,7 @@ function animeUpdatePreview(val){
       const b=document.getElementById('animePreview');
       if(!b) return;
       b.className='aiflt-preview show';
-      b.innerHTML='<img id="animePreviewImg" src="'+aifltEscAttr(v)+'" alt="" referrerpolicy="no-referrer-when-downgrade">';
+      b.innerHTML='<img id="animePreviewImg" src="'+aifltEscAttr(v)+'" alt="" referrerpolicy="no-referrer">';
     };
     test.onerror=function(){
       const b=document.getElementById('animePreview');
@@ -12710,7 +12727,7 @@ function img2promptUpdatePreview(val){
       const b=document.getElementById('img2promptPreview');
       if(!b) return;
       b.className='aiflt-preview show';
-      b.innerHTML='<img id="img2promptPreviewImg" src="'+aifltEscAttr(v)+'" alt="" referrerpolicy="no-referrer-when-downgrade">';
+      b.innerHTML='<img id="img2promptPreviewImg" src="'+aifltEscAttr(v)+'" alt="" referrerpolicy="no-referrer">';
     };
     test.onerror=function(){
       const b=document.getElementById('img2promptPreview');
@@ -12841,7 +12858,7 @@ function nanobananaUpdatePreview(val){
       const b=document.getElementById('nanobananaPreview');
       if(!b) return;
       b.className='aiflt-preview show';
-      b.innerHTML='<img id="nanobananaPreviewImg" src="'+aifltEscAttr(v)+'" alt="" referrerpolicy="no-referrer-when-downgrade">';
+      b.innerHTML='<img id="nanobananaPreviewImg" src="'+aifltEscAttr(v)+'" alt="" referrerpolicy="no-referrer">';
     };
     test.onerror=function(){
       const b=document.getElementById('nanobananaPreview');
@@ -13158,7 +13175,7 @@ function toonmixUpdatePreview(val){
       const b=document.getElementById('toonmixPreview');
       if(!b) return;
       b.className='aiflt-preview show';
-      b.innerHTML='<img id="toonmixPreviewImg" src="'+aifltEscAttr(v)+'" alt="" referrerpolicy="no-referrer-when-downgrade">';
+      b.innerHTML='<img id="toonmixPreviewImg" src="'+aifltEscAttr(v)+'" alt="" referrerpolicy="no-referrer">';
     };
     test.onerror=function(){
       const b=document.getElementById('toonmixPreview');
@@ -14934,7 +14951,7 @@ function mkrShowResult(menu,mediaUrl){
   if(btn){ btn.disabled=false; btn.innerHTML='<i class="fa-solid fa-wand-magic-sparkles"></i> GENERATE'; }
   if(result){
     result.classList.add('show');
-    result.innerHTML='<img class="mkr-result-media" src="'+mkrEscAttr(mediaUrl)+'" alt="'+mkrEscAttr(menu.label)+'" referrerpolicy="no-referrer-when-downgrade">'+
+    result.innerHTML='<img class="mkr-result-media" src="'+mkrEscAttr(mediaUrl)+'" alt="'+mkrEscAttr(menu.label)+'" referrerpolicy="no-referrer">'+
       '<div class="mkr-result-body">'+
         '<button class="mkr-dlbtn" onclick="mkrDownload(\''+mkrEscAttr(mediaUrl)+'\',\''+mkrEscAttr(menu.key)+'\')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>'+
         '<button class="mkr-dlbtn mkr-alt" onclick="mkrSelect(\''+mkrEscAttr(menu.key)+'\')"><i class="fa-solid fa-rotate-right"></i> ULANGI</button>'+
@@ -15142,7 +15159,7 @@ function nwsRenderList(menu,items){
     const category=it.category||it.kategori||'';
     const meta=[category,date].filter(Boolean).join(' &middot; ');
     return '<div class="nws-item" onclick="nwsOpenListItem(\''+menu.key+'\','+idx+')">'+
-      (thumb?'<img class="nws-thumb" src="'+nwsEsc(thumb)+'" referrerpolicy="no-referrer-when-downgrade" onerror="this.outerHTML=\'<div class=&quot;nws-thumbph&quot;><i class=&quot;fa-solid fa-newspaper&quot;></i></div>\'">':'<div class="nws-thumbph"><i class="fa-solid fa-newspaper"></i></div>')+
+      (thumb?'<img class="nws-thumb" src="'+nwsEsc(thumb)+'" referrerpolicy="no-referrer" onerror="this.outerHTML=\'<div class=&quot;nws-thumbph&quot;><i class=&quot;fa-solid fa-newspaper&quot;></i></div>\'">':'<div class="nws-thumbph"><i class="fa-solid fa-newspaper"></i></div>')+
       '<div class="nws-body">'+
         '<div class="nws-name">'+nwsEsc(title)+'</div>'+
         (meta?'<div class="nws-meta">'+nwsEsc(meta)+'</div>':'')+
@@ -15180,7 +15197,7 @@ function nwsRenderInlineDetail(it,link){
   area.innerHTML=
     '<div class="nws-backrow"><button class="nws-backbtn" onclick="nwsSelect(\''+nwsEscAttr(nwsActiveKey)+'\')"><i class="fa-solid fa-arrow-left"></i> Daftar Berita</button></div>'+
     '<div class="nws-detailcard">'+
-      (thumb?'<img class="nws-detailimg" src="'+nwsEsc(thumb)+'" referrerpolicy="no-referrer-when-downgrade" onerror="this.style.display=\'none\'">':'')+
+      (thumb?'<img class="nws-detailimg" src="'+nwsEsc(thumb)+'" referrerpolicy="no-referrer" onerror="this.style.display=\'none\'">':'')+
       '<div class="nws-detailtitle">'+nwsEsc(title)+'</div>'+
       (meta?'<div class="nws-detailmeta">'+nwsEsc(meta)+'</div>':'')+
       (body?'<div class="nws-detailbody">'+nwsEsc(body)+'</div>':'<div class="nws-detailbody" style="opacity:.6;">Ringkasan tidak tersedia dari sumber.</div>')+
@@ -15232,7 +15249,7 @@ function nwsRenderSearchResult(items){
     const thumb=it.thumbnail||it.image||it.img||it.cover||'';
     const date=it.date||it.tanggal||it.time||'';
     return '<div class="nws-item" onclick="nwsOpenSearchItem('+idx+')">'+
-      (thumb?'<img class="nws-thumb" src="'+nwsEsc(thumb)+'" referrerpolicy="no-referrer-when-downgrade" onerror="this.outerHTML=\'<div class=&quot;nws-thumbph&quot;><i class=&quot;fa-solid fa-newspaper&quot;></i></div>\'">':'<div class="nws-thumbph"><i class="fa-solid fa-newspaper"></i></div>')+
+      (thumb?'<img class="nws-thumb" src="'+nwsEsc(thumb)+'" referrerpolicy="no-referrer" onerror="this.outerHTML=\'<div class=&quot;nws-thumbph&quot;><i class=&quot;fa-solid fa-newspaper&quot;></i></div>\'">':'<div class="nws-thumbph"><i class="fa-solid fa-newspaper"></i></div>')+
       '<div class="nws-body">'+
         '<div class="nws-name">'+nwsEsc(title)+'</div>'+
         (date?'<div class="nws-meta">'+nwsEsc(date)+'</div>':'')+
@@ -15300,7 +15317,7 @@ function nwsRenderDetail(data,url,result){
   const body=data.content||data.body||data.isi||data.deskripsi||data.description||'';
   const meta=[category,author,date].filter(Boolean).join(' &middot; ');
   result.innerHTML='<div class="nws-detailcard">'+
-    (thumb?'<img class="nws-detailimg" src="'+nwsEsc(thumb)+'" referrerpolicy="no-referrer-when-downgrade" onerror="this.style.display=\'none\'">':'')+
+    (thumb?'<img class="nws-detailimg" src="'+nwsEsc(thumb)+'" referrerpolicy="no-referrer" onerror="this.style.display=\'none\'">':'')+
     '<div class="nws-detailtitle">'+nwsEsc(title)+'</div>'+
     (meta?'<div class="nws-detailmeta">'+nwsEsc(meta)+'</div>':'')+
     (body?'<div class="nws-detailbody">'+nwsEsc(body)+'</div>':'<div class="nws-detailbody" style="opacity:.6;">Isi berita tidak tersedia dari sumber.</div>')+
@@ -15605,6 +15622,7 @@ function rndTryImg(menu){
     video.preload='auto';
     video.muted=true;
     video.playsInline=true;
+    video.referrerPolicy='no-referrer';
     video.onloadeddata=function(){
       if(rndActiveKey!==menu.key) return; // user sudah pindah kategori, batalkan render
       rndRender(menu,url);
@@ -15634,8 +15652,8 @@ function rndRender(menu,url){
   const area=rndArea();
   const isVideo=menu.type==='video';
   const media=isVideo
-    ? '<video class="rnd-img" src="'+rndEscAttr(url)+'" controls playsinline preload="auto" referrerpolicy="no-referrer-when-downgrade" onerror="aiImgErr(this)"></video>'
-    : '<img class="rnd-img" src="'+rndEscAttr(url)+'" referrerpolicy="no-referrer-when-downgrade" alt="random image" onerror="aiImgErr(this)">';
+    ? '<video class="rnd-img" src="'+rndEscAttr(url)+'" controls playsinline preload="auto" referrerpolicy="no-referrer" onerror="aiImgErr(this)"></video>'
+    : '<img class="rnd-img" src="'+rndEscAttr(url)+'" referrerpolicy="no-referrer" alt="random image" onerror="aiImgErr(this)">';
   area.innerHTML='<div class="rnd-card">'+
     media+
     '<div class="rnd-card-actions">'+
@@ -15897,7 +15915,7 @@ function srhRenderResult(menu,items){
     const link=it.url||it.link||it.download||it.video||it.play_url||'';
     const rawText=(!thumb&&!link&&typeof it.lyrics==='string')?it.lyrics:'';
     return '<div class="srh-item">'+
-      (thumb?'<img class="srh-thumb" src="'+srhEsc(thumb)+'" referrerpolicy="no-referrer-when-downgrade" onerror="this.outerHTML=\'<div class=&quot;srh-thumbph&quot;><i class=&quot;fa-solid fa-image&quot;></i></div>\'">':'<div class="srh-thumbph"><i class="fa-solid '+(menu.icon||'fa-magnifying-glass')+'"></i></div>')+
+      (thumb?'<img class="srh-thumb" src="'+srhEsc(thumb)+'" referrerpolicy="no-referrer" onerror="this.outerHTML=\'<div class=&quot;srh-thumbph&quot;><i class=&quot;fa-solid fa-image&quot;></i></div>\'">':'<div class="srh-thumbph"><i class="fa-solid '+(menu.icon||'fa-magnifying-glass')+'"></i></div>')+
       '<div class="srh-body">'+
         '<div class="srh-name">'+srhEsc(title)+'</div>'+
         (meta?'<div class="srh-meta">'+srhEsc(meta)+'</div>':'')+
@@ -16343,12 +16361,12 @@ function smdlRenderError(box,msg,rawJson){
 function smdlRenderTtIg(box,media,platform){
   let mediaHtml='';
   if(media.imageList&&media.imageList.length){
-    mediaHtml='<img class="smdl-result-media" src="'+media.imageList[0]+'" alt="preview" referrerpolicy="no-referrer-when-downgrade" onerror="aiImgErr(this)">';
+    mediaHtml='<img class="smdl-result-media" src="'+media.imageList[0]+'" alt="preview" referrerpolicy="no-referrer" onerror="aiImgErr(this)">';
   }else if(media.videoUrl){
-    mediaHtml='<video class="smdl-result-media" src="'+media.videoUrl+'" controls playsinline poster="'+(media.thumb||'')+'" referrerpolicy="no-referrer-when-downgrade" onerror="aiImgErr(this)"></video>';
+    mediaHtml='<video class="smdl-result-media" src="'+media.videoUrl+'" controls playsinline poster="'+(media.thumb||'')+'" referrerpolicy="no-referrer" onerror="aiImgErr(this)"></video>';
   }else if(media.audioUrl){
-    mediaHtml=(media.thumb?'<img class="smdl-result-media" src="'+media.thumb+'" alt="cover" style="max-height:220px;" referrerpolicy="no-referrer-when-downgrade" onerror="aiImgErr(this)">':'')+
-      '<audio style="width:100%;display:block;margin-top:10px;" src="'+media.audioUrl+'" controls referrerpolicy="no-referrer-when-downgrade" onerror="aiImgErr(this)"></audio>';
+    mediaHtml=(media.thumb?'<img class="smdl-result-media" src="'+media.thumb+'" alt="cover" style="max-height:220px;" referrerpolicy="no-referrer" onerror="aiImgErr(this)">':'')+
+      '<audio style="width:100%;display:block;margin-top:10px;" src="'+media.audioUrl+'" controls referrerpolicy="no-referrer" onerror="aiImgErr(this)"></audio>';
   }
   const dlHref=media.videoUrl||media.audioUrl||media.fileUrl||(media.imageList&&media.imageList[0])||'#';
   const dlExt=media.videoUrl?'mp4':(media.audioUrl?'mp3':'jpg');
