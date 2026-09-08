@@ -12202,13 +12202,51 @@ document.addEventListener('click',function(e){
   if(!sw) aicCloseModeMenus();
 });
 
+/* ================= RECOVERY MEDIA GAGAL MUAT (fix WebView APK) =================
+   Root cause: di WebView APK, tag <img>/<video>/<audio> yang load URL CDN langsung
+   sering trigger onerror walau file-nya valid (bug jalur network native WebView utk
+   media - redirect/header beda dari browser biasa). Makanya media sempat kelihatan
+   sekilas lalu dianggap gagal, padahal kalau dibuka manual di browser selalu sukses.
+   Fix: sebelum nyerah, coba ambil ulang media via fetch()+blob lalu tampilkan sebagai
+   blob URL (jalur network yang lebih reliable, tidak lewat native media loader
+   WebView). Baru kalau itu juga gagal beberapa kali, tampilkan fallback "tap buka
+   langsung". Dipakai oleh SEMUA endpoint media (AI art/filter, sosmed download,
+   random image, dll) karena semua elemen media memanggil aiImgErr yang sama. */
 function aiImgErr(el){
+  try{ aiImgRecover(el,0); }catch(e){}
+}
+
+function aiImgRecover(el,attempt){
   try{
+    if(!el) return;
     const wrap=el.closest('.aiart-imgwrap')||el.parentElement;
-    const url=el.currentSrc||el.src;
-    if(wrap){
-      wrap.innerHTML='<div class="aic-msg-err" style="cursor:pointer" onclick="aiSaveMediaFallback(\''+String(url).replace(/'/g,"\\'")+'\')"><i class="fa-solid fa-triangle-exclamation"></i> Gagal memuat media, tap untuk buka langsung</div>';
+    if(!wrap) return;
+    const origUrl=el.getAttribute('data-origsrc')||el.currentSrc||el.src;
+    if(!origUrl) return;
+    if(!el.getAttribute('data-origsrc')) el.setAttribute('data-origsrc',origUrl);
+
+    const MAX_ATTEMPT=2;
+    if(attempt>=MAX_ATTEMPT){
+      wrap.innerHTML='<div class="aic-msg-err" style="cursor:pointer" onclick="aiSaveMediaFallback(\''+String(origUrl).replace(/'/g,"\\'")+'\')"><i class="fa-solid fa-triangle-exclamation"></i> Gagal memuat media, tap untuk buka langsung</div>';
+      return;
     }
+
+    // jangan langsung tampilkan pesan gagal, coba pulihkan dulu secara diam-diam
+    el.style.opacity='0.35';
+
+    fetch(origUrl,{cache:'no-store'}).then(function(res){
+      if(!res.ok) throw new Error('http '+res.status);
+      return res.blob();
+    }).then(function(blob){
+      if(!blob||!blob.size) throw new Error('blob kosong');
+      const blobUrl=URL.createObjectURL(blob);
+      el.onerror=function(){ aiImgRecover(el,attempt+1); };
+      el.src=blobUrl;
+      el.style.opacity='';
+      if(el.tagName==='VIDEO'||el.tagName==='AUDIO'){ try{ el.load(); }catch(e){} }
+    }).catch(function(){
+      setTimeout(function(){ aiImgRecover(el,attempt+1); },450);
+    });
   }catch(e){}
 }
 
