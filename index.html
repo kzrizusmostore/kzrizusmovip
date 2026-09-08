@@ -10644,7 +10644,7 @@ function saiGenerate(){
 .aic-copybtn i{font-size:10px;}
 .aic-copybtn.copied{color:#00e676;}
 
-.aic-inputbar{flex-shrink:0;display:flex;gap:8px;align-items:flex-end;}
+.aic-inputbar{flex-shrink:0;display:flex;gap:8px;align-items:flex-end;margin-bottom:8px;}
 
 /* ── MODE SWITCH (Chat / AI Art / AI Filter) — pojok kiri bawah, diatas kolom input ── */
 .aic-moderow{flex-shrink:0;display:flex;margin-bottom:8px;}
@@ -10760,6 +10760,34 @@ function saiGenerate(){
 .aiart-retrybtn,.aiflt-retrybtn{margin-top:9px;width:100%;padding:9px 0;border-radius:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#ccc;font-size:11px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;}
 .aiart-retrybtn:active,.aiflt-retrybtn:active{transform:scale(.96);}
 
+/* ── CHIP PILIHAN CEPAT (rasio, toggle, model) — pengganti input teks bebas ── */
+.aic-chipgroup{display:flex;flex-wrap:wrap;gap:6px;}
+.aic-chip{padding:7px 12px;border-radius:20px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);color:#aaa;font-size:11px;font-weight:700;cursor:pointer;line-height:1.2;}
+.aic-chip:active{transform:scale(.94);}
+.aic-chip.active{background:rgba(255,43,43,.16);border-color:#ff2b2b;color:#fff;}
+.aic-chip.aic-chip-custom{border-style:dashed;}
+.aic-chipgroup.shake{animation:shake .5s;}
+.aic-toggle-row{display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);}
+.aic-toggle-label{flex:1;font-size:11.5px;font-weight:700;color:#ccc;display:flex;align-items:center;gap:6px;}
+.aic-toggle-label i{color:#ff5252;font-size:11px;}
+.aic-toggle-btn{position:relative;flex-shrink:0;width:38px;height:22px;border-radius:20px;border:none;background:rgba(255,255,255,.15);cursor:pointer;}
+.aic-toggle-btn.active{background:linear-gradient(135deg,#ff2b2b 0%,#961020 100%);}
+.aic-toggle-knob{position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff;transition:left .18s ease;}
+.aic-toggle-btn.active .aic-toggle-knob{left:18px;}
+.aic-toggle-state{flex-shrink:0;font-size:10.5px;font-weight:800;color:#888;min-width:26px;text-align:right;}
+.aic-toggle-btn.active~.aic-toggle-state{color:#ff8585;}
+
+/* ── TEXT TO VIDEO: indikator estimasi waktu/progress ── */
+.t2v-progress-box{border-radius:12px;min-height:120px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#ccc;font-size:11.5px;gap:9px;padding:18px 16px;}
+.t2v-progress-box>i{font-size:20px;color:#ff5252;}
+.t2v-progress-stage{font-weight:700;color:#eee;text-align:center;}
+.t2v-progress-bar{width:100%;height:7px;border-radius:5px;background:rgba(255,255,255,.09);overflow:hidden;}
+.t2v-progress-fill{height:100%;width:2%;border-radius:5px;background:linear-gradient(90deg,#ff2b2b,#ff8a65);transition:width .6s ease;}
+.t2v-progress-meta{width:100%;display:flex;justify-content:space-between;font-size:10px;color:#888;}
+
+/* ── RIWAYAT SESI: label mode kecil di bawah judul ── */
+.aic-histitem-modelbl{font-size:8.5px;font-weight:800;color:#ff8585;text-transform:uppercase;letter-spacing:.3px;margin-left:6px;}
+
 /* ── AI FILTER: preview link (thumbnail kecil, minim teks) ── */
 .aiflt-preview{margin-top:1px;border-radius:10px;overflow:hidden;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);display:none;height:44px;}
 .aiflt-preview.show{display:flex;align-items:center;}
@@ -10805,18 +10833,12 @@ function saiGenerate(){
   <div class="aic-header-actions" id="aicChatActions">
     <div class="aic-modelbar">
       <button class="aic-modelpill" id="aicModelBtn" onclick="aicToggleModelMenu()">
-        <span id="aicModelBtnLabel">DeepSeek Chat</span>
+        <span id="aicModelBtnLabel">GPT-5</span>
         <i class="fa-solid fa-chevron-down aic-caret"></i>
       </button>
       <div class="aic-modelmenu" id="aicModelMenu">
-        <div class="aic-modelitem active" id="aicModelItem_seek" onclick="aicSwitchModel('seek')">
-          <span>DeepSeek Chat</span><i class="fa-solid fa-check aic-modelitem-check"></i>
-        </div>
-        <div class="aic-modelitem" id="aicModelItem_seeklite" onclick="aicSwitchModel('seeklite')">
-          <span>Gemini 2.5 Flash Lite</span><i class="fa-solid fa-check aic-modelitem-check"></i>
-        </div>
-        <div class="aic-modelitem" id="aicModelItem_seekcode" onclick="aicSwitchModel('seekcode')">
-          <span>Qwen Coder 32B</span><i class="fa-solid fa-check aic-modelitem-check"></i>
+        <div class="aic-modelitem active" id="aicModelItem_gpt5" onclick="aicSwitchModel('gpt5')">
+          <span>GPT-5</span><i class="fa-solid fa-check aic-modelitem-check"></i>
         </div>
         <div class="aic-modelitem" id="aicModelItem_gpt" onclick="aicSwitchModel('gpt')">
           <span>ChatGPT</span><i class="fa-solid fa-check aic-modelitem-check"></i>
@@ -10824,26 +10846,20 @@ function saiGenerate(){
         <div class="aic-modelitem" id="aicModelItem_claude" onclick="aicSwitchModel('claude')">
           <span>Claude Sonnet</span><i class="fa-solid fa-check aic-modelitem-check"></i>
         </div>
-        <div class="aic-modelitem" id="aicModelItem_deepai" onclick="aicSwitchModel('deepai')">
-          <span>Deep AI</span><i class="fa-solid fa-check aic-modelitem-check"></i>
+        <div class="aic-modelitem" id="aicModelItem_seeklite" onclick="aicSwitchModel('seeklite')">
+          <span>Gemini 2.5 Flash Lite</span><i class="fa-solid fa-check aic-modelitem-check"></i>
         </div>
-        <div class="aic-modelitem" id="aicModelItem_gpt5" onclick="aicSwitchModel('gpt5')">
-          <span>GPT-5</span><i class="fa-solid fa-check aic-modelitem-check"></i>
+        <div class="aic-modelitem" id="aicModelItem_seek" onclick="aicSwitchModel('seek')">
+          <span>DeepSeek Chat</span><i class="fa-solid fa-check aic-modelitem-check"></i>
         </div>
         <div class="aic-modelitem" id="aicModelItem_deepsek" onclick="aicSwitchModel('deepsek')">
           <span>DeepSeek AI</span><i class="fa-solid fa-check aic-modelitem-check"></i>
         </div>
-        <div class="aic-modelitem" id="aicModelItem_feeb" onclick="aicSwitchModel('feeb')">
-          <span>Feel Better Bot</span><i class="fa-solid fa-check aic-modelitem-check"></i>
-        </div>
-        <div class="aic-modelitem" id="aicModelItem_gptanon" onclick="aicSwitchModel('gptanon')">
-          <span>GPTAnon AI</span><i class="fa-solid fa-check aic-modelitem-check"></i>
-        </div>
-        <div class="aic-modelitem" id="aicModelItem_kuroneko" onclick="aicSwitchModel('kuroneko')">
-          <span>KuroNeko Assistant</span><i class="fa-solid fa-check aic-modelitem-check"></i>
-        </div>
         <div class="aic-modelitem" id="aicModelItem_qwen3" onclick="aicSwitchModel('qwen3')">
           <span>Qwen3 AI</span><i class="fa-solid fa-check aic-modelitem-check"></i>
+        </div>
+        <div class="aic-modelitem" id="aicModelItem_seekcode" onclick="aicSwitchModel('seekcode')">
+          <span>Qwen Coder 32B</span><i class="fa-solid fa-check aic-modelitem-check"></i>
         </div>
         <div class="aic-modelitem" id="aicModelItem_qwen" onclick="aicSwitchModel('qwen')">
           <span>Qwen AI</span><i class="fa-solid fa-check aic-modelitem-check"></i>
@@ -10853,6 +10869,18 @@ function saiGenerate(){
         </div>
         <div class="aic-modelitem" id="aicModelItem_nova" onclick="aicSwitchModel('nova')">
           <span>Nova AI</span><i class="fa-solid fa-check aic-modelitem-check"></i>
+        </div>
+        <div class="aic-modelitem" id="aicModelItem_deepai" onclick="aicSwitchModel('deepai')">
+          <span>Deep AI</span><i class="fa-solid fa-check aic-modelitem-check"></i>
+        </div>
+        <div class="aic-modelitem" id="aicModelItem_feeb" onclick="aicSwitchModel('feeb')">
+          <span>Feel Better Bot</span><i class="fa-solid fa-check aic-modelitem-check"></i>
+        </div>
+        <div class="aic-modelitem" id="aicModelItem_gptanon" onclick="aicSwitchModel('gptanon')">
+          <span>GPTAnon AI</span><i class="fa-solid fa-check aic-modelitem-check"></i>
+        </div>
+        <div class="aic-modelitem" id="aicModelItem_kuroneko" onclick="aicSwitchModel('kuroneko')">
+          <span>KuroNeko Assistant</span><i class="fa-solid fa-check aic-modelitem-check"></i>
         </div>
         <div class="aic-modelitem" id="aicModelItem_notrack" onclick="aicSwitchModel('notrack')">
           <span>NoTrack AI</span><i class="fa-solid fa-check aic-modelitem-check"></i>
@@ -10948,22 +10976,53 @@ function saiGenerate(){
   <div class="aic-inputbar aiflt-inputbar" id="aicInputBarTxt2Img" style="display:none">
     <div class="aiflt-inputs">
       <textarea class="aic-textarea" id="txt2imgPromptInput" rows="1" placeholder="Prompt gambar yang ingin dibuat..." oninput="aicAutoGrow(this)" onkeydown="if(event.key==='Enter'&amp;&amp;!event.shiftKey){event.preventDefault();aicUnifiedSend();}"></textarea>
-      <input class="aic-textarea" id="txt2imgRatioInput" type="text" placeholder="Rasio (opsional): 1:1, 16:9" onkeydown="if(event.key==='Enter'){event.preventDefault();aicUnifiedSend();}">
+      <div class="aic-chipgroup" id="txt2imgRatioChips" data-target="txt2imgRatioInput">
+        <button type="button" class="aic-chip" data-value="1:1" onclick="aicSelectChip(this)">1:1</button>
+        <button type="button" class="aic-chip" data-value="16:9" onclick="aicSelectChip(this)">16:9</button>
+        <button type="button" class="aic-chip" data-value="9:16" onclick="aicSelectChip(this)">9:16</button>
+      </div>
+      <input type="hidden" id="txt2imgRatioInput" value="">
     </div>
     <button class="aic-sendbtn" id="txt2imgGenBtn" onclick="aicUnifiedSend()"><i class="fa-solid fa-images"></i></button>
   </div>
   <div class="aic-inputbar aiflt-inputbar" id="aicInputBarText2Vid" style="display:none">
     <div class="aiflt-inputs">
       <textarea class="aic-textarea" id="text2vidPromptInput" rows="1" placeholder="Prompt video yang ingin dibuat..." oninput="aicAutoGrow(this)" onkeydown="if(event.key==='Enter'&amp;&amp;!event.shiftKey){event.preventDefault();aicUnifiedSend();}"></textarea>
-      <input class="aic-textarea" id="text2vidRatioInput" type="text" placeholder="Rasio (opsional): auto, 1:1, 16:9, 9:16" onkeydown="if(event.key==='Enter'){event.preventDefault();aicUnifiedSend();}">
-      <input class="aic-textarea" id="text2vidSoundInput" type="text" placeholder="Sound true/false (opsional, default: true)" onkeydown="if(event.key==='Enter'){event.preventDefault();aicUnifiedSend();}">
+      <div class="aic-chipgroup" id="text2vidRatioChips" data-target="text2vidRatioInput">
+        <button type="button" class="aic-chip active" data-value="auto" onclick="aicSelectChip(this)">Auto</button>
+        <button type="button" class="aic-chip" data-value="1:1" onclick="aicSelectChip(this)">1:1</button>
+        <button type="button" class="aic-chip" data-value="16:9" onclick="aicSelectChip(this)">16:9</button>
+        <button type="button" class="aic-chip" data-value="9:16" onclick="aicSelectChip(this)">9:16</button>
+      </div>
+      <input type="hidden" id="text2vidRatioInput" value="auto">
+      <div class="aic-toggle-row">
+        <span class="aic-toggle-label"><i class="fa-solid fa-volume-high"></i>Sound</span>
+        <button type="button" class="aic-toggle-btn active" id="text2vidSoundToggle" onclick="aicToggleSound()"><span class="aic-toggle-knob"></span></button>
+        <span class="aic-toggle-state" id="text2vidSoundState">ON</span>
+      </div>
+      <input type="hidden" id="text2vidSoundInput" value="true">
     </div>
     <button class="aic-sendbtn" id="text2vidGenBtn" onclick="aicUnifiedSend()"><i class="fa-solid fa-video"></i></button>
   </div>
   <div class="aic-inputbar aiflt-inputbar" id="aicInputBarTts" style="display:none">
     <div class="aiflt-inputs">
       <textarea class="aic-textarea" id="ttsTextInput" rows="1" placeholder="Teks yang ingin diubah menjadi suara..." oninput="aicAutoGrow(this)" onkeydown="if(event.key==='Enter'&amp;&amp;!event.shiftKey){event.preventDefault();aicUnifiedSend();}"></textarea>
-      <input class="aic-textarea" id="ttsModelInput" type="text" placeholder="Model suara, cth: miku, goku, eminem" onkeydown="if(event.key==='Enter'){event.preventDefault();aicUnifiedSend();}">
+      <div class="aic-chipgroup" id="ttsModelChips" data-target="ttsModelInput">
+        <button type="button" class="aic-chip" data-value="elon_musk" onclick="aicSelectChip(this)">Elon Musk</button>
+        <button type="button" class="aic-chip" data-value="mickey_mouse" onclick="aicSelectChip(this)">Mickey Mouse</button>
+        <button type="button" class="aic-chip" data-value="kendrick_lamar" onclick="aicSelectChip(this)">Kendrick Lamar</button>
+        <button type="button" class="aic-chip" data-value="angela_adkinsh" onclick="aicSelectChip(this)">Angela Adkinsh</button>
+        <button type="button" class="aic-chip" data-value="eminem" onclick="aicSelectChip(this)">Eminem</button>
+        <button type="button" class="aic-chip" data-value="nahida" onclick="aicSelectChip(this)">Nahida</button>
+        <button type="button" class="aic-chip" data-value="nami" onclick="aicSelectChip(this)">Nami</button>
+        <button type="button" class="aic-chip" data-value="ana" onclick="aicSelectChip(this)">Ana</button>
+        <button type="button" class="aic-chip" data-value="goku" onclick="aicSelectChip(this)">Goku</button>
+        <button type="button" class="aic-chip" data-value="miku" onclick="aicSelectChip(this)">Hatsune Miku</button>
+        <button type="button" class="aic-chip" data-value="optimus_prime" onclick="aicSelectChip(this)">Optimus Prime</button>
+        <button type="button" class="aic-chip" data-value="taylor_swift" onclick="aicSelectChip(this)">Taylor Swift</button>
+        <button type="button" class="aic-chip aic-chip-custom" data-value="__custom__" onclick="ttsToggleCustomModel(this)">Lainnya...</button>
+      </div>
+      <input class="aic-textarea" id="ttsModelInput" type="text" placeholder="Nama model suara lainnya..." style="display:none" onkeydown="if(event.key==='Enter'){event.preventDefault();aicUnifiedSend();}">
     </div>
     <button class="aic-sendbtn" id="ttsGenBtn" onclick="aicUnifiedSend()"><i class="fa-solid fa-microphone-lines"></i></button>
   </div>
@@ -11179,7 +11238,7 @@ const AIC_MODELS={
   nova:{kind:'simpleq',endpoint:'nova',label:'Nova AI'},
   notrack:{kind:'notrack',label:'NoTrack AI'}
 };
-let aicActiveModel='seek';
+let aicActiveModel='gpt5';
 let aicMenuOpen=false;
 
 /* ── SESI OBROLAN (riwayat, seperti AI beneran) ── */
@@ -11232,9 +11291,11 @@ function aicRenderSessions(){
     return;
   }
   list.innerHTML=aicSessions.map(function(s){
+    const iconCls=(s.mode&&AIC_MODE_ICONS[s.mode])?AIC_MODE_ICONS[s.mode]:'fa-comments';
+    const modeLbl=(s.mode&&s.mode!=='chat'&&AIC_MODE_LABEL[s.mode])?'<span class="aic-histitem-modelbl">'+AIC_MODE_LABEL[s.mode]+'</span>':'';
     return '<div class="aic-histitem'+(s.id===aicActiveSessionId?' active':'')+'" onclick="aicSwitchSession(\''+s.id+'\')">'+
-      '<div class="aic-histitem-ic"><i class="fa-solid fa-comment"></i></div>'+
-      '<div class="aic-histitem-txt"><div class="aic-histitem-title">'+aicEscapeHtml(s.title||'Obrolan baru')+'</div><div class="aic-histitem-time">'+aicFmtTime(s.updatedAt)+'</div></div>'+
+      '<div class="aic-histitem-ic"><i class="fa-solid '+iconCls+'"></i></div>'+
+      '<div class="aic-histitem-txt"><div class="aic-histitem-title">'+aicEscapeHtml(s.title||'Obrolan baru')+'</div><div class="aic-histitem-time">'+aicFmtTime(s.updatedAt)+modeLbl+'</div></div>'+
       '<button class="aic-histitem-del" onclick="aicDeleteSession(\''+s.id+'\',event)"><i class="fa-solid fa-trash"></i></button>'+
     '</div>';
   }).join('');
@@ -11335,6 +11396,63 @@ function aicSwitchModel(key){
 function aicAutoGrow(el){
   el.style.height='auto';
   el.style.height=Math.min(el.scrollHeight,100)+'px';
+}
+
+/* ── CHIP PILIHAN CEPAT: rasio, model, dll — pengganti input teks bebas ── */
+function aicSelectChip(el){
+  const group=el.closest('.aic-chipgroup');
+  if(!group) return;
+  const target=document.getElementById(group.getAttribute('data-target'));
+  const wasActive=el.classList.contains('active');
+  group.querySelectorAll('.aic-chip').forEach(function(c){ c.classList.remove('active'); });
+  if(wasActive){
+    if(target){ target.value=''; if(target.type==='text'){ target.style.display='none'; } }
+    return;
+  }
+  el.classList.add('active');
+  if(target){
+    target.value=el.getAttribute('data-value')||'';
+    if(target.type==='text'){ target.style.display='none'; }
+  }
+}
+
+function aicSyncChipGroup(groupId,value){
+  const group=document.getElementById(groupId);
+  if(!group) return;
+  const target=document.getElementById(group.getAttribute('data-target'));
+  let matched=false;
+  group.querySelectorAll('.aic-chip').forEach(function(c){
+    const isMatch=c.getAttribute('data-value')===value&&c.getAttribute('data-value')!=='__custom__';
+    c.classList.toggle('active',isMatch);
+    if(isMatch) matched=true;
+  });
+  if(target){
+    target.value=value||'';
+    if(target.type==='text') target.style.display=matched?'none':'block';
+  }
+  if(!matched&&value){
+    const customChip=group.querySelector('.aic-chip-custom');
+    if(customChip) customChip.classList.add('active');
+  }
+}
+
+function ttsToggleCustomModel(el){
+  const group=el.closest('.aic-chipgroup');
+  const inp=document.getElementById('ttsModelInput');
+  if(!group) return;
+  group.querySelectorAll('.aic-chip').forEach(function(c){ c.classList.remove('active'); });
+  el.classList.add('active');
+  if(inp){ inp.style.display='block'; inp.value=''; inp.focus(); }
+}
+
+function aicToggleSound(){
+  const btn=document.getElementById('text2vidSoundToggle');
+  const inp=document.getElementById('text2vidSoundInput');
+  const label=document.getElementById('text2vidSoundState');
+  if(!btn) return;
+  const isOn=btn.classList.toggle('active');
+  if(inp) inp.value=isOn?'true':'false';
+  if(label) label.textContent=isOn?'ON':'OFF';
 }
 
 function aicEscapeHtml(str){
@@ -11677,7 +11795,12 @@ function aicRenderChat(){
   if(text2vidLoading){
     html+='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user allow-copy">'+aicEscapeHtml(text2vidLoadingPrompt)+'</div></div>'+
       '<div class="aic-msg-wrap ai"><span class="aic-msg-tag">TEXT TO VIDEO</span>'+
-      '<div class="aic-msg aic-msg-ai aiart-imgmsg"><div class="aiart-skel"><i class="fa-solid fa-spinner fa-spin"></i>Sedang membuat video...</div></div></div>';
+      '<div class="aic-msg aic-msg-ai aiart-imgmsg"><div class="t2v-progress-box">'+
+        '<i class="fa-solid fa-video"></i>'+
+        '<div class="t2v-progress-stage" id="text2vidProgressStage">Menyiapkan permintaan...</div>'+
+        '<div class="t2v-progress-bar"><div class="t2v-progress-fill" id="text2vidProgressFill" style="width:2%"></div></div>'+
+        '<div class="t2v-progress-meta"><span id="text2vidProgressPct">2%</span><span id="text2vidProgressTime">0dtk · estimasi ~'+TEXT2VID_ESTIMATED_SECONDS+'dtk</span></div>'+
+      '</div></div></div>';
   }
   if(ttsLoading){
     html+='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user allow-copy">'+aicEscapeHtml(ttsLoadingText)+'</div></div>'+
@@ -11908,10 +12031,12 @@ async function aicSend(){
   aicSaveSessions();
 }
 
+const AIC_MODE_LABEL={chat:'Chat',art:'AI Art',filter:'AI Filter',song:'AI Song',anime:'Anime to Real',bypass:'Bypass AI',imagenai:'Imagen AI',img2prompt:'Image to Prompt',detectai:'AI Detector',nanobanana:'Nano Banana',txt2img:'Text to Image',text2vid:'Text to Video',tts:'Text to Speech',toonmix:'Toonmix AI'};
 function aicTouchSession(firstText){
   const s=aicActiveSession();
   if(!s) return;
   if(s.title==='Obrolan baru'&&firstText) s.title=firstText.slice(0,42);
+  s.mode=aicCurrentMode;
   s.updatedAt=Date.now();
   const idx=aicSessions.indexOf(s);
   if(idx>0){ aicSessions.splice(idx,1); aicSessions.unshift(s); }
@@ -11970,7 +12095,21 @@ document.addEventListener('keydown',function(e){
 const AIC_MODE_PANELS=['chat','art','filter','song','anime','bypass','imagenai','img2prompt','detectai','nanobanana','txt2img','text2vid','tts','toonmix'];
 const AIC_MODE_ICONS={chat:'fa-comments',art:'fa-image',filter:'fa-wand-sparkles',song:'fa-music',anime:'fa-image-portrait',bypass:'fa-user-secret',imagenai:'fa-palette',img2prompt:'fa-file-image',detectai:'fa-magnifying-glass',nanobanana:'fa-image',txt2img:'fa-images',text2vid:'fa-video',tts:'fa-microphone-lines',toonmix:'fa-shapes'};
 const AIC_MODE_PLACEHOLDER={chat:'Tulis pesan...',art:'Tulis deskripsi gambar yang ingin dibuat AI...'};
-let aicCurrentMode='chat';
+const AIC_MODE_KEY='zusmoAiChatMode';
+function aicLoadSavedMode(){
+  try{
+    const m=localStorage.getItem(AIC_MODE_KEY);
+    if(m&&AIC_MODE_PANELS.indexOf(m)!==-1) return m;
+  }catch(e){}
+  return 'chat';
+}
+let aicCurrentMode=aicLoadSavedMode();
+document.addEventListener('DOMContentLoaded',function(){
+  if(aicCurrentMode!=='chat') aicSwitchMode(aicCurrentMode);
+});
+if(document.readyState==='complete'||document.readyState==='interactive'){
+  if(aicCurrentMode!=='chat') aicSwitchMode(aicCurrentMode);
+}
 
 /* ── SARAN / REKOMENDASI PROMPT — muncul saat kolom obrolan mode terkait masih kosong ── */
 const AIC_MODE_SUGGEST={
@@ -12015,6 +12154,7 @@ function aicCloseModeMenus(){
 
 function aicSwitchMode(tab){
   aicCurrentMode=tab;
+  try{ localStorage.setItem(AIC_MODE_KEY,tab); }catch(e){}
   aicCloseModeMenus();
   const icon=document.getElementById('aicModeIcon');
   if(icon) icon.className='fa-solid '+AIC_MODE_ICONS[tab];
@@ -13000,9 +13140,8 @@ async function txt2imgGenerate(){
 function txt2imgRegen(prompt,ratio){
   aicSwitchMode('txt2img');
   const inp=document.getElementById('txt2imgPromptInput');
-  const ratioInp=document.getElementById('txt2imgRatioInput');
   if(inp) inp.value=prompt;
-  if(ratioInp) ratioInp.value=ratio||'';
+  aicSyncChipGroup('txt2imgRatioChips',ratio||'');
   txt2imgGenerate();
 }
 
@@ -13012,6 +13151,36 @@ function txt2imgRegen(prompt,ratio){
 const TEXT2VID_ENDPOINT='https://sylvatica.my.id/api/ai/text2vid';
 let text2vidLoading=false;
 let text2vidLoadingPrompt='';
+let text2vidStartTime=0;
+let text2vidProgressTimer=null;
+const TEXT2VID_ESTIMATED_SECONDS=75; // estimasi rata-rata durasi render text-to-video
+
+function aicStartText2vidProgress(){
+  aicStopText2vidProgress();
+  text2vidStartTime=Date.now();
+  aicUpdateText2vidProgress();
+  text2vidProgressTimer=setInterval(aicUpdateText2vidProgress,1000);
+}
+function aicStopText2vidProgress(){
+  if(text2vidProgressTimer){ clearInterval(text2vidProgressTimer); text2vidProgressTimer=null; }
+}
+function aicUpdateText2vidProgress(){
+  const fill=document.getElementById('text2vidProgressFill');
+  const pctEl=document.getElementById('text2vidProgressPct');
+  const timeEl=document.getElementById('text2vidProgressTime');
+  const stageEl=document.getElementById('text2vidProgressStage');
+  if(!fill&&!pctEl&&!timeEl&&!stageEl) return;
+  const elapsed=Math.max(0,(Date.now()-text2vidStartTime)/1000);
+  const pct=Math.min(94,Math.round(100*(1-Math.exp(-elapsed/(TEXT2VID_ESTIMATED_SECONDS*0.6)))));
+  let stage='Menyiapkan permintaan...';
+  if(elapsed>8&&elapsed<=35) stage='Merender frame video...';
+  else if(elapsed>35&&elapsed<=70) stage='Menggabungkan & menghaluskan hasil...';
+  else if(elapsed>70) stage='Hampir selesai, mohon tunggu...';
+  if(fill) fill.style.width=pct+'%';
+  if(pctEl) pctEl.textContent=pct+'%';
+  if(stageEl) stageEl.textContent=stage;
+  if(timeEl) timeEl.textContent=Math.floor(elapsed)+'dtk · estimasi ~'+TEXT2VID_ESTIMATED_SECONDS+'dtk';
+}
 
 async function text2vidGenerate(){
   const inp=document.getElementById('text2vidPromptInput');
@@ -13031,6 +13200,7 @@ async function text2vidGenerate(){
   text2vidLoadingPrompt=prompt;
   if(btn) btn.disabled=true;
   aicRenderChat();
+  aicStartText2vidProgress();
   try{
     const json=await xyureiRequest(function(key){
       return TEXT2VID_ENDPOINT+'?prompt='+encodeURIComponent(prompt)+'&ratio='+encodeURIComponent(ratio)+'&sound='+encodeURIComponent(sound)+'&apikey='+key;
@@ -13048,6 +13218,7 @@ async function text2vidGenerate(){
     aicHistory.push({kind:'text2vid',prompt:prompt,ratio:ratio,sound:sound,error:true});
   }
   aicTouchSession(prompt);
+  aicStopText2vidProgress();
   text2vidLoading=false;
   text2vidLoadingPrompt='';
   if(btn) btn.disabled=false;
@@ -13057,11 +13228,15 @@ async function text2vidGenerate(){
 function text2vidRegen(prompt,ratio,sound){
   aicSwitchMode('text2vid');
   const inp=document.getElementById('text2vidPromptInput');
-  const ratioInp=document.getElementById('text2vidRatioInput');
-  const soundInp=document.getElementById('text2vidSoundInput');
   if(inp) inp.value=prompt;
-  if(ratioInp) ratioInp.value=ratio||'';
-  if(soundInp) soundInp.value=sound||'';
+  aicSyncChipGroup('text2vidRatioChips',ratio||'auto');
+  const soundOn=sound!=='false';
+  const btn=document.getElementById('text2vidSoundToggle');
+  const soundInp=document.getElementById('text2vidSoundInput');
+  const label=document.getElementById('text2vidSoundState');
+  if(btn) btn.classList.toggle('active',soundOn);
+  if(soundInp) soundInp.value=soundOn?'true':'false';
+  if(label) label.textContent=soundOn?'ON':'OFF';
   text2vidGenerate();
 }
 
@@ -13080,7 +13255,11 @@ async function ttsGenerate(){
   const model=modelInp?modelInp.value.trim():'';
   if(!text||!model){
     if(!text&&inp){ inp.classList.remove('shake'); void inp.offsetWidth; inp.classList.add('shake'); }
-    if(!model&&modelInp){ modelInp.classList.remove('shake'); void modelInp.offsetWidth; modelInp.classList.add('shake'); }
+    if(!model){
+      const modelGroup=document.getElementById('ttsModelChips');
+      const shakeTarget=(modelInp&&modelInp.style.display!=='none')?modelInp:modelGroup;
+      if(shakeTarget){ shakeTarget.classList.remove('shake'); void shakeTarget.offsetWidth; shakeTarget.classList.add('shake'); }
+    }
     return;
   }
   if(ttsLoading) return;
@@ -13115,9 +13294,8 @@ async function ttsGenerate(){
 function ttsRegen(text,model){
   aicSwitchMode('tts');
   const inp=document.getElementById('ttsTextInput');
-  const modelInp=document.getElementById('ttsModelInput');
   if(inp) inp.value=text;
-  if(modelInp) modelInp.value=model||'';
+  aicSyncChipGroup('ttsModelChips',model||'');
   ttsGenerate();
 }
 
