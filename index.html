@@ -10522,13 +10522,15 @@ function saiGenerate(){
 /* Halaman AI dikunci penuh layar (tidak ikut scroll body), hanya area chat yang scroll */
 #ai.active{
   position:fixed;
-  top:56px;
+  top:46px;
   left:0;right:0;bottom:0;
+  height:calc(100dvh - 46px);
   z-index:500;
   display:flex;
   flex-direction:column;
-  padding:12px 16px calc(10px + env(safe-area-inset-bottom,0px));
+  padding:12px 16px calc(22px + env(safe-area-inset-bottom,0px));
   overflow:hidden;
+  background:transparent;
 }
 
 .aic-header{
@@ -12065,7 +12067,6 @@ function aiLoadHist(key){
 function aiSaveHist(key,arr){
   try{ localStorage.setItem(key,JSON.stringify(arr.slice(-AI_HIST_CAP))); }catch(e){}
 }
-let aiartHistory=aiLoadHist('zusmoAiArtHistory'); // {prompt,url,error}
 let aiartLoading=false;
 let aiartLoadingPrompt='';
 const AIART_SUGGEST=['Kucing oren pakai jaket astronot','Karakter Free Fire gaya anime','Naga api di atas gunung','Kota cyberpunk waktu malam','Pemandangan pantai gaya lukisan','Robot ksatria futuristik'];
@@ -12229,106 +12230,6 @@ function aiartExtractUrl(json){
   return null;
 }
 
-function aiartRender(){
-  const scroll=document.getElementById('aiartScroll');
-  if(!scroll) return;
-  if(!aiartHistory.length&&!aiartLoading){
-    const chips=AIART_SUGGEST.map(function(s){
-      return '<div class="aiart-chip" onclick="aiartUseSuggestion(\''+aiartEscAttr(s)+'\')">'+aiartEscapeHtml(s)+'</div>';
-    }).join('');
-    scroll.innerHTML='<div class="aiart-empty" id="aiartEmpty"><i class="fa-solid fa-wand-magic-sparkles"></i>Tulis deskripsi gambar yang ingin dibuat AI'+
-      '<div class="aiart-suggest">'+chips+'</div></div>';
-    return;
-  }
-  let html=aiartHistory.map(function(item){
-    const userMsg='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user allow-copy">'+aiartEscapeHtml(item.prompt)+'</div>'+
-      '<button class="aic-copybtn" onclick="aiartCopyPrompt(\''+aiartEscAttr(item.prompt)+'\',this)"><i class="fa-solid fa-copy"></i>Salin</button></div>';
-    if(item.error){
-      return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">AI ART</span>'+
-        '<div class="aic-msg aic-msg-err"><i class="fa-solid fa-triangle-exclamation"></i> Gagal membuat gambar. Coba lagi.</div>'+
-        '<button class="aiart-retrybtn" onclick="aiartRegen(\''+aiartEscAttr(item.prompt)+'\')"><i class="fa-solid fa-rotate-right"></i> COBA LAGI</button>'+
-      '</div>';
-    }
-    return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">AI ART</span>'+
-      '<div class="aic-msg aic-msg-ai aiart-imgmsg">'+
-        '<div class="aiart-imgwrap"><img class="aiart-img" src="'+aiartEscAttr(item.url)+'" alt="AI Art" referrerpolicy="no-referrer-when-downgrade" onerror="aiImgErr(this)" onclick="aiOpenLightbox(\''+aiartEscAttr(item.url)+'\',\'art\')"></div>'+
-        '<div class="aiart-actions">'+
-          '<button class="aiart-dlbtn" onclick="aiartDownload(\''+aiartEscAttr(item.url)+'\')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>'+
-          '<button class="aiart-regenbtn" onclick="aiartRegen(\''+aiartEscAttr(item.prompt)+'\')"><i class="fa-solid fa-rotate-right"></i> ULANGI</button>'+
-        '</div>'+
-      '</div>'+
-    '</div>';
-  }).join('');
-  if(aiartLoading){
-    html+='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user allow-copy">'+aiartEscapeHtml(aiartLoadingPrompt)+'</div></div>'+
-      '<div class="aic-msg-wrap ai"><span class="aic-msg-tag">AI ART</span>'+
-      '<div class="aic-msg aic-msg-ai aiart-imgmsg"><div class="aiart-skel"><i class="fa-solid fa-spinner fa-spin"></i>Sedang membuat gambar...</div></div></div>';
-  }
-  scroll.innerHTML=html;
-  scroll.scrollTop=scroll.scrollHeight;
-}
-
-function aiartUseSuggestion(text){
-  const inp=document.getElementById('aiartInput');
-  if(!inp) return;
-  inp.value=text;
-  aicAutoGrow(inp);
-  inp.focus();
-}
-
-function aiartCopyPrompt(text,btnEl){
-  function done(){
-    if(!btnEl) return;
-    const orig=btnEl.innerHTML;
-    btnEl.classList.add('copied');
-    btnEl.innerHTML='<i class="fa-solid fa-check"></i>';
-    setTimeout(function(){ btnEl.classList.remove('copied'); btnEl.innerHTML=orig; },1400);
-  }
-  if(navigator.clipboard&&navigator.clipboard.writeText){
-    navigator.clipboard.writeText(text).then(done).catch(function(){ aicFallbackCopy(text,done); });
-  }else{
-    aicFallbackCopy(text,done);
-  }
-}
-
-function aiartClearHistory(){
-  aiartHistory=[];
-  aiSaveHist('zusmoAiArtHistory',aiartHistory);
-  aiartRender();
-}
-
-function aiartRenderHistoryList(){
-  const list=document.getElementById('aicHistList');
-  if(!list) return;
-  if(!aiartHistory.length){
-    list.innerHTML='<div class="aic-histempty">Belum ada riwayat AI Art</div>';
-    return;
-  }
-  list.innerHTML=aiartHistory.slice().reverse().map(function(item,ridx){
-    const idx=aiartHistory.length-1-ridx;
-    const label=item.error?'Gagal dibuat: '+item.prompt:item.prompt;
-    return '<div class="aic-histitem" onclick="aiartOpenFromHistory()">'+
-      '<div class="aic-histitem-ic"><i class="fa-solid fa-image"></i></div>'+
-      '<div class="aic-histitem-txt"><div class="aic-histitem-title">'+aiartEscapeHtml(label)+'</div></div>'+
-      '<button class="aic-histitem-del" onclick="aiartDeleteHistoryItem('+idx+',event)"><i class="fa-solid fa-trash"></i></button>'+
-    '</div>';
-  }).join('');
-}
-
-function aiartOpenFromHistory(){
-  aicCloseHistoryDrawer();
-  const scroll=document.getElementById('aiartScroll');
-  if(scroll) scroll.scrollTop=scroll.scrollHeight;
-}
-
-function aiartDeleteHistoryItem(idx,ev){
-  if(ev) ev.stopPropagation();
-  aiartHistory.splice(idx,1);
-  aiSaveHist('zusmoAiArtHistory',aiartHistory);
-  aiartRender();
-  aiartRenderHistoryList();
-}
-
 function aiartRegen(prompt){
   aicSwitchMode('art');
   const inp=document.getElementById('aicInput');
@@ -12397,7 +12298,6 @@ async function aiartDownload(url){
    Respons: {creator,filter,result:{prompt_id,queue_info:{status},results:[{index,nsfw,origin,thumb}]},status}
    ============================================================================ */
 const AIFLT_ENDPOINT='https://sylvatica.my.id/api/ai/aifilter';
-let aifltHistory=aiLoadHist('zusmoAiFilterHistory'); // {srcUrl,filter,images:[{url,nsfw}],error}
 let aifltLoading=false;
 let aifltLoadingLabel='';
 let aifltPreviewTimer=null;
@@ -12422,85 +12322,6 @@ function aifltExtractImages(json){
   return images.length?images:null;
 }
 
-function aifltRender(){
-  const scroll=document.getElementById('aifltScroll');
-  if(!scroll) return;
-  const urlVal=document.getElementById('aifltUrlInput')?document.getElementById('aifltUrlInput').value:'';
-  const genBtn=document.getElementById('aifltGenBtn');
-  if(genBtn) genBtn.disabled=aifltLoading;
-
-  if(!aifltHistory.length&&!aifltLoading){
-    scroll.innerHTML='<div class="aiflt-empty" id="aifltEmpty"><i class="fa-solid fa-wand-sparkles"></i>Tempel link gambar &amp; kode filter di bawah</div>';
-    return;
-  }
-
-  let html=aifltHistory.map(function(item){
-    const userMsg='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user aiflt-usermsg">'+
-      '<img class="aiflt-userthumb" src="'+aifltEscAttr(item.srcUrl)+'" referrerpolicy="no-referrer-when-downgrade" onerror="this.style.visibility=\'hidden\'">'+
-      '<span class="aiflt-usertext allow-copy">'+aifltEscapeHtml(item.filterLabel||item.filter||'Filter')+'</span>'+
-    '</div></div>';
-    if(item.error){
-      return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">AI FILTER</span>'+
-        '<div class="aic-msg aic-msg-err"><i class="fa-solid fa-triangle-exclamation"></i> Gagal menerapkan filter.</div>'+
-        '<button class="aiflt-retrybtn" onclick="aifltRegen(\''+aifltEscAttr(item.srcUrl)+'\',\''+aifltEscAttr(item.filter)+'\')"><i class="fa-solid fa-rotate-right"></i> COBA LAGI</button>'+
-      '</div>';
-    }
-    const imgsHtml=item.images.map(function(im){
-      return '<div class="aiflt-resimgwrap">'+
-        (im.nsfw?'<span class="aiflt-nsfw">NSFW</span>':'')+
-        '<img class="aiflt-resimg" src="'+aifltEscAttr(im.url)+'" alt="Hasil AI Filter" referrerpolicy="no-referrer-when-downgrade" onerror="aiImgErr(this)" onclick="aiOpenLightbox(\''+aifltEscAttr(im.url)+'\',\'filter\')">'+
-        '<button class="aiflt-dlmini" onclick="aifltDownload(\''+aifltEscAttr(im.url)+'\')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>'+
-      '</div>';
-    }).join('');
-    return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">AI FILTER</span>'+
-      '<div class="aic-msg aic-msg-ai aiflt-resmsg">'+
-        '<div class="aiflt-grid'+(item.images.length===1?' single':'')+'">'+imgsHtml+'</div>'+
-        '<button class="aiflt-retrybtn" onclick="aifltRegen(\''+aifltEscAttr(item.srcUrl)+'\',\''+aifltEscAttr(item.filter)+'\')"><i class="fa-solid fa-rotate-right"></i> ULANGI</button>'+
-      '</div>'+
-    '</div>';
-  }).join('');
-
-  if(aifltLoading){
-    html+='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user aiflt-usermsg">'+
-      '<img class="aiflt-userthumb" src="'+aifltEscAttr(urlVal)+'" referrerpolicy="no-referrer-when-downgrade" onerror="this.style.visibility=\'hidden\'">'+
-      '<span class="aiflt-usertext allow-copy">'+aifltEscapeHtml(aifltLoadingLabel||'Memproses...')+'</span>'+
-    '</div></div>'+
-    '<div class="aic-msg-wrap ai"><span class="aic-msg-tag">AI FILTER</span>'+
-    '<div class="aic-msg aic-msg-ai aiflt-resmsg"><div class="aiart-skel"><i class="fa-solid fa-spinner fa-spin"></i>Menerapkan filter...</div></div></div>';
-  }
-
-  scroll.innerHTML=html;
-  scroll.scrollTop=scroll.scrollHeight;
-}
-
-function aifltUpdatePreview(val){
-  clearTimeout(aifltPreviewTimer);
-  const box=document.getElementById('aifltPreview');
-  const img=document.getElementById('aifltPreviewImg');
-  if(!box||!img) return;
-  const v=(val||'').trim();
-  if(!v){ box.className='aiflt-preview'; img.src=''; return; }
-  box.className='aiflt-preview checking show';
-  box.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i>';
-  aifltPreviewTimer=setTimeout(function(){
-    const test=new Image();
-    test.referrerPolicy='no-referrer';
-    test.onload=function(){
-      const b=document.getElementById('aifltPreview');
-      if(!b) return;
-      b.className='aiflt-preview show';
-      b.innerHTML='<img id="aifltPreviewImg" src="'+aifltEscAttr(v)+'" alt="" referrerpolicy="no-referrer-when-downgrade">';
-    };
-    test.onerror=function(){
-      const b=document.getElementById('aifltPreview');
-      if(!b) return;
-      b.className='aiflt-preview bad show';
-      b.innerHTML='<i class="fa-solid fa-triangle-exclamation"></i> Link tidak valid';
-    };
-    test.src=v;
-  },450);
-}
-
 function aifltRegen(srcUrl,promptText){
   aicSwitchMode('filter');
   const urlInp=document.getElementById('aifltUrlInput');
@@ -12508,44 +12329,6 @@ function aifltRegen(srcUrl,promptText){
   const customInp=document.getElementById('aifltCustomInput');
   if(customInp){ customInp.value=promptText; aicAutoGrow(customInp); }
   aifltGenerate();
-}
-
-function aifltClearHistory(){
-  aifltHistory=[];
-  aiSaveHist('zusmoAiFilterHistory',aifltHistory);
-  aifltRender();
-}
-
-function aifltRenderHistoryList(){
-  const list=document.getElementById('aicHistList');
-  if(!list) return;
-  if(!aifltHistory.length){
-    list.innerHTML='<div class="aic-histempty">Belum ada riwayat AI Filter</div>';
-    return;
-  }
-  list.innerHTML=aifltHistory.slice().reverse().map(function(item,ridx){
-    const idx=aifltHistory.length-1-ridx;
-    const label=item.error?'Gagal: '+(item.filterLabel||item.filter||'Filter'):(item.filterLabel||item.filter||'Filter');
-    return '<div class="aic-histitem" onclick="aifltOpenFromHistory()">'+
-      '<div class="aic-histitem-ic"><i class="fa-solid fa-wand-sparkles"></i></div>'+
-      '<div class="aic-histitem-txt"><div class="aic-histitem-title">'+aifltEscapeHtml(label)+'</div></div>'+
-      '<button class="aic-histitem-del" onclick="aifltDeleteHistoryItem('+idx+',event)"><i class="fa-solid fa-trash"></i></button>'+
-    '</div>';
-  }).join('');
-}
-
-function aifltOpenFromHistory(){
-  aicCloseHistoryDrawer();
-  const scroll=document.getElementById('aifltScroll');
-  if(scroll) scroll.scrollTop=scroll.scrollHeight;
-}
-
-function aifltDeleteHistoryItem(idx,ev){
-  if(ev) ev.stopPropagation();
-  aifltHistory.splice(idx,1);
-  aiSaveHist('zusmoAiFilterHistory',aifltHistory);
-  aifltRender();
-  aifltRenderHistoryList();
 }
 
 async function aifltGenerate(){
