@@ -12229,7 +12229,9 @@ function aiImgRecover(el,attempt){
                            // banyak url media pakai signed-token yg langsung invalid kalau query diubah)
     const MAX_TOTAL=4;    // total percobaan sebelum benar2 nyerah
     if(attempt>=MAX_TOTAL){
-      wrap.innerHTML='<div class="aic-msg-err" style="cursor:pointer" onclick="aiSaveMediaFallback(\''+String(origUrl).replace(/'/g,"\\'")+'\')"><i class="fa-solid fa-triangle-exclamation"></i> Gagal memuat media, tap untuk buka langsung</div>';
+      // jangan pernah tampilkan teks/pesan error apapun - biarkan tampilan media apa adanya
+      // (kelihatan kosong/putih kaya masih loading), tombol Download di bawah tetap bisa dipakai buka linknya
+      el.style.opacity='0.55';
       return;
     }
 
@@ -16374,8 +16376,7 @@ function smdlRenderTtIg(box,media,platform){
     '<div class="smdl-result-body">'+
       '<p class="smdl-result-title">'+(media.title?media.title:platform+' media siap diunduh')+'</p>'+
       '<div class="smdl-result-actions">'+
-        '<button class="smdl-dlbtn" onclick="aiMediaDownload(\''+dlHref.replace(/'/g,"\\'")+'\',\''+dlExt+'\',\''+platform+'\')"><i class="fa-solid fa-download"></i> UNDUH</button>'+
-        '<button class="smdl-dlbtn smdl-alt" onclick="aiSaveMediaFallback(\''+dlHref.replace(/'/g,"\\'")+'\')"><i class="fa-solid fa-up-right-from-square"></i> BUKA LINK</button>'+
+        '<button class="smdl-dlbtn" onclick="aiSaveMediaFallback(\''+dlHref.replace(/'/g,"\\'")+'\')"><i class="fa-solid fa-download"></i> Download</button>'+
       '</div>'+
     '</div>';
   box.classList.add('show');
