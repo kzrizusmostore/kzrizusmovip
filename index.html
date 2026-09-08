@@ -10658,8 +10658,9 @@ function saiGenerate(){
 .aic-modeswitch-btn:active{transform:scale(.93);}
 .aic-modeswitch-menu{
   display:none;position:absolute;left:0;bottom:calc(100% + 8px);z-index:30;
-  min-width:172px;background:#131313;border:1px solid rgba(255,43,43,.28);
-  border-radius:14px;box-shadow:0 -10px 30px rgba(0,0,0,.55);overflow:hidden;
+  min-width:172px;max-height:60vh;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  background:#131313;border:1px solid rgba(255,43,43,.28);
+  border-radius:14px;box-shadow:0 -10px 30px rgba(0,0,0,.55);
 }
 .aic-modeswitch-menu.show{display:block;animation:pcIn .2s ease;}
 .aic-modeswitch-item{
@@ -10817,6 +10818,45 @@ function saiGenerate(){
         <div class="aic-modelitem" id="aicModelItem_seekcode" onclick="aicSwitchModel('seekcode')">
           <span>Qwen Coder 32B</span><i class="fa-solid fa-check aic-modelitem-check"></i>
         </div>
+        <div class="aic-modelitem" id="aicModelItem_gpt" onclick="aicSwitchModel('gpt')">
+          <span>ChatGPT</span><i class="fa-solid fa-check aic-modelitem-check"></i>
+        </div>
+        <div class="aic-modelitem" id="aicModelItem_claude" onclick="aicSwitchModel('claude')">
+          <span>Claude Sonnet</span><i class="fa-solid fa-check aic-modelitem-check"></i>
+        </div>
+        <div class="aic-modelitem" id="aicModelItem_deepai" onclick="aicSwitchModel('deepai')">
+          <span>Deep AI</span><i class="fa-solid fa-check aic-modelitem-check"></i>
+        </div>
+        <div class="aic-modelitem" id="aicModelItem_gpt5" onclick="aicSwitchModel('gpt5')">
+          <span>GPT-5</span><i class="fa-solid fa-check aic-modelitem-check"></i>
+        </div>
+        <div class="aic-modelitem" id="aicModelItem_deepsek" onclick="aicSwitchModel('deepsek')">
+          <span>DeepSeek AI</span><i class="fa-solid fa-check aic-modelitem-check"></i>
+        </div>
+        <div class="aic-modelitem" id="aicModelItem_feeb" onclick="aicSwitchModel('feeb')">
+          <span>Feel Better Bot</span><i class="fa-solid fa-check aic-modelitem-check"></i>
+        </div>
+        <div class="aic-modelitem" id="aicModelItem_gptanon" onclick="aicSwitchModel('gptanon')">
+          <span>GPTAnon AI</span><i class="fa-solid fa-check aic-modelitem-check"></i>
+        </div>
+        <div class="aic-modelitem" id="aicModelItem_kuroneko" onclick="aicSwitchModel('kuroneko')">
+          <span>KuroNeko Assistant</span><i class="fa-solid fa-check aic-modelitem-check"></i>
+        </div>
+        <div class="aic-modelitem" id="aicModelItem_qwen3" onclick="aicSwitchModel('qwen3')">
+          <span>Qwen3 AI</span><i class="fa-solid fa-check aic-modelitem-check"></i>
+        </div>
+        <div class="aic-modelitem" id="aicModelItem_qwen" onclick="aicSwitchModel('qwen')">
+          <span>Qwen AI</span><i class="fa-solid fa-check aic-modelitem-check"></i>
+        </div>
+        <div class="aic-modelitem" id="aicModelItem_perplexity" onclick="aicSwitchModel('perplexity')">
+          <span>Perplexity</span><i class="fa-solid fa-check aic-modelitem-check"></i>
+        </div>
+        <div class="aic-modelitem" id="aicModelItem_nova" onclick="aicSwitchModel('nova')">
+          <span>Nova AI</span><i class="fa-solid fa-check aic-modelitem-check"></i>
+        </div>
+        <div class="aic-modelitem" id="aicModelItem_notrack" onclick="aicSwitchModel('notrack')">
+          <span>NoTrack AI</span><i class="fa-solid fa-check aic-modelitem-check"></i>
+        </div>
       </div>
     </div>
   </div>
@@ -10829,63 +10869,111 @@ function saiGenerate(){
 
   <div class="aic-moderow">
     <div class="aic-modeswitch">
-      <button class="aic-modeswitch-btn" id="aicModeBtn_chat" onclick="aicToggleModeMenu('chat')"><i class="fa-solid fa-comments" id="aicModeIcon_chat"></i></button>
-      <div class="aic-modeswitch-menu" id="aicModeMenu_chat">
-        <div class="aic-modeswitch-item active" id="aicModeItem_chat_chat" onclick="aicSwitchMode('chat')"><i class="fa-solid fa-comments"></i><span>Chat</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
-        <div class="aic-modeswitch-item" id="aicModeItem_chat_art" onclick="aicSwitchMode('art')"><i class="fa-solid fa-image"></i><span>AI Art</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
-        <div class="aic-modeswitch-item" id="aicModeItem_chat_filter" onclick="aicSwitchMode('filter')"><i class="fa-solid fa-wand-sparkles"></i><span>AI Filter</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+      <button class="aic-modeswitch-btn" id="aicModeBtn" onclick="aicToggleModeMenu()"><i class="fa-solid fa-comments" id="aicModeIcon"></i></button>
+      <div class="aic-modeswitch-menu" id="aicModeMenuBox">
+        <div class="aic-modeswitch-item active" id="aicModeItem_chat" onclick="aicSwitchMode('chat')"><i class="fa-solid fa-comments"></i><span>Chat</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_art" onclick="aicSwitchMode('art')"><i class="fa-solid fa-image"></i><span>AI Art</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_filter" onclick="aicSwitchMode('filter')"><i class="fa-solid fa-wand-sparkles"></i><span>AI Filter</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_song" onclick="aicSwitchMode('song')"><i class="fa-solid fa-music"></i><span>AI Song</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_anime" onclick="aicSwitchMode('anime')"><i class="fa-solid fa-image-portrait"></i><span>Anime to Real</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_bypass" onclick="aicSwitchMode('bypass')"><i class="fa-solid fa-user-secret"></i><span>Bypass AI</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_imagenai" onclick="aicSwitchMode('imagenai')"><i class="fa-solid fa-palette"></i><span>Imagen AI</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_img2prompt" onclick="aicSwitchMode('img2prompt')"><i class="fa-solid fa-file-image"></i><span>Image to Prompt</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_detectai" onclick="aicSwitchMode('detectai')"><i class="fa-solid fa-magnifying-glass"></i><span>AI Detector</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_nanobanana" onclick="aicSwitchMode('nanobanana')"><i class="fa-solid fa-image"></i><span>Nano Banana</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_txt2img" onclick="aicSwitchMode('txt2img')"><i class="fa-solid fa-images"></i><span>Text to Image</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_text2vid" onclick="aicSwitchMode('text2vid')"><i class="fa-solid fa-video"></i><span>Text to Video</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_tts" onclick="aicSwitchMode('tts')"><i class="fa-solid fa-microphone-lines"></i><span>Text to Speech</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_toonmix" onclick="aicSwitchMode('toonmix')"><i class="fa-solid fa-shapes"></i><span>Toonmix AI</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
       </div>
     </div>
   </div>
-  <div class="aic-inputbar">
-    <textarea class="aic-textarea" id="aicInput" rows="1" placeholder="Tulis pesan..." onkeydown="if(event.key==='Enter'&amp;&amp;!event.shiftKey){event.preventDefault();aicSend();}" oninput="aicAutoGrow(this)"></textarea>
-    <button class="aic-sendbtn" id="aicSendBtn" onclick="aicSend()"><i class="fa-solid fa-paper-plane"></i></button>
+  <div class="aic-inputbar" id="aicInputBarChat">
+    <textarea class="aic-textarea" id="aicInput" rows="1" placeholder="Tulis pesan..." onkeydown="if(event.key==='Enter'&amp;&amp;!event.shiftKey){event.preventDefault();aicUnifiedSend();}" oninput="aicAutoGrow(this)"></textarea>
+    <button class="aic-sendbtn" id="aicSendBtn" onclick="aicUnifiedSend()"><i class="fa-solid fa-paper-plane" id="aicSendIcon"></i></button>
   </div>
-</div>
-
-<div class="aiart-panel" id="aicArtPanel" style="display:none">
-  <div class="aiart-scroll" id="aiartScroll">
-    <div class="aiart-empty" id="aiartEmpty"><i class="fa-solid fa-wand-magic-sparkles"></i>Tulis deskripsi gambar yang ingin dibuat AI</div>
-  </div>
-
-  <div class="aic-moderow">
-    <div class="aic-modeswitch">
-      <button class="aic-modeswitch-btn" id="aicModeBtn_art" onclick="aicToggleModeMenu('art')"><i class="fa-solid fa-image" id="aicModeIcon_art"></i></button>
-      <div class="aic-modeswitch-menu" id="aicModeMenu_art">
-        <div class="aic-modeswitch-item" id="aicModeItem_art_chat" onclick="aicSwitchMode('chat')"><i class="fa-solid fa-comments"></i><span>Chat</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
-        <div class="aic-modeswitch-item active" id="aicModeItem_art_art" onclick="aicSwitchMode('art')"><i class="fa-solid fa-image"></i><span>AI Art</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
-        <div class="aic-modeswitch-item" id="aicModeItem_art_filter" onclick="aicSwitchMode('filter')"><i class="fa-solid fa-wand-sparkles"></i><span>AI Filter</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
-      </div>
-    </div>
-  </div>
-  <div class="aic-inputbar">
-    <textarea class="aic-textarea" id="aiartInput" rows="1" placeholder="Tulis pesan..." onkeydown="if(event.key==='Enter'&amp;&amp;!event.shiftKey){event.preventDefault();aiartGenerate();}" oninput="aicAutoGrow(this)"></textarea>
-    <button class="aic-sendbtn" id="aiartGenBtn" onclick="aiartGenerate()"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
-  </div>
-</div>
-
-<div class="aiflt-panel" id="aicFilterPanel" style="display:none">
-  <div class="aiflt-scroll" id="aifltScroll">
-    <div class="aiflt-empty"><i class="fa-solid fa-wand-sparkles"></i>Memuat...</div>
-  </div>
-
-  <div class="aic-moderow">
-    <div class="aic-modeswitch">
-      <button class="aic-modeswitch-btn" id="aicModeBtn_filter" onclick="aicToggleModeMenu('filter')"><i class="fa-solid fa-wand-sparkles" id="aicModeIcon_filter"></i></button>
-      <div class="aic-modeswitch-menu" id="aicModeMenu_filter">
-        <div class="aic-modeswitch-item" id="aicModeItem_filter_chat" onclick="aicSwitchMode('chat')"><i class="fa-solid fa-comments"></i><span>Chat</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
-        <div class="aic-modeswitch-item" id="aicModeItem_filter_art" onclick="aicSwitchMode('art')"><i class="fa-solid fa-image"></i><span>AI Art</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
-        <div class="aic-modeswitch-item active" id="aicModeItem_filter_filter" onclick="aicSwitchMode('filter')"><i class="fa-solid fa-wand-sparkles"></i><span>AI Filter</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
-      </div>
-    </div>
-  </div>
-  <div class="aic-inputbar aiflt-inputbar">
+  <div class="aic-inputbar aiflt-inputbar" id="aicInputBarFilter" style="display:none">
     <div class="aiflt-inputs">
-      <input class="aic-textarea" id="aifltUrlInput" type="text" placeholder="Link gambar..." oninput="aifltUpdatePreview(this.value)" onkeydown="if(event.key==='Enter'){event.preventDefault();aifltGenerate();}">
+      <input class="aic-textarea" id="aifltUrlInput" type="text" placeholder="Link gambar..." oninput="aifltUpdatePreview(this.value)" onkeydown="if(event.key==='Enter'){event.preventDefault();aicUnifiedSend();}">
       <div class="aiflt-preview" id="aifltPreview"><img id="aifltPreviewImg" src="" alt="" referrerpolicy="no-referrer"></div>
-      <textarea class="aic-textarea" id="aifltCustomInput" rows="1" placeholder="Tulis prompt filter, cth: ganti outfit jadi jas hitam" oninput="aicAutoGrow(this)" onkeydown="if(event.key==='Enter'&amp;&amp;!event.shiftKey){event.preventDefault();aifltGenerate();}"></textarea>
+      <textarea class="aic-textarea" id="aifltCustomInput" rows="1" placeholder="Tulis prompt filter, cth: ganti outfit jadi jas hitam" oninput="aicAutoGrow(this)" onkeydown="if(event.key==='Enter'&amp;&amp;!event.shiftKey){event.preventDefault();aicUnifiedSend();}"></textarea>
     </div>
-    <button class="aic-sendbtn" id="aifltGenBtn" onclick="aifltGenerate()"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
+    <button class="aic-sendbtn" id="aifltGenBtn" onclick="aicUnifiedSend()"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
+  </div>
+  <div class="aic-inputbar aiflt-inputbar" id="aicInputBarSong" style="display:none">
+    <div class="aiflt-inputs">
+      <textarea class="aic-textarea" id="aisongPromptInput" rows="1" placeholder="Deskripsi lagu / prompt lirik..." oninput="aicAutoGrow(this)" onkeydown="if(event.key==='Enter'&amp;&amp;!event.shiftKey){event.preventDefault();aicUnifiedSend();}"></textarea>
+      <input class="aic-textarea" id="aisongTitleInput" type="text" placeholder="Judul lagu (opsional)...">
+      <input class="aic-textarea" id="aisongTagsInput" type="text" placeholder="Genre/style, cth: Pop, Rock (opsional)..." onkeydown="if(event.key==='Enter'){event.preventDefault();aicUnifiedSend();}">
+    </div>
+    <button class="aic-sendbtn" id="aisongGenBtn" onclick="aicUnifiedSend()"><i class="fa-solid fa-music"></i></button>
+  </div>
+  <div class="aic-inputbar aiflt-inputbar" id="aicInputBarAnime" style="display:none">
+    <div class="aiflt-inputs">
+      <input class="aic-textarea" id="animeUrlInput" type="text" placeholder="Link gambar anime..." oninput="animeUpdatePreview(this.value)" onkeydown="if(event.key==='Enter'){event.preventDefault();aicUnifiedSend();}">
+      <div class="aiflt-preview" id="animePreview"><img id="animePreviewImg" src="" alt="" referrerpolicy="no-referrer"></div>
+    </div>
+    <button class="aic-sendbtn" id="animeGenBtn" onclick="aicUnifiedSend()"><i class="fa-solid fa-image-portrait"></i></button>
+  </div>
+  <div class="aic-inputbar" id="aicInputBarBypass" style="display:none">
+    <textarea class="aic-textarea" id="bypassInput" rows="1" placeholder="Tulis teks yang mau di-bypass dari deteksi AI..." onkeydown="if(event.key==='Enter'&amp;&amp;!event.shiftKey){event.preventDefault();aicUnifiedSend();}" oninput="aicAutoGrow(this)"></textarea>
+    <button class="aic-sendbtn" id="bypassGenBtn" onclick="aicUnifiedSend()"><i class="fa-solid fa-user-secret"></i></button>
+  </div>
+  <div class="aic-inputbar aiflt-inputbar" id="aicInputBarImagen" style="display:none">
+    <div class="aiflt-inputs">
+      <textarea class="aic-textarea" id="imagenPromptInput" rows="1" placeholder="Deskripsi gambar yang ingin dibuat..." oninput="aicAutoGrow(this)" onkeydown="if(event.key==='Enter'&amp;&amp;!event.shiftKey){event.preventDefault();aicUnifiedSend();}"></textarea>
+      <input class="aic-textarea" id="imagenStyleInput" type="text" placeholder="Style (opsional): default, realistic, anime, 3d, ghibli" onkeydown="if(event.key==='Enter'){event.preventDefault();aicUnifiedSend();}">
+    </div>
+    <button class="aic-sendbtn" id="imagenGenBtn" onclick="aicUnifiedSend()"><i class="fa-solid fa-palette"></i></button>
+  </div>
+  <div class="aic-inputbar aiflt-inputbar" id="aicInputBarImg2Prompt" style="display:none">
+    <div class="aiflt-inputs">
+      <input class="aic-textarea" id="img2promptUrlInput" type="text" placeholder="Link gambar..." oninput="img2promptUpdatePreview(this.value)" onkeydown="if(event.key==='Enter'){event.preventDefault();aicUnifiedSend();}">
+      <div class="aiflt-preview" id="img2promptPreview"><img id="img2promptPreviewImg" src="" alt="" referrerpolicy="no-referrer"></div>
+    </div>
+    <button class="aic-sendbtn" id="img2promptGenBtn" onclick="aicUnifiedSend()"><i class="fa-solid fa-file-image"></i></button>
+  </div>
+  <div class="aic-inputbar" id="aicInputBarDetectAI" style="display:none">
+    <textarea class="aic-textarea" id="detectaiInput" rows="1" placeholder="Tempel teks yang ingin dicek AI atau manusia..." onkeydown="if(event.key==='Enter'&amp;&amp;!event.shiftKey){event.preventDefault();aicUnifiedSend();}" oninput="aicAutoGrow(this)"></textarea>
+    <button class="aic-sendbtn" id="detectaiGenBtn" onclick="aicUnifiedSend()"><i class="fa-solid fa-magnifying-glass"></i></button>
+  </div>
+  <div class="aic-inputbar aiflt-inputbar" id="aicInputBarNanoBanana" style="display:none">
+    <div class="aiflt-inputs">
+      <input class="aic-textarea" id="nanobananaUrlInput" type="text" placeholder="Link gambar yang ingin diedit..." oninput="nanobananaUpdatePreview(this.value)" onkeydown="if(event.key==='Enter'){event.preventDefault();aicUnifiedSend();}">
+      <div class="aiflt-preview" id="nanobananaPreview"><img id="nanobananaPreviewImg" src="" alt="" referrerpolicy="no-referrer"></div>
+      <textarea class="aic-textarea" id="nanobananaPromptInput" rows="1" placeholder="Instruksi editan gambar, cth: ganti background jadi pantai" oninput="aicAutoGrow(this)" onkeydown="if(event.key==='Enter'&amp;&amp;!event.shiftKey){event.preventDefault();aicUnifiedSend();}"></textarea>
+    </div>
+    <button class="aic-sendbtn" id="nanobananaGenBtn" onclick="aicUnifiedSend()"><i class="fa-solid fa-image"></i></button>
+  </div>
+  <div class="aic-inputbar aiflt-inputbar" id="aicInputBarTxt2Img" style="display:none">
+    <div class="aiflt-inputs">
+      <textarea class="aic-textarea" id="txt2imgPromptInput" rows="1" placeholder="Prompt gambar yang ingin dibuat..." oninput="aicAutoGrow(this)" onkeydown="if(event.key==='Enter'&amp;&amp;!event.shiftKey){event.preventDefault();aicUnifiedSend();}"></textarea>
+      <input class="aic-textarea" id="txt2imgRatioInput" type="text" placeholder="Rasio (opsional): 1:1, 16:9" onkeydown="if(event.key==='Enter'){event.preventDefault();aicUnifiedSend();}">
+    </div>
+    <button class="aic-sendbtn" id="txt2imgGenBtn" onclick="aicUnifiedSend()"><i class="fa-solid fa-images"></i></button>
+  </div>
+  <div class="aic-inputbar aiflt-inputbar" id="aicInputBarText2Vid" style="display:none">
+    <div class="aiflt-inputs">
+      <textarea class="aic-textarea" id="text2vidPromptInput" rows="1" placeholder="Prompt video yang ingin dibuat..." oninput="aicAutoGrow(this)" onkeydown="if(event.key==='Enter'&amp;&amp;!event.shiftKey){event.preventDefault();aicUnifiedSend();}"></textarea>
+      <input class="aic-textarea" id="text2vidRatioInput" type="text" placeholder="Rasio (opsional): auto, 1:1, 16:9, 9:16" onkeydown="if(event.key==='Enter'){event.preventDefault();aicUnifiedSend();}">
+      <input class="aic-textarea" id="text2vidSoundInput" type="text" placeholder="Sound true/false (opsional, default: true)" onkeydown="if(event.key==='Enter'){event.preventDefault();aicUnifiedSend();}">
+    </div>
+    <button class="aic-sendbtn" id="text2vidGenBtn" onclick="aicUnifiedSend()"><i class="fa-solid fa-video"></i></button>
+  </div>
+  <div class="aic-inputbar aiflt-inputbar" id="aicInputBarTts" style="display:none">
+    <div class="aiflt-inputs">
+      <textarea class="aic-textarea" id="ttsTextInput" rows="1" placeholder="Teks yang ingin diubah menjadi suara..." oninput="aicAutoGrow(this)" onkeydown="if(event.key==='Enter'&amp;&amp;!event.shiftKey){event.preventDefault();aicUnifiedSend();}"></textarea>
+      <input class="aic-textarea" id="ttsModelInput" type="text" placeholder="Model suara, cth: miku, goku, eminem" onkeydown="if(event.key==='Enter'){event.preventDefault();aicUnifiedSend();}">
+    </div>
+    <button class="aic-sendbtn" id="ttsGenBtn" onclick="aicUnifiedSend()"><i class="fa-solid fa-microphone-lines"></i></button>
+  </div>
+  <div class="aic-inputbar aiflt-inputbar" id="aicInputBarToonmix" style="display:none">
+    <div class="aiflt-inputs">
+      <input class="aic-textarea" id="toonmixUrlInput" type="text" placeholder="Link gambar (opsional, untuk Image to Image)..." oninput="toonmixUpdatePreview(this.value)" onkeydown="if(event.key==='Enter'){event.preventDefault();aicUnifiedSend();}">
+      <div class="aiflt-preview" id="toonmixPreview"><img id="toonmixPreviewImg" src="" alt="" referrerpolicy="no-referrer"></div>
+      <textarea class="aic-textarea" id="toonmixPromptInput" rows="1" placeholder="Tulis prompt Toonmix..." oninput="aicAutoGrow(this)" onkeydown="if(event.key==='Enter'&amp;&amp;!event.shiftKey){event.preventDefault();aicUnifiedSend();}"></textarea>
+    </div>
+    <button class="aic-sendbtn" id="toonmixGenBtn" onclick="aicUnifiedSend()"><i class="fa-solid fa-shapes"></i></button>
   </div>
 </div>
 </div>
@@ -10938,7 +11026,7 @@ async function xyureiRequest(pathBuilder,opts){
   try{
     let res,text;
     try{
-      res=await fetch(url,{headers:{'Accept':'application/json'}});
+      res=await fetch(url,{method:(opts.method||'GET'),headers:{'Accept':'application/json'}});
       text=await res.text();
     }catch(networkErr){
       usedProxy=true;
@@ -11074,9 +11162,22 @@ async function smdlDownloadRequest(endpoint,url,opts){
 <script>
 const AISEEK_ENDPOINT='https://sylvatica.my.id/api/ai/aiseek';
 const AIC_MODELS={
-  seek:{apiModel:'deepseek/deepseek-chat',label:'DeepSeek Chat'},
-  seeklite:{apiModel:'google/gemini-2.5-flash-lite',label:'Gemini 2.5 Flash Lite'},
-  seekcode:{apiModel:'qwen/qwen-coder-32b',label:'Qwen Coder 32B'}
+  seek:{kind:'aiseek',apiModel:'deepseek/deepseek-chat',label:'DeepSeek Chat'},
+  seeklite:{kind:'aiseek',apiModel:'google/gemini-2.5-flash-lite',label:'Gemini 2.5 Flash Lite'},
+  seekcode:{kind:'aiseek',apiModel:'qwen/qwen-coder-32b',label:'Qwen Coder 32B'},
+  gpt:{kind:'chatgpt',label:'ChatGPT'},
+  claude:{kind:'claude',label:'Claude Sonnet'},
+  deepai:{kind:'deepai',label:'Deep AI'},
+  gpt5:{kind:'simpleq',endpoint:'gpt5',label:'GPT-5'},
+  deepsek:{kind:'simpleq',endpoint:'deepsek',label:'DeepSeek AI'},
+  feeb:{kind:'sessionq',endpoint:'feeb',sessKey:'feebSession',label:'Feel Better Bot'},
+  gptanon:{kind:'sessionq',endpoint:'gptanon',sessKey:'gptanonSession',label:'GPTAnon AI'},
+  kuroneko:{kind:'sessionq',endpoint:'kuroneko',sessKey:'kuronekoSession',label:'KuroNeko Assistant'},
+  qwen3:{kind:'simpleq',endpoint:'qwen3',label:'Qwen3 AI'},
+  qwen:{kind:'simpleq',endpoint:'qwen',label:'Qwen AI'},
+  perplexity:{kind:'simpleq',endpoint:'perplexity',paramName:'query',label:'Perplexity'},
+  nova:{kind:'simpleq',endpoint:'nova',label:'Nova AI'},
+  notrack:{kind:'notrack',label:'NoTrack AI'}
 };
 let aicActiveModel='seek';
 let aicMenuOpen=false;
@@ -11152,20 +11253,9 @@ function aicCloseHistoryDrawer(){
 function aicRenderHistoryDrawer(){
   const title=document.getElementById('aicHistDrawerTitle');
   const newBtn=document.getElementById('aicNewChatBtn');
-  const mode=(typeof aicCurrentMode!=='undefined')?aicCurrentMode:'chat';
-  if(mode==='art'){
-    if(title) title.textContent='Riwayat AI Art';
-    if(newBtn) newBtn.style.display='none';
-    if(typeof aiartRenderHistoryList==='function') aiartRenderHistoryList();
-  }else if(mode==='filter'){
-    if(title) title.textContent='Riwayat AI Filter';
-    if(newBtn) newBtn.style.display='none';
-    if(typeof aifltRenderHistoryList==='function') aifltRenderHistoryList();
-  }else{
-    if(title) title.textContent='Riwayat Obrolan';
-    if(newBtn) newBtn.style.display='flex';
-    aicRenderSessions();
-  }
+  if(title) title.textContent='Riwayat Obrolan';
+  if(newBtn) newBtn.style.display='flex';
+  aicRenderSessions();
 }
 
 function aicNewChat(){
@@ -11256,11 +11346,262 @@ function aicEscapeHtml(str){
 function aicRenderChat(){
   const box=document.getElementById('aicChatbox');
   if(!box) return;
-  if(!aicHistory.length){
+  if(!aicHistory.length&&!aiartLoading&&!aifltLoading&&!aisongLoading&&!animeLoading&&!bypassLoading&&!imagenLoading&&!img2promptLoading&&!detectaiLoading&&!nanobananaLoading&&!txt2imgLoading&&!text2vidLoading&&!ttsLoading&&!toonmixLoading){
+    const suggest=AIC_MODE_SUGGEST[aicCurrentMode];
+    if(suggest&&suggest.length){
+      const chips=suggest.map(function(s){
+        return '<div class="aiart-chip" onclick="aicUseSuggestion(\''+aiartEscAttr(aicCurrentMode)+'\',\''+aiartEscAttr(s)+'\')">'+aiartEscapeHtml(s)+'</div>';
+      }).join('');
+      box.innerHTML='<div class="aiart-empty"><i class="fa-solid '+(AIC_MODE_SUGGEST_ICON[aicCurrentMode]||'fa-wand-magic-sparkles')+'"></i>'+(AIC_MODE_SUGGEST_LABEL[aicCurrentMode]||'Tulis prompt')+
+        '<div class="aiart-suggest">'+chips+'</div></div>';
+      return;
+    }
     box.innerHTML='<div class="aic-empty" id="aicEmpty"><i class="fa-solid fa-comments"></i>Mulai chat dengan KZRIZUSMO AI</div>';
     return;
   }
-  box.innerHTML=aicHistory.map(function(m,idx){
+  let html=aicHistory.map(function(m,idx){
+    const kind=m.kind||'chat';
+    if(kind==='art'){
+      const userMsg='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user allow-copy">'+aicEscapeHtml(m.prompt)+'</div>'+
+        '<button class="aic-copybtn" onclick="aiartCopyPrompt(\''+aiartEscAttr(m.prompt)+'\',this)"><i class="fa-solid fa-copy"></i>Salin</button></div>';
+      if(m.error){
+        return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">AI ART</span>'+
+          '<div class="aic-msg aic-msg-err"><i class="fa-solid fa-triangle-exclamation"></i> Gagal membuat gambar. Coba lagi.</div>'+
+          '<button class="aiart-retrybtn" onclick="aiartRegen(\''+aiartEscAttr(m.prompt)+'\')"><i class="fa-solid fa-rotate-right"></i> COBA LAGI</button>'+
+        '</div>';
+      }
+      return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">AI ART</span>'+
+        '<div class="aic-msg aic-msg-ai aiart-imgmsg">'+
+          '<div class="aiart-imgwrap"><img class="aiart-img" src="'+aiartEscAttr(m.url)+'" alt="AI Art" referrerpolicy="no-referrer" onclick="aiOpenLightbox(\''+aiartEscAttr(m.url)+'\',\'art\')"></div>'+
+          '<div class="aiart-actions">'+
+            '<button class="aiart-dlbtn" onclick="aiartDownload(\''+aiartEscAttr(m.url)+'\')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>'+
+            '<button class="aiart-regenbtn" onclick="aiartRegen(\''+aiartEscAttr(m.prompt)+'\')"><i class="fa-solid fa-rotate-right"></i> ULANGI</button>'+
+          '</div>'+
+        '</div>'+
+      '</div>';
+    }
+    if(kind==='filter'){
+      const userMsg='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user aiflt-usermsg">'+
+        '<img class="aiflt-userthumb" src="'+aifltEscAttr(m.srcUrl)+'" referrerpolicy="no-referrer" onerror="this.style.visibility=\'hidden\'">'+
+        '<span class="aiflt-usertext allow-copy">'+aifltEscapeHtml(m.filterLabel||m.filter||'Filter')+'</span>'+
+      '</div></div>';
+      if(m.error){
+        return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">AI FILTER</span>'+
+          '<div class="aic-msg aic-msg-err"><i class="fa-solid fa-triangle-exclamation"></i> Gagal menerapkan filter.</div>'+
+          '<button class="aiflt-retrybtn" onclick="aifltRegen(\''+aifltEscAttr(m.srcUrl)+'\',\''+aifltEscAttr(m.filter)+'\')"><i class="fa-solid fa-rotate-right"></i> COBA LAGI</button>'+
+        '</div>';
+      }
+      const imgsHtml=(m.images||[]).map(function(im){
+        return '<div class="aiflt-resimgwrap">'+
+          (im.nsfw?'<span class="aiflt-nsfw">NSFW</span>':'')+
+          '<img class="aiflt-resimg" src="'+aifltEscAttr(im.url)+'" alt="Hasil AI Filter" referrerpolicy="no-referrer" onclick="aiOpenLightbox(\''+aifltEscAttr(im.url)+'\',\'filter\')">'+
+          '<button class="aiflt-dlmini" onclick="aifltDownload(\''+aifltEscAttr(im.url)+'\')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>'+
+        '</div>';
+      }).join('');
+      return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">AI FILTER</span>'+
+        '<div class="aic-msg aic-msg-ai aiflt-resmsg">'+
+          '<div class="aiflt-grid'+((m.images&&m.images.length===1)?' single':'')+'">'+imgsHtml+'</div>'+
+          '<button class="aiflt-retrybtn" onclick="aifltRegen(\''+aifltEscAttr(m.srcUrl)+'\',\''+aifltEscAttr(m.filter)+'\')"><i class="fa-solid fa-rotate-right"></i> ULANGI</button>'+
+        '</div>'+
+      '</div>';
+    }
+    if(kind==='song'){
+      const userMsg='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user allow-copy">'+aicEscapeHtml(m.title?('['+m.title+'] '):'')+aicEscapeHtml(m.prompt)+'</div></div>';
+      if(m.error){
+        return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">AI SONG</span>'+
+          '<div class="aic-msg aic-msg-err"><i class="fa-solid fa-triangle-exclamation"></i> Gagal membuat lagu. Coba lagi.</div>'+
+          '<button class="aiart-retrybtn" onclick="aisongRegen(\''+aiartEscAttr(m.prompt)+'\',\''+aiartEscAttr(m.title||'')+'\',\''+aiartEscAttr(m.tags||'')+'\')"><i class="fa-solid fa-rotate-right"></i> COBA LAGI</button>'+
+        '</div>';
+      }
+      return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">AI SONG</span>'+
+        '<div class="aic-msg aic-msg-ai aiart-imgmsg">'+
+          '<audio controls style="width:100%" src="'+aiartEscAttr(m.url)+'"></audio>'+
+          '<div class="aiart-actions">'+
+            '<button class="aiart-dlbtn" onclick="aiartDownload(\''+aiartEscAttr(m.url)+'\')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>'+
+            '<button class="aiart-regenbtn" onclick="aisongRegen(\''+aiartEscAttr(m.prompt)+'\',\''+aiartEscAttr(m.title||'')+'\',\''+aiartEscAttr(m.tags||'')+'\')"><i class="fa-solid fa-rotate-right"></i> ULANGI</button>'+
+          '</div>'+
+        '</div>'+
+      '</div>';
+    }
+    if(kind==='anime'){
+      const userMsg='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user aiflt-usermsg">'+
+        '<img class="aiflt-userthumb" src="'+aifltEscAttr(m.srcUrl)+'" referrerpolicy="no-referrer" onerror="this.style.visibility=\'hidden\'">'+
+        '<span class="aiflt-usertext allow-copy">Anime to Real</span>'+
+      '</div></div>';
+      if(m.error){
+        return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">ANIME TO REAL</span>'+
+          '<div class="aic-msg aic-msg-err"><i class="fa-solid fa-triangle-exclamation"></i> Gagal memproses gambar.</div>'+
+          '<button class="aiflt-retrybtn" onclick="animeRegen(\''+aifltEscAttr(m.srcUrl)+'\')"><i class="fa-solid fa-rotate-right"></i> COBA LAGI</button>'+
+        '</div>';
+      }
+      return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">ANIME TO REAL</span>'+
+        '<div class="aic-msg aic-msg-ai aiart-imgmsg">'+
+          '<div class="aiart-imgwrap"><img class="aiart-img" src="'+aifltEscAttr(m.url)+'" alt="Anime to Real" referrerpolicy="no-referrer" onclick="aiOpenLightbox(\''+aifltEscAttr(m.url)+'\',\'anime\')"></div>'+
+          '<div class="aiart-actions">'+
+            '<button class="aiart-dlbtn" onclick="aiartDownload(\''+aifltEscAttr(m.url)+'\')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>'+
+            '<button class="aiart-regenbtn" onclick="animeRegen(\''+aifltEscAttr(m.srcUrl)+'\')"><i class="fa-solid fa-rotate-right"></i> ULANGI</button>'+
+          '</div>'+
+        '</div>'+
+      '</div>';
+    }
+    if(kind==='bypass'){
+      const userMsg='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user allow-copy">'+aicEscapeHtml(m.input)+'</div></div>';
+      if(m.error){
+        return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">BYPASS AI</span>'+
+          '<div class="aic-msg aic-msg-err"><i class="fa-solid fa-triangle-exclamation"></i> Gagal memproses teks.</div>'+
+          '<button class="aiart-retrybtn" onclick="bypassRegen(\''+aiartEscAttr(m.input)+'\')"><i class="fa-solid fa-rotate-right"></i> COBA LAGI</button>'+
+        '</div>';
+      }
+      return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">BYPASS AI</span><div class="aic-msg aic-msg-ai allow-copy">'+aicEscapeHtml(m.output)+'</div>'+
+        '<button class="aic-copybtn" onclick="aicCopyMsg('+idx+',this)"><i class="fa-solid fa-copy"></i>Salin</button></div>';
+    }
+    if(kind==='imagenai'){
+      const userMsg='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user allow-copy">'+aicEscapeHtml(m.prompt)+(m.style?' <span style="opacity:.6">['+aicEscapeHtml(m.style)+']</span>':'')+'</div>'+
+        '<button class="aic-copybtn" onclick="aiartCopyPrompt(\''+aiartEscAttr(m.prompt)+'\',this)"><i class="fa-solid fa-copy"></i>Salin</button></div>';
+      if(m.error){
+        return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">IMAGEN AI</span>'+
+          '<div class="aic-msg aic-msg-err"><i class="fa-solid fa-triangle-exclamation"></i> Gagal membuat gambar. Coba lagi.</div>'+
+          '<button class="aiart-retrybtn" onclick="imagenRegen(\''+aiartEscAttr(m.prompt)+'\',\''+aiartEscAttr(m.style)+'\')"><i class="fa-solid fa-rotate-right"></i> COBA LAGI</button>'+
+        '</div>';
+      }
+      return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">IMAGEN AI</span>'+
+        '<div class="aic-msg aic-msg-ai aiart-imgmsg">'+
+          '<div class="aiart-imgwrap"><img class="aiart-img" src="'+aiartEscAttr(m.url)+'" alt="Imagen AI" referrerpolicy="no-referrer" onclick="aiOpenLightbox(\''+aiartEscAttr(m.url)+'\',\'imagenai\')"></div>'+
+          '<div class="aiart-actions">'+
+            '<button class="aiart-dlbtn" onclick="aiartDownload(\''+aiartEscAttr(m.url)+'\')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>'+
+            '<button class="aiart-regenbtn" onclick="imagenRegen(\''+aiartEscAttr(m.prompt)+'\',\''+aiartEscAttr(m.style)+'\')"><i class="fa-solid fa-rotate-right"></i> ULANGI</button>'+
+          '</div>'+
+        '</div>'+
+      '</div>';
+    }
+    if(kind==='img2prompt'){
+      const userMsg='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user aiflt-usermsg">'+
+        '<img class="aiflt-userthumb" src="'+aifltEscAttr(m.srcUrl)+'" referrerpolicy="no-referrer" onerror="this.style.visibility=\'hidden\'">'+
+        '<span class="aiflt-usertext allow-copy">Image to Prompt</span>'+
+      '</div></div>';
+      if(m.error){
+        return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">IMAGE TO PROMPT</span>'+
+          '<div class="aic-msg aic-msg-err"><i class="fa-solid fa-triangle-exclamation"></i> Gagal menganalisis gambar.</div>'+
+          '<button class="aiflt-retrybtn" onclick="img2promptRegen(\''+aifltEscAttr(m.srcUrl)+'\')"><i class="fa-solid fa-rotate-right"></i> COBA LAGI</button>'+
+        '</div>';
+      }
+      return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">IMAGE TO PROMPT</span><div class="aic-msg aic-msg-ai allow-copy">'+aicEscapeHtml(m.output)+'</div>'+
+        '<button class="aic-copybtn" onclick="aicCopyMsg('+idx+',this)"><i class="fa-solid fa-copy"></i>Salin</button></div>';
+    }
+    if(kind==='detectai'){
+      const userMsg='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user allow-copy">'+aicEscapeHtml(m.input)+'</div></div>';
+      if(m.error){
+        return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">AI DETECTOR</span>'+
+          '<div class="aic-msg aic-msg-err"><i class="fa-solid fa-triangle-exclamation"></i> Gagal memeriksa teks.</div>'+
+          '<button class="aiart-retrybtn" onclick="detectaiRegen(\''+aiartEscAttr(m.input)+'\')"><i class="fa-solid fa-rotate-right"></i> COBA LAGI</button>'+
+        '</div>';
+      }
+      return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">AI DETECTOR</span><div class="aic-msg aic-msg-ai allow-copy">'+aicEscapeHtml(m.output)+'</div>'+
+        '<button class="aic-copybtn" onclick="aicCopyMsg('+idx+',this)"><i class="fa-solid fa-copy"></i>Salin</button></div>';
+    }
+    if(kind==='nanobanana'){
+      const userMsg='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user aiflt-usermsg">'+
+        '<img class="aiflt-userthumb" src="'+aifltEscAttr(m.srcUrl)+'" referrerpolicy="no-referrer" onerror="this.style.visibility=\'hidden\'">'+
+        '<span class="aiflt-usertext allow-copy">'+aifltEscapeHtml(m.prompt||'Edit Gambar')+'</span>'+
+      '</div></div>';
+      if(m.error){
+        return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">NANO BANANA</span>'+
+          '<div class="aic-msg aic-msg-err"><i class="fa-solid fa-triangle-exclamation"></i> Gagal mengedit gambar.</div>'+
+          '<button class="aiflt-retrybtn" onclick="nanobananaRegen(\''+aifltEscAttr(m.srcUrl)+'\',\''+aifltEscAttr(m.prompt)+'\')"><i class="fa-solid fa-rotate-right"></i> COBA LAGI</button>'+
+        '</div>';
+      }
+      return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">NANO BANANA</span>'+
+        '<div class="aic-msg aic-msg-ai aiart-imgmsg">'+
+          '<div class="aiart-imgwrap"><img class="aiart-img" src="'+aifltEscAttr(m.url)+'" alt="Nano Banana" referrerpolicy="no-referrer" onclick="aiOpenLightbox(\''+aifltEscAttr(m.url)+'\',\'nanobanana\')"></div>'+
+          '<div class="aiart-actions">'+
+            '<button class="aiart-dlbtn" onclick="aiartDownload(\''+aifltEscAttr(m.url)+'\')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>'+
+            '<button class="aiart-regenbtn" onclick="nanobananaRegen(\''+aifltEscAttr(m.srcUrl)+'\',\''+aifltEscAttr(m.prompt)+'\')"><i class="fa-solid fa-rotate-right"></i> ULANGI</button>'+
+          '</div>'+
+        '</div>'+
+      '</div>';
+    }
+    if(kind==='txt2img'){
+      const userMsg='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user allow-copy">'+aicEscapeHtml(m.prompt)+(m.ratio?' <span style="opacity:.6">['+aicEscapeHtml(m.ratio)+']</span>':'')+'</div>'+
+        '<button class="aic-copybtn" onclick="aiartCopyPrompt(\''+aiartEscAttr(m.prompt)+'\',this)"><i class="fa-solid fa-copy"></i>Salin</button></div>';
+      if(m.error){
+        return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">TEXT TO IMAGE</span>'+
+          '<div class="aic-msg aic-msg-err"><i class="fa-solid fa-triangle-exclamation"></i> Gagal membuat gambar. Coba lagi.</div>'+
+          '<button class="aiart-retrybtn" onclick="txt2imgRegen(\''+aiartEscAttr(m.prompt)+'\',\''+aiartEscAttr(m.ratio)+'\')"><i class="fa-solid fa-rotate-right"></i> COBA LAGI</button>'+
+        '</div>';
+      }
+      return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">TEXT TO IMAGE</span>'+
+        '<div class="aic-msg aic-msg-ai aiart-imgmsg">'+
+          '<div class="aiart-imgwrap"><img class="aiart-img" src="'+aiartEscAttr(m.url)+'" alt="Text to Image" referrerpolicy="no-referrer" onclick="aiOpenLightbox(\''+aiartEscAttr(m.url)+'\',\'txt2img\')"></div>'+
+          '<div class="aiart-actions">'+
+            '<button class="aiart-dlbtn" onclick="aiMediaDownload(\''+aiartEscAttr(m.url)+'\',\'jpg\',\'txt2img\')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>'+
+            '<button class="aiart-regenbtn" onclick="txt2imgRegen(\''+aiartEscAttr(m.prompt)+'\',\''+aiartEscAttr(m.ratio)+'\')"><i class="fa-solid fa-rotate-right"></i> ULANGI</button>'+
+          '</div>'+
+        '</div>'+
+      '</div>';
+    }
+    if(kind==='text2vid'){
+      const userMsg='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user allow-copy">'+aicEscapeHtml(m.prompt)+(m.ratio?' <span style="opacity:.6">['+aicEscapeHtml(m.ratio)+']</span>':'')+'</div>'+
+        '<button class="aic-copybtn" onclick="aiartCopyPrompt(\''+aiartEscAttr(m.prompt)+'\',this)"><i class="fa-solid fa-copy"></i>Salin</button></div>';
+      if(m.error){
+        return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">TEXT TO VIDEO</span>'+
+          '<div class="aic-msg aic-msg-err"><i class="fa-solid fa-triangle-exclamation"></i> Gagal membuat video. Coba lagi.</div>'+
+          '<button class="aiart-retrybtn" onclick="text2vidRegen(\''+aiartEscAttr(m.prompt)+'\',\''+aiartEscAttr(m.ratio)+'\',\''+aiartEscAttr(m.sound)+'\')"><i class="fa-solid fa-rotate-right"></i> COBA LAGI</button>'+
+        '</div>';
+      }
+      return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">TEXT TO VIDEO</span>'+
+        '<div class="aic-msg aic-msg-ai aiart-imgmsg">'+
+          '<div class="aiart-imgwrap"><video class="aiart-img" controls playsinline src="'+aiartEscAttr(m.url)+'" referrerpolicy="no-referrer"></video></div>'+
+          '<div class="aiart-actions">'+
+            '<button class="aiart-dlbtn" onclick="aiMediaDownload(\''+aiartEscAttr(m.url)+'\',\'mp4\',\'text2vid\')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>'+
+            '<button class="aiart-regenbtn" onclick="text2vidRegen(\''+aiartEscAttr(m.prompt)+'\',\''+aiartEscAttr(m.ratio)+'\',\''+aiartEscAttr(m.sound)+'\')"><i class="fa-solid fa-rotate-right"></i> ULANGI</button>'+
+          '</div>'+
+        '</div>'+
+      '</div>';
+    }
+    if(kind==='tts'){
+      const userMsg='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user allow-copy">'+aicEscapeHtml(m.text)+(m.model?' <span style="opacity:.6">['+aicEscapeHtml(m.model)+']</span>':'')+'</div>'+
+        '<button class="aic-copybtn" onclick="aiartCopyPrompt(\''+aiartEscAttr(m.text)+'\',this)"><i class="fa-solid fa-copy"></i>Salin</button></div>';
+      if(m.error){
+        return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">TEXT TO SPEECH</span>'+
+          '<div class="aic-msg aic-msg-err"><i class="fa-solid fa-triangle-exclamation"></i> Gagal membuat suara. Coba lagi.</div>'+
+          '<button class="aiart-retrybtn" onclick="ttsRegen(\''+aiartEscAttr(m.text)+'\',\''+aiartEscAttr(m.model)+'\')"><i class="fa-solid fa-rotate-right"></i> COBA LAGI</button>'+
+        '</div>';
+      }
+      return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">TEXT TO SPEECH</span>'+
+        '<div class="aic-msg aic-msg-ai aiart-imgmsg">'+
+          '<audio controls style="width:100%" src="'+aiartEscAttr(m.url)+'"></audio>'+
+          '<div class="aiart-actions">'+
+            '<button class="aiart-dlbtn" onclick="aiMediaDownload(\''+aiartEscAttr(m.url)+'\',\'mp3\',\'tts\')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>'+
+            '<button class="aiart-regenbtn" onclick="ttsRegen(\''+aiartEscAttr(m.text)+'\',\''+aiartEscAttr(m.model)+'\')"><i class="fa-solid fa-rotate-right"></i> ULANGI</button>'+
+          '</div>'+
+        '</div>'+
+      '</div>';
+    }
+    if(kind==='toonmix'){
+      const hasImg=!!(m.srcUrl&&m.srcUrl.trim());
+      const userMsg=hasImg?
+        ('<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user aiflt-usermsg">'+
+          '<img class="aiflt-userthumb" src="'+aifltEscAttr(m.srcUrl)+'" referrerpolicy="no-referrer" onerror="this.style.visibility=\'hidden\'">'+
+          '<span class="aiflt-usertext allow-copy">'+aifltEscapeHtml(m.prompt)+'</span>'+
+        '</div></div>'):
+        ('<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user allow-copy">'+aicEscapeHtml(m.prompt)+'</div>'+
+        '<button class="aic-copybtn" onclick="aiartCopyPrompt(\''+aiartEscAttr(m.prompt)+'\',this)"><i class="fa-solid fa-copy"></i>Salin</button></div>');
+      if(m.error){
+        return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">TOONMIX AI</span>'+
+          '<div class="aic-msg aic-msg-err"><i class="fa-solid fa-triangle-exclamation"></i> Gagal membuat gambar. Coba lagi.</div>'+
+          '<button class="aiart-retrybtn" onclick="toonmixRegen(\''+aiartEscAttr(m.prompt)+'\',\''+aifltEscAttr(m.srcUrl||'')+'\')"><i class="fa-solid fa-rotate-right"></i> COBA LAGI</button>'+
+        '</div>';
+      }
+      return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">TOONMIX AI</span>'+
+        '<div class="aic-msg aic-msg-ai aiart-imgmsg">'+
+          '<div class="aiart-imgwrap"><img class="aiart-img" src="'+aiartEscAttr(m.url)+'" alt="Toonmix AI" referrerpolicy="no-referrer" onclick="aiOpenLightbox(\''+aiartEscAttr(m.url)+'\',\'toonmix\')"></div>'+
+          '<div class="aiart-actions">'+
+            '<button class="aiart-dlbtn" onclick="aiMediaDownload(\''+aiartEscAttr(m.url)+'\',\'jpg\',\'toonmix\')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>'+
+            '<button class="aiart-regenbtn" onclick="toonmixRegen(\''+aiartEscAttr(m.prompt)+'\',\''+aifltEscAttr(m.srcUrl||'')+'\')"><i class="fa-solid fa-rotate-right"></i> ULANGI</button>'+
+          '</div>'+
+        '</div>'+
+      '</div>';
+    }
     if(m.role==='user'){
       return '<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user allow-copy">'+aicEscapeHtml(m.text)+'</div><button class="aic-copybtn" onclick="aicCopyMsg('+idx+',this)"><i class="fa-solid fa-copy"></i>Salin</button></div>';
     }
@@ -11270,6 +11611,90 @@ function aicRenderChat(){
     const tag=(m.modelKey&&AIC_MODELS[m.modelKey])?AIC_MODELS[m.modelKey].label:'KZRIZUSMO AI';
     return '<div class="aic-msg-wrap ai"><span class="aic-msg-tag">'+aicEscapeHtml(tag)+'</span><div class="aic-msg aic-msg-ai allow-copy">'+aicEscapeHtml(m.text)+'</div><button class="aic-copybtn" onclick="aicCopyMsg('+idx+',this)"><i class="fa-solid fa-copy"></i>Salin</button></div>';
   }).join('');
+  if(aiartLoading){
+    html+='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user allow-copy">'+aicEscapeHtml(aiartLoadingPrompt)+'</div></div>'+
+      '<div class="aic-msg-wrap ai"><span class="aic-msg-tag">AI ART</span>'+
+      '<div class="aic-msg aic-msg-ai aiart-imgmsg"><div class="aiart-skel"><i class="fa-solid fa-spinner fa-spin"></i>Sedang membuat gambar...</div></div></div>';
+  }
+  if(aifltLoading){
+    const urlVal=document.getElementById('aifltUrlInput')?document.getElementById('aifltUrlInput').value:'';
+    html+='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user aiflt-usermsg">'+
+      '<img class="aiflt-userthumb" src="'+aifltEscAttr(urlVal)+'" referrerpolicy="no-referrer" onerror="this.style.visibility=\'hidden\'">'+
+      '<span class="aiflt-usertext allow-copy">'+aifltEscapeHtml(aifltLoadingLabel||'Memproses...')+'</span>'+
+    '</div></div>'+
+    '<div class="aic-msg-wrap ai"><span class="aic-msg-tag">AI FILTER</span>'+
+    '<div class="aic-msg aic-msg-ai aiflt-resmsg"><div class="aiart-skel"><i class="fa-solid fa-spinner fa-spin"></i>Menerapkan filter...</div></div></div>';
+  }
+  if(aisongLoading){
+    html+='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user allow-copy">'+aicEscapeHtml(aisongLoadingPrompt)+'</div></div>'+
+      '<div class="aic-msg-wrap ai"><span class="aic-msg-tag">AI SONG</span>'+
+      '<div class="aic-msg aic-msg-ai aiart-imgmsg"><div class="aiart-skel"><i class="fa-solid fa-spinner fa-spin"></i>Sedang membuat lagu...</div></div></div>';
+  }
+  if(animeLoading){
+    html+='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user aiflt-usermsg">'+
+      '<img class="aiflt-userthumb" src="'+aifltEscAttr(animeLoadingUrl)+'" referrerpolicy="no-referrer" onerror="this.style.visibility=\'hidden\'">'+
+      '<span class="aiflt-usertext allow-copy">Anime to Real</span>'+
+    '</div></div>'+
+    '<div class="aic-msg-wrap ai"><span class="aic-msg-tag">ANIME TO REAL</span>'+
+    '<div class="aic-msg aic-msg-ai aiart-imgmsg"><div class="aiart-skel"><i class="fa-solid fa-spinner fa-spin"></i>Sedang memproses gambar...</div></div></div>';
+  }
+  if(bypassLoading){
+    html+='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user allow-copy">'+aicEscapeHtml(bypassLoadingText)+'</div></div>'+
+      '<div class="aic-msg-wrap ai"><span class="aic-msg-tag">BYPASS AI</span>'+
+      '<div class="aic-msg aic-msg-ai aiflt-resmsg"><div class="aiart-skel"><i class="fa-solid fa-spinner fa-spin"></i>Memproses teks...</div></div></div>';
+  }
+  if(imagenLoading){
+    html+='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user allow-copy">'+aicEscapeHtml(imagenLoadingPrompt)+'</div></div>'+
+      '<div class="aic-msg-wrap ai"><span class="aic-msg-tag">IMAGEN AI</span>'+
+      '<div class="aic-msg aic-msg-ai aiart-imgmsg"><div class="aiart-skel"><i class="fa-solid fa-spinner fa-spin"></i>Sedang membuat gambar...</div></div></div>';
+  }
+  if(img2promptLoading){
+    html+='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user aiflt-usermsg">'+
+      '<img class="aiflt-userthumb" src="'+aifltEscAttr(img2promptLoadingUrl)+'" referrerpolicy="no-referrer" onerror="this.style.visibility=\'hidden\'">'+
+      '<span class="aiflt-usertext allow-copy">Image to Prompt</span>'+
+    '</div></div>'+
+    '<div class="aic-msg-wrap ai"><span class="aic-msg-tag">IMAGE TO PROMPT</span>'+
+    '<div class="aic-msg aic-msg-ai aiflt-resmsg"><div class="aiart-skel"><i class="fa-solid fa-spinner fa-spin"></i>Menganalisis gambar...</div></div></div>';
+  }
+  if(detectaiLoading){
+    html+='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user allow-copy">'+aicEscapeHtml(detectaiLoadingText)+'</div></div>'+
+      '<div class="aic-msg-wrap ai"><span class="aic-msg-tag">AI DETECTOR</span>'+
+      '<div class="aic-msg aic-msg-ai aiflt-resmsg"><div class="aiart-skel"><i class="fa-solid fa-spinner fa-spin"></i>Memeriksa teks...</div></div></div>';
+  }
+  if(nanobananaLoading){
+    html+='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user aiflt-usermsg">'+
+      '<img class="aiflt-userthumb" src="'+aifltEscAttr(nanobananaLoadingUrl)+'" referrerpolicy="no-referrer" onerror="this.style.visibility=\'hidden\'">'+
+      '<span class="aiflt-usertext allow-copy">'+aifltEscapeHtml(nanobananaLoadingPrompt||'Edit Gambar')+'</span>'+
+    '</div></div>'+
+    '<div class="aic-msg-wrap ai"><span class="aic-msg-tag">NANO BANANA</span>'+
+    '<div class="aic-msg aic-msg-ai aiart-imgmsg"><div class="aiart-skel"><i class="fa-solid fa-spinner fa-spin"></i>Sedang mengedit gambar...</div></div></div>';
+  }
+  if(txt2imgLoading){
+    html+='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user allow-copy">'+aicEscapeHtml(txt2imgLoadingPrompt)+'</div></div>'+
+      '<div class="aic-msg-wrap ai"><span class="aic-msg-tag">TEXT TO IMAGE</span>'+
+      '<div class="aic-msg aic-msg-ai aiart-imgmsg"><div class="aiart-skel"><i class="fa-solid fa-spinner fa-spin"></i>Sedang membuat gambar...</div></div></div>';
+  }
+  if(text2vidLoading){
+    html+='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user allow-copy">'+aicEscapeHtml(text2vidLoadingPrompt)+'</div></div>'+
+      '<div class="aic-msg-wrap ai"><span class="aic-msg-tag">TEXT TO VIDEO</span>'+
+      '<div class="aic-msg aic-msg-ai aiart-imgmsg"><div class="aiart-skel"><i class="fa-solid fa-spinner fa-spin"></i>Sedang membuat video...</div></div></div>';
+  }
+  if(ttsLoading){
+    html+='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user allow-copy">'+aicEscapeHtml(ttsLoadingText)+'</div></div>'+
+      '<div class="aic-msg-wrap ai"><span class="aic-msg-tag">TEXT TO SPEECH</span>'+
+      '<div class="aic-msg aic-msg-ai aiart-imgmsg"><div class="aiart-skel"><i class="fa-solid fa-spinner fa-spin"></i>Sedang membuat suara...</div></div></div>';
+  }
+  if(toonmixLoading){
+    html+=(toonmixLoadingUrl?
+      ('<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user aiflt-usermsg">'+
+        '<img class="aiflt-userthumb" src="'+aifltEscAttr(toonmixLoadingUrl)+'" referrerpolicy="no-referrer" onerror="this.style.visibility=\'hidden\'">'+
+        '<span class="aiflt-usertext allow-copy">'+aifltEscapeHtml(toonmixLoadingPrompt)+'</span>'+
+      '</div></div>'):
+      ('<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user allow-copy">'+aicEscapeHtml(toonmixLoadingPrompt)+'</div></div>'))+
+    '<div class="aic-msg-wrap ai"><span class="aic-msg-tag">TOONMIX AI</span>'+
+    '<div class="aic-msg aic-msg-ai aiart-imgmsg"><div class="aiart-skel"><i class="fa-solid fa-spinner fa-spin"></i>Sedang membuat gambar...</div></div></div>';
+  }
+  box.innerHTML=html;
   box.scrollTop=box.scrollHeight;
 }
 
@@ -11289,7 +11714,7 @@ function aicFallbackCopy(text,cb){
 function aicCopyMsg(idx,btnEl){
   const m=aicHistory[idx];
   if(!m) return;
-  const text=m.text;
+  const text=(m.kind==='bypass'||m.kind==='img2prompt'||m.kind==='detectai')?m.output:m.text;
   function done(){
     if(!btnEl) return;
     const orig=btnEl.innerHTML;
@@ -11374,6 +11799,36 @@ function aicExtractSessionId(json){
   return null;
 }
 
+function aicExtractChatId(json){
+  if(!json) return null;
+  const candidates=[json,json.result,json.data];
+  for(const c of candidates){
+    if(c&&typeof c==='object'&&c.chat_id!=null&&String(c.chat_id).trim()) return String(c.chat_id).trim();
+  }
+  return null;
+}
+
+function aicExtractAuth(json){
+  if(!json) return null;
+  const candidates=[json,json.result,json.data];
+  for(const c of candidates){
+    if(c&&typeof c==='object'&&c.auth!=null){
+      if(typeof c.auth==='string'&&c.auth.trim()) return c.auth.trim();
+      if(typeof c.auth==='object') return JSON.stringify(c.auth);
+    }
+  }
+  return null;
+}
+
+function aicExtractSessionField(json){
+  if(!json) return null;
+  const candidates=[json,json.result,json.data];
+  for(const c of candidates){
+    if(c&&typeof c==='object'&&c.session!=null&&String(c.session).trim()) return String(c.session).trim();
+  }
+  return null;
+}
+
 async function aicSend(){
   const inp=document.getElementById('aicInput');
   const btn=document.getElementById('aicSendBtn');
@@ -11381,7 +11836,7 @@ async function aicSend(){
   if(!text) return;
   const modelKey=aicActiveModel;
   const cfg=AIC_MODELS[modelKey];
-  aicHistory.push({role:'user',text:text});
+  aicHistory.push({kind:'chat',role:'user',text:text});
   aicTouchSession(text);
   inp.value='';
   aicAutoGrow(inp);
@@ -11389,32 +11844,64 @@ async function aicSend(){
   btn.disabled=true;
   aicShowTyping(true);
   const sess=aicActiveSession();
-  const isSeek=!!cfg.apiModel;
   try{
     const json=await xyureiRequest(function(key){
-      if(isSeek){
+      if(cfg.kind==='aiseek'){
         const sid=(sess&&sess.seekSessionId)?sess.seekSessionId:'';
         return AISEEK_ENDPOINT+'?prompt='+encodeURIComponent(text)+'&model='+encodeURIComponent(cfg.apiModel)+'&action=&session_id='+encodeURIComponent(sid)+'&apikey='+key;
+      }
+      if(cfg.kind==='chatgpt'){
+        const cid=(sess&&sess.gptChatId)?sess.gptChatId:'';
+        const auth=(sess&&sess.gptAuth)?sess.gptAuth:'';
+        return 'https://sylvatica.my.id/api/ai/chatgpt?prompt='+encodeURIComponent(text)+'&chat_id='+encodeURIComponent(cid)+'&auth='+encodeURIComponent(auth)+'&apikey='+key;
+      }
+      if(cfg.kind==='claude'){
+        return 'https://sylvatica.my.id/api/ai/claude?q='+encodeURIComponent(text)+'&files=&apikey='+key;
+      }
+      if(cfg.kind==='deepai'){
+        return 'https://sylvatica.my.id/api/ai/deepai?q='+encodeURIComponent(text)+'&model=&apikey='+key;
+      }
+      if(cfg.kind==='simpleq'){
+        const pname=cfg.paramName||'q';
+        return 'https://sylvatica.my.id/api/ai/'+cfg.endpoint+'?'+pname+'='+encodeURIComponent(text)+'&apikey='+key;
+      }
+      if(cfg.kind==='notrack'){
+        return 'https://sylvatica.my.id/api/ai/notrack?q='+encodeURIComponent(text)+'&persona=&apikey='+key;
+      }
+      if(cfg.kind==='sessionq'){
+        const sv=(sess&&sess[cfg.sessKey])?sess[cfg.sessKey]:'';
+        return 'https://sylvatica.my.id/api/ai/'+cfg.endpoint+'?q='+encodeURIComponent(text)+'&session='+encodeURIComponent(sv)+'&apikey='+key;
       }
       return 'https://sylvatica.my.id/api/ai/'+cfg.endpoint+'?text='+encodeURIComponent(text)+'&apikey='+key;
     },{
       isDataOk:function(j){ return !!aicExtractText(j); }
     });
     const answer=aicExtractText(json);
-    if(isSeek&&sess){
+    if(cfg.kind==='aiseek'&&sess){
       const sid=aicExtractSessionId(json);
       if(sid){ sess.seekSessionId=sid; aicSaveSessions(); }
     }
+    if(cfg.kind==='chatgpt'&&sess){
+      const cid=aicExtractChatId(json);
+      const auth=aicExtractAuth(json);
+      if(cid) sess.gptChatId=cid;
+      if(auth) sess.gptAuth=auth;
+      if(cid||auth) aicSaveSessions();
+    }
+    if(cfg.kind==='sessionq'&&sess){
+      const sv=aicExtractSessionField(json);
+      if(sv){ sess[cfg.sessKey]=sv; aicSaveSessions(); }
+    }
     aicShowTyping(false);
     if(answer){
-      aicHistory.push({role:'ai',text:answer,modelKey:modelKey});
+      aicHistory.push({kind:'chat',role:'ai',text:answer,modelKey:modelKey});
     }else{
-      aicHistory.push({role:'err',text:'Respon AI tidak dikenali. Coba lagi.'});
+      aicHistory.push({kind:'chat',role:'err',text:'Respon AI tidak dikenali. Coba lagi.'});
     }
   }catch(e){
     console.error('[AIC]['+modelKey+']',e);
     aicShowTyping(false);
-    aicHistory.push({role:'err',text:'Gagal menghubungi server AI. Coba lagi nanti.'});
+    aicHistory.push({kind:'chat',role:'err',text:'Gagal menghubungi server AI. Coba lagi nanti.'});
   }
   btn.disabled=false;
   aicRenderChat();
@@ -11458,21 +11945,21 @@ let aiartLoading=false;
 let aiartLoadingPrompt='';
 const AIART_SUGGEST=['Kucing oren pakai jaket astronot','Karakter Free Fire gaya anime','Naga api di atas gunung','Kota cyberpunk waktu malam','Pemandangan pantai gaya lukisan','Robot ksatria futuristik'];
 
-function aicSwitchTab(tab){
-  const chatPanel=document.getElementById('aicChatPanel');
-  const artPanel=document.getElementById('aicArtPanel');
-  const filterPanel=document.getElementById('aicFilterPanel');
-  const chatActions=document.getElementById('aicChatActions');
-  const histBtn=document.getElementById('aicHistBtn');
-  if(chatPanel) chatPanel.style.display=(tab==='chat')?'flex':'none';
-  if(artPanel) artPanel.style.display=(tab==='art')?'flex':'none';
-  if(filterPanel) filterPanel.style.display=(tab==='filter')?'flex':'none';
-  if(chatActions) chatActions.style.display='flex';
-  if(histBtn) histBtn.style.display='flex';
-  aicCloseHistoryDrawer();
-  if(tab==='art') aiartRender();
-  if(tab==='filter') aifltRender();
-  aiCloseLightbox();
+function aicUnifiedSend(){
+  if(aicCurrentMode==='art') aiartGenerate();
+  else if(aicCurrentMode==='filter') aifltGenerate();
+  else if(aicCurrentMode==='song') aisongGenerate();
+  else if(aicCurrentMode==='anime') animeGenerate();
+  else if(aicCurrentMode==='bypass') bypassGenerate();
+  else if(aicCurrentMode==='imagenai') imagenGenerate();
+  else if(aicCurrentMode==='img2prompt') img2promptGenerate();
+  else if(aicCurrentMode==='detectai') detectaiGenerate();
+  else if(aicCurrentMode==='nanobanana') nanobananaGenerate();
+  else if(aicCurrentMode==='txt2img') txt2imgGenerate();
+  else if(aicCurrentMode==='text2vid') text2vidGenerate();
+  else if(aicCurrentMode==='tts') ttsGenerate();
+  else if(aicCurrentMode==='toonmix') toonmixGenerate();
+  else aicSend();
 }
 
 document.addEventListener('keydown',function(e){
@@ -11480,42 +11967,91 @@ document.addEventListener('keydown',function(e){
 });
 
 /* ── MODE SWITCH (pojok kiri bawah, diatas kolom input) — ganti Chat/AI Art/AI Filter ── */
-const AIC_MODE_PANELS=['chat','art','filter'];
-const AIC_MODE_ICONS={chat:'fa-comments',art:'fa-image',filter:'fa-wand-sparkles'};
+const AIC_MODE_PANELS=['chat','art','filter','song','anime','bypass','imagenai','img2prompt','detectai','nanobanana','txt2img','text2vid','tts','toonmix'];
+const AIC_MODE_ICONS={chat:'fa-comments',art:'fa-image',filter:'fa-wand-sparkles',song:'fa-music',anime:'fa-image-portrait',bypass:'fa-user-secret',imagenai:'fa-palette',img2prompt:'fa-file-image',detectai:'fa-magnifying-glass',nanobanana:'fa-image',txt2img:'fa-images',text2vid:'fa-video',tts:'fa-microphone-lines',toonmix:'fa-shapes'};
+const AIC_MODE_PLACEHOLDER={chat:'Tulis pesan...',art:'Tulis deskripsi gambar yang ingin dibuat AI...'};
 let aicCurrentMode='chat';
 
-function aicToggleModeMenu(panel){
-  const menu=document.getElementById('aicModeMenu_'+panel);
+/* ── SARAN / REKOMENDASI PROMPT — muncul saat kolom obrolan mode terkait masih kosong ── */
+const AIC_MODE_SUGGEST={
+  art:['Kucing oren pakai jaket astronot','Karakter Free Fire gaya anime','Naga api di atas gunung','Kota cyberpunk waktu malam','Pemandangan pantai gaya lukisan','Robot ksatria futuristik'],
+  imagenai:['Potret wanita bergaya ghibli','Pahlawan super gaya 3d','Kucing ninja di kuil kuno','Kastil megah di atas awan','Karakter anime gaya cyberpunk','Pemandangan hutan ajaib'],
+  txt2img:['Karakter Free Fire full armor','Pemandangan gunung saat sunset','Mobil sport futuristik neon','Wanita samurai gaya anime','Kota fantasi di atas awan','Naga es di puncak gunung'],
+  text2vid:['Ombak laut pecah di karang saat sunset','Mobil melaju di jalan kota malam hari','Naga terbang di atas gunung berapi','Bunga sakura berguguran ditiup angin','Kucing lucu bermain di taman','Pesawat luar angkasa mendarat di planet asing'],
+  tts:['Halo semua, selamat datang di channel aku!','Ini adalah pesan penting untuk kalian semua','Terima kasih sudah menonton video ini','Selamat pagi, semoga harimu menyenangkan'],
+  toonmix:['Karakter kartun gaya Pixar tersenyum','Ubah gambar ini jadi gaya kartun lucu','Anak kucing kartun warna-warni','Superhero versi kartun anak-anak']
+};
+const AIC_MODE_SUGGEST_TARGET={art:'aicInput',imagenai:'imagenPromptInput',txt2img:'txt2imgPromptInput',text2vid:'text2vidPromptInput',tts:'ttsTextInput',toonmix:'toonmixPromptInput'};
+const AIC_MODE_SUGGEST_ICON={art:'fa-wand-magic-sparkles',imagenai:'fa-palette',txt2img:'fa-images',text2vid:'fa-video',tts:'fa-microphone-lines',toonmix:'fa-shapes'};
+const AIC_MODE_SUGGEST_LABEL={art:'Tulis deskripsi gambar yang ingin dibuat AI',imagenai:'Tulis deskripsi gambar yang ingin dibuat AI',txt2img:'Tulis deskripsi gambar yang ingin dibuat AI',text2vid:'Tulis deskripsi video yang ingin dibuat AI',tts:'Tulis teks yang ingin diubah menjadi suara',toonmix:'Tulis prompt Toonmix yang ingin dibuat'};
+
+function aicUseSuggestion(mode,text){
+  const targetId=AIC_MODE_SUGGEST_TARGET[mode];
+  if(!targetId) return;
+  const inp=document.getElementById(targetId);
+  if(!inp) return;
+  inp.value=text;
+  aicAutoGrow(inp);
+  inp.focus();
+}
+
+function aicToggleModeMenu(){
+  const menu=document.getElementById('aicModeMenuBox');
+  const btn=document.getElementById('aicModeBtn');
   const wasOpen=menu&&menu.classList.contains('show');
   aicCloseModeMenus();
   if(!wasOpen){
-    const btn=document.getElementById('aicModeBtn_'+panel);
     if(menu) menu.classList.add('show');
     if(btn) btn.classList.add('open');
   }
 }
 
 function aicCloseModeMenus(){
-  AIC_MODE_PANELS.forEach(function(p){
-    const m=document.getElementById('aicModeMenu_'+p);
-    const b=document.getElementById('aicModeBtn_'+p);
-    if(m) m.classList.remove('show');
-    if(b) b.classList.remove('open');
-  });
+  const m=document.getElementById('aicModeMenuBox');
+  const b=document.getElementById('aicModeBtn');
+  if(m) m.classList.remove('show');
+  if(b) b.classList.remove('open');
 }
 
 function aicSwitchMode(tab){
   aicCurrentMode=tab;
   aicCloseModeMenus();
-  aicSwitchTab(tab);
-  AIC_MODE_PANELS.forEach(function(p){
-    const icon=document.getElementById('aicModeIcon_'+p);
-    if(icon) icon.className='fa-solid '+AIC_MODE_ICONS[tab];
-    AIC_MODE_PANELS.forEach(function(m){
-      const item=document.getElementById('aicModeItem_'+p+'_'+m);
-      if(item) item.classList.toggle('active',m===tab);
-    });
+  const icon=document.getElementById('aicModeIcon');
+  if(icon) icon.className='fa-solid '+AIC_MODE_ICONS[tab];
+  AIC_MODE_PANELS.forEach(function(m){
+    const item=document.getElementById('aicModeItem_'+m);
+    if(item) item.classList.toggle('active',m===tab);
   });
+  const bars={
+    chat:document.getElementById('aicInputBarChat'),
+    art:document.getElementById('aicInputBarChat'),
+    filter:document.getElementById('aicInputBarFilter'),
+    song:document.getElementById('aicInputBarSong'),
+    anime:document.getElementById('aicInputBarAnime'),
+    bypass:document.getElementById('aicInputBarBypass'),
+    imagenai:document.getElementById('aicInputBarImagen'),
+    img2prompt:document.getElementById('aicInputBarImg2Prompt'),
+    detectai:document.getElementById('aicInputBarDetectAI'),
+    nanobanana:document.getElementById('aicInputBarNanoBanana'),
+    txt2img:document.getElementById('aicInputBarTxt2Img'),
+    text2vid:document.getElementById('aicInputBarText2Vid'),
+    tts:document.getElementById('aicInputBarTts'),
+    toonmix:document.getElementById('aicInputBarToonmix')
+  };
+  const shown=bars[tab];
+  Object.keys(bars).forEach(function(k){
+    const el=bars[k];
+    if(!el) return;
+    el.style.display=(el===shown)?'flex':'none';
+  });
+  const inp=document.getElementById('aicInput');
+  if(inp) inp.placeholder=AIC_MODE_PLACEHOLDER[tab]||'Tulis pesan...';
+  const sendIcon=document.getElementById('aicSendIcon');
+  if(sendIcon) sendIcon.className='fa-solid '+(tab==='art'?'fa-wand-magic-sparkles':'fa-paper-plane');
+  const modelbar=document.querySelector('#aicChatActions .aic-modelbar');
+  if(modelbar) modelbar.style.display=(tab==='chat')?'flex':'none';
+  aiCloseLightbox();
+  aicRenderChat();
 }
 
 document.addEventListener('click',function(e){
@@ -11644,14 +12180,15 @@ function aiartDeleteHistoryItem(idx,ev){
 }
 
 function aiartRegen(prompt){
-  const inp=document.getElementById('aiartInput');
+  aicSwitchMode('art');
+  const inp=document.getElementById('aicInput');
   if(inp) inp.value=prompt;
   aiartGenerate();
 }
 
 async function aiartGenerate(){
-  const inp=document.getElementById('aiartInput');
-  const btn=document.getElementById('aiartGenBtn');
+  const inp=document.getElementById('aicInput');
+  const btn=document.getElementById('aicSendBtn');
   let prompt=inp?inp.value.trim():'';
   if(!prompt){
     if(inp){ inp.classList.remove('shake'); void inp.offsetWidth; inp.classList.add('shake'); }
@@ -11661,8 +12198,8 @@ async function aiartGenerate(){
   if(inp){ inp.value=''; aicAutoGrow(inp); }
   aiartLoading=true;
   aiartLoadingPrompt=prompt;
-  if(btn){ btn.disabled=true; btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i>'; }
-  aiartRender();
+  if(btn) btn.disabled=true;
+  aicRenderChat();
   try{
     const json=await xyureiRequest(function(key){
       return AIART_ENDPOINT+'?q='+encodeURIComponent(prompt)+'&apikey='+key;
@@ -11671,19 +12208,19 @@ async function aiartGenerate(){
     });
     const url=aiartExtractUrl(json);
     if(url){
-      aiartHistory.push({prompt:prompt,url:url});
+      aicHistory.push({kind:'art',prompt:prompt,url:url});
     }else{
-      aiartHistory.push({prompt:prompt,error:true});
+      aicHistory.push({kind:'art',prompt:prompt,error:true});
     }
   }catch(e){
     console.error('[AIART]',e);
-    aiartHistory.push({prompt:prompt,error:true});
+    aicHistory.push({kind:'art',prompt:prompt,error:true});
   }
-  aiSaveHist('zusmoAiArtHistory',aiartHistory);
+  aicTouchSession(prompt);
   aiartLoading=false;
   aiartLoadingPrompt='';
-  if(btn){ btn.disabled=false; btn.innerHTML='<i class="fa-solid fa-wand-magic-sparkles"></i>'; }
-  aiartRender();
+  if(btn) btn.disabled=false;
+  aicRenderChat();
 }
 
 async function aiartDownload(url){
@@ -11814,6 +12351,7 @@ function aifltUpdatePreview(val){
 }
 
 function aifltRegen(srcUrl,promptText){
+  aicSwitchMode('filter');
   const urlInp=document.getElementById('aifltUrlInput');
   if(urlInp){ urlInp.value=srcUrl; aifltUpdatePreview(srcUrl); }
   const customInp=document.getElementById('aifltCustomInput');
@@ -11873,7 +12411,7 @@ async function aifltGenerate(){
 
   aifltLoading=true;
   aifltLoadingLabel=filterLabel;
-  aifltRender();
+  aicRenderChat();
   try{
     const json=await xyureiRequest(function(key){
       return AIFLT_ENDPOINT+'?url='+encodeURIComponent(srcUrl)+'&filter='+encodeURIComponent(promptText)+'&apikey='+key;
@@ -11882,19 +12420,19 @@ async function aifltGenerate(){
     });
     const images=aifltExtractImages(json);
     if(images){
-      aifltHistory.push({srcUrl:srcUrl,filter:promptText,filterLabel:filterLabel,images:images});
+      aicHistory.push({kind:'filter',srcUrl:srcUrl,filter:promptText,filterLabel:filterLabel,images:images});
     }else{
-      aifltHistory.push({srcUrl:srcUrl,filter:promptText,filterLabel:filterLabel,error:true});
+      aicHistory.push({kind:'filter',srcUrl:srcUrl,filter:promptText,filterLabel:filterLabel,error:true});
     }
   }catch(e){
     console.error('[AIFLT]',e);
-    aifltHistory.push({srcUrl:srcUrl,filter:promptText,filterLabel:filterLabel,error:true});
+    aicHistory.push({kind:'filter',srcUrl:srcUrl,filter:promptText,filterLabel:filterLabel,error:true});
   }
-  aiSaveHist('zusmoAiFilterHistory',aifltHistory);
+  aicTouchSession(filterLabel||'Filter gambar');
   aifltLoading=false;
   aifltLoadingLabel='';
   if(customInp){ customInp.value=''; aicAutoGrow(customInp); }
-  aifltRender();
+  aicRenderChat();
 }
 
 async function aifltDownload(url){
@@ -11913,6 +12451,762 @@ async function aifltDownload(url){
   }catch(e){
     window.open(url,'_blank');
   }
+}
+
+/* ============================================================================
+   AI SONG GENERATOR — https://sylvatica.my.id/api/ai/aisong?prompt=&title=&tags=&apikey=
+   ============================================================================ */
+const AISONG_ENDPOINT='https://sylvatica.my.id/api/ai/aisong';
+let aisongLoading=false;
+let aisongLoadingPrompt='';
+
+function aisongExtractUrl(json){
+  if(!json) return null;
+  const candidates=[json,json.data,json.result];
+  for(const c of candidates){
+    if(c&&typeof c==='object'){
+      const f=c.audio_url||c.audio||c.url;
+      if(typeof f==='string'&&f.trim()) return f.trim();
+    }
+  }
+  const found=aicDeepFindText(json,0,null);
+  if(found&&/^https?:\/\//i.test(found)) return found;
+  return null;
+}
+
+async function aisongGenerate(){
+  const promptInp=document.getElementById('aisongPromptInput');
+  const titleInp=document.getElementById('aisongTitleInput');
+  const tagsInp=document.getElementById('aisongTagsInput');
+  const btn=document.getElementById('aisongGenBtn');
+  const prompt=promptInp?promptInp.value.trim():'';
+  const title=titleInp?titleInp.value.trim():'';
+  const tags=tagsInp?tagsInp.value.trim():'';
+  if(!prompt){
+    if(promptInp){ promptInp.classList.remove('shake'); void promptInp.offsetWidth; promptInp.classList.add('shake'); }
+    return;
+  }
+  if(aisongLoading) return;
+  if(promptInp){ promptInp.value=''; aicAutoGrow(promptInp); }
+  if(titleInp) titleInp.value='';
+  if(tagsInp) tagsInp.value='';
+  aisongLoading=true;
+  aisongLoadingPrompt=prompt;
+  if(btn) btn.disabled=true;
+  aicRenderChat();
+  try{
+    const json=await xyureiRequest(function(key){
+      return AISONG_ENDPOINT+'?prompt='+encodeURIComponent(prompt)+'&title='+encodeURIComponent(title)+'&tags='+encodeURIComponent(tags)+'&apikey='+key;
+    },{
+      isDataOk:function(j){ return !!aisongExtractUrl(j); }
+    });
+    const url=aisongExtractUrl(json);
+    if(url){
+      aicHistory.push({kind:'song',prompt:prompt,title:title,tags:tags,url:url});
+    }else{
+      aicHistory.push({kind:'song',prompt:prompt,title:title,tags:tags,error:true});
+    }
+  }catch(e){
+    console.error('[AISONG]',e);
+    aicHistory.push({kind:'song',prompt:prompt,title:title,tags:tags,error:true});
+  }
+  aicTouchSession(title||prompt);
+  aisongLoading=false;
+  aisongLoadingPrompt='';
+  if(btn) btn.disabled=false;
+  aicRenderChat();
+}
+
+function aisongRegen(prompt,title,tags){
+  aicSwitchMode('song');
+  const promptInp=document.getElementById('aisongPromptInput');
+  const titleInp=document.getElementById('aisongTitleInput');
+  const tagsInp=document.getElementById('aisongTagsInput');
+  if(promptInp){ promptInp.value=prompt; aicAutoGrow(promptInp); }
+  if(titleInp) titleInp.value=title||'';
+  if(tagsInp) tagsInp.value=tags||'';
+  aisongGenerate();
+}
+
+/* ============================================================================
+   ANIME TO REAL — https://sylvatica.my.id/api/ai/animetoreal?url=&apikey=
+   ============================================================================ */
+const ANIME2REAL_ENDPOINT='https://sylvatica.my.id/api/ai/animetoreal';
+let animeLoading=false;
+let animeLoadingUrl='';
+let animePreviewTimer=null;
+
+function animeUpdatePreview(val){
+  clearTimeout(animePreviewTimer);
+  const box=document.getElementById('animePreview');
+  const img=document.getElementById('animePreviewImg');
+  if(!box||!img) return;
+  const v=(val||'').trim();
+  if(!v){ box.className='aiflt-preview'; img.src=''; return; }
+  box.className='aiflt-preview checking show';
+  box.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i>';
+  animePreviewTimer=setTimeout(function(){
+    const test=new Image();
+    test.referrerPolicy='no-referrer';
+    test.onload=function(){
+      const b=document.getElementById('animePreview');
+      if(!b) return;
+      b.className='aiflt-preview show';
+      b.innerHTML='<img id="animePreviewImg" src="'+aifltEscAttr(v)+'" alt="" referrerpolicy="no-referrer">';
+    };
+    test.onerror=function(){
+      const b=document.getElementById('animePreview');
+      if(!b) return;
+      b.className='aiflt-preview bad show';
+      b.innerHTML='<i class="fa-solid fa-triangle-exclamation"></i> Link tidak valid';
+    };
+    test.src=v;
+  },450);
+}
+
+async function animeGenerate(){
+  const urlInp=document.getElementById('animeUrlInput');
+  const srcUrl=urlInp?urlInp.value.trim():'';
+  const btn=document.getElementById('animeGenBtn');
+  if(!srcUrl){
+    if(urlInp){ urlInp.classList.remove('shake'); void urlInp.offsetWidth; urlInp.classList.add('shake'); }
+    return;
+  }
+  if(animeLoading) return;
+  animeLoading=true;
+  animeLoadingUrl=srcUrl;
+  if(btn) btn.disabled=true;
+  aicRenderChat();
+  try{
+    const json=await xyureiRequest(function(key){
+      return ANIME2REAL_ENDPOINT+'?url='+encodeURIComponent(srcUrl)+'&apikey='+key;
+    },{
+      isDataOk:function(j){ return !!aiartExtractUrl(j); }
+    });
+    const url=aiartExtractUrl(json);
+    if(url){
+      aicHistory.push({kind:'anime',srcUrl:srcUrl,url:url});
+    }else{
+      aicHistory.push({kind:'anime',srcUrl:srcUrl,error:true});
+    }
+  }catch(e){
+    console.error('[ANIME2REAL]',e);
+    aicHistory.push({kind:'anime',srcUrl:srcUrl,error:true});
+  }
+  aicTouchSession('Anime to Real');
+  animeLoading=false;
+  animeLoadingUrl='';
+  if(btn) btn.disabled=false;
+  aicRenderChat();
+}
+
+function animeRegen(srcUrl){
+  aicSwitchMode('anime');
+  const urlInp=document.getElementById('animeUrlInput');
+  if(urlInp){ urlInp.value=srcUrl; animeUpdatePreview(srcUrl); }
+  animeGenerate();
+}
+
+/* ============================================================================
+   BYPASS AI DETECTION — https://sylvatica.my.id/api/ai/bypassai?q=&apikey=
+   ============================================================================ */
+const BYPASSAI_ENDPOINT='https://sylvatica.my.id/api/ai/bypassai';
+let bypassLoading=false;
+let bypassLoadingText='';
+
+async function bypassGenerate(){
+  const inp=document.getElementById('bypassInput');
+  const btn=document.getElementById('bypassGenBtn');
+  const text=inp?inp.value.trim():'';
+  if(!text){
+    if(inp){ inp.classList.remove('shake'); void inp.offsetWidth; inp.classList.add('shake'); }
+    return;
+  }
+  if(bypassLoading) return;
+  if(inp){ inp.value=''; aicAutoGrow(inp); }
+  bypassLoading=true;
+  bypassLoadingText=text;
+  if(btn) btn.disabled=true;
+  aicRenderChat();
+  try{
+    const json=await xyureiRequest(function(key){
+      return BYPASSAI_ENDPOINT+'?q='+encodeURIComponent(text)+'&apikey='+key;
+    },{
+      isDataOk:function(j){ return !!aicExtractText(j); }
+    });
+    const output=aicExtractText(json);
+    if(output){
+      aicHistory.push({kind:'bypass',input:text,output:output});
+    }else{
+      aicHistory.push({kind:'bypass',input:text,error:true});
+    }
+  }catch(e){
+    console.error('[BYPASSAI]',e);
+    aicHistory.push({kind:'bypass',input:text,error:true});
+  }
+  aicTouchSession(text);
+  bypassLoading=false;
+  bypassLoadingText='';
+  if(btn) btn.disabled=false;
+  aicRenderChat();
+}
+
+function bypassRegen(text){
+  aicSwitchMode('bypass');
+  const inp=document.getElementById('bypassInput');
+  if(inp){ inp.value=text; aicAutoGrow(inp); }
+  bypassGenerate();
+}
+
+/* ============================================================================
+   IMAGEN AI GENERATOR — https://sylvatica.my.id/api/ai/imagenai?q=...&style=...&apikey=...
+   ============================================================================ */
+const IMAGENAI_ENDPOINT='https://sylvatica.my.id/api/ai/imagenai';
+let imagenLoading=false;
+let imagenLoadingPrompt='';
+
+async function imagenGenerate(){
+  const inp=document.getElementById('imagenPromptInput');
+  const styleInp=document.getElementById('imagenStyleInput');
+  const btn=document.getElementById('imagenGenBtn');
+  const prompt=inp?inp.value.trim():'';
+  const style=styleInp?styleInp.value.trim():'';
+  if(!prompt){
+    if(inp){ inp.classList.remove('shake'); void inp.offsetWidth; inp.classList.add('shake'); }
+    return;
+  }
+  if(imagenLoading) return;
+  if(inp){ inp.value=''; aicAutoGrow(inp); }
+  imagenLoading=true;
+  imagenLoadingPrompt=prompt;
+  if(btn) btn.disabled=true;
+  aicRenderChat();
+  try{
+    const json=await xyureiRequest(function(key){
+      return IMAGENAI_ENDPOINT+'?q='+encodeURIComponent(prompt)+'&style='+encodeURIComponent(style)+'&apikey='+key;
+    },{
+      isDataOk:function(j){ return !!aiartExtractUrl(j); }
+    });
+    const url=aiartExtractUrl(json);
+    if(url){
+      aicHistory.push({kind:'imagenai',prompt:prompt,style:style,url:url});
+    }else{
+      aicHistory.push({kind:'imagenai',prompt:prompt,style:style,error:true});
+    }
+  }catch(e){
+    console.error('[IMAGENAI]',e);
+    aicHistory.push({kind:'imagenai',prompt:prompt,style:style,error:true});
+  }
+  aicTouchSession(prompt);
+  imagenLoading=false;
+  imagenLoadingPrompt='';
+  if(btn) btn.disabled=false;
+  aicRenderChat();
+}
+
+function imagenRegen(prompt,style){
+  aicSwitchMode('imagenai');
+  const inp=document.getElementById('imagenPromptInput');
+  const styleInp=document.getElementById('imagenStyleInput');
+  if(inp) inp.value=prompt;
+  if(styleInp) styleInp.value=style||'';
+  imagenGenerate();
+}
+
+/* ============================================================================
+   IMAGE TO PROMPT — https://sylvatica.my.id/api/ai/img2prompt?url=...&apikey=...
+   ============================================================================ */
+const IMG2PROMPT_ENDPOINT='https://sylvatica.my.id/api/ai/img2prompt';
+let img2promptLoading=false;
+let img2promptLoadingUrl='';
+let img2promptPreviewTimer=null;
+
+function img2promptUpdatePreview(val){
+  clearTimeout(img2promptPreviewTimer);
+  const box=document.getElementById('img2promptPreview');
+  const img=document.getElementById('img2promptPreviewImg');
+  if(!box||!img) return;
+  const v=(val||'').trim();
+  if(!v){ box.className='aiflt-preview'; img.src=''; return; }
+  box.className='aiflt-preview checking show';
+  box.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i>';
+  img2promptPreviewTimer=setTimeout(function(){
+    const test=new Image();
+    test.referrerPolicy='no-referrer';
+    test.onload=function(){
+      const b=document.getElementById('img2promptPreview');
+      if(!b) return;
+      b.className='aiflt-preview show';
+      b.innerHTML='<img id="img2promptPreviewImg" src="'+aifltEscAttr(v)+'" alt="" referrerpolicy="no-referrer">';
+    };
+    test.onerror=function(){
+      const b=document.getElementById('img2promptPreview');
+      if(!b) return;
+      b.className='aiflt-preview bad show';
+      b.innerHTML='<i class="fa-solid fa-triangle-exclamation"></i> Link tidak valid';
+    };
+    test.src=v;
+  },450);
+}
+
+async function img2promptGenerate(){
+  const urlInp=document.getElementById('img2promptUrlInput');
+  const srcUrl=urlInp?urlInp.value.trim():'';
+  const btn=document.getElementById('img2promptGenBtn');
+  if(!srcUrl){
+    if(urlInp){ urlInp.classList.remove('shake'); void urlInp.offsetWidth; urlInp.classList.add('shake'); }
+    return;
+  }
+  if(img2promptLoading) return;
+  img2promptLoading=true;
+  img2promptLoadingUrl=srcUrl;
+  if(btn) btn.disabled=true;
+  aicRenderChat();
+  try{
+    const json=await xyureiRequest(function(key){
+      return IMG2PROMPT_ENDPOINT+'?url='+encodeURIComponent(srcUrl)+'&apikey='+key;
+    },{
+      isDataOk:function(j){ return !!aicExtractText(j); }
+    });
+    const output=aicExtractText(json);
+    if(output){
+      aicHistory.push({kind:'img2prompt',srcUrl:srcUrl,output:output});
+    }else{
+      aicHistory.push({kind:'img2prompt',srcUrl:srcUrl,error:true});
+    }
+  }catch(e){
+    console.error('[IMG2PROMPT]',e);
+    aicHistory.push({kind:'img2prompt',srcUrl:srcUrl,error:true});
+  }
+  aicTouchSession('Image to Prompt');
+  img2promptLoading=false;
+  img2promptLoadingUrl='';
+  if(btn) btn.disabled=false;
+  aicRenderChat();
+}
+
+function img2promptRegen(srcUrl){
+  aicSwitchMode('img2prompt');
+  const urlInp=document.getElementById('img2promptUrlInput');
+  if(urlInp){ urlInp.value=srcUrl; img2promptUpdatePreview(srcUrl); }
+  img2promptGenerate();
+}
+
+/* ============================================================================
+   GRAMMARLY AI DETECTOR — https://sylvatica.my.id/api/ai/detectai?q=...&apikey=...
+   ============================================================================ */
+const DETECTAI_ENDPOINT='https://sylvatica.my.id/api/ai/detectai';
+let detectaiLoading=false;
+let detectaiLoadingText='';
+
+async function detectaiGenerate(){
+  const inp=document.getElementById('detectaiInput');
+  const btn=document.getElementById('detectaiGenBtn');
+  const text=inp?inp.value.trim():'';
+  if(!text){
+    if(inp){ inp.classList.remove('shake'); void inp.offsetWidth; inp.classList.add('shake'); }
+    return;
+  }
+  if(detectaiLoading) return;
+  if(inp){ inp.value=''; aicAutoGrow(inp); }
+  detectaiLoading=true;
+  detectaiLoadingText=text;
+  if(btn) btn.disabled=true;
+  aicRenderChat();
+  try{
+    const json=await xyureiRequest(function(key){
+      return DETECTAI_ENDPOINT+'?q='+encodeURIComponent(text)+'&apikey='+key;
+    },{
+      isDataOk:function(j){ return !!aicExtractText(j); }
+    });
+    const output=aicExtractText(json);
+    if(output){
+      aicHistory.push({kind:'detectai',input:text,output:output});
+    }else{
+      aicHistory.push({kind:'detectai',input:text,error:true});
+    }
+  }catch(e){
+    console.error('[DETECTAI]',e);
+    aicHistory.push({kind:'detectai',input:text,error:true});
+  }
+  aicTouchSession(text);
+  detectaiLoading=false;
+  detectaiLoadingText='';
+  if(btn) btn.disabled=false;
+  aicRenderChat();
+}
+
+function detectaiRegen(text){
+  aicSwitchMode('detectai');
+  const inp=document.getElementById('detectaiInput');
+  if(inp){ inp.value=text; aicAutoGrow(inp); }
+  detectaiGenerate();
+}
+
+/* ============================================================================
+   NANO BANANA IMAGE EDITOR — https://sylvatica.my.id/api/ai/nanobanana?url=...&prompt=...&apikey=...
+   ============================================================================ */
+const NANOBANANA_ENDPOINT='https://sylvatica.my.id/api/ai/nanobanana';
+let nanobananaLoading=false;
+let nanobananaLoadingUrl='';
+let nanobananaLoadingPrompt='';
+let nanobananaPreviewTimer=null;
+
+function nanobananaUpdatePreview(val){
+  clearTimeout(nanobananaPreviewTimer);
+  const box=document.getElementById('nanobananaPreview');
+  const img=document.getElementById('nanobananaPreviewImg');
+  if(!box||!img) return;
+  const v=(val||'').trim();
+  if(!v){ box.className='aiflt-preview'; img.src=''; return; }
+  box.className='aiflt-preview checking show';
+  box.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i>';
+  nanobananaPreviewTimer=setTimeout(function(){
+    const test=new Image();
+    test.referrerPolicy='no-referrer';
+    test.onload=function(){
+      const b=document.getElementById('nanobananaPreview');
+      if(!b) return;
+      b.className='aiflt-preview show';
+      b.innerHTML='<img id="nanobananaPreviewImg" src="'+aifltEscAttr(v)+'" alt="" referrerpolicy="no-referrer">';
+    };
+    test.onerror=function(){
+      const b=document.getElementById('nanobananaPreview');
+      if(!b) return;
+      b.className='aiflt-preview bad show';
+      b.innerHTML='<i class="fa-solid fa-triangle-exclamation"></i> Link tidak valid';
+    };
+    test.src=v;
+  },450);
+}
+
+async function nanobananaGenerate(){
+  const urlInp=document.getElementById('nanobananaUrlInput');
+  const promptInp=document.getElementById('nanobananaPromptInput');
+  const btn=document.getElementById('nanobananaGenBtn');
+  const srcUrl=urlInp?urlInp.value.trim():'';
+  const prompt=promptInp?promptInp.value.trim():'';
+  if(!srcUrl||!prompt){
+    if(!srcUrl&&urlInp){ urlInp.classList.remove('shake'); void urlInp.offsetWidth; urlInp.classList.add('shake'); }
+    if(!prompt&&promptInp){ promptInp.classList.remove('shake'); void promptInp.offsetWidth; promptInp.classList.add('shake'); }
+    return;
+  }
+  if(nanobananaLoading) return;
+  if(promptInp){ promptInp.value=''; aicAutoGrow(promptInp); }
+  nanobananaLoading=true;
+  nanobananaLoadingUrl=srcUrl;
+  nanobananaLoadingPrompt=prompt;
+  if(btn) btn.disabled=true;
+  aicRenderChat();
+  try{
+    const json=await xyureiRequest(function(key){
+      return NANOBANANA_ENDPOINT+'?url='+encodeURIComponent(srcUrl)+'&prompt='+encodeURIComponent(prompt)+'&apikey='+key;
+    },{
+      isDataOk:function(j){ return !!aiartExtractUrl(j); }
+    });
+    const url=aiartExtractUrl(json);
+    if(url){
+      aicHistory.push({kind:'nanobanana',srcUrl:srcUrl,prompt:prompt,url:url});
+    }else{
+      aicHistory.push({kind:'nanobanana',srcUrl:srcUrl,prompt:prompt,error:true});
+    }
+  }catch(e){
+    console.error('[NANOBANANA]',e);
+    aicHistory.push({kind:'nanobanana',srcUrl:srcUrl,prompt:prompt,error:true});
+  }
+  aicTouchSession(prompt);
+  nanobananaLoading=false;
+  nanobananaLoadingUrl='';
+  nanobananaLoadingPrompt='';
+  if(btn) btn.disabled=false;
+  aicRenderChat();
+}
+
+function nanobananaRegen(srcUrl,prompt){
+  aicSwitchMode('nanobanana');
+  const urlInp=document.getElementById('nanobananaUrlInput');
+  if(urlInp){ urlInp.value=srcUrl; nanobananaUpdatePreview(srcUrl); }
+  const promptInp=document.getElementById('nanobananaPromptInput');
+  if(promptInp){ promptInp.value=prompt; aicAutoGrow(promptInp); }
+  nanobananaGenerate();
+}
+
+/* ── DOWNLOAD MEDIA GENERIK (dipakai fitur AI baru: gambar/video/audio) ── */
+async function aiMediaDownload(url,ext,label){
+  const lbl=(label||'file').toUpperCase();
+  if(typeof showToast==='function') showToast('Menyimpan '+(label||'file')+'...');
+  try{
+    const res=await fetch(url,{referrerPolicy:'no-referrer'});
+    const blob=await res.blob();
+    const blobUrl=URL.createObjectURL(blob);
+    const link=document.createElement('a');
+    link.href=blobUrl;
+    link.download='KZRIZUSMO-'+lbl+'-'+Date.now()+'.'+(ext||'jpg');
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(blobUrl);
+  }catch(e){
+    window.open(url,'_blank');
+  }
+}
+
+/* ============================================================================
+   TEXT TO IMAGE — https://sylvatica.my.id/api/ai/txt2img?prompt=...&ratio=...&apikey=...
+   ============================================================================ */
+const TXT2IMG_ENDPOINT='https://sylvatica.my.id/api/ai/txt2img';
+let txt2imgLoading=false;
+let txt2imgLoadingPrompt='';
+
+async function txt2imgGenerate(){
+  const inp=document.getElementById('txt2imgPromptInput');
+  const ratioInp=document.getElementById('txt2imgRatioInput');
+  const btn=document.getElementById('txt2imgGenBtn');
+  const prompt=inp?inp.value.trim():'';
+  const ratio=ratioInp?ratioInp.value.trim():'';
+  if(!prompt){
+    if(inp){ inp.classList.remove('shake'); void inp.offsetWidth; inp.classList.add('shake'); }
+    return;
+  }
+  if(txt2imgLoading) return;
+  if(inp){ inp.value=''; aicAutoGrow(inp); }
+  txt2imgLoading=true;
+  txt2imgLoadingPrompt=prompt;
+  if(btn) btn.disabled=true;
+  aicRenderChat();
+  try{
+    const json=await xyureiRequest(function(key){
+      return TXT2IMG_ENDPOINT+'?prompt='+encodeURIComponent(prompt)+'&ratio='+encodeURIComponent(ratio)+'&apikey='+key;
+    },{
+      isDataOk:function(j){ return !!aiartExtractUrl(j); }
+    });
+    const url=aiartExtractUrl(json);
+    if(url){
+      aicHistory.push({kind:'txt2img',prompt:prompt,ratio:ratio,url:url});
+    }else{
+      aicHistory.push({kind:'txt2img',prompt:prompt,ratio:ratio,error:true});
+    }
+  }catch(e){
+    console.error('[TXT2IMG]',e);
+    aicHistory.push({kind:'txt2img',prompt:prompt,ratio:ratio,error:true});
+  }
+  aicTouchSession(prompt);
+  txt2imgLoading=false;
+  txt2imgLoadingPrompt='';
+  if(btn) btn.disabled=false;
+  aicRenderChat();
+}
+
+function txt2imgRegen(prompt,ratio){
+  aicSwitchMode('txt2img');
+  const inp=document.getElementById('txt2imgPromptInput');
+  const ratioInp=document.getElementById('txt2imgRatioInput');
+  if(inp) inp.value=prompt;
+  if(ratioInp) ratioInp.value=ratio||'';
+  txt2imgGenerate();
+}
+
+/* ============================================================================
+   TEXT TO VIDEO — https://sylvatica.my.id/api/ai/text2vid?prompt=...&ratio=...&sound=...&apikey=...
+   ============================================================================ */
+const TEXT2VID_ENDPOINT='https://sylvatica.my.id/api/ai/text2vid';
+let text2vidLoading=false;
+let text2vidLoadingPrompt='';
+
+async function text2vidGenerate(){
+  const inp=document.getElementById('text2vidPromptInput');
+  const ratioInp=document.getElementById('text2vidRatioInput');
+  const soundInp=document.getElementById('text2vidSoundInput');
+  const btn=document.getElementById('text2vidGenBtn');
+  const prompt=inp?inp.value.trim():'';
+  const ratio=ratioInp?ratioInp.value.trim():'';
+  const sound=soundInp?soundInp.value.trim():'';
+  if(!prompt){
+    if(inp){ inp.classList.remove('shake'); void inp.offsetWidth; inp.classList.add('shake'); }
+    return;
+  }
+  if(text2vidLoading) return;
+  if(inp){ inp.value=''; aicAutoGrow(inp); }
+  text2vidLoading=true;
+  text2vidLoadingPrompt=prompt;
+  if(btn) btn.disabled=true;
+  aicRenderChat();
+  try{
+    const json=await xyureiRequest(function(key){
+      return TEXT2VID_ENDPOINT+'?prompt='+encodeURIComponent(prompt)+'&ratio='+encodeURIComponent(ratio)+'&sound='+encodeURIComponent(sound)+'&apikey='+key;
+    },{
+      isDataOk:function(j){ return !!aiartExtractUrl(j); }
+    });
+    const url=aiartExtractUrl(json);
+    if(url){
+      aicHistory.push({kind:'text2vid',prompt:prompt,ratio:ratio,sound:sound,url:url});
+    }else{
+      aicHistory.push({kind:'text2vid',prompt:prompt,ratio:ratio,sound:sound,error:true});
+    }
+  }catch(e){
+    console.error('[TEXT2VID]',e);
+    aicHistory.push({kind:'text2vid',prompt:prompt,ratio:ratio,sound:sound,error:true});
+  }
+  aicTouchSession(prompt);
+  text2vidLoading=false;
+  text2vidLoadingPrompt='';
+  if(btn) btn.disabled=false;
+  aicRenderChat();
+}
+
+function text2vidRegen(prompt,ratio,sound){
+  aicSwitchMode('text2vid');
+  const inp=document.getElementById('text2vidPromptInput');
+  const ratioInp=document.getElementById('text2vidRatioInput');
+  const soundInp=document.getElementById('text2vidSoundInput');
+  if(inp) inp.value=prompt;
+  if(ratioInp) ratioInp.value=ratio||'';
+  if(soundInp) soundInp.value=sound||'';
+  text2vidGenerate();
+}
+
+/* ============================================================================
+   TEXT TO SPEECH — https://sylvatica.my.id/api/ai/tts?text=...&model=...&apikey=...
+   ============================================================================ */
+const TTS_ENDPOINT='https://sylvatica.my.id/api/ai/tts';
+let ttsLoading=false;
+let ttsLoadingText='';
+
+async function ttsGenerate(){
+  const inp=document.getElementById('ttsTextInput');
+  const modelInp=document.getElementById('ttsModelInput');
+  const btn=document.getElementById('ttsGenBtn');
+  const text=inp?inp.value.trim():'';
+  const model=modelInp?modelInp.value.trim():'';
+  if(!text||!model){
+    if(!text&&inp){ inp.classList.remove('shake'); void inp.offsetWidth; inp.classList.add('shake'); }
+    if(!model&&modelInp){ modelInp.classList.remove('shake'); void modelInp.offsetWidth; modelInp.classList.add('shake'); }
+    return;
+  }
+  if(ttsLoading) return;
+  if(inp){ inp.value=''; aicAutoGrow(inp); }
+  ttsLoading=true;
+  ttsLoadingText=text;
+  if(btn) btn.disabled=true;
+  aicRenderChat();
+  try{
+    const json=await xyureiRequest(function(key){
+      return TTS_ENDPOINT+'?text='+encodeURIComponent(text)+'&model='+encodeURIComponent(model)+'&apikey='+key;
+    },{
+      isDataOk:function(j){ return !!aiartExtractUrl(j); }
+    });
+    const url=aiartExtractUrl(json);
+    if(url){
+      aicHistory.push({kind:'tts',text:text,model:model,url:url});
+    }else{
+      aicHistory.push({kind:'tts',text:text,model:model,error:true});
+    }
+  }catch(e){
+    console.error('[TTS]',e);
+    aicHistory.push({kind:'tts',text:text,model:model,error:true});
+  }
+  aicTouchSession(text);
+  ttsLoading=false;
+  ttsLoadingText='';
+  if(btn) btn.disabled=false;
+  aicRenderChat();
+}
+
+function ttsRegen(text,model){
+  aicSwitchMode('tts');
+  const inp=document.getElementById('ttsTextInput');
+  const modelInp=document.getElementById('ttsModelInput');
+  if(inp) inp.value=text;
+  if(modelInp) modelInp.value=model||'';
+  ttsGenerate();
+}
+
+/* ============================================================================
+   TOONMIX AI (T2I & I2I) — POST https://sylvatica.my.id/api/ai/toonmix?q=...&image=...&apikey=...
+   ============================================================================ */
+const TOONMIX_ENDPOINT='https://sylvatica.my.id/api/ai/toonmix';
+let toonmixLoading=false;
+let toonmixLoadingPrompt='';
+let toonmixLoadingUrl='';
+let toonmixPreviewTimer=null;
+
+function toonmixUpdatePreview(val){
+  clearTimeout(toonmixPreviewTimer);
+  const box=document.getElementById('toonmixPreview');
+  const img=document.getElementById('toonmixPreviewImg');
+  if(!box||!img) return;
+  const v=(val||'').trim();
+  if(!v){ box.className='aiflt-preview'; img.src=''; return; }
+  box.className='aiflt-preview checking show';
+  box.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i>';
+  toonmixPreviewTimer=setTimeout(function(){
+    const test=new Image();
+    test.referrerPolicy='no-referrer';
+    test.onload=function(){
+      const b=document.getElementById('toonmixPreview');
+      if(!b) return;
+      b.className='aiflt-preview show';
+      b.innerHTML='<img id="toonmixPreviewImg" src="'+aifltEscAttr(v)+'" alt="" referrerpolicy="no-referrer">';
+    };
+    test.onerror=function(){
+      const b=document.getElementById('toonmixPreview');
+      if(!b) return;
+      b.className='aiflt-preview bad show';
+      b.innerHTML='<i class="fa-solid fa-triangle-exclamation"></i> Link tidak valid';
+    };
+    test.src=v;
+  },450);
+}
+
+async function toonmixGenerate(){
+  const promptInp=document.getElementById('toonmixPromptInput');
+  const urlInp=document.getElementById('toonmixUrlInput');
+  const btn=document.getElementById('toonmixGenBtn');
+  const prompt=promptInp?promptInp.value.trim():'';
+  const srcUrl=urlInp?urlInp.value.trim():'';
+  if(!prompt){
+    if(promptInp){ promptInp.classList.remove('shake'); void promptInp.offsetWidth; promptInp.classList.add('shake'); }
+    return;
+  }
+  if(toonmixLoading) return;
+  if(promptInp){ promptInp.value=''; aicAutoGrow(promptInp); }
+  toonmixLoading=true;
+  toonmixLoadingPrompt=prompt;
+  toonmixLoadingUrl=srcUrl;
+  if(btn) btn.disabled=true;
+  aicRenderChat();
+  try{
+    const json=await xyureiRequest(function(key){
+      return TOONMIX_ENDPOINT+'?q='+encodeURIComponent(prompt)+'&image='+encodeURIComponent(srcUrl)+'&apikey='+key;
+    },{
+      method:'POST',
+      isDataOk:function(j){ return !!aiartExtractUrl(j); }
+    });
+    const url=aiartExtractUrl(json);
+    if(url){
+      aicHistory.push({kind:'toonmix',prompt:prompt,srcUrl:srcUrl,url:url});
+    }else{
+      aicHistory.push({kind:'toonmix',prompt:prompt,srcUrl:srcUrl,error:true});
+    }
+  }catch(e){
+    console.error('[TOONMIX]',e);
+    aicHistory.push({kind:'toonmix',prompt:prompt,srcUrl:srcUrl,error:true});
+  }
+  aicTouchSession(prompt);
+  toonmixLoading=false;
+  toonmixLoadingPrompt='';
+  toonmixLoadingUrl='';
+  if(btn) btn.disabled=false;
+  aicRenderChat();
+}
+
+function toonmixRegen(prompt,srcUrl){
+  aicSwitchMode('toonmix');
+  const promptInp=document.getElementById('toonmixPromptInput');
+  const urlInp=document.getElementById('toonmixUrlInput');
+  if(promptInp){ promptInp.value=prompt; aicAutoGrow(promptInp); }
+  if(urlInp){ urlInp.value=srcUrl||''; toonmixUpdatePreview(srcUrl||''); }
+  toonmixGenerate();
 }
 
 /* ── LIGHTBOX: preview gambar penuh layar (dipakai AI Art & AI Filter) ── */
