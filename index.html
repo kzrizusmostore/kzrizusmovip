@@ -6431,10 +6431,20 @@ function closeVipShadowApp(){
     <div class="hm-tile-icon"><i class="fa-solid fa-shuffle"></i></div>
     <span class="hm-tile-label">RANDOM</span>
   </div>
+  <div class="hm-tile hm-tile-extra" onclick="dismissNewBadge('stalk');showPage('stalk')">
+    <span class="hm-tile-badge" id="newBadge_stalk"></span>
+    <div class="hm-tile-icon"><i class="fa-solid fa-user-secret"></i></div>
+    <span class="hm-tile-label">STALK</span>
+  </div>
   <div class="hm-tile hm-tile-extra" onclick="dismissNewBadge('search');showPage('search')">
     <span class="hm-tile-badge" id="newBadge_search"></span>
     <div class="hm-tile-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
     <span class="hm-tile-label">SEARCH</span>
+  </div>
+  <div class="hm-tile hm-tile-extra" onclick="dismissNewBadge('anime');showPage('anime')">
+    <span class="hm-tile-badge" id="newBadge_anime"></span>
+    <div class="hm-tile-icon"><i class="fa-solid fa-clapperboard"></i></div>
+    <span class="hm-tile-label">ANIME</span>
   </div>
 </div>
 
@@ -9802,8 +9812,8 @@ function orderSuntikLike(){
   <div class="smdl-tab" id="smdlTab_gh" data-cat="file" onclick="smdlSwitchTab('gh')">
     <i class="fa-brands fa-github"></i><span>GITHUB</span>
   </div>
-  <div class="smdl-tab" id="smdlTab_xxxx" data-cat="file" onclick="smdlSwitchTab('xxxx')">
-    <i class="fa-solid fa-file-arrow-down"></i><span>XXXX</span>
+  <div class="smdl-tab" id="smdlTab_xnxx" data-cat="file" onclick="smdlSwitchTab('xnxx')">
+    <i class="fa-solid fa-file-arrow-down"></i><span>XNXX</span>
   </div>
 </div>
 
@@ -10015,20 +10025,20 @@ function orderSuntikLike(){
 <div class="smdl-result" id="smdlScResult"></div>
 </div>
 
-<!-- XXXX PANEL -->
-<div class="smdl-panel" id="smdlPanel_xxxx">
+<!-- XNXX PANEL -->
+<div class="smdl-panel" id="smdlPanel_xnxx">
 <div class="pc-card">
   <div class="pc-head">
     <div class="pc-head-icon"><i class="fa-solid fa-file-arrow-down"></i></div>
-    <div class="pc-head-text"><h3>XXXX DOWNLOADER</h3><p>Download video/media dari link XXXX</p></div>
+    <div class="pc-head-text"><h3>XNXX DOWNLOADER</h3><p>Download video/media dari link XNXX</p></div>
   </div>
   <div class="pc-input-wrap">
     <i class="fa-solid fa-link pc-input-icon"></i>
-    <input class="pc-input" id="smdlXxxxUrl" type="text" placeholder="Tempel link di sini" style="font-size:13px;font-weight:600;padding-left:40px;"/>
+    <input class="pc-input" id="smdlXnxxUrl" type="text" placeholder="Tempel link di sini" style="font-size:13px;font-weight:600;padding-left:40px;"/>
   </div>
-  <button class="pc-btn" id="smdlXxxxBtn" onclick="smdlDownload('xxxx')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>
+  <button class="pc-btn" id="smdlXnxxBtn" onclick="smdlDownload('xnxx')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>
 </div>
-<div class="smdl-result" id="smdlXxxxResult"></div>
+<div class="smdl-result" id="smdlXnxxResult"></div>
 </div>
 
 <!-- GITHUB REPO PANEL -->
@@ -11231,11 +11241,17 @@ async function xyureiRequest(pathBuilder,opts){
         res=await fetch('https://api.allorigins.win/raw?url='+encodeURIComponent(url));
         text=await res.text();
       }catch(proxyErr){
-        lastDetail='Fetch langsung GAGAL ('+((networkErr&&networkErr.message)||networkErr)+') dan proxy allorigins JUGA gagal ('+((proxyErr&&proxyErr.message)||proxyErr)+').';
-        console.error('[xyurei] proxy juga gagal:',proxyErr);
-        const finalErr=new Error(proxyErr&&proxyErr.message||'Semua metode fetch gagal.');
-        finalErr.debugDetail=lastDetail;
-        throw finalErr;
+        console.warn('[xyurei] proxy allorigins juga gagal, coba proxy corsproxy.io:',proxyErr);
+        try{
+          res=await fetch('https://corsproxy.io/?url='+encodeURIComponent(url));
+          text=await res.text();
+        }catch(proxy2Err){
+          lastDetail='Fetch langsung GAGAL ('+((networkErr&&networkErr.message)||networkErr)+'), proxy allorigins GAGAL ('+((proxyErr&&proxyErr.message)||proxyErr)+'), dan proxy corsproxy.io JUGA gagal ('+((proxy2Err&&proxy2Err.message)||proxy2Err)+').';
+          console.error('[xyurei] semua proxy gagal:',proxy2Err);
+          const finalErr=new Error(proxy2Err&&proxy2Err.message||'Semua metode fetch gagal.');
+          finalErr.debugDetail=lastDetail;
+          throw finalErr;
+        }
       }
     }
     let json=null;
@@ -13468,7 +13484,51 @@ function aiLightboxDownload(){
 </div>
 <script>
 const GM_TIME_LIMIT=120;
+const GM_KUISFF_BANK=[
+  {q:'Nama gim battle royale ini apa? (F_ _ F_ _ E)',a:'free fire'},
+  {q:'Perusahaan pengembang Free Fire bernama apa?',a:'garena'},
+  {q:'Berapa jumlah pemain maksimal dalam satu match klasik Free Fire?',a:'50'},
+  {q:'Mata uang premium di Free Fire buat beli skin disebut apa?',a:'diamond'},
+  {q:'Zona aman yang menyempit seiring waktu di map disebut apa?',a:'safe zone'},
+  {q:'Alat yang dipakai buat sembunyi dan bertahan sementara di Free Fire disebut apa?',a:'gloo wall'},
+  {q:'Item yang dipakai buat pulihkan HP secara instan disebut apa?',a:'medkit'},
+  {q:'Mode di mana pemain bisa lihat map penuh dari udara sebelum mendarat disebut apa?',a:'skydive'},
+  {q:'Senjata jarak dekat tanpa peluru di Free Fire disebut apa?',a:'melee'},
+  {q:'Rank tertinggi di sistem peringkat Free Fire disebut apa?',a:'heroic'},
+  {q:'Mode permainan tim kecil beranggotakan berapa orang di Squad?',a:'4'},
+  {q:'Item yang dipakai buat sembuh sambil tetap jalan disebut apa?',a:'bandage'},
+  {q:'Kendaraan roda dua yang sering muncul di map Free Fire disebut apa?',a:'motor'},
+  {q:'Sistem yang bikin kamu bisa lihat musuh tembus tembok kalau pakai cheat disebut apa?',a:'wallhack'},
+  {q:'Nama mata uang non-premium (gratis) di Free Fire disebut apa?',a:'coin'},
+  {q:'Tempat buat beli skin, karakter, dan bundle di dalam gim disebut apa?',a:'top up'},
+  {q:'Item pelindung tubuh yang dipakai buat kurangi damage disebut apa?',a:'armor'},
+  {q:'Fitur yang bikin karakter kamu bisa lompat lebih tinggi/gerak lebih cepat disebut apa?',a:'skill'},
+  {q:'Nama map klasik pertama Free Fire yang paling terkenal disebut apa?',a:'bermuda'},
+  {q:'Alat optik yang dipasang di senjata buat lihat musuh dari jauh disebut apa?',a:'scope'},
+  {q:'Mode battle royale versi cepat dengan waktu lebih singkat disebut apa?',a:'clash squad'},
+  {q:'Senjata yang biasa dipakai buat sniping jarak jauh disebut apa?',a:'sniper'},
+  {q:'Fitur chat suara antar pemain dalam satu tim disebut apa?',a:'voice chat'},
+  {q:'Kendaraan roda empat yang bisa dipakai kabur dari zona disebut apa?',a:'mobil',},
+  {q:'Nama item yang bisa bikin kamu terbang/melayang sementara disebut apa?',a:'jetpack'},
+  {q:'Sistem yang nge-record ranking pemain tiap musim disebut apa?',a:'season'},
+  {q:'Fitur buat gabung nge-push rank bareng teman disebut apa?',a:'squad'},
+  {q:'Alat lempar yang meledak dan bikin damage area disebut apa?',a:'granat'},
+  {q:'Item asap yang dipakai buat menghalangi pandangan musuh disebut apa?',a:'smoke grenade'},
+  {q:'Fitur kustomisasi tampilan karakter disebut apa?',a:'skin'},
+  {q:'Peti yang bisa dibuka buat dapat loot acak disebut apa?',a:'airdrop'},
+  {q:'Nama mode di mana semua pemain lawan satu sama lain tanpa tim disebut apa?',a:'solo'},
+  {q:'Fitur yang menampilkan lokasi musuh terdekat lewat radar disebut apa?',a:'minimap'},
+  {q:'Alat yang dipakai buat mendobrak dinding/gloo wall lawan disebut apa?',a:'gun'},
+  {q:'Nama hewan peliharaan yang bisa dibawa dan punya skill khusus disebut apa?',a:'pet'},
+  {q:'Fitur yang bikin kamu revive teman yang KO disebut apa?',a:'revive'},
+  {q:'Nama status saat HP habis tapi masih bisa diselamatkan disebut apa?',a:'knock down'},
+  {q:'Jenis amunisi yang harus sesuai kaliber senjata disebut apa?',a:'peluru'},
+  {q:'Fitur yang bikin tampilan gim jadi lebih ringan di HP kentang disebut apa?',a:'lite'},
+  {q:'Nama turnamen kompetitif resmi Free Fire tingkat dunia disebut apa?',a:'world series'},
+  {q:'Item yang menaikkan kecepatan lari sementara disebut apa?',a:'speed boost'}
+];
 const GM_GAMES=[
+  {key:'kuisff',label:'Kuis FF',icon:'fa-fire',local:true,data:GM_KUISFF_BANK},
   {key:'asahotak',label:'Asah Otak',icon:'fa-brain',url:'https://sylvatica.my.id/api/game/asahotak'},
   {key:'caklontong',label:'Cak Lontong',icon:'fa-face-laugh-wink',url:'https://sylvatica.my.id/api/game/caklontong'},
   {key:'family100',label:'Family 100',icon:'fa-users',url:'https://sylvatica.my.id/api/game/family100'},
@@ -13497,6 +13557,26 @@ let gmTimeLeft=GM_TIME_LIMIT;
 let gmCurrentAnswer=null;
 let gmCurrentOptions=null;
 let gmAnswered=false;
+let gmLocalQueues={};
+
+function gmShuffle(arr){
+  const a=arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    const tmp=a[i];a[i]=a[j];a[j]=tmp;
+  }
+  return a;
+}
+
+function gmNextLocal(game){
+  let queue=gmLocalQueues[game.key];
+  if(!queue||!queue.length){
+    queue=gmShuffle(game.data.map(function(_,i){return i;}));
+    gmLocalQueues[game.key]=queue;
+  }
+  const idx=queue.pop();
+  return game.data[idx];
+}
 
 function gmBuildGrid(){
   if(gmGridBuilt) return;
@@ -13576,6 +13656,11 @@ async function gmFetchQuestion(game){
   clearInterval(gmTimerHandle);
   const area=document.getElementById('gmPlayArea');
   if(area) area.innerHTML='<div class="gm-loading"><i class="fa-solid fa-spinner fa-spin"></i> Memuat soal...</div>';
+  if(game.local){
+    const pick=gmNextLocal(game);
+    gmSetupRound(game,{pertanyaan:pick.q,jawaban:pick.a});
+    return;
+  }
   try{
     const sep=game.url.indexOf('?')===-1?'?':'&';
     const data=await xyureiRequest(function(key){
@@ -14774,6 +14859,424 @@ function kmkEscAttr(str){
 }
 </script>
 
+<!-- ANIME -->
+<div class="page" id="anime">
+<style>
+#anime{
+  --anm-surface:#1a1220;--anm-surface2:#221828;--anm-hair:rgba(255,61,129,.18);
+  --anm-hair-strong:rgba(255,61,129,.42);--anm-accent:#ff3d81;--anm-accent-soft:#ffb8d9;
+  --anm-text:#f8eef4;--anm-dim:#c79bb3;--anm-faint:#6b4b5c;--anm-danger:#ff5252;
+}
+#anime.active{padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px));}
+
+.anm-header{position:relative;overflow:hidden;border-radius:18px;padding:22px 16px 20px;margin-bottom:16px;background:linear-gradient(160deg,var(--anm-surface) 0%,#0a060a 100%);border:1px solid var(--anm-hair);}
+.anm-header::before{content:'\f008';font-family:'Font Awesome 6 Free';font-weight:900;position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:64px;color:var(--anm-accent);opacity:.1;line-height:1;pointer-events:none;}
+.anm-title{position:relative;display:flex;align-items:center;gap:9px;font-family:'Fredoka One',sans-serif;font-size:17px;color:var(--anm-text);letter-spacing:.5px;}
+.anm-title i{color:var(--anm-accent);font-size:16px;}
+.anm-subtitle{position:relative;margin-top:5px;font-size:11px;color:var(--anm-dim);font-family:'Inter',sans-serif;}
+
+.anm-grouplabel{grid-column:1/-1;font-size:10px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--anm-accent-soft);margin:10px 0 2px;padding-left:2px;}
+.anm-grouplabel:first-child{margin-top:0;}
+.anm-groupslot{grid-column:1/-1;}
+.anm-groupslot:empty{display:none;}
+
+.anm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:16px;}
+.anm-tile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px 4px 13px;border-radius:14px;background:var(--anm-surface);border:1px solid var(--anm-hair);cursor:pointer;text-align:center;transition:border-color .15s,background .15s;}
+.anm-tile-icon{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,61,129,.1);border:1px solid var(--anm-hair-strong);}
+.anm-tile i{font-size:15px;color:var(--anm-accent);}
+.anm-tile span{font-size:9.5px;font-weight:700;color:var(--anm-dim);line-height:1.25;}
+.anm-tile.active{background:var(--anm-surface2);border-color:var(--anm-accent);}
+.anm-tile.active .anm-tile-icon{background:rgba(255,61,129,.2);}
+.anm-tile.active span{color:var(--anm-accent-soft);}
+.anm-tile:active{transform:scale(.94);}
+
+.anm-empty{text-align:center;padding:36px 10px;color:var(--anm-faint);font-size:11.5px;}
+.anm-empty i{font-size:26px;color:#3a2a34;display:block;margin-bottom:10px;}
+.anm-loading{text-align:center;padding:24px 10px;font-size:12px;color:var(--anm-dim);}
+.anm-loading i{color:var(--anm-accent);}
+.anm-fetcherror{text-align:center;padding:22px 14px;font-size:12px;color:#e2a48f;background:rgba(255,82,82,.08);border:1px solid rgba(255,82,82,.25);border-radius:12px;line-height:1.6;}
+.anm-fetcherror i{color:var(--anm-danger);margin-right:4px;}
+.anm-notice{text-align:center;padding:22px 14px;font-size:12px;color:var(--anm-accent-soft);background:rgba(255,61,129,.08);border:1px solid var(--anm-hair-strong);border-radius:12px;line-height:1.6;}
+.anm-notice i{color:var(--anm-accent);margin-right:4px;}
+
+.anm-formcard{background:var(--anm-surface);border:1px solid var(--anm-hair);border-radius:16px;padding:14px;margin-bottom:12px;}
+.anm-formtitle{font-size:12.5px;font-weight:800;color:var(--anm-text);margin-bottom:10px;display:flex;align-items:center;gap:7px;}
+.anm-formtitle i{color:var(--anm-accent);}
+.anm-formrow{display:flex;flex-direction:column;gap:6px;margin-bottom:10px;}
+.anm-label{font-size:10.5px;font-weight:700;color:var(--anm-dim);}
+.anm-searchinput{padding:11px 13px;border-radius:12px;background:var(--anm-surface2);border:1.5px solid var(--anm-hair-strong);color:var(--anm-text);font-size:13px;font-weight:600;outline:none;font-family:'Inter','Outfit',system-ui,sans-serif;}
+.anm-searchinput::placeholder{color:var(--anm-faint);font-weight:400;}
+.anm-searchbtn{width:100%;padding:12px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--anm-accent) 0%,#9c1157 100%);color:#fff;font-size:12.5px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;}
+.anm-searchbtn:active{transform:scale(.97);}
+
+.anm-listitem{display:flex;align-items:center;gap:12px;padding:12px;border-radius:14px;background:var(--anm-surface);border:1px solid var(--anm-hair);margin-bottom:8px;cursor:pointer;}
+.anm-listitem:active{transform:scale(.98);}
+.anm-thumb{flex-shrink:0;width:52px;height:70px;border-radius:8px;object-fit:cover;background:var(--anm-surface2);border:1px solid var(--anm-hair-strong);}
+.anm-thumbph{flex-shrink:0;width:52px;height:70px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:var(--anm-surface2);border:1px solid var(--anm-hair-strong);color:var(--anm-faint);font-size:16px;}
+.anm-itembody{flex:1;min-width:0;}
+.anm-itemname{font-size:13px;font-weight:700;color:var(--anm-text);line-height:1.3;}
+.anm-itemmeta{font-size:10.5px;color:var(--anm-dim);margin-top:4px;}
+.anm-itemid{font-size:9.5px;color:var(--anm-accent-soft);margin-top:5px;}
+
+.anm-infocard{background:var(--anm-surface);border:1px solid var(--anm-hair);border-radius:16px;padding:16px;margin-bottom:14px;}
+.anm-infotop{display:flex;gap:14px;}
+.anm-infothumb{flex-shrink:0;width:88px;height:118px;border-radius:10px;object-fit:cover;background:var(--anm-surface2);border:1px solid var(--anm-hair-strong);}
+.anm-infotitle{font-size:15px;font-weight:800;color:var(--anm-text);line-height:1.3;margin-bottom:6px;}
+.anm-infoline{font-size:11px;color:var(--anm-dim);margin-bottom:3px;}
+.anm-infoline b{color:var(--anm-accent-soft);font-weight:700;}
+.anm-inforow{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-top:1px solid var(--anm-hair);font-size:11.5px;}
+.anm-inforow b{color:var(--anm-dim);font-weight:700;}
+.anm-inforow span{color:#eee;font-weight:600;text-align:right;word-break:break-word;}
+
+.anm-readerpage{width:100%;border-radius:10px;margin-bottom:8px;display:block;background:var(--anm-surface2);}
+</style>
+
+<div class="anm-header">
+  <div class="anm-title"><i class="fa-solid fa-clapperboard"></i> ANIME</div>
+  <div class="anm-subtitle">Cari manga &amp; anime dari MangaDex, NontonAnimeID, Otakotaku &amp; Otakudesu</div>
+</div>
+<div class="anm-grid" id="anmGrid"></div>
+</div>
+<script>
+/* ================= ANIME (MangaDex / NontonAnimeID / Otakotaku / Otakudesu) =================
+   ENDPOINT MENYUSUL: isi URL di ANM_BASE & ANM_ENDPOINTS di bawah kalau API-nya sudah ada.
+   Struktur form/UI sudah lengkap, tinggal isi string endpoint-nya saja tanpa perlu ubah kode lain. */
+/* ================= ANIME (MangaDex / NontonAnimeID / Otakotaku / Otakudesu) =================
+   ENDPOINT MENYUSUL untuk provider lain: isi di ANM_BASE & ANM_ENDPOINTS di bawah.
+   MangaDex sudah diisi -> pakai sylvatica.my.id (apikey sama dengan fitur STALK/lain,
+   lewat xyureiRequest supaya otomatis fallback apiKey kalau limit). */
+const ANM_SYLVATICA_BASE='https://sylvatica.my.id/api/anime/';
+const ANM_BASE=''; // TODO: isi base URL API provider lain (NontonAnimeID/Otakotaku/Otakudesu) di sini
+const ANM_ENDPOINTS={}; // semua provider (NontonAnimeID, Otakotaku, Otakudesu) sudah pakai field "sylvatica" di ANM_MENU
+
+const ANM_MENU=[
+  {key:'md-search',group:'MangaDex',label:'Search',icon:'fa-magnifying-glass',sylvatica:'mangadex-search',
+    inputs:[{id:'query',label:'Judul Manga',placeholder:'Cari judul manga...'},
+            {id:'page',label:'Halaman',placeholder:'1',optional:true,default:'1'}]},
+  {key:'md-popular',group:'MangaDex',label:'Popular',icon:'fa-fire',sylvatica:'mangadex-popular',
+    inputs:[{id:'page',label:'Halaman',placeholder:'1',optional:true,default:'1'}]},
+  {key:'md-latest',group:'MangaDex',label:'Latest',icon:'fa-clock-rotate-left',sylvatica:'mangadex-latest',
+    inputs:[{id:'page',label:'Halaman',placeholder:'1',optional:true,default:'1'}]},
+  {key:'md-genre',group:'MangaDex',label:'Genre',icon:'fa-tags',sylvatica:'mangadex-genre',
+    inputs:[{id:'genre',label:'Genre/Tag',placeholder:'Contoh: Action, Romance'},
+            {id:'page',label:'Halaman',placeholder:'1',optional:true,default:'1'}]},
+  {key:'md-detail',group:'MangaDex',label:'Manga Detail',icon:'fa-circle-info',sylvatica:'mangadex-manga',
+    inputs:[{id:'id',label:'Manga ID',placeholder:'Masukkan Manga ID'}]},
+  {key:'md-chapters',group:'MangaDex',label:'Chapters List',icon:'fa-list',sylvatica:'mangadex-chapters',
+    inputs:[{id:'manga_id',label:'Manga ID',placeholder:'Masukkan Manga ID'},
+            {id:'page',label:'Halaman',placeholder:'1',optional:true,default:'1'}]},
+  {key:'md-chapter-detail',group:'MangaDex',label:'Chapter Detail',icon:'fa-file-lines',sylvatica:'mangadex-chapter',
+    inputs:[{id:'id',label:'Chapter ID',placeholder:'Masukkan Chapter ID'}]},
+  {key:'md-pages',group:'MangaDex',label:'Pages (Read)',icon:'fa-book-open',sylvatica:'mangadex-pages',
+    inputs:[{id:'id',label:'Chapter ID',placeholder:'Masukkan Chapter ID'}]},
+
+  {key:'nid-search',group:'NontonAnimeID',label:'Search & List',icon:'fa-magnifying-glass',sylvatica:'nontonanime-search',
+    inputs:[{id:'query',label:'Judul Anime',placeholder:'Cari judul anime...'},
+            {id:'page',label:'Halaman',placeholder:'1',optional:true,default:'1'}]},
+  {key:'nid-ongoing',group:'NontonAnimeID',label:'Ongoing',icon:'fa-play',sylvatica:'nontonanime-ongoing',
+    inputs:[{id:'page',label:'Halaman',placeholder:'1',optional:true,default:'1'},
+            {id:'sort',label:'Urutan (sort)',placeholder:'Contoh: latest',optional:true,default:''}]},
+  {key:'nid-popular',group:'NontonAnimeID',label:'Popular',icon:'fa-fire',sylvatica:'nontonanime-popular',
+    inputs:[{id:'page',label:'Halaman',placeholder:'1',optional:true,default:'1'}]},
+  {key:'nid-schedule',group:'NontonAnimeID',label:'Schedule',icon:'fa-calendar-days',sylvatica:'nontonanime-schedule',inputs:[]},
+  {key:'nid-genres',group:'NontonAnimeID',label:'Genres',icon:'fa-tags',sylvatica:'nontonanime-genres',
+    inputs:[{id:'sort',label:'Urutan (sort)',placeholder:'Contoh: latest',optional:true,default:''}]},
+  {key:'nid-detail',group:'NontonAnimeID',label:'Detail',icon:'fa-circle-info',sylvatica:'nontonanime-detail',
+    inputs:[{id:'slug',label:'Slug Anime',placeholder:'Masukkan slug anime'}]},
+  {key:'nid-stream',group:'NontonAnimeID',label:'Stream',icon:'fa-clapperboard',sylvatica:'nontonanime-stream',
+    inputs:[{id:'url',label:'URL Episode',placeholder:'Masukkan URL episode'}]},
+
+  {key:'otk-search',group:'Otakotaku',label:'Search',icon:'fa-magnifying-glass',sylvatica:'otakotaku',
+    inputs:[{id:'q',label:'Judul Anime',placeholder:'Cari judul anime...'}]},
+
+  {key:'otd-search',group:'Otakudesu',label:'Search',icon:'fa-magnifying-glass',sylvatica:'otakudesu-search',
+    inputs:[{id:'q',label:'Judul Anime',placeholder:'Cari judul anime...'}]},
+  {key:'otd-ongoing',group:'Otakudesu',label:'Ongoing',icon:'fa-play',sylvatica:'otakudesu-ongoing',inputs:[]},
+  {key:'otd-detail',group:'Otakudesu',label:'Detail',icon:'fa-circle-info',sylvatica:'otakudesu-detail',
+    inputs:[{id:'url',label:'URL Anime',placeholder:'Masukkan URL anime'}]},
+  {key:'otd-download',group:'Otakudesu',label:'Download',icon:'fa-download',sylvatica:'otakudesu-download',
+    inputs:[{id:'url',label:'URL Episode',placeholder:'Masukkan URL episode'}]}
+];
+
+let anmActiveKey=null;
+let anmGridBuilt=false;
+let anmGroupOrder=[];
+
+function anmSlotId(group){
+  return 'anmSlot_'+group.replace(/[^a-zA-Z0-9]/g,'');
+}
+
+function anmBuildGrid(){
+  const grid=document.getElementById('anmGrid');
+  if(!grid||anmGridBuilt) return;
+  let html='';
+  let lastGroup=null;
+  anmGroupOrder=[];
+  ANM_MENU.forEach(function(m){
+    if(m.group!==lastGroup){
+      if(lastGroup!==null){
+        html+='<div class="anm-groupslot" id="'+anmSlotId(lastGroup)+'"></div>';
+      }
+      html+='<div class="anm-grouplabel">'+m.group+'</div>';
+      anmGroupOrder.push(m.group);
+      lastGroup=m.group;
+    }
+    html+='<div class="anm-tile" id="anmTile_'+m.key+'" onclick="anmSelect(\''+m.key+'\')">'+
+      '<div class="anm-tile-icon"><i class="fa-solid '+m.icon+'"></i></div><span>'+m.label+'</span></div>';
+  });
+  if(lastGroup!==null){
+    html+='<div class="anm-groupslot" id="'+anmSlotId(lastGroup)+'"></div>';
+  }
+  grid.innerHTML=html;
+  anmGridBuilt=true;
+}
+document.addEventListener('DOMContentLoaded',anmBuildGrid);
+
+function anmCloseAllSlots(){
+  anmGroupOrder.forEach(function(g){
+    const slot=document.getElementById(anmSlotId(g));
+    if(slot) slot.innerHTML='';
+  });
+  document.querySelectorAll('#anime .anm-tile').forEach(function(t){t.classList.remove('active');});
+}
+
+function anmSelect(key){
+  const menu=ANM_MENU.find(function(m){return m.key===key;});
+  if(!menu) return;
+  const wasOpen=anmActiveKey===key;
+  anmCloseAllSlots();
+  if(wasOpen){
+    anmActiveKey=null;
+    return;
+  }
+  anmActiveKey=key;
+  const tile=document.getElementById('anmTile_'+key);
+  if(tile) tile.classList.add('active');
+  anmRenderForm(menu);
+}
+
+function anmRenderForm(menu){
+  const area=document.getElementById(anmSlotId(menu.group));
+  if(!area) return;
+  const inputsHtml=menu.inputs.map(function(inp){
+    return '<div class="anm-formrow"><span class="anm-label">'+anmEsc(inp.label)+'</span>'+
+      '<input class="anm-searchinput" id="anmInput_'+menu.key+'_'+inp.id+'" type="text" placeholder="'+anmEsc(inp.placeholder||'')+'"/></div>';
+  }).join('');
+  area.innerHTML=
+    '<div class="anm-formcard">'+
+      '<div class="anm-formtitle"><i class="fa-solid '+menu.icon+'"></i> '+anmEsc(menu.group)+' — '+anmEsc(menu.label)+'</div>'+
+      inputsHtml+
+      '<button class="anm-searchbtn" id="anmBtn_'+menu.key+'" onclick="anmSubmit(\''+menu.key+'\')"><i class="fa-solid fa-magnifying-glass"></i> '+(menu.inputs.length?'Cari':'Tampilkan')+'</button>'+
+    '</div>'+
+    '<div id="anmResult_'+menu.key+'"></div>';
+}
+
+async function anmSubmit(key){
+  const menu=ANM_MENU.find(function(m){return m.key===key;});
+  if(!menu) return;
+  const values={};
+  for(let i=0;i<menu.inputs.length;i++){
+    const inp=menu.inputs[i];
+    const el=document.getElementById('anmInput_'+key+'_'+inp.id);
+    let v=el?el.value.trim():'';
+    if(!v){
+      if(inp.optional){
+        v=inp.default!==undefined?inp.default:'';
+      }else{
+        if(el){el.style.borderColor='#ff2b2b';el.focus();setTimeout(function(){el.style.borderColor='';},900);}
+        return;
+      }
+    }
+    values[inp.id]=v;
+  }
+  const area=document.getElementById('anmResult_'+key);
+  const btn=document.getElementById('anmBtn_'+key);
+  if(!area) return;
+  const endpoint=menu.sylvatica?menu.sylvatica:ANM_ENDPOINTS[key];
+  if(!endpoint){
+    area.innerHTML='<div class="anm-notice"><i class="fa-solid fa-circle-info"></i> Endpoint API untuk "'+anmEsc(menu.group+' - '+menu.label)+'" belum diisi (menyusul).</div>';
+    return;
+  }
+  const origHtml=btn?btn.innerHTML:'';
+  if(btn){btn.disabled=true;btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Memuat...';}
+  area.innerHTML='<div class="anm-loading"><i class="fa-solid fa-spinner fa-spin"></i> Memuat...</div>';
+  try{
+    const qs=Object.keys(values).map(function(k){return k+'='+encodeURIComponent(values[k]);}).join('&');
+    let json;
+    if(menu.sylvatica){
+      json=await xyureiRequest(function(apikey){
+        return ANM_SYLVATICA_BASE+menu.sylvatica+'?'+qs+(qs?'&':'')+'apikey='+apikey;
+      });
+    }else{
+      const url=ANM_BASE+endpoint+(qs?('?'+qs):'');
+      json=await anmFetchAny(url);
+    }
+    anmRenderGeneric(area,json,menu);
+  }catch(err){
+    const detail=(err&&err.debugDetail)?' ('+err.debugDetail+')':'';
+    area.innerHTML='<div class="anm-fetcherror"><i class="fa-solid fa-triangle-exclamation"></i> Gagal memuat data.<br><span style="font-size:11px;opacity:.7;">'+anmEsc(((err&&err.message)||'')+detail)+'</span></div>';
+  }
+  if(btn){btn.disabled=false;btn.innerHTML=origHtml;}
+}
+
+async function anmFetchAny(url){
+  async function tryOnce(u){
+    const res=await fetch(u,{headers:{'Accept':'application/json'}});
+    const text=await res.text();
+    let json;
+    try{ json=JSON.parse(text); }catch(parseErr){
+      throw new Error('HTTP '+res.status+' - respons bukan JSON: '+text.slice(0,200));
+    }
+    if(!res.ok){
+      throw new Error('HTTP '+res.status+' - '+(json&&(json.message||json.msg||json.error)||text.slice(0,200)));
+    }
+    return json;
+  }
+  try{
+    return await tryOnce(url);
+  }catch(directErr){
+    try{
+      return await tryOnce('https://api.allorigins.win/raw?url='+encodeURIComponent(url));
+    }catch(proxyErr){
+      throw new Error(directErr.message+' | proxy: '+proxyErr.message);
+    }
+  }
+}
+
+const ANM_SKIP_KEYS=['thumbnail','thumb','image','cover','poster','img','picture','photo','avatar','title','name','judul','nama','displayName','type','status','synopsis','description','desc','genre'];
+
+function anmFindThumb(obj){
+  if(!obj||typeof obj!=='object') return '';
+  const keys=['thumbnail','thumb','image','cover','poster','img','picture','photo'];
+  for(let i=0;i<keys.length;i++){ if(typeof obj[keys[i]]==='string'&&obj[keys[i]]) return obj[keys[i]]; }
+  return '';
+}
+function anmFindTitle(obj,fallback){
+  if(!obj||typeof obj!=='object') return fallback||'';
+  const keys=['title','name','judul','nama','displayName'];
+  for(let i=0;i<keys.length;i++){ if(typeof obj[keys[i]]==='string'&&obj[keys[i]]) return obj[keys[i]]; }
+  return fallback||'';
+}
+function anmFindSub(obj){
+  if(!obj||typeof obj!=='object') return '';
+  const keys=['type','status','episode','chapter','genre','synopsis','description','desc'];
+  for(let i=0;i<keys.length;i++){
+    const v=obj[keys[i]];
+    if(typeof v==='string'&&v) return v;
+    if(Array.isArray(v)&&v.length) return v.join(', ');
+  }
+  return '';
+}
+function anmRenderRows(obj){
+  if(!obj||typeof obj!=='object') return '';
+  let rows='';
+  Object.keys(obj).forEach(function(key){
+    if(ANM_SKIP_KEYS.indexOf(key)!==-1) return;
+    const val=obj[key];
+    if(val==null||val==='') return;
+    if(typeof val==='object') return;
+    rows+='<div class="anm-inforow"><b>'+anmEsc(anmPrettyLabel(key))+'</b><span>'+anmEsc(String(val))+'</span></div>';
+  });
+  return rows;
+}
+function anmPrettyLabel(key){
+  return key.replace(/_/g,' ').replace(/([a-z])([A-Z])/g,'$1 $2').replace(/\b\w/g,function(c){return c.toUpperCase();});
+}
+
+function anmCopyId(el,val){
+  const badge=el.querySelector('.anm-itemid');
+  function done(){
+    if(badge){ const orig=badge.innerHTML; badge.innerHTML='Disalin!'; setTimeout(function(){badge.innerHTML=orig;},1200); }
+  }
+  function fallback(){
+    try{
+      const ta=document.createElement('textarea');
+      ta.value=val;
+      ta.style.position='fixed';ta.style.left='-9999px';
+      document.body.appendChild(ta);ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+    }catch(e){}
+    done();
+  }
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(val).then(done).catch(fallback);
+  }else{
+    fallback();
+  }
+}
+
+function anmRenderGeneric(area,json,menu){
+  let d=(json&&(json.result||json.data||json.results||json.list))||json;
+  // beberapa API membungkus array di dalam key lain (mis. animeList/mangaList/episodes/chapters)
+  if(d&&typeof d==='object'&&!Array.isArray(d)){
+    const nestKeys=['animeList','mangaList','episodes','chapters','anime','episodeList','ongoing','popular'];
+    for(let i=0;i<nestKeys.length;i++){
+      if(Array.isArray(d[nestKeys[i]])){ d=d[nestKeys[i]]; break; }
+    }
+  }
+
+  if(menu.key==='md-pages'){
+    const arr=Array.isArray(d)?d:((d&&d.images)||[]);
+    if(!arr.length){ area.innerHTML='<div class="anm-empty"><i class="fa-solid fa-inbox"></i>Tidak ada halaman ditemukan</div>'; return; }
+    area.innerHTML=arr.map(function(img){
+      const src=typeof img==='string'?img:((img&&(img.url||img.image||img.src))||'');
+      return src?'<img class="anm-readerpage" src="'+anmEsc(src)+'" loading="lazy" onerror="this.style.display=\'none\'">':'';
+    }).join('');
+    return;
+  }
+
+  if(Array.isArray(d)){
+    if(!d.length){ area.innerHTML='<div class="anm-empty"><i class="fa-solid fa-inbox"></i>Tidak ada data ditemukan</div>'; return; }
+    area.innerHTML=d.map(function(it){
+      if(typeof it!=='object'||it===null) return '';
+      const thumb=anmFindThumb(it);
+      const title=anmFindTitle(it,'-');
+      const sub=anmFindSub(it);
+      const idVal=it.id||it.slug||it.mangaId||it.animeId||it.episodeId||it.chapterId||it.url||it.link||it.href||'';
+      return '<div class="anm-listitem"'+(idVal?(' onclick="anmCopyId(this,\''+anmEscAttr(String(idVal))+'\')"'):'')+'>'+
+        (thumb?'<img class="anm-thumb" src="'+anmEsc(thumb)+'" onerror="this.outerHTML=\'<div class=&quot;anm-thumbph&quot;><i class=&quot;fa-solid fa-clapperboard&quot;></i></div>\'">':'<div class="anm-thumbph"><i class="fa-solid fa-clapperboard"></i></div>')+
+        '<div class="anm-itembody">'+
+          '<div class="anm-itemname">'+anmEsc(title)+'</div>'+
+          (sub?'<div class="anm-itemmeta">'+anmEsc(sub)+'</div>':'')+
+          (idVal?'<div class="anm-itemid">ID: '+anmEsc(String(idVal))+' <i class="fa-regular fa-copy"></i></div>':'')+
+        '</div>'+
+      '</div>';
+    }).join('');
+    return;
+  }
+
+  if(d&&typeof d==='object'&&Object.keys(d).length){
+    const thumb=anmFindThumb(d);
+    const title=anmFindTitle(d,menu.label);
+    const sub=anmFindSub(d);
+    const rows=anmRenderRows(d);
+    area.innerHTML='<div class="anm-infocard">'+
+      '<div class="anm-infotop">'+
+        (thumb?'<img class="anm-infothumb" src="'+anmEsc(thumb)+'" onerror="this.style.display=\'none\'">':'')+
+        '<div><div class="anm-infotitle">'+anmEsc(title)+'</div>'+(sub?'<div class="anm-infoline">'+anmEsc(sub)+'</div>':'')+'</div>'+
+      '</div>'+
+      (rows||'')+
+    '</div>';
+    return;
+  }
+
+  // Bentuk data tidak dikenali sama sekali -> tampilkan JSON mentah (bukan cuma "kosong")
+  // supaya bisa dicek bentuk aslinya, alih-alih terlihat seperti tidak berfungsi.
+  let raw='';
+  try{ raw=JSON.stringify(json,null,2); }catch(e){ raw=String(json); }
+  area.innerHTML='<div class="anm-fetcherror"><i class="fa-solid fa-circle-info"></i> Data diterima tapi format tidak dikenali. Respons mentah:<br>'+
+    '<pre style="white-space:pre-wrap;text-align:left;font-size:10px;margin-top:8px;max-height:220px;overflow:auto;">'+anmEsc(raw.slice(0,1500))+'</pre></div>';
+}
+
+function anmEsc(str){
+  return String(str==null?'':str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function anmEscAttr(str){
+  return String(str==null?'':str).replace(/'/g,'&#39;').replace(/"/g,'&quot;');
+}
+</script>
+
 <!-- MAKER -->
 <div class="page" id="maker">
 <style>
@@ -15877,6 +16380,386 @@ async function rndDownload(url,keyName,isVideo){
 }
 </script>
 
+<!-- STALK PAGE -->
+<div class="page" id="stalk">
+<style>
+#stalk{padding-bottom:80px;}
+.stk-header{text-align:center;margin-bottom:18px;}
+.stk-title{font-size:20px;font-weight:900;color:#fff;display:flex;align-items:center;justify-content:center;gap:9px;font-family:'Outfit',sans-serif;}
+.stk-title i{color:#ff5252;}
+.stk-subtitle{font-size:11.5px;color:#888;margin-top:6px;}
+
+.stk-tabs{display:flex;gap:8px;margin-bottom:18px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px;}
+.stk-tabs::-webkit-scrollbar{display:none;}
+.stk-tab{
+  flex:0 0 auto;width:78px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  padding:12px 5px;border-radius:14px;cursor:pointer;min-height:64px;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);
+  transition:.18s;
+}
+.stk-tab i{font-size:17px;color:#888;}
+.stk-tab span{
+  font-size:9.5px;font-weight:800;color:#888;letter-spacing:.3px;
+  max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.stk-tab.active{background:rgba(255,43,43,.09);border-color:rgba(255,43,43,.4);box-shadow:0 0 14px rgba(255,43,43,.12);}
+.stk-tab.active i,.stk-tab.active span{color:#ff5252;}
+
+.stk-panel{display:none;}
+.stk-panel.active{display:block;}
+
+.stk-result{
+  margin-top:14px;border-radius:16px;overflow:hidden;
+  background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.08);
+  display:none;padding:16px 15px;
+}
+.stk-result.show{display:block;}
+.stk-result-head{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+.stk-result-avatar{width:56px;height:56px;border-radius:50%;object-fit:cover;background:#111;flex-shrink:0;border:1px solid rgba(255,255,255,.12);}
+.stk-result-name{font-size:14px;font-weight:800;color:#fff;line-height:1.35;word-break:break-word;}
+.stk-result-sub{font-size:10.5px;color:#888;margin-top:3px;word-break:break-word;}
+.stk-result-rows{display:flex;flex-direction:column;gap:0;}
+.stk-result-row{
+  display:flex;justify-content:space-between;gap:10px;padding:9px 0;
+  border-top:1px solid rgba(255,255,255,.06);font-size:11.5px;
+}
+.stk-result-row:first-child{border-top:none;}
+.stk-result-row b{color:#999;font-weight:700;flex:0 0 auto;}
+.stk-result-row span{color:#eee;font-weight:600;text-align:right;word-break:break-word;}
+
+.stk-empty{text-align:center;padding:26px 10px;color:#666;font-size:11.5px;}
+.stk-empty i{font-size:24px;color:#444;display:block;margin-bottom:10px;}
+</style>
+
+<p class="pc-title"><span class="red">STALK</span>&nbsp;<span class="wht">UID / USERNAME</span></p>
+<p class="pc-sub">Cek info akun/profil dari UID atau username</p>
+
+<div class="stk-tabs">
+  <div class="stk-tab active" id="stkTab_ff" onclick="stkSwitchTab('ff')">
+    <img src="zusmo-asset/bqp2jv.png" alt="FF" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;"/><span>FREE FIRE</span>
+  </div>
+  <div class="stk-tab" id="stkTab_dc" onclick="stkSwitchTab('dc')">
+    <i class="fa-brands fa-discord"></i><span>DISCORD</span>
+  </div>
+  <div class="stk-tab" id="stkTab_gh" onclick="stkSwitchTab('gh')">
+    <i class="fa-brands fa-github"></i><span>GITHUB</span>
+  </div>
+  <div class="stk-tab" id="stkTab_npm" onclick="stkSwitchTab('npm')">
+    <i class="fa-brands fa-npm"></i><span>NPM PACKAGE</span>
+  </div>
+  <div class="stk-tab" id="stkTab_pin" onclick="stkSwitchTab('pin')">
+    <i class="fa-brands fa-pinterest"></i><span>PINTEREST</span>
+  </div>
+  <div class="stk-tab" id="stkTab_tt" onclick="stkSwitchTab('tt')">
+    <i class="fa-brands fa-tiktok"></i><span>TIKTOK</span>
+  </div>
+  <div class="stk-tab" id="stkTab_yt" onclick="stkSwitchTab('yt')">
+    <i class="fa-brands fa-youtube"></i><span>YOUTUBE</span>
+  </div>
+</div>
+
+<!-- FREE FIRE PANEL -->
+<div class="stk-panel active" id="stkPanel_ff">
+<div class="pc-card">
+  <div class="pc-head">
+    <div class="pc-head-icon"><img src="zusmo-asset/bqp2jv.png" alt="FF" style="width:22px;height:22px;object-fit:contain;"/></div>
+    <div class="pc-head-text"><h3>STALK FREE FIRE</h3><p>Cek info akun dari UID Free Fire</p></div>
+  </div>
+  <div class="pc-input-wrap">
+    <i class="fa-solid fa-hashtag pc-input-icon"></i>
+    <input class="pc-input" id="stkFfVal" type="text" inputmode="numeric" placeholder="Masukkan UID Free Fire" style="font-size:13px;font-weight:600;padding-left:40px;"/>
+  </div>
+  <button class="pc-btn" id="stkFfBtn" onclick="stkStalk('ff')"><i class="fa-solid fa-magnifying-glass"></i> STALK</button>
+</div>
+<div class="stk-result" id="stkFfResult"></div>
+</div>
+
+<!-- DISCORD PANEL -->
+<div class="stk-panel" id="stkPanel_dc">
+<div class="pc-card">
+  <div class="pc-head">
+    <div class="pc-head-icon"><i class="fa-brands fa-discord"></i></div>
+    <div class="pc-head-text"><h3>STALK DISCORD</h3><p>Cek info akun dari User ID Discord</p></div>
+  </div>
+  <div class="pc-input-wrap">
+    <i class="fa-solid fa-hashtag pc-input-icon"></i>
+    <input class="pc-input" id="stkDcVal" type="text" inputmode="numeric" placeholder="Masukkan User ID Discord" style="font-size:13px;font-weight:600;padding-left:40px;"/>
+  </div>
+  <button class="pc-btn" id="stkDcBtn" onclick="stkStalk('dc')"><i class="fa-solid fa-magnifying-glass"></i> STALK</button>
+</div>
+<div class="stk-result" id="stkDcResult"></div>
+</div>
+
+<!-- GITHUB PANEL -->
+<div class="stk-panel" id="stkPanel_gh">
+<div class="pc-card">
+  <div class="pc-head">
+    <div class="pc-head-icon"><i class="fa-brands fa-github"></i></div>
+    <div class="pc-head-text"><h3>STALK GITHUB</h3><p>Cek info akun dari username GitHub</p></div>
+  </div>
+  <div class="pc-input-wrap">
+    <i class="fa-solid fa-at pc-input-icon"></i>
+    <input class="pc-input" id="stkGhVal" type="text" placeholder="Masukkan username GitHub" style="font-size:13px;font-weight:600;padding-left:40px;"/>
+  </div>
+  <button class="pc-btn" id="stkGhBtn" onclick="stkStalk('gh')"><i class="fa-solid fa-magnifying-glass"></i> STALK</button>
+</div>
+<div class="stk-result" id="stkGhResult"></div>
+</div>
+
+<!-- NPM PACKAGE PANEL -->
+<div class="stk-panel" id="stkPanel_npm">
+<div class="pc-card">
+  <div class="pc-head">
+    <div class="pc-head-icon"><i class="fa-brands fa-npm"></i></div>
+    <div class="pc-head-text"><h3>STALK NPM PACKAGE</h3><p>Cek info package dari NPM registry</p></div>
+  </div>
+  <div class="pc-input-wrap">
+    <i class="fa-solid fa-box pc-input-icon"></i>
+    <input class="pc-input" id="stkNpmVal" type="text" placeholder="Masukkan nama package NPM" style="font-size:13px;font-weight:600;padding-left:40px;"/>
+  </div>
+  <button class="pc-btn" id="stkNpmBtn" onclick="stkStalk('npm')"><i class="fa-solid fa-magnifying-glass"></i> STALK</button>
+</div>
+<div class="stk-result" id="stkNpmResult"></div>
+</div>
+
+<!-- PINTEREST PANEL -->
+<div class="stk-panel" id="stkPanel_pin">
+<div class="pc-card">
+  <div class="pc-head">
+    <div class="pc-head-icon"><i class="fa-brands fa-pinterest"></i></div>
+    <div class="pc-head-text"><h3>STALK PINTEREST</h3><p>Cek info akun dari username Pinterest</p></div>
+  </div>
+  <div class="pc-input-wrap">
+    <i class="fa-solid fa-at pc-input-icon"></i>
+    <input class="pc-input" id="stkPinVal" type="text" placeholder="Masukkan username Pinterest" style="font-size:13px;font-weight:600;padding-left:40px;"/>
+  </div>
+  <button class="pc-btn" id="stkPinBtn" onclick="stkStalk('pin')"><i class="fa-solid fa-magnifying-glass"></i> STALK</button>
+</div>
+<div class="stk-result" id="stkPinResult"></div>
+</div>
+
+<!-- TIKTOK PANEL -->
+<div class="stk-panel" id="stkPanel_tt">
+<div class="pc-card">
+  <div class="pc-head">
+    <div class="pc-head-icon"><i class="fa-brands fa-tiktok"></i></div>
+    <div class="pc-head-text"><h3>STALK TIKTOK</h3><p>Cek info akun dari username TikTok</p></div>
+  </div>
+  <div class="pc-input-wrap">
+    <i class="fa-solid fa-at pc-input-icon"></i>
+    <input class="pc-input" id="stkTtVal" type="text" placeholder="Masukkan username TikTok" style="font-size:13px;font-weight:600;padding-left:40px;"/>
+  </div>
+  <button class="pc-btn" id="stkTtBtn" onclick="stkStalk('tt')"><i class="fa-solid fa-magnifying-glass"></i> STALK</button>
+</div>
+<div class="stk-result" id="stkTtResult"></div>
+</div>
+
+<!-- YOUTUBE PANEL -->
+<div class="stk-panel" id="stkPanel_yt">
+<div class="pc-card">
+  <div class="pc-head">
+    <div class="pc-head-icon"><i class="fa-brands fa-youtube"></i></div>
+    <div class="pc-head-text"><h3>STALK YOUTUBE</h3><p>Cek info channel dari username YouTube</p></div>
+  </div>
+  <div class="pc-input-wrap">
+    <i class="fa-solid fa-at pc-input-icon"></i>
+    <input class="pc-input" id="stkYtVal" type="text" placeholder="Masukkan username/handle YouTube" style="font-size:13px;font-weight:600;padding-left:40px;"/>
+  </div>
+  <button class="pc-btn" id="stkYtBtn" onclick="stkStalk('yt')"><i class="fa-solid fa-magnifying-glass"></i> STALK</button>
+</div>
+<div class="stk-result" id="stkYtResult"></div>
+</div>
+
+<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
+</div>
+
+<script>
+const STK_BASE='https://sylvatica.my.id/api/stalk/';
+const STK_TAB_ORDER=['ff','dc','gh','npm','pin','tt','yt'];
+const STK_CONFIG={
+  ff:{endpoint:'freefire',param:'uid',label:'Free Fire',err:'Pastikan UID Free Fire valid.'},
+  dc:{endpoint:'discord',param:'id',label:'Discord',err:'Pastikan User ID Discord valid.'},
+  gh:{endpoint:'githubuser',param:'username',label:'GitHub',err:'Pastikan username GitHub valid.'},
+  npm:{endpoint:'npm',param:'package',label:'NPM Package',err:'Pastikan nama package NPM valid.'},
+  pin:{endpoint:'pinterest',param:'username',label:'Pinterest',err:'Pastikan username Pinterest valid.'},
+  tt:{endpoint:'tiktok',param:'username',label:'TikTok',err:'Pastikan username TikTok valid.'},
+  yt:{endpoint:'youtube',param:'username',label:'YouTube',err:'Pastikan username YouTube valid.'}
+};
+const STK_INPUT_ID={ff:'stkFfVal',dc:'stkDcVal',gh:'stkGhVal',npm:'stkNpmVal',pin:'stkPinVal',tt:'stkTtVal',yt:'stkYtVal'};
+const STK_BTN_ID={ff:'stkFfBtn',dc:'stkDcBtn',gh:'stkGhBtn',npm:'stkNpmBtn',pin:'stkPinBtn',tt:'stkTtBtn',yt:'stkYtBtn'};
+const STK_BOX_ID={ff:'stkFfResult',dc:'stkDcResult',gh:'stkGhResult',npm:'stkNpmResult',pin:'stkPinResult',tt:'stkTtResult',yt:'stkYtResult'};
+
+function stkSwitchTab(tab){
+  STK_TAB_ORDER.forEach(function(t){
+    const tabEl=document.getElementById('stkTab_'+t);
+    const panelEl=document.getElementById('stkPanel_'+t);
+    if(tabEl) tabEl.classList.toggle('active',t===tab);
+    if(panelEl) panelEl.classList.toggle('active',t===tab);
+  });
+}
+
+function stkSetLoading(btn,loading){
+  if(!btn)return;
+  if(loading){
+    btn.disabled=true;
+    btn.dataset.origHtml=btn.innerHTML;
+    btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> MEMPROSES...';
+  }else{
+    btn.disabled=false;
+    if(btn.dataset.origHtml) btn.innerHTML=btn.dataset.origHtml;
+  }
+}
+
+function stkShakeInput(inp){
+  if(!inp) return;
+  inp.style.borderColor='#ff2b2b';
+  inp.focus();
+  setTimeout(function(){ inp.style.borderColor=''; },900);
+}
+
+function stkEsc(str){
+  return String(str==null?'':str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function stkLooksLikeUrl(v){
+  return typeof v==='string' && /^https?:\/\//i.test(v);
+}
+function stkLooksLikeImageUrl(v){
+  return stkLooksLikeUrl(v) && (/\.(jpg|jpeg|png|webp|gif)(\?|$)/i.test(v) || /avatar|photo|image|icon|thumb/i.test(v));
+}
+
+// Cari field avatar/gambar profil & nama/judul di level object manapun (result/data/root),
+// karena tiap endpoint stalk beda-beda struktur field-nya.
+function stkFindAvatar(obj){
+  if(!obj||typeof obj!=='object') return '';
+  const avatarKeys=['avatar','avatar_url','profile_picture','photo','image','thumbnail','icon','picture','logo','pfp'];
+  for(let i=0;i<avatarKeys.length;i++){
+    const v=obj[avatarKeys[i]];
+    if(stkLooksLikeImageUrl(v)||stkLooksLikeUrl(v)) return v;
+  }
+  return '';
+}
+function stkFindName(obj,fallback){
+  if(!obj||typeof obj!=='object') return fallback||'';
+  const nameKeys=['name','username','displayName','display_name','full_name','fullname','title','nickname','channel_name','packageName'];
+  for(let i=0;i<nameKeys.length;i++){
+    if(typeof obj[nameKeys[i]]==='string'&&obj[nameKeys[i]]) return obj[nameKeys[i]];
+  }
+  return fallback||'';
+}
+function stkFindSub(obj){
+  if(!obj||typeof obj!=='object') return '';
+  const subKeys=['bio','description','desc','tag','handle','id','uid','region'];
+  for(let i=0;i<subKeys.length;i++){
+    if(typeof obj[subKeys[i]]==='string'&&obj[subKeys[i]]) return obj[subKeys[i]];
+  }
+  return '';
+}
+
+const STK_SKIP_KEYS=['avatar','avatar_url','profile_picture','photo','image','thumbnail','icon','picture','logo','pfp','name','username','displayName','display_name','full_name','fullname','title','nickname','bio','description','desc'];
+
+function stkPrettyLabel(key){
+  return key.replace(/_/g,' ').replace(/([a-z])([A-Z])/g,'$1 $2').replace(/\b\w/g,function(c){return c.toUpperCase();});
+}
+
+function stkRenderRows(obj){
+  if(!obj||typeof obj!=='object') return '';
+  let rows='';
+  Object.keys(obj).forEach(function(key){
+    if(STK_SKIP_KEYS.indexOf(key)!==-1) return;
+    const val=obj[key];
+    if(val==null||val==='') return;
+    if(typeof val==='object') return; // skip nested object/array, cukup tampilkan field flat
+    rows+='<div class="stk-result-row"><b>'+stkEsc(stkPrettyLabel(key))+'</b><span>'+stkEsc(String(val))+'</span></div>';
+  });
+  return rows;
+}
+
+function stkRenderResult(box,json,type){
+  const cfg=STK_CONFIG[type];
+  const d=(json&&(json.result||json.data))||json||{};
+  const avatar=stkFindAvatar(d)||stkFindAvatar(json);
+  const name=stkFindName(d,cfg.label);
+  const sub=stkFindSub(d);
+  const rows=stkRenderRows(d);
+  box.innerHTML=
+    '<div class="stk-result-head">'+
+      (avatar?'<img class="stk-result-avatar" src="'+stkEsc(avatar)+'" alt="avatar" referrerpolicy="no-referrer" onerror="this.style.display=\'none\'">':'')+
+      '<div><div class="stk-result-name">'+stkEsc(name)+'</div>'+(sub?'<div class="stk-result-sub">'+stkEsc(sub)+'</div>':'')+'</div>'+
+    '</div>'+
+    '<div class="stk-result-rows">'+(rows||'<div class="stk-result-row"><span>Tidak ada detail tambahan.</span></div>')+'</div>';
+  box.classList.add('show');
+}
+
+function stkRenderError(box,msg){
+  box.innerHTML='<div class="stk-empty"><i class="fa-solid fa-triangle-exclamation"></i>'+stkEsc(msg)+'</div>';
+  box.classList.add('show');
+}
+
+/* Stalk Free Fire: PAKAI API YANG SAMA dengan verifikasi UID di halaman beli VIP Shadow
+   (fetchFFNickname -> api.saipulanuar.eu.org/api/stalkgame/ffstalk1), bukan sylvatica.my.id.
+   Direct fetch & proxy allorigins di-race bareng, sama seperti fetchFFNickname, supaya
+   tetap jalan walau direct fetch kena CORS/diblok WebView. */
+async function stkStalkFreeFireRaw(uid){
+  const target='https://api.saipulanuar.eu.org/api/stalkgame/ffstalk1?userId='+encodeURIComponent(uid);
+  const proxyUrl='https://api.allorigins.win/raw?url='+encodeURIComponent(target);
+  const directPromise=fetch(target,{headers:{'Accept':'application/json'}}).then(r=>r.json());
+  const proxyPromise=fetch(proxyUrl).then(r=>r.json());
+  return new Promise((resolve,reject)=>{
+    let pending=2;
+    let lastErr=null;
+    [directPromise,proxyPromise].forEach(p=>{
+      p.then(json=>{
+        if(extractFFNickname(json)){ resolve(json); }
+        else{
+          lastErr=lastErr||Object.assign(new Error((json&&json.message)||'Nickname tidak ditemukan di response API.'),{raw:json});
+          pending--;
+          if(pending<=0) reject(lastErr);
+        }
+      }).catch(e=>{
+        lastErr=lastErr||e;
+        pending--;
+        if(pending<=0) reject(lastErr);
+      });
+    });
+  });
+}
+
+async function stkStalk(type){
+  const cfg=STK_CONFIG[type];
+  const inp=document.getElementById(STK_INPUT_ID[type]);
+  const btn=document.getElementById(STK_BTN_ID[type]);
+  const box=document.getElementById(STK_BOX_ID[type]);
+  const val=inp?inp.value.trim():'';
+  if(!val){ stkShakeInput(inp); return; }
+  box.classList.remove('show'); box.innerHTML='';
+  stkSetLoading(btn,true);
+  if(type==='ff'){
+    try{
+      const json=await stkStalkFreeFireRaw(val);
+      stkRenderResult(box,json,type);
+    }catch(e){
+      console.error('[STK][ff]',e,(e&&e.raw)||'');
+      const msg=(e&&e.isNetwork)?'Gagal menghubungi server cek UID. Coba lagi beberapa saat.':'UID Free Fire tidak ditemukan. Periksa kembali UID kamu.';
+      stkRenderError(box,msg);
+    }
+    stkSetLoading(btn,false);
+    return;
+  }
+  try{
+    const json=await xyureiRequest(function(key){
+      return STK_BASE+cfg.endpoint+'?'+cfg.param+'='+encodeURIComponent(val)+'&apikey='+key;
+    });
+    stkRenderResult(box,json,type);
+  }catch(e){
+    console.error('[STK]['+type+']',e,(e&&e.debugDetail)||'');
+    const detail=(e&&e.debugDetail)?' ('+e.debugDetail+')':'';
+    stkRenderError(box,'Gagal mengambil data. '+cfg.err+detail);
+  }
+  stkSetLoading(btn,false);
+}
+</script>
+
 <!-- SEARCH PAGE -->
 <div class="page" id="search">
 <style>
@@ -16125,7 +17008,7 @@ function srhRenderResult(menu,items){
 
 
 <script>
-const SMDL_TAB_ORDER=['cc','tt','ig','yt','ytdl','fb','dy','th','x','pin','vd','cpc','sp','sc','am','mf','tb','gh','xxxx'];
+const SMDL_TAB_ORDER=['cc','tt','ig','yt','ytdl','fb','dy','th','x','pin','vd','cpc','sp','sc','am','mf','tb','gh','xnxx'];
 
 function smdlSwitchTab(tab){
   SMDL_TAB_ORDER.forEach(t=>{
@@ -16458,7 +17341,7 @@ const SMDL_SIMPLE_CONFIG={
   sc:{endpoint:'soundcloud',input:'smdlScUrl',btn:'smdlScBtn',box:'smdlScResult',label:'SoundCloud',err:'Pastikan link SoundCloud valid.',fallback:true},
   ytdlmp4:{endpoint:'ytmp4',input:'smdlYtdlUrl',btn:'smdlYtdlMp4Btn',box:'smdlYtdlResult',label:'YouTube (MP4)',err:'Pastikan link YouTube valid.'},
   ytdlmp3:{endpoint:'ytmp3',input:'smdlYtdlUrl',btn:'smdlYtdlMp3Btn',box:'smdlYtdlResult',label:'YouTube (MP3)',err:'Pastikan link YouTube valid.'},
-  xxxx:{endpoint:'xxxx',input:'smdlXxxxUrl',btn:'smdlXxxxBtn',box:'smdlXxxxResult',label:'XXXX',err:'Pastikan link valid.'},
+  xnxx:{endpoint:'xnxx',input:'smdlXnxxUrl',btn:'smdlXnxxBtn',box:'smdlXnxxResult',label:'XNXX',err:'Pastikan link valid.'},
   gh:{endpoint:'github',input:'smdlGhUrl',btn:'smdlGhBtn',box:'smdlGhResult',label:'GitHub Repo',err:'Pastikan link repo GitHub valid.'},
   am:{endpoint:'applemusic',input:'smdlAmUrl',btn:'smdlAmBtn',box:'smdlAmResult',label:'Apple Music',err:'Pastikan link Apple Music valid.'},
   tb:{endpoint:'terabox',input:'smdlTbUrl',btn:'smdlTbBtn',box:'smdlTbResult',label:'Terabox',err:'Pastikan link Terabox valid.'}
@@ -25635,22 +26518,6 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
     </div>
   </div>
 
-  <div class="egc egc-red" onclick="launchGame('kuisff.html','zusmo-asset/kuisff.jpg','Kuis FF', event)">
-    <div class="egc-shine"></div>
-    <div class="egc-body">
-      <span class="egc-eyebrow">REDEEM DIAMOND</span>
-      <h4 class="egc-title">Kuis FF</h4>
-      <p class="egc-desc">Jawab kuis seputar Free Fire dan raih diamond gratis di setiap jawaban benar!</p>
-      <div class="egc-footer">
-        <span class="egc-reward"><img loading="lazy" decoding="async" src="zusmo-asset/onzrii.png" alt="diamond" class="egc-reward-icon"/>Hingga ∞</span>
-        <span class="egc-play">Main<i class="fa-solid fa-play"></i></span>
-      </div>
-    </div>
-    <div class="egc-art">
-      <img loading="lazy" decoding="async" src="zusmo-asset/kuisff.jpg" alt="Kuis FF"/>
-    </div>
-  </div>
-
   <div class="egc egc-red" onclick="launchGame('superrahul.html','zusmo-asset/logorahul.png','Super Rahul', event)">
     <div class="egc-shine"></div>
     <div class="egc-body">
@@ -26923,7 +27790,9 @@ const NEW_BADGE_CONFIG={
   maker:{launch:'2026-09-07'},
   news:{launch:'2026-09-07'},
   quotes:{launch:'2026-09-07'},
-  random:{launch:'2026-09-07'}
+  random:{launch:'2026-09-07'},
+  stalk:{launch:'2026-09-08'},
+  anime:{launch:'2026-09-08'}
 };
 const NEW_BADGE_DURATION_DAYS=20;
 
