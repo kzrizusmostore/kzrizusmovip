@@ -10541,6 +10541,48 @@ function saiGenerate(){
 }
 .aic-header-title i{color:#ff2b2b;font-size:15px;}
 .aic-header-actions{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.aic-header-left{display:flex;align-items:center;gap:9px;min-width:0;}
+.aic-histbtn{
+  flex-shrink:0;width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.05);color:#ccc;font-size:13px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+}
+.aic-histbtn:active{transform:scale(.92);}
+
+/* ── RIWAYAT OBROLAN (drawer sesi, pojok kiri) ── */
+.aic-histoverlay{position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.55);display:none;}
+.aic-histoverlay.show{display:block;animation:fadePage .2s ease;}
+.aic-histdrawer{
+  position:absolute;top:0;left:0;bottom:0;width:78%;max-width:280px;
+  background:#101010;border-right:1px solid rgba(255,43,43,.28);
+  display:flex;flex-direction:column;padding:calc(16px + env(safe-area-inset-top,0px)) 14px calc(14px + env(safe-area-inset-bottom,0px));
+  box-shadow:10px 0 30px rgba(0,0,0,.5);
+  transform:translateX(-100%);transition:transform .25s ease;
+}
+.aic-histoverlay.show .aic-histdrawer{transform:translateX(0);}
+.aic-histdrawer-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-shrink:0;font-family:'Fredoka One',sans-serif;font-size:13.5px;color:#fff;}
+.aic-histdrawer-close{width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:#888;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.aic-histdrawer-close:active{transform:scale(.92);}
+.aic-newchatbtn{
+  display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 0;border:none;border-radius:13px;
+  background:linear-gradient(135deg,#ff2b2b 0%,#961020 100%);color:#fff;font-size:12.5px;font-weight:800;
+  cursor:pointer;margin-bottom:14px;flex-shrink:0;
+}
+.aic-newchatbtn:active{transform:scale(.97);}
+.aic-histlist{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:6px;}
+.aic-histitem{
+  display:flex;align-items:center;gap:8px;padding:10px 11px;border-radius:12px;cursor:pointer;
+  background:rgba(255,255,255,.04);border:1px solid transparent;
+}
+.aic-histitem.active{background:rgba(255,43,43,.13);border-color:rgba(255,43,43,.35);}
+.aic-histitem:active{transform:scale(.98);}
+.aic-histitem-ic{flex-shrink:0;width:26px;height:26px;border-radius:8px;background:rgba(255,43,43,.12);color:#ff5252;font-size:11px;display:flex;align-items:center;justify-content:center;}
+.aic-histitem-txt{flex:1;min-width:0;}
+.aic-histitem-title{font-size:11.5px;font-weight:700;color:#eee;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.aic-histitem-time{font-size:9.5px;color:#666;margin-top:2px;}
+.aic-histitem-del{flex-shrink:0;width:26px;height:26px;border-radius:50%;border:none;background:none;color:#555;font-size:11px;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.aic-histitem-del:active{color:#ff5252;transform:scale(.9);}
+.aic-histempty{text-align:center;color:#555;font-size:11px;padding:24px 10px;}
 
 /* ── MODEL SELECTOR (MINIMALIS) ── */
 .aic-modelbar{position:relative;}
@@ -10603,6 +10645,34 @@ function saiGenerate(){
 .aic-copybtn.copied{color:#00e676;}
 
 .aic-inputbar{flex-shrink:0;display:flex;gap:8px;align-items:flex-end;}
+
+/* ── MODE SWITCH (Chat / AI Art / AI Filter) — pojok kiri bawah, diatas kolom input ── */
+.aic-moderow{flex-shrink:0;display:flex;margin-bottom:8px;}
+.aic-modeswitch{position:relative;}
+.aic-modeswitch-btn{
+  width:38px;height:38px;border-radius:13px;border:1px solid rgba(255,43,43,.35);
+  background:rgba(255,43,43,.1);color:#ff5252;font-size:14px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+}
+.aic-modeswitch-btn.open{background:rgba(255,43,43,.18);}
+.aic-modeswitch-btn:active{transform:scale(.93);}
+.aic-modeswitch-menu{
+  display:none;position:absolute;left:0;bottom:calc(100% + 8px);z-index:30;
+  min-width:172px;background:#131313;border:1px solid rgba(255,43,43,.28);
+  border-radius:14px;box-shadow:0 -10px 30px rgba(0,0,0,.55);overflow:hidden;
+}
+.aic-modeswitch-menu.show{display:block;animation:pcIn .2s ease;}
+.aic-modeswitch-item{
+  display:flex;align-items:center;gap:9px;
+  padding:11px 13px;cursor:pointer;font-size:11.5px;font-weight:700;color:#ccc;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.aic-modeswitch-item i:first-child{width:14px;text-align:center;color:#ff5252;font-size:12px;}
+.aic-modeswitch-item:last-child{border-bottom:none;}
+.aic-modeswitch-item:active{background:rgba(255,43,43,.1);}
+.aic-modeswitch-item.active{color:#fff;}
+.aic-modeswitch-item .aic-modelitem-check{margin-left:auto;color:#00e676;font-size:11px;opacity:0;}
+.aic-modeswitch-item.active .aic-modelitem-check{opacity:1;}
 .aic-textarea{
   flex:1;resize:none;max-height:100px;padding:13px 14px;border-radius:14px;
   background:rgba(255,43,43,.05);border:1.5px solid rgba(255,43,43,.38);
@@ -10618,40 +10688,223 @@ function saiGenerate(){
 }
 .aic-sendbtn:active{transform:scale(.93);}
 .aic-sendbtn:disabled{opacity:.5;}
+
+/* ── TABS (Chat / AI Art) ── */
+.aic-tabs{flex-shrink:0;display:flex;gap:8px;margin-bottom:10px;}
+.aic-tab{
+  flex:1;display:flex;align-items:center;justify-content:center;gap:6px;
+  padding:9px 0;border-radius:12px;border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.04);color:#999;font-size:11.5px;font-weight:800;
+  letter-spacing:.2px;cursor:pointer;
+}
+.aic-tab i{font-size:11px;}
+.aic-tab.active{background:rgba(255,43,43,.13);border-color:#ff2b2b;color:#fff;}
+.aic-tab:active{transform:scale(.97);}
+
+.aic-chatpanel,.aiart-panel,.aiflt-panel{flex:1;min-height:0;display:flex;flex-direction:column;}
+
+/* ── AI ART GENERATOR (gaya chat: prompt kanan, hasil kiri) ── */
+.aiart-scroll{flex:1 1 auto;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:4px 2px 10px;margin-bottom:10px;display:flex;flex-direction:column;gap:14px;}
+.aiart-empty{text-align:center;padding:30px 10px;color:#555;font-size:11.5px;margin:auto;}
+.aiart-empty i{font-size:26px;color:#3a3a3a;display:block;margin-bottom:10px;}
+.aic-msg-ai.aiart-imgmsg{padding:8px;max-width:230px;}
+.aic-msg-ai.aiart-imgmsg .aiart-imgwrap{margin-bottom:8px;}
+.aic-msg-ai.aiart-imgmsg .aiart-actions{margin-top:0;}
+.aiart-imgwrap{position:relative;border-radius:12px;overflow:hidden;background:rgba(255,255,255,.04);min-height:120px;display:flex;align-items:center;justify-content:center;}
+.aiart-img{width:100%;border-radius:12px;display:block;}
+.aiart-loading{padding:34px 10px;text-align:center;color:#888;font-size:12px;}
+.aiart-loading i{color:#ff5252;font-size:20px;display:block;margin-bottom:8px;}
+.aiart-errbox{padding:12px 13px;border-radius:12px;background:rgba(255,43,43,.08);border:1px solid rgba(255,43,43,.3);color:#ff8585;font-size:12px;text-align:center;}
+.aiart-actions{display:flex;gap:8px;margin-top:10px;}
+.aiart-actions button{flex:1;padding:11px 0;border:none;border-radius:12px;font-size:11.5px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;}
+.aiart-dlbtn{background:linear-gradient(135deg,#ff2b2b 0%,#961020 100%);color:#fff;}
+.aiart-regenbtn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12)!important;color:#ccc;}
+.aiart-actions button:active{transform:scale(.96);}
+
+/* ── AI FILTER (gaya chat: request kanan, hasil kiri) ── */
+.aiflt-scroll{flex:1 1 auto;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:4px 2px 10px;margin-bottom:10px;display:flex;flex-direction:column;gap:14px;}
+.aiflt-empty{text-align:center;padding:30px 10px;color:#555;font-size:11.5px;margin:auto;}
+.aiflt-empty i{font-size:26px;color:#3a3a3a;display:block;margin-bottom:10px;}
+.aiflt-inputbar{align-items:stretch;}
+.aiflt-inputs{flex:1;min-width:0;display:flex;flex-direction:column;gap:7px;}
+.aiflt-inputs .aic-textarea{padding:11px 13px;font-size:12.5px;}
+.aic-msg-user.aiflt-usermsg{display:flex;align-items:center;gap:8px;}
+.aiflt-userthumb{width:34px;height:34px;border-radius:8px;object-fit:cover;flex-shrink:0;border:1px solid rgba(255,255,255,.3);}
+.aiflt-usertext{font-size:12px;font-weight:600;max-width:160px;word-break:break-word;}
+.aic-msg-ai.aiflt-resmsg{padding:8px;max-width:260px;}
+.aiflt-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+.aiflt-grid.single{grid-template-columns:1fr;}
+.aiflt-resimgwrap{position:relative;border-radius:12px;overflow:hidden;background:rgba(255,255,255,.04);}
+.aiflt-resimg{width:100%;display:block;border-radius:12px;}
+.aiflt-nsfw{position:absolute;top:6px;left:6px;background:rgba(0,0,0,.7);color:#ffb020;font-size:8.5px;font-weight:800;padding:3px 7px;border-radius:6px;letter-spacing:.3px;}
+.aiflt-dlmini{
+  width:100%;margin-top:7px;padding:8px 0;border:none;border-radius:10px;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#eee;
+  font-size:10.5px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;
+}
+.aiflt-dlmini:active{transform:scale(.95);}
+
+/* ── AI ART: saran prompt & polish tampilan ── */
+.aiart-suggest{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-top:14px;padding:0 8px;}
+.aiart-chip{padding:7px 12px;border-radius:20px;background:rgba(255,43,43,.08);border:1px solid rgba(255,43,43,.25);color:#ff8585;font-size:10.5px;font-weight:700;cursor:pointer;}
+.aiart-chip:active{transform:scale(.94);background:rgba(255,43,43,.16);}
+.aiart-prompt-row{display:flex;align-items:flex-start;gap:8px;margin-bottom:10px;}
+.aiart-prompt-row .aiart-prompt{flex:1;margin-bottom:0;}
+.aiart-copybtn{flex-shrink:0;background:none;border:none;color:#666;font-size:11.5px;cursor:pointer;padding:2px;}
+.aiart-copybtn.copied{color:#00e676;}
+.aiart-img{cursor:zoom-in;}
+.aiart-skel{border-radius:12px;min-height:180px;background:linear-gradient(100deg,rgba(255,255,255,.03) 30%,rgba(255,255,255,.09) 50%,rgba(255,255,255,.03) 70%);background-size:200% 100%;animation:aiSkelShine 1.3s ease infinite;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#888;font-size:11.5px;gap:8px;}
+.aiart-skel i{font-size:18px;color:#ff5252;}
+@keyframes aiSkelShine{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+.aiart-retrybtn,.aiflt-retrybtn{margin-top:9px;width:100%;padding:9px 0;border-radius:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#ccc;font-size:11px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;}
+.aiart-retrybtn:active,.aiflt-retrybtn:active{transform:scale(.96);}
+
+/* ── AI FILTER: preview link (thumbnail kecil, minim teks) ── */
+.aiflt-preview{margin-top:1px;border-radius:10px;overflow:hidden;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);display:none;height:44px;}
+.aiflt-preview.show{display:flex;align-items:center;}
+.aiflt-preview img{width:100%;height:44px;object-fit:cover;display:block;}
+.aiflt-preview.bad{justify-content:center;color:#ff8585;font-size:10.5px;gap:5px;}
+.aiflt-preview.checking{justify-content:center;color:#888;font-size:10.5px;gap:5px;}
+.aiflt-resimg{cursor:zoom-in;}
+
+/* ── Riwayat: tombol hapus (dipakai bareng mode-switch) ── */
+.aic-moderow{justify-content:space-between;align-items:center;}
+.aic-histclear{
+  flex-shrink:0;display:none;align-items:center;gap:5px;padding:9px 13px;border-radius:13px;
+  border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:#888;
+  font-size:10.5px;font-weight:800;cursor:pointer;
+}
+.aic-histclear.show{display:flex;}
+.aic-histclear:active{transform:scale(.94);}
+.aic-histclear i{font-size:10.5px;}
+
+/* ── LIGHTBOX: preview gambar penuh layar ── */
+.ai-lightbox{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.92);display:none;align-items:center;justify-content:center;padding:24px;}
+.ai-lightbox.show{display:flex;animation:fadePage .2s ease;}
+.ai-lightbox img{max-width:100%;max-height:100%;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.6);}
+.ai-lightbox-close{
+  position:absolute;top:calc(16px + env(safe-area-inset-top,0px));right:16px;width:38px;height:38px;border-radius:50%;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:15px;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+}
+.ai-lightbox-close:active{transform:scale(.92);}
+.ai-lightbox-dl{
+  position:absolute;bottom:calc(20px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);
+  padding:11px 20px;border-radius:14px;border:none;background:linear-gradient(135deg,#ff2b2b 0%,#961020 100%);
+  color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;gap:7px;cursor:pointer;
+}
+.ai-lightbox-dl:active{transform:translateX(-50%) scale(.95);}
 </style>
 
 <div class="aic-header">
-  <div class="aic-header-title"><i class="fa-solid fa-robot"></i> KZRIZUSMO AI</div>
-  <div class="aic-header-actions">
+  <div class="aic-header-left">
+    <button class="aic-histbtn" id="aicHistBtn" onclick="aicToggleHistoryDrawer()" title="Riwayat obrolan"><i class="fa-solid fa-bars"></i></button>
+    <div class="aic-header-title"><i class="fa-solid fa-robot"></i> KZRIZUSMO AI</div>
+  </div>
+  <div class="aic-header-actions" id="aicChatActions">
     <div class="aic-modelbar">
       <button class="aic-modelpill" id="aicModelBtn" onclick="aicToggleModelMenu()">
-        <span id="aicModelBtnLabel">ZUSMO 5</span>
+        <span id="aicModelBtnLabel">DeepSeek Chat</span>
         <i class="fa-solid fa-chevron-down aic-caret"></i>
       </button>
       <div class="aic-modelmenu" id="aicModelMenu">
-        <div class="aic-modelitem active" id="aicModelItem_gemini" onclick="aicSwitchModel('gemini')">
-          <span>ZUSMO 5</span><i class="fa-solid fa-check aic-modelitem-check"></i>
+        <div class="aic-modelitem active" id="aicModelItem_seek" onclick="aicSwitchModel('seek')">
+          <span>DeepSeek Chat</span><i class="fa-solid fa-check aic-modelitem-check"></i>
         </div>
-        <div class="aic-modelitem" id="aicModelItem_nova" onclick="aicSwitchModel('nova')">
-          <span>ZUSMO 4.5</span><i class="fa-solid fa-check aic-modelitem-check"></i>
+        <div class="aic-modelitem" id="aicModelItem_seeklite" onclick="aicSwitchModel('seeklite')">
+          <span>Gemini 2.5 Flash Lite</span><i class="fa-solid fa-check aic-modelitem-check"></i>
         </div>
-        <div class="aic-modelitem" id="aicModelItem_notrack" onclick="aicSwitchModel('notrack')">
-          <span>ZUSMO 4</span><i class="fa-solid fa-check aic-modelitem-check"></i>
+        <div class="aic-modelitem" id="aicModelItem_seekcode" onclick="aicSwitchModel('seekcode')">
+          <span>Qwen Coder 32B</span><i class="fa-solid fa-check aic-modelitem-check"></i>
         </div>
       </div>
     </div>
-    <button class="aic-clearicon" onclick="aicClearChat()" title="Hapus percakapan"><i class="fa-solid fa-trash"></i></button>
   </div>
 </div>
 
-<div class="aic-chatbox" id="aicChatbox">
-  <div class="aic-empty" id="aicEmpty"><i class="fa-solid fa-comments"></i>Mulai chat dengan KZRIZUSMO AI</div>
+<div class="aic-chatpanel" id="aicChatPanel">
+  <div class="aic-chatbox" id="aicChatbox">
+    <div class="aic-empty" id="aicEmpty"><i class="fa-solid fa-comments"></i>Mulai chat dengan KZRIZUSMO AI</div>
+  </div>
+
+  <div class="aic-moderow">
+    <div class="aic-modeswitch">
+      <button class="aic-modeswitch-btn" id="aicModeBtn_chat" onclick="aicToggleModeMenu('chat')"><i class="fa-solid fa-comments" id="aicModeIcon_chat"></i></button>
+      <div class="aic-modeswitch-menu" id="aicModeMenu_chat">
+        <div class="aic-modeswitch-item active" id="aicModeItem_chat_chat" onclick="aicSwitchMode('chat')"><i class="fa-solid fa-comments"></i><span>Chat</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_chat_art" onclick="aicSwitchMode('art')"><i class="fa-solid fa-image"></i><span>AI Art</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_chat_filter" onclick="aicSwitchMode('filter')"><i class="fa-solid fa-wand-sparkles"></i><span>AI Filter</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+      </div>
+    </div>
+  </div>
+  <div class="aic-inputbar">
+    <textarea class="aic-textarea" id="aicInput" rows="1" placeholder="Tulis pesan..." onkeydown="if(event.key==='Enter'&amp;&amp;!event.shiftKey){event.preventDefault();aicSend();}" oninput="aicAutoGrow(this)"></textarea>
+    <button class="aic-sendbtn" id="aicSendBtn" onclick="aicSend()"><i class="fa-solid fa-paper-plane"></i></button>
+  </div>
 </div>
 
-<div class="aic-inputbar">
-  <textarea class="aic-textarea" id="aicInput" rows="1" placeholder="Tulis pesan..." onkeydown="if(event.key==='Enter'&amp;&amp;!event.shiftKey){event.preventDefault();aicSend();}" oninput="aicAutoGrow(this)"></textarea>
-  <button class="aic-sendbtn" id="aicSendBtn" onclick="aicSend()"><i class="fa-solid fa-paper-plane"></i></button>
+<div class="aiart-panel" id="aicArtPanel" style="display:none">
+  <div class="aiart-scroll" id="aiartScroll">
+    <div class="aiart-empty" id="aiartEmpty"><i class="fa-solid fa-wand-magic-sparkles"></i>Tulis deskripsi gambar yang ingin dibuat AI</div>
+  </div>
+
+  <div class="aic-moderow">
+    <div class="aic-modeswitch">
+      <button class="aic-modeswitch-btn" id="aicModeBtn_art" onclick="aicToggleModeMenu('art')"><i class="fa-solid fa-image" id="aicModeIcon_art"></i></button>
+      <div class="aic-modeswitch-menu" id="aicModeMenu_art">
+        <div class="aic-modeswitch-item" id="aicModeItem_art_chat" onclick="aicSwitchMode('chat')"><i class="fa-solid fa-comments"></i><span>Chat</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item active" id="aicModeItem_art_art" onclick="aicSwitchMode('art')"><i class="fa-solid fa-image"></i><span>AI Art</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_art_filter" onclick="aicSwitchMode('filter')"><i class="fa-solid fa-wand-sparkles"></i><span>AI Filter</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+      </div>
+    </div>
+  </div>
+  <div class="aic-inputbar">
+    <textarea class="aic-textarea" id="aiartInput" rows="1" placeholder="Tulis pesan..." onkeydown="if(event.key==='Enter'&amp;&amp;!event.shiftKey){event.preventDefault();aiartGenerate();}" oninput="aicAutoGrow(this)"></textarea>
+    <button class="aic-sendbtn" id="aiartGenBtn" onclick="aiartGenerate()"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
+  </div>
 </div>
+
+<div class="aiflt-panel" id="aicFilterPanel" style="display:none">
+  <div class="aiflt-scroll" id="aifltScroll">
+    <div class="aiflt-empty"><i class="fa-solid fa-wand-sparkles"></i>Memuat...</div>
+  </div>
+
+  <div class="aic-moderow">
+    <div class="aic-modeswitch">
+      <button class="aic-modeswitch-btn" id="aicModeBtn_filter" onclick="aicToggleModeMenu('filter')"><i class="fa-solid fa-wand-sparkles" id="aicModeIcon_filter"></i></button>
+      <div class="aic-modeswitch-menu" id="aicModeMenu_filter">
+        <div class="aic-modeswitch-item" id="aicModeItem_filter_chat" onclick="aicSwitchMode('chat')"><i class="fa-solid fa-comments"></i><span>Chat</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_filter_art" onclick="aicSwitchMode('art')"><i class="fa-solid fa-image"></i><span>AI Art</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item active" id="aicModeItem_filter_filter" onclick="aicSwitchMode('filter')"><i class="fa-solid fa-wand-sparkles"></i><span>AI Filter</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+      </div>
+    </div>
+  </div>
+  <div class="aic-inputbar aiflt-inputbar">
+    <div class="aiflt-inputs">
+      <input class="aic-textarea" id="aifltUrlInput" type="text" placeholder="Link gambar..." oninput="aifltUpdatePreview(this.value)" onkeydown="if(event.key==='Enter'){event.preventDefault();aifltGenerate();}">
+      <div class="aiflt-preview" id="aifltPreview"><img id="aifltPreviewImg" src="" alt="" referrerpolicy="no-referrer"></div>
+      <textarea class="aic-textarea" id="aifltCustomInput" rows="1" placeholder="Tulis prompt filter, cth: ganti outfit jadi jas hitam" oninput="aicAutoGrow(this)" onkeydown="if(event.key==='Enter'&amp;&amp;!event.shiftKey){event.preventDefault();aifltGenerate();}"></textarea>
+    </div>
+    <button class="aic-sendbtn" id="aifltGenBtn" onclick="aifltGenerate()"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
+  </div>
+</div>
+</div>
+
+<div class="aic-histoverlay" id="aicHistOverlay" onclick="if(event.target===this) aicCloseHistoryDrawer()">
+  <div class="aic-histdrawer" id="aicHistDrawer">
+    <div class="aic-histdrawer-head">
+      <span id="aicHistDrawerTitle">Riwayat Obrolan</span>
+      <button class="aic-histdrawer-close" onclick="aicCloseHistoryDrawer()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <button class="aic-newchatbtn" id="aicNewChatBtn" onclick="aicNewChat()"><i class="fa-solid fa-plus"></i> Obrolan Baru</button>
+    <div class="aic-histlist" id="aicHistList"></div>
+  </div>
+</div>
+
+<div class="ai-lightbox" id="aiLightbox" onclick="if(event.target===this) aiCloseLightbox()">
+  <button class="ai-lightbox-close" onclick="aiCloseLightbox()"><i class="fa-solid fa-xmark"></i></button>
+  <img id="aiLightboxImg" src="" alt="Preview">
+  <button class="ai-lightbox-dl" id="aiLightboxDlBtn" onclick="aiLightboxDownload()"><i class="fa-solid fa-download"></i> DOWNLOAD</button>
 </div>
 <script>
 /* ============================================================================
@@ -10819,14 +11072,140 @@ async function smdlDownloadRequest(endpoint,url,opts){
 }
 </script>
 <script>
+const AISEEK_ENDPOINT='https://sylvatica.my.id/api/ai/aiseek';
 const AIC_MODELS={
-  gemini:{endpoint:'gemini',label:'ZUSMO 5'},
-  nova:{endpoint:'nova-ai',label:'ZUSMO 4.5'},
-  notrack:{endpoint:'notrack-ai',label:'ZUSMO 4'}
+  seek:{apiModel:'deepseek/deepseek-chat',label:'DeepSeek Chat'},
+  seeklite:{apiModel:'google/gemini-2.5-flash-lite',label:'Gemini 2.5 Flash Lite'},
+  seekcode:{apiModel:'qwen/qwen-coder-32b',label:'Qwen Coder 32B'}
 };
-let aicActiveModel='gemini';
+let aicActiveModel='seek';
 let aicMenuOpen=false;
-const aicHistory=[]; // {role:'user'|'ai'|'err', text, modelKey}
+
+/* ── SESI OBROLAN (riwayat, seperti AI beneran) ── */
+const AIC_SESS_KEY='zusmoAiChatSessions';
+const AIC_ACTIVE_KEY='zusmoAiChatActiveId';
+function aicNewSessionObj(){
+  return {id:'s'+Date.now().toString(36)+Math.random().toString(36).slice(2,7),title:'Obrolan baru',messages:[],updatedAt:Date.now(),seekSessionId:null};
+}
+function aicLoadSessions(){
+  try{
+    const raw=JSON.parse(localStorage.getItem(AIC_SESS_KEY));
+    if(Array.isArray(raw)&&raw.length) return raw;
+  }catch(e){}
+  return [aicNewSessionObj()];
+}
+function aicSaveSessions(){
+  try{ localStorage.setItem(AIC_SESS_KEY,JSON.stringify(aicSessions)); }catch(e){}
+}
+let aicSessions=aicLoadSessions();
+let aicActiveSessionId=(function(){
+  try{
+    const id=localStorage.getItem(AIC_ACTIVE_KEY);
+    if(id&&aicSessions.some(function(s){return s.id===id;})) return id;
+  }catch(e){}
+  return aicSessions[0].id;
+})();
+function aicSetActiveId(id){
+  aicActiveSessionId=id;
+  try{ localStorage.setItem(AIC_ACTIVE_KEY,id); }catch(e){}
+}
+function aicActiveSession(){
+  return aicSessions.find(function(s){return s.id===aicActiveSessionId;})||aicSessions[0];
+}
+let aicHistory=aicActiveSession().messages; // {role:'user'|'ai'|'err', text, modelKey}
+document.addEventListener('DOMContentLoaded',function(){ aicRenderChat(); });
+if(document.readyState==='complete'||document.readyState==='interactive') aicRenderChat();
+
+function aicFmtTime(ts){
+  try{
+    const d=new Date(ts);
+    return d.toLocaleDateString('id-ID',{day:'2-digit',month:'short'})+' · '+d.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
+  }catch(e){ return ''; }
+}
+
+function aicRenderSessions(){
+  const list=document.getElementById('aicHistList');
+  if(!list) return;
+  if(!aicSessions.length){
+    list.innerHTML='<div class="aic-histempty">Belum ada obrolan</div>';
+    return;
+  }
+  list.innerHTML=aicSessions.map(function(s){
+    return '<div class="aic-histitem'+(s.id===aicActiveSessionId?' active':'')+'" onclick="aicSwitchSession(\''+s.id+'\')">'+
+      '<div class="aic-histitem-ic"><i class="fa-solid fa-comment"></i></div>'+
+      '<div class="aic-histitem-txt"><div class="aic-histitem-title">'+aicEscapeHtml(s.title||'Obrolan baru')+'</div><div class="aic-histitem-time">'+aicFmtTime(s.updatedAt)+'</div></div>'+
+      '<button class="aic-histitem-del" onclick="aicDeleteSession(\''+s.id+'\',event)"><i class="fa-solid fa-trash"></i></button>'+
+    '</div>';
+  }).join('');
+}
+
+function aicToggleHistoryDrawer(){
+  const ov=document.getElementById('aicHistOverlay');
+  if(!ov) return;
+  aicRenderHistoryDrawer();
+  ov.classList.add('show');
+}
+function aicCloseHistoryDrawer(){
+  const ov=document.getElementById('aicHistOverlay');
+  if(ov) ov.classList.remove('show');
+}
+function aicRenderHistoryDrawer(){
+  const title=document.getElementById('aicHistDrawerTitle');
+  const newBtn=document.getElementById('aicNewChatBtn');
+  const mode=(typeof aicCurrentMode!=='undefined')?aicCurrentMode:'chat';
+  if(mode==='art'){
+    if(title) title.textContent='Riwayat AI Art';
+    if(newBtn) newBtn.style.display='none';
+    if(typeof aiartRenderHistoryList==='function') aiartRenderHistoryList();
+  }else if(mode==='filter'){
+    if(title) title.textContent='Riwayat AI Filter';
+    if(newBtn) newBtn.style.display='none';
+    if(typeof aifltRenderHistoryList==='function') aifltRenderHistoryList();
+  }else{
+    if(title) title.textContent='Riwayat Obrolan';
+    if(newBtn) newBtn.style.display='flex';
+    aicRenderSessions();
+  }
+}
+
+function aicNewChat(){
+  const cur=aicActiveSession();
+  if(cur&&cur.messages.length===0){ aicCloseHistoryDrawer(); return; }
+  const s=aicNewSessionObj();
+  aicSessions.unshift(s);
+  aicSetActiveId(s.id);
+  aicHistory=s.messages;
+  aicSaveSessions();
+  aicRenderChat();
+  aicRenderSessions();
+  aicCloseHistoryDrawer();
+}
+
+function aicSwitchSession(id){
+  if(id===aicActiveSessionId){ aicCloseHistoryDrawer(); return; }
+  const s=aicSessions.find(function(x){return x.id===id;});
+  if(!s) return;
+  aicSetActiveId(id);
+  aicHistory=s.messages;
+  aicRenderChat();
+  aicRenderSessions();
+  aicCloseHistoryDrawer();
+}
+
+function aicDeleteSession(id,ev){
+  if(ev){ ev.stopPropagation(); }
+  const idx=aicSessions.findIndex(function(x){return x.id===id;});
+  if(idx<0) return;
+  aicSessions.splice(idx,1);
+  if(!aicSessions.length) aicSessions.push(aicNewSessionObj());
+  if(aicActiveSessionId===id){
+    aicSetActiveId(aicSessions[0].id);
+    aicHistory=aicSessions[0].messages;
+    aicRenderChat();
+  }
+  aicSaveSessions();
+  aicRenderSessions();
+}
 
 function aicToggleModelMenu(){
   aicMenuOpen=!aicMenuOpen;
@@ -10986,6 +11365,15 @@ function aicExtractText(json){
   return aicDeepFindText(json,0,null);
 }
 
+function aicExtractSessionId(json){
+  if(!json) return null;
+  const candidates=[json,json.result,json.data];
+  for(const c of candidates){
+    if(c&&typeof c==='object'&&typeof c.session_id==='string'&&c.session_id.trim()) return c.session_id.trim();
+  }
+  return null;
+}
+
 async function aicSend(){
   const inp=document.getElementById('aicInput');
   const btn=document.getElementById('aicSendBtn');
@@ -10994,18 +11382,29 @@ async function aicSend(){
   const modelKey=aicActiveModel;
   const cfg=AIC_MODELS[modelKey];
   aicHistory.push({role:'user',text:text});
+  aicTouchSession(text);
   inp.value='';
   aicAutoGrow(inp);
   aicRenderChat();
   btn.disabled=true;
   aicShowTyping(true);
+  const sess=aicActiveSession();
+  const isSeek=!!cfg.apiModel;
   try{
     const json=await xyureiRequest(function(key){
+      if(isSeek){
+        const sid=(sess&&sess.seekSessionId)?sess.seekSessionId:'';
+        return AISEEK_ENDPOINT+'?prompt='+encodeURIComponent(text)+'&model='+encodeURIComponent(cfg.apiModel)+'&action=&session_id='+encodeURIComponent(sid)+'&apikey='+key;
+      }
       return 'https://sylvatica.my.id/api/ai/'+cfg.endpoint+'?text='+encodeURIComponent(text)+'&apikey='+key;
     },{
       isDataOk:function(j){ return !!aicExtractText(j); }
     });
     const answer=aicExtractText(json);
+    if(isSeek&&sess){
+      const sid=aicExtractSessionId(json);
+      if(sid){ sess.seekSessionId=sid; aicSaveSessions(); }
+    }
     aicShowTyping(false);
     if(answer){
       aicHistory.push({role:'ai',text:answer,modelKey:modelKey});
@@ -11019,11 +11418,522 @@ async function aicSend(){
   }
   btn.disabled=false;
   aicRenderChat();
+  aicSaveSessions();
+}
+
+function aicTouchSession(firstText){
+  const s=aicActiveSession();
+  if(!s) return;
+  if(s.title==='Obrolan baru'&&firstText) s.title=firstText.slice(0,42);
+  s.updatedAt=Date.now();
+  const idx=aicSessions.indexOf(s);
+  if(idx>0){ aicSessions.splice(idx,1); aicSessions.unshift(s); }
+  aicSaveSessions();
+  aicRenderSessions();
 }
 
 function aicClearChat(){
   aicHistory.length=0;
+  const s=aicActiveSession();
+  if(s){ s.title='Obrolan baru'; s.updatedAt=Date.now(); }
+  aicSaveSessions();
   aicRenderChat();
+  aicRenderSessions();
+}
+
+/* ============================================================================
+   AI ART GENERATOR — https://sylvatica.my.id/api/ai/aiart?q=...&apikey=...
+   Respons: {creator,data:{prompt,url}} -> url gambar hasil generate.
+   ============================================================================ */
+const AIART_ENDPOINT='https://sylvatica.my.id/api/ai/aiart';
+const AI_HIST_CAP=15;
+function aiLoadHist(key){
+  try{ const raw=JSON.parse(localStorage.getItem(key)); return Array.isArray(raw)?raw:[]; }catch(e){ return []; }
+}
+function aiSaveHist(key,arr){
+  try{ localStorage.setItem(key,JSON.stringify(arr.slice(-AI_HIST_CAP))); }catch(e){}
+}
+let aiartHistory=aiLoadHist('zusmoAiArtHistory'); // {prompt,url,error}
+let aiartLoading=false;
+let aiartLoadingPrompt='';
+const AIART_SUGGEST=['Kucing oren pakai jaket astronot','Karakter Free Fire gaya anime','Naga api di atas gunung','Kota cyberpunk waktu malam','Pemandangan pantai gaya lukisan','Robot ksatria futuristik'];
+
+function aicSwitchTab(tab){
+  const chatPanel=document.getElementById('aicChatPanel');
+  const artPanel=document.getElementById('aicArtPanel');
+  const filterPanel=document.getElementById('aicFilterPanel');
+  const chatActions=document.getElementById('aicChatActions');
+  const histBtn=document.getElementById('aicHistBtn');
+  if(chatPanel) chatPanel.style.display=(tab==='chat')?'flex':'none';
+  if(artPanel) artPanel.style.display=(tab==='art')?'flex':'none';
+  if(filterPanel) filterPanel.style.display=(tab==='filter')?'flex':'none';
+  if(chatActions) chatActions.style.display='flex';
+  if(histBtn) histBtn.style.display='flex';
+  aicCloseHistoryDrawer();
+  if(tab==='art') aiartRender();
+  if(tab==='filter') aifltRender();
+  aiCloseLightbox();
+}
+
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){ aiCloseLightbox(); aicCloseHistoryDrawer(); }
+});
+
+/* ── MODE SWITCH (pojok kiri bawah, diatas kolom input) — ganti Chat/AI Art/AI Filter ── */
+const AIC_MODE_PANELS=['chat','art','filter'];
+const AIC_MODE_ICONS={chat:'fa-comments',art:'fa-image',filter:'fa-wand-sparkles'};
+let aicCurrentMode='chat';
+
+function aicToggleModeMenu(panel){
+  const menu=document.getElementById('aicModeMenu_'+panel);
+  const wasOpen=menu&&menu.classList.contains('show');
+  aicCloseModeMenus();
+  if(!wasOpen){
+    const btn=document.getElementById('aicModeBtn_'+panel);
+    if(menu) menu.classList.add('show');
+    if(btn) btn.classList.add('open');
+  }
+}
+
+function aicCloseModeMenus(){
+  AIC_MODE_PANELS.forEach(function(p){
+    const m=document.getElementById('aicModeMenu_'+p);
+    const b=document.getElementById('aicModeBtn_'+p);
+    if(m) m.classList.remove('show');
+    if(b) b.classList.remove('open');
+  });
+}
+
+function aicSwitchMode(tab){
+  aicCurrentMode=tab;
+  aicCloseModeMenus();
+  aicSwitchTab(tab);
+  AIC_MODE_PANELS.forEach(function(p){
+    const icon=document.getElementById('aicModeIcon_'+p);
+    if(icon) icon.className='fa-solid '+AIC_MODE_ICONS[tab];
+    AIC_MODE_PANELS.forEach(function(m){
+      const item=document.getElementById('aicModeItem_'+p+'_'+m);
+      if(item) item.classList.toggle('active',m===tab);
+    });
+  });
+}
+
+document.addEventListener('click',function(e){
+  const page=document.getElementById('ai');
+  if(!page) return;
+  const sw=e.target.closest?e.target.closest('.aic-modeswitch'):null;
+  if(!sw) aicCloseModeMenus();
+});
+
+function aiartEscAttr(str){
+  return String(str==null?'':str).replace(/'/g,'&#39;').replace(/"/g,'&quot;');
+}
+function aiartEscapeHtml(str){
+  return String(str==null?'':str).replace(/[&<>"']/g,function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+  });
+}
+
+function aiartExtractUrl(json){
+  if(!json) return null;
+  if(json.data&&typeof json.data.url==='string'&&json.data.url.trim()) return json.data.url.trim();
+  if(typeof json.url==='string'&&json.url.trim()) return json.url.trim();
+  if(json.result&&typeof json.result.url==='string'&&json.result.url.trim()) return json.result.url.trim();
+  if(typeof json.result==='string'&&/^https?:\/\//.test(json.result)) return json.result.trim();
+  return null;
+}
+
+function aiartRender(){
+  const scroll=document.getElementById('aiartScroll');
+  if(!scroll) return;
+  if(!aiartHistory.length&&!aiartLoading){
+    const chips=AIART_SUGGEST.map(function(s){
+      return '<div class="aiart-chip" onclick="aiartUseSuggestion(\''+aiartEscAttr(s)+'\')">'+aiartEscapeHtml(s)+'</div>';
+    }).join('');
+    scroll.innerHTML='<div class="aiart-empty" id="aiartEmpty"><i class="fa-solid fa-wand-magic-sparkles"></i>Tulis deskripsi gambar yang ingin dibuat AI'+
+      '<div class="aiart-suggest">'+chips+'</div></div>';
+    return;
+  }
+  let html=aiartHistory.map(function(item){
+    const userMsg='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user allow-copy">'+aiartEscapeHtml(item.prompt)+'</div>'+
+      '<button class="aic-copybtn" onclick="aiartCopyPrompt(\''+aiartEscAttr(item.prompt)+'\',this)"><i class="fa-solid fa-copy"></i>Salin</button></div>';
+    if(item.error){
+      return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">AI ART</span>'+
+        '<div class="aic-msg aic-msg-err"><i class="fa-solid fa-triangle-exclamation"></i> Gagal membuat gambar. Coba lagi.</div>'+
+        '<button class="aiart-retrybtn" onclick="aiartRegen(\''+aiartEscAttr(item.prompt)+'\')"><i class="fa-solid fa-rotate-right"></i> COBA LAGI</button>'+
+      '</div>';
+    }
+    return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">AI ART</span>'+
+      '<div class="aic-msg aic-msg-ai aiart-imgmsg">'+
+        '<div class="aiart-imgwrap"><img class="aiart-img" src="'+aiartEscAttr(item.url)+'" alt="AI Art" referrerpolicy="no-referrer" onclick="aiOpenLightbox(\''+aiartEscAttr(item.url)+'\',\'art\')"></div>'+
+        '<div class="aiart-actions">'+
+          '<button class="aiart-dlbtn" onclick="aiartDownload(\''+aiartEscAttr(item.url)+'\')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>'+
+          '<button class="aiart-regenbtn" onclick="aiartRegen(\''+aiartEscAttr(item.prompt)+'\')"><i class="fa-solid fa-rotate-right"></i> ULANGI</button>'+
+        '</div>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+  if(aiartLoading){
+    html+='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user allow-copy">'+aiartEscapeHtml(aiartLoadingPrompt)+'</div></div>'+
+      '<div class="aic-msg-wrap ai"><span class="aic-msg-tag">AI ART</span>'+
+      '<div class="aic-msg aic-msg-ai aiart-imgmsg"><div class="aiart-skel"><i class="fa-solid fa-spinner fa-spin"></i>Sedang membuat gambar...</div></div></div>';
+  }
+  scroll.innerHTML=html;
+  scroll.scrollTop=scroll.scrollHeight;
+}
+
+function aiartUseSuggestion(text){
+  const inp=document.getElementById('aiartInput');
+  if(!inp) return;
+  inp.value=text;
+  aicAutoGrow(inp);
+  inp.focus();
+}
+
+function aiartCopyPrompt(text,btnEl){
+  function done(){
+    if(!btnEl) return;
+    const orig=btnEl.innerHTML;
+    btnEl.classList.add('copied');
+    btnEl.innerHTML='<i class="fa-solid fa-check"></i>';
+    setTimeout(function(){ btnEl.classList.remove('copied'); btnEl.innerHTML=orig; },1400);
+  }
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done).catch(function(){ aicFallbackCopy(text,done); });
+  }else{
+    aicFallbackCopy(text,done);
+  }
+}
+
+function aiartClearHistory(){
+  aiartHistory=[];
+  aiSaveHist('zusmoAiArtHistory',aiartHistory);
+  aiartRender();
+}
+
+function aiartRenderHistoryList(){
+  const list=document.getElementById('aicHistList');
+  if(!list) return;
+  if(!aiartHistory.length){
+    list.innerHTML='<div class="aic-histempty">Belum ada riwayat AI Art</div>';
+    return;
+  }
+  list.innerHTML=aiartHistory.slice().reverse().map(function(item,ridx){
+    const idx=aiartHistory.length-1-ridx;
+    const label=item.error?'Gagal dibuat: '+item.prompt:item.prompt;
+    return '<div class="aic-histitem" onclick="aiartOpenFromHistory()">'+
+      '<div class="aic-histitem-ic"><i class="fa-solid fa-image"></i></div>'+
+      '<div class="aic-histitem-txt"><div class="aic-histitem-title">'+aiartEscapeHtml(label)+'</div></div>'+
+      '<button class="aic-histitem-del" onclick="aiartDeleteHistoryItem('+idx+',event)"><i class="fa-solid fa-trash"></i></button>'+
+    '</div>';
+  }).join('');
+}
+
+function aiartOpenFromHistory(){
+  aicCloseHistoryDrawer();
+  const scroll=document.getElementById('aiartScroll');
+  if(scroll) scroll.scrollTop=scroll.scrollHeight;
+}
+
+function aiartDeleteHistoryItem(idx,ev){
+  if(ev) ev.stopPropagation();
+  aiartHistory.splice(idx,1);
+  aiSaveHist('zusmoAiArtHistory',aiartHistory);
+  aiartRender();
+  aiartRenderHistoryList();
+}
+
+function aiartRegen(prompt){
+  const inp=document.getElementById('aiartInput');
+  if(inp) inp.value=prompt;
+  aiartGenerate();
+}
+
+async function aiartGenerate(){
+  const inp=document.getElementById('aiartInput');
+  const btn=document.getElementById('aiartGenBtn');
+  let prompt=inp?inp.value.trim():'';
+  if(!prompt){
+    if(inp){ inp.classList.remove('shake'); void inp.offsetWidth; inp.classList.add('shake'); }
+    return;
+  }
+  if(aiartLoading) return;
+  if(inp){ inp.value=''; aicAutoGrow(inp); }
+  aiartLoading=true;
+  aiartLoadingPrompt=prompt;
+  if(btn){ btn.disabled=true; btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i>'; }
+  aiartRender();
+  try{
+    const json=await xyureiRequest(function(key){
+      return AIART_ENDPOINT+'?q='+encodeURIComponent(prompt)+'&apikey='+key;
+    },{
+      isDataOk:function(j){ return !!aiartExtractUrl(j); }
+    });
+    const url=aiartExtractUrl(json);
+    if(url){
+      aiartHistory.push({prompt:prompt,url:url});
+    }else{
+      aiartHistory.push({prompt:prompt,error:true});
+    }
+  }catch(e){
+    console.error('[AIART]',e);
+    aiartHistory.push({prompt:prompt,error:true});
+  }
+  aiSaveHist('zusmoAiArtHistory',aiartHistory);
+  aiartLoading=false;
+  aiartLoadingPrompt='';
+  if(btn){ btn.disabled=false; btn.innerHTML='<i class="fa-solid fa-wand-magic-sparkles"></i>'; }
+  aiartRender();
+}
+
+async function aiartDownload(url){
+  if(typeof showToast==='function') showToast('Menyimpan gambar...');
+  try{
+    const res=await fetch(url,{referrerPolicy:'no-referrer'});
+    const blob=await res.blob();
+    const blobUrl=URL.createObjectURL(blob);
+    const link=document.createElement('a');
+    link.href=blobUrl;
+    link.download='KZRIZUSMO-AIART-'+Date.now()+'.jpg';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(blobUrl);
+  }catch(e){
+    window.open(url,'_blank');
+  }
+}
+
+/* ============================================================================
+   AI FILTER — https://sylvatica.my.id/api/ai/aifilter?url=...&filter=...&apikey=...
+   Respons: {creator,filter,result:{prompt_id,queue_info:{status},results:[{index,nsfw,origin,thumb}]},status}
+   ============================================================================ */
+const AIFLT_ENDPOINT='https://sylvatica.my.id/api/ai/aifilter';
+let aifltHistory=aiLoadHist('zusmoAiFilterHistory'); // {srcUrl,filter,images:[{url,nsfw}],error}
+let aifltLoading=false;
+let aifltLoadingLabel='';
+let aifltPreviewTimer=null;
+
+function aifltEscAttr(str){
+  return String(str==null?'':str).replace(/'/g,'&#39;').replace(/"/g,'&quot;');
+}
+function aifltEscapeHtml(str){
+  return String(str==null?'':str).replace(/[&<>"']/g,function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+  });
+}
+
+function aifltExtractImages(json){
+  if(!json) return null;
+  const res=json.result||json.data||json;
+  const list=res&&Array.isArray(res.results)?res.results:null;
+  if(!list||!list.length) return null;
+  const images=list.map(function(it){
+    return {url:(it&&(it.origin||it.thumb||it.url))||'',nsfw:!!(it&&it.nsfw)};
+  }).filter(function(it){ return !!it.url; });
+  return images.length?images:null;
+}
+
+function aifltRender(){
+  const scroll=document.getElementById('aifltScroll');
+  if(!scroll) return;
+  const urlVal=document.getElementById('aifltUrlInput')?document.getElementById('aifltUrlInput').value:'';
+  const genBtn=document.getElementById('aifltGenBtn');
+  if(genBtn) genBtn.disabled=aifltLoading;
+
+  if(!aifltHistory.length&&!aifltLoading){
+    scroll.innerHTML='<div class="aiflt-empty" id="aifltEmpty"><i class="fa-solid fa-wand-sparkles"></i>Tempel link gambar &amp; kode filter di bawah</div>';
+    return;
+  }
+
+  let html=aifltHistory.map(function(item){
+    const userMsg='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user aiflt-usermsg">'+
+      '<img class="aiflt-userthumb" src="'+aifltEscAttr(item.srcUrl)+'" referrerpolicy="no-referrer" onerror="this.style.visibility=\'hidden\'">'+
+      '<span class="aiflt-usertext allow-copy">'+aifltEscapeHtml(item.filterLabel||item.filter||'Filter')+'</span>'+
+    '</div></div>';
+    if(item.error){
+      return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">AI FILTER</span>'+
+        '<div class="aic-msg aic-msg-err"><i class="fa-solid fa-triangle-exclamation"></i> Gagal menerapkan filter.</div>'+
+        '<button class="aiflt-retrybtn" onclick="aifltRegen(\''+aifltEscAttr(item.srcUrl)+'\',\''+aifltEscAttr(item.filter)+'\')"><i class="fa-solid fa-rotate-right"></i> COBA LAGI</button>'+
+      '</div>';
+    }
+    const imgsHtml=item.images.map(function(im){
+      return '<div class="aiflt-resimgwrap">'+
+        (im.nsfw?'<span class="aiflt-nsfw">NSFW</span>':'')+
+        '<img class="aiflt-resimg" src="'+aifltEscAttr(im.url)+'" alt="Hasil AI Filter" referrerpolicy="no-referrer" onclick="aiOpenLightbox(\''+aifltEscAttr(im.url)+'\',\'filter\')">'+
+        '<button class="aiflt-dlmini" onclick="aifltDownload(\''+aifltEscAttr(im.url)+'\')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>'+
+      '</div>';
+    }).join('');
+    return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">AI FILTER</span>'+
+      '<div class="aic-msg aic-msg-ai aiflt-resmsg">'+
+        '<div class="aiflt-grid'+(item.images.length===1?' single':'')+'">'+imgsHtml+'</div>'+
+        '<button class="aiflt-retrybtn" onclick="aifltRegen(\''+aifltEscAttr(item.srcUrl)+'\',\''+aifltEscAttr(item.filter)+'\')"><i class="fa-solid fa-rotate-right"></i> ULANGI</button>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+
+  if(aifltLoading){
+    html+='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user aiflt-usermsg">'+
+      '<img class="aiflt-userthumb" src="'+aifltEscAttr(urlVal)+'" referrerpolicy="no-referrer" onerror="this.style.visibility=\'hidden\'">'+
+      '<span class="aiflt-usertext allow-copy">'+aifltEscapeHtml(aifltLoadingLabel||'Memproses...')+'</span>'+
+    '</div></div>'+
+    '<div class="aic-msg-wrap ai"><span class="aic-msg-tag">AI FILTER</span>'+
+    '<div class="aic-msg aic-msg-ai aiflt-resmsg"><div class="aiart-skel"><i class="fa-solid fa-spinner fa-spin"></i>Menerapkan filter...</div></div></div>';
+  }
+
+  scroll.innerHTML=html;
+  scroll.scrollTop=scroll.scrollHeight;
+}
+
+function aifltUpdatePreview(val){
+  clearTimeout(aifltPreviewTimer);
+  const box=document.getElementById('aifltPreview');
+  const img=document.getElementById('aifltPreviewImg');
+  if(!box||!img) return;
+  const v=(val||'').trim();
+  if(!v){ box.className='aiflt-preview'; img.src=''; return; }
+  box.className='aiflt-preview checking show';
+  box.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i>';
+  aifltPreviewTimer=setTimeout(function(){
+    const test=new Image();
+    test.referrerPolicy='no-referrer';
+    test.onload=function(){
+      const b=document.getElementById('aifltPreview');
+      if(!b) return;
+      b.className='aiflt-preview show';
+      b.innerHTML='<img id="aifltPreviewImg" src="'+aifltEscAttr(v)+'" alt="" referrerpolicy="no-referrer">';
+    };
+    test.onerror=function(){
+      const b=document.getElementById('aifltPreview');
+      if(!b) return;
+      b.className='aiflt-preview bad show';
+      b.innerHTML='<i class="fa-solid fa-triangle-exclamation"></i> Link tidak valid';
+    };
+    test.src=v;
+  },450);
+}
+
+function aifltRegen(srcUrl,promptText){
+  const urlInp=document.getElementById('aifltUrlInput');
+  if(urlInp){ urlInp.value=srcUrl; aifltUpdatePreview(srcUrl); }
+  const customInp=document.getElementById('aifltCustomInput');
+  if(customInp){ customInp.value=promptText; aicAutoGrow(customInp); }
+  aifltGenerate();
+}
+
+function aifltClearHistory(){
+  aifltHistory=[];
+  aiSaveHist('zusmoAiFilterHistory',aifltHistory);
+  aifltRender();
+}
+
+function aifltRenderHistoryList(){
+  const list=document.getElementById('aicHistList');
+  if(!list) return;
+  if(!aifltHistory.length){
+    list.innerHTML='<div class="aic-histempty">Belum ada riwayat AI Filter</div>';
+    return;
+  }
+  list.innerHTML=aifltHistory.slice().reverse().map(function(item,ridx){
+    const idx=aifltHistory.length-1-ridx;
+    const label=item.error?'Gagal: '+(item.filterLabel||item.filter||'Filter'):(item.filterLabel||item.filter||'Filter');
+    return '<div class="aic-histitem" onclick="aifltOpenFromHistory()">'+
+      '<div class="aic-histitem-ic"><i class="fa-solid fa-wand-sparkles"></i></div>'+
+      '<div class="aic-histitem-txt"><div class="aic-histitem-title">'+aifltEscapeHtml(label)+'</div></div>'+
+      '<button class="aic-histitem-del" onclick="aifltDeleteHistoryItem('+idx+',event)"><i class="fa-solid fa-trash"></i></button>'+
+    '</div>';
+  }).join('');
+}
+
+function aifltOpenFromHistory(){
+  aicCloseHistoryDrawer();
+  const scroll=document.getElementById('aifltScroll');
+  if(scroll) scroll.scrollTop=scroll.scrollHeight;
+}
+
+function aifltDeleteHistoryItem(idx,ev){
+  if(ev) ev.stopPropagation();
+  aifltHistory.splice(idx,1);
+  aiSaveHist('zusmoAiFilterHistory',aifltHistory);
+  aifltRender();
+  aifltRenderHistoryList();
+}
+
+async function aifltGenerate(){
+  const urlInp=document.getElementById('aifltUrlInput');
+  const srcUrl=urlInp?urlInp.value.trim():'';
+  const customInp=document.getElementById('aifltCustomInput');
+  const promptText=customInp?customInp.value.trim():'';
+  const filterLabel=promptText;
+
+  let bad=false;
+  if(!srcUrl){ if(urlInp){urlInp.classList.remove('shake');void urlInp.offsetWidth;urlInp.classList.add('shake');} bad=true; }
+  if(!promptText){ if(customInp){customInp.classList.remove('shake');void customInp.offsetWidth;customInp.classList.add('shake');} bad=true; }
+  if(bad||aifltLoading) return;
+
+  aifltLoading=true;
+  aifltLoadingLabel=filterLabel;
+  aifltRender();
+  try{
+    const json=await xyureiRequest(function(key){
+      return AIFLT_ENDPOINT+'?url='+encodeURIComponent(srcUrl)+'&filter='+encodeURIComponent(promptText)+'&apikey='+key;
+    },{
+      isDataOk:function(j){ return !!aifltExtractImages(j); }
+    });
+    const images=aifltExtractImages(json);
+    if(images){
+      aifltHistory.push({srcUrl:srcUrl,filter:promptText,filterLabel:filterLabel,images:images});
+    }else{
+      aifltHistory.push({srcUrl:srcUrl,filter:promptText,filterLabel:filterLabel,error:true});
+    }
+  }catch(e){
+    console.error('[AIFLT]',e);
+    aifltHistory.push({srcUrl:srcUrl,filter:promptText,filterLabel:filterLabel,error:true});
+  }
+  aiSaveHist('zusmoAiFilterHistory',aifltHistory);
+  aifltLoading=false;
+  aifltLoadingLabel='';
+  if(customInp){ customInp.value=''; aicAutoGrow(customInp); }
+  aifltRender();
+}
+
+async function aifltDownload(url){
+  if(typeof showToast==='function') showToast('Menyimpan gambar...');
+  try{
+    const res=await fetch(url,{referrerPolicy:'no-referrer'});
+    const blob=await res.blob();
+    const blobUrl=URL.createObjectURL(blob);
+    const link=document.createElement('a');
+    link.href=blobUrl;
+    link.download='KZRIZUSMO-AIFILTER-'+Date.now()+'.jpg';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(blobUrl);
+  }catch(e){
+    window.open(url,'_blank');
+  }
+}
+
+/* ── LIGHTBOX: preview gambar penuh layar (dipakai AI Art & AI Filter) ── */
+let aiLightboxUrl='';
+let aiLightboxOrigin='art';
+function aiOpenLightbox(url,origin){
+  aiLightboxUrl=url;
+  aiLightboxOrigin=origin||'art';
+  const box=document.getElementById('aiLightbox');
+  const img=document.getElementById('aiLightboxImg');
+  if(img) img.src=url;
+  if(box) box.classList.add('show');
+}
+function aiCloseLightbox(){
+  const box=document.getElementById('aiLightbox');
+  if(box) box.classList.remove('show');
+}
+function aiLightboxDownload(){
+  if(!aiLightboxUrl) return;
+  if(aiLightboxOrigin==='filter') aifltDownload(aiLightboxUrl);
+  else aiartDownload(aiLightboxUrl);
 }
 </script>
 
