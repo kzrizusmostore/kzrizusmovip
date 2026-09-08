@@ -11495,7 +11495,6 @@ function aicRenderChat(){
           '<div class="aiart-imgwrap"><img class="aiart-img" src="'+aiartEscAttr(m.url)+'" alt="AI Art" referrerpolicy="no-referrer" onerror="aiImgErr(this)" onclick="aiOpenLightbox(\''+aiartEscAttr(m.url)+'\',\'art\')"></div>'+
           '<div class="aiart-actions">'+
             '<button class="aiart-dlbtn" onclick="aiartDownload(\''+aiartEscAttr(m.url)+'\')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>'+
-            '<button class="aiart-regenbtn" onclick="aiartRegen(\''+aiartEscAttr(m.prompt)+'\')"><i class="fa-solid fa-rotate-right"></i> ULANGI</button>'+
           '</div>'+
         '</div>'+
       '</div>';
@@ -11538,7 +11537,6 @@ function aicRenderChat(){
           '<audio controls style="width:100%" src="'+aiartEscAttr(m.url)+'" referrerpolicy="no-referrer" onerror="aiImgErr(this)"></audio>'+
           '<div class="aiart-actions">'+
             '<button class="aiart-dlbtn" onclick="aiartDownload(\''+aiartEscAttr(m.url)+'\')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>'+
-            '<button class="aiart-regenbtn" onclick="aisongRegen(\''+aiartEscAttr(m.prompt)+'\',\''+aiartEscAttr(m.title||'')+'\',\''+aiartEscAttr(m.tags||'')+'\')"><i class="fa-solid fa-rotate-right"></i> ULANGI</button>'+
           '</div>'+
         '</div>'+
       '</div>';
@@ -11559,7 +11557,6 @@ function aicRenderChat(){
           '<div class="aiart-imgwrap"><img class="aiart-img" src="'+aifltEscAttr(m.url)+'" alt="Anime to Real" referrerpolicy="no-referrer" onerror="aiImgErr(this)" onclick="aiOpenLightbox(\''+aifltEscAttr(m.url)+'\',\'anime\')"></div>'+
           '<div class="aiart-actions">'+
             '<button class="aiart-dlbtn" onclick="aiartDownload(\''+aifltEscAttr(m.url)+'\')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>'+
-            '<button class="aiart-regenbtn" onclick="animeRegen(\''+aifltEscAttr(m.srcUrl)+'\')"><i class="fa-solid fa-rotate-right"></i> ULANGI</button>'+
           '</div>'+
         '</div>'+
       '</div>';
@@ -11589,7 +11586,6 @@ function aicRenderChat(){
           '<div class="aiart-imgwrap"><img class="aiart-img" src="'+aiartEscAttr(m.url)+'" alt="Imagen AI" referrerpolicy="no-referrer" onerror="aiImgErr(this)" onclick="aiOpenLightbox(\''+aiartEscAttr(m.url)+'\',\'imagenai\')"></div>'+
           '<div class="aiart-actions">'+
             '<button class="aiart-dlbtn" onclick="aiartDownload(\''+aiartEscAttr(m.url)+'\')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>'+
-            '<button class="aiart-regenbtn" onclick="imagenRegen(\''+aiartEscAttr(m.prompt)+'\',\''+aiartEscAttr(m.style)+'\')"><i class="fa-solid fa-rotate-right"></i> ULANGI</button>'+
           '</div>'+
         '</div>'+
       '</div>';
@@ -11635,7 +11631,6 @@ function aicRenderChat(){
           '<div class="aiart-imgwrap"><img class="aiart-img" src="'+aifltEscAttr(m.url)+'" alt="Nano Banana" referrerpolicy="no-referrer" onerror="aiImgErr(this)" onclick="aiOpenLightbox(\''+aifltEscAttr(m.url)+'\',\'nanobanana\')"></div>'+
           '<div class="aiart-actions">'+
             '<button class="aiart-dlbtn" onclick="aiartDownload(\''+aifltEscAttr(m.url)+'\')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>'+
-            '<button class="aiart-regenbtn" onclick="nanobananaRegen(\''+aifltEscAttr(m.srcUrl)+'\',\''+aifltEscAttr(m.prompt)+'\')"><i class="fa-solid fa-rotate-right"></i> ULANGI</button>'+
           '</div>'+
         '</div>'+
       '</div>';
@@ -11654,7 +11649,6 @@ function aicRenderChat(){
           '<div class="aiart-imgwrap"><img class="aiart-img" src="'+aiartEscAttr(m.url)+'" alt="Text to Image" referrerpolicy="no-referrer" onerror="aiImgErr(this)" onclick="aiOpenLightbox(\''+aiartEscAttr(m.url)+'\',\'txt2img\')"></div>'+
           '<div class="aiart-actions">'+
             '<button class="aiart-dlbtn" onclick="aiMediaDownload(\''+aiartEscAttr(m.url)+'\',\'jpg\',\'txt2img\')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>'+
-            '<button class="aiart-regenbtn" onclick="txt2imgRegen(\''+aiartEscAttr(m.prompt)+'\',\''+aiartEscAttr(m.ratio)+'\')"><i class="fa-solid fa-rotate-right"></i> ULANGI</button>'+
           '</div>'+
         '</div>'+
       '</div>';
@@ -11673,7 +11667,6 @@ function aicRenderChat(){
           '<div class="aiart-imgwrap"><video class="aiart-img" controls playsinline src="'+aiartEscAttr(m.url)+'" referrerpolicy="no-referrer" onerror="aiImgErr(this)"></video></div>'+
           '<div class="aiart-actions">'+
             '<button class="aiart-dlbtn" onclick="aiMediaDownload(\''+aiartEscAttr(m.url)+'\',\'mp4\',\'text2vid\')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>'+
-            '<button class="aiart-regenbtn" onclick="text2vidRegen(\''+aiartEscAttr(m.prompt)+'\',\''+aiartEscAttr(m.ratio)+'\',\''+aiartEscAttr(m.sound)+'\')"><i class="fa-solid fa-rotate-right"></i> ULANGI</button>'+
           '</div>'+
         '</div>'+
       '</div>';
@@ -11692,7 +11685,6 @@ function aicRenderChat(){
           '<audio controls style="width:100%" src="'+aiartEscAttr(m.url)+'" referrerpolicy="no-referrer" onerror="aiImgErr(this)"></audio>'+
           '<div class="aiart-actions">'+
             '<button class="aiart-dlbtn" onclick="aiMediaDownload(\''+aiartEscAttr(m.url)+'\',\'mp3\',\'tts\')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>'+
-            '<button class="aiart-regenbtn" onclick="ttsRegen(\''+aiartEscAttr(m.text)+'\',\''+aiartEscAttr(m.model)+'\')"><i class="fa-solid fa-rotate-right"></i> ULANGI</button>'+
           '</div>'+
         '</div>'+
       '</div>';
@@ -11717,7 +11709,6 @@ function aicRenderChat(){
           '<div class="aiart-imgwrap"><img class="aiart-img" src="'+aiartEscAttr(m.url)+'" alt="Toonmix AI" referrerpolicy="no-referrer" onerror="aiImgErr(this)" onclick="aiOpenLightbox(\''+aiartEscAttr(m.url)+'\',\'toonmix\')"></div>'+
           '<div class="aiart-actions">'+
             '<button class="aiart-dlbtn" onclick="aiMediaDownload(\''+aiartEscAttr(m.url)+'\',\'jpg\',\'toonmix\')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>'+
-            '<button class="aiart-regenbtn" onclick="toonmixRegen(\''+aiartEscAttr(m.prompt)+'\',\''+aifltEscAttr(m.srcUrl||'')+'\')"><i class="fa-solid fa-rotate-right"></i> ULANGI</button>'+
           '</div>'+
         '</div>'+
       '</div>';
@@ -12331,23 +12322,8 @@ async function aiartGenerate(){
   aicRenderChat();
 }
 
-async function aiartDownload(url){
-  if(typeof showToast==='function') showToast('Menyimpan gambar...');
-  try{
-    const res=await fetch(url,{referrerPolicy:'no-referrer-when-downgrade'});
-    const blob=await res.blob();
-    const blobUrl=URL.createObjectURL(blob);
-    const link=document.createElement('a');
-    link.href=blobUrl;
-    link.download='KZRIZUSMO-AIART-'+Date.now()+'.jpg';
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    URL.revokeObjectURL(blobUrl);
-  }catch(e){
-    if(typeof showToast==='function') showToast('Gagal simpan langsung, membuka file...');
-    aiSaveMediaFallback(url);
-  }
+function aiartDownload(url){
+  aiSaveMediaFallback(url);
 }
 
 /* ============================================================================
@@ -12426,23 +12402,8 @@ async function aifltGenerate(){
   aicRenderChat();
 }
 
-async function aifltDownload(url){
-  if(typeof showToast==='function') showToast('Menyimpan gambar...');
-  try{
-    const res=await fetch(url,{referrerPolicy:'no-referrer-when-downgrade'});
-    const blob=await res.blob();
-    const blobUrl=URL.createObjectURL(blob);
-    const link=document.createElement('a');
-    link.href=blobUrl;
-    link.download='KZRIZUSMO-AIFILTER-'+Date.now()+'.jpg';
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    URL.revokeObjectURL(blobUrl);
-  }catch(e){
-    if(typeof showToast==='function') showToast('Gagal simpan langsung, membuka file...');
-    aiSaveMediaFallback(url);
-  }
+function aifltDownload(url){
+  aiSaveMediaFallback(url);
 }
 
 /* ============================================================================
@@ -12924,24 +12885,8 @@ function nanobananaRegen(srcUrl,prompt){
 }
 
 /* ── DOWNLOAD MEDIA GENERIK (dipakai fitur AI baru: gambar/video/audio) ── */
-async function aiMediaDownload(url,ext,label){
-  const lbl=(label||'file').toUpperCase();
-  if(typeof showToast==='function') showToast('Menyimpan '+(label||'file')+'...');
-  try{
-    const res=await fetch(url,{referrerPolicy:'no-referrer-when-downgrade'});
-    const blob=await res.blob();
-    const blobUrl=URL.createObjectURL(blob);
-    const link=document.createElement('a');
-    link.href=blobUrl;
-    link.download='KZRIZUSMO-'+lbl+'-'+Date.now()+'.'+(ext||'jpg');
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    URL.revokeObjectURL(blobUrl);
-  }catch(e){
-    if(typeof showToast==='function') showToast('Gagal simpan langsung, membuka file...');
-    aiSaveMediaFallback(url);
-  }
+function aiMediaDownload(url,ext,label){
+  aiSaveMediaFallback(url);
 }
 
 /* ============================================================================
