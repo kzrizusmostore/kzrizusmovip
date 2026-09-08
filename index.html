@@ -15377,7 +15377,23 @@ const MKR_MENU=[
             {name:'batteryPercentage',label:'Baterai (%)',placeholder:'Contoh: 82',required:false,def:'82'},
             {name:'signalStrength',label:'Sinyal (1-4)',placeholder:'Contoh: 4',required:false,def:'4'},
             {name:'time',label:'Jam',placeholder:'Contoh: 09:41',required:false},
-            {name:'emojiStyle',label:'Gaya Emoji',placeholder:'Contoh: apple',required:false,def:'apple'}]}
+            {name:'emojiStyle',label:'Gaya Emoji',placeholder:'Contoh: apple',required:false,def:'apple'}]},
+  {key:'qc',label:'Quote Canvas',icon:'fa-quote-left',desc:'Bikin gambar kutipan chat custom',
+    fields:[{name:'text',label:'Pesan / Teks Quote',placeholder:'Tulis teks quote...',required:true},
+            {name:'nama',label:'Nama Pengirim',placeholder:'Contoh: KZRIZUSMO',required:true},
+            {name:'url',label:'URL Foto Profil',placeholder:'https://... (opsional)',required:false},
+            {name:'color',label:'Warna Background',placeholder:'Contoh: white, black, red',required:false}]},
+  {key:'brat',label:'Brat Text',icon:'fa-marker',desc:'Generator teks gaya cover Brat',
+    fields:[{name:'text',label:'Teks',placeholder:'Tulis teks di sini...',required:true}]},
+  {key:'carbon',label:'Carbon Code',icon:'fa-code',desc:'Ubah kode jadi gambar snippet rapi',
+    fields:[{name:'code',label:'Kode',placeholder:'Tempel kode di sini...',required:true,type:'textarea'}]},
+  {key:'emojikitchen',label:'Emoji Kitchen',icon:'fa-icons',desc:'Gabungkan dua emoji jadi satu',
+    fields:[{name:'emoji1',label:'Emoji Pertama',placeholder:'Contoh: 😂',required:true},
+            {name:'emoji2',label:'Emoji Kedua',placeholder:'Contoh: ❤️',required:true}]},
+  {key:'blurface',label:'Blur Face',icon:'fa-user-secret',desc:'Buram-kan wajah pada foto',
+    fields:[{name:'url',label:'URL Gambar (ada wajah)',placeholder:'https://...',required:true}]},
+  {key:'removebg',label:'Remove Background',icon:'fa-eraser',desc:'Hapus background dari foto',
+    fields:[{name:'url',label:'URL Gambar',placeholder:'https://...',required:true}]}
 ];
 
 let mkrActiveKey=null;
@@ -15420,9 +15436,12 @@ function mkrRenderForm(menu){
   const area=mkrArea();
   const iconCls=menu.icon.indexOf('fa-')===0?('fa-solid '+menu.icon):menu.icon;
   const fieldsHtml=menu.fields.map(function(f,i){
+    const ctrl=(f.type==='textarea')?
+      '<textarea class="mkr-input" id="mkrField_'+i+'" rows="5" style="resize:vertical;font-family:\'Space Mono\',monospace" placeholder="'+mkrEscAttr(f.placeholder||'')+'">'+mkrEsc(f.def||'')+'</textarea>':
+      '<input class="mkr-input" id="mkrField_'+i+'" type="text" placeholder="'+mkrEscAttr(f.placeholder||'')+'" value="'+mkrEscAttr(f.def||'')+'">';
     return '<div class="mkr-field">'+
       '<label>'+mkrEsc(f.label)+(f.required?' *':'')+'</label>'+
-      '<input class="mkr-input" id="mkrField_'+i+'" type="text" placeholder="'+mkrEscAttr(f.placeholder||'')+'" value="'+mkrEscAttr(f.def||'')+'">'+
+      ctrl+
     '</div>';
   }).join('');
   area.innerHTML=
@@ -16231,8 +16250,14 @@ const RND_MENU=[
   {key:'waifu',label:'Waifu',icon:'fa-heart'},
   {key:'hentai',label:'Hentai',icon:'fa-fish-fins'},
   {key:'nsfw',label:'Nsfw',icon:'fa-shuffle'},
-  {key:'tobrut',label:'Tobrut',icon:'fa-video',type:'video'}
+  {key:'tobrut',label:'Tobrut',icon:'fa-video',type:'video'},
+  {key:'bae',label:'Blue Archive',icon:'fa-heart-circle-check',base:'sylvatica'},
+  {key:'hentaivid',label:'Hentai Video',icon:'fa-clapperboard',type:'video',base:'sylvatica'},
+  {key:'quotesanime',label:'Quotes Anime',icon:'fa-quote-left',base:'sylvatica'},
+  {key:'seegore',label:'Seegore',icon:'fa-ghost',base:'sylvatica'},
+  {key:'yuri',label:'Yuri',icon:'fa-venus',base:'sylvatica'}
 ];
+const RND_BASE_SYLVATICA='https://sylvatica.my.id/api/random/';
 
 let rndActiveKey=null;
 let rndGridBuilt=false;
@@ -16295,9 +16320,12 @@ function rndSelect(key){
 // melainkan langsung mengirim file gambar (binary JPEG/PNG). Jadi jangan
 // di-fetch+parse sebagai JSON seperti quotes/news — cukup arahkan <img src>
 // langsung ke URL endpoint-nya (dengan apikey + cache-buster acak).
-function rndBuildImgUrl(key){
+function rndBuildImgUrl(menu){
+  if(menu.base==='sylvatica'){
+    return RND_BASE_SYLVATICA+menu.key+'?apikey=&_t='+Date.now()+Math.floor(Math.random()*1e6);
+  }
   const fbKey=xyureiFallbackShuffledKeys()[0];
-  return RND_BASE+key+'?apikey='+encodeURIComponent(fbKey)+'&_t='+Date.now()+Math.floor(Math.random()*1e6);
+  return RND_BASE+menu.key+'?apikey='+encodeURIComponent(fbKey)+'&_t='+Date.now()+Math.floor(Math.random()*1e6);
 }
 
 function rndLoad(key){
@@ -16310,7 +16338,7 @@ function rndLoad(key){
 
 function rndTryImg(menu){
   const area=rndArea();
-  const url=rndBuildImgUrl(menu.key);
+  const url=rndBuildImgUrl(menu);
 
   if(menu.type==='video'){
     const video=document.createElement('video');
@@ -19502,7 +19530,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     <div class="jg-label"><i class="fa-solid fa-swords"></i>Siap Aktif Guild War & Latihan</div>
     <div class="jg-pill-grid" id="jgCommitGroup">
       <div class="jg-pill" data-group="commit" data-value="Ya, Siap 100%"><i class="fa-solid fa-circle-check"></i>Ya, Siap 100%</div>
-      <div class="jg-pill" data-group="commit" data-value="Tidak, Santai Saja"><i class="fa-solid fa-circle-xmark"></i>Santai Saja</div>
+      <div class="jg-pill" data-group="commit" data-value="Tidak, Hentai Saja"><i class="fa-solid fa-circle-xmark"></i>Hentai Saja</div>
     </div>
   </div>
 
