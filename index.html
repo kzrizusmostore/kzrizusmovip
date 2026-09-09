@@ -6386,7 +6386,7 @@ function closeVipShadowApp(){
     <div class="hm-tile-icon"><i class="fa-solid fa-address-card"></i></div>
     <span class="hm-tile-label">CEK ID FF</span>
   </div>
-  <div class="hm-tile hm-tile-extra" onclick="dismissNewBadge('sosmeddl');showPage('sosmeddl')">
+  <div class="hm-tile" onclick="dismissNewBadge('sosmeddl');showPage('sosmeddl')">
     <span class="hm-tile-badge" id="newBadge_sosmeddl"></span>
     <div class="hm-tile-icon"><i class="fa-solid fa-download"></i></div>
     <span class="hm-tile-label">SOSMED DL</span>
@@ -10438,6 +10438,19 @@ qrgenUpdateColorPreview();
 .sai-suggest-item:active,.sai-suggest-item.hover{background:rgba(255,43,43,.12);color:#fff;}
 .sai-suggest-item i{font-size:11px;color:#ff5252;width:14px;text-align:center;}
 .sai-suggest-empty{padding:11px 14px;font-size:11.5px;color:#777;text-align:center;}
+
+/* Fix: popup rekomendasi device sempat "tembus" ke belakang teks footer copyright.
+   Naikkan stacking context kartu input & turunkan footer supaya popup selalu di atas. */
+#sensiai .pc-card{position:relative;z-index:5;}
+#sensiai .footer{position:relative;z-index:0;}
+
+/* Gambar ilustrasi di atas kolom input Sensi AI (rasio asli 2340x1080) */
+.sai-device-img{
+  display:block;width:100%;aspect-ratio:2340/1080;height:auto;object-fit:cover;
+  border-radius:14px;margin-bottom:14px;
+  border:1px solid rgba(255,43,43,.25);
+  box-shadow:0 6px 18px rgba(0,0,0,.35);
+}
 </style>
 
 <p class="pc-title"><span class="red">SENSI</span>&nbsp;<span class="wht">AI</span></p>
@@ -10448,6 +10461,7 @@ qrgenUpdateColorPreview();
     <div class="pc-head-icon"><i class="fa-solid fa-crosshairs"></i></div>
     <div class="pc-head-text"><h3>BUAT SENSI DARI AI</h3><p>Masukkan nama device kamu</p></div>
   </div>
+  <img class="sai-device-img" src="zusmo-asset/sensiai.jpg" alt="Sensi AI" loading="lazy" decoding="async"/>
   <div class="pc-input-wrap" style="margin-bottom:0;">
     <i class="fa-solid fa-mobile-screen-button pc-input-icon"></i>
     <input class="pc-input" id="saiDevice" type="text" autocomplete="off" placeholder="Contoh: iPhone 17, Samsung S26 Ultra..." style="font-size:13px;font-weight:600;padding-left:40px;" oninput="saiFilterDevice()" onkeydown="if(event.key==='Enter'){event.preventDefault();saiHideSuggest();saiGenerate();}" onfocus="saiFilterDevice()" onblur="setTimeout(saiHideSuggest,150)"/>
@@ -21785,15 +21799,24 @@ if(empty)empty.classList.toggle('zs-show',visible===0);
 }
 
 var __pageBackStack=[];
+var __pageScrollPos={};
 function showPage(id,fromBack){
-window.scrollTo(0,0);
 var __current=document.querySelector('.page.active');
 var __currentId=__current?__current.id:null;
+if(__currentId){
+  __pageScrollPos[__currentId]=window.scrollY||window.pageYOffset||0;
+}
 if(!fromBack && __currentId && __currentId!==id){
   __pageBackStack.push(__currentId);
 }
 document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
 document.getElementById(id).classList.add('active');
+if(fromBack && __pageScrollPos.hasOwnProperty(id)){
+  window.scrollTo(0,__pageScrollPos[id]);
+}else{
+  window.scrollTo(0,0);
+  __pageScrollPos[id]=0;
+}
 if(id==='notifikasi' && typeof markNotifSeen==='function') markNotifSeen();
 if(id==='shopTab' && typeof getDiamond==='function'){ var __sdb=document.getElementById('shopDiamondBalance'); if(__sdb) __sdb.textContent=getDiamond(); }
 if(id==='eventTab' && typeof getDiamond==='function'){ var __edb=document.getElementById('eventDiamondBalance'); if(__edb) __edb.textContent=getDiamond(); }
