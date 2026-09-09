@@ -16656,6 +16656,7 @@ async function rndDownload(url,keyName,isVideo){
 .stk-result.show{display:block;}
 .stk-result-head{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
 .stk-result-avatar{width:56px;height:56px;border-radius:50%;object-fit:cover;background:#111;flex-shrink:0;border:1px solid rgba(255,255,255,.12);}
+.stk-result-avatar.stk-ff-logo{border-radius:14px;object-fit:contain;background:rgba(255,82,82,.08);padding:6px;}
 .stk-result-name{font-size:14px;font-weight:800;color:#fff;line-height:1.35;word-break:break-word;}
 .stk-result-sub{font-size:10.5px;color:#888;margin-top:3px;word-break:break-word;}
 .stk-result-rows{display:flex;flex-direction:column;gap:0;}
@@ -16708,6 +16709,9 @@ async function rndDownload(url,keyName,isVideo){
 .stk-pin-pin-card{border-radius:12px;overflow:hidden;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);display:block;text-decoration:none;position:relative;}
 .stk-pin-pin-img{width:100%;aspect-ratio:2/3;object-fit:cover;display:block;background:#111;}
 .stk-pin-pin-title{font-size:9.5px;color:#ddd;padding:6px 7px;line-height:1.3;word-break:break-word;}
+.stk-pin-loading{background:linear-gradient(90deg,rgba(255,255,255,.03) 25%,rgba(255,255,255,.08) 37%,rgba(255,255,255,.03) 63%);background-size:400% 100%;animation:stkPinShimmer 1.4s ease infinite;}
+@keyframes stkPinShimmer{0%{background-position:100% 50%;}100%{background-position:0 50%;}}
+.stk-pin-fallback-icon{display:flex;align-items:center;justify-content:center;background:rgba(230,0,35,.08);color:rgba(230,0,35,.5);font-size:20px;}
 </style>
 
 <p class="pc-title"><span class="red">STALK</span>&nbsp;<span class="wht">UID / USERNAME</span></p>
@@ -16984,7 +16988,7 @@ function stkRenderResult(box,json,type){
     (profileUrl?'<a class="smdl-dlbtn smdl-alt" href="'+stkEsc(profileUrl)+'" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Buka Profil</a>':'');
   box.innerHTML=
     '<div class="stk-result-head">'+
-      (displayAvatar?('<img class="stk-result-avatar" src="'+stkEsc(displayAvatar)+'" alt="avatar"'+(avatar?' referrerpolicy="no-referrer" onerror="aiImgErr(this)"':'')+'>'):'')+
+      (displayAvatar?('<img class="stk-result-avatar'+(isFF&&!avatar?' stk-ff-logo':'')+'" src="'+stkEsc(displayAvatar)+'" alt="avatar"'+(avatar?' referrerpolicy="no-referrer" onerror="aiImgErr(this)"':'')+'>'):'')+
       '<div><div class="stk-result-name">'+stkEsc(name)+'</div>'+(sub?'<div class="stk-result-sub">'+stkEsc(sub)+'</div>':'')+'</div>'+
     '</div>'+
     '<div class="stk-result-rows">'+(rows||'<div class="stk-result-row"><span>Tidak ada detail tambahan.</span></div>')+'</div>'+
@@ -17038,29 +17042,52 @@ function stkPinNum(n){
   if(n>=1000) return (n/1000).toFixed(1).replace(/\.0$/,'')+'rb';
   return String(n);
 }
-/* Gambar Pinterest (i.pinimg.com) sering GAGAL tampil kalau dimuat langsung -
-   CDN-nya banyak yang nolak request tanpa header/CORS yang pas, dan di WebView APK
-   makin sering gagal walau file-nya valid. Solusinya: muat lewat image proxy
-   (images.weserv.nl, gratis & CORS-friendly) sebagai jalur utama, baru kalau proxy-nya
-   ikutan gagal, coba fallback ke URL asli sekali sebelum benar-benar nyerah. */
-function stkPinProxyUrl(url){
-  if(!url) return '';
-  return 'https://images.weserv.nl/?url='+encodeURIComponent(url.replace(/^https?:\/\//i,''))+'&default=blank';
+/* Gambar Pinterest (i.pinimg.com) gagal tampil kalau dimuat langsung via <img src=...> di
+   WebView app ini - baik direct URL maupun lewat proxy gambar pihak ketiga (images.weserv.nl)
+   sama-sama diblokir/gagal di WebView-nya. Makanya sekarang dimuat via fetch()+blob JS,
+   pakai chain 3 lapis yang SAMA PERSIS kayak yang udah kebukti jalan buat request API
+   lain di app ini (xyureiRequest): direct fetch -> proxy allorigins.win -> proxy
+   corsproxy.io. <img> awalnya dirender TANPA src (cuma data-src), biar WebView-nya
+   ga sempat nyoba native load yang bakal gagal duluan. */
+function stkPinImgTag(url,cls,alt,fallbackIconClass){
+  fallbackIconClass=fallbackIconClass||'fa-solid fa-image';
+  if(!url) return '<div class="'+cls+' stk-pin-fallback-icon"><i class="'+fallbackIconClass+'"></i></div>';
+  return '<img class="'+cls+' stk-pin-loading" data-src="'+stkEsc(url)+'" data-fallback-icon="'+stkEsc(fallbackIconClass)+'" alt="'+stkEsc(alt||'')+'">';
 }
-function stkPinImgErr(el){
+async function stkPinFetchBlob(url){
   try{
-    if(!el) return;
-    if(!el.getAttribute('data-triedorig')){
-      const orig=el.getAttribute('data-orig');
-      if(orig){ el.setAttribute('data-triedorig','1'); el.src=orig; return; }
-    }
-    el.onerror=null;
-    el.style.opacity='0.35';
+    const res=await zsFetchTimeout(url,{mode:'cors'},12000);
+    if(res&&res.ok){ const b=await res.blob(); if(b&&b.size) return b; }
   }catch(e){}
+  try{
+    const res=await zsFetchTimeout('https://api.allorigins.win/raw?url='+encodeURIComponent(url),{},12000);
+    if(res&&res.ok){ const b=await res.blob(); if(b&&b.size) return b; }
+  }catch(e){}
+  try{
+    const res=await zsFetchTimeout('https://corsproxy.io/?url='+encodeURIComponent(url),{},12000);
+    if(res&&res.ok){ const b=await res.blob(); if(b&&b.size) return b; }
+  }catch(e){}
+  return null;
 }
-function stkPinImgTag(url,cls,alt){
-  if(!url) return '';
-  return '<img class="'+cls+'" src="'+stkEsc(stkPinProxyUrl(url))+'" data-orig="'+stkEsc(url)+'" alt="'+stkEsc(alt||'')+'" loading="lazy" onerror="stkPinImgErr(this)">';
+async function stkPinLoadOneImage(img){
+  const url=img.getAttribute('data-src');
+  const cls=img.className.replace('stk-pin-loading','').trim();
+  if(!url) return;
+  const blob=await stkPinFetchBlob(url);
+  if(!img.isConnected) return; // hasil stalk sudah diganti/dibuang sebelum fetch selesai
+  if(blob){
+    img.src=URL.createObjectURL(blob);
+    img.classList.remove('stk-pin-loading');
+  }else{
+    const iconClass=img.getAttribute('data-fallback-icon')||'fa-solid fa-image';
+    const fallback=document.createElement('div');
+    fallback.className=cls+' stk-pin-fallback-icon';
+    fallback.innerHTML='<i class="'+iconClass+'"></i>';
+    img.replaceWith(fallback);
+  }
+}
+function stkPinLoadImages(box){
+  box.querySelectorAll('img[data-src]').forEach(function(img){ stkPinLoadOneImage(img); });
 }
 function stkRenderPinterestResult(box,json){
   const p=json.profile||{};
@@ -17086,7 +17113,7 @@ function stkRenderPinterestResult(box,json){
 
   let boardsHtml='';
   boards.forEach(function(b){
-    const thumb=b.thumbnail?stkPinImgTag(b.thumbnail,'stk-pin-board-thumb',b.name):'<div class="stk-pin-board-thumb-fallback"><i class="fa-solid fa-images"></i></div>';
+    const thumb=stkPinImgTag(b.thumbnail,'stk-pin-board-thumb',b.name,'fa-solid fa-images');
     const inner=thumb+'<div class="stk-pin-board-name">'+stkEsc(b.name||'Board')+'</div><div class="stk-pin-board-count">'+stkPinNum(b.pinCount)+' pin</div>';
     boardsHtml+=b.url?('<a class="stk-pin-board-card" href="'+stkEsc(b.url)+'" target="_blank" rel="noopener">'+inner+'</a>'):('<div class="stk-pin-board-card">'+inner+'</div>');
   });
@@ -17097,14 +17124,14 @@ function stkRenderPinterestResult(box,json){
     const img=stkFindPinItemImage(pin);
     const link=stkFindPinItemLink(pin);
     const title=stkFindPinItemTitle(pin);
-    const inner=stkPinImgTag(img,'stk-pin-pin-img',title)+
+    const inner=stkPinImgTag(img,'stk-pin-pin-img',title,'fa-solid fa-thumbtack')+
       (title?'<div class="stk-pin-pin-title">'+stkEsc(title)+'</div>':'');
     pinsHtml+=link?('<a class="stk-pin-pin-card" href="'+stkEsc(link)+'" target="_blank" rel="noopener">'+inner+'</a>'):('<div class="stk-pin-pin-card">'+inner+'</div>');
   });
 
   box.innerHTML=
     '<div class="stk-pin-profile">'+
-      (avatar?stkPinImgTag(avatar,'stk-pin-avatar','avatar'):'')+
+      stkPinImgTag(avatar,'stk-pin-avatar','avatar','fa-brands fa-pinterest')+
       '<div>'+
         '<div class="stk-pin-name-row"><span class="stk-pin-name">'+stkEsc(name)+'</span>'+(p.verified?'<i class="fa-solid fa-circle-check stk-pin-verified" title="Verified"></i>':'')+'</div>'+
         '<div class="stk-pin-username">@'+stkEsc(p.username||'')+'</div>'+
@@ -17129,6 +17156,7 @@ function stkRenderPinterestResult(box,json){
     '<div class="stk-pin-section-title"><i class="fa-solid fa-thumbtack"></i>PIN TERBARU ('+pins.length+')</div>'+
     (pinsHtml?('<div class="stk-pin-pins-grid">'+pinsHtml+'</div>'):'<div class="stk-empty" style="padding:16px 0;"><i class="fa-solid fa-thumbtack"></i>Belum ada pin terbaru yang bisa ditampilkan.</div>');
   box.classList.add('show');
+  stkPinLoadImages(box);
 }
 
 /* Stalk Free Fire: PAKAI API YANG SAMA dengan verifikasi UID di halaman beli VIP Shadow
