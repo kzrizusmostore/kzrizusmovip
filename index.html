@@ -16658,6 +16658,9 @@ async function rndDownload(url,keyName,isVideo){
 .stk-result-avatar{width:56px;height:56px;border-radius:50%;object-fit:cover;background:#111;flex-shrink:0;border:1px solid rgba(255,255,255,.12);}
 .stk-result-avatar.stk-ff-logo{border-radius:8px;object-fit:contain;background:rgba(255,82,82,.08);padding:6px;}
 .stk-result-name{font-size:14px;font-weight:800;color:#fff;line-height:1.35;word-break:break-word;}
+.stk-name-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.stk-copy-btn{border:none;background:rgba(255,255,255,.09);color:#ffb2b2;width:24px;height:24px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font-size:10px;flex-shrink:0;}
+.stk-copy-btn.copied{background:rgba(46,204,113,.18);color:#5be08a;}
 .stk-result-sub{font-size:10.5px;color:#888;margin-top:3px;word-break:break-word;}
 .stk-result-rows{display:flex;flex-direction:column;gap:0;}
 .stk-result-row{
@@ -16738,6 +16741,24 @@ async function rndDownload(url,keyName,isVideo){
   </div>
   <div class="stk-tab" id="stkTab_yt" onclick="stkSwitchTab('yt')">
     <i class="fa-brands fa-youtube"></i><span>YOUTUBE</span>
+  </div>
+  <div class="stk-tab" id="stkTab_aov" onclick="stkSwitchTab('aov')">
+    <i class="fa-solid fa-chess-rook"></i><span>ARENA OF VALOR</span>
+  </div>
+  <div class="stk-tab" id="stkTab_cod" onclick="stkSwitchTab('cod')">
+    <i class="fa-solid fa-crosshairs"></i><span>CALL OF DUTY</span>
+  </div>
+  <div class="stk-tab" id="stkTab_hok" onclick="stkSwitchTab('hok')">
+    <i class="fa-solid fa-chess-king"></i><span>HONOR OF KINGS</span>
+  </div>
+  <div class="stk-tab" id="stkTab_ml" onclick="stkSwitchTab('ml')">
+    <i class="fa-solid fa-shield-halved"></i><span>MOBILE LEGENDS</span>
+  </div>
+  <div class="stk-tab" id="stkTab_pb" onclick="stkSwitchTab('pb')">
+    <i class="fa-solid fa-bullseye"></i><span>POINT BLANK</span>
+  </div>
+  <div class="stk-tab" id="stkTab_pubg" onclick="stkSwitchTab('pubg')">
+    <i class="fa-solid fa-parachute-box"></i><span>PUBG MOBILE</span>
   </div>
 </div>
 
@@ -16853,12 +16874,112 @@ async function rndDownload(url,keyName,isVideo){
 <div class="stk-result" id="stkYtResult"></div>
 </div>
 
+<!-- ARENA OF VALOR PANEL -->
+<div class="stk-panel" id="stkPanel_aov">
+<div class="pc-card">
+  <div class="pc-head">
+    <div class="pc-head-icon"><i class="fa-solid fa-chess-rook"></i></div>
+    <div class="pc-head-text"><h3>STALK ARENA OF VALOR</h3><p>Cek nickname akun dari User ID Arena of Valor</p></div>
+  </div>
+  <div class="pc-input-wrap">
+    <i class="fa-solid fa-hashtag pc-input-icon"></i>
+    <input class="pc-input" id="stkAovVal" type="text" inputmode="numeric" placeholder="Masukkan User ID Arena of Valor" style="font-size:13px;font-weight:600;padding-left:40px;"/>
+  </div>
+  <button class="pc-btn" id="stkAovBtn" onclick="stkStalk('aov')"><i class="fa-solid fa-magnifying-glass"></i> STALK</button>
+</div>
+<div class="stk-result" id="stkAovResult"></div>
+</div>
+
+<!-- CALL OF DUTY PANEL -->
+<div class="stk-panel" id="stkPanel_cod">
+<div class="pc-card">
+  <div class="pc-head">
+    <div class="pc-head-icon"><i class="fa-solid fa-crosshairs"></i></div>
+    <div class="pc-head-text"><h3>STALK CALL OF DUTY</h3><p>Cek info akun dari User ID Call of Duty</p></div>
+  </div>
+  <div class="pc-input-wrap">
+    <i class="fa-solid fa-hashtag pc-input-icon"></i>
+    <input class="pc-input" id="stkCodVal" type="text" inputmode="numeric" placeholder="Masukkan User ID Call of Duty" style="font-size:13px;font-weight:600;padding-left:40px;"/>
+  </div>
+  <button class="pc-btn" id="stkCodBtn" onclick="stkStalk('cod')"><i class="fa-solid fa-magnifying-glass"></i> STALK</button>
+</div>
+<div class="stk-result" id="stkCodResult"></div>
+</div>
+
+<!-- HONOR OF KINGS PANEL -->
+<div class="stk-panel" id="stkPanel_hok">
+<div class="pc-card">
+  <div class="pc-head">
+    <div class="pc-head-icon"><i class="fa-solid fa-chess-king"></i></div>
+    <div class="pc-head-text"><h3>STALK HONOR OF KINGS</h3><p>Cek info akun dari User ID Honor of Kings</p></div>
+  </div>
+  <div class="pc-input-wrap">
+    <i class="fa-solid fa-hashtag pc-input-icon"></i>
+    <input class="pc-input" id="stkHokVal" type="text" inputmode="numeric" placeholder="Masukkan User ID Honor of Kings" style="font-size:13px;font-weight:600;padding-left:40px;"/>
+  </div>
+  <button class="pc-btn" id="stkHokBtn" onclick="stkStalk('hok')"><i class="fa-solid fa-magnifying-glass"></i> STALK</button>
+</div>
+<div class="stk-result" id="stkHokResult"></div>
+</div>
+
+<!-- MOBILE LEGENDS PANEL -->
+<div class="stk-panel" id="stkPanel_ml">
+<div class="pc-card">
+  <div class="pc-head">
+    <div class="pc-head-icon"><i class="fa-solid fa-shield-halved"></i></div>
+    <div class="pc-head-text"><h3>STALK MOBILE LEGENDS</h3><p>Cek info akun dari User ID &amp; Zone ID Mobile Legends</p></div>
+  </div>
+  <div class="pc-input-wrap">
+    <i class="fa-solid fa-hashtag pc-input-icon"></i>
+    <input class="pc-input" id="stkMlVal" type="text" inputmode="numeric" placeholder="Masukkan User ID Mobile Legends" style="font-size:13px;font-weight:600;padding-left:40px;"/>
+  </div>
+  <div class="pc-input-wrap" style="margin-top:10px;">
+    <i class="fa-solid fa-globe pc-input-icon"></i>
+    <input class="pc-input" id="stkMlZoneVal" type="text" inputmode="numeric" placeholder="Masukkan Zone ID Mobile Legends" style="font-size:13px;font-weight:600;padding-left:40px;"/>
+  </div>
+  <button class="pc-btn" id="stkMlBtn" onclick="stkStalk('ml')"><i class="fa-solid fa-magnifying-glass"></i> STALK</button>
+</div>
+<div class="stk-result" id="stkMlResult"></div>
+</div>
+
+<!-- POINT BLANK PANEL -->
+<div class="stk-panel" id="stkPanel_pb">
+<div class="pc-card">
+  <div class="pc-head">
+    <div class="pc-head-icon"><i class="fa-solid fa-bullseye"></i></div>
+    <div class="pc-head-text"><h3>STALK POINT BLANK</h3><p>Cek info akun dari User ID Point Blank</p></div>
+  </div>
+  <div class="pc-input-wrap">
+    <i class="fa-solid fa-at pc-input-icon"></i>
+    <input class="pc-input" id="stkPbVal" type="text" placeholder="Masukkan User ID Point Blank" style="font-size:13px;font-weight:600;padding-left:40px;"/>
+  </div>
+  <button class="pc-btn" id="stkPbBtn" onclick="stkStalk('pb')"><i class="fa-solid fa-magnifying-glass"></i> STALK</button>
+</div>
+<div class="stk-result" id="stkPbResult"></div>
+</div>
+
+<!-- PUBG MOBILE PANEL -->
+<div class="stk-panel" id="stkPanel_pubg">
+<div class="pc-card">
+  <div class="pc-head">
+    <div class="pc-head-icon"><i class="fa-solid fa-parachute-box"></i></div>
+    <div class="pc-head-text"><h3>STALK PUBG MOBILE</h3><p>Cek info akun dari User ID PUBG Mobile</p></div>
+  </div>
+  <div class="pc-input-wrap">
+    <i class="fa-solid fa-hashtag pc-input-icon"></i>
+    <input class="pc-input" id="stkPubgVal" type="text" inputmode="numeric" placeholder="Masukkan User ID PUBG Mobile" style="font-size:13px;font-weight:600;padding-left:40px;"/>
+  </div>
+  <button class="pc-btn" id="stkPubgBtn" onclick="stkStalk('pubg')"><i class="fa-solid fa-magnifying-glass"></i> STALK</button>
+</div>
+<div class="stk-result" id="stkPubgResult"></div>
+</div>
+
 <div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
 </div>
 
 <script>
 const STK_BASE='https://sylvatica.my.id/api/stalk/';
-const STK_TAB_ORDER=['ff','dc','gh','npm','pin','tt','yt'];
+const STK_TAB_ORDER=['ff','dc','gh','npm','pin','tt','yt','aov','cod','hok','ml','pb','pubg'];
 const STK_CONFIG={
   ff:{endpoint:'freefire',param:'uid',label:'Free Fire',err:'Pastikan UID Free Fire valid.'},
   dc:{endpoint:'discord',param:'id',label:'Discord',err:'Pastikan User ID Discord valid.'},
@@ -16866,11 +16987,17 @@ const STK_CONFIG={
   npm:{endpoint:'npm',param:'package',label:'NPM Package',err:'Pastikan nama package NPM valid.'},
   pin:{endpoint:'pinterest',param:'username',label:'Pinterest',err:'Pastikan username Pinterest valid.'},
   tt:{endpoint:'tiktok',param:'username',label:'TikTok',err:'Pastikan username TikTok valid.'},
-  yt:{endpoint:'youtube',param:'username',label:'YouTube',err:'Pastikan username YouTube valid.'}
+  yt:{endpoint:'youtube',param:'username',label:'YouTube',err:'Pastikan username YouTube valid.'},
+  aov:{label:'Arena of Valor',err:'Pastikan User ID Arena of Valor valid.'},
+  cod:{label:'Call of Duty',err:'Pastikan User ID Call of Duty valid.'},
+  hok:{label:'Honor of Kings',err:'Pastikan User ID Honor of Kings valid.'},
+  ml:{label:'Mobile Legends',err:'Pastikan User ID dan Zone ID Mobile Legends valid.'},
+  pb:{label:'Point Blank',err:'Pastikan User ID Point Blank valid.'},
+  pubg:{label:'PUBG Mobile',err:'Pastikan User ID PUBG Mobile valid.'}
 };
-const STK_INPUT_ID={ff:'stkFfVal',dc:'stkDcVal',gh:'stkGhVal',npm:'stkNpmVal',pin:'stkPinVal',tt:'stkTtVal',yt:'stkYtVal'};
-const STK_BTN_ID={ff:'stkFfBtn',dc:'stkDcBtn',gh:'stkGhBtn',npm:'stkNpmBtn',pin:'stkPinBtn',tt:'stkTtBtn',yt:'stkYtBtn'};
-const STK_BOX_ID={ff:'stkFfResult',dc:'stkDcResult',gh:'stkGhResult',npm:'stkNpmResult',pin:'stkPinResult',tt:'stkTtResult',yt:'stkYtResult'};
+const STK_INPUT_ID={ff:'stkFfVal',dc:'stkDcVal',gh:'stkGhVal',npm:'stkNpmVal',pin:'stkPinVal',tt:'stkTtVal',yt:'stkYtVal',aov:'stkAovVal',cod:'stkCodVal',hok:'stkHokVal',ml:'stkMlVal',pb:'stkPbVal',pubg:'stkPubgVal'};
+const STK_BTN_ID={ff:'stkFfBtn',dc:'stkDcBtn',gh:'stkGhBtn',npm:'stkNpmBtn',pin:'stkPinBtn',tt:'stkTtBtn',yt:'stkYtBtn',aov:'stkAovBtn',cod:'stkCodBtn',hok:'stkHokBtn',ml:'stkMlBtn',pb:'stkPbBtn',pubg:'stkPubgBtn'};
+const STK_BOX_ID={ff:'stkFfResult',dc:'stkDcResult',gh:'stkGhResult',npm:'stkNpmResult',pin:'stkPinResult',tt:'stkTtResult',yt:'stkYtResult',aov:'stkAovResult',cod:'stkCodResult',hok:'stkHokResult',ml:'stkMlResult',pb:'stkPbResult',pubg:'stkPubgResult'};
 
 function stkSwitchTab(tab){
   STK_TAB_ORDER.forEach(function(t){
@@ -16911,45 +17038,80 @@ function stkLooksLikeImageUrl(v){
   return stkLooksLikeUrl(v) && (/\.(jpg|jpeg|png|webp|gif)(\?|$)/i.test(v) || /avatar|photo|image|icon|thumb/i.test(v));
 }
 
+// Cari value di object level-1, atau kalau nggak ketemu, turun 1 level ke tiap
+// object nested di dalamnya (mis. respons TikTok: { data:{ user:{...}, avatar:{...} } }).
+// Case-insensitive, karena beberapa API pakai casing beda-beda (mis. "Username" di AOV).
+function stkNestedLookup(obj,keys,matcher){
+  if(!obj||typeof obj!=='object') return '';
+  const lowerKeys=keys.map(function(k){ return k.toLowerCase(); });
+  function tryLevel(o){
+    if(!o||typeof o!=='object') return '';
+    const lowerMap={};
+    Object.keys(o).forEach(function(k){ lowerMap[k.toLowerCase()]=k; });
+    for(let i=0;i<lowerKeys.length;i++){
+      const actualKey=lowerMap[lowerKeys[i]];
+      if(actualKey===undefined) continue;
+      const v=o[actualKey];
+      if(matcher(v)) return v;
+    }
+    return '';
+  }
+  const top=tryLevel(obj);
+  if(top) return top;
+  const nestedKeys=Object.keys(obj);
+  for(let n=0;n<nestedKeys.length;n++){
+    const nv=obj[nestedKeys[n]];
+    if(nv&&typeof nv==='object'&&!Array.isArray(nv)){
+      const found=tryLevel(nv);
+      if(found) return found;
+    }
+  }
+  return '';
+}
+function stkKeyIsSkipped(key){
+  return STK_SKIP_KEYS.indexOf(String(key).toLowerCase())!==-1;
+}
+
 // Cari field avatar/gambar profil & nama/judul di level object manapun (result/data/root),
 // karena tiap endpoint stalk beda-beda struktur field-nya.
 function stkFindAvatar(obj){
   if(!obj||typeof obj!=='object') return '';
   const avatarKeys=['avatar','avatar_url','avatarUrl','avatar_img','profile_picture','profile_pic','profilePic','profile_photo','photo','photo_url','photoUrl','image','image_url','imageUrl','thumbnail','icon','icon_url','iconUrl','picture','logo','pfp'];
-  for(let i=0;i<avatarKeys.length;i++){
-    const v=obj[avatarKeys[i]];
+  const sizeKeys=['large','original','big','medium','url','thumb','small'];
+  // sebagian API (mis. TikTok) nyimpen avatar sebagai object berisi beberapa ukuran,
+  // bukan langsung string URL, jadi turun 1 level lagi buat cari URL-nya.
+  function digImg(v){
     if(stkLooksLikeImageUrl(v)||stkLooksLikeUrl(v)) return v;
+    if(v&&typeof v==='object'){
+      for(let i=0;i<sizeKeys.length;i++){
+        const iv=v[sizeKeys[i]];
+        if(stkLooksLikeImageUrl(iv)||stkLooksLikeUrl(iv)) return iv;
+      }
+    }
+    return '';
   }
-  return '';
+  const found=stkNestedLookup(obj,avatarKeys,function(v){ return !!digImg(v); });
+  return found?digImg(found):'';
 }
 // Cari link profil asli (github/discord/dll) buat tombol "Buka Profil"
 function stkFindProfileUrl(obj){
-  if(!obj||typeof obj!=='object') return '';
   const urlKeys=['url','profile_url','profileUrl','html_url','link','profile_link'];
-  for(let i=0;i<urlKeys.length;i++){
-    const v=obj[urlKeys[i]];
-    if(stkLooksLikeUrl(v)&&!stkLooksLikeImageUrl(v)) return v;
-  }
-  return '';
+  return stkNestedLookup(obj,urlKeys,function(v){ return stkLooksLikeUrl(v)&&!stkLooksLikeImageUrl(v); });
 }
 function stkFindName(obj,fallback){
-  if(!obj||typeof obj!=='object') return fallback||'';
-  const nameKeys=['name','username','displayName','display_name','full_name','fullname','title','nickname','channel_name','packageName'];
-  for(let i=0;i<nameKeys.length;i++){
-    if(typeof obj[nameKeys[i]]==='string'&&obj[nameKeys[i]]) return obj[nameKeys[i]];
-  }
-  return fallback||'';
+  const nameKeys=['name','nickname','displayName','display_name','full_name','fullname','title','username','channel_name','packageName'];
+  const found=stkNestedLookup(obj,nameKeys,function(v){ return typeof v==='string'&&v; });
+  return found||fallback||'';
 }
 function stkFindSub(obj){
-  if(!obj||typeof obj!=='object') return '';
-  const subKeys=['bio','description','desc','tag','handle','id','uid','region'];
-  for(let i=0;i<subKeys.length;i++){
-    if(typeof obj[subKeys[i]]==='string'&&obj[subKeys[i]]) return obj[subKeys[i]];
-  }
-  return '';
+  const subKeys=['bio','description','desc','username','tag','handle','id','uid','region'];
+  return stkNestedLookup(obj,subKeys,function(v){ return typeof v==='string'&&v; });
 }
 
 const STK_SKIP_KEYS=['avatar','avatar_url','avatarUrl','avatar_img','profile_picture','profile_pic','profilePic','profile_photo','photo','photo_url','photoUrl','image','image_url','imageUrl','thumbnail','icon','icon_url','iconUrl','picture','logo','pfp','name','username','displayName','display_name','full_name','fullname','title','nickname','bio','description','desc','url','html_url','profile_url','profileUrl','link','profile_link'];
+// Container object yang isinya udah kepake buat avatar/nama/sub/link di atas,
+// jadi jangan diulang lagi jadi baris info biasa.
+const STK_ROW_CONTAINER_SKIP=['avatar','user','about','profile','channel','account'];
 
 function stkPrettyLabel(key){
   return key.replace(/_/g,' ').replace(/([a-z])([A-Z])/g,'$1 $2').replace(/\b\w/g,function(c){return c.toUpperCase();});
@@ -16959,13 +17121,49 @@ function stkRenderRows(obj){
   if(!obj||typeof obj!=='object') return '';
   let rows='';
   Object.keys(obj).forEach(function(key){
-    if(STK_SKIP_KEYS.indexOf(key)!==-1) return;
+    if(stkKeyIsSkipped(key)) return;
     const val=obj[key];
     if(val==null||val==='') return;
-    if(typeof val==='object') return; // skip nested object/array, cukup tampilkan field flat
+    if(typeof val==='object'){
+      if(Array.isArray(val)) return;
+      if(STK_ROW_CONTAINER_SKIP.indexOf(key.toLowerCase())!==-1) return;
+      // object nested lain (mis. "stats", "status") -> tampilkan field di dalamnya sebagai baris
+      Object.keys(val).forEach(function(subKey){
+        if(stkKeyIsSkipped(subKey)) return;
+        const subVal=val[subKey];
+        if(subVal==null||subVal===''||typeof subVal==='object') return;
+        rows+='<div class="stk-result-row"><b>'+stkEsc(stkPrettyLabel(subKey))+'</b><span>'+stkEsc(String(subVal))+'</span></div>';
+      });
+      return;
+    }
     rows+='<div class="stk-result-row"><b>'+stkEsc(stkPrettyLabel(key))+'</b><span>'+stkEsc(String(val))+'</span></div>';
   });
   return rows;
+}
+
+function stkCopyName(){
+  const nickText=document.getElementById('stkFfNameText');
+  const copyBtn=document.getElementById('stkFfCopyBtn');
+  if(!nickText||!copyBtn) return;
+  const text=nickText.textContent||'';
+  const done=function(){
+    copyBtn.classList.add('copied');
+    copyBtn.innerHTML='<i class="fa-solid fa-check"></i>';
+    setTimeout(function(){
+      copyBtn.classList.remove('copied');
+      copyBtn.innerHTML='<i class="fa-solid fa-copy"></i>';
+    },1400);
+  };
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done).catch(done);
+  }else{
+    const ta=document.createElement('textarea');
+    ta.value=text;ta.style.position='fixed';ta.style.opacity='0';
+    document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');}catch(e){}
+    document.body.removeChild(ta);
+    done();
+  }
 }
 
 function stkRenderResult(box,json,type){
@@ -16989,7 +17187,10 @@ function stkRenderResult(box,json,type){
   box.innerHTML=
     '<div class="stk-result-head">'+
       (displayAvatar?('<img class="stk-result-avatar'+(isFF&&!avatar?' stk-ff-logo':'')+'" src="'+stkEsc(displayAvatar)+'" alt="avatar"'+(avatar?' referrerpolicy="no-referrer" onerror="aiImgErr(this)"':'')+'>'):'')+
-      '<div><div class="stk-result-name">'+stkEsc(name)+'</div>'+(sub?'<div class="stk-result-sub">'+stkEsc(sub)+'</div>':'')+'</div>'+
+      '<div>'+(isFF?
+        ('<div class="stk-name-row"><span class="stk-result-name" id="stkFfNameText">'+stkEsc(name)+'</span><button class="stk-copy-btn" id="stkFfCopyBtn" onclick="stkCopyName()"><i class="fa-solid fa-copy"></i></button></div>')
+        :('<div class="stk-result-name">'+stkEsc(name)+'</div>')
+      )+(sub?'<div class="stk-result-sub">'+stkEsc(sub)+'</div>':'')+'</div>'+
     '</div>'+
     '<div class="stk-result-rows">'+(rows||'<div class="stk-result-row"><span>Tidak ada detail tambahan.</span></div>')+'</div>'+
     (actions?'<div class="stk-result-actions">'+actions+'</div>':'');
@@ -17188,6 +17389,116 @@ async function stkStalkFreeFireRaw(uid){
   });
 }
 
+async function stkStalkAovRaw(uid){
+  const target='https://api.saipulanuar.eu.org/api/stalkgame/aov?userId='+encodeURIComponent(uid);
+  const proxyUrl='https://api.allorigins.win/raw?url='+encodeURIComponent(target);
+  const directPromise=fetch(target,{headers:{'Accept':'application/json'}}).then(r=>r.json());
+  const proxyPromise=fetch(proxyUrl).then(r=>r.json());
+  return new Promise((resolve,reject)=>{
+    let pending=2;
+    let lastErr=null;
+    [directPromise,proxyPromise].forEach(p=>{
+      p.then(json=>{
+        if(extractFFNickname(json)){ resolve(json); }
+        else{
+          lastErr=lastErr||Object.assign(new Error((json&&json.message)||'Nickname tidak ditemukan di response API.'),{raw:json});
+          pending--;
+          if(pending<=0) reject(lastErr);
+        }
+      }).catch(e=>{
+        lastErr=lastErr||e;
+        pending--;
+        if(pending<=0) reject(lastErr);
+      });
+    });
+  });
+}
+
+/* Stalk game lain (COD, HOK, Mobile Legends, Point Blank, PUBG Mobile): semua pakai
+   domain api.saipulanuar.eu.org yang sama kayak Free Fire/AOV, jadi dibikin satu fungsi
+   generik yang nerima endpoint & object query param, biar ga duplikat 5x fungsi yang
+   isinya sama persis (race direct fetch + proxy allorigins, cek pakai extractFFNickname). */
+async function stkStalkSaipulRaw(endpoint,params){
+  const query=Object.keys(params).map(function(k){ return k+'='+encodeURIComponent(params[k]); }).join('&');
+  const target='https://api.saipulanuar.eu.org/api/stalkgame/'+endpoint+'?'+query;
+  const proxyUrl='https://api.allorigins.win/raw?url='+encodeURIComponent(target);
+  const directPromise=fetch(target,{headers:{'Accept':'application/json'}}).then(r=>r.json());
+  const proxyPromise=fetch(proxyUrl).then(r=>r.json());
+  return new Promise((resolve,reject)=>{
+    let pending=2;
+    let lastErr=null;
+    [directPromise,proxyPromise].forEach(p=>{
+      p.then(json=>{
+        if(extractFFNickname(json)){ resolve(json); }
+        else{
+          lastErr=lastErr||Object.assign(new Error((json&&json.message)||'Nickname tidak ditemukan di response API.'),{raw:json});
+          pending--;
+          if(pending<=0) reject(lastErr);
+        }
+      }).catch(e=>{
+        lastErr=lastErr||e;
+        pending--;
+        if(pending<=0) reject(lastErr);
+      });
+    });
+  });
+}
+function stkStalkCodRaw(uid){ return stkStalkSaipulRaw('cod',{userId:uid}); }
+function stkStalkHokRaw(uid){ return stkStalkSaipulRaw('hok',{userId:uid}); }
+function stkStalkMlRaw(uid,zoneId){ return stkStalkSaipulRaw('mlstalk1',{userId:uid,zoneId:zoneId}); }
+function stkStalkPbRaw(uid){ return stkStalkSaipulRaw('pointblank',{userId:uid}); }
+function stkStalkPubgRaw(uid){ return stkStalkSaipulRaw('pubgid',{userId:uid}); }
+
+/* stkStalkRequest(cfg,val)
+   - Sama polanya dengan smdlDownloadRequest: coba dulu sylvatica.my.id (apiKey default),
+     kalau gagal/limit/401 baru coba tiap apiKey xyurei (acak) di api-xyurei.my.id
+     satu-satu sampai ada yang berhasil. Ini yang bikin tab non-FF (dc/gh/npm/pin/tt/yt)
+     nggak langsung error total cuma gara-gara 1 sumber lagi bermasalah. */
+async function stkStalkRequest(cfg,val){
+  const query='?'+cfg.param+'='+encodeURIComponent(val)+'&apikey=';
+  try{
+    return await xyureiRequest(function(key){
+      return STK_BASE+cfg.endpoint+query+key;
+    });
+  }catch(primaryErr){
+    console.warn('[STK] sylvatica.my.id gagal/limit untuk endpoint "'+cfg.endpoint+'", coba fallback api-xyurei.my.id...',primaryErr);
+    const keys=xyureiFallbackShuffledKeys();
+    let lastErr=primaryErr;
+    for(let i=0;i<keys.length;i++){
+      const key=keys[i];
+      const fbUrl=XYUREI_FALLBACK_BASE+'/stalk/'+cfg.endpoint+query+key;
+      try{
+        let res,text;
+        try{
+          res=await zsFetchTimeout(fbUrl,{headers:{'Accept':'application/json'}},10000);
+          text=await res.text();
+        }catch(networkErr){
+          res=await zsFetchTimeout('https://api.allorigins.win/raw?url='+encodeURIComponent(fbUrl),{},10000);
+          text=await res.text();
+        }
+        let json=null;
+        try{ json=JSON.parse(text); }catch(parseErr){
+          lastErr=new Error('Respons fallback bukan JSON valid.');
+          console.warn('[STK][fallback]',lastErr.message,'url:',fbUrl);
+          continue;
+        }
+        if(xyureiIsFailure(res,json)){
+          lastErr=new Error('apiKey fallback gagal/limit.');
+          console.warn('[STK][fallback]',lastErr.message,'url:',fbUrl);
+          continue;
+        }
+        return json;
+      }catch(e){
+        lastErr=e; console.warn('[STK][fallback] exception:',fbUrl,e); continue;
+      }
+    }
+    console.error('[STK] SEMUA sumber gagal (sylvatica.my.id + 10 apiKey xyurei) untuk endpoint "'+cfg.endpoint+'".');
+    const finalErr=new Error((lastErr&&lastErr.message)||'Semua sumber gagal.');
+    finalErr.debugDetail=(lastErr&&lastErr.debugDetail)||(lastErr&&lastErr.message);
+    throw finalErr;
+  }
+}
+
 async function stkStalk(type){
   const cfg=STK_CONFIG[type];
   const inp=document.getElementById(STK_INPUT_ID[type]);
@@ -17195,8 +17506,69 @@ async function stkStalk(type){
   const box=document.getElementById(STK_BOX_ID[type]);
   const val=inp?inp.value.trim():'';
   if(!val){ stkShakeInput(inp); return; }
+  let mlZone='';
+  if(type==='ml'){
+    const zoneInp=document.getElementById('stkMlZoneVal');
+    mlZone=zoneInp?zoneInp.value.trim():'';
+    if(!mlZone){ stkShakeInput(zoneInp); return; }
+  }
   box.classList.remove('show'); box.innerHTML='';
   stkSetLoading(btn,true);
+  if(type==='cod'){
+    try{
+      const json=await stkStalkCodRaw(val);
+      stkRenderResult(box,json,type);
+    }catch(e){
+      console.error('[STK][cod]',e,(e&&e.raw)||'');
+      stkRenderError(box,'User ID Call of Duty tidak ditemukan. Periksa kembali User ID kamu.');
+    }
+    stkSetLoading(btn,false);
+    return;
+  }
+  if(type==='hok'){
+    try{
+      const json=await stkStalkHokRaw(val);
+      stkRenderResult(box,json,type);
+    }catch(e){
+      console.error('[STK][hok]',e,(e&&e.raw)||'');
+      stkRenderError(box,'User ID Honor of Kings tidak ditemukan. Periksa kembali User ID kamu.');
+    }
+    stkSetLoading(btn,false);
+    return;
+  }
+  if(type==='ml'){
+    try{
+      const json=await stkStalkMlRaw(val,mlZone);
+      stkRenderResult(box,json,type);
+    }catch(e){
+      console.error('[STK][ml]',e,(e&&e.raw)||'');
+      stkRenderError(box,'User ID/Zone ID Mobile Legends tidak ditemukan. Periksa kembali data kamu.');
+    }
+    stkSetLoading(btn,false);
+    return;
+  }
+  if(type==='pb'){
+    try{
+      const json=await stkStalkPbRaw(val);
+      stkRenderResult(box,json,type);
+    }catch(e){
+      console.error('[STK][pb]',e,(e&&e.raw)||'');
+      stkRenderError(box,'User ID Point Blank tidak ditemukan. Periksa kembali User ID kamu.');
+    }
+    stkSetLoading(btn,false);
+    return;
+  }
+  if(type==='pubg'){
+    try{
+      const json=await stkStalkPubgRaw(val);
+      stkRenderResult(box,json,type);
+    }catch(e){
+      console.error('[STK][pubg]',e,(e&&e.raw)||'');
+      stkRenderError(box,'User ID PUBG Mobile tidak ditemukan. Periksa kembali User ID kamu.');
+    }
+    stkSetLoading(btn,false);
+    return;
+  }
   if(type==='ff'){
     try{
       const json=await stkStalkFreeFireRaw(val);
@@ -17209,10 +17581,19 @@ async function stkStalk(type){
     stkSetLoading(btn,false);
     return;
   }
+  if(type==='aov'){
+    try{
+      const json=await stkStalkAovRaw(val);
+      stkRenderResult(box,json,type);
+    }catch(e){
+      console.error('[STK][aov]',e,(e&&e.raw)||'');
+      stkRenderError(box,'User ID Arena of Valor tidak ditemukan. Periksa kembali User ID kamu.');
+    }
+    stkSetLoading(btn,false);
+    return;
+  }
   try{
-    const json=await xyureiRequest(function(key){
-      return STK_BASE+cfg.endpoint+'?'+cfg.param+'='+encodeURIComponent(val)+'&apikey='+key;
-    });
+    const json=await stkStalkRequest(cfg,val);
     if(type==='pin'&&json&&json.profile){
       stkRenderPinterestResult(box,json);
     }else{
