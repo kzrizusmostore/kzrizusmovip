@@ -10726,7 +10726,7 @@ function saiGenerate(){
   font-size:15px;color:#fff;letter-spacing:.4px;
 }
 .aic-header-title i{color:#ff2b2b;font-size:15px;}
-.aic-header-logo{width:22px;height:22px;border-radius:50%;object-fit:cover;flex-shrink:0;}
+.aic-header-logo{width:34px;height:34px;border-radius:50%;object-fit:cover;flex-shrink:0;}
 .aic-header-actions{display:flex;align-items:center;gap:8px;flex-shrink:0;}
 .aic-header-left{display:flex;align-items:center;gap:9px;min-width:0;}
 .aic-histbtn{
@@ -11126,9 +11126,20 @@ function saiGenerate(){
   </div>
   <div class="aic-inputbar aiflt-inputbar" id="aicInputBarSong" style="display:none">
     <div class="aiflt-inputs">
+      <div class="aic-chipgroup" id="aisongTagsChips" data-target="aisongTagsInput">
+        <button type="button" class="aic-chip" data-value="Pop" onclick="aicSelectChip(this)">Pop</button>
+        <button type="button" class="aic-chip" data-value="Rock" onclick="aicSelectChip(this)">Rock</button>
+        <button type="button" class="aic-chip" data-value="Breakbeat" onclick="aicSelectChip(this)">Breakbeat</button>
+        <button type="button" class="aic-chip" data-value="EDM" onclick="aicSelectChip(this)">EDM</button>
+        <button type="button" class="aic-chip" data-value="Hip-Hop" onclick="aicSelectChip(this)">Hip-Hop</button>
+        <button type="button" class="aic-chip" data-value="Jazz" onclick="aicSelectChip(this)">Jazz</button>
+        <button type="button" class="aic-chip" data-value="Ballad" onclick="aicSelectChip(this)">Ballad</button>
+        <button type="button" class="aic-chip" data-value="Dangdut" onclick="aicSelectChip(this)">Dangdut</button>
+        <button type="button" class="aic-chip aic-chip-custom" data-value="__custom__" onclick="aicToggleCustomChip(this,'aisongTagsInput')">Lainnya...</button>
+      </div>
+      <input class="aic-textarea" id="aisongTagsInput" type="text" placeholder="Genre/style lainnya..." style="display:none" onkeydown="if(event.key==='Enter'){event.preventDefault();aicUnifiedSend();}">
       <textarea class="aic-textarea" id="aisongPromptInput" rows="1" placeholder="Deskripsi lagu / prompt lirik..." oninput="aicAutoGrow(this)" onkeydown="if(event.key==='Enter'&amp;&amp;!event.shiftKey){event.preventDefault();aicUnifiedSend();}"></textarea>
       <input class="aic-textarea" id="aisongTitleInput" type="text" placeholder="Judul lagu (opsional)...">
-      <input class="aic-textarea" id="aisongTagsInput" type="text" placeholder="Genre/style, cth: Pop, Rock (opsional)..." onkeydown="if(event.key==='Enter'){event.preventDefault();aicUnifiedSend();}">
     </div>
     <button class="aic-sendbtn" id="aisongGenBtn" onclick="aicUnifiedSend()"><i class="fa-solid fa-music"></i></button>
   </div>
@@ -11145,8 +11156,16 @@ function saiGenerate(){
   </div>
   <div class="aic-inputbar aiflt-inputbar" id="aicInputBarImagen" style="display:none">
     <div class="aiflt-inputs">
+      <div class="aic-chipgroup" id="imagenStyleChips" data-target="imagenStyleInput">
+        <button type="button" class="aic-chip" data-value="default" onclick="aicSelectChip(this)">Default</button>
+        <button type="button" class="aic-chip" data-value="realistic" onclick="aicSelectChip(this)">Realistic</button>
+        <button type="button" class="aic-chip" data-value="anime" onclick="aicSelectChip(this)">Anime</button>
+        <button type="button" class="aic-chip" data-value="3d" onclick="aicSelectChip(this)">3D</button>
+        <button type="button" class="aic-chip" data-value="ghibli" onclick="aicSelectChip(this)">Ghibli</button>
+        <button type="button" class="aic-chip aic-chip-custom" data-value="__custom__" onclick="aicToggleCustomChip(this,'imagenStyleInput')">Lainnya...</button>
+      </div>
+      <input class="aic-textarea" id="imagenStyleInput" type="text" placeholder="Style lainnya..." style="display:none" onkeydown="if(event.key==='Enter'){event.preventDefault();aicUnifiedSend();}">
       <textarea class="aic-textarea" id="imagenPromptInput" rows="1" placeholder="Deskripsi gambar yang ingin dibuat..." oninput="aicAutoGrow(this)" onkeydown="if(event.key==='Enter'&amp;&amp;!event.shiftKey){event.preventDefault();aicUnifiedSend();}"></textarea>
-      <input class="aic-textarea" id="imagenStyleInput" type="text" placeholder="Style (opsional): default, realistic, anime, 3d, ghibli" onkeydown="if(event.key==='Enter'){event.preventDefault();aicUnifiedSend();}">
     </div>
     <button class="aic-sendbtn" id="imagenGenBtn" onclick="aicUnifiedSend()"><i class="fa-solid fa-palette"></i></button>
   </div>
@@ -11709,6 +11728,15 @@ function aicSyncChipGroup(groupId,value){
 function ttsToggleCustomModel(el){
   const group=el.closest('.aic-chipgroup');
   const inp=document.getElementById('ttsModelInput');
+  if(!group) return;
+  group.querySelectorAll('.aic-chip').forEach(function(c){ c.classList.remove('active'); });
+  el.classList.add('active');
+  if(inp){ inp.style.display='block'; inp.value=''; inp.focus(); }
+}
+
+function aicToggleCustomChip(el,targetId){
+  const group=el.closest('.aic-chipgroup');
+  const inp=document.getElementById(targetId);
   if(!group) return;
   group.querySelectorAll('.aic-chip').forEach(function(c){ c.classList.remove('active'); });
   el.classList.add('active');
