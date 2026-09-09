@@ -16658,8 +16658,47 @@ async function rndDownload(url,keyName,isVideo){
 .stk-result-row b{color:#999;font-weight:700;flex:0 0 auto;}
 .stk-result-row span{color:#eee;font-weight:600;text-align:right;word-break:break-word;}
 
+.stk-result-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
 .stk-empty{text-align:center;padding:26px 10px;color:#666;font-size:11.5px;}
 .stk-empty i{font-size:24px;color:#444;display:block;margin-bottom:10px;}
+
+/* ===== PINTEREST DETAIL RESULT ===== */
+.stk-pin-profile{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.stk-pin-avatar{width:64px;height:64px;border-radius:50%;object-fit:cover;background:#111;flex-shrink:0;border:2px solid rgba(230,0,35,.35);}
+.stk-pin-name-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.stk-pin-name{font-size:14.5px;font-weight:800;color:#fff;line-height:1.3;word-break:break-word;}
+.stk-pin-verified{color:#e60023;font-size:12px;}
+.stk-pin-username{font-size:11px;color:#888;margin-top:2px;}
+.stk-pin-bio{font-size:11px;color:#aaa;margin-top:6px;line-height:1.5;word-break:break-word;}
+.stk-pin-website{font-size:11px;color:#ff5b5b;margin-top:5px;display:inline-block;word-break:break-all;}
+
+.stk-pin-stats-row{display:flex;gap:8px;margin:14px 0;}
+.stk-pin-stat{flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:10px 6px;text-align:center;}
+.stk-pin-stat b{display:block;font-size:14px;color:#fff;font-weight:800;}
+.stk-pin-stat span{display:block;font-size:9.5px;color:#888;margin-top:2px;text-transform:uppercase;letter-spacing:.3px;}
+
+.stk-pin-score-wrap{display:flex;align-items:center;gap:12px;background:rgba(230,0,35,.07);border:1px solid rgba(230,0,35,.2);border-radius:14px;padding:12px 14px;margin-bottom:14px;}
+.stk-pin-score-num{font-size:22px;font-weight:900;color:#ff4757;flex-shrink:0;}
+.stk-pin-score-num small{font-size:11px;color:#888;font-weight:700;}
+.stk-pin-breakdown{display:flex;flex-wrap:wrap;gap:5px 10px;}
+.stk-pin-breakdown-item{font-size:10px;display:flex;align-items:center;gap:4px;color:#999;}
+.stk-pin-breakdown-item i{font-size:10px;}
+.stk-pin-breakdown-item.ok{color:#3ddc84;}
+.stk-pin-breakdown-item.no{color:#666;}
+
+.stk-pin-section-title{font-size:11.5px;font-weight:800;color:#fff;margin:16px 0 10px;display:flex;align-items:center;gap:6px;}
+.stk-pin-section-title i{color:#e60023;}
+.stk-pin-boards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.stk-pin-board-card{border-radius:12px;overflow:hidden;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);display:block;text-decoration:none;}
+.stk-pin-board-thumb{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;background:#111;}
+.stk-pin-board-thumb-fallback{width:100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;background:rgba(230,0,35,.08);color:rgba(230,0,35,.5);font-size:20px;}
+.stk-pin-board-name{font-size:10px;font-weight:700;color:#eee;padding:6px 7px 1px;word-break:break-word;line-height:1.3;}
+.stk-pin-board-count{font-size:9px;color:#888;padding:0 7px 7px;}
+
+.stk-pin-pins-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.stk-pin-pin-card{border-radius:12px;overflow:hidden;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);display:block;text-decoration:none;position:relative;}
+.stk-pin-pin-img{width:100%;aspect-ratio:2/3;object-fit:cover;display:block;background:#111;}
+.stk-pin-pin-title{font-size:9.5px;color:#ddd;padding:6px 7px;line-height:1.3;word-break:break-word;}
 </style>
 
 <p class="pc-title"><span class="red">STALK</span>&nbsp;<span class="wht">UID / USERNAME</span></p>
@@ -16863,10 +16902,20 @@ function stkLooksLikeImageUrl(v){
 // karena tiap endpoint stalk beda-beda struktur field-nya.
 function stkFindAvatar(obj){
   if(!obj||typeof obj!=='object') return '';
-  const avatarKeys=['avatar','avatar_url','profile_picture','photo','image','thumbnail','icon','picture','logo','pfp'];
+  const avatarKeys=['avatar','avatar_url','avatarUrl','avatar_img','profile_picture','profile_pic','profilePic','profile_photo','photo','photo_url','photoUrl','image','image_url','imageUrl','thumbnail','icon','icon_url','iconUrl','picture','logo','pfp'];
   for(let i=0;i<avatarKeys.length;i++){
     const v=obj[avatarKeys[i]];
     if(stkLooksLikeImageUrl(v)||stkLooksLikeUrl(v)) return v;
+  }
+  return '';
+}
+// Cari link profil asli (github/discord/dll) buat tombol "Buka Profil"
+function stkFindProfileUrl(obj){
+  if(!obj||typeof obj!=='object') return '';
+  const urlKeys=['url','profile_url','profileUrl','html_url','link','profile_link'];
+  for(let i=0;i<urlKeys.length;i++){
+    const v=obj[urlKeys[i]];
+    if(stkLooksLikeUrl(v)&&!stkLooksLikeImageUrl(v)) return v;
   }
   return '';
 }
@@ -16887,7 +16936,7 @@ function stkFindSub(obj){
   return '';
 }
 
-const STK_SKIP_KEYS=['avatar','avatar_url','profile_picture','photo','image','thumbnail','icon','picture','logo','pfp','name','username','displayName','display_name','full_name','fullname','title','nickname','bio','description','desc'];
+const STK_SKIP_KEYS=['avatar','avatar_url','avatarUrl','avatar_img','profile_picture','profile_pic','profilePic','profile_photo','photo','photo_url','photoUrl','image','image_url','imageUrl','thumbnail','icon','icon_url','iconUrl','picture','logo','pfp','name','username','displayName','display_name','full_name','fullname','title','nickname','bio','description','desc','url','html_url','profile_url','profileUrl','link','profile_link'];
 
 function stkPrettyLabel(key){
   return key.replace(/_/g,' ').replace(/([a-z])([A-Z])/g,'$1 $2').replace(/\b\w/g,function(c){return c.toUpperCase();});
@@ -16910,20 +16959,138 @@ function stkRenderResult(box,json,type){
   const cfg=STK_CONFIG[type];
   const d=(json&&(json.result||json.data))||json||{};
   const avatar=stkFindAvatar(d)||stkFindAvatar(json);
+  const profileUrl=stkFindProfileUrl(d)||stkFindProfileUrl(json);
   const name=stkFindName(d,cfg.label);
   const sub=stkFindSub(d);
   const rows=stkRenderRows(d);
+  const avatarSafe=avatar?avatar.replace(/'/g,"\\'"):'';
+  const actions=
+    (avatar?'<button class="smdl-dlbtn" onclick="stkDownloadAvatar(\''+avatarSafe+'\',\''+stkEsc(cfg.label)+'\')"><i class="fa-solid fa-download"></i> Download Foto Profil</button>':'')+
+    (profileUrl?'<a class="smdl-dlbtn smdl-alt" href="'+stkEsc(profileUrl)+'" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Buka Profil</a>':'');
   box.innerHTML=
     '<div class="stk-result-head">'+
       (avatar?'<img class="stk-result-avatar" src="'+stkEsc(avatar)+'" alt="avatar" referrerpolicy="no-referrer" onerror="aiImgErr(this)">':'')+
       '<div><div class="stk-result-name">'+stkEsc(name)+'</div>'+(sub?'<div class="stk-result-sub">'+stkEsc(sub)+'</div>':'')+'</div>'+
     '</div>'+
-    '<div class="stk-result-rows">'+(rows||'<div class="stk-result-row"><span>Tidak ada detail tambahan.</span></div>')+'</div>';
+    '<div class="stk-result-rows">'+(rows||'<div class="stk-result-row"><span>Tidak ada detail tambahan.</span></div>')+'</div>'+
+    (actions?'<div class="stk-result-actions">'+actions+'</div>':'');
   box.classList.add('show');
+}
+
+async function stkDownloadAvatar(url,label){
+  try{
+    const res=await fetch(url,{referrerPolicy:'no-referrer-when-downgrade'});
+    const blob=await res.blob();
+    const blobUrl=URL.createObjectURL(blob);
+    const link=document.createElement('a');
+    link.href=blobUrl;
+    link.download='KZRIZUSMO-STALK-'+(label||'avatar').replace(/\s+/g,'')+'-'+Date.now()+'.jpg';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(blobUrl);
+  }catch(e){
+    if(typeof showToast==='function') showToast('Gagal simpan langsung, membuka file...');
+    aiSaveMediaFallback(url);
+  }
 }
 
 function stkRenderError(box,msg){
   box.innerHTML='<div class="stk-empty"><i class="fa-solid fa-triangle-exclamation"></i>'+stkEsc(msg)+'</div>';
+  box.classList.add('show');
+}
+
+/* ===== PINTEREST: render detail lengkap (profile + boards + recent pins) =====
+   Struktur respons sylvatica beda jauh dari endpoint stalk lain (ada profile{},
+   boards[], stats{}, recentPins[]), makanya dibikin renderer khusus, bukan
+   lewat stkRenderResult yang generic (row per field). */
+function stkFindPinItemImage(pin){
+  const keys=['image','thumbnail','thumb','img','picture','media','cover'];
+  for(let i=0;i<keys.length;i++){ if(stkLooksLikeUrl(pin[keys[i]])) return pin[keys[i]]; }
+  return '';
+}
+function stkFindPinItemLink(pin){
+  const keys=['url','link','pinUrl','pin_url','href'];
+  for(let i=0;i<keys.length;i++){ if(stkLooksLikeUrl(pin[keys[i]])) return pin[keys[i]]; }
+  return '';
+}
+function stkFindPinItemTitle(pin){
+  const keys=['title','description','desc','caption','name'];
+  for(let i=0;i<keys.length;i++){ if(typeof pin[keys[i]]==='string'&&pin[keys[i]]) return pin[keys[i]]; }
+  return '';
+}
+function stkPinNum(n){
+  n=Number(n)||0;
+  if(n>=1000000) return (n/1000000).toFixed(1).replace(/\.0$/,'')+'jt';
+  if(n>=1000) return (n/1000).toFixed(1).replace(/\.0$/,'')+'rb';
+  return String(n);
+}
+function stkRenderPinterestResult(box,json){
+  const p=json.profile||{};
+  const boards=Array.isArray(json.boards)?json.boards:[];
+  const pins=Array.isArray(json.recentPins)?json.recentPins:[];
+  const stats=json.stats||{};
+  const brk=stats.scoreBreakdown||{};
+
+  const avatar=p.avatar||'';
+  const name=p.displayName||p.username||'Pinterest User';
+  const website=p.website?('<a class="stk-pin-website" href="'+stkEsc(/^https?:\/\//i.test(p.website)?p.website:'https://'+p.website)+'" target="_blank" rel="noopener"><i class="fa-solid fa-link"></i> '+stkEsc(p.website)+'</a>'):'';
+
+  const breakdownLabels={
+    hasAvatar:'Punya Avatar',hasBio:'Punya Bio',hasBoards:'Punya Board',
+    hasWebsite:'Punya Website',goodFollowerRatio:'Rasio Follower Bagus',isActive:'Aktif'
+  };
+  let breakdownHtml='';
+  Object.keys(breakdownLabels).forEach(function(k){
+    if(!(k in brk)) return;
+    const ok=!!brk[k];
+    breakdownHtml+='<div class="stk-pin-breakdown-item '+(ok?'ok':'no')+'"><i class="fa-solid '+(ok?'fa-circle-check':'fa-circle-xmark')+'"></i>'+stkEsc(breakdownLabels[k])+'</div>';
+  });
+
+  let boardsHtml='';
+  boards.forEach(function(b){
+    const thumb=b.thumbnail?('<img class="stk-pin-board-thumb" src="'+stkEsc(b.thumbnail)+'" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="aiImgErr(this)">'):'<div class="stk-pin-board-thumb-fallback"><i class="fa-solid fa-images"></i></div>';
+    const inner=thumb+'<div class="stk-pin-board-name">'+stkEsc(b.name||'Board')+'</div><div class="stk-pin-board-count">'+stkPinNum(b.pinCount)+' pin</div>';
+    boardsHtml+=b.url?('<a class="stk-pin-board-card" href="'+stkEsc(b.url)+'" target="_blank" rel="noopener">'+inner+'</a>'):('<div class="stk-pin-board-card">'+inner+'</div>');
+  });
+
+  let pinsHtml='';
+  pins.forEach(function(pin){
+    if(!pin||typeof pin!=='object') return;
+    const img=stkFindPinItemImage(pin);
+    const link=stkFindPinItemLink(pin);
+    const title=stkFindPinItemTitle(pin);
+    const inner=(img?'<img class="stk-pin-pin-img" src="'+stkEsc(img)+'" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="aiImgErr(this)">':'')+
+      (title?'<div class="stk-pin-pin-title">'+stkEsc(title)+'</div>':'');
+    pinsHtml+=link?('<a class="stk-pin-pin-card" href="'+stkEsc(link)+'" target="_blank" rel="noopener">'+inner+'</a>'):('<div class="stk-pin-pin-card">'+inner+'</div>');
+  });
+
+  box.innerHTML=
+    '<div class="stk-pin-profile">'+
+      (avatar?'<img class="stk-pin-avatar" src="'+stkEsc(avatar)+'" alt="avatar" referrerpolicy="no-referrer" onerror="aiImgErr(this)">':'')+
+      '<div>'+
+        '<div class="stk-pin-name-row"><span class="stk-pin-name">'+stkEsc(name)+'</span>'+(p.verified?'<i class="fa-solid fa-circle-check stk-pin-verified" title="Verified"></i>':'')+'</div>'+
+        '<div class="stk-pin-username">@'+stkEsc(p.username||'')+'</div>'+
+      '</div>'+
+    '</div>'+
+    (p.bio?'<div class="stk-pin-bio">'+stkEsc(p.bio)+'</div>':'')+
+    website+
+    '<div class="stk-pin-stats-row">'+
+      '<div class="stk-pin-stat"><b>'+stkPinNum(p.followers)+'</b><span>Followers</span></div>'+
+      '<div class="stk-pin-stat"><b>'+stkPinNum(p.following)+'</b><span>Following</span></div>'+
+      '<div class="stk-pin-stat"><b>'+stkPinNum(stats.totalBoards)+'</b><span>Boards</span></div>'+
+      '<div class="stk-pin-stat"><b>'+stkPinNum(stats.totalPinsEstimate)+'</b><span>Est. Pins</span></div>'+
+    '</div>'+
+    ('profileScore' in stats?(
+      '<div class="stk-pin-score-wrap">'+
+        '<div class="stk-pin-score-num">'+stkEsc(String(stats.profileScore))+'<small>/100</small></div>'+
+        '<div class="stk-pin-breakdown">'+(breakdownHtml||'<span style="font-size:10px;color:#666;">Tidak ada rincian skor.</span>')+'</div>'+
+      '</div>'
+    ):'')+
+    '<div class="stk-pin-section-title"><i class="fa-solid fa-table-cells"></i>BOARDS ('+boards.length+')</div>'+
+    (boardsHtml?('<div class="stk-pin-boards-grid">'+boardsHtml+'</div>'):'<div class="stk-empty" style="padding:16px 0;"><i class="fa-solid fa-table-cells"></i>Tidak ada board.</div>')+
+    '<div class="stk-pin-section-title"><i class="fa-solid fa-thumbtack"></i>PIN TERBARU ('+pins.length+')</div>'+
+    (pinsHtml?('<div class="stk-pin-pins-grid">'+pinsHtml+'</div>'):'<div class="stk-empty" style="padding:16px 0;"><i class="fa-solid fa-thumbtack"></i>Belum ada pin terbaru yang bisa ditampilkan.</div>');
   box.classList.add('show');
 }
 
@@ -16981,7 +17148,11 @@ async function stkStalk(type){
     const json=await xyureiRequest(function(key){
       return STK_BASE+cfg.endpoint+'?'+cfg.param+'='+encodeURIComponent(val)+'&apikey='+key;
     });
-    stkRenderResult(box,json,type);
+    if(type==='pin'&&json&&json.profile){
+      stkRenderPinterestResult(box,json);
+    }else{
+      stkRenderResult(box,json,type);
+    }
   }catch(e){
     console.error('[STK]['+type+']',e,(e&&e.debugDetail)||'');
     const detail=(e&&e.debugDetail)?' ('+e.debugDetail+')':'';
