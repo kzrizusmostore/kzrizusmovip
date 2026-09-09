@@ -16629,12 +16629,21 @@ async function rndDownload(url,keyName,isVideo){
   transition:.18s;
 }
 .stk-tab i{font-size:17px;color:#888;}
+.stk-tab .stk-ff-icon{
+  display:inline-block;width:17px;height:17px;vertical-align:middle;
+  background-color:#888;
+  -webkit-mask-image:url('zusmo-asset/bqp2jv.png');-webkit-mask-size:contain;-webkit-mask-repeat:no-repeat;-webkit-mask-position:center;
+  mask-image:url('zusmo-asset/bqp2jv.png');mask-size:contain;mask-repeat:no-repeat;mask-position:center;
+  transform:translateZ(0);-webkit-transform:translateZ(0);will-change:transform;backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  transition:background-color .15s;
+}
 .stk-tab span{
   font-size:9.5px;font-weight:800;color:#888;letter-spacing:.3px;
   max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
 .stk-tab.active{background:rgba(255,43,43,.09);border-color:rgba(255,43,43,.4);box-shadow:0 0 14px rgba(255,43,43,.12);}
 .stk-tab.active i,.stk-tab.active span{color:#ff5252;}
+.stk-tab.active .stk-ff-icon{background-color:#ff5252;}
 
 .stk-panel{display:none;}
 .stk-panel.active{display:block;}
@@ -16706,7 +16715,7 @@ async function rndDownload(url,keyName,isVideo){
 
 <div class="stk-tabs">
   <div class="stk-tab active" id="stkTab_ff" onclick="stkSwitchTab('ff')">
-    <img src="zusmo-asset/bqp2jv.png" alt="FF" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;"/><span>FREE FIRE</span>
+    <span class="stk-ff-icon"></span><span>FREE FIRE</span>
   </div>
   <div class="stk-tab" id="stkTab_dc" onclick="stkSwitchTab('dc')">
     <i class="fa-brands fa-discord"></i><span>DISCORD</span>
@@ -16964,12 +16973,18 @@ function stkRenderResult(box,json,type){
   const sub=stkFindSub(d);
   const rows=stkRenderRows(d);
   const avatarSafe=avatar?avatar.replace(/'/g,"\\'"):'';
+  // API Free Fire gak pernah balikin foto profil asli, jadi kalau ga ada avatar dan
+  // tipe-nya 'ff', pakai logo default FF ("Normal") biar tetap ada ikon di samping info,
+  // bukan kosong melompong.
+  const isFF=(type==='ff');
+  const ffFallbackLogo='zusmo-asset/bpjwcf.png';
+  const displayAvatar=avatar||(isFF?ffFallbackLogo:'');
   const actions=
-    (avatar?'<button class="smdl-dlbtn" onclick="stkDownloadAvatar(\''+avatarSafe+'\',\''+stkEsc(cfg.label)+'\')"><i class="fa-solid fa-download"></i> Download Foto Profil</button>':'')+
+    (avatar?'<button class="smdl-dlbtn" onclick="stkDownloadAvatar(\''+avatarSafe+'\',\''+stkEsc(cfg.label)+'\')"><i class="fa-solid fa-arrow-up-right-from-square"></i> Buka Foto Profil</button>':'')+
     (profileUrl?'<a class="smdl-dlbtn smdl-alt" href="'+stkEsc(profileUrl)+'" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Buka Profil</a>':'');
   box.innerHTML=
     '<div class="stk-result-head">'+
-      (avatar?'<img class="stk-result-avatar" src="'+stkEsc(avatar)+'" alt="avatar" referrerpolicy="no-referrer" onerror="aiImgErr(this)">':'')+
+      (displayAvatar?('<img class="stk-result-avatar" src="'+stkEsc(displayAvatar)+'" alt="avatar"'+(avatar?' referrerpolicy="no-referrer" onerror="aiImgErr(this)"':'')+'>'):'')+
       '<div><div class="stk-result-name">'+stkEsc(name)+'</div>'+(sub?'<div class="stk-result-sub">'+stkEsc(sub)+'</div>':'')+'</div>'+
     '</div>'+
     '<div class="stk-result-rows">'+(rows||'<div class="stk-result-row"><span>Tidak ada detail tambahan.</span></div>')+'</div>'+
@@ -16977,21 +16992,19 @@ function stkRenderResult(box,json,type){
   box.classList.add('show');
 }
 
-async function stkDownloadAvatar(url,label){
-  try{
-    const res=await fetch(url,{referrerPolicy:'no-referrer-when-downgrade'});
-    const blob=await res.blob();
-    const blobUrl=URL.createObjectURL(blob);
-    const link=document.createElement('a');
-    link.href=blobUrl;
-    link.download='KZRIZUSMO-STALK-'+(label||'avatar').replace(/\s+/g,'')+'-'+Date.now()+'.jpg';
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    URL.revokeObjectURL(blobUrl);
-  }catch(e){
-    if(typeof showToast==='function') showToast('Gagal simpan langsung, membuka file...');
-    aiSaveMediaFallback(url);
+/* WebView (APK) hampir selalu gagal auto-download via fetch()+blob (CORS/limit native),
+   dan window.open() juga sering gak ada browser activity buat buka tab baru.
+   Makanya tombol ini LANGSUNG buka media di URL aslinya (kalau app mode -> navigasi
+   di window yang sama biar kepicu download manager Android / preview gambar native;
+   kalau browser biasa -> buka tab baru). User tinggal long-press/save dari situ. */
+function stkDownloadAvatar(url,label){
+  if(!url) return;
+  if(typeof isAppMode==='function' && isAppMode()){
+    try{ window.location.href=url; return; }catch(e){}
+  }
+  const w=window.open(url,'_blank');
+  if(!w||w.closed||typeof w.closed==='undefined'){
+    try{ window.location.href=url; }catch(e){}
   }
 }
 
@@ -17025,6 +17038,30 @@ function stkPinNum(n){
   if(n>=1000) return (n/1000).toFixed(1).replace(/\.0$/,'')+'rb';
   return String(n);
 }
+/* Gambar Pinterest (i.pinimg.com) sering GAGAL tampil kalau dimuat langsung -
+   CDN-nya banyak yang nolak request tanpa header/CORS yang pas, dan di WebView APK
+   makin sering gagal walau file-nya valid. Solusinya: muat lewat image proxy
+   (images.weserv.nl, gratis & CORS-friendly) sebagai jalur utama, baru kalau proxy-nya
+   ikutan gagal, coba fallback ke URL asli sekali sebelum benar-benar nyerah. */
+function stkPinProxyUrl(url){
+  if(!url) return '';
+  return 'https://images.weserv.nl/?url='+encodeURIComponent(url.replace(/^https?:\/\//i,''))+'&default=blank';
+}
+function stkPinImgErr(el){
+  try{
+    if(!el) return;
+    if(!el.getAttribute('data-triedorig')){
+      const orig=el.getAttribute('data-orig');
+      if(orig){ el.setAttribute('data-triedorig','1'); el.src=orig; return; }
+    }
+    el.onerror=null;
+    el.style.opacity='0.35';
+  }catch(e){}
+}
+function stkPinImgTag(url,cls,alt){
+  if(!url) return '';
+  return '<img class="'+cls+'" src="'+stkEsc(stkPinProxyUrl(url))+'" data-orig="'+stkEsc(url)+'" alt="'+stkEsc(alt||'')+'" loading="lazy" onerror="stkPinImgErr(this)">';
+}
 function stkRenderPinterestResult(box,json){
   const p=json.profile||{};
   const boards=Array.isArray(json.boards)?json.boards:[];
@@ -17049,7 +17086,7 @@ function stkRenderPinterestResult(box,json){
 
   let boardsHtml='';
   boards.forEach(function(b){
-    const thumb=b.thumbnail?('<img class="stk-pin-board-thumb" src="'+stkEsc(b.thumbnail)+'" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="aiImgErr(this)">'):'<div class="stk-pin-board-thumb-fallback"><i class="fa-solid fa-images"></i></div>';
+    const thumb=b.thumbnail?stkPinImgTag(b.thumbnail,'stk-pin-board-thumb',b.name):'<div class="stk-pin-board-thumb-fallback"><i class="fa-solid fa-images"></i></div>';
     const inner=thumb+'<div class="stk-pin-board-name">'+stkEsc(b.name||'Board')+'</div><div class="stk-pin-board-count">'+stkPinNum(b.pinCount)+' pin</div>';
     boardsHtml+=b.url?('<a class="stk-pin-board-card" href="'+stkEsc(b.url)+'" target="_blank" rel="noopener">'+inner+'</a>'):('<div class="stk-pin-board-card">'+inner+'</div>');
   });
@@ -17060,14 +17097,14 @@ function stkRenderPinterestResult(box,json){
     const img=stkFindPinItemImage(pin);
     const link=stkFindPinItemLink(pin);
     const title=stkFindPinItemTitle(pin);
-    const inner=(img?'<img class="stk-pin-pin-img" src="'+stkEsc(img)+'" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="aiImgErr(this)">':'')+
+    const inner=stkPinImgTag(img,'stk-pin-pin-img',title)+
       (title?'<div class="stk-pin-pin-title">'+stkEsc(title)+'</div>':'');
     pinsHtml+=link?('<a class="stk-pin-pin-card" href="'+stkEsc(link)+'" target="_blank" rel="noopener">'+inner+'</a>'):('<div class="stk-pin-pin-card">'+inner+'</div>');
   });
 
   box.innerHTML=
     '<div class="stk-pin-profile">'+
-      (avatar?'<img class="stk-pin-avatar" src="'+stkEsc(avatar)+'" alt="avatar" referrerpolicy="no-referrer" onerror="aiImgErr(this)">':'')+
+      (avatar?stkPinImgTag(avatar,'stk-pin-avatar','avatar'):'')+
       '<div>'+
         '<div class="stk-pin-name-row"><span class="stk-pin-name">'+stkEsc(name)+'</span>'+(p.verified?'<i class="fa-solid fa-circle-check stk-pin-verified" title="Verified"></i>':'')+'</div>'+
         '<div class="stk-pin-username">@'+stkEsc(p.username||'')+'</div>'+
