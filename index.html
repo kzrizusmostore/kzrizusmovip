@@ -16887,30 +16887,33 @@ async function stkStalk(type){
 
 .cid-hero{
   position:relative;border-radius:22px;overflow:hidden;padding:28px 20px 24px;text-align:center;
-  background:
-    radial-gradient(120% 140% at 50% -20%,rgba(255,43,43,.35),transparent 60%),
-    linear-gradient(160deg,#1a0f0f,#0c0c0c 65%);
+  background:#0c0c0c;
   border:1px solid rgba(255,80,80,.22);
   box-shadow:0 10px 30px rgba(0,0,0,.35);
   margin-bottom:18px;
 }
 .cid-hero::before{
-  content:'';position:absolute;inset:0;pointer-events:none;opacity:.5;
+  content:'';position:absolute;inset:-6px;pointer-events:none;z-index:0;
+  background:
+    linear-gradient(160deg,rgba(10,5,5,.55),rgba(5,5,5,.82) 70%),
+    url('zusmo-asset/lobbykosong.jpg') center/cover no-repeat;
+  filter:blur(6px);
+  transform:scale(1.06);
+}
+.cid-hero::after{
+  content:'';position:absolute;inset:0;pointer-events:none;opacity:.5;z-index:1;
   background:
     repeating-linear-gradient(115deg,rgba(255,255,255,.035) 0 2px,transparent 2px 26px);
 }
 .cid-hero-icon{
-  width:64px;height:64px;border-radius:18px;margin:0 auto 14px;
-  display:flex;align-items:center;justify-content:center;position:relative;
-  background:linear-gradient(160deg,#1e1e1e,#0a0a0a);
-  border:1px solid rgba(255,90,90,.35);
-  box-shadow:0 0 0 6px rgba(255,43,43,.07),0 8px 20px rgba(0,0,0,.4);
+  width:auto;height:56px;margin:0 auto 14px;
+  display:flex;align-items:center;justify-content:center;position:relative;z-index:2;
 }
-.cid-hero-icon img{width:38px;height:38px;object-fit:contain;}
-.cid-hero-title{font-size:20px;font-weight:900;font-family:'Outfit',sans-serif;letter-spacing:.2px;position:relative;z-index:1;}
+.cid-hero-icon img{width:auto;height:56px;object-fit:contain;filter:drop-shadow(0 4px 10px rgba(0,0,0,.5));}
+.cid-hero-title{font-size:20px;font-weight:900;font-family:'Outfit',sans-serif;letter-spacing:.2px;position:relative;z-index:2;}
 .cid-hero-title .red{color:#ff3b3b;text-shadow:0 0 16px rgba(255,43,43,.45);}
 .cid-hero-title .wht{color:#fff;}
-.cid-hero-sub{font-size:11.5px;color:#9a9a9a;margin-top:8px;line-height:1.55;max-width:280px;margin-left:auto;margin-right:auto;position:relative;z-index:1;}
+.cid-hero-sub{font-size:11.5px;color:#9a9a9a;margin-top:8px;line-height:1.55;max-width:280px;margin-left:auto;margin-right:auto;position:relative;z-index:2;}
 
 .cid-card{
   border-radius:18px;padding:18px 16px;margin-bottom:16px;
