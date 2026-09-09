@@ -10726,6 +10726,7 @@ function saiGenerate(){
   font-size:15px;color:#fff;letter-spacing:.4px;
 }
 .aic-header-title i{color:#ff2b2b;font-size:15px;}
+.aic-header-logo{width:22px;height:22px;border-radius:50%;object-fit:cover;flex-shrink:0;}
 .aic-header-actions{display:flex;align-items:center;gap:8px;flex-shrink:0;}
 .aic-header-left{display:flex;align-items:center;gap:9px;min-width:0;}
 .aic-histbtn{
@@ -10943,6 +10944,15 @@ function saiGenerate(){
 .aiart-skel{border-radius:12px;min-height:180px;background:linear-gradient(100deg,rgba(255,255,255,.03) 30%,rgba(255,255,255,.09) 50%,rgba(255,255,255,.03) 70%);background-size:200% 100%;animation:aiSkelShine 1.3s ease infinite;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#888;font-size:11.5px;gap:8px;}
 .aiart-skel i{font-size:18px;color:#ff5252;}
 @keyframes aiSkelShine{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+/* ── TTS: hasil & loading berbentuk bar horizontal, bukan kotak ── */
+.aic-msg-ai.aiart-imgmsg.tts-audiomsg{max-width:340px;width:100%;padding:10px;}
+.tts-audiomsg .aiart-imgwrap{min-height:0;background:transparent;}
+.tts-audiorow{display:flex;align-items:center;gap:8px;}
+.tts-audiorow audio{display:block;min-width:0;}
+.tts-dlbtn{flex-shrink:0;width:38px;height:38px;border-radius:50%;border:none;background:linear-gradient(135deg,#ff2b2b 0%,#961020 100%);color:#fff;font-size:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.tts-dlbtn:active{transform:scale(.92);}
+.tts-skel{border-radius:12px;min-height:0;padding:16px 14px;background:linear-gradient(100deg,rgba(255,255,255,.03) 30%,rgba(255,255,255,.09) 50%,rgba(255,255,255,.03) 70%);background-size:200% 100%;animation:aiSkelShine 1.3s ease infinite;display:flex;flex-direction:row;align-items:center;justify-content:center;color:#888;font-size:11.5px;gap:8px;}
+.tts-skel i{font-size:16px;color:#ff5252;}
 .aiart-retrybtn,.aiflt-retrybtn{margin-top:9px;width:100%;padding:9px 0;border-radius:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#ccc;font-size:11px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;}
 .aiart-retrybtn:active,.aiflt-retrybtn:active{transform:scale(.96);}
 
@@ -11014,7 +11024,7 @@ function saiGenerate(){
 <div class="aic-header">
   <div class="aic-header-left">
     <button class="aic-histbtn" id="aicHistBtn" onclick="aicToggleHistoryDrawer()" title="Riwayat obrolan"><i class="fa-solid fa-bars"></i></button>
-    <div class="aic-header-title"><i class="fa-solid fa-robot"></i> KZRIZUSMO AI</div>
+    <div class="aic-header-title"><img src="logoai.png" class="aic-header-logo" alt="KZRIZUSMO AI"> KZRIZUSMO AI</div>
   </div>
   <div class="aic-header-actions" id="aicChatActions">
     <div class="aic-modelbar">
@@ -11161,19 +11171,18 @@ function saiGenerate(){
   </div>
   <div class="aic-inputbar aiflt-inputbar" id="aicInputBarTxt2Img" style="display:none">
     <div class="aiflt-inputs">
-      <textarea class="aic-textarea" id="txt2imgPromptInput" rows="1" placeholder="Prompt gambar yang ingin dibuat..." oninput="aicAutoGrow(this)" onkeydown="if(event.key==='Enter'&amp;&amp;!event.shiftKey){event.preventDefault();aicUnifiedSend();}"></textarea>
       <div class="aic-chipgroup" id="txt2imgRatioChips" data-target="txt2imgRatioInput">
         <button type="button" class="aic-chip" data-value="1:1" onclick="aicSelectChip(this)">1:1</button>
         <button type="button" class="aic-chip" data-value="16:9" onclick="aicSelectChip(this)">16:9</button>
         <button type="button" class="aic-chip" data-value="9:16" onclick="aicSelectChip(this)">9:16</button>
       </div>
       <input type="hidden" id="txt2imgRatioInput" value="">
+      <textarea class="aic-textarea" id="txt2imgPromptInput" rows="1" placeholder="Prompt gambar yang ingin dibuat..." oninput="aicAutoGrow(this)" onkeydown="if(event.key==='Enter'&amp;&amp;!event.shiftKey){event.preventDefault();aicUnifiedSend();}"></textarea>
     </div>
     <button class="aic-sendbtn" id="txt2imgGenBtn" onclick="aicUnifiedSend()"><i class="fa-solid fa-images"></i></button>
   </div>
   <div class="aic-inputbar aiflt-inputbar" id="aicInputBarText2Vid" style="display:none">
     <div class="aiflt-inputs">
-      <textarea class="aic-textarea" id="text2vidPromptInput" rows="1" placeholder="Prompt video yang ingin dibuat..." oninput="aicAutoGrow(this)" onkeydown="if(event.key==='Enter'&amp;&amp;!event.shiftKey){event.preventDefault();aicUnifiedSend();}"></textarea>
       <div class="aic-chipgroup" id="text2vidRatioChips" data-target="text2vidRatioInput">
         <button type="button" class="aic-chip active" data-value="auto" onclick="aicSelectChip(this)">Auto</button>
         <button type="button" class="aic-chip" data-value="1:1" onclick="aicSelectChip(this)">1:1</button>
@@ -11187,12 +11196,12 @@ function saiGenerate(){
         <span class="aic-toggle-state" id="text2vidSoundState">ON</span>
       </div>
       <input type="hidden" id="text2vidSoundInput" value="true">
+      <textarea class="aic-textarea" id="text2vidPromptInput" rows="1" placeholder="Prompt video yang ingin dibuat..." oninput="aicAutoGrow(this)" onkeydown="if(event.key==='Enter'&amp;&amp;!event.shiftKey){event.preventDefault();aicUnifiedSend();}"></textarea>
     </div>
     <button class="aic-sendbtn" id="text2vidGenBtn" onclick="aicUnifiedSend()"><i class="fa-solid fa-video"></i></button>
   </div>
   <div class="aic-inputbar aiflt-inputbar" id="aicInputBarTts" style="display:none">
     <div class="aiflt-inputs">
-      <textarea class="aic-textarea" id="ttsTextInput" rows="1" placeholder="Teks yang ingin diubah menjadi suara..." oninput="aicAutoGrow(this)" onkeydown="if(event.key==='Enter'&amp;&amp;!event.shiftKey){event.preventDefault();aicUnifiedSend();}"></textarea>
       <div class="aic-chipgroup" id="ttsModelChips" data-target="ttsModelInput">
         <button type="button" class="aic-chip" data-value="elon_musk" onclick="aicSelectChip(this)">Elon Musk</button>
         <button type="button" class="aic-chip" data-value="mickey_mouse" onclick="aicSelectChip(this)">Mickey Mouse</button>
@@ -11209,6 +11218,7 @@ function saiGenerate(){
         <button type="button" class="aic-chip aic-chip-custom" data-value="__custom__" onclick="ttsToggleCustomModel(this)">Lainnya...</button>
       </div>
       <input class="aic-textarea" id="ttsModelInput" type="text" placeholder="Nama model suara lainnya..." style="display:none" onkeydown="if(event.key==='Enter'){event.preventDefault();aicUnifiedSend();}">
+      <textarea class="aic-textarea" id="ttsTextInput" rows="1" placeholder="Teks yang ingin diubah menjadi suara..." oninput="aicAutoGrow(this)" onkeydown="if(event.key==='Enter'&amp;&amp;!event.shiftKey){event.preventDefault();aicUnifiedSend();}"></textarea>
     </div>
     <button class="aic-sendbtn" id="ttsGenBtn" onclick="aicUnifiedSend()"><i class="fa-solid fa-microphone-lines"></i></button>
   </div>
@@ -11258,6 +11268,20 @@ function xyureiIsFailure(res,json){
   return false;
 }
 
+/* zsFetchTimeout(url,options,ms)
+   - fetch() biasa TIDAK punya batas waktu bawaan: kalau server/proxy hang (bukan error,
+     cuma diem gak respon), request bisa "loading" sampai lama banget / kelihatan macet.
+     Helper ini bungkus fetch() pakai AbortController supaya kalau lewat `ms` milidetik
+     belum juga dapat respons, request langsung dibatalkan (dianggap gagal) dan lanjut
+     ke fallback berikutnya, bukan nunggu tanpa kepastian. */
+function zsFetchTimeout(url,options,ms){
+  options=options||{};
+  ms=ms||12000;
+  const ctrl=new AbortController();
+  const timer=setTimeout(function(){ ctrl.abort(); },ms);
+  return fetch(url,Object.assign({},options,{signal:ctrl.signal})).finally(function(){ clearTimeout(timer); });
+}
+
 /* xyureiRequest(pathBuilder, opts)
    - pathBuilder(key): (string apiKey)=>URL lengkap dengan apikey itu terpasang.
    - opts.isDataOk(json): opsional, validasi tambahan (mis. "media ketemu?").
@@ -11271,18 +11295,18 @@ async function xyureiRequest(pathBuilder,opts){
   try{
     let res,text;
     try{
-      res=await fetch(url,{method:(opts.method||'GET'),headers:{'Accept':'application/json'}});
+      res=await zsFetchTimeout(url,{method:(opts.method||'GET'),headers:{'Accept':'application/json'}},12000);
       text=await res.text();
     }catch(networkErr){
       usedProxy=true;
-      console.warn('[xyurei] fetch langsung gagal (kemungkinan CORS/jaringan), coba proxy allorigins:',url,networkErr);
+      console.warn('[xyurei] fetch langsung gagal/timeout (kemungkinan CORS/jaringan), coba proxy allorigins:',url,networkErr);
       try{
-        res=await fetch('https://api.allorigins.win/raw?url='+encodeURIComponent(url));
+        res=await zsFetchTimeout('https://api.allorigins.win/raw?url='+encodeURIComponent(url),{},12000);
         text=await res.text();
       }catch(proxyErr){
-        console.warn('[xyurei] proxy allorigins juga gagal, coba proxy corsproxy.io:',proxyErr);
+        console.warn('[xyurei] proxy allorigins juga gagal/timeout, coba proxy corsproxy.io:',proxyErr);
         try{
-          res=await fetch('https://corsproxy.io/?url='+encodeURIComponent(url));
+          res=await zsFetchTimeout('https://corsproxy.io/?url='+encodeURIComponent(url),{},12000);
           text=await res.text();
         }catch(proxy2Err){
           lastDetail='Fetch langsung GAGAL ('+((networkErr&&networkErr.message)||networkErr)+'), proxy allorigins GAGAL ('+((proxyErr&&proxyErr.message)||proxyErr)+'), dan proxy corsproxy.io JUGA gagal ('+((proxy2Err&&proxy2Err.message)||proxy2Err)+').';
@@ -11378,11 +11402,11 @@ async function smdlDownloadRequest(endpoint,url,opts){
       try{
         let res,text,usedProxy=false;
         try{
-          res=await fetch(fbUrl,{headers:{'Accept':'application/json'}});
+          res=await zsFetchTimeout(fbUrl,{headers:{'Accept':'application/json'}},10000);
           text=await res.text();
         }catch(networkErr){
           usedProxy=true;
-          res=await fetch('https://api.allorigins.win/raw?url='+encodeURIComponent(fbUrl));
+          res=await zsFetchTimeout('https://api.allorigins.win/raw?url='+encodeURIComponent(fbUrl),{},10000);
           text=await res.text();
         }
         let json=null;
@@ -11424,8 +11448,8 @@ async function aiEndpointFallbackRequest(endpointPath,queryBuilder,opts){
       return 'https://sylvatica.my.id/api/ai/'+endpointPath+queryBuilder(key);
     },opts);
   }catch(primaryErr){
-    console.warn('[AI-FB] sylvatica.my.id gagal/limit untuk endpoint "'+endpointPath+'", coba fallback api-xyurei.my.id...',primaryErr);
-    const keys=xyureiFallbackShuffledKeys();
+    console.warn('[AI-FB] sylvatica.my.id gagal/limit/timeout untuk endpoint "'+endpointPath+'", coba fallback api-xyurei.my.id...',primaryErr);
+    const keys=xyureiFallbackShuffledKeys().slice(0,4); // cukup 4 key biar gak numpuk lama
     let lastErr=primaryErr;
     for(let i=0;i<keys.length;i++){
       const key=keys[i];
@@ -11433,10 +11457,10 @@ async function aiEndpointFallbackRequest(endpointPath,queryBuilder,opts){
       try{
         let res,text;
         try{
-          res=await fetch(fbUrl,{headers:{'Accept':'application/json'}});
+          res=await zsFetchTimeout(fbUrl,{headers:{'Accept':'application/json'}},8000);
           text=await res.text();
         }catch(networkErr){
-          res=await fetch('https://api.allorigins.win/raw?url='+encodeURIComponent(fbUrl));
+          res=await zsFetchTimeout('https://api.allorigins.win/raw?url='+encodeURIComponent(fbUrl),{},8000);
           text=await res.text();
         }
         let json=null;
@@ -11925,10 +11949,10 @@ function aicRenderChat(){
         '</div>';
       }
       return userMsg+'<div class="aic-msg-wrap ai"><span class="aic-msg-tag">TEXT TO SPEECH</span>'+
-        '<div class="aic-msg aic-msg-ai aiart-imgmsg">'+
-          '<audio controls style="width:100%" src="'+aiartEscAttr(m.url)+'" referrerpolicy="no-referrer" onerror="aiImgErr(this)"></audio>'+
-          '<div class="aiart-actions">'+
-            '<button class="aiart-dlbtn" onclick="aiMediaDownload(\''+aiartEscAttr(m.url)+'\',\'mp3\',\'tts\')"><i class="fa-solid fa-download"></i> DOWNLOAD</button>'+
+        '<div class="aic-msg aic-msg-ai aiart-imgmsg tts-audiomsg">'+
+          '<div class="tts-audiorow">'+
+            '<audio controls style="flex:1;min-width:0" src="'+aiartEscAttr(m.url)+'" referrerpolicy="no-referrer" onerror="aiImgErr(this)"></audio>'+
+            '<button class="tts-dlbtn" onclick="aiMediaDownload(\''+aiartEscAttr(m.url)+'\',\'mp3\',\'tts\')" title="Download"><i class="fa-solid fa-download"></i></button>'+
           '</div>'+
         '</div>'+
       '</div>';
@@ -12042,7 +12066,7 @@ function aicRenderChat(){
   if(ttsLoading){
     html+='<div class="aic-msg-wrap user"><div class="aic-msg aic-msg-user allow-copy">'+aicEscapeHtml(ttsLoadingText)+'</div></div>'+
       '<div class="aic-msg-wrap ai"><span class="aic-msg-tag">TEXT TO SPEECH</span>'+
-      '<div class="aic-msg aic-msg-ai aiart-imgmsg"><div class="aiart-skel"><i class="fa-solid fa-spinner fa-spin"></i>Sedang membuat suara...</div></div></div>';
+      '<div class="aic-msg aic-msg-ai aiart-imgmsg tts-audiomsg"><div class="tts-skel"><i class="fa-solid fa-spinner fa-spin"></i>Sedang membuat suara...</div></div></div>';
   }
   if(toonmixLoading){
     html+=(toonmixLoadingUrl?
@@ -12516,8 +12540,11 @@ function aiartEscapeHtml(str){
 function aiartExtractUrl(json){
   if(!json) return null;
   if(json.data&&typeof json.data.url==='string'&&json.data.url.trim()) return json.data.url.trim();
+  if(json.data&&typeof json.data.audio_url==='string'&&json.data.audio_url.trim()) return json.data.audio_url.trim();
   if(typeof json.url==='string'&&json.url.trim()) return json.url.trim();
+  if(typeof json.audio_url==='string'&&json.audio_url.trim()) return json.audio_url.trim();
   if(json.result&&typeof json.result.url==='string'&&json.result.url.trim()) return json.result.url.trim();
+  if(json.result&&typeof json.result.audio_url==='string'&&json.result.audio_url.trim()) return json.result.audio_url.trim();
   if(typeof json.result==='string'&&/^https?:\/\//.test(json.result)) return json.result.trim();
   return null;
 }
@@ -32557,7 +32584,7 @@ function isAppMode(){
     // 1) Coba unduh langsung via fetch()+blob dulu — ini yang bikin file BENERAN
     //    ke-save (Save As sungguhan), bukan cuma buka tab/player.
     try{
-      const res=await fetch(url,{mode:'cors'});
+      const res=await zsFetchTimeout(url,{mode:'cors'},20000);
       if(res && res.ok){
         const blob=await res.blob();
         const blobUrl=URL.createObjectURL(blob);
