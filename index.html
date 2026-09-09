@@ -11564,6 +11564,8 @@ function aicActiveSession(){
 let aicHistory=aicActiveSession().messages; // {role:'user'|'ai'|'err', text, modelKey}
 document.addEventListener('DOMContentLoaded',function(){ aicRenderChat(); });
 if(document.readyState==='complete'||document.readyState==='interactive') aicRenderChat();
+document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='hidden') aicSaveSessions(); });
+window.addEventListener('pagehide',function(){ aicSaveSessions(); });
 
 function aicFmtTime(ts){
   try{
@@ -16913,7 +16915,7 @@ function stkRenderResult(box,json,type){
   const rows=stkRenderRows(d);
   box.innerHTML=
     '<div class="stk-result-head">'+
-      (avatar?'<img class="stk-result-avatar" src="'+stkEsc(avatar)+'" alt="avatar" referrerpolicy="no-referrer" onerror="this.style.display=\'none\'">':'')+
+      (avatar?'<img class="stk-result-avatar" src="'+stkEsc(avatar)+'" alt="avatar" referrerpolicy="no-referrer" onerror="aiImgErr(this)">':'')+
       '<div><div class="stk-result-name">'+stkEsc(name)+'</div>'+(sub?'<div class="stk-result-sub">'+stkEsc(sub)+'</div>':'')+'</div>'+
     '</div>'+
     '<div class="stk-result-rows">'+(rows||'<div class="stk-result-row"><span>Tidak ada detail tambahan.</span></div>')+'</div>';
