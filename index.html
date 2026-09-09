@@ -6384,7 +6384,7 @@ function closeVipShadowApp(){
   <div class="hm-tile" onclick="dismissNewBadge('cekidff');showPage('cekidff')">
     <span class="hm-tile-badge" id="newBadge_cekidff"></span>
     <div class="hm-tile-icon"><i class="fa-solid fa-address-card"></i></div>
-    <span class="hm-tile-label">CEK ID FF</span>
+    <span class="hm-tile-label">CEK NICK FF</span>
   </div>
   <div class="hm-tile" onclick="dismissNewBadge('sosmeddl');showPage('sosmeddl')">
     <span class="hm-tile-badge" id="newBadge_sosmeddl"></span>
@@ -11409,6 +11409,60 @@ async function smdlDownloadRequest(endpoint,url,opts){
     throw lastErr;
   }
 }
+
+/* aiEndpointFallbackRequest(endpointPath,queryBuilder,opts)
+   - endpointPath: nama endpoint setelah /api/ai/ (mis. 'tts')
+   - queryBuilder(key): fungsi yang mengembalikan query string (diawali '?'), berisi apikey=key
+   - Coba dulu sylvatica.my.id (apiKey default 'kzrizusmo') via xyureiRequest. Kalau gagal/limit,
+     baru coba tiap apiKey xyurei (acak) di api-xyurei.my.id satu-satu sampai ada yang berhasil.
+     Dipakai supaya fitur AI generatif (mis. Text to Speech) tidak langsung "mati total" hanya
+     karena satu sumber sedang down/limit — sama seperti pola fallback di smdlDownloadRequest. */
+async function aiEndpointFallbackRequest(endpointPath,queryBuilder,opts){
+  opts=opts||{};
+  try{
+    return await xyureiRequest(function(key){
+      return 'https://sylvatica.my.id/api/ai/'+endpointPath+queryBuilder(key);
+    },opts);
+  }catch(primaryErr){
+    console.warn('[AI-FB] sylvatica.my.id gagal/limit untuk endpoint "'+endpointPath+'", coba fallback api-xyurei.my.id...',primaryErr);
+    const keys=xyureiFallbackShuffledKeys();
+    let lastErr=primaryErr;
+    for(let i=0;i<keys.length;i++){
+      const key=keys[i];
+      const fbUrl=XYUREI_FALLBACK_BASE+'/ai/'+endpointPath+queryBuilder(key);
+      try{
+        let res,text;
+        try{
+          res=await fetch(fbUrl,{headers:{'Accept':'application/json'}});
+          text=await res.text();
+        }catch(networkErr){
+          res=await fetch('https://api.allorigins.win/raw?url='+encodeURIComponent(fbUrl));
+          text=await res.text();
+        }
+        let json=null;
+        try{ json=JSON.parse(text); }catch(parseErr){
+          lastErr=new Error('Respons fallback bukan JSON valid.');
+          console.warn('[AI-FB][fallback]',lastErr.message,'url:',fbUrl);
+          continue;
+        }
+        if(xyureiIsFailure(res,json)){
+          lastErr=new Error('apiKey fallback gagal/limit.');
+          console.warn('[AI-FB][fallback]',lastErr.message,'url:',fbUrl);
+          continue;
+        }
+        if(opts.isDataOk&&!opts.isDataOk(json)){
+          lastErr=new Error('Data tidak ditemukan (fallback).');
+          continue;
+        }
+        return json;
+      }catch(e){
+        lastErr=e; console.warn('[AI-FB][fallback] exception:',fbUrl,e); continue;
+      }
+    }
+    console.error('[AI-FB] SEMUA sumber gagal (sylvatica.my.id + 10 apiKey xyurei) untuk endpoint "'+endpointPath+'".');
+    throw lastErr;
+  }
+}
 </script>
 <script>
 const AISEEK_ENDPOINT='https://sylvatica.my.id/api/ai/aiseek';
@@ -13257,8 +13311,8 @@ async function ttsGenerate(){
   if(btn) btn.disabled=true;
   aicRenderChat();
   try{
-    const json=await xyureiRequest(function(key){
-      return TTS_ENDPOINT+'?text='+encodeURIComponent(text)+'&model='+encodeURIComponent(model)+'&apikey='+key;
+    const json=await aiEndpointFallbackRequest('tts',function(key){
+      return '?text='+encodeURIComponent(text)+'&model='+encodeURIComponent(model)+'&apikey='+key;
     },{
       isDataOk:function(j){ return !!aiartExtractUrl(j); }
     });
@@ -13269,7 +13323,7 @@ async function ttsGenerate(){
       aicHistory.push({kind:'tts',text:text,model:model,error:true});
     }
   }catch(e){
-    console.error('[TTS]',e);
+    console.error('[TTS]',e,e&&e.debugDetail);
     aicHistory.push({kind:'tts',text:text,model:model,error:true});
   }
   aicTouchSession(text);
@@ -16880,30 +16934,28 @@ async function stkStalk(type){
 }
 </script>
 
-<!-- CEK ID FF PAGE -->
+<!-- CEK NICK FF PAGE -->
 <div class="page" id="cekidff">
 <style>
 #cekidff{padding-bottom:80px;}
 
 .cid-hero{
-  position:relative;border-radius:22px;overflow:hidden;padding:28px 20px 24px;text-align:center;
+  position:relative;border-radius:22px;overflow:hidden;text-align:center;
   background:#0c0c0c;
   border:1px solid rgba(255,80,80,.22);
   box-shadow:0 10px 30px rgba(0,0,0,.35);
   margin-bottom:18px;
+  aspect-ratio:735/360;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:20px;
+}
+.cid-hero-bg{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;filter:blur(1.5px);transform:scale(1.02);z-index:0;
 }
 .cid-hero::before{
-  content:'';position:absolute;inset:-6px;pointer-events:none;z-index:0;
-  background:
-    linear-gradient(160deg,rgba(10,5,5,.55),rgba(5,5,5,.82) 70%),
-    url('zusmo-asset/lobbykosong.jpg') center/cover no-repeat;
-  filter:blur(6px);
-  transform:scale(1.06);
-}
-.cid-hero::after{
-  content:'';position:absolute;inset:0;pointer-events:none;opacity:.5;z-index:1;
-  background:
-    repeating-linear-gradient(115deg,rgba(255,255,255,.035) 0 2px,transparent 2px 26px);
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:1;
+  background:linear-gradient(160deg,rgba(10,5,5,.5),rgba(5,5,5,.72) 75%);
 }
 .cid-hero-icon{
   width:auto;height:56px;margin:0 auto 14px;
@@ -17009,19 +17061,20 @@ async function stkStalk(type){
 </style>
 
 <div class="cid-hero">
+  <img class="cid-hero-bg" src="zusmo-asset/lobbykosong.jpg" alt="" loading="lazy" decoding="async"/>
   <div class="cid-hero-icon"><img src="zusmo-asset/bqp2jv.png" alt="FF"/></div>
-  <p class="cid-hero-title"><span class="red">CEK ID</span>&nbsp;<span class="wht">FREE FIRE</span></p>
-  <p class="cid-hero-sub">Masukkan ID/UID Free Fire kamu, nickname &amp; info akunnya langsung ketahuan tanpa ribet.</p>
+  <p class="cid-hero-title"><span class="red">CEK NICK</span>&nbsp;<span class="wht">FREE FIRE</span></p>
+  <p class="cid-hero-sub">Masukkan ID Free Fire kamu, nickname akun langsung ketahuan tanpa ribet.</p>
 </div>
 
 <div class="cid-card">
-  <div class="cid-label"><i class="fa-solid fa-hashtag"></i>ID / UID FREE FIRE</div>
+  <div class="cid-label"><i class="fa-solid fa-hashtag"></i>ID FREE FIRE</div>
   <div class="cid-input-wrap">
     <i class="fa-solid fa-hashtag"></i>
     <input class="cid-input" id="cidUidInput" type="text" inputmode="numeric" placeholder="Contoh: 123456789" maxlength="13"/>
   </div>
-  <button class="cid-btn" id="cidCheckBtn" onclick="cidCheck()"><i class="fa-solid fa-magnifying-glass"></i>CEK SEKARANG</button>
-  <p class="cid-hint">Cukup ID-nya aja, nggak perlu password/OTP.</p>
+  <button class="cid-btn" id="cidCheckBtn" onclick="cidCheck()"><i class="fa-solid fa-magnifying-glass"></i>CEK NICK SEKARANG</button>
+  <p class="cid-hint">Cukup masukkan ID-nya aja, nggak perlu password/OTP.</p>
 </div>
 
 <div class="cid-state show" id="cidStateIdle">
@@ -17050,7 +17103,7 @@ async function stkStalk(type){
     <div class="cid-id-chip" id="cidIdChip"></div>
     <div class="cid-info-rows" id="cidInfoRows"></div>
   </div>
-  <button class="cid-reset-btn" onclick="cidReset()"><i class="fa-solid fa-arrow-rotate-left"></i>CEK ID LAIN</button>
+  <button class="cid-reset-btn" onclick="cidReset()"><i class="fa-solid fa-arrow-rotate-left"></i>CEK NICK LAIN</button>
 </div>
 
 <div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
@@ -17118,9 +17171,8 @@ async function cidCheck(){
     const rows=stkRenderRows(d);
 
     const ring=document.getElementById('cidAvatarRing');
-    const initial=nickname.charAt(0).toUpperCase();
     if(ring){
-      ring.innerHTML='<div class="cid-avatar-fallback">'+stkEsc(initial)+'</div>';
+      ring.innerHTML='<img class="cid-avatar" src="zusmo-asset/7dj8gw.jpg" alt="avatar"/>';
       if(avatar){
         const testImg=new Image();
         testImg.onload=function(){
@@ -32500,10 +32552,34 @@ function isAppMode(){
      activity/browser terdaftar untuk membuka tab baru. Jadi kita fallback
      ke navigasi langsung di window yang sama, yang biasanya memicu
      download manager bawaan Android lewat Content-Disposition header. */
-  window.aiSaveMediaFallback=function(url){    if(!url) return;
+  window.aiSaveMediaFallback=async function(url){
+    if(!url) return;
+    // 1) Coba unduh langsung via fetch()+blob dulu — ini yang bikin file BENERAN
+    //    ke-save (Save As sungguhan), bukan cuma buka tab/player.
+    try{
+      const res=await fetch(url,{mode:'cors'});
+      if(res && res.ok){
+        const blob=await res.blob();
+        const blobUrl=URL.createObjectURL(blob);
+        const a=document.createElement('a');
+        a.href=blobUrl;
+        const extMatch=/\.([a-zA-Z0-9]{2,5})(?:\?|#|$)/.exec(url);
+        a.download='kzrizusmo-download'+(extMatch?('.'+extMatch[1]):'');
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(function(){ URL.revokeObjectURL(blobUrl); },4000);
+        return;
+      }
+    }catch(e){
+      console.warn('[aiSaveMediaFallback] fetch()+blob gagal (kemungkinan CORS/limit WebView), coba fallback lain:',e);
+    }
+    // 2) Fallback khusus mode APK/WebView: navigasi langsung di window yang sama,
+    //    biasanya memicu download manager bawaan Android lewat Content-Disposition header.
     if(isAppMode()){
       try{ window.location.href=url; return; }catch(e){}
     }
+    // 3) Fallback browser biasa: buka tab baru, atau navigasi langsung kalau popup diblokir.
     const w=window.open(url,'_blank');
     if(!w||w.closed||typeof w.closed==='undefined'){
       try{ window.location.href=url; }catch(e){}
