@@ -6446,6 +6446,16 @@ function closeVipShadowApp(){
     <div class="hm-tile-icon"><i class="fa-solid fa-clapperboard"></i></div>
     <span class="hm-tile-label">ANIME</span>
   </div>
+  <div class="hm-tile hm-tile-extra" onclick="dismissNewBadge('cekidff');showPage('cekidff')">
+    <span class="hm-tile-badge" id="newBadge_cekidff"></span>
+    <div class="hm-tile-icon"><i class="fa-solid fa-address-card"></i></div>
+    <span class="hm-tile-label">CEK ID FF</span>
+  </div>
+  <div class="hm-tile hm-tile-extra" onclick="dismissNewBadge('tools');showPage('tools')">
+    <span class="hm-tile-badge" id="newBadge_tools"></span>
+    <div class="hm-tile-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+    <span class="hm-tile-label">TOOLS</span>
+  </div>
 </div>
 
 <div class="hm-tile-toggle" id="hmTileToggleBtn" onclick="hmToggleExtraTiles()">
@@ -13531,18 +13541,29 @@ const GM_GAMES=[
   {key:'kuisff',label:'Kuis FF',icon:'fa-fire',local:true,data:GM_KUISFF_BANK},
   {key:'asahotak',label:'Asah Otak',icon:'fa-brain',url:'https://sylvatica.my.id/api/game/asahotak'},
   {key:'caklontong',label:'Cak Lontong',icon:'fa-face-laugh-wink',url:'https://sylvatica.my.id/api/game/caklontong'},
+  {key:'ccsd',label:'Cerdas Cermat SD',icon:'fa-graduation-cap',url:'https://sylvatica.my.id/api/game/ccsd',
+    params:[{name:'matapelajaran',label:'Mata Pelajaran',type:'select',required:true,
+             options:['bindo','tik','pkn','bing','penjas','pai','matematika','jawa','ips','ipa']},
+            {name:'jumlahsoal',label:'Jumlah Soal (5-10, opsional, default 5)',type:'text',placeholder:'5',required:false}]},
   {key:'family100',label:'Family 100',icon:'fa-users',url:'https://sylvatica.my.id/api/game/family100'},
+  {key:'lengkapikalimat',label:'Lengkapi Kalimat',icon:'fa-pen',url:'https://sylvatica.my.id/api/game/lengkapikalimat'},
+  {key:'math',label:'Kuis Matematika',icon:'fa-calculator',url:'https://sylvatica.my.id/api/game/math',
+    params:[{name:'level',label:'Level',type:'select',required:true,
+             options:['noob','easy','medium','hard','extreme','impossible','impossible2','impossible3','impossible4','impossible5']}]},
   {key:'pilihanganda',label:'Pilihan Ganda',icon:'fa-list-check',url:'https://sylvatica.my.id/api/game/pilihanganda'},
-  {key:'siapakahaku',label:'Siapakah Aku',icon:'fa-user-secret',url:'https://sylvatica.my.id/api/game/siapakahaku'},
   {key:'susunkata',label:'Susun Kata',icon:'fa-font',url:'https://sylvatica.my.id/api/game/susunkata'},
-  {key:'tebakbenderav1',label:'Tebak Bendera V1',icon:'fa-flag',url:'https://sylvatica.my.id/api/game/tebakbenderav1'},
-  {key:'tebakbenderav2',label:'Tebak Bendera V2',icon:'fa-flag',url:'https://sylvatica.my.id/api/game/tebakbenderav2'},
+  {key:'tebakbendera',label:'Tebak Bendera',icon:'fa-flag',url:'https://sylvatica.my.id/api/game/tebakbendera'},
   {key:'tebakgambar',label:'Tebak Gambar',icon:'fa-image',url:'https://sylvatica.my.id/api/game/tebakgambar'},
+  {key:'tebakgame',label:'Tebak Game',icon:'fa-gamepad',url:'https://sylvatica.my.id/api/game/tebakgame'},
   {key:'tebakkabupaten',label:'Tebak Kabupaten',icon:'fa-map-location-dot',url:'https://sylvatica.my.id/api/game/tebakkabupaten'},
   {key:'tebakkalimat',label:'Tebak Kalimat',icon:'fa-align-left',url:'https://sylvatica.my.id/api/game/tebakkalimat'},
   {key:'tebakkimia',label:'Tebak Kimia',icon:'fa-flask',url:'https://sylvatica.my.id/api/game/tebakkimia'},
+  {key:'tebaklagu',label:'Tebak Lagu',icon:'fa-music',url:'https://sylvatica.my.id/api/game/tebaklagu'},
   {key:'tebaklirik',label:'Tebak Lirik',icon:'fa-music',url:'https://sylvatica.my.id/api/game/tebaklirik'},
+  {key:'tebaklogo',label:'Tebak Logo',icon:'fa-icons',url:'https://sylvatica.my.id/api/game/tebaklogo'},
+  {key:'tebaksiapa',label:'Tebak Siapakah Aku',icon:'fa-user-secret',url:'https://sylvatica.my.id/api/game/tebaksiapa'},
   {key:'tebaktebakan',label:'Tebak-Tebakan',icon:'fa-circle-question',url:'https://sylvatica.my.id/api/game/tebaktebakan'},
+  {key:'tebakwarna',label:'Tebak Warna',icon:'fa-palette',url:'https://sylvatica.my.id/api/game/tebakwarna'},
   {key:'tekabkkata',label:'Tebak Kata',icon:'fa-spell-check',url:'https://sylvatica.my.id/api/game/tekabkkata'},
   {key:'tekateki',label:'Teka-Teki',icon:'fa-puzzle-piece',url:'https://sylvatica.my.id/api/game/tekateki'}
 ];
@@ -13649,10 +13670,50 @@ function gmSelectGame(key){
     if(tile) tile.classList.toggle('active',g.key===key);
   });
   gmActiveKey=key;
+  if(game.params&&game.params.length){
+    gmRenderParamsForm(game);
+    return;
+  }
   gmFetchQuestion(game);
 }
 
-async function gmFetchQuestion(game){
+function gmRenderParamsForm(game){
+  clearInterval(gmTimerHandle);
+  const area=document.getElementById('gmPlayArea');
+  if(!area) return;
+  const fieldsHtml=game.params.map(function(p,i){
+    let ctrl;
+    if(p.type==='select'&&p.options){
+      const opts=p.options.map(function(o){return '<option value="'+o+'">'+o+'</option>';}).join('');
+      ctrl='<select class="gm-answerinput" id="gmParam_'+i+'" style="width:100%;">'+opts+'</select>';
+    }else{
+      ctrl='<input class="gm-answerinput" id="gmParam_'+i+'" type="text" style="width:100%;" placeholder="'+(p.placeholder||'')+'">';
+    }
+    return '<div class="gm-field"><span class="gm-lbl">'+(p.label||p.name)+'</span>'+ctrl+'</div>';
+  }).join('');
+  area.innerHTML='<div class="gm-card">'+
+    '<div class="gm-card-title"><i class="fa-solid '+game.icon+'"></i> '+game.label+'</div>'+
+    fieldsHtml+
+    '<button class="gm-nextbtn" onclick="gmStartWithParams(\''+game.key+'\')"><i class="fa-solid fa-play"></i> Mulai</button>'+
+  '</div>';
+}
+
+function gmStartWithParams(key){
+  const game=GM_GAMES.find(function(g){return g.key===key;});
+  if(!game) return;
+  const parts=[];
+  let missing=false;
+  game.params.forEach(function(p,i){
+    const el=document.getElementById('gmParam_'+i);
+    const val=el?el.value.trim():'';
+    if(p.required&&!val){ missing=true; if(el) el.focus(); return; }
+    if(val) parts.push(encodeURIComponent(p.name)+'='+encodeURIComponent(val));
+  });
+  if(missing) return;
+  gmFetchQuestion(game,parts.join('&'));
+}
+
+async function gmFetchQuestion(game,extraQuery){
   clearInterval(gmTimerHandle);
   const area=document.getElementById('gmPlayArea');
   if(area) area.innerHTML='<div class="gm-loading"><i class="fa-solid fa-spinner fa-spin"></i> Memuat soal...</div>';
@@ -13664,7 +13725,9 @@ async function gmFetchQuestion(game){
   try{
     const sep=game.url.indexOf('?')===-1?'?':'&';
     const data=await xyureiRequest(function(key){
-      return game.url+sep+'apikey='+encodeURIComponent(key);
+      let url=game.url+sep+'apikey='+encodeURIComponent(key);
+      if(extraQuery) url+='&'+extraQuery;
+      return url;
     },{
       isDataOk:function(j){
         const payload=j&&(j.result||j.data||j);
@@ -16788,15 +16851,736 @@ async function stkStalk(type){
 }
 </script>
 
+<!-- CEK ID FF PAGE -->
+<div class="page" id="cekidff">
+<style>
+#cekidff{padding-bottom:80px;}
+
+.cid-hero{
+  position:relative;border-radius:22px;overflow:hidden;padding:28px 20px 24px;text-align:center;
+  background:
+    radial-gradient(120% 140% at 50% -20%,rgba(255,43,43,.35),transparent 60%),
+    linear-gradient(160deg,#1a0f0f,#0c0c0c 65%);
+  border:1px solid rgba(255,80,80,.22);
+  box-shadow:0 10px 30px rgba(0,0,0,.35);
+  margin-bottom:18px;
+}
+.cid-hero::before{
+  content:'';position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background:
+    repeating-linear-gradient(115deg,rgba(255,255,255,.035) 0 2px,transparent 2px 26px);
+}
+.cid-hero-icon{
+  width:64px;height:64px;border-radius:18px;margin:0 auto 14px;
+  display:flex;align-items:center;justify-content:center;position:relative;
+  background:linear-gradient(160deg,#1e1e1e,#0a0a0a);
+  border:1px solid rgba(255,90,90,.35);
+  box-shadow:0 0 0 6px rgba(255,43,43,.07),0 8px 20px rgba(0,0,0,.4);
+}
+.cid-hero-icon img{width:38px;height:38px;object-fit:contain;}
+.cid-hero-title{font-size:20px;font-weight:900;font-family:'Outfit',sans-serif;letter-spacing:.2px;position:relative;z-index:1;}
+.cid-hero-title .red{color:#ff3b3b;text-shadow:0 0 16px rgba(255,43,43,.45);}
+.cid-hero-title .wht{color:#fff;}
+.cid-hero-sub{font-size:11.5px;color:#9a9a9a;margin-top:8px;line-height:1.55;max-width:280px;margin-left:auto;margin-right:auto;position:relative;z-index:1;}
+
+.cid-card{
+  border-radius:18px;padding:18px 16px;margin-bottom:16px;
+  background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.09);
+}
+.cid-label{font-size:10px;font-weight:800;letter-spacing:.6px;color:#ff6b6b;margin-bottom:9px;display:flex;align-items:center;gap:6px;}
+.cid-input-wrap{position:relative;margin-bottom:12px;}
+.cid-input-wrap i{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#ff5252;font-size:14px;}
+.cid-input{
+  width:100%;box-sizing:border-box;padding:14px 14px 14px 40px;border-radius:13px;
+  background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.1);color:#fff;
+  font-size:14px;font-weight:700;letter-spacing:.6px;font-family:'Outfit',sans-serif;
+  transition:.15s;
+}
+.cid-input:focus{outline:none;border-color:rgba(255,82,82,.55);box-shadow:0 0 0 3px rgba(255,43,43,.12);}
+.cid-input.cid-shake{animation:cidShake .4s;border-color:#ff2b2b;}
+@keyframes cidShake{
+  10%,90%{transform:translateX(-1px)}20%,80%{transform:translateX(2px)}
+  30%,50%,70%{transform:translateX(-4px)}40%,60%{transform:translateX(4px)}
+}
+.cid-btn{
+  width:100%;border:none;border-radius:13px;padding:13px;cursor:pointer;
+  background:linear-gradient(135deg,#ff3b3b,#c40d0d);color:#fff;
+  font-size:12.5px;font-weight:900;letter-spacing:.6px;font-family:'Outfit',sans-serif;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  box-shadow:0 8px 18px rgba(255,43,43,.28);transition:.15s;
+}
+.cid-btn:active{transform:scale(.97);}
+.cid-btn:disabled{opacity:.65;cursor:default;}
+.cid-hint{font-size:10px;color:#666;margin-top:9px;text-align:center;}
+
+.cid-state{display:none;text-align:center;padding:34px 14px;color:#666;}
+.cid-state.show{display:block;}
+.cid-state i{font-size:30px;color:#3a3a3a;display:block;margin-bottom:12px;}
+.cid-state p{font-size:11.5px;line-height:1.6;max-width:250px;margin:0 auto;}
+.cid-state.cid-loading i{color:#ff5252;}
+.cid-state.cid-error i{color:#ff5252;}
+.cid-state.cid-error p{color:#c9c9c9;}
+.cid-retry{
+  margin-top:14px;display:inline-flex;align-items:center;gap:7px;
+  padding:9px 16px;border-radius:11px;background:rgba(255,43,43,.1);
+  border:1px solid rgba(255,43,43,.3);color:#ff6b6b;font-size:11px;font-weight:800;
+  cursor:pointer;
+}
+
+.cid-result{display:none;}
+.cid-result.show{display:block;animation:cidPop .35s ease;}
+@keyframes cidPop{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+.cid-result-card{
+  border-radius:20px;padding:22px 18px;margin-bottom:14px;text-align:center;
+  background:linear-gradient(165deg,rgba(255,43,43,.1),rgba(0,0,0,.4) 55%);
+  border:1px solid rgba(255,80,80,.25);position:relative;overflow:hidden;
+}
+.cid-avatar-ring{
+  width:78px;height:78px;border-radius:50%;margin:0 auto 14px;padding:3px;
+  background:linear-gradient(140deg,#ff5252,#7a0a0a);
+  display:flex;align-items:center;justify-content:center;
+}
+.cid-avatar{width:100%;height:100%;border-radius:50%;object-fit:cover;background:#161616;display:block;}
+.cid-avatar-fallback{
+  width:100%;height:100%;border-radius:50%;background:#161616;display:flex;align-items:center;justify-content:center;
+  color:#ff5252;font-size:26px;font-weight:900;font-family:'Outfit',sans-serif;
+}
+.cid-nick-row{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;}
+.cid-nick{font-size:18px;font-weight:900;color:#fff;font-family:'Outfit',sans-serif;word-break:break-word;}
+.cid-copy-btn{
+  border:none;background:rgba(255,255,255,.09);color:#ffb2b2;width:26px;height:26px;border-radius:8px;
+  display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font-size:11px;flex-shrink:0;
+}
+.cid-copy-btn.copied{background:rgba(46,204,113,.18);color:#5be08a;}
+.cid-id-chip{
+  display:inline-block;margin-top:8px;padding:5px 12px;border-radius:20px;
+  background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.1);
+  font-size:10.5px;color:#999;font-weight:700;letter-spacing:.3px;
+}
+
+.cid-info-rows{display:flex;flex-direction:column;gap:0;margin-top:4px;}
+.cid-info-row{
+  display:flex;justify-content:space-between;gap:10px;padding:10px 2px;
+  border-top:1px solid rgba(255,255,255,.07);font-size:11.5px;
+}
+.cid-info-row:first-child{border-top:none;}
+.cid-info-row b{color:#8f8f8f;font-weight:700;flex:0 0 auto;}
+.cid-info-row span{color:#eee;font-weight:600;text-align:right;word-break:break-word;}
+
+.cid-reset-btn{
+  width:100%;padding:12px;border-radius:13px;cursor:pointer;margin-top:2px;
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);
+  color:#ddd;font-size:11.5px;font-weight:800;letter-spacing:.3px;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+</style>
+
+<div class="cid-hero">
+  <div class="cid-hero-icon"><img src="zusmo-asset/bqp2jv.png" alt="FF"/></div>
+  <p class="cid-hero-title"><span class="red">CEK ID</span>&nbsp;<span class="wht">FREE FIRE</span></p>
+  <p class="cid-hero-sub">Masukkan ID/UID Free Fire kamu, nickname &amp; info akunnya langsung ketahuan tanpa ribet.</p>
+</div>
+
+<div class="cid-card">
+  <div class="cid-label"><i class="fa-solid fa-hashtag"></i>ID / UID FREE FIRE</div>
+  <div class="cid-input-wrap">
+    <i class="fa-solid fa-hashtag"></i>
+    <input class="cid-input" id="cidUidInput" type="text" inputmode="numeric" placeholder="Contoh: 123456789" maxlength="13"/>
+  </div>
+  <button class="cid-btn" id="cidCheckBtn" onclick="cidCheck()"><i class="fa-solid fa-magnifying-glass"></i>CEK SEKARANG</button>
+  <p class="cid-hint">Cukup ID-nya aja, nggak perlu password/OTP.</p>
+</div>
+
+<div class="cid-state show" id="cidStateIdle">
+  <i class="fa-solid fa-id-card"></i>
+  <p>Belum ada ID yang dicek. Masukkan ID Free Fire di atas lalu tekan "Cek Sekarang".</p>
+</div>
+
+<div class="cid-state cid-loading" id="cidStateLoading">
+  <i class="fa-solid fa-spinner fa-spin"></i>
+  <p>Sedang mengecek ID Free Fire kamu, tunggu sebentar ya...</p>
+</div>
+
+<div class="cid-state cid-error" id="cidStateError">
+  <i class="fa-solid fa-triangle-exclamation"></i>
+  <p id="cidErrorMsg">ID Free Fire tidak ditemukan. Periksa kembali ID kamu.</p>
+  <div class="cid-retry" onclick="cidReset()"><i class="fa-solid fa-rotate-left"></i>Coba Lagi</div>
+</div>
+
+<div class="cid-result" id="cidResult">
+  <div class="cid-result-card">
+    <div class="cid-avatar-ring" id="cidAvatarRing"></div>
+    <div class="cid-nick-row">
+      <span class="cid-nick" id="cidNickText"></span>
+      <button class="cid-copy-btn" id="cidCopyBtn" onclick="cidCopyNick()"><i class="fa-solid fa-copy"></i></button>
+    </div>
+    <div class="cid-id-chip" id="cidIdChip"></div>
+    <div class="cid-info-rows" id="cidInfoRows"></div>
+  </div>
+  <button class="cid-reset-btn" onclick="cidReset()"><i class="fa-solid fa-arrow-rotate-left"></i>CEK ID LAIN</button>
+</div>
+
+<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
+</div>
+
+<script>
+(function(){
+  const uidInput=document.getElementById('cidUidInput');
+  if(uidInput){
+    uidInput.addEventListener('input',function(){
+      uidInput.value=uidInput.value.replace(/[^0-9]/g,'').slice(0,13);
+    });
+    uidInput.addEventListener('keydown',function(e){
+      if(e.key==='Enter') cidCheck();
+    });
+  }
+})();
+
+function cidShowState(which){
+  ['cidStateIdle','cidStateLoading','cidStateError'].forEach(function(id){
+    const el=document.getElementById(id);
+    if(el) el.classList.toggle('show',id===which);
+  });
+  const result=document.getElementById('cidResult');
+  if(result) result.classList.toggle('show',which===null);
+}
+
+function cidSetLoadingBtn(loading){
+  const btn=document.getElementById('cidCheckBtn');
+  if(!btn) return;
+  if(loading){
+    btn.disabled=true;
+    btn.dataset.origHtml=btn.innerHTML;
+    btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i>MENGECEK...';
+  }else{
+    btn.disabled=false;
+    if(btn.dataset.origHtml) btn.innerHTML=btn.dataset.origHtml;
+  }
+}
+
+function cidShake(){
+  const inp=document.getElementById('cidUidInput');
+  if(!inp) return;
+  inp.classList.remove('cid-shake');
+  void inp.offsetWidth;
+  inp.classList.add('cid-shake');
+  inp.focus();
+}
+
+async function cidCheck(){
+  const inp=document.getElementById('cidUidInput');
+  const uid=inp?inp.value.trim():'';
+  if(!uid||uid.length<6){ cidShake(); return; }
+
+  cidShowState('cidStateLoading');
+  cidSetLoadingBtn(true);
+
+  try{
+    const json=await stkStalkFreeFireRaw(uid);
+    const d=(json&&(json.result||json.data))||json||{};
+    const nickname=extractFFNickname(json)||stkFindName(d,'');
+    if(!nickname){ throw Object.assign(new Error('Nickname tidak ditemukan.'),{raw:json}); }
+
+    const avatar=stkFindAvatar(d)||stkFindAvatar(json);
+    const rows=stkRenderRows(d);
+
+    const ring=document.getElementById('cidAvatarRing');
+    const initial=nickname.charAt(0).toUpperCase();
+    if(ring){
+      ring.innerHTML='<div class="cid-avatar-fallback">'+stkEsc(initial)+'</div>';
+      if(avatar){
+        const testImg=new Image();
+        testImg.onload=function(){
+          ring.innerHTML='';
+          const img=document.createElement('img');
+          img.className='cid-avatar';
+          img.alt='avatar';
+          img.referrerPolicy='no-referrer';
+          img.src=avatar;
+          ring.appendChild(img);
+        };
+        testImg.onerror=function(){};
+        testImg.referrerPolicy='no-referrer';
+        testImg.src=avatar;
+      }
+    }
+    const nickText=document.getElementById('cidNickText');
+    if(nickText) nickText.textContent=nickname;
+    const idChip=document.getElementById('cidIdChip');
+    if(idChip) idChip.innerHTML='<i class="fa-solid fa-hashtag"></i> '+stkEsc(uid);
+    const infoRows=document.getElementById('cidInfoRows');
+    if(infoRows) infoRows.innerHTML=rows||'';
+    const copyBtn=document.getElementById('cidCopyBtn');
+    if(copyBtn){ copyBtn.classList.remove('copied'); copyBtn.innerHTML='<i class="fa-solid fa-copy"></i>'; }
+
+    cidShowState(null);
+  }catch(e){
+    console.error('[CID]',e,(e&&e.raw)||'');
+    const msg=(e&&e.isNetwork)?'Gagal menghubungi server. Coba lagi beberapa saat.':'ID Free Fire tidak ditemukan. Periksa kembali ID kamu.';
+    const errMsg=document.getElementById('cidErrorMsg');
+    if(errMsg) errMsg.textContent=msg;
+    cidShowState('cidStateError');
+  }
+  cidSetLoadingBtn(false);
+}
+
+function cidReset(){
+  const inp=document.getElementById('cidUidInput');
+  if(inp){ inp.value=''; inp.focus(); }
+  cidShowState('cidStateIdle');
+}
+
+function cidCopyNick(){
+  const nickText=document.getElementById('cidNickText');
+  const copyBtn=document.getElementById('cidCopyBtn');
+  if(!nickText||!copyBtn) return;
+  const text=nickText.textContent||'';
+  const done=function(){
+    copyBtn.classList.add('copied');
+    copyBtn.innerHTML='<i class="fa-solid fa-check"></i>';
+    setTimeout(function(){
+      copyBtn.classList.remove('copied');
+      copyBtn.innerHTML='<i class="fa-solid fa-copy"></i>';
+    },1400);
+  };
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done).catch(done);
+  }else{
+    const ta=document.createElement('textarea');
+    ta.value=text;ta.style.position='fixed';ta.style.opacity='0';
+    document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');}catch(e){}
+    document.body.removeChild(ta);
+    done();
+  }
+}
+</script>
+
+<!-- TOOLS PAGE -->
+<div class="page" id="tools">
+<style>
+#tools,#toolDetail{
+  --tls-surface:#161414;--tls-surface2:#1e1a1a;--tls-hair:rgba(255,80,80,.18);
+  --tls-hair-strong:rgba(255,80,80,.42);--tls-accent:#ff3b3b;--tls-accent-soft:#ffb2b2;
+  --tls-text:#f5efe6;--tls-dim:#a89890;--tls-faint:#5f5250;--tls-danger:#ff5252;
+}
+#tools.active,#toolDetail.active{padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px));}
+#toolDetail .tls-formcard{margin-top:2px;}
+
+.tls-header{position:relative;overflow:hidden;border-radius:18px;padding:22px 16px 20px;margin-bottom:16px;background:linear-gradient(160deg,var(--tls-surface) 0%,#0a0806 100%);border:1px solid var(--tls-hair);}
+.tls-header::before{content:'\f0ad';font-family:'Font Awesome 6 Free';font-weight:900;position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:64px;color:var(--tls-accent);opacity:.1;line-height:1;pointer-events:none;}
+.tls-title{position:relative;display:flex;align-items:center;gap:9px;font-family:'Outfit',sans-serif;font-size:17px;font-weight:900;color:var(--tls-text);letter-spacing:.5px;}
+.tls-title i{color:var(--tls-accent);font-size:16px;}
+.tls-subtitle{position:relative;margin-top:5px;font-size:11px;color:var(--tls-dim);}
+
+.tls-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:16px;}
+.tls-tile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px 4px 13px;border-radius:14px;background:var(--tls-surface);border:1px solid var(--tls-hair);cursor:pointer;text-align:center;transition:border-color .15s,background .15s;}
+.tls-tile-icon{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,59,59,.1);border:1px solid var(--tls-hair-strong);}
+.tls-tile i{font-size:15px;color:var(--tls-accent);}
+.tls-tile span{font-size:9.5px;font-weight:700;color:var(--tls-dim);line-height:1.25;}
+.tls-tile.active{background:var(--tls-surface2);border-color:var(--tls-accent);}
+.tls-tile.active .tls-tile-icon{background:rgba(255,59,59,.2);}
+.tls-tile.active span{color:var(--tls-accent-soft);}
+.tls-tile:active{transform:scale(.94);}
+
+.tls-empty{text-align:center;padding:36px 10px;color:var(--tls-faint);font-size:11.5px;}
+.tls-empty i{font-size:26px;color:#3a2626;display:block;margin-bottom:10px;}
+
+.tls-formcard{background:var(--tls-surface);border:1px solid var(--tls-hair);border-radius:16px;padding:16px;margin-bottom:14px;}
+.tls-formhead{display:flex;align-items:center;gap:11px;margin-bottom:14px;}
+.tls-formhead-icon{width:38px;height:38px;border-radius:11px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:rgba(255,59,59,.12);border:1px solid var(--tls-hair-strong);}
+.tls-formhead-icon i{color:var(--tls-accent);font-size:16px;}
+.tls-formhead-text h3{font-size:13.5px;font-weight:800;color:var(--tls-text);letter-spacing:.3px;}
+.tls-formhead-text p{font-size:10.5px;color:var(--tls-dim);margin-top:2px;}
+
+.tls-field{margin-bottom:10px;}
+.tls-field label{display:block;font-size:10.5px;font-weight:700;color:var(--tls-dim);letter-spacing:.3px;margin-bottom:6px;}
+.tls-optrow{display:flex;flex-wrap:wrap;gap:7px;}
+.tls-optbtn{
+  padding:9px 14px;border-radius:10px;background:var(--tls-surface2);border:1.5px solid var(--tls-hair-strong);
+  color:var(--tls-dim);font-size:11.5px;font-weight:700;cursor:pointer;letter-spacing:.2px;
+}
+.tls-optbtn.active{background:rgba(255,59,59,.16);border-color:var(--tls-accent);color:var(--tls-accent-soft);}
+.tls-optbtn:active{transform:scale(.95);}
+.tls-input{width:100%;box-sizing:border-box;padding:11px 13px;border-radius:12px;background:var(--tls-surface2);border:1.5px solid var(--tls-hair-strong);color:var(--tls-text);font-size:13px;font-weight:600;outline:none;font-family:'Inter','Outfit',system-ui,sans-serif;}
+.tls-input::placeholder{color:var(--tls-faint);font-weight:400;}
+.tls-input:focus{border-color:var(--tls-accent);box-shadow:0 0 0 3px rgba(255,59,59,.14);}
+.tls-input.tls-shake{animation:tlsShake .4s;border-color:#ff2b2b;}
+@keyframes tlsShake{
+  10%,90%{transform:translateX(-1px)}20%,80%{transform:translateX(2px)}
+  30%,50%,70%{transform:translateX(-4px)}40%,60%{transform:translateX(4px)}
+}
+
+.tls-submitbtn{width:100%;margin-top:6px;padding:13px 0;border-radius:12px;border:none;background:linear-gradient(135deg,var(--tls-accent) 0%,#a10d0d 100%);color:#fff;font-size:13px;font-weight:800;letter-spacing:.3px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 8px 18px rgba(255,43,43,.22);}
+.tls-submitbtn:active{transform:scale(.97);}
+.tls-submitbtn:disabled{opacity:.6;}
+
+.tls-result{margin-top:4px;border-radius:16px;overflow:hidden;background:var(--tls-surface);border:1px solid var(--tls-hair);display:none;padding:15px;}
+.tls-result.show{display:block;}
+.tls-result-media{width:100%;border-radius:11px;display:block;background:#000;margin-bottom:12px;}
+.tls-result-text-wrap{position:relative;background:var(--tls-surface2);border:1px solid var(--tls-hair-strong);border-radius:12px;padding:14px 44px 14px 14px;margin-bottom:10px;}
+.tls-result-text{font-size:13px;font-weight:600;color:var(--tls-text);word-break:break-word;white-space:pre-wrap;line-height:1.55;}
+.tls-result-copy{position:absolute;top:10px;right:10px;width:28px;height:28px;border-radius:8px;border:none;background:rgba(255,255,255,.08);color:var(--tls-accent-soft);cursor:pointer;font-size:11px;display:flex;align-items:center;justify-content:center;}
+.tls-result-copy.copied{background:rgba(46,204,113,.18);color:#5be08a;}
+.tls-result-rows{display:flex;flex-direction:column;gap:0;}
+.tls-result-row{display:flex;justify-content:space-between;gap:10px;padding:9px 2px;border-top:1px solid rgba(255,255,255,.06);font-size:11.5px;}
+.tls-result-row:first-child{border-top:none;}
+.tls-result-row b{color:var(--tls-dim);font-weight:700;flex:0 0 auto;}
+.tls-result-row span{color:#eee;font-weight:600;text-align:right;word-break:break-word;}
+.tls-result-error{text-align:center;padding:16px 10px;color:#ffb3a3;background:rgba(255,82,82,.08);border:1px solid rgba(255,82,82,.25);border-radius:12px;font-size:12px;line-height:1.6;}
+.tls-result-error i{color:var(--tls-danger);margin-right:4px;}
+</style>
+
+<div class="tls-header">
+  <div class="tls-title"><i class="fa-solid fa-screwdriver-wrench"></i> TOOLS</div>
+  <div class="tls-subtitle">Kumpulan tools kecil yang praktis, tinggal pilih &amp; pakai</div>
+</div>
+<div class="tls-grid" id="tlsGrid"></div>
+
+<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
+</div>
+
+<!-- TOOL DETAIL PAGE (halaman terpisah, dibuka saat kategori tools diklik) -->
+<div class="page" id="toolDetail">
+<div class="tls-header">
+  <div class="tls-title"><i class="fa-solid fa-screwdriver-wrench" id="toolDetailIcon"></i> <span id="toolDetailTitle">TOOLS</span></div>
+  <div class="tls-subtitle" id="toolDetailSubtitle">Kumpulan tools kecil yang praktis, tinggal pilih &amp; pakai</div>
+</div>
+<div id="toolDetailArea"><div class="tls-empty"><i class="fa-solid fa-screwdriver-wrench"></i>Memuat tools...</div></div>
+</div>
+
+<script>
+const TLS_BASE='https://sylvatica.my.id/api/tools/';
+const TLS_MENU=[
+  {key:'removevocal',label:'AI Vocal Remover',icon:'fa-music',desc:'Pisahkan vokal dari lagu/audio',
+    fields:[{name:'url',label:'URL Audio',placeholder:'https://...',required:true}]},
+  {key:'alightmotion',label:'Alight Motion Prem',icon:'fa-clapperboard',desc:'Kirim/verifikasi email premium Alight Motion',
+    fields:[{name:'email',label:'Email Target',placeholder:'nama@email.com',required:true},
+            {name:'options',label:'Mode',options:['send','verif'],def:'send',required:true},
+            {name:'url',label:'Link Verifikasi (khusus mode verif)',placeholder:'https://...',required:false}]},
+  {key:'base64totext',label:'Base64 to Text',icon:'fa-unlock-keyhole',desc:'Decode string Base64 jadi teks biasa',
+    fields:[{name:'text',label:'String Base64',placeholder:'Tempel string base64...',required:true,type:'textarea'}]},
+  {key:'binner2text',label:'Binary to Text',icon:'fa-code',desc:'Ubah kode biner jadi teks',
+    fields:[{name:'text',label:'Kode Biner (dipisah spasi)',placeholder:'Contoh: 01001000 01101001',required:true,type:'textarea'}]},
+  {key:'cekresi',label:'Cek Resi',icon:'fa-truck-fast',desc:'Lacak status pengiriman paket',
+    fields:[{name:'resi',label:'Nomor Resi',placeholder:'Contoh: JX1234567890',required:true},
+            {name:'kurir',label:'Nama Kurir/Ekspedisi',placeholder:'Contoh: jne, jnt, sicepat',required:true}]},
+  {key:'upscale',label:'Image Upscaler V5 (UnblurImage)',icon:'fa-up-right-and-down-left-from-center',desc:'Perbesar & pertajam resolusi gambar',
+    fields:[{name:'url',label:'URL Gambar',placeholder:'https://...',required:true},
+            {name:'model',label:'Model',options:['v1','v2','v3'],def:'v1',required:false},
+            {name:'quality',label:'Kualitas/Scale (default 2)',placeholder:'2',required:false}]},
+  {key:'hd4',label:'Image HD Enhancer V4',icon:'fa-image',desc:'Pertajam kualitas gambar jadi HD (V4)',
+    fields:[{name:'url',label:'URL Gambar',placeholder:'https://...',required:true}]},
+  {key:'hd3',label:'Image HD Enhancer V3',icon:'fa-image',desc:'Pertajam kualitas gambar jadi HD (V3)',
+    fields:[{name:'url',label:'URL Gambar',placeholder:'https://...',required:true}]},
+  {key:'hd2',label:'Image HD Enhancer V2',icon:'fa-image',desc:'Pertajam kualitas gambar jadi HD (V2)',
+    fields:[{name:'url',label:'URL Gambar',placeholder:'https://...',required:true}]},
+  {key:'hd',label:'Image HD Enhancer',icon:'fa-image',desc:'Pertajam kualitas gambar jadi HD',
+    fields:[{name:'url',label:'URL Gambar',placeholder:'https://...',required:true}]},
+  {key:'genmail',label:'GenMail (Advanced Temp Mail)',icon:'fa-envelope',desc:'Buat & cek email sementara',
+    fields:[{name:'action',label:'Aksi',options:['domains','generate','inbox','message'],def:'generate',required:true},
+            {name:'username',label:'Username Custom (khusus action=generate)',placeholder:'Opsional',required:false},
+            {name:'domain',label:'Domain Spesifik (khusus action=generate)',placeholder:'Opsional',required:false},
+            {name:'email',label:'Email Dicek (khusus action=inbox/message)',placeholder:'nama@domain.com',required:false},
+            {name:'link',label:'Link Pesan (khusus action=message, dari hasil inbox)',placeholder:'Opsional',required:false}]},
+  {key:'findsong',label:'Find Song',icon:'fa-headphones-simple',desc:'Kenali judul lagu dari audio/video',
+    fields:[{name:'url',label:'URL Audio/Video',placeholder:'https://...',required:true}]},
+  {key:'pagespeed',label:'PageSpeed',icon:'fa-gauge-high',desc:'Cek skor performa website',
+    fields:[{name:'url',label:'URL Website',placeholder:'https://...',required:true},
+            {name:'strategy',label:'Strategy',options:['mobile','desktop'],def:'mobile',required:false}]},
+  {key:'tempmail',label:'Temp Mail',icon:'fa-envelope-open-text',desc:'Buat & cek email sementara (versi ringan)',
+    fields:[{name:'action',label:'Aksi',options:['create','check'],def:'create',required:true},
+            {name:'token',label:'Token Email (khusus aksi check)',placeholder:'Opsional',required:false}]},
+  {key:'ngl',label:'NGL Message Sender',icon:'fa-paper-plane',desc:'Kirim pesan anonim ke akun NGL',
+    fields:[{name:'text',label:'Pesan',placeholder:'Tulis pesan...',required:true},
+            {name:'id',label:'Username/URL NGL Target',placeholder:'Contoh: username',required:true}]},
+  {key:'nik',label:'NIK Parser',icon:'fa-id-card',desc:'Urai data dari 16 digit NIK KTP',
+    fields:[{name:'nik',label:'16 Digit NIK',placeholder:'Contoh: 3201xxxxxxxxxxxx',required:true}]},
+  {key:'saveweb',label:'SaveWeb2Zip Copier',icon:'fa-file-zipper',desc:'Clone website jadi file .zip',
+    fields:[{name:'url',label:'URL Website',placeholder:'https://...',required:true}]},
+  {key:'ytsum',label:'YouTube Summarizer',icon:'fa-brands fa-youtube',desc:'Ringkas isi video YouTube jadi teks',
+    fields:[{name:'url',label:'URL YouTube',placeholder:'https://youtube.com/...',required:true},
+            {name:'lang',label:'Bahasa',options:['id','en'],def:'id',required:false}]},
+  {key:'ssweb',label:'Website Screenshot (SSWeb)',icon:'fa-camera',desc:'Ambil screenshot tampilan website',
+    fields:[{name:'url',label:'URL Website',placeholder:'https://...',required:true}]},
+  {key:'translate',label:'Translate',icon:'fa-language',desc:'Terjemahkan teks antar bahasa',
+    fields:[{name:'text',label:'Teks',placeholder:'Tulis teks yang mau diterjemahkan...',required:true,type:'textarea'},
+            {name:'source',label:"Bahasa Asal (default 'auto')",placeholder:'auto',required:false},
+            {name:'target',label:"Bahasa Tujuan (default 'id')",placeholder:'id',required:false}]},
+  {key:'text2binner',label:'Text to Binary',icon:'fa-code',desc:'Ubah teks jadi kode biner',
+    fields:[{name:'text',label:'Teks',placeholder:'Tulis teks di sini...',required:true}]},
+  {key:'text2base64',label:'Text to Base64',icon:'fa-lock',desc:'Ubah teks biasa jadi string Base64',
+    fields:[{name:'text',label:'Teks',placeholder:'Tulis teks di sini...',required:true}]},
+  {key:'text2qr',label:'Text to QR Code',icon:'fa-qrcode',desc:'Ubah teks jadi kode QR',
+    fields:[{name:'text',label:'Teks',placeholder:'Tulis teks/link di sini...',required:true}]},
+  {key:'tempmail2',label:'Temp Mail V2',icon:'fa-envelope-circle-check',desc:'Email sementara versi lanjutan (custom alias & domain)',
+    fields:[{name:'action',label:'Aksi',options:['create','custom','messages','domains','source','download'],def:'create',required:true},
+            {name:'alias',label:'Nama Email Custom (khusus action=custom)',placeholder:'Opsional',required:false},
+            {name:'domain',label:'Domain Khusus (kosongkan untuk random)',placeholder:'Opsional',required:false},
+            {name:'email',label:'Email Target (khusus action=messages)',placeholder:'Opsional',required:false},
+            {name:'messageId',label:'ID Pesan (khusus action=source/download)',placeholder:'Opsional',required:false}]},
+  {key:'tempmail3',label:'Temp Mail V3',icon:'fa-envelope-open',desc:'Email sementara versi ringkas',
+    fields:[{name:'action',label:'Aksi',options:['create','message'],def:'create',required:true},
+            {name:'email',label:'Email Target (wajib untuk action=message)',placeholder:'user@domain.com',required:false}]}
+];
+
+let tlsActiveKey=null;
+let tlsGridBuilt=false;
+
+function tlsBuildGrid(){
+  const grid=document.getElementById('tlsGrid');
+  if(!grid||tlsGridBuilt) return;
+  grid.innerHTML=TLS_MENU.map(function(m){
+    const iconCls=m.icon.indexOf('fa-')===0?('fa-solid '+m.icon):m.icon;
+    return '<div class="tls-tile" id="tlsTile_'+m.key+'" onclick="tlsSelect(\''+m.key+'\')">'+
+      '<div class="tls-tile-icon"><i class="'+iconCls+'"></i></div><span>'+m.label+'</span></div>';
+  }).join('');
+  tlsGridBuilt=true;
+}
+document.addEventListener('DOMContentLoaded',tlsBuildGrid);
+
+function tlsArea(){ return document.getElementById('toolDetailArea'); }
+
+function tlsEsc(str){
+  return String(str==null?'':str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function tlsEscAttr(str){
+  return String(str==null?'':str).replace(/'/g,'&#39;').replace(/"/g,'&quot;');
+}
+
+function tlsSelect(key){
+  tlsActiveKey=key;
+  document.querySelectorAll('#tools .tls-tile').forEach(function(t){t.classList.remove('active');});
+  const tile=document.getElementById('tlsTile_'+key);
+  if(tile) tile.classList.add('active');
+  const menu=TLS_MENU.find(function(m){return m.key===key;});
+  if(!menu) return;
+  tlsRenderForm(menu);
+  if(typeof showPage==='function') showPage('toolDetail');
+}
+
+function tlsRenderForm(menu){
+  const area=tlsArea();
+  const iconCls=menu.icon.indexOf('fa-')===0?('fa-solid '+menu.icon):menu.icon;
+  const titleEl=document.getElementById('toolDetailTitle');
+  const subEl=document.getElementById('toolDetailSubtitle');
+  const iconEl=document.getElementById('toolDetailIcon');
+  if(titleEl) titleEl.textContent=menu.label;
+  if(subEl) subEl.textContent=menu.desc;
+  if(iconEl) iconEl.className=iconCls;
+  const fieldsHtml=menu.fields.map(function(f,i){
+    let ctrl;
+    if(f.options&&f.options.length){
+      const defVal=(f.def!=null&&f.options.indexOf(f.def)!==-1)?f.def:f.options[0];
+      const btns=f.options.map(function(opt){
+        const active=(opt===defVal)?' active':'';
+        return '<button type="button" class="tls-optbtn'+active+'" data-val="'+tlsEscAttr(opt)+'" onclick="tlsSelectOption('+i+',this)">'+tlsEsc(opt)+'</button>';
+      }).join('');
+      ctrl='<div class="tls-optrow" id="tlsOptRow_'+i+'">'+btns+'</div>'+
+        '<input type="hidden" id="tlsField_'+i+'" value="'+tlsEscAttr(defVal)+'">';
+    }else if(f.type==='textarea'){
+      ctrl='<textarea class="tls-input" id="tlsField_'+i+'" rows="4" style="resize:vertical;font-family:\'Space Mono\',monospace" placeholder="'+tlsEscAttr(f.placeholder||'')+'">'+tlsEsc(f.def||'')+'</textarea>';
+    }else{
+      ctrl='<input class="tls-input" id="tlsField_'+i+'" type="text" placeholder="'+tlsEscAttr(f.placeholder||'')+'" value="'+tlsEscAttr(f.def||'')+'">';
+    }
+    return '<div class="tls-field">'+
+      '<label>'+tlsEsc(f.label)+'</label>'+
+      ctrl+
+    '</div>';
+  }).join('');
+  area.innerHTML=
+    '<div class="tls-formcard">'+
+      fieldsHtml+
+      '<button class="tls-submitbtn" id="tlsSubmitBtn" onclick="tlsSubmit()"><i class="fa-solid fa-paper-plane"></i> KIRIM</button>'+
+
+    '</div>'+
+    '<div class="tls-result" id="tlsResult"></div>';
+}
+
+function tlsSelectOption(idx,btnEl){
+  const row=document.getElementById('tlsOptRow_'+idx);
+  const hidden=document.getElementById('tlsField_'+idx);
+  if(row) row.querySelectorAll('.tls-optbtn').forEach(function(b){b.classList.remove('active');});
+  if(btnEl) btnEl.classList.add('active');
+  if(hidden) hidden.value=btnEl?btnEl.getAttribute('data-val'):'';
+}
+
+function tlsShake(el){
+  if(!el) return;
+  el.classList.remove('tls-shake');
+  void el.offsetWidth;
+  el.classList.add('tls-shake');
+  el.focus();
+}
+
+async function tlsSubmit(){
+  const menu=TLS_MENU.find(function(m){return m.key===tlsActiveKey;});
+  if(!menu) return;
+  const params=[];
+  let missingRequired=false;
+  menu.fields.forEach(function(f,i){
+    const inp=document.getElementById('tlsField_'+i);
+    const val=inp?inp.value.trim():'';
+    if(f.required && !val){ tlsShake(inp); missingRequired=true; return; }
+    if(val) params.push(encodeURIComponent(f.name)+'='+encodeURIComponent(val));
+  });
+  if(missingRequired) return;
+
+  const btn=document.getElementById('tlsSubmitBtn');
+  const result=document.getElementById('tlsResult');
+  if(btn){ btn.disabled=true; btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> MENGIRIM...'; }
+  if(result){ result.classList.remove('show'); result.innerHTML=''; }
+
+  const queryBase=params.join('&');
+  try{
+    const json=await xyureiRequest(function(key){
+      return TLS_BASE+menu.key+'?'+queryBase+'&apikey='+key;
+    });
+    tlsRenderResult(result,json);
+  }catch(e){
+    console.error('[TLS]['+menu.key+']',e,(e&&e.debugDetail)||'');
+    const detail=(e&&e.debugDetail)?' ('+e.debugDetail+')':'';
+    if(result){
+      result.innerHTML='<div class="tls-result-error"><i class="fa-solid fa-triangle-exclamation"></i>Gagal memproses permintaan.'+tlsEsc(detail)+'</div>';
+      result.classList.add('show');
+    }
+  }
+  if(btn){ btn.disabled=false; btn.innerHTML='<i class="fa-solid fa-paper-plane"></i> KIRIM'; }
+}
+
+// Cari media (audio/gambar) di dalam JSON respons, siapa tahu API membungkusnya
+// dalam field seperti result/url/media/file/link/data/output.
+function tlsExtractMedia(json){
+  function fromString(s){
+    s=String(s).trim();
+    if(!/^https?:\/\//i.test(s) && !/^data:/i.test(s)) return null;
+    let type='';
+    if(/\.(mp3|wav|ogg|m4a|aac)(\?|$)/i.test(s)||/^data:audio\//i.test(s)) type='audio';
+    else if(/\.(mp4|webm|mov)(\?|$)/i.test(s)||/^data:video\//i.test(s)) type='video';
+    else if(/\.(jpg|jpeg|png|webp|gif)(\?|$)/i.test(s)||/^data:image\//i.test(s)) type='image';
+    return type?{url:s,type:type}:null;
+  }
+  function deep(obj,depth){
+    if(depth>5||obj==null) return null;
+    if(typeof obj==='string') return fromString(obj);
+    if(Array.isArray(obj)){
+      for(let i=0;i<obj.length;i++){ const r=deep(obj[i],depth+1); if(r) return r; }
+      return null;
+    }
+    if(typeof obj==='object'){
+      const priorityKeys=['result','url','audio','video','image','media','file','link','data','output'];
+      for(const k of priorityKeys){
+        if(obj[k]!==undefined){ const r=deep(obj[k],depth+1); if(r) return r; }
+      }
+      for(const k in obj){
+        if(priorityKeys.indexOf(k)!==-1) continue;
+        const r=deep(obj[k],depth+1); if(r) return r;
+      }
+    }
+    return null;
+  }
+  return deep(json,0);
+}
+
+// Cari teks utama (mis. hasil decode base64/biner, atau pesan status) di level manapun.
+function tlsExtractText(json){
+  if(!json||typeof json!=='object') return typeof json==='string'?json:'';
+  const textKeys=['result','text','decoded','output','message','msg'];
+  const d=json.data||json.result||json;
+  const sources=[json,d];
+  for(const src of sources){
+    if(!src||typeof src!=='object') continue;
+    for(const k of textKeys){
+      if(typeof src[k]==='string' && src[k].trim() && !/^https?:\/\//i.test(src[k])) return src[k];
+    }
+  }
+  return '';
+}
+
+const TLS_ROW_SKIP_KEYS=['status','success','creator','result','url','audio','video','image','media','file','link','data','output','text','decoded','message','msg'];
+function tlsPrettyLabel(key){
+  return key.replace(/_/g,' ').replace(/([a-z])([A-Z])/g,'$1 $2').replace(/\b\w/g,function(c){return c.toUpperCase();});
+}
+function tlsRenderRows(obj){
+  if(!obj||typeof obj!=='object') return '';
+  let rows='';
+  Object.keys(obj).forEach(function(key){
+    if(TLS_ROW_SKIP_KEYS.indexOf(key)!==-1) return;
+    const val=obj[key];
+    if(val==null||val==='') return;
+    if(typeof val==='object') return;
+    rows+='<div class="tls-result-row"><b>'+tlsEsc(tlsPrettyLabel(key))+'</b><span>'+tlsEsc(String(val))+'</span></div>';
+  });
+  return rows;
+}
+
+function tlsRenderResult(box,json){
+  if(!box) return;
+  const d=(json&&(json.result||json.data))||json||{};
+  const media=tlsExtractMedia(json);
+  const text=tlsExtractText(json);
+  const rows=tlsRenderRows(typeof d==='object'?d:json);
+
+  let html='';
+  if(media){
+    if(media.type==='audio'){
+      html+='<audio class="tls-result-media" controls src="'+tlsEsc(media.url)+'"></audio>';
+    }else if(media.type==='video'){
+      html+='<video class="tls-result-media" controls src="'+tlsEsc(media.url)+'"></video>';
+    }else{
+      html+='<img class="tls-result-media" src="'+tlsEsc(media.url)+'" alt="hasil" referrerpolicy="no-referrer">';
+    }
+  }
+  if(text){
+    html+='<div class="tls-result-text-wrap"><div class="tls-result-text" id="tlsResultTextVal">'+tlsEsc(text)+'</div>'+
+      '<button class="tls-result-copy" id="tlsResultCopyBtn" onclick="tlsCopyResultText()"><i class="fa-solid fa-copy"></i></button></div>';
+  }
+  if(rows){
+    html+='<div class="tls-result-rows">'+rows+'</div>';
+  }
+  if(!media && !text && !rows){
+    html+='<div class="tls-result-rows"><div class="tls-result-row"><span>Permintaan berhasil diproses.</span></div></div>';
+  }
+  box.innerHTML=html;
+  box.classList.add('show');
+}
+
+function tlsCopyResultText(){
+  const el=document.getElementById('tlsResultTextVal');
+  const btn=document.getElementById('tlsResultCopyBtn');
+  if(!el) return;
+  const text=el.textContent||'';
+  const done=function(){
+    if(btn){
+      btn.classList.add('copied');
+      btn.innerHTML='<i class="fa-solid fa-check"></i>';
+      setTimeout(function(){ btn.classList.remove('copied'); btn.innerHTML='<i class="fa-solid fa-copy"></i>'; },1400);
+    }
+    if(typeof showToast==='function') showToast('Disalin!');
+  };
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done).catch(done);
+  }else{
+    const ta=document.createElement('textarea');
+    ta.value=text;ta.style.position='fixed';ta.style.opacity='0';
+    document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');}catch(e){}
+    document.body.removeChild(ta);
+    done();
+  }
+}
+</script>
+
 <!-- SEARCH PAGE -->
 <div class="page" id="search">
 <style>
-#search{
+#search,#searchDetail{
   --srh-surface:#101418;--srh-surface2:#161c22;--srh-hair:rgba(255,178,61,.18);
   --srh-hair-strong:rgba(255,178,61,.42);--srh-accent:#ffb23d;--srh-accent-soft:#ffdba7;
   --srh-text:#faf4ee;--srh-dim:#b8a894;--srh-faint:#5c5245;--srh-danger:#ff5252;
 }
-#search.active{padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px));}
+#search.active,#searchDetail.active{padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px));}
 
 .srh-header{position:relative;overflow:hidden;border-radius:18px;padding:22px 16px 20px;margin-bottom:16px;background:linear-gradient(160deg,var(--srh-surface) 0%,#0a0705 100%);border:1px solid var(--srh-hair);}
 .srh-header::before{content:'\f002';font-family:'Font Awesome 6 Free';font-weight:900;position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:64px;color:var(--srh-accent);opacity:.1;line-height:1;pointer-events:none;}
@@ -16850,26 +17634,55 @@ async function stkStalk(type){
   <div class="srh-subtitle">Cari cuaca, lagu, meme, wallpaper, video &amp; lainnya</div>
 </div>
 <div class="srh-grid" id="srhGrid"></div>
-<div id="srhArea"><div class="srh-empty"><i class="fa-solid fa-magnifying-glass"></i>Pilih menu di atas untuk mulai</div></div>
+</div>
+
+<!-- SEARCH DETAIL PAGE (halaman terpisah, dibuka saat kategori search diklik) -->
+<div class="page" id="searchDetail">
+<div class="srh-header">
+  <div class="srh-title"><i class="fa-solid fa-magnifying-glass" id="searchDetailIcon"></i> <span id="searchDetailTitle">SEARCH</span></div>
+  <div class="srh-subtitle" id="searchDetailSubtitle">Cari cuaca, lagu, meme, wallpaper, video &amp; lainnya</div>
+</div>
+<div id="srhArea"><div class="srh-empty"><i class="fa-solid fa-magnifying-glass"></i>Memuat...</div></div>
 </div>
 <script>
 const SRH_BASE='https://sylvatica.my.id/api/search/';
 const SRH_MENU=[
-  {key:'cuaca',label:'Cuaca',icon:'fa-cloud-sun',placeholder:'Nama kota... (mis. Jakarta)'},
-  {key:'dafontSearch',label:'Dafont Search',icon:'fa-font',status:'maintenance',placeholder:'Nama font...'},
-  {key:'mcpedl-search',label:'MCPEDL Search',icon:'fa-cube',placeholder:'Judul addon/mod Minecraft...'},
+  {key:'applemusic',label:'Apple Music Search',icon:'fa-compact-disc',placeholder:'Judul lagu atau artis...'},
+  {key:'bing',label:'Bing Search',icon:'fa-globe',placeholder:'Kata kunci pencarian web, gambar, video...'},
+  {key:'countryinfo',label:'Info Negara',icon:'fa-earth-asia',placeholder:'Nama negara yang dicari...'},
+  {key:'cuaca',label:'Cuaca',icon:'fa-cloud-sun',placeholder:'Nama kota... (mis. Yogyakarta)'},
+  {key:'dafont',label:'Dafont Search',icon:'fa-font',placeholder:'Kata kunci pencarian font...'},
+  {key:'danbooru',label:'Danbooru Search',icon:'fa-images',placeholder:'Tag pencarian (mis. hatsune_miku)...',
+    extraParams:[{name:'mode',placeholder:'Mode: safe / nsfw (opsional, default nsfw)'}]},
+  {key:'github',label:'GitHub Repository Search',icon:'fa-code-branch',placeholder:'Kata kunci pencarian repositori GitHub...'},
+  {key:'google',label:'Google Search',icon:'fa-magnifying-glass-chart',placeholder:'Kata kunci pencarian...'},
+  {key:'group',label:'WhatsApp/Telegram Group Search',icon:'fa-users',placeholder:'Kata kunci pencarian tautan grup...'},
+  {key:'kodepos',label:'Cek Kode Pos',icon:'fa-location-dot',placeholder:'Nama daerah atau kode pos...'},
+  {key:'lyrics',label:'Lyrics Search',icon:'fa-align-left',placeholder:'Judul lagu atau lirik...'},
+  {key:'mangatoon',label:'Mangatoon Search',icon:'fa-book-open',placeholder:'Kata kunci komik/novel...'},
+  {key:'mcpedl',label:'MCPEDL Search',icon:'fa-cube',placeholder:'Kata kunci addon/mod/map MCPE...'},
   {key:'melolosearch',label:'Melolo Search',icon:'fa-music',placeholder:'Judul lagu/video...'},
   {key:'meme-search',label:'Meme Search',icon:'fa-face-grin-squint',placeholder:'Kata kunci meme...'},
-  {key:'pintsearch',label:'Pinterest Search',icon:'fa-thumbtack',placeholder:'Kata kunci gambar...'},
+  {key:'npm',label:'NPM Package Search',icon:'fa-cubes',placeholder:'Nama package NPM...'},
+  {key:'pinterest',label:'Pinterest Search',icon:'fa-thumbtack',placeholder:'Kata kunci pencarian Pinterest...'},
+  {key:'pixiv',label:'Pixiv Search',icon:'fa-palette',placeholder:'Kata kunci pencarian...',
+    extraParams:[{name:'total',placeholder:'Jumlah gambar (opsional, default 5, max 20)'}]},
+  {key:'play',label:'YouTube Play',icon:'fa-play',placeholder:'URL YouTube atau judul lagu...'},
+  {key:'prompt',label:'Prompt Search',icon:'fa-wand-magic-sparkles',placeholder:'Kata kunci pencarian prompt...',
+    extraParams:[{name:'limit',placeholder:'Batas hasil (opsional, default 5)'},
+                 {name:'page',placeholder:'Halaman (opsional, default 1)'}]},
+  {key:'resepkoki',label:'Resep Koki',icon:'fa-utensils',placeholder:'Nama masakan yang dicari...'},
+  {key:'spotify',label:'Spotify Search',icon:'fa-headphones-simple',placeholder:'Judul lagu Spotify...'},
   {key:'spotify-lyrics',label:'Spotify Lyrics',icon:'fa-file-lines',placeholder:'Judul lagu...'},
-  {key:'spotifysearch',label:'Spotify Search',icon:'fa-headphones-simple',placeholder:'Judul lagu/artis...'},
+  {key:'subdomain',label:'Subdomain Finder',icon:'fa-sitemap',placeholder:'Domain target (mis. google.com)...'},
   {key:'ttsearch-photo',label:'TikTok Foto',icon:'fa-image',placeholder:'Kata kunci konten foto TikTok...'},
   {key:'ttsearch',label:'TikTok Search',icon:'fa-video',placeholder:'Kata kunci video TikTok...'},
-  {key:'wallpaperHD',label:'Wallpaper HD',icon:'fa-panorama',placeholder:'Kata kunci wallpaper...'},
+  {key:'wallcraft',label:'Wallcraft Wallpaper Search',icon:'fa-panorama',placeholder:'Kata kunci pencarian wallpaper...',
+    extraParams:[{name:'rating',placeholder:'Filter rating: new / popular / top_rated (opsional)'},
+                 {name:'category',placeholder:'Filter kategori: video / parallax / ai_art / exclusive (opsional)'}]},
   {key:'xnxxs',label:'XNXX Search',icon:'fa-lock',premium:true,placeholder:'Kata kunci pencarian...'},
   {key:'xvidsearch',label:'Xvideos Search',icon:'fa-lock',premium:true,placeholder:'Kata kunci pencarian...'},
-  {key:'ytplay',label:'YouTube Play',icon:'fa-play',placeholder:'Judul video YouTube...'},
-  {key:'ytsearch',label:'YouTube Search',icon:'fa-magnifying-glass',placeholder:'Kata kunci video YouTube...'}
+  {key:'yts',label:'YouTube Search',icon:'fa-magnifying-glass',placeholder:'Kata kunci pencarian YouTube...'}
 ];
 
 let srhActiveKey=null;
@@ -16880,7 +17693,7 @@ const srhCache={};
 // SRH_PARAM_OVERRIDE = nama yang sudah dipastikan benar. Sisanya di-deteksi otomatis
 // dari pesan error API ("Parameter 'xxx' diperlukan") lalu disimpan di srhParamCache
 // supaya pencarian berikutnya di menu yang sama langsung pakai nama yang benar.
-const SRH_PARAM_OVERRIDE={cuaca:'kota'};
+const SRH_PARAM_OVERRIDE={cuaca:'q',dafont:'q',kodepos:'q',bing:'q',applemusic:'q',countryinfo:'q',danbooru:'q',github:'q',google:'q',lyrics:'q',mangatoon:'q',mcpedl:'q',npm:'q',pinterest:'query',pixiv:'q',group:'query',wallcraft:'query',subdomain:'url',spotify:'q',resepkoki:'q',prompt:'q',play:'q',yts:'q'};
 const srhParamCache={};
 
 function srhParamNameFor(key){
@@ -16940,8 +17753,10 @@ function srhSelect(key){
   }
   if(menu.premium&&!srhIsPremiumUnlocked()){
     const area=srhArea();
+    srhSetDetailHeader(menu);
     area.innerHTML='<div class="srh-fetcherror"><i class="fa-solid fa-crown"></i> Fitur ini khusus member PREMIUM. Upgrade role kamu dulu untuk memakainya.</div>';
     document.querySelectorAll('#search .srh-tile').forEach(function(t){t.classList.remove('active');});
+    if(typeof showPage==='function') showPage('searchDetail');
     return;
   }
   srhActiveKey=key;
@@ -16949,15 +17764,32 @@ function srhSelect(key){
   const tile=document.getElementById('srhTile_'+key);
   if(tile) tile.classList.add('active');
   srhRenderForm(menu);
+  if(typeof showPage==='function') showPage('searchDetail');
+}
+
+function srhSetDetailHeader(menu){
+  const titleEl=document.getElementById('searchDetailTitle');
+  const subEl=document.getElementById('searchDetailSubtitle');
+  const iconEl=document.getElementById('searchDetailIcon');
+  if(titleEl) titleEl.textContent=menu.label;
+  if(subEl) subEl.textContent=menu.placeholder||'';
+  if(iconEl) iconEl.className='fa-solid '+(menu.icon||'fa-magnifying-glass');
 }
 
 function srhRenderForm(menu){
   const area=srhArea();
+  srhSetDetailHeader(menu);
+  const extraHtml=(menu.extraParams||[]).map(function(ep,idx){
+    return '<div class="srh-searchrow" style="margin-top:8px;">'+
+      '<input class="srh-searchinput" id="srhExtraInput_'+idx+'" type="text" placeholder="'+srhEscAttr(ep.placeholder||'')+'" onkeydown="if(event.key===\'Enter\'){event.preventDefault();srhDoSearch();}">'+
+    '</div>';
+  }).join('');
   area.innerHTML='<div class="srh-formrow">'+
     '<div class="srh-searchrow">'+
       '<input class="srh-searchinput" id="srhSearchInput" type="text" placeholder="'+srhEscAttr(menu.placeholder||'Kata kunci pencarian...')+'" onkeydown="if(event.key===\'Enter\'){event.preventDefault();srhDoSearch();}">'+
       '<button class="srh-searchbtn" onclick="srhDoSearch()"><i class="fa-solid fa-magnifying-glass"></i></button>'+
     '</div>'+
+    extraHtml+
   '</div><div id="srhSearchResult"></div>';
   const input=document.getElementById('srhSearchInput');
   if(input) input.focus();
@@ -16970,13 +17802,19 @@ function srhDoSearch(){
   const q=input?input.value.trim():'';
   const result=document.getElementById('srhSearchResult');
   if(!q){ if(result) result.innerHTML='<div class="srh-empty"><i class="fa-solid fa-magnifying-glass"></i>Masukkan kata kunci dulu</div>'; return; }
+  let extra='';
+  (menu.extraParams||[]).forEach(function(ep,idx){
+    const extraInput=document.getElementById('srhExtraInput_'+idx);
+    const extraVal=extraInput?extraInput.value.trim():'';
+    if(extraVal) extra+='&'+encodeURIComponent(ep.name)+'='+encodeURIComponent(extraVal);
+  });
   if(result) result.innerHTML='<div class="srh-loading"><i class="fa-solid fa-spinner fa-spin"></i> Mencari...</div>';
-  srhRunSearch(menu,q,result,false);
+  srhRunSearch(menu,q,result,false,extra);
 }
 
-function srhRunSearch(menu,q,result,isRetry){
+function srhRunSearch(menu,q,result,isRetry,extra){
   const paramName=srhParamNameFor(menu.key);
-  srhFetchJson(menu.key,paramName+'='+encodeURIComponent(q)).then(function(json){
+  srhFetchJson(menu.key,paramName+'='+encodeURIComponent(q)+(extra||'')).then(function(json){
     if(json&&(json.status===false||json.status==='false')){
       const apiMsg=json.error||json.message||json.msg||'Tidak ada hasil ditemukan.';
       if(result) result.innerHTML='<div class="srh-fetcherror"><i class="fa-solid fa-triangle-exclamation"></i> '+srhEsc(apiMsg)+'</div>';
@@ -16997,7 +17835,7 @@ function srhRunSearch(menu,q,result,isRetry){
     // API kasih tau nama parameter yang benar & kita belum coba nama itu -> retry sekali otomatis.
     if(!isRetry&&guessedParam&&guessedParam!==paramName){
       srhParamCache[menu.key]=guessedParam;
-      srhRunSearch(menu,q,result,true);
+      srhRunSearch(menu,q,result,true,extra);
       return;
     }
     if(result) result.innerHTML='<div class="srh-fetcherror"><i class="fa-solid fa-triangle-exclamation"></i> Gagal mencari.<br><span style="font-size:11px;opacity:.7;">'+srhEsc(detail)+'</span></div>';
@@ -27820,7 +28658,9 @@ const NEW_BADGE_CONFIG={
   quotes:{launch:'2026-09-07'},
   random:{launch:'2026-09-07'},
   stalk:{launch:'2026-09-08'},
-  anime:{launch:'2026-09-08'}
+  anime:{launch:'2026-09-08'},
+  cekidff:{launch:'2026-09-09'},
+  tools:{launch:'2026-09-09'}
 };
 const NEW_BADGE_DURATION_DAYS=20;
 
