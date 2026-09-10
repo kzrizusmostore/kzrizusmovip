@@ -1,7 +1,7 @@
 {
-  "name": "KZRIZUSMO",
-  "short_name": "KZRIZUSMO",
-  "description": "KZRIZUSMO - Aplikasi web resmi.",
+  "name": "KZRIZUSMO FF",
+  "short_name": "KZRIZUSMO FF",
+  "description": "KZRIZUSMO FF - Aplikasi web resmi.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
