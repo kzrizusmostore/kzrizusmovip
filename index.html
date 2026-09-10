@@ -16614,7 +16614,48 @@ async function rndDownload(url,keyName,isVideo){
 <!-- STALK PAGE -->
 <div class="page" id="stalk">
 <style>
-#stalk{padding-bottom:80px;}
+#stalk{padding-bottom:80px;--tff-surface:rgba(14,14,14,.82);--tff-surface2:rgba(255,43,43,.05);--tff-hair:rgba(255,255,255,.07);--tff-hair-strong:rgba(255,43,43,.38);--tff-accent:#ff2b2b;--tff-accent-soft:#ff8a8a;--tff-text:#fff;--tff-dim:#888;--tff-faint:#444;--tff-danger:#ff2b2b;}
+.tff-header{position:relative;overflow:hidden;border-radius:22px;padding:20px 16px 18px;margin-bottom:14px;background:var(--tff-surface);backdrop-filter:blur(16px);border:1px solid var(--tff-hair);}
+.tff-header::before{content:'\f06d';font-family:'Font Awesome 6 Free';font-weight:900;position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:64px;color:var(--tff-accent);opacity:.08;line-height:1;pointer-events:none;}
+.tff-header::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,43,43,.4),transparent);}
+.tff-title{position:relative;display:flex;align-items:center;gap:9px;font-family:'Outfit',sans-serif;font-size:17px;font-weight:900;color:var(--tff-text);letter-spacing:.5px;}
+.tff-title i{color:var(--tff-accent);font-size:16px;}
+.tff-subtitle{position:relative;margin-top:5px;font-size:11px;color:var(--tff-dim);}
+.tff-formcard{background:var(--tff-surface);backdrop-filter:blur(16px);border:1px solid var(--tff-hair);border-radius:22px;padding:20px 16px;margin-bottom:14px;position:relative;overflow:hidden;}
+.tff-formcard::before{content:'';position:absolute;left:0;top:16px;bottom:16px;width:3px;background:linear-gradient(180deg,transparent,#ff2b2b,transparent);border-radius:0 3px 3px 0;}
+.tff-formcard::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,43,43,.4),transparent);}
+.tff-field{margin-bottom:12px;}
+.tff-field label{display:block;font-size:10.5px;font-weight:700;color:var(--tff-dim);letter-spacing:.3px;margin-bottom:6px;}
+.tff-input{width:100%;box-sizing:border-box;padding:15px;border-radius:13px;background:var(--tff-surface2);border:1.5px solid var(--tff-hair-strong);color:var(--tff-text);font-size:17px;font-weight:700;outline:none;letter-spacing:.5px;font-family:'Inter','Outfit',system-ui,sans-serif;transition:border .2s,box-shadow .2s,background .2s;}
+.tff-input::placeholder{color:var(--tff-faint);font-size:13.5px;font-weight:400;letter-spacing:0;}
+.tff-input:focus{border-color:var(--tff-accent);box-shadow:0 0 0 3px rgba(255,43,43,.13),0 0 18px rgba(255,43,43,.14);background:rgba(255,43,43,.09);}
+.tff-input.tff-shake{animation:tffShake .4s;border-color:#ff2b2b;}
+@keyframes tffShake{
+  10%,90%{transform:translateX(-1px)}20%,80%{transform:translateX(2px)}
+  30%,50%,70%{transform:translateX(-4px)}40%,60%{transform:translateX(4px)}
+}
+.tff-submitbtn{width:100%;margin-top:6px;padding:15px;border-radius:13px;border:none;background:linear-gradient(135deg,var(--tff-accent) 0%,#961020 100%);color:#fff;font-size:13.5px;font-weight:800;letter-spacing:.8px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;box-shadow:0 5px 22px rgba(255,43,43,.28),inset 0 1px 0 rgba(255,255,255,.12);transition:.18s;}
+.tff-submitbtn:active{transform:scale(.975);box-shadow:0 2px 8px rgba(255,43,43,.2);}
+.tff-submitbtn:disabled{opacity:.6;}
+.tff-result{margin-top:4px;border-radius:16px;overflow:hidden;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.08);display:none;padding:16px 15px;}
+.tff-result.show{display:block;animation:pcIn .3s ease;}
+.tff-result-rows{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
+.tff-result-row{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:9px 10px;display:flex;flex-direction:column;gap:3px;font-size:11.5px;}
+.tff-result-row b{color:#888;font-weight:700;font-size:9.5px;text-transform:uppercase;letter-spacing:.3px;order:-1;}
+.tff-result-row span{color:#fff;font-weight:800;font-size:12.5px;text-align:left;word-break:break-word;}
+.tff-result-row span.tff-date-full{color:#888;font-weight:600;font-size:9.5px;margin-top:1px;text-transform:none;}
+.tff-result-row.tff-row-wide{grid-column:1/-1;}
+.tff-copy-wrap{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.tff-copy-wrap span{flex:1;color:#fff;font-weight:800;font-size:12.5px;word-break:break-word;}
+.tff-region-badge{flex-shrink:0;background:rgba(255,43,43,.12);border:1px solid rgba(255,43,43,.4);color:#ff8a8a;font-size:10.5px;font-weight:800;letter-spacing:.4px;padding:5px 10px;border-radius:10px;text-transform:uppercase;}
+.tff-result-error{text-align:center;padding:16px 10px;color:#ffb3a3;background:rgba(255,43,43,.08);border:1px solid rgba(255,43,43,.25);border-radius:12px;font-size:12px;line-height:1.6;}
+.tff-result-error i{color:var(--tff-danger);margin-right:4px;}
+.tff-section{margin-bottom:4px;}
+.tff-section:last-child{margin-bottom:0;}
+.tff-section-head{display:flex;align-items:center;gap:8px;padding:12px 2px 8px;margin-top:8px;border-top:1px solid var(--tff-hair-strong);}
+.tff-section:first-child .tff-section-head{margin-top:0;border-top:none;padding-top:0;}
+.tff-section-head i{color:var(--tff-accent);font-size:12px;width:16px;text-align:center;}
+.tff-section-head span{font-size:11.5px;font-weight:800;color:var(--tff-accent-soft);letter-spacing:.4px;text-transform:uppercase;}
 .stk-header{text-align:center;margin-bottom:18px;}
 .stk-title{font-size:20px;font-weight:900;color:#fff;display:flex;align-items:center;justify-content:center;gap:9px;font-family:'Outfit',sans-serif;}
 .stk-title i{color:#ff5252;}
@@ -16715,6 +16756,24 @@ async function rndDownload(url,keyName,isVideo){
 .stk-pin-loading{background:linear-gradient(90deg,rgba(255,255,255,.03) 25%,rgba(255,255,255,.08) 37%,rgba(255,255,255,.03) 63%);background-size:400% 100%;animation:stkPinShimmer 1.4s ease infinite;}
 @keyframes stkPinShimmer{0%{background-position:100% 50%;}100%{background-position:0 50%;}}
 .stk-pin-fallback-icon{display:flex;align-items:center;justify-content:center;background:rgba(230,0,35,.08);color:rgba(230,0,35,.5);font-size:20px;}
+
+/* ===== FREE FIRE FULL PROFILE (via API OB54) ===== */
+.stk-ff-section-title{font-size:11.5px;font-weight:800;color:#fff;margin:18px 0 10px;display:flex;align-items:center;gap:6px;}
+.stk-ff-section-title i{color:#ff5252;}
+.stk-ff-wish-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
+.stk-ff-wish-chip{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:9px 10px;display:flex;flex-direction:column;gap:3px;}
+.stk-ff-wish-chip b{font-size:11px;color:#ff8a8a;font-weight:800;}
+.stk-ff-wish-chip span{font-size:9.5px;color:#888;}
+.stk-ff-note{font-size:10px;color:#666;margin-top:10px;line-height:1.5;}
+.stk-ff-region-wrap{position:relative;margin-bottom:12px;}
+.stk-ff-region-select{
+  width:100%;padding:13px 15px 13px 40px;border-radius:13px;appearance:none;-webkit-appearance:none;
+  background:rgba(255,43,43,.05);border:1.5px solid rgba(255,43,43,.38);
+  color:#fff;font-size:12.5px;font-weight:700;outline:none;letter-spacing:.3px;
+}
+.stk-ff-region-select option{background:#1a1a1a;color:#fff;}
+.stk-ff-region-wrap i.stk-ff-region-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#ff2b2b;font-size:13px;opacity:.8;pointer-events:none;}
+.stk-ff-region-wrap i.stk-ff-region-caret{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:#888;font-size:11px;pointer-events:none;}
 </style>
 
 <p class="pc-title"><span class="red">STALK</span>&nbsp;<span class="wht">UID / USERNAME</span></p>
@@ -16766,16 +16825,16 @@ async function rndDownload(url,keyName,isVideo){
 <div class="stk-panel active" id="stkPanel_ff">
 <div class="pc-card">
   <div class="pc-head">
-    <div class="pc-head-icon"><img src="zusmo-asset/bqp2jv.png" alt="FF" style="width:22px;height:22px;object-fit:contain;"/></div>
-    <div class="pc-head-text"><h3>STALK FREE FIRE</h3><p>Cek info akun dari UID Free Fire</p></div>
+    <div class="pc-head-icon"><i class="fa-solid fa-fire"></i></div>
+    <div class="pc-head-text"><h3>STALK FREE FIRE</h3><p>Cek info akun Free Fire lewat UID (auto-deteksi region)</p></div>
   </div>
   <div class="pc-input-wrap">
     <i class="fa-solid fa-hashtag pc-input-icon"></i>
-    <input class="pc-input" id="stkFfVal" type="text" inputmode="numeric" placeholder="Masukkan UID Free Fire" style="font-size:13px;font-weight:600;padding-left:40px;"/>
+    <input class="pc-input tff-input" id="stkFfVal" type="text" inputmode="numeric" placeholder="Contoh: 260190210" style="font-size:13px;font-weight:600;padding-left:40px;"/>
   </div>
-  <button class="pc-btn" id="stkFfBtn" onclick="stkStalk('ff')"><i class="fa-solid fa-magnifying-glass"></i> STALK</button>
+  <button class="pc-btn" id="stkFfBtn" onclick="stkFfSubmit()"><i class="fa-solid fa-paper-plane"></i> CEK INFO</button>
 </div>
-<div class="stk-result" id="stkFfResult"></div>
+<div class="tff-result" id="stkFfResult"></div>
 </div>
 
 <!-- DISCORD PANEL -->
@@ -17164,6 +17223,191 @@ function stkCopyName(){
     document.body.removeChild(ta);
     done();
   }
+}
+
+/* ============================================================
+   STALK FREE FIRE - PROFIL LENGKAP + WISHLIST (via API OB54)
+   Backend sendiri (folder INFO_API_OB54 / app.py Flask) yang
+   manggil endpoint resmi GetPlayerPersonalShow & GetWishListItems.
+
+   GANTI value FF_OB54_API_BASE di bawah dengan URL hasil deploy
+   backend kamu sendiri (mis. https://infoffkzrizusmovip.vercel.app),
+   TANPA garis miring "/" di akhir. Endpoint yang dipakai dari situ:
+   - GET {base}/info?uid={uid}      -> profil lengkap
+   - GET {base}/wishlist?uid={uid}  -> daftar wishlist
+   ============================================================ */
+const FF_OB54_API_BASE='https://siambhau69.eu.cc';
+// WAJIB DIISI: API key gratis dari @SiamBhau untuk grup "freefireinfo" & "wish".
+// Ambil di https://siambhau69.eu.cc/GetFreeApiKey (follow GitHub + join Telegram)
+// atau chat langsung https://t.me/SiamBhau. Tanpa key, semua request akan
+// ditolak dengan error 403 "API key required.".
+const FF_OB54_API_KEY='kzrizusmo:FFINFO:XDI';
+
+// Ambil nilai pertama yang ada dari beberapa kemungkinan nama field, karena
+// endpoint /freefireinfo/bhau balikin camelCase (accountId, rankingPoints,...)
+// sementara sebagian versi lama API ini balikin snake_case (account_id, dst).
+function stkPick(obj,keys){
+  if(!obj) return undefined;
+  for(let i=0;i<keys.length;i++){
+    const v=obj[keys[i]];
+    if(v!==undefined&&v!==null&&v!=='') return v;
+  }
+  return undefined;
+}
+
+// Fetch JSON: coba langsung dulu, kalau gagal (mis. CORS/WebView) fallback
+// lewat proxy allorigins, sama seperti pola fetch lain di app ini.
+async function stkFetchJsonSmart(url){
+  try{
+    const res=await zsFetchTimeout(url,{headers:{'Accept':'application/json'}},15000);
+    if(res&&res.ok) return await res.json();
+  }catch(e){}
+  const proxied='https://api.allorigins.win/raw?url='+encodeURIComponent(url);
+  const res2=await zsFetchTimeout(proxied,{},15000);
+  if(!res2||!res2.ok) throw new Error('Gagal menghubungi server API.');
+  return await res2.json();
+}
+
+async function stkStalkFreeFireOb54(uid,region){
+  const base=FF_OB54_API_BASE.replace(/\/+$/,'');
+  const regionParam='&region='+encodeURIComponent(region||'ID');
+  const keyParam='&key='+encodeURIComponent(FF_OB54_API_KEY);
+  // Endpoint resmi API SiamBhau: grup "Free Fire Info" -> /freefireinfo/bhau,
+  // grup "Wish List" -> /wish/wishlist (BUKAN /info & /wishlist seperti sebelumnya).
+  const infoUrl=base+'/freefireinfo/bhau?uid='+encodeURIComponent(uid)+regionParam+keyParam;
+  const wishUrl=base+'/wish/wishlist?uid='+encodeURIComponent(uid)+regionParam+keyParam;
+
+  if(!FF_OB54_API_KEY||FF_OB54_API_KEY==='ISI_API_KEY_KAMU_DI_SINI'){
+    throw Object.assign(new Error('API key belum diisi. Ambil API key gratis di siambhau69.eu.cc/GetFreeApiKey lalu isi ke variabel FF_OB54_API_KEY di kode.'),{raw:null});
+  }
+
+  const infoJson=await stkFetchJsonSmart(infoUrl);
+  const b0=infoJson&&(infoJson.basicInfo||infoJson.basic_info);
+  if(!infoJson||infoJson.error||!b0||!b0.nickname){
+    throw Object.assign(new Error((infoJson&&infoJson.error)||'UID Free Fire tidak ditemukan.'),{raw:infoJson});
+  }
+
+  // Wishlist dianggap pelengkap: kalau gagal/kosong, profil tetap ditampilkan.
+  let wishJson=null;
+  try{ wishJson=await stkFetchJsonSmart(wishUrl); }catch(e){ wishJson=null; }
+
+  return {info:infoJson,wishlist:wishJson};
+}
+
+function stkFfDate(ts){
+  ts=Number(ts)||0;
+  if(!ts) return '';
+  const d=new Date(ts*1000);
+  if(isNaN(d.getTime())) return '';
+  return d.toLocaleDateString('id-ID',{day:'2-digit',month:'long',year:'numeric'});
+}
+function stkFfNum(n){
+  n=Number(n);
+  if(isNaN(n)) return '';
+  return n.toLocaleString('id-ID');
+}
+function stkFfRow(label,value){
+  if(value===''||value==null) return '';
+  return '<div class="stk-result-row"><b>'+stkEsc(label)+'</b><span>'+stkEsc(String(value))+'</span></div>';
+}
+
+function stkFfReleaseDate(v){
+  if(v===undefined||v===null||v==='') return '';
+  // API kadang balikin unix timestamp (angka), kadang string "2024-11-01 12:00:00".
+  if(/^[0-9]+$/.test(String(v))) return stkFfDate(v);
+  return String(v);
+}
+
+function stkRenderFFProfileResult(box,data){
+  const info=data.info||{};
+  const b=info.basicInfo||info.basic_info||{};
+  const clan=info.clanBasicInfo||info.clan_basic_info||{};
+  const captain=info.captainBasicInfo||info.captain_basic_info||{};
+  const pet=info.petInfo||info.pet_info||{};
+  const credit=info.creditScoreInfo||info.credit_score_info||{};
+  const wishRaw=data.wishlist&&(data.wishlist.wishlist||data.wishlist.items);
+  const wish=Array.isArray(wishRaw)?wishRaw:[];
+
+  const nickname=b.nickname||'-';
+  const uidVal=stkPick(b,['accountId','account_id'])||'';
+
+  let rows='';
+  rows+=stkFfRow('Region',b.region);
+  rows+=stkFfRow('Level',b.level!=null?stkFfNum(b.level):'');
+  rows+=stkFfRow('EXP',b.exp!=null?stkFfNum(b.exp):'');
+  rows+=stkFfRow('Likes',b.liked!=null?stkFfNum(b.liked):'');
+  const rankingPoints=stkPick(b,['rankingPoints','ranking_points']);
+  rows+=stkFfRow('BR Rank Points',rankingPoints!=null?stkFfNum(rankingPoints):'');
+  rows+=stkFfRow('BR Rank Tier (kode)',b.rank!=null?b.rank:'');
+  const csRankingPoints=stkPick(b,['csRankingPoints','cs_ranking_points']);
+  rows+=stkFfRow('CS Rank Points',csRankingPoints!=null?stkFfNum(csRankingPoints):'');
+  const csRank=stkPick(b,['csRank','cs_rank']);
+  rows+=stkFfRow('CS Rank Tier (kode)',csRank!=null?csRank:'');
+  const elitePass=stkPick(b,['hasElitePass','has_elite_pass']);
+  if(elitePass!==undefined) rows+=stkFfRow('Elite Pass',elitePass?'Aktif':'Tidak Aktif');
+  const badgeCnt=stkPick(b,['badgeCnt','badge_cnt']);
+  rows+=stkFfRow('Jumlah Badge',badgeCnt!=null?stkFfNum(badgeCnt):'');
+  rows+=stkFfRow('Season Berjalan',stkPick(b,['seasonId','season_id']));
+  const creditScore=stkPick(credit,['creditScore','score']);
+  rows+=stkFfRow('Credit Score',creditScore!=null?creditScore:'');
+  rows+=stkFfRow('Bergabung Sejak',stkFfDate(stkPick(b,['createAt','create_at'])));
+  rows+=stkFfRow('Login Terakhir',stkFfDate(stkPick(b,['lastLoginAt','last_login_at'])));
+
+  let clanHtml='';
+  const clanName=stkPick(clan,['clanName','clan_name']);
+  if(clan&&clanName){
+    const clanLevel=stkPick(clan,['clanLevel','clan_level']);
+    const currentMembers=stkPick(clan,['memberNum','current_members'])||0;
+    const maxMembers=stkPick(clan,['capacity','max_members'])||0;
+    clanHtml=
+      '<div class="stk-ff-section-title"><i class="fa-solid fa-people-group"></i>GUILD</div>'+
+      '<div class="stk-result-rows">'+
+        stkFfRow('Nama Guild',clanName)+
+        stkFfRow('Level Guild',clanLevel)+
+        stkFfRow('Anggota',currentMembers+' / '+maxMembers)+
+        stkFfRow('Leader',captain.nickname||'')+
+      '</div>';
+  }
+
+  let petHtml='';
+  const petLabel=stkPick(pet,['petName','pet_name'])||pet.id;
+  if(pet&&petLabel){
+    petHtml=
+      '<div class="stk-ff-section-title"><i class="fa-solid fa-paw"></i>PET AKTIF</div>'+
+      '<div class="stk-result-rows">'+
+        stkFfRow(stkPick(pet,['petName','pet_name'])?'Nama Pet':'ID Pet',petLabel)+
+        stkFfRow('Level Pet',pet.level)+
+      '</div>';
+  }
+
+  let wishHtml='';
+  if(wish.length){
+    let chips='';
+    wish.forEach(function(it){
+      const rel=stkFfReleaseDate(it.release_time);
+      chips+='<div class="stk-ff-wish-chip"><b>Item #'+stkEsc(String(it.item_id))+'</b>'+(rel?('<span>Rilis '+stkEsc(rel)+'</span>'):'')+'</div>';
+    });
+    wishHtml=
+      '<div class="stk-ff-section-title"><i class="fa-solid fa-heart"></i>WISHLIST ('+wish.length+')</div>'+
+      '<div class="stk-ff-wish-grid">'+chips+'</div>'+
+      '<div class="stk-ff-note">Nama item belum tersedia (API cuma balikin ID item), ditampilkan sebagai kode.</div>';
+  }else{
+    wishHtml=
+      '<div class="stk-ff-section-title"><i class="fa-solid fa-heart"></i>WISHLIST</div>'+
+      '<div class="stk-empty" style="padding:16px 0;"><i class="fa-solid fa-heart-crack"></i>Wishlist kosong atau tidak tersedia.</div>';
+  }
+
+  box.innerHTML=
+    '<div class="stk-result-head">'+
+      '<img class="stk-result-avatar stk-ff-logo" src="zusmo-asset/bpjwcf.png" alt="avatar">'+
+      '<div>'+
+        '<div class="stk-name-row"><span class="stk-result-name" id="stkFfNameText">'+stkEsc(nickname)+'</span><button class="stk-copy-btn" id="stkFfCopyBtn" onclick="stkCopyName()"><i class="fa-solid fa-copy"></i></button></div>'+
+        (uidVal?'<div class="stk-result-sub">UID '+stkEsc(String(uidVal))+'</div>':'')+
+      '</div>'+
+    '</div>'+
+    '<div class="stk-result-rows">'+(rows||'<div class="stk-result-row"><span>Tidak ada detail tambahan.</span></div>')+'</div>'+
+    clanHtml+petHtml+wishHtml;
+  box.classList.add('show');
 }
 
 function stkRenderResult(box,json,type){
@@ -17565,18 +17809,6 @@ async function stkStalk(type){
     }catch(e){
       console.error('[STK][pubg]',e,(e&&e.raw)||'');
       stkRenderError(box,'User ID PUBG Mobile tidak ditemukan. Periksa kembali User ID kamu.');
-    }
-    stkSetLoading(btn,false);
-    return;
-  }
-  if(type==='ff'){
-    try{
-      const json=await stkStalkFreeFireRaw(val);
-      stkRenderResult(box,json,type);
-    }catch(e){
-      console.error('[STK][ff]',e,(e&&e.raw)||'');
-      const msg=(e&&e.isNetwork)?'Gagal menghubungi server cek UID. Coba lagi beberapa saat.':'UID Free Fire tidak ditemukan. Periksa kembali UID kamu.';
-      stkRenderError(box,msg);
     }
     stkSetLoading(btn,false);
     return;
@@ -18007,6 +18239,248 @@ function cidCopyNick(){
 </div>
 <div id="toolDetailArea"><div class="tls-empty"><i class="fa-solid fa-screwdriver-wrench"></i>Memuat tools...</div></div>
 </div>
+
+<script>
+const TFF_BASE='https://siambhau69.eu.cc';
+const TFF_KEY='kzrizusmo:FFINFO:XDI';
+const TFF_ALL_REGIONS=['BD'];
+const TFF_MENU=[
+  {key:'freefireinfo',label:'Free Fire Info',icon:'fa-user-shield',desc:'Cek info akun Free Fire lewat UID (auto-deteksi region)',
+    path:'/freefireinfo/bhau',
+    fields:[
+      {name:'uid',label:'UID Free Fire',placeholder:'Contoh: 260190210',required:true}
+    ]}
+];
+
+function tffEsc(str){
+  return String(str==null?'':str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function tffAttrEsc(str){
+  return String(str==null?'':str).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function tffCopyVal(btn){
+  if(!btn) return;
+  const val=btn.getAttribute('data-val')||'';
+  const done=function(){
+    btn.classList.add('copied');
+    btn.innerHTML='<i class="fa-solid fa-check"></i>';
+    setTimeout(function(){ btn.classList.remove('copied'); btn.innerHTML='<i class="fa-solid fa-copy"></i>'; },1200);
+  };
+  const fallbackCopy=function(){
+    try{
+      const ta=document.createElement('textarea');
+      ta.value=val; ta.style.position='fixed'; ta.style.top='0'; ta.style.left='0'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.focus(); ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+    }catch(e){}
+    done();
+  };
+  if(navigator.clipboard&&navigator.clipboard.writeText&&window.isSecureContext){
+    navigator.clipboard.writeText(val).then(done).catch(fallbackCopy);
+  }else{
+    fallbackCopy();
+  }
+}
+
+function tffShake(el){
+  if(!el) return;
+  el.classList.remove('tff-shake');
+  void el.offsetWidth;
+  el.classList.add('tff-shake');
+  el.focus();
+}
+
+const TFF_ROW_SKIP_KEYS=['status','success','creator','accountprefers','socialhighlightswithbasicinfo','externaliconinfo','isselectedawaken','unlocktype','unlocktime','ismarkedstar','isselected','equipedskills','weaponskinshows','clothes','pinid','headpic','bannerid','avatarid','skincolor','badgeid','title'];
+
+const TFF_LABEL_MAP={
+  nickname:'Nama (Nickname)',accountid:'ID Akun (UID)',level:'Level',exp:'EXP',
+  rank:'Rank BR',rankingpoints:'Poin Rank BR',maxrank:'Rank BR Tertinggi',
+  csrank:'Rank CS',csrankingpoints:'Poin Rank CS',csmaxrank:'Rank CS Tertinggi',
+  liked:'Jumlah Like',badgecnt:'Jumlah Badge',region:'Region',accounttype:'Tipe Akun',
+  seasonid:'ID Season',lastloginat:'Login Terakhir',createat:'Akun Dibuat',
+  releaseversion:'Versi Rilis',showbrrank:'Tampilkan Rank BR',showcsrank:'Tampilkan Rank CS',
+  primelevel:'Level Prime',
+  clanname:'Nama Guild',clanid:'ID Guild',clanlevel:'Level Guild',
+  membernum:'Jumlah Member',capacity:'Kapasitas Guild',captainid:'ID Ketua Guild',
+  id:'ID Peliharaan',skinid:'ID Skin Peliharaan',selectedskillid:'Skill Aktif',
+  gender:'Jenis Kelamin',language:'Bahasa',signature:'Bio (Signature)',rankshow:'Rank Ditampilkan',
+  diamondcost:'Perkiraan Harga (Diamond)',creditscore:'Skor Kredit',rewardstate:'Status Reward',
+  periodicsummaryendtime:'Reset Skor Kredit'
+};
+
+// Urutan tampil field yang dianggap penting duluan; sisanya menyusul sesuai urutan asli JSON.
+const TFF_FIELD_ORDER=['nickname','accountid','level','exp','rank','rankingpoints','maxrank','csrank','csrankingpoints','csmaxrank','liked','badgecnt','region','clanname','clanlevel','membernum','capacity','captainid','id','skinid','selectedskillid','gender','language','signature','rankshow','diamondcost','creditscore','rewardstate','accounttype','seasonid','createat','lastloginat','releaseversion','showbrrank','showcsrank','primelevel','clanid','periodicsummaryendtime'];
+
+function tffPrettyLabel(key){
+  const mapped=TFF_LABEL_MAP[key.toLowerCase()];
+  if(mapped) return mapped;
+  return key.replace(/_/g,' ').replace(/([a-z])([A-Z])/g,'$1 $2').replace(/\b\w/g,function(c){return c.toUpperCase();});
+}
+const TFF_ENUM_MAP={
+  gender_male:'Laki-laki',gender_female:'Perempuan',
+  language_en:'Inggris',language_id:'Indonesia',language_bd:'Bengali',
+  rankshow_br:'Battle Royale',rankshow_cs:'Clash Squad',
+  reward_state_unclaimed:'Belum Diklaim',reward_state_claimed:'Sudah Diklaim',
+  unlocktype_link:'Terhubung Akun',accounttype_1:'Akun Utama'
+};
+const TFF_BOOL_MAP={true:'Ya',false:'Tidak'};
+function tffPrettyValue(key,val){
+  const k=key.toLowerCase();
+  if(k==='lastloginat'||k==='createat'||k==='periodicsummaryendtime'){
+    const n=Number(val);
+    if(n>1000000000){ try{ return new Date(n*1000).toLocaleString('id-ID',{dateStyle:'medium',timeStyle:'short'}); }catch(e){} }
+  }
+  if(typeof val==='boolean') return TFF_BOOL_MAP[String(val)]||String(val);
+  const enumKey=String(val).toLowerCase();
+  if(TFF_ENUM_MAP[enumKey]) return TFF_ENUM_MAP[enumKey];
+  if(k==='signature') return String(val).trim()||'-';
+  return String(val);
+}
+function tffRelativeTime(unixVal){
+  const n=Number(unixVal);
+  if(!n||n<1000000000) return '';
+  const diffMs=Date.now()-(n*1000);
+  if(diffMs<0) return '';
+  const diffSec=Math.floor(diffMs/1000);
+  if(diffSec<60) return 'Baru saja';
+  const diffMin=Math.floor(diffSec/60);
+  if(diffMin<60) return diffMin+' menit lalu';
+  const diffHour=Math.floor(diffMin/60);
+  if(diffHour<24) return diffHour+' jam lalu';
+  const diffDay=Math.floor(diffHour/24);
+  if(diffDay<30) return diffDay+' hari lalu';
+  const diffMonth=Math.floor(diffDay/30);
+  if(diffMonth<12) return diffMonth+' bulan lalu';
+  const diffYear=Math.floor(diffMonth/12);
+  return diffYear+' tahun lalu';
+}
+function tffRenderRows(obj){
+  if(!obj||typeof obj!=='object') return '';
+  const keys=Object.keys(obj).filter(function(key){
+    if(TFF_ROW_SKIP_KEYS.indexOf(key.toLowerCase())!==-1) return false;
+    const val=obj[key];
+    return !(val==null||val===''||typeof val==='object');
+  });
+  keys.sort(function(a,b){
+    const ia=TFF_FIELD_ORDER.indexOf(a.toLowerCase());
+    const ib=TFF_FIELD_ORDER.indexOf(b.toLowerCase());
+    const pa=ia===-1?999:ia, pb=ib===-1?999:ib;
+    return pa-pb;
+  });
+  let rows='';
+  const TFF_WIDE_KEYS=['nickname','signature','clanname','releaseversion'];
+  const TFF_COPY_KEYS=['nickname','signature'];
+  const TFF_DATE_KEYS=['lastloginat','createat'];
+  keys.forEach(function(key){
+    const val=obj[key];
+    const label=tffPrettyLabel(key);
+    const kLower=key.toLowerCase();
+    const isWide=TFF_WIDE_KEYS.indexOf(kLower)!==-1;
+    const prettyVal=tffPrettyValue(key,val);
+    if(TFF_COPY_KEYS.indexOf(kLower)!==-1){
+      rows+='<div class="tff-result-row tff-row-wide"><b>'+tffEsc(label)+'</b>'+
+        '<div class="tff-copy-wrap"><span>'+tffEsc(prettyVal)+'</span>'+
+        '<button class="stk-copy-btn" data-val="'+tffAttrEsc(prettyVal)+'" onclick="tffCopyVal(this)"><i class="fa-solid fa-copy"></i></button></div>'+
+      '</div>';
+    }else if(TFF_DATE_KEYS.indexOf(kLower)!==-1){
+      const rel=tffRelativeTime(val);
+      rows+='<div class="tff-result-row"><b>'+tffEsc(label)+'</b><span>'+tffEsc(rel||prettyVal)+'</span>'+
+        (rel?'<span class="tff-date-full">'+tffEsc(prettyVal)+'</span>':'')+
+      '</div>';
+    }else{
+      rows+='<div class="tff-result-row'+(isWide?' tff-row-wide':'')+'"><b>'+tffEsc(label)+'</b><span>'+tffEsc(prettyVal)+'</span></div>';
+    }
+  });
+  return rows;
+}
+function tffSection(iconCls,title,obj){
+  if(!obj||typeof obj!=='object') return '';
+  const rows=tffRenderRows(obj);
+  if(!rows) return '';
+  return '<div class="tff-section">'+
+    '<div class="tff-section-head"><i class="fa-solid '+iconCls+'"></i><span>'+tffEsc(title)+'</span></div>'+
+    '<div class="tff-result-rows">'+rows+'</div>'+
+  '</div>';
+}
+
+async function stkFfSubmit(){
+  const menu=TFF_MENU[0];
+  const inp=document.getElementById('stkFfVal');
+  const uidVal=inp?inp.value.trim():'';
+  if(!uidVal){ tffShake(inp); return; }
+
+  const btn=document.getElementById('stkFfBtn');
+  const result=document.getElementById('stkFfResult');
+  if(result){ result.classList.remove('show'); result.innerHTML=''; }
+
+  let lastErr=null;
+  for(let i=0;i<TFF_ALL_REGIONS.length;i++){
+    const region=TFF_ALL_REGIONS[i];
+    if(btn){ btn.disabled=true; btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> MENGECEK ('+region+')...'; }
+    const queryBase='key='+encodeURIComponent(TFF_KEY)+'&uid='+encodeURIComponent(uidVal)+'&region='+encodeURIComponent(region);
+    try{
+      const json=await xyureiRequest(function(){
+        return TFF_BASE+menu.path+'?'+queryBase;
+      },{isDataOk:function(j){ return !!(j&&(j.basicInfo||j.data||j.result)); }});
+      tffRenderResult(result,json);
+      if(btn){ btn.disabled=false; btn.innerHTML='<i class="fa-solid fa-paper-plane"></i> CEK INFO'; }
+      return;
+    }catch(e){
+      lastErr=e;
+      console.warn('[STKFF] region '+region+' gagal, coba region berikutnya...',(e&&e.debugDetail)||e);
+    }
+  }
+
+  console.error('[STKFF] semua region gagal',lastErr,(lastErr&&lastErr.debugDetail)||'');
+  const detail=(lastErr&&lastErr.debugDetail)?' ('+lastErr.debugDetail+')':'';
+  if(result){
+    result.innerHTML='<div class="tff-result-error"><i class="fa-solid fa-triangle-exclamation"></i>UID tidak ditemukan di semua region.'+tffEsc(detail)+'</div>';
+    result.classList.add('show');
+  }
+  if(btn){ btn.disabled=false; btn.innerHTML='<i class="fa-solid fa-paper-plane"></i> CEK INFO'; }
+}
+
+function tffRenderResult(box,json){
+  if(!box) return;
+  if(json&&json.error){
+    box.innerHTML='<div class="tff-result-error"><i class="fa-solid fa-triangle-exclamation"></i>'+tffEsc(json.error)+'</div>';
+    box.classList.add('show');
+    return;
+  }
+  const b=json.basicInfo||{};
+  const nickname=stkPick(b,['nickname'])||'-';
+  const uidVal=stkPick(b,['accountId','account_id']);
+  const region=stkPick(b,['region']);
+  const level=stkPick(b,['level']);
+  const headSub=[uidVal?('UID '+tffEsc(String(uidVal))):'',level!=null?('Level '+tffEsc(String(level))):''].filter(Boolean).join(' · ');
+  const head=
+    '<div class="stk-result-head">'+
+      '<img class="stk-result-avatar stk-ff-logo" src="zusmo-asset/bpjwcf.png" alt="avatar">'+
+      '<div style="flex:1;min-width:0;">'+
+        '<div class="stk-name-row"><span class="stk-result-name">'+tffEsc(nickname)+'</span>'+
+        '<button class="stk-copy-btn" data-val="'+tffAttrEsc(nickname)+'" onclick="tffCopyVal(this)"><i class="fa-solid fa-copy"></i></button></div>'+
+        (headSub?'<div class="stk-result-sub">'+headSub+'</div>':'')+
+      '</div>'+
+      (region?'<span class="tff-region-badge">'+tffEsc(String(region))+'</span>':'')+
+    '</div>';
+  let html='';
+  html+=tffSection('fa-user-shield','Info Akun',json.basicInfo);
+  html+=tffSection('fa-shield-halved','Info Guild',json.clanBasicInfo);
+  html+=tffSection('fa-crown','Info Ketua Guild',json.captainBasicInfo);
+  html+=tffSection('fa-paw','Info Peliharaan',json.petInfo);
+  html+=tffSection('fa-comment-dots','Info Sosial',json.socialInfo);
+  html+=tffSection('fa-gem','Perkiraan Harga',json.diamondCostRes);
+  html+=tffSection('fa-star','Skor Kredit',json.creditScoreInfo);
+  html+=tffSection('fa-user-astronaut','Info Profil',json.profileInfo);
+  if(!html){
+    box.innerHTML='<div class="tff-result-error"><i class="fa-solid fa-triangle-exclamation"></i>Data tidak ditemukan atau UID salah.</div>';
+  }else{
+    box.innerHTML=head+html;
+  }
+  box.classList.add('show');
+}
+</script>
 
 <script>
 const TLS_BASE='https://sylvatica.my.id/api/tools/';
