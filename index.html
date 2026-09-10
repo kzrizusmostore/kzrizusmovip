@@ -1498,9 +1498,13 @@ object-fit:contain;
   display:flex;align-items:center;gap:8px;
 }
 .hm-section-lbl::after{
-  content:'';flex:1;height:1px;
+  content:'';flex:1;height:1px;order:1;
   background:linear-gradient(90deg,rgba(255,43,43,.2),transparent);
 }
+.hm-section-lbl .hm-spotlight-dots{order:2;}
+.hm-spotlight-dots{display:flex;align-items:center;gap:5px;flex-shrink:0;}
+.hm-spotlight-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.22);transition:.25s;}
+.hm-spotlight-dot.active{width:14px;border-radius:3px;background:#ff2b2b;box-shadow:0 0 6px rgba(255,43,43,.7);}
 
 /* SPOTLIGHT (featured highlight card) */
 .hm-spotlight{
@@ -1550,6 +1554,19 @@ object-fit:contain;
   font-family:'Audiowide',sans-serif;font-size:8px;letter-spacing:.6px;color:#ffb347;
 }
 .hm-spotlight-cta i{font-size:11px;}
+
+/* SPOTLIGHT CAROUSEL — geser antara ZUSMO SHADOW & ZUSMO EMOTE */
+.hm-spotlight-carousel{
+  display:flex;gap:14px;
+  overflow-x:auto;scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  margin-bottom:14px;
+  scrollbar-width:none;
+}
+.hm-spotlight-carousel::-webkit-scrollbar{display:none;}
+.hm-spotlight-carousel .hm-spotlight{
+  flex:0 0 100%;scroll-snap-align:start;margin-bottom:0;
+}
 
 /* TILE GRID (quick actions) */
 .hm-tile-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:8px;}
@@ -6331,19 +6348,47 @@ function closeVipShadowApp(){
   </div>
 </div>
 
-<div class="hm-section-lbl"><span data-i18n="home.mainMenu">⚡ Menu Utama</span></div>
-
-<!-- SPOTLIGHT: featured tool -->
-<div class="hm-spotlight" onclick="showPage('shadowmenu')">
-  <div class="hm-spotlight-glow"></div>
-  <span class="hm-spotlight-tag" style="display:flex;"><span class="hm-new-dot"></span>UNGGULAN</span>
-  <div class="hm-spotlight-icon"><i class="fa-solid fa-mobile-screen"></i></div>
-  <div class="hm-spotlight-body">
-    <h3 data-i18n="home.apkTitle">ZUSMO SHADOW</h3>
-    <p data-i18n="home.apkDesc">Download semua versi aplikasi</p>
+<div class="hm-section-lbl">
+  <span data-i18n="home.mainMenu">⚡ Menu Utama</span>
+  <div class="hm-spotlight-dots" id="hmSpotlightDots">
+    <span class="hm-spotlight-dot active" data-idx="0"></span>
+    <span class="hm-spotlight-dot" data-idx="1"></span>
   </div>
-  <div class="hm-spotlight-cta"><i class="fa-solid fa-chevron-right"></i><span data-i18n="home.open">Buka</span></div>
 </div>
+
+<!-- SPOTLIGHT: featured tools (geser untuk lihat ZUSMO SHADOW & ZUSMO EMOTE) -->
+<div class="hm-spotlight-carousel" id="hmSpotlightCarousel">
+  <div class="hm-spotlight" onclick="showPage('shadowmenu')">
+    <div class="hm-spotlight-glow"></div>
+    <span class="hm-spotlight-tag" style="display:flex;"><span class="hm-new-dot"></span>UNGGULAN</span>
+    <div class="hm-spotlight-icon"><i class="fa-solid fa-mobile-screen"></i></div>
+    <div class="hm-spotlight-body">
+      <h3 data-i18n="home.apkTitle">ZUSMO SHADOW</h3>
+      <p data-i18n="home.apkDesc">Download semua versi aplikasi</p>
+    </div>
+    <div class="hm-spotlight-cta"><i class="fa-solid fa-chevron-right"></i><span data-i18n="home.open">Buka</span></div>
+  </div>
+  <div class="hm-spotlight" onclick="window.open('https://emotesend-lnbmahnn.manus.space','_blank')">
+    <div class="hm-spotlight-glow"></div>
+    <div class="hm-spotlight-icon"><i class="fa-solid fa-mobile-screen"></i></div>
+    <div class="hm-spotlight-body">
+      <h3>ZUSMO EMOTE</h3>
+      <p>Kirim emote spesial ke akun kamu</p>
+    </div>
+    <div class="hm-spotlight-cta"><i class="fa-solid fa-chevron-right"></i><span data-i18n="home.open">Buka</span></div>
+  </div>
+</div>
+<script>
+(function(){
+  var car=document.getElementById('hmSpotlightCarousel');
+  var dots=document.querySelectorAll('#hmSpotlightDots .hm-spotlight-dot');
+  if(!car||!dots.length)return;
+  car.addEventListener('scroll',function(){
+    var idx=Math.round(car.scrollLeft/car.clientWidth);
+    dots.forEach(function(d,i){d.classList.toggle('active',i===idx);});
+  },{passive:true});
+})();
+</script>
 
 <!-- QUICK ACTION TILES -->
 <div class="hm-tile-grid" id="hmMainTileGrid">
@@ -6384,7 +6429,7 @@ function closeVipShadowApp(){
   <div class="hm-tile" onclick="dismissNewBadge('cekidff');showPage('cekidff')">
     <span class="hm-tile-badge" id="newBadge_cekidff"></span>
     <div class="hm-tile-icon"><i class="fa-solid fa-address-card"></i></div>
-    <span class="hm-tile-label">CEK NICK FF</span>
+    <span class="hm-tile-label">CEK INFO FF</span>
   </div>
   <div class="hm-tile" onclick="dismissNewBadge('sosmeddl');showPage('sosmeddl')">
     <span class="hm-tile-badge" id="newBadge_sosmeddl"></span>
@@ -10454,7 +10499,7 @@ qrgenUpdateColorPreview();
 </style>
 
 <p class="pc-title"><span class="red">SENSI</span>&nbsp;<span class="wht">AI</span></p>
-<p class="pc-sub">Generator Sensitivitas Free Fire Acak</p>
+<p class="pc-sub">Generator Sensitivitas Free Fire</p>
 
 <div class="pc-card">
   <div class="pc-head">
@@ -16661,17 +16706,17 @@ async function rndDownload(url,keyName,isVideo){
 .stk-title i{color:#ff5252;}
 .stk-subtitle{font-size:11.5px;color:#888;margin-top:6px;}
 
-.stk-tabs{display:flex;gap:8px;margin-bottom:18px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px;}
+.stk-tabs{display:flex;gap:6px;margin-bottom:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px;}
 .stk-tabs::-webkit-scrollbar{display:none;}
 .stk-tab{
-  flex:0 0 auto;width:78px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
-  padding:12px 5px;border-radius:14px;cursor:pointer;min-height:64px;
+  flex:0 0 auto;width:72px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+  padding:9px 5px;border-radius:13px;cursor:pointer;min-height:54px;
   background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);
   transition:.18s;
 }
-.stk-tab i{font-size:17px;color:#888;}
+.stk-tab i{font-size:15px;color:#888;}
 .stk-tab .stk-ff-icon{
-  display:inline-block;width:17px;height:17px;vertical-align:middle;
+  display:inline-block;width:15px;height:15px;vertical-align:middle;
   background-color:#888;
   -webkit-mask-image:url('zusmo-asset/bqp2jv.png');-webkit-mask-size:contain;-webkit-mask-repeat:no-repeat;-webkit-mask-position:center;
   mask-image:url('zusmo-asset/bqp2jv.png');mask-size:contain;mask-repeat:no-repeat;mask-position:center;
@@ -16780,11 +16825,17 @@ async function rndDownload(url,keyName,isVideo){
 <p class="pc-sub">Cek info akun/profil dari UID atau username</p>
 
 <div class="stk-tabs">
-  <div class="stk-tab active" id="stkTab_ff" onclick="stkSwitchTab('ff')">
-    <span class="stk-ff-icon"></span><span>FREE FIRE</span>
+  <div class="stk-tab" id="stkTab_tt" onclick="stkSwitchTab('tt')">
+    <i class="fa-brands fa-tiktok"></i><span>TIKTOK</span>
+  </div>
+  <div class="stk-tab" id="stkTab_yt" onclick="stkSwitchTab('yt')">
+    <i class="fa-brands fa-youtube"></i><span>YOUTUBE</span>
   </div>
   <div class="stk-tab" id="stkTab_dc" onclick="stkSwitchTab('dc')">
     <i class="fa-brands fa-discord"></i><span>DISCORD</span>
+  </div>
+  <div class="stk-tab" id="stkTab_pin" onclick="stkSwitchTab('pin')">
+    <i class="fa-brands fa-pinterest"></i><span>PINTEREST</span>
   </div>
   <div class="stk-tab" id="stkTab_gh" onclick="stkSwitchTab('gh')">
     <i class="fa-brands fa-github"></i><span>GITHUB</span>
@@ -16792,32 +16843,29 @@ async function rndDownload(url,keyName,isVideo){
   <div class="stk-tab" id="stkTab_npm" onclick="stkSwitchTab('npm')">
     <i class="fa-brands fa-npm"></i><span>NPM PACKAGE</span>
   </div>
-  <div class="stk-tab" id="stkTab_pin" onclick="stkSwitchTab('pin')">
-    <i class="fa-brands fa-pinterest"></i><span>PINTEREST</span>
-  </div>
-  <div class="stk-tab" id="stkTab_tt" onclick="stkSwitchTab('tt')">
-    <i class="fa-brands fa-tiktok"></i><span>TIKTOK</span>
-  </div>
-  <div class="stk-tab" id="stkTab_yt" onclick="stkSwitchTab('yt')">
-    <i class="fa-brands fa-youtube"></i><span>YOUTUBE</span>
-  </div>
-  <div class="stk-tab" id="stkTab_aov" onclick="stkSwitchTab('aov')">
-    <i class="fa-solid fa-chess-rook"></i><span>ARENA OF VALOR</span>
-  </div>
-  <div class="stk-tab" id="stkTab_cod" onclick="stkSwitchTab('cod')">
-    <i class="fa-solid fa-crosshairs"></i><span>CALL OF DUTY</span>
-  </div>
-  <div class="stk-tab" id="stkTab_hok" onclick="stkSwitchTab('hok')">
-    <i class="fa-solid fa-chess-king"></i><span>HONOR OF KINGS</span>
+</div>
+
+<div class="stk-tabs" style="margin-top:0;margin-bottom:14px;">
+  <div class="stk-tab active" id="stkTab_ff" onclick="stkSwitchTab('ff')">
+    <span class="stk-ff-icon"></span><span>FREE FIRE</span>
   </div>
   <div class="stk-tab" id="stkTab_ml" onclick="stkSwitchTab('ml')">
     <i class="fa-solid fa-shield-halved"></i><span>MOBILE LEGENDS</span>
   </div>
+  <div class="stk-tab" id="stkTab_pubg" onclick="stkSwitchTab('pubg')">
+    <i class="fa-solid fa-parachute-box"></i><span>PUBG MOBILE</span>
+  </div>
+  <div class="stk-tab" id="stkTab_cod" onclick="stkSwitchTab('cod')">
+    <i class="fa-solid fa-crosshairs"></i><span>CALL OF DUTY</span>
+  </div>
   <div class="stk-tab" id="stkTab_pb" onclick="stkSwitchTab('pb')">
     <i class="fa-solid fa-bullseye"></i><span>POINT BLANK</span>
   </div>
-  <div class="stk-tab" id="stkTab_pubg" onclick="stkSwitchTab('pubg')">
-    <i class="fa-solid fa-parachute-box"></i><span>PUBG MOBILE</span>
+  <div class="stk-tab" id="stkTab_aov" onclick="stkSwitchTab('aov')">
+    <i class="fa-solid fa-chess-rook"></i><span>ARENA OF VALOR</span>
+  </div>
+  <div class="stk-tab" id="stkTab_hok" onclick="stkSwitchTab('hok')">
+    <i class="fa-solid fa-chess-king"></i><span>HONOR OF KINGS</span>
   </div>
 </div>
 
@@ -16826,7 +16874,7 @@ async function rndDownload(url,keyName,isVideo){
 <div class="pc-card">
   <div class="pc-head">
     <div class="pc-head-icon"><i class="fa-solid fa-fire"></i></div>
-    <div class="pc-head-text"><h3>STALK FREE FIRE</h3><p>Cek info akun Free Fire lewat UID (auto-deteksi region)</p></div>
+    <div class="pc-head-text"><h3>STALK FREE FIRE</h3><p>Cek info akun Free Fire lewat UID</p></div>
   </div>
   <div class="pc-input-wrap">
     <i class="fa-solid fa-hashtag pc-input-icon"></i>
@@ -17845,33 +17893,12 @@ async function stkStalk(type){
 <style>
 #cekidff{padding-bottom:80px;}
 
-.cid-hero{
-  position:relative;border-radius:22px;overflow:hidden;text-align:center;
-  background:#0c0c0c;
-  border:1px solid rgba(255,80,80,.22);
-  box-shadow:0 10px 30px rgba(0,0,0,.35);
-  margin-bottom:18px;
-  aspect-ratio:735/360;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:20px;
-}
-.cid-hero-bg{
-  position:absolute;inset:0;width:100%;height:100%;
-  object-fit:cover;filter:blur(1.5px);transform:scale(1.02);z-index:0;
-}
-.cid-hero::before{
-  content:'';position:absolute;inset:0;pointer-events:none;z-index:1;
-  background:linear-gradient(160deg,rgba(10,5,5,.5),rgba(5,5,5,.72) 75%);
-}
-.cid-hero-icon{
-  width:auto;height:56px;margin:0 auto 14px;
-  display:flex;align-items:center;justify-content:center;position:relative;z-index:2;
-}
-.cid-hero-icon img{width:auto;height:56px;object-fit:contain;filter:drop-shadow(0 4px 10px rgba(0,0,0,.5));}
-.cid-hero-title{font-size:20px;font-weight:900;font-family:'Outfit',sans-serif;letter-spacing:.2px;position:relative;z-index:2;}
-.cid-hero-title .red{color:#ff3b3b;text-shadow:0 0 16px rgba(255,43,43,.45);}
+.cid-page-head{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding:0 2px;}
+.cid-page-head-icon{width:38px;height:38px;object-fit:contain;flex-shrink:0;filter:drop-shadow(0 3px 8px rgba(0,0,0,.5));}
+.cid-hero-title{font-size:17px;font-weight:900;font-family:'Outfit',sans-serif;letter-spacing:.2px;}
+.cid-hero-title .red{color:#ff3b3b;text-shadow:0 0 12px rgba(255,43,43,.4);}
 .cid-hero-title .wht{color:#fff;}
-.cid-hero-sub{font-size:11.5px;color:#9a9a9a;margin-top:8px;line-height:1.55;max-width:280px;margin-left:auto;margin-right:auto;position:relative;z-index:2;}
+.cid-hero-sub{font-size:10.5px;color:#8f8f8f;margin-top:3px;line-height:1.5;}
 
 .cid-card{
   border-radius:18px;padding:18px 16px;margin-bottom:16px;
@@ -17957,6 +17984,12 @@ async function stkStalk(type){
 .cid-info-row:first-child{border-top:none;}
 .cid-info-row b{color:#8f8f8f;font-weight:700;flex:0 0 auto;}
 .cid-info-row span{color:#eee;font-weight:600;text-align:right;word-break:break-word;}
+.cid-section-title{
+  display:flex;align-items:center;gap:6px;
+  font-size:10px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#ff6b6b;
+  margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.07);
+}
+.cid-section-title:first-child{margin-top:0;padding-top:0;border-top:none;}
 
 .cid-reset-btn{
   width:100%;padding:12px;border-radius:13px;cursor:pointer;margin-top:2px;
@@ -17966,11 +17999,12 @@ async function stkStalk(type){
 }
 </style>
 
-<div class="cid-hero">
-  <img class="cid-hero-bg" src="zusmo-asset/lobbykosong.jpg" alt="" loading="lazy" decoding="async"/>
-  <div class="cid-hero-icon"><img src="zusmo-asset/bqp2jv.png" alt="FF"/></div>
-  <p class="cid-hero-title"><span class="red">CEK NICK</span>&nbsp;<span class="wht">FREE FIRE</span></p>
-  <p class="cid-hero-sub">Masukkan ID Free Fire kamu, nickname akun langsung ketahuan tanpa ribet.</p>
+<div class="cid-page-head">
+  <img class="cid-page-head-icon" src="zusmo-asset/bqp2jv.png" alt="FF"/>
+  <div>
+    <p class="cid-hero-title"><span class="red">CEK INFO</span>&nbsp;<span class="wht">FREE FIRE</span></p>
+    <p class="cid-hero-sub">Masukkan ID Free Fire kamu, info akun lengkap langsung ketahuan tanpa ribet.</p>
+  </div>
 </div>
 
 <div class="cid-card">
@@ -17979,7 +18013,7 @@ async function stkStalk(type){
     <i class="fa-solid fa-hashtag"></i>
     <input class="cid-input" id="cidUidInput" type="text" inputmode="numeric" placeholder="Contoh: 123456789" maxlength="13"/>
   </div>
-  <button class="cid-btn" id="cidCheckBtn" onclick="cidCheck()"><i class="fa-solid fa-magnifying-glass"></i>CEK NICK SEKARANG</button>
+  <button class="cid-btn" id="cidCheckBtn" onclick="cidCheck()"><i class="fa-solid fa-magnifying-glass"></i>CEK INFO SEKARANG</button>
   <p class="cid-hint">Cukup masukkan ID-nya aja, nggak perlu password/OTP.</p>
 </div>
 
@@ -17990,7 +18024,7 @@ async function stkStalk(type){
 
 <div class="cid-state cid-loading" id="cidStateLoading">
   <i class="fa-solid fa-spinner fa-spin"></i>
-  <p>Sedang mengecek ID Free Fire kamu, tunggu sebentar ya...</p>
+  <p>Sedang mengecek info Free Fire kamu, tunggu sebentar ya...</p>
 </div>
 
 <div class="cid-state cid-error" id="cidStateError">
@@ -18009,7 +18043,7 @@ async function stkStalk(type){
     <div class="cid-id-chip" id="cidIdChip"></div>
     <div class="cid-info-rows" id="cidInfoRows"></div>
   </div>
-  <button class="cid-reset-btn" onclick="cidReset()"><i class="fa-solid fa-arrow-rotate-left"></i>CEK NICK LAIN</button>
+  <button class="cid-reset-btn" onclick="cidReset()"><i class="fa-solid fa-arrow-rotate-left"></i>CEK INFO LAIN</button>
 </div>
 
 <div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
@@ -18067,52 +18101,101 @@ async function cidCheck(){
   cidShowState('cidStateLoading');
   cidSetLoadingBtn(true);
 
-  try{
-    const json=await stkStalkFreeFireRaw(uid);
-    const d=(json&&(json.result||json.data))||json||{};
-    const nickname=extractFFNickname(json)||stkFindName(d,'');
-    if(!nickname){ throw Object.assign(new Error('Nickname tidak ditemukan.'),{raw:json}); }
+  let lastErr=null;
+  for(let i=0;i<TFF_ALL_REGIONS.length;i++){
+    const region=TFF_ALL_REGIONS[i];
+    const queryBase='key='+encodeURIComponent(TFF_KEY)+'&uid='+encodeURIComponent(uid)+'&region='+encodeURIComponent(region);
+    try{
+      const json=await xyureiRequest(function(){
+        return TFF_BASE+'/freefireinfo/bhau?'+queryBase;
+      },{isDataOk:function(j){ return !!(j&&(j.basicInfo||j.data||j.result)); }});
 
-    const avatar=stkFindAvatar(d)||stkFindAvatar(json);
-    const rows=stkRenderRows(d);
+      if(json&&json.error){ throw Object.assign(new Error(json.error),{raw:json}); }
+      const b=json.basicInfo||{};
+      const nickname=stkPick(b,['nickname']);
+      if(!nickname){ throw Object.assign(new Error('Nickname tidak ditemukan.'),{raw:json}); }
+      const uidVal=stkPick(b,['accountId','account_id'])||uid;
 
-    const ring=document.getElementById('cidAvatarRing');
-    if(ring){
-      ring.innerHTML='<img class="cid-avatar" src="zusmo-asset/7dj8gw.jpg" alt="avatar"/>';
-      if(avatar){
-        const testImg=new Image();
-        testImg.onload=function(){
-          ring.innerHTML='';
-          const img=document.createElement('img');
-          img.className='cid-avatar';
-          img.alt='avatar';
-          img.referrerPolicy='no-referrer';
-          img.src=avatar;
-          ring.appendChild(img);
-        };
-        testImg.onerror=function(){};
-        testImg.referrerPolicy='no-referrer';
-        testImg.src=avatar;
-      }
+      const ring=document.getElementById('cidAvatarRing');
+      if(ring) ring.innerHTML='<img class="cid-avatar" src="zusmo-asset/bpjwcf.png" alt="avatar"/>';
+
+      const nickText=document.getElementById('cidNickText');
+      if(nickText) nickText.textContent=nickname;
+      const idChip=document.getElementById('cidIdChip');
+      if(idChip) idChip.innerHTML='<i class="fa-solid fa-hashtag"></i> '+tffEsc(String(uidVal));
+      const infoRows=document.getElementById('cidInfoRows');
+      if(infoRows) infoRows.innerHTML=cidRenderInfoSections(json);
+      const copyBtn=document.getElementById('cidCopyBtn');
+      if(copyBtn){ copyBtn.classList.remove('copied'); copyBtn.innerHTML='<i class="fa-solid fa-copy"></i>'; }
+
+      cidShowState(null);
+      cidSetLoadingBtn(false);
+      return;
+    }catch(e){
+      lastErr=e;
+      console.warn('[CID] region '+region+' gagal, coba region berikutnya...',(e&&e.debugDetail)||e);
     }
-    const nickText=document.getElementById('cidNickText');
-    if(nickText) nickText.textContent=nickname;
-    const idChip=document.getElementById('cidIdChip');
-    if(idChip) idChip.innerHTML='<i class="fa-solid fa-hashtag"></i> '+stkEsc(uid);
-    const infoRows=document.getElementById('cidInfoRows');
-    if(infoRows) infoRows.innerHTML=rows||'';
-    const copyBtn=document.getElementById('cidCopyBtn');
-    if(copyBtn){ copyBtn.classList.remove('copied'); copyBtn.innerHTML='<i class="fa-solid fa-copy"></i>'; }
-
-    cidShowState(null);
-  }catch(e){
-    console.error('[CID]',e,(e&&e.raw)||'');
-    const msg=(e&&e.isNetwork)?'Gagal menghubungi server. Coba lagi beberapa saat.':'ID Free Fire tidak ditemukan. Periksa kembali ID kamu.';
-    const errMsg=document.getElementById('cidErrorMsg');
-    if(errMsg) errMsg.textContent=msg;
-    cidShowState('cidStateError');
   }
+
+  console.error('[CID]',lastErr,(lastErr&&lastErr.raw)||'');
+  const msg=(lastErr&&lastErr.isNetwork)?'Gagal menghubungi server. Coba lagi beberapa saat.':'ID Free Fire tidak ditemukan. Periksa kembali ID kamu.';
+  const errMsg=document.getElementById('cidErrorMsg');
+  if(errMsg) errMsg.textContent=msg;
+  cidShowState('cidStateError');
   cidSetLoadingBtn(false);
+}
+
+/* Susun beberapa bagian info (akun, guild, ketua guild, pet, sosial, harga, skor kredit, profil)
+   memakai kamus label & formatter yang sama dengan STALK FREE FIRE (TFF_*), ditampilkan
+   dalam gaya baris cid-info-row supaya konsisten dengan tampilan halaman ini. */
+function cidRenderInfoSections(json){
+  const sections=[
+    ['fa-user-shield','Info Akun',json.basicInfo],
+    ['fa-shield-halved','Info Guild',json.clanBasicInfo],
+    ['fa-crown','Info Ketua Guild',json.captainBasicInfo],
+    ['fa-paw','Info Peliharaan',json.petInfo],
+    ['fa-comment-dots','Info Sosial',json.socialInfo],
+    ['fa-gem','Perkiraan Harga',json.diamondCostRes],
+    ['fa-star','Skor Kredit',json.creditScoreInfo],
+    ['fa-user-astronaut','Info Profil',json.profileInfo]
+  ];
+  let html='';
+  sections.forEach(function(sec){
+    const rows=cidRenderRows(sec[2]);
+    if(!rows) return;
+    html+='<div class="cid-section-title"><i class="fa-solid '+sec[0]+'"></i>'+tffEsc(sec[1])+'</div>'+rows;
+  });
+  return html;
+}
+
+function cidRenderRows(obj){
+  if(!obj||typeof obj!=='object') return '';
+  const keys=Object.keys(obj).filter(function(key){
+    if(TFF_ROW_SKIP_KEYS.indexOf(key.toLowerCase())!==-1) return false;
+    const val=obj[key];
+    return !(val==null||val===''||typeof val==='object');
+  });
+  keys.sort(function(a,b){
+    const ia=TFF_FIELD_ORDER.indexOf(a.toLowerCase());
+    const ib=TFF_FIELD_ORDER.indexOf(b.toLowerCase());
+    const pa=ia===-1?999:ia, pb=ib===-1?999:ib;
+    return pa-pb;
+  });
+  const TFF_DATE_KEYS=['lastloginat','createat'];
+  let rows='';
+  keys.forEach(function(key){
+    const val=obj[key];
+    const label=tffPrettyLabel(key);
+    const kLower=key.toLowerCase();
+    let displayVal;
+    if(TFF_DATE_KEYS.indexOf(kLower)!==-1){
+      displayVal=tffRelativeTime(val)||tffPrettyValue(key,val);
+    }else{
+      displayVal=tffPrettyValue(key,val);
+    }
+    rows+='<div class="cid-info-row"><b>'+tffEsc(label)+'</b><span>'+tffEsc(displayVal)+'</span></div>';
+  });
+  return rows;
 }
 
 function cidReset(){
@@ -18245,7 +18328,7 @@ const TFF_BASE='https://siambhau69.eu.cc';
 const TFF_KEY='kzrizusmo:FFINFO:XDI';
 const TFF_ALL_REGIONS=['BD'];
 const TFF_MENU=[
-  {key:'freefireinfo',label:'Free Fire Info',icon:'fa-user-shield',desc:'Cek info akun Free Fire lewat UID (auto-deteksi region)',
+  {key:'freefireinfo',label:'Free Fire Info',icon:'fa-user-shield',desc:'Cek info akun Free Fire lewat UID',
     path:'/freefireinfo/bhau',
     fields:[
       {name:'uid',label:'UID Free Fire',placeholder:'Contoh: 260190210',required:true}
