@@ -17894,7 +17894,13 @@ async function stkStalk(type){
 #cekidff{padding-bottom:80px;}
 
 .cid-page-head{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding:0 2px;}
-.cid-page-head-icon{width:38px;height:38px;object-fit:contain;flex-shrink:0;filter:drop-shadow(0 3px 8px rgba(0,0,0,.5));}
+.cid-page-head-icon{
+  display:inline-block;width:38px;height:38px;flex-shrink:0;
+  background-color:#ff3b3b;
+  -webkit-mask-image:url('zusmo-asset/bqp2jv.png');-webkit-mask-size:contain;-webkit-mask-repeat:no-repeat;-webkit-mask-position:center;
+  mask-image:url('zusmo-asset/bqp2jv.png');mask-size:contain;mask-repeat:no-repeat;mask-position:center;
+  filter:drop-shadow(0 0 8px rgba(255,43,43,.45));
+}
 .cid-hero-title{font-size:17px;font-weight:900;font-family:'Outfit',sans-serif;letter-spacing:.2px;}
 .cid-hero-title .red{color:#ff3b3b;text-shadow:0 0 12px rgba(255,43,43,.4);}
 .cid-hero-title .wht{color:#fff;}
@@ -18000,7 +18006,7 @@ async function stkStalk(type){
 </style>
 
 <div class="cid-page-head">
-  <img class="cid-page-head-icon" src="zusmo-asset/bqp2jv.png" alt="FF"/>
+  <span class="cid-page-head-icon" aria-hidden="true"></span>
   <div>
     <p class="cid-hero-title"><span class="red">CEK INFO</span>&nbsp;<span class="wht">FREE FIRE</span></p>
     <p class="cid-hero-sub">Masukkan ID Free Fire kamu, info akun lengkap langsung ketahuan tanpa ribet.</p>
@@ -18014,7 +18020,7 @@ async function stkStalk(type){
     <input class="cid-input" id="cidUidInput" type="text" inputmode="numeric" placeholder="Contoh: 123456789" maxlength="13"/>
   </div>
   <button class="cid-btn" id="cidCheckBtn" onclick="cidCheck()"><i class="fa-solid fa-magnifying-glass"></i>CEK INFO SEKARANG</button>
-  <p class="cid-hint">Cukup masukkan ID-nya aja, nggak perlu password/OTP.</p>
+  <p class="cid-hint">Cek info akun Free Fire cukup lewat ID.</p>
 </div>
 
 <div class="cid-state show" id="cidStateIdle">
@@ -19443,34 +19449,34 @@ async function ptSubmit(){
 <div class="page" id="search">
 <style>
 #search,#searchDetail{
-  --srh-surface:#101418;--srh-surface2:#161c22;--srh-hair:rgba(255,178,61,.18);
-  --srh-hair-strong:rgba(255,178,61,.42);--srh-accent:#ffb23d;--srh-accent-soft:#ffdba7;
-  --srh-text:#faf4ee;--srh-dim:#b8a894;--srh-faint:#5c5245;--srh-danger:#ff5252;
+  --srh-surface:#141010;--srh-surface2:#1c1414;--srh-hair:rgba(255,43,43,.18);
+  --srh-hair-strong:rgba(255,43,43,.42);--srh-accent:#ff2b2b;--srh-accent-soft:#ff8a8a;
+  --srh-text:#fff;--srh-dim:#999;--srh-faint:#4a4040;--srh-danger:#ff5252;
 }
 #search.active,#searchDetail.active{padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px));}
 
-.srh-header{position:relative;overflow:hidden;border-radius:18px;padding:22px 16px 20px;margin-bottom:16px;background:linear-gradient(160deg,var(--srh-surface) 0%,#0a0705 100%);border:1px solid var(--srh-hair);}
+.srh-header{position:relative;overflow:hidden;border-radius:18px;padding:22px 16px 20px;margin-bottom:16px;background:linear-gradient(160deg,var(--srh-surface) 0%,#0a0505 100%);border:1px solid var(--srh-hair);}
 .srh-header::before{content:'\f002';font-family:'Font Awesome 6 Free';font-weight:900;position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:64px;color:var(--srh-accent);opacity:.1;line-height:1;pointer-events:none;}
-.srh-title{position:relative;display:flex;align-items:center;gap:9px;font-family:'Fredoka One',sans-serif;font-size:17px;color:var(--srh-text);letter-spacing:.5px;}
+.srh-title{position:relative;display:flex;align-items:center;gap:9px;font-family:'Outfit',sans-serif;font-size:17px;font-weight:900;color:var(--srh-text);letter-spacing:.5px;}
 .srh-title i{color:var(--srh-accent);font-size:16px;}
 .srh-subtitle{position:relative;margin-top:5px;font-size:11px;color:var(--srh-dim);font-family:'Inter',sans-serif;}
 
 .srh-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:16px;}
 .srh-tile{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px 4px 13px;border-radius:14px;background:var(--srh-surface);border:1px solid var(--srh-hair);cursor:pointer;text-align:center;transition:border-color .15s,background .15s;}
-.srh-tile-icon{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,178,61,.1);border:1px solid var(--srh-hair-strong);}
+.srh-tile-icon{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,43,43,.1);border:1px solid var(--srh-hair-strong);}
 .srh-tile i{font-size:15px;color:var(--srh-accent);}
-.srh-tile span{font-size:9.5px;font-weight:700;color:var(--srh-dim);line-height:1.25;}
+.srh-tile span{font-size:9.5px;font-weight:700;color:var(--srh-dim);line-height:1.25;font-family:'Outfit',sans-serif;}
 .srh-tile.active{background:var(--srh-surface2);border-color:var(--srh-accent);}
-.srh-tile.active .srh-tile-icon{background:rgba(255,178,61,.2);}
+.srh-tile.active .srh-tile-icon{background:rgba(255,43,43,.2);}
 .srh-tile.active span{color:var(--srh-accent-soft);}
 .srh-tile:active{transform:scale(.94);}
 .srh-tile.srh-maint{opacity:.5;cursor:not-allowed;}
 .srh-tile-flag{position:absolute;top:4px;right:4px;font-size:7px;font-weight:800;padding:2px 5px;border-radius:6px;letter-spacing:.3px;}
-.srh-tile-flag.premium{background:rgba(255,178,61,.2);color:var(--srh-accent-soft);border:1px solid var(--srh-hair-strong);}
+.srh-tile-flag.premium{background:rgba(255,43,43,.2);color:var(--srh-accent-soft);border:1px solid var(--srh-hair-strong);}
 .srh-tile-flag.maint{background:rgba(255,82,82,.18);color:#ffb3a3;border:1px solid rgba(255,82,82,.35);}
 
 .srh-empty{text-align:center;padding:36px 10px;color:var(--srh-faint);font-size:11.5px;}
-.srh-empty i{font-size:26px;color:#2c2318;display:block;margin-bottom:10px;}
+.srh-empty i{font-size:26px;color:#2c1818;display:block;margin-bottom:10px;}
 .srh-loading{text-align:center;padding:24px 10px;font-size:12px;color:var(--srh-dim);}
 .srh-loading i{color:var(--srh-accent);}
 .srh-fetcherror{text-align:center;padding:22px 14px;font-size:12px;color:#ffb3a3;background:rgba(255,82,82,.08);border:1px solid rgba(255,82,82,.25);border-radius:12px;line-height:1.6;}
@@ -19480,17 +19486,17 @@ async function ptSubmit(){
 .srh-searchrow{display:flex;gap:8px;}
 .srh-searchinput{flex:1;padding:11px 13px;border-radius:12px;background:var(--srh-surface);border:1.5px solid var(--srh-hair-strong);color:var(--srh-text);font-size:13px;font-weight:600;outline:none;font-family:'Inter','Outfit',system-ui,sans-serif;}
 .srh-searchinput::placeholder{color:var(--srh-faint);font-weight:400;}
-.srh-searchbtn{flex-shrink:0;padding:0 17px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--srh-accent) 0%,#b3792a 100%);color:#1f1200;font-size:12.5px;font-weight:800;cursor:pointer;}
+.srh-searchbtn{flex-shrink:0;padding:0 17px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--srh-accent) 0%,#961020 100%);color:#fff;font-size:12.5px;font-weight:800;cursor:pointer;font-family:'Outfit',sans-serif;}
 .srh-searchbtn:active{transform:scale(.95);}
 
 .srh-item{display:flex;gap:12px;padding:12px;border-radius:14px;background:var(--srh-surface);border:1px solid var(--srh-hair);margin-bottom:8px;}
 .srh-thumb{flex-shrink:0;width:78px;height:78px;border-radius:10px;object-fit:cover;background:var(--srh-surface2);border:1px solid var(--srh-hair-strong);}
 .srh-thumbph{flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:10px;background:var(--srh-surface2);border:1px solid var(--srh-hair-strong);color:var(--srh-faint);width:78px;height:78px;font-size:20px;}
 .srh-body{flex:1;min-width:0;}
-.srh-name{font-size:12.5px;font-weight:700;color:var(--srh-text);line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.srh-name{font-size:12.5px;font-weight:700;color:var(--srh-text);line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-family:'Outfit',sans-serif;}
 .srh-meta{font-size:10px;color:var(--srh-dim);margin-top:5px;line-height:1.5;}
 .srh-actions{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;}
-.srh-actbtn{display:inline-flex;align-items:center;gap:5px;padding:6px 10px;border-radius:9px;border:1px solid var(--srh-hair-strong);background:rgba(255,178,61,.1);color:var(--srh-accent-soft);font-size:10.5px;font-weight:700;cursor:pointer;text-decoration:none;}
+.srh-actbtn{display:inline-flex;align-items:center;gap:5px;padding:6px 10px;border-radius:9px;border:1px solid var(--srh-hair-strong);background:rgba(255,43,43,.1);color:var(--srh-accent-soft);font-size:10.5px;font-weight:700;cursor:pointer;text-decoration:none;}
 .srh-actbtn:active{transform:scale(.95);}
 
 .srh-raw{white-space:pre-wrap;word-break:break-word;font-size:11px;line-height:1.7;color:var(--srh-dim);background:var(--srh-surface2);border:1px solid var(--srh-hair);border-radius:12px;padding:12px;}
@@ -19524,7 +19530,7 @@ const SRH_MENU=[
   {key:'github',label:'GitHub Repository Search',icon:'fa-code-branch',placeholder:'Kata kunci pencarian repositori GitHub...'},
   {key:'google',label:'Google Search',icon:'fa-magnifying-glass-chart',placeholder:'Kata kunci pencarian...'},
   {key:'group',label:'WhatsApp/Telegram Group Search',icon:'fa-users',placeholder:'Kata kunci pencarian tautan grup...'},
-  {key:'kodepos',label:'Cek Kode Pos',icon:'fa-location-dot',placeholder:'Nama daerah atau kode pos...'},
+  {key:'kodepos',label:'Cek Kode Pos',icon:'fa-location-dot',placeholder:'Nama kabupaten/kota, kecamatan, atau desa...'},
   {key:'lyrics',label:'Lyrics Search',icon:'fa-align-left',placeholder:'Judul lagu atau lirik...'},
   {key:'mangatoon',label:'Mangatoon Search',icon:'fa-book-open',placeholder:'Kata kunci komik/novel...'},
   {key:'mcpedl',label:'MCPEDL Search',icon:'fa-cube',placeholder:'Kata kunci addon/mod/map MCPE...'},
@@ -19676,7 +19682,381 @@ function srhDoSearch(){
     if(extraVal) extra+='&'+encodeURIComponent(ep.name)+'='+encodeURIComponent(extraVal);
   });
   if(result) result.innerHTML='<div class="srh-loading"><i class="fa-solid fa-spinner fa-spin"></i> Mencari...</div>';
+  if(menu.key==='bing') srhBingActiveTab='images';
   srhRunSearch(menu,q,result,false,extra);
+}
+
+// Bing punya struktur khusus: result = {images:[...], videos:[...], web:[...]}
+// (bukan array flat seperti provider lain), jadi butuh render bertab.
+function srhIsBingShape(obj){
+  return obj&&typeof obj==='object'&&!Array.isArray(obj)&&
+    (Array.isArray(obj.images)||Array.isArray(obj.videos)||Array.isArray(obj.web));
+}
+
+// Kodepos: array flat tapi field-nya desa/kecamatan/kota/provinsi/kodepos,
+// tidak cocok dengan pola title/thumb/link generic -> render list alamat sendiri.
+function srhIsKodeposItem(it){
+  return it&&typeof it==='object'&&('kodepos' in it)&&('desa' in it||'kecamatan' in it);
+}
+
+function srhRenderKodeposResult(items){
+  const result=document.getElementById('srhSearchResult');
+  if(!result) return;
+  result.innerHTML='<div class="srh-meta" style="margin-bottom:8px;">'+items.length+' hasil ditemukan</div>'+
+    items.map(function(it){
+      const lines=[it.kecamatan,it.kota,it.provinsi].filter(Boolean).join(', ');
+      return '<div class="srh-item">'+
+        '<div class="srh-thumbph"><i class="fa-solid fa-location-dot"></i></div>'+
+        '<div class="srh-body">'+
+          '<div class="srh-name">'+srhEsc(it.desa||'-')+' <span style="opacity:.7;font-weight:600;">&middot; '+srhEsc(it.kodepos||'-')+'</span></div>'+
+          (lines?'<div class="srh-meta">'+srhEsc(lines)+'</div>':'')+
+        '</div>'+
+      '</div>';
+    }).join('');
+}
+
+// Info Negara: object nested result.data dengan field detail (bendera, koordinat,
+// tetangga, dsb), bukan array flat -> render kartu profil negara sendiri.
+function srhIsCountryInfoShape(obj){
+  return obj&&typeof obj==='object'&&!Array.isArray(obj)&&
+    typeof obj.name==='string'&&(('capital' in obj)||('isoCode' in obj)||('continent' in obj));
+}
+
+function srhRenderCountryInfoResult(d){
+  const result=document.getElementById('srhSearchResult');
+  if(!result) return;
+  const rows=[
+    ['Ibu kota',d.capital],
+    ['Benua',d.continent&&(d.continent.emoji?d.continent.emoji+' ':'')+d.continent.name],
+    ['Mata uang',d.currency],
+    ['Kode telepon',d.phoneCode],
+    ['Domain internet',d.internetTLD],
+    ['Bentuk negara',d.constitutionalForm],
+    ['Bahasa',d.languages&&d.languages.native&&d.languages.native.join(', ')],
+    ['Sisi berkendara',d.drivingSide],
+    ['Terkurung daratan',d.landlocked===true?'Ya':(d.landlocked===false?'Tidak':undefined)],
+    ['Luas wilayah',d.area&&(d.area.squareKilometers?d.area.squareKilometers.toLocaleString('id-ID')+' km&sup2;':undefined)],
+    ['Kode ISO',d.isoCode&&[d.isoCode.alpha2,d.isoCode.alpha3].filter(Boolean).join(' / ').toUpperCase()],
+    ['Terkenal dengan',d.famousFor]
+  ].filter(function(r){return r[1];});
+  const rowsHtml=rows.map(function(r){
+    return '<div style="display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--srh-hair);font-size:12.5px;">'+
+      '<span style="color:var(--srh-dim);">'+srhEsc(r[0])+'</span><span style="text-align:right;font-weight:600;">'+r[1]+'</span>'+
+    '</div>';
+  }).join('');
+  const neighbors=Array.isArray(d.neighbors)&&d.neighbors.length?
+    '<div class="srh-meta" style="margin:12px 0 6px;">Negara tetangga</div>'+
+    '<div style="display:flex;gap:8px;flex-wrap:wrap;">'+
+      d.neighbors.map(function(n){
+        return '<div style="display:flex;align-items:center;gap:6px;background:var(--srh-surface2);border:1px solid var(--srh-hair-strong);border-radius:20px;padding:5px 12px 5px 5px;font-size:12px;">'+
+          (n.flag?'<img src="'+srhEsc(n.flag)+'" referrerpolicy="no-referrer" loading="lazy" style="width:22px;height:22px;border-radius:50%;object-fit:cover;" onerror="this.style.display=\'none\';">':'')+
+          srhEsc(n.name)+
+        '</div>';
+      }).join('')+
+    '</div>':'';
+  result.innerHTML=
+    '<div class="srh-item" style="align-items:center;">'+
+      (d.flag?'<img class="srh-thumb" src="'+srhEsc(d.flag)+'" referrerpolicy="no-referrer" loading="lazy" style="object-fit:contain;background:var(--srh-surface2);" onerror="this.outerHTML=\'<div class=&quot;srh-thumbph&quot;><i class=&quot;fa-solid fa-earth-asia&quot;></i></div>\';">':'<div class="srh-thumbph"><i class="fa-solid fa-earth-asia"></i></div>')+
+      '<div class="srh-body">'+
+        '<div class="srh-name" style="font-size:16px;">'+srhEsc(d.name)+'</div>'+
+        (d.googleMapsLink?'<div class="srh-actions"><a class="srh-actbtn" href="'+srhEscAttr(d.googleMapsLink)+'" target="_blank" rel="noopener"><i class="fa-solid fa-map-location-dot"></i> Lihat di Maps</a></div>':'')+
+      '</div>'+
+    '</div>'+
+    '<div style="margin-top:6px;">'+rowsHtml+'</div>'+
+    neighbors;
+}
+
+// Cuaca: format OpenWeatherMap (main/weather/wind/sys), object tunggal bukan array
+// -> render kartu cuaca sendiri, bukan list item generic.
+function srhIsWeatherShape(obj){
+  return obj&&typeof obj==='object'&&!Array.isArray(obj)&&
+    obj.main&&typeof obj.main==='object'&&Array.isArray(obj.weather);
+}
+
+// Dafont: field "name" sebenarnya nama author/studio (bukan nama font), nama font
+// asli ada di query (root respons, sama untuk semua item) dan "preview" sering
+// kosong -> render sendiri biar labelnya benar, bukan disangka title generic.
+function srhIsDafontItem(it){
+  return it&&typeof it==='object'&&('download' in it)&&('downloads' in it)&&('name' in it);
+}
+
+function srhRenderDafontResult(items,query){
+  const result=document.getElementById('srhSearchResult');
+  if(!result) return;
+  result.innerHTML=items.map(function(it){
+    const preview=it.preview||'';
+    return '<div class="srh-item">'+
+      (preview?'<img class="srh-thumb" src="'+srhEsc(preview)+'" referrerpolicy="no-referrer" loading="lazy" onerror="this.outerHTML=\'<div class=&quot;srh-thumbph&quot;><i class=&quot;fa-solid fa-font&quot;></i></div>\';">':'<div class="srh-thumbph"><i class="fa-solid fa-font"></i></div>')+
+      '<div class="srh-body">'+
+        '<div class="srh-name">'+srhEsc(query||'Font')+'</div>'+
+        '<div class="srh-meta">oleh '+srhEsc(it.name||'-')+(it.downloads?' &middot; '+srhEsc(it.downloads):'')+'</div>'+
+        (it.download?'<div class="srh-actions"><a class="srh-actbtn" href="'+srhEscAttr(it.download)+'" target="_blank" rel="noopener"><i class="fa-solid fa-download"></i> Unduh</a></div>':'')+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+// GitHub: field-nya full_name/stars/forks/watchers/url, bukan title/thumb generic
+// -> render kartu repo sendiri dengan statistik dan link clone.
+function srhIsGithubItem(it){
+  return it&&typeof it==='object'&&('full_name' in it)&&('clone_url' in it);
+}
+
+function srhRenderGithubResult(items){
+  const result=document.getElementById('srhSearchResult');
+  if(!result) return;
+  result.innerHTML=items.map(function(it){
+    const stats=[
+      it.stars!=null?'<i class="fa-solid fa-star"></i> '+it.stars:'',
+      it.forks!=null?'<i class="fa-solid fa-code-branch"></i> '+it.forks:'',
+      it.watchers!=null?'<i class="fa-solid fa-eye"></i> '+it.watchers:'',
+      it.open_issues!=null?'<i class="fa-solid fa-circle-exclamation"></i> '+it.open_issues:''
+    ].filter(Boolean).join(' &nbsp; ');
+    return '<div class="srh-item">'+
+      '<div class="srh-thumbph"><i class="fa-brands fa-github"></i></div>'+
+      '<div class="srh-body">'+
+        '<div class="srh-name">'+srhEsc(it.full_name||'-')+(it.is_fork?' <span style="opacity:.6;font-weight:500;font-size:11px;">(fork)</span>':'')+'</div>'+
+        (it.description?'<div class="srh-meta">'+srhEsc(it.description)+'</div>':'')+
+        (stats?'<div class="srh-meta" style="margin-top:4px;">'+stats+'</div>':'')+
+        (it.updated_at?'<div class="srh-meta" style="opacity:.7;">Update terakhir: '+srhEsc(it.updated_at)+'</div>':'')+
+        '<div class="srh-actions">'+
+          (it.url?'<a class="srh-actbtn" href="'+srhEscAttr(it.url)+'" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Buka</a>':'')+
+          (it.clone_url?'<a class="srh-actbtn" href="'+srhEscAttr(it.clone_url)+'" target="_blank" rel="noopener"><i class="fa-solid fa-code"></i> Clone</a>':'')+
+        '</div>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+// Google (news): field-nya diberi nama generik/diobfuskasi (resource_title,
+// origin_node, resolved_endpoint, temporal_stamp) padahal isinya hasil berita
+// Google News -> render list berita dengan label yang benar.
+function srhIsGoogleNewsItem(it){
+  return it&&typeof it==='object'&&('resource_title' in it)&&('resolved_endpoint' in it);
+}
+
+function srhGoogleFmtDate(str){
+  if(!str) return '';
+  const d=new Date(str);
+  if(isNaN(d.getTime())) return str;
+  return d.toLocaleString('id-ID',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+}
+
+function srhRenderGoogleNewsResult(items){
+  const result=document.getElementById('srhSearchResult');
+  if(!result) return;
+  result.innerHTML='<div class="srh-meta" style="margin-bottom:8px;">'+items.length+' berita ditemukan</div>'+
+    items.map(function(it){
+      return '<div class="srh-item">'+
+        '<div class="srh-thumbph"><i class="fa-solid fa-newspaper"></i></div>'+
+        '<div class="srh-body">'+
+          '<div class="srh-name">'+srhEsc(it.resource_title||'-')+'</div>'+
+          '<div class="srh-meta">'+srhEsc(it.origin_node||'-')+(it.temporal_stamp?' &middot; '+srhEsc(srhGoogleFmtDate(it.temporal_stamp)):'')+'</div>'+
+          (it.resolved_endpoint?'<div class="srh-actions"><a class="srh-actbtn" href="'+srhEscAttr(it.resolved_endpoint)+'" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Baca</a></div>':'')+
+        '</div>'+
+      '</div>';
+    }).join('');
+}
+
+// Lyrics: field-nya trackName/artistName/albumName/plainLyrics/syncedLyrics.
+// Lirik ditampilkan tersembunyi di belakang tombol "Lihat Lirik" per item,
+// bukan langsung terbuka semua saat render list hasil pencarian.
+function srhIsLyricsItem(it){
+  return it&&typeof it==='object'&&('trackName' in it)&&(('plainLyrics' in it)||('syncedLyrics' in it));
+}
+
+function srhLyricsFmtDuration(sec){
+  if(sec==null) return '';
+  const s=Math.round(sec);
+  const m=Math.floor(s/60);
+  const r=String(s%60).padStart(2,'0');
+  return m+':'+r;
+}
+
+function srhLyricsToggle(btn,idx){
+  const box=document.getElementById('srhLyricsBox_'+idx);
+  if(!box) return;
+  const open=box.style.display!=='none';
+  box.style.display=open?'none':'block';
+  btn.innerHTML=open?'<i class="fa-solid fa-align-left"></i> Lihat Lirik':'<i class="fa-solid fa-chevron-up"></i> Sembunyikan';
+}
+
+function srhRenderLyricsResult(items){
+  const result=document.getElementById('srhSearchResult');
+  if(!result) return;
+  srhCache.lyrics=items;
+  result.innerHTML=items.map(function(it,idx){
+    const meta=[it.artistName,it.albumName].filter(Boolean).join(' &middot; ');
+    const lyricsText=it.plainLyrics||(typeof it.syncedLyrics==='string'?it.syncedLyrics.replace(/\[\d{2}:\d{2}(?:\.\d+)?\]\s*/g,''):'');
+    return '<div class="srh-item">'+
+      '<div class="srh-thumbph"><i class="fa-solid fa-music"></i></div>'+
+      '<div class="srh-body">'+
+        '<div class="srh-name">'+srhEsc(it.trackName||it.name||'-')+'</div>'+
+        (meta?'<div class="srh-meta">'+srhEsc(meta)+(it.duration?' &middot; '+srhLyricsFmtDuration(it.duration):'')+'</div>':'')+
+        (it.instrumental?'<div class="srh-meta" style="opacity:.7;">Instrumental (tanpa lirik)</div>':
+          (lyricsText?'<div class="srh-actions"><button class="srh-actbtn" onclick="srhLyricsToggle(this,'+idx+')" style="border:none;cursor:pointer;font:inherit;"><i class="fa-solid fa-align-left"></i> Lihat Lirik</button></div>'+
+          '<div class="srh-raw" id="srhLyricsBox_'+idx+'" style="display:none;margin-top:8px;">'+srhEsc(lyricsText)+'</div>':'')
+        )+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+// Mangatoon: hasil terbagi per kategori (komik/novel), masing-masing berisi
+// array beranggotakan satu object {items, resultCount} -> perlu render bertab.
+// Link dari API sering dobel domain ("mangatoon.mobihttps://mangatoon.mobi/..")
+// jadi perlu dibersihkan dulu sebelum dipakai.
+function srhIsMangatoonShape(obj){
+  return obj&&typeof obj==='object'&&!Array.isArray(obj)&&
+    (Array.isArray(obj.komik)||Array.isArray(obj.novel));
+}
+
+function srhMangatoonFixLink(link){
+  if(!link) return '';
+  const m=link.match(/(https?:\/\/.*)$/);
+  return m?m[1]:link;
+}
+
+let srhMangatoonActiveTab='komik';
+function srhMangatoonTabLabel(t){ return t==='komik'?'Komik':'Novel'; }
+
+function srhRenderMangatoonResult(data){
+  const result=document.getElementById('srhSearchResult');
+  if(!result) return;
+  const tabs=['komik','novel'].filter(function(t){
+    return Array.isArray(data[t])&&data[t][0]&&Array.isArray(data[t][0].items)&&data[t][0].items.length;
+  });
+  if(!tabs.length){
+    result.innerHTML='<div class="srh-fetcherror"><i class="fa-solid fa-triangle-exclamation"></i> Tidak ada hasil ditemukan.</div>';
+    return;
+  }
+  if(tabs.indexOf(srhMangatoonActiveTab)===-1) srhMangatoonActiveTab=tabs[0];
+  const tabsHtml='<div class="srh-formrow" style="display:flex;gap:8px;margin-bottom:10px;">'+
+    tabs.map(function(t){
+      return '<button class="srh-searchbtn" style="flex:1;'+(t===srhMangatoonActiveTab?'':'opacity:.55;')+'" onclick="srhMangatoonActiveTab=\''+t+'\';srhRenderMangatoonResult(srhCache.mangatoon);"><i class="fa-solid fa-book-open"></i> '+srhMangatoonTabLabel(t)+'</button>';
+    }).join('')+
+  '</div>';
+  const bucket=data[srhMangatoonActiveTab][0];
+  const items=bucket.items||[];
+  const bodyHtml='<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;">'+
+    items.map(function(it){
+      const link=srhMangatoonFixLink(it.link);
+      return '<a href="'+srhEscAttr(link)+'" target="_blank" rel="noopener" style="display:block;text-decoration:none;">'+
+        '<img src="'+srhEsc(it.image||'')+'" referrerpolicy="no-referrer" loading="lazy" onerror="this.style.display=\'none\';" style="width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:10px;background:var(--srh-surface2);border:1px solid var(--srh-hair-strong);">'+
+        '<div style="font-size:11.5px;color:var(--srh-dim);margin-top:4px;line-height:1.4;">'+srhEsc(it.title||'-')+'</div>'+
+      '</a>';
+    }).join('')+
+  '</div>';
+  result.innerHTML=(bucket.resultCount?'<div class="srh-meta" style="margin-bottom:8px;">'+srhEsc(bucket.resultCount)+'</div>':'')+tabsHtml+bodyHtml;
+}
+
+// NPM Package: field name/version/description/author/links{npm,homepage,repository}.
+// "links" itu object nested (generic renderer cuma baca it.url/it.link string),
+// dan description sering berisi markdown badge mentah -> perlu dibersihkan & render sendiri.
+function srhIsNpmItem(it){
+  return it&&typeof it==='object'&&('version' in it)&&it.links&&typeof it.links==='object';
+}
+
+function srhNpmCleanDesc(desc){
+  if(!desc) return '';
+  // Buang badge markdown ![alt](url) dan link [text](url) mentah yang sering
+  // dipakai sebagai "description" oleh sebagian package (contoh: badge NPM/CI).
+  const cleaned=desc.replace(/!?\[([^\]]*)\]\([^)]*\)/g,'').trim();
+  return cleaned||desc;
+}
+
+function srhRenderNpmResult(items){
+  const result=document.getElementById('srhSearchResult');
+  if(!result) return;
+  result.innerHTML=items.map(function(it){
+    const desc=srhNpmCleanDesc(it.description);
+    const keywords=(Array.isArray(it.keywords)&&it.keywords.length)?it.keywords.slice(0,6).join(', '):'';
+    const links=it.links||{};
+    return '<div class="srh-item">'+
+      '<div class="srh-thumbph"><i class="fa-brands fa-npm" style="color:#cb3837;"></i></div>'+
+      '<div class="srh-body">'+
+        '<div class="srh-name">'+srhEsc(it.name||'-')+' <span style="opacity:.6;font-weight:600;font-size:12px;">v'+srhEsc(it.version||'-')+'</span></div>'+
+        (desc?'<div class="srh-meta">'+srhEsc(desc)+'</div>':'')+
+        (keywords?'<div class="srh-meta" style="opacity:.7;">'+srhEsc(keywords)+'</div>':'')+
+        (it.author&&it.author!=='N/A'?'<div class="srh-meta" style="opacity:.7;">oleh '+srhEsc(it.author)+'</div>':'')+
+        '<div class="srh-actions">'+
+          (links.npm?'<a class="srh-actbtn" href="'+srhEscAttr(links.npm)+'" target="_blank" rel="noopener"><i class="fa-brands fa-npm"></i> NPM</a>':'')+
+          (links.homepage?'<a class="srh-actbtn" href="'+srhEscAttr(links.homepage)+'" target="_blank" rel="noopener"><i class="fa-solid fa-house"></i> Homepage</a>':'')+
+        '</div>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+function srhWeatherIconUrl(icon){
+  return icon?'https://openweathermap.org/img/wn/'+encodeURIComponent(icon)+'@2x.png':'';
+}
+
+// Pinterest: konten visual (pin gambar), field title/image/source/username/board
+// tidak cocok list item generic (link ada di "source", bukan url/link) -> render
+// grid gambar dengan caption, mirip pola Bing images / Mangatoon.
+function srhIsPinterestItem(it){
+  return it&&typeof it==='object'&&('board' in it)&&('username' in it)&&('image' in it);
+}
+
+function srhRenderPinterestResult(items){
+  const result=document.getElementById('srhSearchResult');
+  if(!result) return;
+  result.innerHTML='<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;">'+
+    items.map(function(it){
+      const link=it.source||'';
+      const thumbProxy=it.image?'https://images.weserv.nl/?url='+encodeURIComponent(it.image.replace(/^https?:\/\//,'')):'';
+      return '<a href="'+srhEscAttr(link)+'" target="_blank" rel="noopener" style="display:block;text-decoration:none;">'+
+        '<img src="'+srhEsc(it.image||'')+'" referrerpolicy="no-referrer" loading="lazy" data-fallback="'+srhEscAttr(thumbProxy)+'" onerror="if(this.dataset.fallback&&!this.dataset.triedFallback){this.dataset.triedFallback=\'1\';this.src=this.dataset.fallback;}else{this.style.display=\'none\';}" style="width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:10px;background:var(--srh-surface2);border:1px solid var(--srh-hair-strong);">'+
+        '<div style="font-size:11px;color:var(--srh-dim);margin-top:4px;line-height:1.4;">'+srhEsc((it.title||'').slice(0,70))+'</div>'+
+        (it.username?'<div style="font-size:10.5px;color:var(--srh-faint);margin-top:2px;">@'+srhEsc(it.username)+(it.board?' &middot; '+srhEsc(it.board):'')+'</div>':'')+
+      '</a>';
+    }).join('')+
+  '</div>';
+}
+
+function srhWeatherFmtTime(unixSec,tzOffsetSec){
+  if(!unixSec) return '';
+  const d=new Date((unixSec+(tzOffsetSec||0))*1000);
+  const hh=String(d.getUTCHours()).padStart(2,'0');
+  const mm=String(d.getUTCMinutes()).padStart(2,'0');
+  return hh+':'+mm;
+}
+
+function srhRenderWeatherResult(d){
+  const result=document.getElementById('srhSearchResult');
+  if(!result) return;
+  const w=(d.weather&&d.weather[0])||{};
+  const iconUrl=srhWeatherIconUrl(w.icon);
+  const place=[d.name,d.sys&&d.sys.country].filter(Boolean).join(', ');
+  const rows=[
+    ['Terasa seperti',d.main&&(Math.round(d.main.feels_like)+'&deg;C')],
+    ['Kelembapan',d.main&&(d.main.humidity+'%')],
+    ['Tekanan udara',d.main&&(d.main.pressure+' hPa')],
+    ['Angin',d.wind&&(d.wind.speed+' m/s'+(d.wind.deg!=null?', '+d.wind.deg+'&deg;':''))],
+    ['Awan',d.clouds&&(d.clouds.all+'%')],
+    ['Jarak pandang',d.visibility!=null?(d.visibility/1000)+' km':undefined],
+    ['Terbit',srhWeatherFmtTime(d.sys&&d.sys.sunrise,d.timezone)],
+    ['Terbenam',srhWeatherFmtTime(d.sys&&d.sys.sunset,d.timezone)]
+  ].filter(function(r){return r[1];});
+  const rowsHtml=rows.map(function(r){
+    return '<div style="display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--srh-hair);font-size:12.5px;">'+
+      '<span style="color:var(--srh-dim);">'+srhEsc(r[0])+'</span><span style="text-align:right;font-weight:600;">'+r[1]+'</span>'+
+    '</div>';
+  }).join('');
+  result.innerHTML=
+    '<div class="srh-item" style="align-items:center;">'+
+      (iconUrl?'<img class="srh-thumb" src="'+srhEsc(iconUrl)+'" referrerpolicy="no-referrer" loading="lazy" style="object-fit:contain;background:var(--srh-surface2);" onerror="this.outerHTML=\'<div class=&quot;srh-thumbph&quot;><i class=&quot;fa-solid fa-cloud-sun&quot;></i></div>\';">':'<div class="srh-thumbph"><i class="fa-solid fa-cloud-sun"></i></div>')+
+      '<div class="srh-body">'+
+        '<div class="srh-name" style="font-size:16px;">'+srhEsc(place||'-')+'</div>'+
+        '<div class="srh-meta" style="text-transform:capitalize;">'+srhEsc(w.description||'')+'</div>'+
+      '</div>'+
+    '</div>'+
+    '<div style="display:flex;gap:14px;align-items:baseline;margin:10px 0 4px;">'+
+      '<span style="font-size:34px;font-weight:800;">'+(d.main?Math.round(d.main.temp):'-')+'&deg;C</span>'+
+      (d.main?'<span style="font-size:12px;color:var(--srh-dim);">min '+Math.round(d.main.temp_min)+'&deg; &middot; maks '+Math.round(d.main.temp_max)+'&deg;</span>':'')+
+    '</div>'+
+    '<div>'+rowsHtml+'</div>';
 }
 
 function srhRunSearch(menu,q,result,isRetry,extra){
@@ -19687,7 +20067,32 @@ function srhRunSearch(menu,q,result,isRetry,extra){
       if(result) result.innerHTML='<div class="srh-fetcherror"><i class="fa-solid fa-triangle-exclamation"></i> '+srhEsc(apiMsg)+'</div>';
       return;
     }
-    let items=(json&&(json.result!==undefined?json.result:json.data));
+    const rawResult=(json&&(json.result!==undefined?json.result:json.data));
+    if(menu.key==='bing'&&srhIsBingShape(rawResult)){
+      srhCache[menu.key]=rawResult;
+      srhRenderBingResult(rawResult);
+      return;
+    }
+    if(menu.key==='countryinfo'){
+      const countryData=(rawResult&&rawResult.data)?rawResult.data:rawResult;
+      if(srhIsCountryInfoShape(countryData)){
+        srhCache[menu.key]=countryData;
+        srhRenderCountryInfoResult(countryData);
+        return;
+      }
+    }
+    if(menu.key==='cuaca'&&srhIsWeatherShape(rawResult)){
+      srhCache[menu.key]=rawResult;
+      srhRenderWeatherResult(rawResult);
+      return;
+    }
+    if(menu.key==='mangatoon'&&srhIsMangatoonShape(rawResult)){
+      srhCache[menu.key]=rawResult;
+      srhMangatoonActiveTab='komik';
+      srhRenderMangatoonResult(rawResult);
+      return;
+    }
+    let items=(rawResult!==undefined?rawResult:undefined);
     if(items===undefined) items=json;
     if(!Array.isArray(items)) items=(items?[items]:[]);
     if(!items.length){
@@ -19695,6 +20100,34 @@ function srhRunSearch(menu,q,result,isRetry,extra){
       return;
     }
     srhCache[menu.key]=items;
+    if(menu.key==='kodepos'&&srhIsKodeposItem(items[0])){
+      srhRenderKodeposResult(items);
+      return;
+    }
+    if(menu.key==='dafont'&&srhIsDafontItem(items[0])){
+      srhRenderDafontResult(items,json&&json.query);
+      return;
+    }
+    if(menu.key==='github'&&srhIsGithubItem(items[0])){
+      srhRenderGithubResult(items);
+      return;
+    }
+    if(menu.key==='google'&&srhIsGoogleNewsItem(items[0])){
+      srhRenderGoogleNewsResult(items);
+      return;
+    }
+    if(menu.key==='lyrics'&&srhIsLyricsItem(items[0])){
+      srhRenderLyricsResult(items);
+      return;
+    }
+    if(menu.key==='npm'&&srhIsNpmItem(items[0])){
+      srhRenderNpmResult(items);
+      return;
+    }
+    if(menu.key==='pinterest'&&srhIsPinterestItem(items[0])){
+      srhRenderPinterestResult(items);
+      return;
+    }
     srhRenderResult(menu,items);
   }).catch(function(err){
     const detail=(err&&err.debugDetail)||(err&&err.message)||'';
@@ -19719,19 +20152,90 @@ function srhRenderResult(menu,items){
     const title=it.title||it.judul||it.name||it.nama||it.text||it.lyrics&&'Lirik Lagu'||menu.label;
     const thumb=it.thumbnail||it.thumb||it.image||it.img||it.cover||'';
     const desc=it.description||it.desc||it.artist||it.author||it.channel||it.location||it.city||'';
-    const meta=[desc,(it.duration||it.size||it.date||'')].filter(Boolean).join(' &middot; ');
+    const rating=(it.rating!=null?it.rating:(it.stars!=null?it.stars:(it.score!=null?it.score:'')));
+    const ratingHtml=rating!==''?'<i class="fa-solid fa-star" style="color:#f5b400;"></i> '+srhEsc(String(rating)):'';
+    const metaText=[desc,(it.duration||it.size||it.date||'')].filter(Boolean).join(' &middot; ');
+    const metaHtml=[metaText?srhEsc(metaText):'',ratingHtml].filter(Boolean).join(' &middot; ');
     const link=it.url||it.link||it.download||it.video||it.play_url||'';
     const rawText=(!thumb&&!link&&typeof it.lyrics==='string')?it.lyrics:'';
+    const thumbProxy=thumb?'https://images.weserv.nl/?url='+encodeURIComponent(thumb.replace(/^https?:\/\//,'')):'';
     return '<div class="srh-item">'+
-      (thumb?'<img class="srh-thumb" src="'+srhEsc(thumb)+'" referrerpolicy="no-referrer" onerror="this.outerHTML=\'<div class=&quot;srh-thumbph&quot;><i class=&quot;fa-solid fa-image&quot;></i></div>\'">':'<div class="srh-thumbph"><i class="fa-solid '+(menu.icon||'fa-magnifying-glass')+'"></i></div>')+
+      (thumb?'<img class="srh-thumb" src="'+srhEsc(thumb)+'" referrerpolicy="no-referrer" loading="lazy" data-fallback="'+srhEscAttr(thumbProxy)+'" onerror="var ph=\'<div class=&quot;srh-thumbph&quot;><i class=&quot;fa-solid fa-image&quot;></i></div>\';if(this.dataset.fallback&&!this.dataset.triedFallback){this.dataset.triedFallback=\'1\';this.src=this.dataset.fallback;}else{this.outerHTML=ph;}">':'<div class="srh-thumbph"><i class="fa-solid '+(menu.icon||'fa-magnifying-glass')+'"></i></div>')+
       '<div class="srh-body">'+
         '<div class="srh-name">'+srhEsc(title)+'</div>'+
-        (meta?'<div class="srh-meta">'+srhEsc(meta)+'</div>':'')+
+        (metaHtml?'<div class="srh-meta">'+metaHtml+'</div>':'')+
         (rawText?'<div class="srh-raw" style="margin-top:8px;">'+srhEsc(rawText)+'</div>':'')+
         (link?'<div class="srh-actions"><a class="srh-actbtn" href="'+srhEscAttr(link)+'" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Buka</a></div>':'')+
       '</div>'+
     '</div>';
   }).join('');
+}
+
+let srhBingActiveTab='images';
+function srhBingTabIcon(t){ return t==='images'?'fa-image':(t==='videos'?'fa-video':'fa-globe'); }
+function srhBingTabLabel(t){ return t==='images'?'Gambar':(t==='videos'?'Video':'Web'); }
+
+function srhBingThumbHtml(src){
+  if(!src) return '<div class="srh-thumbph"><i class="fa-solid fa-image"></i></div>';
+  const proxy='https://images.weserv.nl/?url='+encodeURIComponent(src.replace(/^https?:\/\//,''));
+  return '<img class="srh-thumb" src="'+srhEsc(src)+'" referrerpolicy="no-referrer" loading="lazy" data-fallback="'+srhEscAttr(proxy)+'" onerror="var ph=\'<div class=&quot;srh-thumbph&quot;><i class=&quot;fa-solid fa-image&quot;></i></div>\';if(this.dataset.fallback&&!this.dataset.triedFallback){this.dataset.triedFallback=\'1\';this.src=this.dataset.fallback;}else{this.outerHTML=ph;}">';
+}
+
+function srhRenderBingResult(data){
+  const result=document.getElementById('srhSearchResult');
+  if(!result) return;
+  const tabs=['images','videos','web'].filter(function(t){return Array.isArray(data[t])&&data[t].length;});
+  if(!tabs.length){
+    result.innerHTML='<div class="srh-fetcherror"><i class="fa-solid fa-triangle-exclamation"></i> Tidak ada hasil ditemukan.</div>';
+    return;
+  }
+  if(tabs.indexOf(srhBingActiveTab)===-1) srhBingActiveTab=tabs[0];
+  const tabsHtml='<div class="srh-formrow" style="display:flex;gap:8px;margin-bottom:10px;">'+
+    tabs.map(function(t){
+      return '<button class="srh-searchbtn" style="flex:1;'+(t===srhBingActiveTab?'':'opacity:.55;')+'" onclick="srhBingActiveTab=\''+t+'\';srhRenderBingResult(srhCache.bing);"><i class="fa-solid '+srhBingTabIcon(t)+'"></i> '+srhBingTabLabel(t)+'</button>';
+    }).join('')+
+  '</div>';
+
+  const items=data[srhBingActiveTab]||[];
+  let bodyHtml='';
+  if(srhBingActiveTab==='images'){
+    bodyHtml='<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;">'+
+      items.map(function(it){
+        const img=it.mediaUrl||it.thumbnail||'';
+        const link=it.mediaUrl||it.sourceUrl||'';
+        return '<a href="'+srhEscAttr(link)+'" target="_blank" rel="noopener" style="display:block;text-decoration:none;">'+
+          '<img src="'+srhEsc(it.thumbnail||it.mediaUrl||'')+'" referrerpolicy="no-referrer" loading="lazy" onerror="this.onerror=null;this.src=\''+srhEscAttr(img)+'\';" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;background:var(--srh-surface2);border:1px solid var(--srh-hair-strong);">'+
+          '<div style="font-size:11px;color:var(--srh-dim);margin-top:4px;line-height:1.4;">'+srhEsc((it.title||'').slice(0,60))+'</div>'+
+        '</a>';
+      }).join('')+
+    '</div>';
+  }else if(srhBingActiveTab==='videos'){
+    bodyHtml=items.map(function(it){
+      const thumb=it.thumbnail||'';
+      const link=it.link||'';
+      return '<div class="srh-item">'+
+        srhBingThumbHtml(thumb)+
+        '<div class="srh-body">'+
+          '<div class="srh-name">'+srhEsc(it.title||'Video')+'</div>'+
+          (link?'<div class="srh-actions"><a class="srh-actbtn" href="'+srhEscAttr(link)+'" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Buka</a></div>':'')+
+        '</div>'+
+      '</div>';
+    }).join('');
+  }else{
+    bodyHtml=items.map(function(it){
+      const link=it.link||'';
+      return '<div class="srh-item">'+
+        '<div class="srh-thumbph"><i class="fa-solid fa-globe"></i></div>'+
+        '<div class="srh-body">'+
+          '<div class="srh-name">'+srhEsc(it.title||'')+'</div>'+
+          (it.displayUrl?'<div class="srh-meta">'+srhEsc(it.displayUrl)+'</div>':'')+
+          (it.snippet?'<div class="srh-raw" style="margin-top:8px;">'+srhEsc(it.snippet)+'</div>':'')+
+          (link?'<div class="srh-actions"><a class="srh-actbtn" href="'+srhEscAttr(link)+'" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Buka</a></div>':'')+
+        '</div>'+
+      '</div>';
+    }).join('');
+  }
+  result.innerHTML=tabsHtml+bodyHtml;
 }
 </script>
 
