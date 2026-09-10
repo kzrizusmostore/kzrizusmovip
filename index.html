@@ -16701,6 +16701,13 @@ async function rndDownload(url,keyName,isVideo){
 .tff-section:first-child .tff-section-head{margin-top:0;border-top:none;padding-top:0;}
 .tff-section-head i{color:var(--tff-accent);font-size:12px;width:16px;text-align:center;}
 .tff-section-head span{font-size:11.5px;font-weight:800;color:var(--tff-accent-soft);letter-spacing:.4px;text-transform:uppercase;}
+.tff-banner-wrap{margin:-16px -15px 12px;border-radius:0;overflow:hidden;}
+.tff-banner-img{width:100%;display:block;object-fit:cover;max-height:150px;}
+.tff-friends-list{display:flex;flex-direction:column;gap:8px;}
+.tff-friend-row{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:9px 10px;}
+.tff-friend-avatar{width:36px;height:36px;border-radius:50%;object-fit:cover;flex-shrink:0;background:#111;}
+.tff-friend-name{font-size:12.5px;font-weight:800;color:#fff;word-break:break-word;}
+.tff-friend-sub{font-size:10px;color:#888;font-weight:600;margin-top:2px;}
 .stk-header{text-align:center;margin-bottom:18px;}
 .stk-title{font-size:20px;font-weight:900;color:#fff;display:flex;align-items:center;justify-content:center;gap:9px;font-family:'Outfit',sans-serif;}
 .stk-title i{color:#ff5252;}
@@ -16883,6 +16890,18 @@ async function rndDownload(url,keyName,isVideo){
   <button class="pc-btn" id="stkFfBtn" onclick="stkFfSubmit()"><i class="fa-solid fa-paper-plane"></i> CEK INFO</button>
 </div>
 <div class="tff-result" id="stkFfResult"></div>
+
+<div class="pc-card" style="margin-top:14px;">
+  <div class="pc-head">
+    <div class="pc-head-icon"><i class="fa-solid fa-user-group"></i></div>
+    <div class="pc-head-text"><h3>DAFTAR TEMAN</h3><p>Cek daftar teman lewat JWT token</p></div>
+  </div>
+  <div class="pc-input-wrap">
+    <textarea class="pc-input tff-input" id="stkFfJwtVal" rows="3" placeholder="Tempel JWT token di sini..." style="font-size:11.5px;font-weight:600;padding:12px;resize:vertical;min-height:66px;line-height:1.4;"></textarea>
+  </div>
+  <button class="pc-btn" id="stkFfFriendsBtn" onclick="stkFfFriendsSubmit()"><i class="fa-solid fa-users-viewfinder"></i> CEK TEMAN</button>
+</div>
+<div class="tff-result" id="stkFfFriendsResult"></div>
 </div>
 
 <!-- DISCORD PANEL -->
@@ -17289,7 +17308,7 @@ const FF_OB54_API_BASE='https://siambhau69.eu.cc';
 // Ambil di https://siambhau69.eu.cc/GetFreeApiKey (follow GitHub + join Telegram)
 // atau chat langsung https://t.me/SiamBhau. Tanpa key, semua request akan
 // ditolak dengan error 403 "API key required.".
-const FF_OB54_API_KEY='kzrizusmo:FFINFO:XDI';
+const FF_OB54_API_KEY='FFAPI-PREM-30-kzrizusmo-X07';
 
 // Ambil nilai pertama yang ada dari beberapa kemungkinan nama field, karena
 // endpoint /freefireinfo/bhau balikin camelCase (accountId, rankingPoints,...)
@@ -17889,9 +17908,57 @@ async function stkStalk(type){
 </script>
 
 <!-- CEK NICK FF PAGE -->
+<!-- CEK INFO FF - MENU -->
 <div class="page" id="cekidff">
 <style>
-#cekidff{padding-bottom:80px;}
+#cekidff{padding-bottom:80px;--cifm-surface:rgba(14,14,14,.82);--cifm-hair:rgba(255,255,255,.07);--cifm-hair-strong:rgba(255,43,43,.38);--cifm-accent:#ff2b2b;--cifm-dim:#888;}
+.cifm-header{position:relative;overflow:hidden;border-radius:22px;padding:20px 16px 18px;margin-bottom:16px;background:var(--cifm-surface);backdrop-filter:blur(16px);border:1px solid var(--cifm-hair);}
+.cifm-header::before{content:'\f2bb';font-family:'Font Awesome 6 Free';font-weight:900;position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:64px;color:var(--cifm-accent);opacity:.08;line-height:1;pointer-events:none;}
+.cifm-header::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,43,43,.4),transparent);}
+.cifm-title{position:relative;display:flex;align-items:center;gap:9px;font-family:'Outfit',sans-serif;font-size:17px;font-weight:900;color:#fff;letter-spacing:.5px;}
+.cifm-title i{color:var(--cifm-accent);font-size:16px;}
+.cifm-subtitle{position:relative;margin-top:5px;font-size:11px;color:var(--cifm-dim);}
+
+.cifm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:16px;}
+.cifm-tile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px 4px 13px;border-radius:14px;background:var(--cifm-surface);border:1px solid var(--cifm-hair);cursor:pointer;text-align:center;transition:border-color .15s,background .15s;}
+.cifm-tile-icon{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,43,43,.1);border:1px solid var(--cifm-hair-strong);}
+.cifm-tile i{font-size:15px;color:var(--cifm-accent);}
+.cifm-tile span{font-size:9.5px;font-weight:700;color:var(--cifm-dim);line-height:1.25;}
+.cifm-tile:active{transform:scale(.94);}
+.cifm-tile.cifm-tile-soon{opacity:.55;cursor:default;}
+.cifm-tile-soon-badge{position:absolute;margin-top:-34px;margin-left:26px;background:#333;color:#bbb;font-size:7px;font-weight:800;letter-spacing:.3px;padding:2px 5px;border-radius:6px;}
+</style>
+
+<div class="cifm-header">
+  <div class="cifm-title"><i class="fa-solid fa-address-card"></i> CEK INFO FF</div>
+  <div class="cifm-subtitle">Pilih menu di bawah untuk mulai cek</div>
+</div>
+
+<div class="cifm-grid">
+  <div class="cifm-tile" onclick="showPage('cekidffPlayer')">
+    <div class="cifm-tile-icon"><i class="fa-solid fa-user-shield"></i></div>
+    <span>INFO PLAYER</span>
+  </div>
+  <div class="cifm-tile" onclick="showPage('cekidffBanner')">
+    <div class="cifm-tile-icon"><i class="fa-solid fa-image"></i></div>
+    <span>CEK BANNER</span>
+  </div>
+  <div class="cifm-tile" onclick="showPage('cekidffBanned')">
+    <div class="cifm-tile-icon"><i class="fa-solid fa-user-slash"></i></div>
+    <span>CEK BANNED</span>
+  </div>
+  <div class="cifm-tile" onclick="showPage('cekidffOutfit')">
+    <div class="cifm-tile-icon"><i class="fa-solid fa-shirt"></i></div>
+    <span>CEK OUTFIT</span>
+  </div>
+</div>
+
+<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
+</div>
+
+<div class="page" id="cekidffPlayer">
+<style>
+#cekidffPlayer{padding-bottom:80px;}
 
 .cid-page-head{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding:0 2px;}
 .cid-page-head-icon{
@@ -18236,6 +18303,507 @@ function cidCopyNick(){
 }
 </script>
 
+<!-- CEK BANNER PAGE -->
+<div class="page" id="cekidffBanner">
+<style>
+#cekidffBanner{padding-bottom:80px;}
+.cbn-banner-frame{width:100%;border-radius:16px;overflow:hidden;background:#111;border:1px solid rgba(255,255,255,.1);margin-bottom:14px;min-height:120px;display:flex;align-items:center;justify-content:center;}
+.cbn-banner-img{width:100%;height:auto;display:block;}
+</style>
+
+<div class="cid-page-head">
+  <span class="cid-page-head-icon" aria-hidden="true"></span>
+  <div>
+    <p class="cid-hero-title"><span class="red">CEK</span>&nbsp;<span class="wht">BANNER FREE FIRE</span></p>
+    <p class="cid-hero-sub">Masukkan UID Free Fire kamu, banner profil kamu langsung dibuat otomatis.</p>
+  </div>
+</div>
+
+<div class="cid-card">
+  <div class="cid-label"><i class="fa-solid fa-hashtag"></i>UID FREE FIRE</div>
+  <div class="cid-input-wrap">
+    <i class="fa-solid fa-hashtag"></i>
+    <input class="cid-input" id="cbnUidInput" type="text" inputmode="numeric" placeholder="Contoh: 123456789" maxlength="13"/>
+  </div>
+  <button class="cid-btn" id="cbnCheckBtn" onclick="cbnCheck()"><i class="fa-solid fa-image"></i>BUAT BANNER SEKARANG</button>
+  <p class="cid-hint">Banner profil dibuat otomatis dari data akun Free Fire kamu.</p>
+</div>
+
+<div class="cid-state show" id="cbnStateIdle">
+  <i class="fa-solid fa-image"></i>
+  <p>Belum ada banner yang dibuat. Masukkan UID Free Fire di atas lalu tekan "Buat Banner Sekarang".</p>
+</div>
+
+<div class="cid-state cid-loading" id="cbnStateLoading">
+  <i class="fa-solid fa-spinner fa-spin"></i>
+  <p>Sedang membuat banner profil kamu, tunggu sebentar ya...</p>
+</div>
+
+<div class="cid-state cid-error" id="cbnStateError">
+  <i class="fa-solid fa-triangle-exclamation"></i>
+  <p id="cbnErrorMsg">UID Free Fire tidak ditemukan atau banner gagal dibuat. Periksa kembali UID kamu.</p>
+  <div class="cid-retry" onclick="cbnReset()"><i class="fa-solid fa-rotate-left"></i>Coba Lagi</div>
+</div>
+
+<div class="cid-result" id="cbnResult">
+  <div class="cid-result-card">
+    <div class="cbn-banner-frame"><img class="cbn-banner-img" id="cbnBannerImg" alt="banner profil free fire"/></div>
+    <div class="cid-id-chip" id="cbnIdChip"></div>
+    <button class="cid-btn" style="margin-top:14px;" id="cbnDownloadBtn" onclick="cbnDownload()"><i class="fa-solid fa-download"></i>UNDUH BANNER</button>
+  </div>
+  <button class="cid-reset-btn" onclick="cbnReset()"><i class="fa-solid fa-arrow-rotate-left"></i>BUAT BANNER LAIN</button>
+</div>
+
+<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
+</div>
+
+<script>
+(function(){
+  const uidInput=document.getElementById('cbnUidInput');
+  if(uidInput){
+    uidInput.addEventListener('input',function(){
+      uidInput.value=uidInput.value.replace(/[^0-9]/g,'').slice(0,13);
+    });
+    uidInput.addEventListener('keydown',function(e){
+      if(e.key==='Enter') cbnCheck();
+    });
+  }
+})();
+
+let cbnCurrentUrl='';
+
+function cbnShowState(which){
+  ['cbnStateIdle','cbnStateLoading','cbnStateError'].forEach(function(id){
+    const el=document.getElementById(id);
+    if(el) el.classList.toggle('show',id===which);
+  });
+  const result=document.getElementById('cbnResult');
+  if(result) result.classList.toggle('show',which===null);
+}
+
+function cbnSetLoadingBtn(loading){
+  const btn=document.getElementById('cbnCheckBtn');
+  if(!btn) return;
+  if(loading){
+    btn.disabled=true;
+    btn.dataset.origHtml=btn.innerHTML;
+    btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i>MEMBUAT...';
+  }else{
+    btn.disabled=false;
+    if(btn.dataset.origHtml) btn.innerHTML=btn.dataset.origHtml;
+  }
+}
+
+function cbnShake(){
+  const inp=document.getElementById('cbnUidInput');
+  if(!inp) return;
+  inp.classList.remove('cid-shake');
+  void inp.offsetWidth;
+  inp.classList.add('cid-shake');
+  inp.focus();
+}
+
+/* Endpoint /banner/profile mengembalikan PNG mentah kalau sukses, atau JSON
+   {"error":"..."} kalau gagal (UID kosong/tidak ketemu/gagal generate).
+   Browser otomatis gagal me-render body JSON sebagai <img>, jadi retry
+   antar-region dilakukan lewat event onload/onerror milik Image(),
+   bukan lewat xyureiRequest (yang men-JSON.parse seluruh body). */
+function cbnTryRegion(uid,regions,idx){
+  return new Promise(function(resolve,reject){
+    if(idx>=regions.length){ reject(new Error('Semua region gagal')); return; }
+    const region=regions[idx];
+    const url=TFF_BASE+'/banner/profile?uid='+encodeURIComponent(uid)+'&region='+encodeURIComponent(region)+'&key='+encodeURIComponent(TFF_KEY);
+    const img=new Image();
+    img.onload=function(){ resolve({url:url,region:region}); };
+    img.onerror=function(){
+      console.warn('[CBN] region '+region+' gagal, coba region berikutnya...');
+      cbnTryRegion(uid,regions,idx+1).then(resolve).catch(reject);
+    };
+    img.referrerPolicy='no-referrer';
+    img.src=url;
+  });
+}
+
+async function cbnCheck(){
+  const inp=document.getElementById('cbnUidInput');
+  const uid=inp?inp.value.trim():'';
+  if(!uid||uid.length<6){ cbnShake(); return; }
+
+  cbnShowState('cbnStateLoading');
+  cbnSetLoadingBtn(true);
+
+  try{
+    const res=await cbnTryRegion(uid,TFF_ALL_REGIONS,0);
+    cbnCurrentUrl=res.url;
+    const bannerImg=document.getElementById('cbnBannerImg');
+    if(bannerImg) bannerImg.src=res.url;
+    const idChip=document.getElementById('cbnIdChip');
+    if(idChip) idChip.innerHTML='<i class="fa-solid fa-hashtag"></i> '+tffEsc(uid)+' &middot; '+tffEsc(res.region);
+    cbnShowState(null);
+  }catch(e){
+    console.error('[CBN]',e);
+    const errMsg=document.getElementById('cbnErrorMsg');
+    if(errMsg) errMsg.textContent='UID Free Fire tidak ditemukan atau banner gagal dibuat. Periksa kembali UID kamu.';
+    cbnShowState('cbnStateError');
+  }
+  cbnSetLoadingBtn(false);
+}
+
+function cbnReset(){
+  const inp=document.getElementById('cbnUidInput');
+  if(inp){ inp.value=''; inp.focus(); }
+  cbnCurrentUrl='';
+  cbnShowState('cbnStateIdle');
+}
+
+function cbnDownload(){
+  if(!cbnCurrentUrl) return;
+  if(window.aiSaveMediaFallback){ window.aiSaveMediaFallback(cbnCurrentUrl); return; }
+  window.open(cbnCurrentUrl,'_blank');
+}
+</script>
+
+<!-- CEK OUTFIT PAGE -->
+<div class="page" id="cekidffOutfit">
+<style>
+#cekidffOutfit{padding-bottom:80px;}
+.cof-outfit-frame{width:100%;border-radius:16px;overflow:hidden;background:#111;border:1px solid rgba(255,255,255,.1);margin-bottom:14px;min-height:120px;display:flex;align-items:center;justify-content:center;position:relative;}
+.cof-outfit-img{width:100%;height:auto;display:block;filter:url(#cofPhotoFilter) contrast(1.15) brightness(1.25) saturate(1.20);}
+.cof-outfit-watermark{position:absolute;bottom:10px;right:10px;width:46px;height:46px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.55);box-shadow:0 2px 10px rgba(0,0,0,.6);z-index:2;pointer-events:none;}
+</style>
+<svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true">
+  <filter id="cofPhotoFilter" color-interpolation-filters="sRGB">
+    <!-- Suhu -10: sedikit dorong ke arah dingin (kurangi merah, naikkan biru) -->
+    <feColorMatrix type="matrix" values="0.96 0 0 0 0  0 1 0 0 0  0 0 1.06 0 0  0 0 0 1 0"/>
+  </filter>
+</svg>
+
+<div class="cid-page-head">
+  <span class="cid-page-head-icon" aria-hidden="true"></span>
+  <div>
+    <p class="cid-hero-title"><span class="red">CEK</span>&nbsp;<span class="wht">OUTFIT FREE FIRE</span></p>
+    <p class="cid-hero-sub">Masukkan UID Free Fire kamu, tampilan outfit lengkap kamu langsung dibuat otomatis.</p>
+  </div>
+</div>
+
+<div class="cid-card">
+  <div class="cid-label"><i class="fa-solid fa-hashtag"></i>UID FREE FIRE</div>
+  <div class="cid-input-wrap">
+    <i class="fa-solid fa-hashtag"></i>
+    <input class="cid-input" id="cofUidInput" type="text" inputmode="numeric" placeholder="Contoh: 123456789" maxlength="13"/>
+  </div>
+  <button class="cid-btn" id="cofCheckBtn" onclick="cofCheck()"><i class="fa-solid fa-shirt"></i>CEK OUTFIT SEKARANG</button>
+  <p class="cid-hint">Menampilkan Head, Body, Legs, Shoes, Backpack, Mask, Arm, Character &amp; Weapon skin.</p>
+</div>
+
+<div class="cid-state show" id="cofStateIdle">
+  <i class="fa-solid fa-shirt"></i>
+  <p>Belum ada outfit yang dicek. Masukkan UID Free Fire di atas lalu tekan "Cek Outfit Sekarang".</p>
+</div>
+
+<div class="cid-state cid-loading" id="cofStateLoading">
+  <i class="fa-solid fa-spinner fa-spin"></i>
+  <p>Sedang mengambil outfit Free Fire kamu, tunggu sebentar ya...</p>
+</div>
+
+<div class="cid-state cid-error" id="cofStateError">
+  <i class="fa-solid fa-triangle-exclamation"></i>
+  <p id="cofErrorMsg">UID Free Fire tidak ditemukan atau outfit gagal dimuat. Periksa kembali UID kamu.</p>
+  <div class="cid-retry" onclick="cofReset()"><i class="fa-solid fa-rotate-left"></i>Coba Lagi</div>
+</div>
+
+<div class="cid-result" id="cofResult">
+  <div class="cid-result-card">
+    <div class="cof-outfit-frame"><img class="cof-outfit-img" id="cofOutfitImg" alt="outfit free fire"/><img class="cof-outfit-watermark" src="zusmo-asset/677288085_miwamikadono.jpg" alt="KZRIZUSMO"/></div>
+    <div class="cid-id-chip" id="cofIdChip"></div>
+    <button class="cid-btn" style="margin-top:14px;" id="cofDownloadBtn" onclick="cofDownload()"><i class="fa-solid fa-download"></i>UNDUH OUTFIT</button>
+  </div>
+  <button class="cid-reset-btn" onclick="cofReset()"><i class="fa-solid fa-arrow-rotate-left"></i>CEK OUTFIT LAIN</button>
+</div>
+
+<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
+</div>
+
+<script>
+(function(){
+  const uidInput=document.getElementById('cofUidInput');
+  if(uidInput){
+    uidInput.addEventListener('input',function(){
+      uidInput.value=uidInput.value.replace(/[^0-9]/g,'').slice(0,13);
+    });
+    uidInput.addEventListener('keydown',function(e){
+      if(e.key==='Enter') cofCheck();
+    });
+  }
+})();
+
+let cofCurrentUrl='';
+
+function cofShowState(which){
+  ['cofStateIdle','cofStateLoading','cofStateError'].forEach(function(id){
+    const el=document.getElementById(id);
+    if(el) el.classList.toggle('show',id===which);
+  });
+  const result=document.getElementById('cofResult');
+  if(result) result.classList.toggle('show',which===null);
+}
+
+function cofSetLoadingBtn(loading){
+  const btn=document.getElementById('cofCheckBtn');
+  if(!btn) return;
+  if(loading){
+    btn.disabled=true;
+    btn.dataset.origHtml=btn.innerHTML;
+    btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i>MEMUAT...';
+  }else{
+    btn.disabled=false;
+    if(btn.dataset.origHtml) btn.innerHTML=btn.dataset.origHtml;
+  }
+}
+
+function cofShake(){
+  const inp=document.getElementById('cofUidInput');
+  if(!inp) return;
+  inp.classList.remove('cid-shake');
+  void inp.offsetWidth;
+  inp.classList.add('cid-shake');
+  inp.focus();
+}
+
+/* Endpoint /outfits/outfit mengembalikan PNG mentah kalau sukses, atau JSON
+   {"error":"..."} kalau gagal (UID kosong/tidak ketemu/gagal generate).
+   Browser otomatis gagal me-render body JSON sebagai <img>, jadi retry
+   antar-region dilakukan lewat event onload/onerror milik Image(),
+   bukan lewat xyureiRequest (yang men-JSON.parse seluruh body). */
+function cofTryRegion(uid,regions,idx){
+  return new Promise(function(resolve,reject){
+    if(idx>=regions.length){ reject(new Error('Semua region gagal')); return; }
+    const region=regions[idx];
+    const url=TFF_BASE+'/outfits/outfit?uid='+encodeURIComponent(uid)+'&region='+encodeURIComponent(region)+'&key='+encodeURIComponent(TFF_KEY);
+    const img=new Image();
+    img.onload=function(){ resolve({url:url,region:region}); };
+    img.onerror=function(){
+      console.warn('[COF] region '+region+' gagal, coba region berikutnya...');
+      cofTryRegion(uid,regions,idx+1).then(resolve).catch(reject);
+    };
+    img.referrerPolicy='no-referrer';
+    img.src=url;
+  });
+}
+
+async function cofCheck(){
+  const inp=document.getElementById('cofUidInput');
+  const uid=inp?inp.value.trim():'';
+  if(!uid||uid.length<6){ cofShake(); return; }
+
+  cofShowState('cofStateLoading');
+  cofSetLoadingBtn(true);
+
+  try{
+    const res=await cofTryRegion(uid,TFF_ALL_REGIONS,0);
+    cofCurrentUrl=res.url;
+    const outfitImg=document.getElementById('cofOutfitImg');
+    if(outfitImg) outfitImg.src=res.url;
+    const idChip=document.getElementById('cofIdChip');
+    if(idChip) idChip.innerHTML='<i class="fa-solid fa-hashtag"></i> '+tffEsc(uid)+' &middot; '+tffEsc(res.region);
+    cofShowState(null);
+  }catch(e){
+    console.error('[COF]',e);
+    const errMsg=document.getElementById('cofErrorMsg');
+    if(errMsg) errMsg.textContent='UID Free Fire tidak ditemukan atau outfit gagal dimuat. Periksa kembali UID kamu.';
+    cofShowState('cofStateError');
+  }
+  cofSetLoadingBtn(false);
+}
+
+function cofReset(){
+  const inp=document.getElementById('cofUidInput');
+  if(inp){ inp.value=''; inp.focus(); }
+  cofCurrentUrl='';
+  cofShowState('cofStateIdle');
+}
+
+function cofDownload(){
+  if(!cofCurrentUrl) return;
+  if(window.aiSaveMediaFallback){ window.aiSaveMediaFallback(cofCurrentUrl); return; }
+  window.open(cofCurrentUrl,'_blank');
+}
+</script>
+
+<!-- CEK BANNED PAGE -->
+<div class="page" id="cekidffBanned">
+<style>
+#cekidffBanned{padding-bottom:80px;}
+.cbd-badge{display:inline-flex;align-items:center;gap:7px;padding:10px 16px;border-radius:14px;font-size:13px;font-weight:900;letter-spacing:.3px;margin-bottom:2px;}
+.cbd-badge.safe{background:rgba(46,204,113,.12);border:1px solid rgba(46,204,113,.35);color:#4ee08a;}
+.cbd-badge.banned{background:rgba(255,43,43,.12);border:1px solid rgba(255,43,43,.4);color:#ff6b6b;}
+</style>
+
+<div class="cid-page-head">
+  <span class="cid-page-head-icon" aria-hidden="true"></span>
+  <div>
+    <p class="cid-hero-title"><span class="red">CEK</span>&nbsp;<span class="wht">BANNED FREE FIRE</span></p>
+    <p class="cid-hero-sub">Masukkan UID Free Fire kamu untuk mengecek status banned akun.</p>
+  </div>
+</div>
+
+<div class="cid-card">
+  <div class="cid-label"><i class="fa-solid fa-hashtag"></i>UID FREE FIRE</div>
+  <div class="cid-input-wrap">
+    <i class="fa-solid fa-hashtag"></i>
+    <input class="cid-input" id="cbdUidInput" type="text" inputmode="numeric" placeholder="Contoh: 123456789" maxlength="13"/>
+  </div>
+  <button class="cid-btn" id="cbdCheckBtn" onclick="cbdCheck()"><i class="fa-solid fa-user-slash"></i>CEK BANNED SEKARANG</button>
+  <p class="cid-hint">Cek status banned akun Free Fire cukup lewat UID.</p>
+</div>
+
+<div class="cid-state show" id="cbdStateIdle">
+  <i class="fa-solid fa-user-slash"></i>
+  <p>Belum ada UID yang dicek. Masukkan UID Free Fire di atas lalu tekan "Cek Banned Sekarang".</p>
+</div>
+
+<div class="cid-state cid-loading" id="cbdStateLoading">
+  <i class="fa-solid fa-spinner fa-spin"></i>
+  <p>Sedang mengecek status banned, tunggu sebentar ya...</p>
+</div>
+
+<div class="cid-state cid-error" id="cbdStateError">
+  <i class="fa-solid fa-triangle-exclamation"></i>
+  <p id="cbdErrorMsg">UID Free Fire tidak ditemukan. Periksa kembali UID kamu.</p>
+  <div class="cid-retry" onclick="cbdReset()"><i class="fa-solid fa-rotate-left"></i>Coba Lagi</div>
+</div>
+
+<div class="cid-result" id="cbdResult">
+  <div class="cid-result-card">
+    <div class="cbd-badge" id="cbdBadge"></div>
+    <div class="cid-nick-row" style="margin-top:10px;">
+      <span class="cid-nick" id="cbdNickText"></span>
+    </div>
+    <div class="cid-id-chip" id="cbdIdChip"></div>
+    <div class="cid-info-rows" id="cbdInfoRows"></div>
+  </div>
+  <button class="cid-reset-btn" onclick="cbdReset()"><i class="fa-solid fa-arrow-rotate-left"></i>CEK BANNED LAIN</button>
+</div>
+
+<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
+</div>
+
+<script>
+(function(){
+  const uidInput=document.getElementById('cbdUidInput');
+  if(uidInput){
+    uidInput.addEventListener('input',function(){
+      uidInput.value=uidInput.value.replace(/[^0-9]/g,'').slice(0,13);
+    });
+    uidInput.addEventListener('keydown',function(e){
+      if(e.key==='Enter') cbdCheck();
+    });
+  }
+})();
+
+function cbdShowState(which){
+  ['cbdStateIdle','cbdStateLoading','cbdStateError'].forEach(function(id){
+    const el=document.getElementById(id);
+    if(el) el.classList.toggle('show',id===which);
+  });
+  const result=document.getElementById('cbdResult');
+  if(result) result.classList.toggle('show',which===null);
+}
+
+function cbdSetLoadingBtn(loading){
+  const btn=document.getElementById('cbdCheckBtn');
+  if(!btn) return;
+  if(loading){
+    btn.disabled=true;
+    btn.dataset.origHtml=btn.innerHTML;
+    btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i>MENGECEK...';
+  }else{
+    btn.disabled=false;
+    if(btn.dataset.origHtml) btn.innerHTML=btn.dataset.origHtml;
+  }
+}
+
+function cbdShake(){
+  const inp=document.getElementById('cbdUidInput');
+  if(!inp) return;
+  inp.classList.remove('cid-shake');
+  void inp.offsetWidth;
+  inp.classList.add('cid-shake');
+  inp.focus();
+}
+
+async function cbdCheck(){
+  const inp=document.getElementById('cbdUidInput');
+  const uid=inp?inp.value.trim():'';
+  if(!uid||uid.length<6){ cbdShake(); return; }
+
+  cbdShowState('cbdStateLoading');
+  cbdSetLoadingBtn(true);
+
+  try{
+    const queryBase='uid='+encodeURIComponent(uid)+'&key='+encodeURIComponent(TFF_KEY);
+    const json=await xyureiRequest(function(){
+      return TFF_BASE+'/bancheck/bancheck?'+queryBase;
+    },{isDataOk:function(j){ return !!(j&&!j.error); }});
+
+    if(json&&json.error){ throw Object.assign(new Error(json.error),{raw:json}); }
+
+    const nickname=json.nickname||'-';
+    const region=json.region||'-';
+    const banStatus=json.ban_status||'-';
+    const banPeriod=json.ban_period;
+    const isBanned=/banned/i.test(banStatus)&&!/not banned/i.test(banStatus);
+
+    const badge=document.getElementById('cbdBadge');
+    if(badge){
+      badge.className='cbd-badge '+(isBanned?'banned':'safe');
+      badge.innerHTML='<i class="fa-solid '+(isBanned?'fa-ban':'fa-circle-check')+'"></i>'+tffEsc(banStatus);
+    }
+    const nickText=document.getElementById('cbdNickText');
+    if(nickText) nickText.textContent=nickname;
+    const idChip=document.getElementById('cbdIdChip');
+    if(idChip) idChip.innerHTML='<i class="fa-solid fa-hashtag"></i> '+tffEsc(uid)+' &middot; '+tffEsc(region);
+
+    let rows='';
+    rows+='<div class="cid-info-row"><b>Nickname</b><span>'+tffEsc(nickname)+'</span></div>';
+    rows+='<div class="cid-info-row"><b>Region</b><span>'+tffEsc(region)+'</span></div>';
+    rows+='<div class="cid-info-row"><b>Status Banned</b><span>'+tffEsc(banStatus)+'</span></div>';
+    rows+='<div class="cid-info-row"><b>Periode Banned</b><span>'+tffEsc(banPeriod||'-')+'</span></div>';
+    const infoRows=document.getElementById('cbdInfoRows');
+    if(infoRows) infoRows.innerHTML=rows;
+
+    cbdShowState(null);
+  }catch(e){
+    console.error('[CBD]',e,(e&&e.debugDetail)||'');
+    const raw=String((e&&e.debugDetail)||(e&&e.message)||'');
+    const errMsg=document.getElementById('cbdErrorMsg');
+    let userMsg;
+    if(/no access|belum.*akses|has no access/i.test(raw)){
+      userMsg='API key kamu belum punya akses ke fitur Cek Banned (endpoint "bancheck"). Ini beda izin dari Cek Info FF biasa. Hubungi @SiamBhau di Telegram untuk minta akses endpoint ini diaktifkan.';
+    }else if(/invalid api key|invalid.*key/i.test(raw)){
+      userMsg='API key tidak valid. Cek lagi API key yang dipakai.';
+    }else if(/inactive/i.test(raw)){
+      userMsg='API key kamu sedang nonaktif. Hubungi @SiamBhau di Telegram untuk mengaktifkannya kembali.';
+    }else if(/expired/i.test(raw)){
+      userMsg='API key kamu sudah kedaluwarsa. Hubungi @SiamBhau di Telegram untuk perpanjangan.';
+    }else if(/id not found/i.test(raw)){
+      userMsg='UID Free Fire tidak ditemukan. Periksa kembali UID kamu.';
+    }else{
+      userMsg='Gagal mengecek status banned. Periksa kembali UID kamu atau coba lagi sebentar lagi.';
+    }
+    if(errMsg) errMsg.textContent=userMsg+(raw?' ['+raw+']':'');
+    cbdShowState('cbdStateError');
+  }
+  cbdSetLoadingBtn(false);
+}
+
+function cbdReset(){
+  const inp=document.getElementById('cbdUidInput');
+  if(inp){ inp.value=''; inp.focus(); }
+  cbdShowState('cbdStateIdle');
+}
+</script>
+
 <!-- TOOLS PAGE -->
 <div class="page" id="tools">
 <style>
@@ -18331,7 +18899,7 @@ function cidCopyNick(){
 
 <script>
 const TFF_BASE='https://siambhau69.eu.cc';
-const TFF_KEY='kzrizusmo:FFINFO:XDI';
+const TFF_KEY='FFAPI-PREM-30-kzrizusmo-X07';
 const TFF_ALL_REGIONS=['BD'];
 const TFF_MENU=[
   {key:'freefireinfo',label:'Free Fire Info',icon:'fa-user-shield',desc:'Cek info akun Free Fire lewat UID',
@@ -18340,6 +18908,43 @@ const TFF_MENU=[
       {name:'uid',label:'UID Free Fire',placeholder:'Contoh: 260190210',required:true}
     ]}
 ];
+
+/* ============================================================
+   TAMBAHAN: Banner profil, statistik ranked BR & CS, dan daftar
+   teman (via JWT). Sama-sama lewat base siambhau69.eu.cc, format
+   {base}/<group>/<endpoint>?param=VALUE&key=TFF_KEY.
+   - /banner/profile?uid=&region=&key=        -> banner profil
+   - /freefireinfo/stats?uid=&region=&key=    -> statistik umum
+   - /freefireinfo/stats?...&gamemode=br&matchmode=RANKED&key=  -> ranked BR
+   - /freefireinfo/stats?...&gamemode=cs&matchmode=RANKED&key=  -> ranked CS
+   - /friends/list?jwt=&key=                  -> daftar teman
+   Banner & statistik dianggap pelengkap (kalau gagal, profil utama
+   tetap tampil) sama seperti pola wishlist di stkStalkFreeFireOb54. ============================================================ */
+async function tffFetchBanner(uid,region){
+  const queryBase='key='+encodeURIComponent(TFF_KEY)+'&uid='+encodeURIComponent(uid)+'&region='+encodeURIComponent(region);
+  return xyureiRequest(function(){ return TFF_BASE+'/banner/profile?'+queryBase; },{isDataOk:function(j){ return !!(j&&!j.error); }});
+}
+async function tffFetchStats(uid,region,gamemode,matchmode){
+  let queryBase='key='+encodeURIComponent(TFF_KEY)+'&uid='+encodeURIComponent(uid)+'&region='+encodeURIComponent(region);
+  if(gamemode) queryBase+='&gamemode='+encodeURIComponent(gamemode);
+  if(matchmode) queryBase+='&matchmode='+encodeURIComponent(matchmode);
+  return xyureiRequest(function(){ return TFF_BASE+'/freefireinfo/stats?'+queryBase; },{isDataOk:function(j){ return !!(j&&!j.error); }});
+}
+async function tffFetchFriends(jwt){
+  const queryBase='key='+encodeURIComponent(TFF_KEY)+'&jwt='+encodeURIComponent(jwt);
+  return xyureiRequest(function(){ return TFF_BASE+'/friends/list?'+queryBase; },{isDataOk:function(j){ return !!(j&&!j.error); }});
+}
+// Beberapa endpoint tambahan ini kemungkinan bungkus datanya di field data/stats/result;
+// unwrap dulu sebelum dirender, biar tffRenderRows/tffSection bisa baca field-nya langsung.
+function tffUnwrap(json){
+  if(!json||typeof json!=='object') return json;
+  return json.data||json.stats||json.result||json;
+}
+function tffFindBannerUrl(obj){
+  if(!obj||typeof obj!=='object') return '';
+  const keys=['banner','banner_url','bannerUrl','bannerImage','banner_image','image','image_url','imageUrl','url','picture','photo'];
+  return stkNestedLookup(obj,keys,function(v){ return stkLooksLikeUrl(v); });
+}
 
 function tffEsc(str){
   return String(str==null?'':str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -18512,7 +19117,15 @@ async function stkFfSubmit(){
       const json=await xyureiRequest(function(){
         return TFF_BASE+menu.path+'?'+queryBase;
       },{isDataOk:function(j){ return !!(j&&(j.basicInfo||j.data||j.result)); }});
-      tffRenderResult(result,json);
+
+      // Banner & statistik ranked BR/CS dianggap pelengkap: kalau salah satu
+      // gagal/limit, profil utama tetap ditampilkan tanpa bagian itu.
+      let bannerJson=null,statsBr=null,statsCs=null;
+      try{ bannerJson=await tffFetchBanner(uidVal,region); }catch(e){ bannerJson=null; }
+      try{ statsBr=await tffFetchStats(uidVal,region,'br','RANKED'); }catch(e){ statsBr=null; }
+      try{ statsCs=await tffFetchStats(uidVal,region,'cs','RANKED'); }catch(e){ statsCs=null; }
+
+      tffRenderResult(result,json,{banner:bannerJson,statsBr:statsBr,statsCs:statsCs});
       if(btn){ btn.disabled=false; btn.innerHTML='<i class="fa-solid fa-paper-plane"></i> CEK INFO'; }
       return;
     }catch(e){
@@ -18530,8 +19143,9 @@ async function stkFfSubmit(){
   if(btn){ btn.disabled=false; btn.innerHTML='<i class="fa-solid fa-paper-plane"></i> CEK INFO'; }
 }
 
-function tffRenderResult(box,json){
+function tffRenderResult(box,json,extra){
   if(!box) return;
+  extra=extra||{};
   if(json&&json.error){
     box.innerHTML='<div class="tff-result-error"><i class="fa-solid fa-triangle-exclamation"></i>'+tffEsc(json.error)+'</div>';
     box.classList.add('show');
@@ -18543,7 +19157,13 @@ function tffRenderResult(box,json){
   const region=stkPick(b,['region']);
   const level=stkPick(b,['level']);
   const headSub=[uidVal?('UID '+tffEsc(String(uidVal))):'',level!=null?('Level '+tffEsc(String(level))):''].filter(Boolean).join(' · ');
+
+  const bannerUrl=extra.banner?tffFindBannerUrl(tffUnwrap(extra.banner)):'';
+  const bannerHtml=bannerUrl?
+    '<div class="tff-banner-wrap"><img class="tff-banner-img" src="'+tffAttrEsc(bannerUrl)+'" alt="banner profil" referrerpolicy="no-referrer" onerror="this.parentElement.style.display=\'none\'"></div>':'';
+
   const head=
+    bannerHtml+
     '<div class="stk-result-head">'+
       '<img class="stk-result-avatar stk-ff-logo" src="zusmo-asset/bpjwcf.png" alt="avatar">'+
       '<div style="flex:1;min-width:0;">'+
@@ -18555,6 +19175,8 @@ function tffRenderResult(box,json){
     '</div>';
   let html='';
   html+=tffSection('fa-user-shield','Info Akun',json.basicInfo);
+  html+=tffSection('fa-ranking-star','Statistik Ranked BR',extra.statsBr?tffUnwrap(extra.statsBr):null);
+  html+=tffSection('fa-chess-board','Statistik Ranked CS',extra.statsCs?tffUnwrap(extra.statsCs):null);
   html+=tffSection('fa-shield-halved','Info Guild',json.clanBasicInfo);
   html+=tffSection('fa-crown','Info Ketua Guild',json.captainBasicInfo);
   html+=tffSection('fa-paw','Info Peliharaan',json.petInfo);
@@ -18567,6 +19189,74 @@ function tffRenderResult(box,json){
   }else{
     box.innerHTML=head+html;
   }
+  box.classList.add('show');
+}
+
+/* ===== DAFTAR TEMAN (via JWT) — /friends/list?jwt=&key= ===== */
+async function stkFfFriendsSubmit(){
+  const inp=document.getElementById('stkFfJwtVal');
+  const jwtVal=inp?inp.value.trim():'';
+  if(!jwtVal){ tffShake(inp); return; }
+
+  const btn=document.getElementById('stkFfFriendsBtn');
+  const result=document.getElementById('stkFfFriendsResult');
+  if(result){ result.classList.remove('show'); result.innerHTML=''; }
+  if(btn){ btn.disabled=true; btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> MENGECEK...'; }
+
+  try{
+    const json=await tffFetchFriends(jwtVal);
+    tffRenderFriendsList(result,json);
+  }catch(e){
+    console.error('[STKFF-FRIENDS] gagal',e,(e&&e.debugDetail)||'');
+    const detail=(e&&e.debugDetail)?' ('+e.debugDetail+')':'';
+    if(result){
+      result.innerHTML='<div class="tff-result-error"><i class="fa-solid fa-triangle-exclamation"></i>Gagal mengambil daftar teman. JWT mungkin salah/kedaluwarsa.'+tffEsc(detail)+'</div>';
+      result.classList.add('show');
+    }
+  }
+  if(btn){ btn.disabled=false; btn.innerHTML='<i class="fa-solid fa-users-viewfinder"></i> CEK TEMAN'; }
+}
+
+function tffFriendsArray(json){
+  const d=tffUnwrap(json);
+  if(Array.isArray(d)) return d;
+  if(d&&typeof d==='object'){
+    const arrKeys=['friends','list','friendList','friend_list','items'];
+    for(let i=0;i<arrKeys.length;i++){ if(Array.isArray(d[arrKeys[i]])) return d[arrKeys[i]]; }
+  }
+  return [];
+}
+function tffRenderFriendsList(box,json){
+  if(!box) return;
+  if(json&&json.error){
+    box.innerHTML='<div class="tff-result-error"><i class="fa-solid fa-triangle-exclamation"></i>'+tffEsc(json.error)+'</div>';
+    box.classList.add('show');
+    return;
+  }
+  const friends=tffFriendsArray(json);
+  if(!friends.length){
+    box.innerHTML='<div class="tff-result-error"><i class="fa-solid fa-user-slash"></i>Daftar teman kosong atau tidak ditemukan.</div>';
+    box.classList.add('show');
+    return;
+  }
+  let rows='';
+  friends.forEach(function(f){
+    if(!f||typeof f!=='object') return;
+    const fname=stkPick(f,['nickname','name'])||'-';
+    const fuid=stkPick(f,['accountId','account_id','uid']);
+    const flevel=stkPick(f,['level']);
+    const fsub=[fuid?('UID '+tffEsc(String(fuid))):'',flevel!=null?('Lv. '+tffEsc(String(flevel))):''].filter(Boolean).join(' · ');
+    rows+=
+      '<div class="tff-friend-row">'+
+        '<img class="tff-friend-avatar" src="zusmo-asset/bpjwcf.png" alt="avatar">'+
+        '<div style="flex:1;min-width:0;">'+
+          '<div class="tff-friend-name">'+tffEsc(fname)+'</div>'+
+          (fsub?'<div class="tff-friend-sub">'+fsub+'</div>':'')+
+        '</div>'+
+      '</div>';
+  });
+  box.innerHTML='<div class="tff-section-head" style="margin-top:0;border-top:none;padding-top:0;"><i class="fa-solid fa-user-group"></i><span>DAFTAR TEMAN ('+friends.length+')</span></div>'+
+    '<div class="tff-friends-list">'+rows+'</div>';
   box.classList.add('show');
 }
 </script>
