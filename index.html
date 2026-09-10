@@ -16701,8 +16701,13 @@ async function rndDownload(url,keyName,isVideo){
 .tff-section:first-child .tff-section-head{margin-top:0;border-top:none;padding-top:0;}
 .tff-section-head i{color:var(--tff-accent);font-size:12px;width:16px;text-align:center;}
 .tff-section-head span{font-size:11.5px;font-weight:800;color:var(--tff-accent-soft);letter-spacing:.4px;text-transform:uppercase;}
-.tff-banner-wrap{margin:-16px -15px 12px;border-radius:0;overflow:hidden;}
-.tff-banner-img{width:100%;display:block;object-fit:cover;max-height:150px;}
+/* Banner asli dari server ukurannya 200x43, avatarnya persegi nempel di ujung
+   kiri (perkiraan lebar avatar ~43px, ditambah extra biar gak kepotong jadi
+   51px). Wrapper dibikin persegi (aspect-ratio 1/1), gambar banner penuh
+   di-scale selebar (200/51) kali lebar wrapper lalu digeser ke kiri, jadi yang
+   keliatan cuma kotak avatarnya aja. */
+.tff-banner-wrap{width:72px;aspect-ratio:1/1;border-radius:0;overflow:hidden;background:#161616;border:1px solid rgba(255,255,255,.1);position:relative;margin-bottom:14px;}
+.tff-banner-img{position:absolute;top:0;left:0;height:100%;width:calc(100% * 200 / 51);max-width:none;display:block;}
 .tff-friends-list{display:flex;flex-direction:column;gap:8px;}
 .tff-friend-row{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:9px 10px;}
 .tff-friend-avatar{width:36px;height:36px;border-radius:50%;object-fit:cover;flex-shrink:0;background:#111;}
@@ -16755,6 +16760,32 @@ async function rndDownload(url,keyName,isVideo){
 .stk-copy-btn{border:none;background:rgba(255,255,255,.09);color:#ffb2b2;width:24px;height:24px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font-size:10px;flex-shrink:0;}
 .stk-copy-btn.copied{background:rgba(46,204,113,.18);color:#5be08a;}
 .stk-result-sub{font-size:10.5px;color:#888;margin-top:3px;word-break:break-word;}
+
+.tff-profile-head{position:relative;padding:0;}
+.tff-profile-avatar{width:72px;height:72px;border-radius:12px;object-fit:cover;background:#161616;border:1px solid rgba(255,255,255,.1);display:block;}
+.tff-profile-refresh{position:absolute;top:16px;right:14px;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#ccc;display:flex;align-items:center;justify-content:center;font-size:13px;}
+.tff-profile-name-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px;}
+.tff-profile-name{font-size:19px;font-weight:900;color:#fff;font-family:'Outfit',sans-serif;word-break:break-word;}
+.tff-profile-lvl{flex-shrink:0;border:1px solid rgba(255,193,7,.5);color:#ffc107;background:rgba(255,193,7,.08);font-size:11px;font-weight:800;padding:4px 10px;border-radius:20px;}
+.tff-profile-meta{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px;font-size:12px;color:#aaa;}
+.tff-profile-meta b{color:#eee;font-weight:700;}
+.tff-profile-meta i{margin-right:4px;color:#ff5252;}
+.tff-profile-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
+.tff-profile-badge{font-size:11px;font-weight:700;color:#e0c380;background:rgba(224,195,128,.08);border:1px solid rgba(224,195,128,.35);padding:6px 12px;border-radius:20px;}
+.tff-profile-dates{margin-top:14px;display:flex;flex-direction:column;gap:8px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);}
+.tff-profile-date-row{display:flex;align-items:center;gap:9px;font-size:12px;color:#ccc;}
+.tff-profile-date-row i{width:15px;text-align:center;color:#888;font-size:12px;}
+.tff-profile-bio-label,.tff-profile-guild-label{font-size:10.5px;font-weight:800;letter-spacing:1px;color:#888;text-transform:uppercase;margin:14px 0 8px;}
+.tff-profile-bio-box{position:relative;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px 40px 12px 12px;}
+.tff-profile-bio-box .tff-bio-text{font-size:14px;font-weight:800;line-height:1.6;color:#eee;white-space:pre-wrap;word-break:break-word;}
+.tff-profile-bio-box .stk-copy-btn{position:absolute;top:10px;right:10px;}
+.tff-profile-guild-chip{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:8px 14px;font-size:12.5px;font-weight:700;color:#fff;margin-bottom:10px;}
+.tff-profile-guild-chip i{color:#7ab8ff;}
+.tff-profile-guild-meta{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:#aaa;}
+.tff-profile-guild-meta b{color:#eee;font-weight:700;}
+.tff-profile-captain{display:flex;align-items:center;gap:6px;font-size:12px;color:#aaa;margin-top:8px;}
+.tff-profile-captain i{color:#888;}
+.tff-profile-captain b{color:#eee;font-weight:700;}
 .stk-result-rows{display:flex;flex-direction:column;gap:0;}
 .stk-result-row{
   display:flex;justify-content:space-between;gap:10px;padding:9px 0;
@@ -18107,14 +18138,8 @@ async function stkStalk(type){
 </div>
 
 <div class="cid-result" id="cidResult">
-  <div class="cid-result-card">
-    <div class="cid-avatar-ring" id="cidAvatarRing"></div>
-    <div class="cid-nick-row">
-      <span class="cid-nick" id="cidNickText"></span>
-      <button class="cid-copy-btn" id="cidCopyBtn" onclick="cidCopyNick()"><i class="fa-solid fa-copy"></i></button>
-    </div>
-    <div class="cid-id-chip" id="cidIdChip"></div>
-    <div class="cid-info-rows" id="cidInfoRows"></div>
+  <div class="cid-result-card" style="text-align:left;">
+    <div id="cidProfileHead"></div>
   </div>
   <button class="cid-reset-btn" onclick="cidReset()"><i class="fa-solid fa-arrow-rotate-left"></i>CEK INFO LAIN</button>
 </div>
@@ -18189,17 +18214,18 @@ async function cidCheck(){
       if(!nickname){ throw Object.assign(new Error('Nickname tidak ditemukan.'),{raw:json}); }
       const uidVal=stkPick(b,['accountId','account_id'])||uid;
 
-      const ring=document.getElementById('cidAvatarRing');
-      if(ring) ring.innerHTML='<img class="cid-avatar" src="zusmo-asset/bpjwcf.png" alt="avatar"/>';
+      // Banner (gambar PNG langsung dari server, berisi avatar+nama+guild+level)
+      // & statistik ranked BR/CS dianggap pelengkap: kalau gagal/limit,
+      // profil utama tetap tampil tanpa bagian itu.
+      const bannerUrl=tffBuildBannerUrl(uidVal,region);
+      let statsBr=null,statsCs=null;
+      try{ statsBr=await tffFetchStats(uidVal,region,'br','RANKED'); }catch(e){ statsBr=null; }
+      try{ statsCs=await tffFetchStats(uidVal,region,'cs','RANKED'); }catch(e){ statsCs=null; }
 
-      const nickText=document.getElementById('cidNickText');
-      if(nickText) nickText.textContent=nickname;
-      const idChip=document.getElementById('cidIdChip');
-      if(idChip) idChip.innerHTML='<i class="fa-solid fa-hashtag"></i> '+tffEsc(String(uidVal));
+      const profileHeadEl=document.getElementById('cidProfileHead');
+      if(profileHeadEl) profileHeadEl.innerHTML=tffBuildProfileHead(json,{bannerUrl:bannerUrl},'cidCheck()');
       const infoRows=document.getElementById('cidInfoRows');
-      if(infoRows) infoRows.innerHTML=cidRenderInfoSections(json);
-      const copyBtn=document.getElementById('cidCopyBtn');
-      if(copyBtn){ copyBtn.classList.remove('copied'); copyBtn.innerHTML='<i class="fa-solid fa-copy"></i>'; }
+      if(infoRows) infoRows.innerHTML=cidRenderInfoSections(json,{statsBr:statsBr,statsCs:statsCs});
 
       cidShowState(null);
       cidSetLoadingBtn(false);
@@ -18221,30 +18247,35 @@ async function cidCheck(){
 /* Susun beberapa bagian info (akun, guild, ketua guild, pet, sosial, harga, skor kredit, profil)
    memakai kamus label & formatter yang sama dengan STALK FREE FIRE (TFF_*), ditampilkan
    dalam gaya baris cid-info-row supaya konsisten dengan tampilan halaman ini. */
-function cidRenderInfoSections(json){
+function cidRenderInfoSections(json,extra){
+  extra=extra||{};
   const sections=[
-    ['fa-user-shield','Info Akun',json.basicInfo],
-    ['fa-shield-halved','Info Guild',json.clanBasicInfo],
-    ['fa-crown','Info Ketua Guild',json.captainBasicInfo],
-    ['fa-paw','Info Peliharaan',json.petInfo],
-    ['fa-comment-dots','Info Sosial',json.socialInfo],
-    ['fa-gem','Perkiraan Harga',json.diamondCostRes],
-    ['fa-star','Skor Kredit',json.creditScoreInfo],
-    ['fa-user-astronaut','Info Profil',json.profileInfo]
+    ['fa-user-shield','Info Akun',json.basicInfo,['nickname','accountid','level','liked','region','primelevel','createat','lastloginat','signature']],
+    ['fa-ranking-star','Statistik Ranked BR',extra.statsBr?tffUnwrap(extra.statsBr):null,[]],
+    ['fa-chess-board','Statistik Ranked CS',extra.statsCs?tffUnwrap(extra.statsCs):null,[]],
+    ['fa-shield-halved','Info Guild',json.clanBasicInfo,['clanname','id','clanlevel','membernum','captainid']],
+    ['fa-crown','Info Ketua Guild',json.captainBasicInfo,['nickname']],
+    ['fa-paw','Info Peliharaan',json.petInfo,[]],
+    ['fa-comment-dots','Info Sosial',json.socialInfo,['signature']],
+    ['fa-gem','Perkiraan Harga',json.diamondCostRes,[]],
+    ['fa-star','Skor Kredit',json.creditScoreInfo,[]],
+    ['fa-user-astronaut','Info Profil',json.profileInfo,[]]
   ];
   let html='';
   sections.forEach(function(sec){
-    const rows=cidRenderRows(sec[2]);
+    const rows=cidRenderRows(sec[2],sec[3]);
     if(!rows) return;
     html+='<div class="cid-section-title"><i class="fa-solid '+sec[0]+'"></i>'+tffEsc(sec[1])+'</div>'+rows;
   });
   return html;
 }
 
-function cidRenderRows(obj){
+function cidRenderRows(obj,extraSkip){
   if(!obj||typeof obj!=='object') return '';
+  const skipExtra=extraSkip||[];
   const keys=Object.keys(obj).filter(function(key){
     if(TFF_ROW_SKIP_KEYS.indexOf(key.toLowerCase())!==-1) return false;
+    if(skipExtra.indexOf(key.toLowerCase())!==-1) return false;
     const val=obj[key];
     return !(val==null||val===''||typeof val==='object');
   });
@@ -18307,7 +18338,8 @@ function cidCopyNick(){
 <div class="page" id="cekidffBanner">
 <style>
 #cekidffBanner{padding-bottom:80px;}
-.cbn-banner-frame{width:100%;border-radius:16px;overflow:hidden;background:#111;border:1px solid rgba(255,255,255,.1);margin-bottom:14px;min-height:120px;display:flex;align-items:center;justify-content:center;}
+#cekidffBanner .cid-result-card{padding:18px;}
+.cbn-banner-frame{width:100%;border-radius:0;overflow:hidden;background:#111;border:1px solid rgba(255,255,255,.1);margin-bottom:14px;min-height:auto;display:flex;align-items:center;justify-content:center;}
 .cbn-banner-img{width:100%;height:auto;display:block;}
 </style>
 
@@ -18438,7 +18470,7 @@ async function cbnCheck(){
     const bannerImg=document.getElementById('cbnBannerImg');
     if(bannerImg) bannerImg.src=res.url;
     const idChip=document.getElementById('cbnIdChip');
-    if(idChip) idChip.innerHTML='<i class="fa-solid fa-hashtag"></i> '+tffEsc(uid)+' &middot; '+tffEsc(res.region);
+    if(idChip) idChip.innerHTML='<i class="fa-solid fa-hashtag"></i> '+tffEsc(uid);
     cbnShowState(null);
   }catch(e){
     console.error('[CBN]',e);
@@ -18493,7 +18525,7 @@ function cbnDownload(){
     <input class="cid-input" id="cofUidInput" type="text" inputmode="numeric" placeholder="Contoh: 123456789" maxlength="13"/>
   </div>
   <button class="cid-btn" id="cofCheckBtn" onclick="cofCheck()"><i class="fa-solid fa-shirt"></i>CEK OUTFIT SEKARANG</button>
-  <p class="cid-hint">Menampilkan Head, Body, Legs, Shoes, Backpack, Mask, Arm, Character &amp; Weapon skin.</p>
+  <p class="cid-hint">Cek info outfit Free fire cukup lewat ID</p>
 </div>
 
 <div class="cid-state show" id="cofStateIdle">
@@ -18920,9 +18952,12 @@ const TFF_MENU=[
    - /friends/list?jwt=&key=                  -> daftar teman
    Banner & statistik dianggap pelengkap (kalau gagal, profil utama
    tetap tampil) sama seperti pola wishlist di stkStalkFreeFireOb54. ============================================================ */
-async function tffFetchBanner(uid,region){
+// Endpoint ini balikin GAMBAR PNG langsung (bukan JSON) — banner profil yang
+// sudah berisi avatar+nama+guild+level dirender di server. Jadi cukup bangun
+// URL-nya aja buat dipakai sebagai src <img>, gak perlu di-fetch di sini.
+function tffBuildBannerUrl(uid,region){
   const queryBase='key='+encodeURIComponent(TFF_KEY)+'&uid='+encodeURIComponent(uid)+'&region='+encodeURIComponent(region);
-  return xyureiRequest(function(){ return TFF_BASE+'/banner/profile?'+queryBase; },{isDataOk:function(j){ return !!(j&&!j.error); }});
+  return TFF_BASE+'/banner/profile?'+queryBase;
 }
 async function tffFetchStats(uid,region,gamemode,matchmode){
   let queryBase='key='+encodeURIComponent(TFF_KEY)+'&uid='+encodeURIComponent(uid)+'&region='+encodeURIComponent(region);
@@ -18940,17 +18975,75 @@ function tffUnwrap(json){
   if(!json||typeof json!=='object') return json;
   return json.data||json.stats||json.result||json;
 }
-function tffFindBannerUrl(obj){
-  if(!obj||typeof obj!=='object') return '';
-  const keys=['banner','banner_url','bannerUrl','bannerImage','banner_image','image','image_url','imageUrl','url','picture','photo'];
-  return stkNestedLookup(obj,keys,function(v){ return stkLooksLikeUrl(v); });
-}
+
 
 function tffEsc(str){
   return String(str==null?'':str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 function tffAttrEsc(str){
   return String(str==null?'':str).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+/* Bio/signature Free Fire memakai kode warna gaya "[FF0000]teks" — TANPA tag
+   penutup, warna berlaku sampai kode warna berikutnya muncul atau baris
+   berakhir (mirip format chat game). Style [B]/[I]/[U] tetap pakai tag
+   penutup eksplisit [/B] dst. Parser ini jalan per-baris (newline mereset
+   warna) supaya warna satu baris tidak "bocor" ke baris berikutnya yang
+   tidak diberi kode warna. Teks di luar tag tetap di-escape aman. */
+function tffFormatBio(raw){
+  const str=String(raw==null?'':raw);
+  const lines=str.split('\n');
+  const styleTokenRe=/\[\/?(B|I|U)\]/gi;
+  const colorTokenRe=/^\[([0-9A-Fa-f]{6})\]/;
+  const outLines=lines.map(function(line){
+    let html='',pos=0,currentColor=null;
+    const styleStack=[];
+    const openColor=function(hex){
+      if(currentColor) html+='</span>';
+      html+='<span style="color:#'+hex.toUpperCase()+'">';
+      currentColor=hex;
+    };
+    while(pos<line.length){
+      const rest=line.slice(pos);
+      const colorMatch=rest.match(colorTokenRe);
+      if(colorMatch){
+        openColor(colorMatch[1]);
+        pos+=colorMatch[0].length;
+        continue;
+      }
+      styleTokenRe.lastIndex=0;
+      const styleMatch=styleTokenRe.exec(rest);
+      if(styleMatch&&styleMatch.index===0){
+        const tag=styleMatch[1].toUpperCase();
+        const isClose=styleMatch[0].charAt(1)==='/';
+        const map={B:'b',I:'i',U:'u'};
+        if(isClose){
+          html+='</'+map[tag]+'>';
+          const idx=styleStack.lastIndexOf(tag);
+          if(idx!==-1) styleStack.splice(idx,1);
+        }else{
+          html+='<'+map[tag]+'>';
+          styleStack.push(tag);
+        }
+        pos+=styleMatch[0].length;
+        continue;
+      }
+      html+=tffEsc(line.charAt(pos));
+      pos++;
+    }
+    while(styleStack.length){
+      const tag=styleStack.pop();
+      const map={B:'b',I:'i',U:'u'};
+      html+='</'+map[tag]+'>';
+    }
+    if(currentColor) html+='</span>';
+    return html;
+  });
+  return outLines.join('\n');
+}
+function tffStripBioTags(raw){
+  return String(raw==null?'':raw)
+    .replace(/\[[0-9A-Fa-f]{6}\]/g,'')
+    .replace(/\[\/?(B|I|U)\]/gi,'');
 }
 function tffCopyVal(btn){
   if(!btn) return;
@@ -19028,8 +19121,29 @@ function tffPrettyValue(key,val){
   if(typeof val==='boolean') return TFF_BOOL_MAP[String(val)]||String(val);
   const enumKey=String(val).toLowerCase();
   if(TFF_ENUM_MAP[enumKey]) return TFF_ENUM_MAP[enumKey];
-  if(k==='signature') return String(val).trim()||'-';
+  if(k==='signature') return tffStripBioTags(String(val).trim())||'-';
   return String(val);
+}
+function tffYearsSince(unixVal){
+  const n=Number(unixVal);
+  if(!n||n<1000000000) return 0;
+  const years=Math.floor((Date.now()-(n*1000))/(365.25*24*3600*1000));
+  return years>0?years:0;
+}
+function tffDetailedAge(unixVal){
+  const n=Number(unixVal);
+  if(!n||n<1000000000) return '';
+  const start=new Date(n*1000), now=new Date();
+  let years=now.getFullYear()-start.getFullYear();
+  let months=now.getMonth()-start.getMonth();
+  let days=now.getDate()-start.getDate();
+  if(days<0){ months--; days+=new Date(now.getFullYear(),now.getMonth(),0).getDate(); }
+  if(months<0){ years--; months+=12; }
+  const parts=[];
+  if(years>0) parts.push(years+' tahun');
+  if(months>0) parts.push(months+' bulan');
+  if(days>0||!parts.length) parts.push(days+' hari');
+  return parts.join(', ')+' usia akun';
 }
 function tffRelativeTime(unixVal){
   const n=Number(unixVal);
@@ -19049,10 +19163,12 @@ function tffRelativeTime(unixVal){
   const diffYear=Math.floor(diffMonth/12);
   return diffYear+' tahun lalu';
 }
-function tffRenderRows(obj){
+function tffRenderRows(obj,extraSkip){
   if(!obj||typeof obj!=='object') return '';
+  const skipExtra=extraSkip||[];
   const keys=Object.keys(obj).filter(function(key){
     if(TFF_ROW_SKIP_KEYS.indexOf(key.toLowerCase())!==-1) return false;
+    if(skipExtra.indexOf(key.toLowerCase())!==-1) return false;
     const val=obj[key];
     return !(val==null||val===''||typeof val==='object');
   });
@@ -19088,9 +19204,9 @@ function tffRenderRows(obj){
   });
   return rows;
 }
-function tffSection(iconCls,title,obj){
+function tffSection(iconCls,title,obj,extraSkip){
   if(!obj||typeof obj!=='object') return '';
-  const rows=tffRenderRows(obj);
+  const rows=tffRenderRows(obj,extraSkip);
   if(!rows) return '';
   return '<div class="tff-section">'+
     '<div class="tff-section-head"><i class="fa-solid '+iconCls+'"></i><span>'+tffEsc(title)+'</span></div>'+
@@ -19118,14 +19234,15 @@ async function stkFfSubmit(){
         return TFF_BASE+menu.path+'?'+queryBase;
       },{isDataOk:function(j){ return !!(j&&(j.basicInfo||j.data||j.result)); }});
 
-      // Banner & statistik ranked BR/CS dianggap pelengkap: kalau salah satu
-      // gagal/limit, profil utama tetap ditampilkan tanpa bagian itu.
-      let bannerJson=null,statsBr=null,statsCs=null;
-      try{ bannerJson=await tffFetchBanner(uidVal,region); }catch(e){ bannerJson=null; }
+      // Banner (gambar PNG langsung dari server) & statistik ranked BR/CS
+      // dianggap pelengkap: kalau salah satu gagal/limit, profil utama
+      // tetap ditampilkan tanpa bagian itu.
+      const bannerUrl=tffBuildBannerUrl(uidVal,region);
+      let statsBr=null,statsCs=null;
       try{ statsBr=await tffFetchStats(uidVal,region,'br','RANKED'); }catch(e){ statsBr=null; }
       try{ statsCs=await tffFetchStats(uidVal,region,'cs','RANKED'); }catch(e){ statsCs=null; }
 
-      tffRenderResult(result,json,{banner:bannerJson,statsBr:statsBr,statsCs:statsCs});
+      tffRenderResult(result,json,{bannerUrl:bannerUrl,statsBr:statsBr,statsCs:statsCs});
       if(btn){ btn.disabled=false; btn.innerHTML='<i class="fa-solid fa-paper-plane"></i> CEK INFO'; }
       return;
     }catch(e){
@@ -19143,6 +19260,82 @@ async function stkFfSubmit(){
   if(btn){ btn.disabled=false; btn.innerHTML='<i class="fa-solid fa-paper-plane"></i> CEK INFO'; }
 }
 
+function tffBuildProfileHead(json,extra,refreshAttr){
+  extra=extra||{};
+  const b=json.basicInfo||{};
+  const nickname=stkPick(b,['nickname'])||'-';
+  const uidVal=stkPick(b,['accountId','account_id']);
+  const region=stkPick(b,['region']);
+  const level=stkPick(b,['level']);
+  const liked=stkPick(b,['liked']);
+  const primeLevel=stkPick(b,['primeLevel','prime_level']);
+  const createAt=stkPick(b,['createAt','create_at']);
+  const lastLoginAt=stkPick(b,['lastLoginAt','last_login_at']);
+  const social=json.socialInfo||{};
+  const signature=stkPick(b,['signature'])||stkPick(social,['signature']);
+
+  // Endpoint /banner/profile langsung balikin GAMBAR PNG jadi (bukan JSON) yang
+  // isinya sudah gabungan avatar+nama+guild+level dirender server, ukuran total
+  // 200x43 dengan avatar persegi (43x43) nempel di ujung kiri. Kita cuma mau
+  // avatarnya aja: wrapper .tff-banner-wrap yang crop bagian kiri itu (lihat CSS).
+  const bannerUrl=extra.bannerUrl||'';
+  const avatarHtml=bannerUrl?
+    '<div class="tff-banner-wrap"><img class="tff-banner-img" src="'+tffAttrEsc(bannerUrl)+'" alt="avatar profil" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src=\'zusmo-asset/bpjwcf.png\';this.style.width=\'100%\';this.style.objectFit=\'cover\';"></div>':'';
+
+  const metaParts=[];
+  if(uidVal) metaParts.push('<span><i class="fa-solid fa-hashtag"></i>ID: <b>'+tffEsc(String(uidVal))+'</b></span>');
+  if(liked!=null) metaParts.push('<span><i class="fa-solid fa-heart"></i>Likes: <b>'+tffEsc(Number(liked).toLocaleString('id-ID'))+'</b></span>');
+  if(region) metaParts.push('<span><i class="fa-solid fa-earth-asia"></i>Region: <b>'+tffEsc(String(region))+'</b></span>');
+
+  const badges=[];
+  const ffAge=tffYearsSince(createAt);
+  if(ffAge) badges.push('<span class="tff-profile-badge"><i class="fa-solid fa-cake-candles"></i> '+ffAge+' tahun FF</span>');
+  if(primeLevel) badges.push('<span class="tff-profile-badge"><i class="fa-solid fa-crown"></i> Prime '+tffEsc(String(primeLevel))+'</span>');
+
+  const dateRows=[];
+  if(createAt){
+    dateRows.push('<div class="tff-profile-date-row"><i class="fa-regular fa-calendar"></i>Akun dibuat '+tffEsc(tffPrettyValue('createAt',createAt))+'</div>');
+    const ageStr=tffDetailedAge(createAt);
+    if(ageStr) dateRows.push('<div class="tff-profile-date-row"><i class="fa-regular fa-calendar-check"></i>'+tffEsc(ageStr)+'</div>');
+  }
+  if(lastLoginAt) dateRows.push('<div class="tff-profile-date-row"><i class="fa-regular fa-clock"></i>Login terakhir '+tffEsc(tffPrettyValue('lastLoginAt',lastLoginAt))+'</div>');
+
+  const clan=json.clanBasicInfo||{};
+  const clanName=stkPick(clan,['clanName']);
+  const clanId=stkPick(clan,['clanId','id']);
+  const clanLevel=stkPick(clan,['clanLevel']);
+  const memberNum=stkPick(clan,['membernum','memberNum']);
+  const captainId=stkPick(clan,['captainId']);
+  const captainInfo=json.captainBasicInfo||{};
+  const captainName=stkPick(captainInfo,['nickname']);
+
+  return '<div class="tff-profile-head">'+
+      (refreshAttr?'<button class="tff-profile-refresh" onclick="'+refreshAttr+'" type="button"><i class="fa-solid fa-arrows-rotate"></i></button>':'')+
+      avatarHtml+
+      '<div class="tff-profile-name-row"><span class="tff-profile-name">'+tffEsc(nickname)+'</span>'+
+        (level!=null?'<span class="tff-profile-lvl">Lvl. '+tffEsc(String(level))+'</span>':'')+
+      '</div>'+
+      (metaParts.length?'<div class="tff-profile-meta">'+metaParts.join('')+'</div>':'')+
+      (badges.length?'<div class="tff-profile-badges">'+badges.join('')+'</div>':'')+
+      (dateRows.length?'<div class="tff-profile-dates">'+dateRows.join('')+'</div>':'')+
+      (signature?(
+        '<div class="tff-profile-bio-label">Bio</div>'+
+        '<div class="tff-profile-bio-box"><span class="tff-bio-text">'+tffFormatBio(String(signature).trim())+'</span>'+
+        '<button class="stk-copy-btn" data-val="'+tffAttrEsc(tffStripBioTags(String(signature).trim()))+'" onclick="tffCopyVal(this)"><i class="fa-solid fa-copy"></i></button></div>'
+      ):'')+
+      (clanName?(
+        '<div class="tff-profile-guild-label">Guild</div>'+
+        '<div class="tff-profile-guild-chip"><i class="fa-solid fa-people-group"></i>'+tffEsc(String(clanName))+'</div>'+
+        '<div class="tff-profile-guild-meta">'+
+          (clanId?'<span>ID Guild: <b>'+tffEsc(String(clanId))+'</b></span>':'')+
+          (clanLevel!=null?'<span>Level: <b>'+tffEsc(String(clanLevel))+'</b></span>':'')+
+          (memberNum!=null?'<span>Member: <b>'+tffEsc(String(memberNum))+'</b></span>':'')+
+        '</div>'+
+        (captainId?'<div class="tff-profile-captain"><i class="fa-solid fa-user"></i>ID Kapten: <b>'+tffEsc(String(captainId))+(captainName?' &middot; '+tffEsc(String(captainName)):'')+'</b></div>':'')
+      ):'')+
+    '</div>';
+}
+
 function tffRenderResult(box,json,extra){
   if(!box) return;
   extra=extra||{};
@@ -19151,36 +19344,15 @@ function tffRenderResult(box,json,extra){
     box.classList.add('show');
     return;
   }
-  const b=json.basicInfo||{};
-  const nickname=stkPick(b,['nickname'])||'-';
-  const uidVal=stkPick(b,['accountId','account_id']);
-  const region=stkPick(b,['region']);
-  const level=stkPick(b,['level']);
-  const headSub=[uidVal?('UID '+tffEsc(String(uidVal))):'',level!=null?('Level '+tffEsc(String(level))):''].filter(Boolean).join(' · ');
-
-  const bannerUrl=extra.banner?tffFindBannerUrl(tffUnwrap(extra.banner)):'';
-  const bannerHtml=bannerUrl?
-    '<div class="tff-banner-wrap"><img class="tff-banner-img" src="'+tffAttrEsc(bannerUrl)+'" alt="banner profil" referrerpolicy="no-referrer" onerror="this.parentElement.style.display=\'none\'"></div>':'';
-
-  const head=
-    bannerHtml+
-    '<div class="stk-result-head">'+
-      '<img class="stk-result-avatar stk-ff-logo" src="zusmo-asset/bpjwcf.png" alt="avatar">'+
-      '<div style="flex:1;min-width:0;">'+
-        '<div class="stk-name-row"><span class="stk-result-name">'+tffEsc(nickname)+'</span>'+
-        '<button class="stk-copy-btn" data-val="'+tffAttrEsc(nickname)+'" onclick="tffCopyVal(this)"><i class="fa-solid fa-copy"></i></button></div>'+
-        (headSub?'<div class="stk-result-sub">'+headSub+'</div>':'')+
-      '</div>'+
-      (region?'<span class="tff-region-badge">'+tffEsc(String(region))+'</span>':'')+
-    '</div>';
+  const head=tffBuildProfileHead(json,extra,'stkFfSubmit()');
   let html='';
-  html+=tffSection('fa-user-shield','Info Akun',json.basicInfo);
+  html+=tffSection('fa-user-shield','Info Akun',json.basicInfo,['nickname','accountid','level','liked','region','primelevel','createat','lastloginat','signature']);
   html+=tffSection('fa-ranking-star','Statistik Ranked BR',extra.statsBr?tffUnwrap(extra.statsBr):null);
   html+=tffSection('fa-chess-board','Statistik Ranked CS',extra.statsCs?tffUnwrap(extra.statsCs):null);
-  html+=tffSection('fa-shield-halved','Info Guild',json.clanBasicInfo);
-  html+=tffSection('fa-crown','Info Ketua Guild',json.captainBasicInfo);
+  html+=tffSection('fa-shield-halved','Info Guild',json.clanBasicInfo,['clanname','id','clanlevel','membernum','captainid']);
+  html+=tffSection('fa-crown','Info Ketua Guild',json.captainBasicInfo,['nickname']);
   html+=tffSection('fa-paw','Info Peliharaan',json.petInfo);
-  html+=tffSection('fa-comment-dots','Info Sosial',json.socialInfo);
+  html+=tffSection('fa-comment-dots','Info Sosial',json.socialInfo,['signature']);
   html+=tffSection('fa-gem','Perkiraan Harga',json.diamondCostRes);
   html+=tffSection('fa-star','Skor Kredit',json.creditScoreInfo);
   html+=tffSection('fa-user-astronaut','Info Profil',json.profileInfo);
