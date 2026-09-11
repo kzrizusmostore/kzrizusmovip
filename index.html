@@ -16716,7 +16716,7 @@ async function rndDownload(url,keyName,isVideo){
    kotak avatar (72x72) tetap kelihatan penuh, gak kepotong. */
 .tff-avatar-frame-wrap{position:relative;display:inline-block;flex-shrink:0;margin-bottom:14px;}
 .tff-avatar-frame-wrap .tff-banner-wrap{margin-bottom:0;}
-.tff-prime8-frame{position:absolute;top:50%;left:50%;width:122px;height:122px;transform:translate(-50%,-50%);pointer-events:none;z-index:3;}
+.tff-prime8-frame{position:absolute;top:50%;left:50%;width:98px;height:98px;transform:translate(-50%,-50%);pointer-events:none;z-index:3;}
 .tff-friends-list{display:flex;flex-direction:column;gap:8px;}
 .tff-friend-row{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:9px 10px;}
 .tff-friend-avatar{width:36px;height:36px;border-radius:50%;object-fit:cover;flex-shrink:0;background:#111;}
@@ -19567,7 +19567,9 @@ function tffYearsSince(unixVal){
   const n=Number(unixVal);
   if(!n||n<1000000000) return 0;
   const years=Math.floor((Date.now()-(n*1000))/(365.25*24*3600*1000));
-  return years>0?years:0;
+  // Akun yang baru dibuat (< 1 tahun) tetap dianggap "1 tahun FF" biar
+  // badge-nya tetap muncul, bukan cuma disembunyikan.
+  return years>0?years:1;
 }
 function tffDetailedAge(unixVal){
   const n=Number(unixVal);
