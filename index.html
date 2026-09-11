@@ -16773,7 +16773,7 @@ async function rndDownload(url,keyName,isVideo){
 .tff-profile-meta b{color:#eee;font-weight:700;}
 .tff-profile-meta i{margin-right:4px;color:#ff5252;}
 .tff-meta-icon{width:13px;height:13px;object-fit:contain;margin-right:4px;vertical-align:-2px;display:inline-block;}
-.tff-profile-lvl{flex-shrink:0;border:1px solid rgba(255,193,7,.5);color:#ffc107;background:rgba(255,193,7,.08);font-size:11px;font-weight:800;padding:4px 10px;border-radius:20px;display:inline-flex;align-items:center;gap:5px;}
+.tff-profile-lvl{flex-shrink:0;border:1px solid rgba(255,193,7,.5);color:#ffc107;background:rgba(255,193,7,.08);font-size:11px;font-weight:800;padding:1px 8px;border-radius:20px;display:inline-flex;align-items:center;gap:0px;line-height:1;}
 .tff-lvl-icon{width:20px;height:20px;object-fit:contain;display:inline-block;}
 .tff-profile-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
 .tff-profile-badge{font-size:11px;font-weight:700;color:#e0c380;background:rgba(224,195,128,.08);border:1px solid rgba(224,195,128,.35);padding:6px 12px;border-radius:20px;}
@@ -16790,7 +16790,8 @@ async function rndDownload(url,keyName,isVideo){
 .tff-profile-dates{margin-top:14px;display:flex;flex-direction:column;gap:8px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);}
 .tff-profile-date-row{display:flex;align-items:center;gap:9px;font-size:12px;color:#ccc;}
 .tff-profile-date-row i{width:15px;text-align:center;color:#888;font-size:12px;}
-.tff-profile-bio-label,.tff-profile-guild-label{font-size:10.5px;font-weight:800;letter-spacing:1px;color:#888;text-transform:uppercase;margin:14px 0 8px;}
+.tff-profile-bio-label{font-size:10.5px;font-weight:800;letter-spacing:1px;color:#888;text-transform:uppercase;margin:14px 0 8px;}
+.tff-profile-guild-label{font-size:10.5px;font-weight:800;letter-spacing:1px;color:#888;text-transform:uppercase;margin:14px 0 8px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);}
 .tff-profile-bio-box{position:relative;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:10px 12px;}
 .tff-profile-bio-box .tff-bio-scroll{max-width:calc(100% - 32px);overflow-x:auto;}
 .tff-profile-bio-box .tff-bio-text{display:block;font-family:'Anton',sans-serif;font-size:17px;font-weight:400;letter-spacing:.3px;line-height:1.45;color:#eee;text-shadow:.4px 0 currentColor,-.4px 0 currentColor,0 .4px currentColor,0 -.4px currentColor;white-space:pre;word-break:normal;}
@@ -17999,6 +18000,10 @@ async function stkStalk(type){
     <div class="cifm-tile-icon"><i class="fa-solid fa-shirt"></i></div>
     <span>CEK OUTFIT</span>
   </div>
+  <div class="cifm-tile" onclick="showPage('cekidffStats')">
+    <div class="cifm-tile-icon"><i class="fa-solid fa-chart-simple"></i></div>
+    <span>CHECK STATISTIK</span>
+  </div>
 </div>
 
 <div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
@@ -18122,6 +18127,9 @@ async function stkStalk(type){
 
 .cid-columns{display:flex;flex-direction:column;gap:14px;}
 .cid-columns .cid-result-card{margin-bottom:0;}
+.cid-banner-full{width:100%;max-width:320px;margin:0 auto;border-radius:0;overflow:hidden;border:1px solid rgba(255,255,255,.1);background:#161616;}
+.cid-banner-full img{width:100%;display:block;}
+.cid-banner-avatar-wrap{display:flex;justify-content:center;}
 .cid-fullinfo-title{
   display:flex;align-items:center;gap:6px;
   font-size:10px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#ff6b6b;
@@ -18134,6 +18142,29 @@ async function stkStalk(type){
   color:#ddd;font-size:11.5px;font-weight:800;letter-spacing:.3px;
   display:flex;align-items:center;justify-content:center;gap:8px;
 }
+
+.cid-rank-card{padding:16px 16px 18px;}
+.cid-rank-tabs{display:flex;gap:6px;background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.08);border-radius:13px;padding:4px;margin-bottom:14px;}
+.cid-rank-panel{background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:14px;}
+.cid-rank-tab{flex:1;text-align:center;padding:10px 6px;border-radius:11px;font-size:10px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#8a8a8a;cursor:pointer;transition:.2s;font-family:'Outfit',sans-serif;}
+.cid-rank-tab.active{background:linear-gradient(135deg,#ff3b3b,#c40d0d);color:#fff;box-shadow:0 6px 14px rgba(255,43,43,.35);}
+.cid-rank-body{display:flex;align-items:center;gap:14px;}
+.cid-rank-icon-wrap{
+  width:64px;height:64px;border-radius:18px;flex-shrink:0;
+  background:radial-gradient(circle at 30% 25%,rgba(255,82,82,.22),rgba(0,0,0,.35) 70%);
+  border:1px solid rgba(255,80,80,.25);
+  display:flex;align-items:center;justify-content:center;
+}
+.cid-rank-icon{width:44px;height:44px;object-fit:contain;filter:drop-shadow(0 3px 8px rgba(255,43,43,.4));}
+.cid-rank-info{flex:1;min-width:0;}
+.cid-rank-tier{font-size:16.5px;font-weight:900;color:#fff;font-family:'Outfit',sans-serif;letter-spacing:.2px;line-height:1.25;}
+.cid-rank-points{font-size:10.5px;color:#999;font-weight:700;margin-top:3px;display:flex;align-items:center;gap:5px;}
+.cid-rank-points i{color:#ff5252;font-size:9px;}
+.cid-rank-bar-wrap{width:100%;height:7px;border-radius:7px;background:rgba(255,255,255,.07);margin-top:11px;overflow:hidden;box-shadow:inset 0 1px 2px rgba(0,0,0,.3);}
+.cid-rank-bar-fill{height:100%;border-radius:7px;background:linear-gradient(90deg,#ff8a5c,#ff3b3b);transition:width .4s ease;}
+.cid-rank-next{font-size:10px;color:#8f8f8f;margin-top:8px;font-weight:600;letter-spacing:.1px;}
+.cid-rank-next b{color:#eee;font-weight:800;}
+.cid-rank-empty{font-size:11px;color:#8f8f8f;text-align:center;padding:16px 2px;display:flex;align-items:center;gap:6px;justify-content:center;}
 </style>
 
 <div class="cid-page-head">
@@ -18178,6 +18209,20 @@ async function stkStalk(type){
       </div>
     </div>
     <div class="cid-col cid-col-2">
+      <div class="cid-result-card" style="text-align:center;">
+        <div id="cidBannerAvatar"></div>
+      </div>
+    </div>
+    <div class="cid-col cid-col-3">
+      <div class="cid-result-card cid-rank-card" style="text-align:left;">
+        <div class="cid-rank-tabs" id="cidRankTabs">
+          <div class="cid-rank-tab active" data-game="br" onclick="cidRankSwitch('br')">Battle Royale</div>
+          <div class="cid-rank-tab" data-game="cs" onclick="cidRankSwitch('cs')">Clash Squad</div>
+        </div>
+        <div id="cidRankBody"></div>
+      </div>
+    </div>
+    <div class="cid-col cid-col-4">
       <div class="cid-result-card" style="text-align:left;">
         <div class="cid-fullinfo-title"><i class="fa-solid fa-list-check"></i>Info Lengkap</div>
         <div class="cid-info-rows" id="cidInfoRows"></div>
@@ -18267,6 +18312,19 @@ async function cidCheck(){
 
       const profileHeadEl=document.getElementById('cidProfileHead');
       if(profileHeadEl){ profileHeadEl.innerHTML=tffBuildProfileHead(json,{bannerUrl:bannerUrl},'cidCheck()'); tffFitBioText(profileHeadEl); }
+      const bannerAvatarEl=document.getElementById('cidBannerAvatar');
+      if(bannerAvatarEl){
+        bannerAvatarEl.innerHTML=bannerUrl?(
+          '<div class="cid-banner-full"><img src="'+tffAttrEsc(bannerUrl)+'" alt="banner profil" referrerpolicy="no-referrer" onerror="this.parentElement.style.display=\'none\'"></div>'
+        ):'<div class="cid-info-row-error" style="border-top:none;justify-content:center;"><i class="fa-solid fa-triangle-exclamation"></i>Banner tidak tersedia.</div>';
+      }
+      cidRankData.br=stkPick(b,['rankingPoints','ranking_points','rankingpoints']);
+      cidRankData.cs=stkPick(b,['csRankingPoints','cs_ranking_points','csrankingpoints']);
+      cidRankActiveGame='br';
+      const rankTabsEl=document.getElementById('cidRankTabs');
+      if(rankTabsEl) rankTabsEl.querySelectorAll('.cid-rank-tab').forEach(function(t){ t.classList.toggle('active',t.dataset.game==='br'); });
+      const rankBodyEl=document.getElementById('cidRankBody');
+      if(rankBodyEl) rankBodyEl.innerHTML=cidBuildRankBody(cidRankData.br,'br');
       const infoRows=document.getElementById('cidInfoRows');
       if(infoRows) infoRows.innerHTML=cidRenderInfoSections(json,{statsBr:statsBr,statsCs:statsCs,statsBrErr:statsBrErr,statsCsErr:statsCsErr});
 
@@ -18356,9 +18414,58 @@ function cidRenderRows(obj,extraSkip){
   return rows;
 }
 
+/* Kolom "Pangkat Ranked" di CEK INFO FF: tab Battle Royale / Clash Squad,
+   pakai tabel ambang poin TFF_RANK_BR_TABLE/TFF_RANK_CS_TABLE yang sama
+   dengan badge pangkat di STALK FREE FIRE supaya tier & ikonnya konsisten. */
+let cidRankData={br:null,cs:null};
+let cidRankActiveGame='br';
+function cidRankSwitch(game){
+  cidRankActiveGame=game;
+  const tabsEl=document.getElementById('cidRankTabs');
+  if(tabsEl) tabsEl.querySelectorAll('.cid-rank-tab').forEach(function(t){ t.classList.toggle('active',t.dataset.game===game); });
+  const bodyEl=document.getElementById('cidRankBody');
+  if(bodyEl) bodyEl.innerHTML=cidBuildRankBody(cidRankData[game],game);
+}
+function cidBuildRankBody(points,game){
+  if(points==null||points===''){
+    return '<div class="cid-rank-panel"><div class="cid-rank-empty"><i class="fa-solid fa-circle-info"></i>Data pangkat '+(game==='cs'?'Clash Squad':'Battle Royale')+' tidak tersedia.</div></div>';
+  }
+  const table=game==='cs'?TFF_RANK_CS_TABLE:TFF_RANK_BR_TABLE;
+  const entry=tffRankLookup(points,table);
+  if(!entry){
+    return '<div class="cid-rank-panel"><div class="cid-rank-empty"><i class="fa-solid fa-circle-info"></i>Data pangkat '+(game==='cs'?'Clash Squad':'Battle Royale')+' tidak tersedia.</div></div>';
+  }
+  const idx=table.indexOf(entry);
+  const next=idx>=0&&idx<table.length-1?table[idx+1]:null;
+  let barPct=100,nextHtml='<i class="fa-solid fa-crown"></i> Pangkat tertinggi tercapai';
+  if(next){
+    const span=next.min-entry.min;
+    const prog=span>0?((Number(points)-entry.min)/span)*100:100;
+    barPct=Math.max(2,Math.min(100,prog));
+    const remaining=Math.max(0,next.min-Number(points));
+    nextHtml='Kurang <b style="color:#eee">'+tffEsc(String(remaining))+'</b> poin ke '+tffEsc(next.label);
+  }
+  const file=game+entry.tier+'.png';
+  return '<div class="cid-rank-panel"><div class="cid-rank-body">'+
+      '<div class="cid-rank-icon-wrap"><img class="cid-rank-icon" src="zusmo-asset/'+file+'" alt="'+tffAttrEsc(entry.label)+'" onerror="this.style.visibility=\'hidden\'"></div>'+
+      '<div class="cid-rank-info">'+
+        '<div class="cid-rank-tier">'+tffEsc(entry.label)+'</div>'+
+        '<div class="cid-rank-points"><i class="fa-solid fa-bolt"></i>'+tffEsc(String(points))+' Poin</div>'+
+        '<div class="cid-rank-bar-wrap"><div class="cid-rank-bar-fill" style="width:'+barPct+'%"></div></div>'+
+        '<div class="cid-rank-next">'+nextHtml+'</div>'+
+      '</div>'+
+    '</div></div>';
+}
+
 function cidReset(){
   const inp=document.getElementById('cidUidInput');
   if(inp){ inp.value=''; inp.focus(); }
+  cidRankData={br:null,cs:null};
+  cidRankActiveGame='br';
+  const rankTabsEl=document.getElementById('cidRankTabs');
+  if(rankTabsEl) rankTabsEl.querySelectorAll('.cid-rank-tab').forEach(function(t){ t.classList.toggle('active',t.dataset.game==='br'); });
+  const rankBodyEl=document.getElementById('cidRankBody');
+  if(rankBodyEl) rankBodyEl.innerHTML='';
   cidShowState('cidStateIdle');
 }
 
@@ -18713,6 +18820,166 @@ function cofDownload(){
   if(!cofCurrentUrl) return;
   if(window.aiSaveMediaFallback){ window.aiSaveMediaFallback(cofCurrentUrl); return; }
   window.open(cofCurrentUrl,'_blank');
+}
+</script>
+
+<!-- CHECK STATISTIK PAGE -->
+<div class="page" id="cekidffStats">
+<style>
+#cekidffStats{padding-bottom:80px;}
+</style>
+
+<div class="cid-page-head">
+  <span class="cid-page-head-icon" aria-hidden="true"></span>
+  <div>
+    <p class="cid-hero-title"><span class="red">CHECK</span>&nbsp;<span class="wht">STATISTIK</span></p>
+    <p class="cid-hero-sub">Masukkan ID Free Fire kamu, statistik ranked BR &amp; CS langsung ketahuan.</p>
+  </div>
+</div>
+
+<div class="cid-card">
+  <div class="cid-label"><i class="fa-solid fa-chart-simple"></i>ID FREE FIRE</div>
+  <div class="cid-input-wrap">
+    <i class="fa-solid fa-hashtag"></i>
+    <input class="cid-input" id="cisUidInput" type="text" inputmode="numeric" placeholder="Contoh: 123456789" maxlength="13"/>
+  </div>
+  <button class="cid-btn" id="cisCheckBtn" onclick="cisCheck()"><i class="fa-solid fa-magnifying-glass"></i>CEK STATISTIK SEKARANG</button>
+  <p class="cid-hint">Cek statistik ranked BR &amp; CS cukup lewat ID.</p>
+</div>
+
+<div class="cid-state show" id="cisStateIdle">
+  <i class="fa-solid fa-chart-simple"></i>
+  <p>Belum ada ID yang dicek. Masukkan ID Free Fire di atas lalu tekan "Cek Statistik Sekarang".</p>
+</div>
+
+<div class="cid-state cid-loading" id="cisStateLoading">
+  <i class="fa-solid fa-spinner fa-spin"></i>
+  <p>Sedang mengambil statistik ranked kamu, tunggu sebentar ya...</p>
+</div>
+
+<div class="cid-state cid-error" id="cisStateError">
+  <i class="fa-solid fa-triangle-exclamation"></i>
+  <p id="cisErrorMsg">ID Free Fire tidak ditemukan. Periksa kembali ID kamu.</p>
+  <div class="cid-retry" onclick="cisReset()"><i class="fa-solid fa-rotate-left"></i>Coba Lagi</div>
+</div>
+
+<div class="cid-result" id="cisResult">
+  <div class="cid-result-card" style="text-align:left;">
+    <div id="cisStatsArea"></div>
+  </div>
+  <button class="cid-reset-btn" onclick="cisReset()"><i class="fa-solid fa-arrow-rotate-left"></i>CEK ID LAIN</button>
+</div>
+
+<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
+</div>
+
+<script>
+(function(){
+  const uidInput=document.getElementById('cisUidInput');
+  if(uidInput){
+    uidInput.addEventListener('input',function(){
+      uidInput.value=uidInput.value.replace(/[^0-9]/g,'').slice(0,13);
+    });
+    uidInput.addEventListener('keydown',function(e){
+      if(e.key==='Enter') cisCheck();
+    });
+  }
+})();
+
+function cisShowState(which){
+  ['cisStateIdle','cisStateLoading','cisStateError'].forEach(function(id){
+    const el=document.getElementById(id);
+    if(el) el.classList.toggle('show',id===which);
+  });
+  const result=document.getElementById('cisResult');
+  if(result) result.classList.toggle('show',which===null);
+}
+
+function cisSetLoadingBtn(loading){
+  const btn=document.getElementById('cisCheckBtn');
+  if(!btn) return;
+  if(loading){
+    btn.disabled=true;
+    btn.dataset.origHtml=btn.innerHTML;
+    btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i>MENGECEK...';
+  }else{
+    btn.disabled=false;
+    if(btn.dataset.origHtml) btn.innerHTML=btn.dataset.origHtml;
+  }
+}
+
+function cisShake(){
+  const inp=document.getElementById('cisUidInput');
+  if(!inp) return;
+  inp.classList.remove('cid-shake');
+  void inp.offsetWidth;
+  inp.classList.add('cid-shake');
+  inp.focus();
+}
+
+async function cisCheck(){
+  const inp=document.getElementById('cisUidInput');
+  const uid=inp?inp.value.trim():'';
+  if(!uid||uid.length<6){ cisShake(); return; }
+
+  cisShowState('cisStateLoading');
+  cisSetLoadingBtn(true);
+
+  let lastErr=null;
+  for(let i=0;i<TFF_ALL_REGIONS.length;i++){
+    const region=TFF_ALL_REGIONS[i];
+    const queryBase='key='+encodeURIComponent(TFF_KEY)+'&uid='+encodeURIComponent(uid)+'&region='+encodeURIComponent(region);
+    try{
+      const json=await xyureiRequest(function(){
+        return TFF_BASE+'/freefireinfo/bhau?'+queryBase;
+      },{isDataOk:function(j){ return !!(j&&(j.basicInfo||j.data||j.result)); }});
+
+      if(json&&json.error){ throw Object.assign(new Error(json.error),{raw:json}); }
+      const b=json.basicInfo||{};
+      const nickname=stkPick(b,['nickname']);
+      if(!nickname){ throw Object.assign(new Error('Nickname tidak ditemukan.'),{raw:json}); }
+      const uidVal=stkPick(b,['accountId','account_id'])||uid;
+      const rankPointsBr=stkPick(b,['rankingPoints','ranking_points','rankingpoints']);
+      const rankPointsCs=stkPick(b,['csRankingPoints','cs_ranking_points','csrankingpoints']);
+
+      let statsBr=null,statsCs=null;
+      try{ statsBr=await tffFetchStats(uidVal,region,'br','RANKED'); }catch(e){ statsBr=null; console.warn('[CIS] statistik BR gagal:',e); }
+      try{ statsCs=await tffFetchStats(uidVal,region,'cs','RANKED'); }catch(e){ statsCs=null; console.warn('[CIS] statistik CS gagal:',e); }
+
+      const statsAreaEl=document.getElementById('cisStatsArea');
+      if(statsAreaEl){
+        const rankBadges=[];
+        if(rankPointsBr!=null) rankBadges.push(tffRankBadgeHtml(rankPointsBr,'br'));
+        if(rankPointsCs!=null) rankBadges.push(tffRankBadgeHtml(rankPointsCs,'cs'));
+        const rankBadgesHtml=rankBadges.filter(Boolean).join('');
+        let statsHtml=(rankBadgesHtml?'<div class="tff-rank-badges" style="margin-top:0;margin-bottom:14px;">'+rankBadgesHtml+'</div>':'')
+          +tffStatsSection('fa-ranking-star','Statistik Ranked BR',statsBr?tffUnwrap(statsBr):null)
+          +tffStatsSection('fa-chess-board','Statistik Ranked CS',statsCs?tffUnwrap(statsCs):null);
+        if(!statsHtml) statsHtml='<div class="cid-info-row-error" style="border-top:none;"><i class="fa-solid fa-triangle-exclamation"></i>Statistik ranked belum tersedia untuk akun ini.</div>';
+        statsAreaEl.innerHTML=statsHtml;
+      }
+
+      cisShowState(null);
+      cisSetLoadingBtn(false);
+      return;
+    }catch(e){
+      lastErr=e;
+      console.warn('[CIS] region '+region+' gagal, coba region berikutnya...',(e&&e.debugDetail)||e);
+    }
+  }
+
+  console.error('[CIS]',lastErr,(lastErr&&lastErr.raw)||'');
+  const msg=(lastErr&&lastErr.isNetwork)?'Gagal menghubungi server. Coba lagi beberapa saat.':'ID Free Fire tidak ditemukan. Periksa kembali ID kamu.';
+  const errMsg=document.getElementById('cisErrorMsg');
+  if(errMsg) errMsg.textContent=msg;
+  cisShowState('cisStateError');
+  cisSetLoadingBtn(false);
+}
+
+function cisReset(){
+  const inp=document.getElementById('cisUidInput');
+  if(inp){ inp.value=''; inp.focus(); }
+  cisShowState('cisStateIdle');
 }
 </script>
 
