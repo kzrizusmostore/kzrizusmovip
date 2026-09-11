@@ -36627,7 +36627,12 @@ img#shadowBanner,
 </style><style>
 html,body{
   overscroll-behavior-y:contain; /* matikan pull-to-refresh bawaan browser */
-  touch-action:pan-y pan-x;      /* blok pinch-zoom, tetap izinkan swipe/drag */
+  /* touch-action dihapus: sebelumnya "pan-y pan-x" di sini bikin fitur
+     scroll-capture / long-screenshot bawaan HP (MIUI, Samsung, dll) gagal
+     jalan, karena OS gak bisa nyintesis gesture scroll buat nangkep isi
+     halaman kalau touch-action dibatasi manual. Pemblokiran pinch-zoom &
+     double-tap-zoom udah dihandle penuh lewat JS di bawah (gesturestart/
+     gesturechange/touchmove 2 jari/double-tap), jadi aman dihapus. */
 }
 /* Warna highlight saat teks di-blok/disalin (ganti biru default sistem -> merah) */
 ::selection{background:#ff2b2b;color:#fff;}
