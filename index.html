@@ -16695,6 +16695,17 @@ async function rndDownload(url,keyName,isVideo){
 .tff-region-badge{flex-shrink:0;background:rgba(255,43,43,.12);border:1px solid rgba(255,43,43,.4);color:#ff8a8a;font-size:10.5px;font-weight:800;letter-spacing:.4px;padding:5px 10px;border-radius:10px;text-transform:uppercase;}
 .tff-result-error{text-align:center;padding:16px 10px;color:#ffb3a3;background:rgba(255,43,43,.08);border:1px solid rgba(255,43,43,.25);border-radius:12px;font-size:12px;line-height:1.6;}
 .tff-result-error i{color:var(--tff-danger);margin-right:4px;}
+/* Daftar item outfit/skin senjata yang dipakai/dipajang, ditampilkan per
+   item sebagai chip (cuma Item ID mentah, karena gak ada database nama
+   item FF di sini). */
+.tff-id-chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:8px;}
+.tff-id-chip{display:flex;flex-direction:column;align-items:center;gap:4px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:8px 6px 6px;font-size:9px;font-weight:700;color:#eee;text-align:center;}
+.tff-id-chip b{color:#888;font-weight:800;font-size:8.5px;}
+.tff-id-chip-imgwrap{width:100%;aspect-ratio:1/1;border-radius:8px;background:rgba(0,0,0,.25);display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.tff-id-chip-imgwrap img{width:100%;height:100%;object-fit:contain;display:block;}
+.tff-id-chip-code{word-break:break-all;line-height:1.3;}
+.tff-id-chip-imgwrap.tff-id-chip-noimg{display:none;}
+.tff-id-chip.tff-id-noimg .tff-id-chip-imgwrap{display:none;}
 .tff-section{margin-bottom:4px;}
 .tff-section:last-child{margin-bottom:0;}
 .tff-section-head{display:flex;align-items:center;gap:8px;padding:12px 2px 8px;margin-top:8px;border-top:1px solid var(--tff-hair-strong);}
@@ -16810,6 +16821,11 @@ async function rndDownload(url,keyName,isVideo){
 .tff-profile-bio-box .tff-bio-text{display:block;font-family:'Anton',sans-serif;font-size:17px;font-weight:400;letter-spacing:.3px;line-height:1.45;color:#eee;text-shadow:.4px 0 currentColor,-.4px 0 currentColor,0 .4px currentColor,0 -.4px currentColor;white-space:pre;word-break:normal;}
 .tff-profile-bio-box .tff-bio-text,.tff-profile-bio-box .tff-bio-text b,.tff-profile-bio-box .tff-bio-text i,.tff-profile-bio-box .tff-bio-text u{font-weight:400!important;font-family:'Anton',sans-serif!important;}
 .tff-profile-bio-box .stk-copy-btn{position:absolute;top:10px;right:10px;}
+.tff-profile-items-groups{display:flex;flex-direction:column;gap:10px;margin-top:10px;}
+.tff-profile-item-group-label{font-size:10.5px;font-weight:800;letter-spacing:1px;color:#888;text-transform:uppercase;margin-bottom:6px;}
+.tff-profile-items-row{display:flex;flex-wrap:nowrap;align-items:center;gap:6px;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.tff-profile-items-row::-webkit-scrollbar{display:none;}
+.tff-profile-items-row img{width:34px;height:34px;object-fit:contain;display:block;flex-shrink:0;}
 .tff-profile-guild-chip{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:8px 14px;font-size:12.5px;font-weight:700;color:#fff;margin-bottom:10px;}
 .tff-profile-guild-chip i{color:#7ab8ff;}
 .tff-profile-guild-meta{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:#aaa;}
@@ -18353,7 +18369,7 @@ async function cidCheck(){
       try{ statsCs=await tffFetchStats(uidVal,region,'cs','RANKED'); console.log('[CID] statistik CS:',statsCs); }catch(e){ statsCs=null; statsCsErr=(e&&e.debugDetail)||(e&&e.message)||'Gagal memuat.'; console.warn('[CID] statistik CS gagal:',e); }
 
       const profileHeadEl=document.getElementById('cidProfileHead');
-      if(profileHeadEl){ profileHeadEl.innerHTML=tffBuildProfileHead(json,{bannerUrl:bannerUrl},'cidCheck()'); tffFitBioText(profileHeadEl); }
+      if(profileHeadEl){ profileHeadEl.innerHTML=tffBuildProfileHead(json,{bannerUrl:bannerUrl,showItems:true},'cidCheck()'); tffFitBioText(profileHeadEl); }
       const bannerAvatarEl=document.getElementById('cidBannerAvatar');
       if(bannerAvatarEl){
         bannerAvatarEl.innerHTML=bannerUrl?(
@@ -18403,12 +18419,15 @@ function cidRenderInfoSections(json,extra){
     ['fa-chess-board','Statistik Ranked CS',null,[],extra.statsCsErr,statsCsOk?tffUnwrap(extra.statsCs):null],
     ['fa-shield-halved','Info Guild',json.clanBasicInfo,['clanname','id','clanlevel','membernum','captainid'],null,null],
     ['fa-crown','Info Ketua Guild',json.captainBasicInfo,['nickname'],null,null],
-    ['fa-paw','Info Peliharaan',json.petInfo,[],null,null],
+    ['fa-paw','Info Peliharaan',json.petInfo,['id','skinid'],null,null],
     ['fa-comment-dots','Info Sosial',json.socialInfo,['signature'],null,null],
     ['fa-gem','Perkiraan Harga',json.diamondCostRes,[],null,null],
     ['fa-star','Skor Kredit',json.creditScoreInfo,[],null,null],
     ['fa-user-astronaut','Info Profil',json.profileInfo,[],null,null]
   ];
+  // Chip bergambar (outfit/skin senjata/skin pet/dll) sudah dipindahkan ke
+  // kolom 1 (di bawah Bio, lihat cidCombinedItemIconsHtml) jadi tidak
+  // diulang lagi di sini.
   let html='';
   sections.forEach(function(sec){
     const rows=cidRenderRows(sec[2],sec[3])||(sec[5]!=null?cidStatsRowsHtml(sec[5]):'');
@@ -18418,14 +18437,49 @@ function cidRenderInfoSections(json,extra){
     }else if(sec[4]){
       html+=head+'<div class="cid-info-row-error"><i class="fa-solid fa-triangle-exclamation"></i>Gagal memuat: '+tffEsc(String(sec[4]))+'</div>';
     }else if(sec[5]!==undefined&&sec[5]!==null){
-      // Fetch berhasil (sukses/tidak ada error) tapi field-nya kosong/semua null -> tetap tampilkan
-      // supaya kelihatan responsnya seperti apa (bukan cuma menghilang tanpa keterangan).
-      let dump='';
-      try{ dump=JSON.stringify(sec[5]).slice(0,220); }catch(e){ dump=''; }
-      html+=head+'<div class="cid-info-row-error"><i class="fa-solid fa-circle-info"></i>Data kosong/tidak ada statistik untuk mode ini.'+(dump&&dump!=='{}'?' Respons: '+tffEsc(dump):'')+'</div>';
+      // Fetch berhasil (bukan error), cuma field-nya kosong/semua null -> artinya
+      // pemain ini memang belum pernah main mode ranked tsb (bukan bug/gagal fetch).
+      // Tampilkan pesan yang jelas, TANPA dump JSON mentah (kelihatan kayak error).
+      html+=head+'<div class="cid-info-row-error"><i class="fa-solid fa-circle-info"></i>Belum ada data untuk mode ini (kemungkinan pemain belum pernah main '+tffEsc(sec[1])+').</div>';
     }
   });
   return html;
+}
+// Field ID tunggal (banner/avatar/pin/badge) bisa muncul di basicInfo atau
+// profileInfo tergantung respons API — dicoba dari keduanya biar gak kelewat.
+function cidPickId(json,key){
+  const a=json.basicInfo&&json.basicInfo[key];
+  if(a!=null&&a!=='') return a;
+  const b=json.profileInfo&&json.profileInfo[key];
+  if(b!=null&&b!=='') return b;
+  return null;
+}
+// Sama seperti cidPickId, tapi nama field dicocokkan case-insensitive (besar/
+// kecil huruf diabaikan). Dipakai untuk field yang casing aslinya dari API
+// belum pasti (mis. headPic/title/equipedSkills), biar tetap ketemu walau
+// beda huruf besar-kecil — sama seperti TFF_ROW_SKIP_KEYS yang juga
+// dicocokkan lewat key.toLowerCase().
+function cidPickAnyCI(obj,keyLower){
+  if(!obj||typeof obj!=='object') return undefined;
+  const keys=Object.keys(obj);
+  for(let i=0;i<keys.length;i++){
+    if(keys[i].toLowerCase()===keyLower) return obj[keys[i]];
+  }
+  return undefined;
+}
+function cidPickIdCI(json,keyLower){
+  const a=cidPickAnyCI(json.basicInfo,keyLower);
+  if(a!=null&&a!=='') return a;
+  const b=cidPickAnyCI(json.profileInfo,keyLower);
+  if(b!=null&&b!=='') return b;
+  return null;
+}
+function cidPickArrayCI(json,keyLower){
+  const a=cidPickAnyCI(json.profileInfo,keyLower);
+  if(Array.isArray(a)) return a;
+  const b=cidPickAnyCI(json.basicInfo,keyLower);
+  if(Array.isArray(b)) return b;
+  return [];
 }
 
 function cidRenderRows(obj,extraSkip){
@@ -19727,6 +19781,72 @@ function tffSection(iconCls,title,obj,extraSkip){
     '<div class="tff-result-rows">'+rows+'</div>'+
   '</div>';
 }
+// Beberapa field balikannya array of Item ID mentah (outfit yang dipakai,
+// skin senjata yang dipajang, dst) — sebelumnya field beginian di-skip total
+// karena tffRenderRows/cidRenderRows cuma baca field yang bukan array/object,
+// jadi kelihatan seperti "hilang". Gak ada database nama item FF di sini,
+// jadi ditampilkan per item sebagai chip Item ID (bukan disembunyikan).
+// URL gambar item Free Fire per Item ID, dari repo ikon publik ShahGCreator
+// (tanpa watermark, diakses lewat jsDelivr CDN). Kalau ID tertentu gak punya
+// gambar di repo itu (404), otomatis fallback ke tampilan chip teks biasa
+// lewat onerror di bawah, jadi item tetap kelihatan (bukan hilang).
+function tffItemIconUrl(id){
+  return 'https://cdn.jsdelivr.net/gh/ShahGCreator/icon@main/PNG/'+encodeURIComponent(String(id))+'.png';
+}
+function tffIdChipsHtml(arr){
+  if(!Array.isArray(arr)) return '';
+  const list=arr.filter(function(v){ return v!=null&&v!==''; });
+  if(!list.length) return '';
+  return '<div class="tff-id-chips">'+list.map(function(id,i){
+    const idStr=String(id);
+    return '<span class="tff-id-chip">'+
+      '<span class="tff-id-chip-imgwrap"><img src="'+tffAttrEsc(tffItemIconUrl(idStr))+'" alt="item '+tffAttrEsc(idStr)+'" loading="lazy" referrerpolicy="no-referrer" onerror="this.closest(\'.tff-id-chip\').classList.add(\'tff-id-noimg\')"></span>'+
+      '<b>#'+(i+1)+'</b><span class="tff-id-chip-code">'+tffEsc(idStr)+'</span>'+
+    '</span>';
+  }).join('')+'</div>';
+}
+function tffIdArraySection(iconCls,title,arr){
+  const chips=tffIdChipsHtml(arr);
+  if(!chips) return '';
+  return '<div class="tff-section">'+
+    '<div class="tff-section-head"><i class="fa-solid '+iconCls+'"></i><span>'+tffEsc(title)+'</span></div>'+
+    chips+
+  '</div>';
+}
+// Dipakai khusus CEK INFO FF (kolom 1, di ATAS Bio): item yang tersedia dari
+// API (foto profil, title, outfit, skin senjata, pet) digabung jadi SATU
+// baris gambar saja tanpa label teks kategori.
+// CATATAN: API /freefireinfo (siambhau69.eu.cc) TIDAK menyediakan field
+// skin kendaraan (mobil/motor/car sport), skin gloo wall, skin granat,
+// emote/animasi end, lootbox, atau skin tinju — jadi kategori itu sengaja
+// tidak ada di sini, bukan kelewat.
+function cidCombinedItemGroups(json){
+  const groups=[];
+  const pushGroup=function(label,ids){
+    const list=(Array.isArray(ids)?ids:[ids]).filter(function(v){ return v!=null&&v!==''; });
+    if(list.length) groups.push({label:label,ids:list});
+  };
+  // Urutan digabung jadi 1 baris tanpa label teks: Profile (foto profil) -> Title ->
+  // Outfit (array clothes dari API, urutannya sudah kepala->topeng->makeup->baju->
+  // celana->sepatu, tidak dipecah per nama karena tidak ada database nama/tipe item
+  // FF di sini) -> Skin Senjata -> Pet.
+  pushGroup('Foto Profil',cidPickIdCI(json,'headpic'));
+  pushGroup('Title',cidPickIdCI(json,'title'));
+  pushGroup('Outfit',json.profileInfo&&json.profileInfo.clothes);
+  pushGroup('Skin Senjata',json.basicInfo&&json.basicInfo.weaponSkinShows);
+  pushGroup('Pet',json.petInfo&&json.petInfo.id);
+  return groups;
+}
+function cidCombinedItemIconsHtml(json){
+  const groups=cidCombinedItemGroups(json);
+  if(!groups.length) return '';
+  const allIds=[];
+  groups.forEach(function(g){ allIds.push.apply(allIds,g.ids); });
+  return '<div class="tff-profile-items-groups"><div class="tff-profile-items-row">'+allIds.map(function(id){
+    const idStr=String(id);
+    return '<img src="'+tffAttrEsc(tffItemIconUrl(idStr))+'" alt="item" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display=\'none\'">';
+  }).join('')+'</div></div>';
+}
 /* Sama seperti tffSection, tapi untuk statistik ranked yang datang terbagi
    per mode (solostats/duostats/squadstats) alih-alih field flat langsung. */
 function tffStatsSection(iconCls,title,statsObj){
@@ -19939,6 +20059,7 @@ function tffBuildProfileHead(json,extra,refreshAttr){
       (metaParts.length?'<div class="tff-profile-meta">'+metaParts.join('')+'</div>':'')+
       (badges.length?'<div class="tff-profile-badges">'+badges.join('')+'</div>':'')+
       (dateRows.length?'<div class="tff-profile-dates">'+dateRows.join('')+'</div>':'')+
+      (extra.showItems?cidCombinedItemIconsHtml(json):'')+
       (signature?(
         '<div class="tff-profile-bio-label">Bio</div>'+
         '<div class="tff-profile-bio-box"><div class="tff-bio-scroll"><span class="tff-bio-text" style="font-family:\'Anton\',sans-serif;font-weight:400!important;text-shadow:.4px 0 currentColor,-.4px 0 currentColor,0 .4px currentColor,0 -.4px currentColor">'+tffFormatBio(String(signature).trim())+'</span></div>'+
@@ -19967,12 +20088,20 @@ function tffRenderResult(box,json,extra){
   }
   const head=tffBuildProfileHead(json,extra,'stkFfSubmit()');
   let html='';
+  html+=tffIdArraySection('fa-shirt','Outfit yang Dipakai (Item ID)',json.profileInfo&&json.profileInfo.clothes);
+  html+=tffIdArraySection('fa-gun','Skin Senjata Dipajang (Item ID)',json.basicInfo&&json.basicInfo.weaponSkinShows);
+  html+=tffIdArraySection('fa-paw','Peliharaan (Item ID)',[json.petInfo&&json.petInfo.id]);
+  html+=tffIdArraySection('fa-paw','Skin Peliharaan (Item ID)',[json.petInfo&&json.petInfo.skinid]);
+  html+=tffIdArraySection('fa-flag','Banner (Item ID)',[cidPickId(json,'bannerid')]);
+  html+=tffIdArraySection('fa-circle-user','Avatar (Item ID)',[cidPickId(json,'avatarid')]);
+  html+=tffIdArraySection('fa-thumbtack','Pin (Item ID)',[cidPickId(json,'pinid')]);
+  html+=tffIdArraySection('fa-award','Badge (Item ID)',[cidPickId(json,'badgeid')]);
   html+=tffSection('fa-user-shield','Info Akun',json.basicInfo,['nickname','accountid','level','liked','region','primelevel','createat','lastloginat','signature']);
   html+=tffStatsSection('fa-ranking-star','Statistik Ranked BR',extra.statsBr?tffUnwrap(extra.statsBr):null);
   html+=tffStatsSection('fa-chess-board','Statistik Ranked CS',extra.statsCs?tffUnwrap(extra.statsCs):null);
   html+=tffSection('fa-shield-halved','Info Guild',json.clanBasicInfo,['clanname','id','clanlevel','membernum','captainid']);
   html+=tffSection('fa-crown','Info Ketua Guild',json.captainBasicInfo,['nickname']);
-  html+=tffSection('fa-paw','Info Peliharaan',json.petInfo);
+  html+=tffSection('fa-paw','Info Peliharaan',json.petInfo,['id','skinid']);
   html+=tffSection('fa-comment-dots','Info Sosial',json.socialInfo,['signature']);
   html+=tffSection('fa-gem','Perkiraan Harga',json.diamondCostRes);
   html+=tffSection('fa-star','Skor Kredit',json.creditScoreInfo);
