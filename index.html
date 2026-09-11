@@ -16772,9 +16772,16 @@ async function rndDownload(url,keyName,isVideo){
 .tff-profile-meta{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px;font-size:12px;color:#aaa;}
 .tff-profile-meta b{color:#eee;font-weight:700;}
 .tff-profile-meta i{margin-right:4px;color:#ff5252;}
+.tff-meta-icon{width:13px;height:13px;object-fit:contain;margin-right:4px;vertical-align:-2px;display:inline-block;}
+.tff-profile-lvl{flex-shrink:0;border:1px solid rgba(255,193,7,.5);color:#ffc107;background:rgba(255,193,7,.08);font-size:11px;font-weight:800;padding:4px 10px;border-radius:20px;display:inline-flex;align-items:center;gap:5px;}
+.tff-lvl-icon{width:13px;height:13px;object-fit:contain;display:inline-block;}
 .tff-profile-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
 .tff-profile-badge{font-size:11px;font-weight:700;color:#e0c380;background:rgba(224,195,128,.08);border:1px solid rgba(224,195,128,.35);padding:6px 12px;border-radius:20px;}
 .tff-rank-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
+.tff-profile-top-row{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:6px;}
+.tff-profile-top-row .tff-banner-wrap{margin-bottom:0;flex-shrink:0;}
+.tff-rank-badges.tff-rank-badges-top{margin-top:2px;flex-direction:column;align-items:flex-end;flex-wrap:nowrap;gap:10px;}
+.tff-rank-badges.tff-rank-badges-top .tff-rank-badge-info{align-items:flex-end;}
 .tff-rank-badge{display:flex;align-items:center;gap:8px;}
 .tff-rank-badge img{width:30px;height:30px;object-fit:contain;flex-shrink:0;display:block;}
 .tff-rank-badge-info{display:flex;flex-direction:column;line-height:1.3;}
@@ -19510,8 +19517,8 @@ function tffBuildProfileHead(json,extra,refreshAttr){
 
   const metaParts=[];
   if(uidVal) metaParts.push('<span><i class="fa-solid fa-hashtag"></i>ID: <b>'+tffEsc(String(uidVal))+'</b></span>');
-  if(liked!=null) metaParts.push('<span><i class="fa-solid fa-heart"></i>Likes: <b>'+tffEsc(Number(liked).toLocaleString('id-ID'))+'</b></span>');
-  if(region) metaParts.push('<span><i class="fa-solid fa-earth-asia"></i>Region: <b>'+tffEsc(String(region))+'</b></span>');
+  if(liked!=null) metaParts.push('<span><img class="tff-meta-icon" src="zusmo-asset/like.png" alt="">Likes: <b>'+tffEsc(Number(liked).toLocaleString('id-ID'))+'</b></span>');
+  if(region) metaParts.push('<span><img class="tff-meta-icon" src="zusmo-asset/region.png" alt="">Region: <b>'+tffEsc(String(region))+'</b></span>');
 
   const badges=[];
   const ffAge=tffYearsSince(createAt);
@@ -19541,13 +19548,11 @@ function tffBuildProfileHead(json,extra,refreshAttr){
   const captainName=stkPick(captainInfo,['nickname']);
 
   return '<div class="tff-profile-head">'+
-      (refreshAttr?'<button class="tff-profile-refresh" onclick="'+refreshAttr+'" type="button"><i class="fa-solid fa-arrows-rotate"></i></button>':'')+
-      avatarHtml+
+      '<div class="tff-profile-top-row">'+avatarHtml+(rankBadgesHtml?'<div class="tff-rank-badges tff-rank-badges-top">'+rankBadgesHtml+'</div>':'')+'</div>'+
       '<div class="tff-profile-name-row"><span class="tff-profile-name">'+tffEsc(nickname)+'</span>'+
-        (level!=null?'<span class="tff-profile-lvl">Lvl. '+tffEsc(String(level))+'</span>':'')+
+        (level!=null?'<span class="tff-profile-lvl"><img class="tff-lvl-icon" src="zusmo-asset/level.png" alt="">Lvl. '+tffEsc(String(level))+'</span>':'')+
       '</div>'+
       (metaParts.length?'<div class="tff-profile-meta">'+metaParts.join('')+'</div>':'')+
-      (rankBadgesHtml?'<div class="tff-rank-badges">'+rankBadgesHtml+'</div>':'')+
       (badges.length?'<div class="tff-profile-badges">'+badges.join('')+'</div>':'')+
       (dateRows.length?'<div class="tff-profile-dates">'+dateRows.join('')+'</div>':'')+
       (signature?(
