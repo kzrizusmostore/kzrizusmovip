@@ -16774,13 +16774,13 @@ async function rndDownload(url,keyName,isVideo){
 .tff-profile-meta i{margin-right:4px;color:#ff5252;}
 .tff-meta-icon{width:13px;height:13px;object-fit:contain;margin-right:4px;vertical-align:-2px;display:inline-block;}
 .tff-profile-lvl{flex-shrink:0;border:1px solid rgba(255,193,7,.5);color:#ffc107;background:rgba(255,193,7,.08);font-size:11px;font-weight:800;padding:4px 10px;border-radius:20px;display:inline-flex;align-items:center;gap:5px;}
-.tff-lvl-icon{width:13px;height:13px;object-fit:contain;display:inline-block;}
+.tff-lvl-icon{width:20px;height:20px;object-fit:contain;display:inline-block;}
 .tff-profile-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
 .tff-profile-badge{font-size:11px;font-weight:700;color:#e0c380;background:rgba(224,195,128,.08);border:1px solid rgba(224,195,128,.35);padding:6px 12px;border-radius:20px;}
 .tff-rank-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
 .tff-profile-top-row{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:6px;}
 .tff-profile-top-row .tff-banner-wrap{margin-bottom:0;flex-shrink:0;}
-.tff-rank-badges.tff-rank-badges-top{margin-top:2px;flex-direction:column;align-items:flex-end;flex-wrap:nowrap;gap:10px;}
+.tff-rank-badges.tff-rank-badges-top{margin-top:2px;flex-direction:column;align-items:flex-end;flex-wrap:nowrap;gap:2px;}
 .tff-rank-badges.tff-rank-badges-top .tff-rank-badge-info{align-items:flex-end;}
 .tff-rank-badge{display:flex;align-items:center;gap:8px;}
 .tff-rank-badge img{width:30px;height:30px;object-fit:contain;flex-shrink:0;display:block;}
@@ -19516,7 +19516,7 @@ function tffBuildProfileHead(json,extra,refreshAttr){
     '<div class="tff-banner-wrap"><img class="tff-banner-img" src="'+tffAttrEsc(bannerUrl)+'" alt="avatar profil" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src=\'zusmo-asset/bpjwcf.png\';this.style.width=\'100%\';this.style.objectFit=\'cover\';"></div>':'';
 
   const metaParts=[];
-  if(uidVal) metaParts.push('<span><i class="fa-solid fa-hashtag"></i>ID: <b>'+tffEsc(String(uidVal))+'</b></span>');
+  if(uidVal) metaParts.push('<span>ID: <b>'+tffEsc(String(uidVal))+'</b></span>');
   if(liked!=null) metaParts.push('<span><img class="tff-meta-icon" src="zusmo-asset/like.png" alt="">Likes: <b>'+tffEsc(Number(liked).toLocaleString('id-ID'))+'</b></span>');
   if(region) metaParts.push('<span><img class="tff-meta-icon" src="zusmo-asset/region.png" alt="">Region: <b>'+tffEsc(String(region))+'</b></span>');
 
