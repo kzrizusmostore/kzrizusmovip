@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="id"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover" name="viewport"/><title>KZRIZUSMO FF</title><meta content="KZRIZUSMO FF - Aplikasi web resmi." name="description"/><link href="manifest.json" rel="manifest"/><meta content="#0A0A0A" name="theme-color"/><link href="zusmo-asset/icon-192.png" rel="icon" type="image/png"/><link href="zusmo-asset/icon-512.png" rel="icon" sizes="512x512" type="image/png"/><link href="zusmo-asset/apple-touch-icon.png" rel="apple-touch-icon"/><meta content="yes" name="apple-mobile-web-app-capable"/><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&family=Rajdhani:wght@500;600;700&family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Fredoka+One&family=Righteous&family=Amiri:wght@400;700&display=swap" rel="stylesheet"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/><script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script><style>
+<html lang="id"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover" name="viewport"/><title>KZRIZUSMO FF</title><meta content="KZRIZUSMO FF - Aplikasi web resmi." name="description"/><link href="manifest.json" rel="manifest"/><meta content="#0A0A0A" name="theme-color"/><link href="zusmo-asset/icon-192.png" rel="icon" type="image/png"/><link href="zusmo-asset/icon-512.png" rel="icon" sizes="512x512" type="image/png"/><link href="zusmo-asset/apple-touch-icon.png" rel="apple-touch-icon"/><meta content="yes" name="apple-mobile-web-app-capable"/><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&family=Rajdhani:wght@500;600;700&family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Fredoka+One&family=Righteous&family=Amiri:wght@400;700&family=Anton&display=swap" rel="stylesheet"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/><script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script><style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter','Outfit',system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
 html,body,*{-webkit-user-select:none!important;-moz-user-select:none!important;-ms-user-select:none!important;user-select:none!important;-webkit-touch-callout:none!important}
 input,textarea,[contenteditable="true"],[contenteditable=""]{-webkit-user-select:text!important;-moz-user-select:text!important;-ms-user-select:text!important;user-select:text!important;-webkit-touch-callout:default!important}
@@ -16701,6 +16701,8 @@ async function rndDownload(url,keyName,isVideo){
 .tff-section:first-child .tff-section-head{margin-top:0;border-top:none;padding-top:0;}
 .tff-section-head i{color:var(--tff-accent);font-size:12px;width:16px;text-align:center;}
 .tff-section-head span{font-size:11.5px;font-weight:800;color:var(--tff-accent-soft);letter-spacing:.4px;text-transform:uppercase;}
+.tff-stats-mode-label{grid-column:1/-1;font-size:10.5px;font-weight:800;color:var(--tff-accent-soft);letter-spacing:.4px;text-transform:uppercase;opacity:.85;margin:8px 0 2px;}
+.tff-stats-mode-label:first-child{margin-top:0;}
 /* Banner asli dari server ukurannya 200x43, avatarnya persegi nempel di ujung
    kiri (perkiraan lebar avatar ~43px, ditambah extra biar gak kepotong jadi
    51px). Wrapper dibikin persegi (aspect-ratio 1/1), gambar banner penuh
@@ -16765,19 +16767,27 @@ async function rndDownload(url,keyName,isVideo){
 .tff-profile-avatar{width:72px;height:72px;border-radius:12px;object-fit:cover;background:#161616;border:1px solid rgba(255,255,255,.1);display:block;}
 .tff-profile-refresh{position:absolute;top:16px;right:14px;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#ccc;display:flex;align-items:center;justify-content:center;font-size:13px;}
 .tff-profile-name-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px;}
-.tff-profile-name{font-size:19px;font-weight:900;color:#fff;font-family:'Outfit',sans-serif;word-break:break-word;}
+.tff-profile-name{font-size:21px;font-weight:400;color:#fff;font-family:'Anton',sans-serif;letter-spacing:.5px;word-break:break-word;}
 .tff-profile-lvl{flex-shrink:0;border:1px solid rgba(255,193,7,.5);color:#ffc107;background:rgba(255,193,7,.08);font-size:11px;font-weight:800;padding:4px 10px;border-radius:20px;}
 .tff-profile-meta{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px;font-size:12px;color:#aaa;}
 .tff-profile-meta b{color:#eee;font-weight:700;}
 .tff-profile-meta i{margin-right:4px;color:#ff5252;}
 .tff-profile-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
 .tff-profile-badge{font-size:11px;font-weight:700;color:#e0c380;background:rgba(224,195,128,.08);border:1px solid rgba(224,195,128,.35);padding:6px 12px;border-radius:20px;}
+.tff-rank-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
+.tff-rank-badge{display:flex;align-items:center;gap:8px;}
+.tff-rank-badge img{width:30px;height:30px;object-fit:contain;flex-shrink:0;display:block;}
+.tff-rank-badge-info{display:flex;flex-direction:column;line-height:1.3;}
+.tff-rank-badge-game{font-size:9px;font-weight:800;letter-spacing:.3px;text-transform:uppercase;color:#888;}
+.tff-rank-badge-tier{font-size:12px;font-weight:700;color:#eee;}
 .tff-profile-dates{margin-top:14px;display:flex;flex-direction:column;gap:8px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);}
 .tff-profile-date-row{display:flex;align-items:center;gap:9px;font-size:12px;color:#ccc;}
 .tff-profile-date-row i{width:15px;text-align:center;color:#888;font-size:12px;}
 .tff-profile-bio-label,.tff-profile-guild-label{font-size:10.5px;font-weight:800;letter-spacing:1px;color:#888;text-transform:uppercase;margin:14px 0 8px;}
-.tff-profile-bio-box{position:relative;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px 40px 12px 12px;}
-.tff-profile-bio-box .tff-bio-text{font-size:14px;font-weight:800;line-height:1.6;color:#eee;white-space:pre-wrap;word-break:break-word;}
+.tff-profile-bio-box{position:relative;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:10px 12px;}
+.tff-profile-bio-box .tff-bio-scroll{max-width:calc(100% - 32px);overflow-x:auto;}
+.tff-profile-bio-box .tff-bio-text{display:block;font-family:'Anton',sans-serif;font-size:17px;font-weight:400;letter-spacing:.3px;line-height:1.45;color:#eee;text-shadow:.4px 0 currentColor,-.4px 0 currentColor,0 .4px currentColor,0 -.4px currentColor;white-space:pre;word-break:normal;}
+.tff-profile-bio-box .tff-bio-text,.tff-profile-bio-box .tff-bio-text b,.tff-profile-bio-box .tff-bio-text i,.tff-profile-bio-box .tff-bio-text u{font-weight:400!important;font-family:'Anton',sans-serif!important;}
 .tff-profile-bio-box .stk-copy-btn{position:absolute;top:10px;right:10px;}
 .tff-profile-guild-chip{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:8px 14px;font-size:12.5px;font-weight:700;color:#fff;margin-bottom:10px;}
 .tff-profile-guild-chip i{color:#7ab8ff;}
@@ -18086,14 +18096,30 @@ async function stkStalk(type){
   border-top:1px solid rgba(255,255,255,.07);font-size:11.5px;
 }
 .cid-info-row:first-child{border-top:none;}
+.cid-info-row-error{
+  display:flex;align-items:center;gap:6px;padding:9px 2px;
+  border-top:1px solid rgba(255,255,255,.07);font-size:10.5px;line-height:1.5;
+  color:#ffb3a3;
+}
+.cid-info-row-error i{color:#ff6b6b;flex-shrink:0;}
 .cid-info-row b{color:#8f8f8f;font-weight:700;flex:0 0 auto;}
 .cid-info-row span{color:#eee;font-weight:600;text-align:right;word-break:break-word;}
+.cid-stats-mode-label{font-size:9.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#999;margin:10px 2px 0;}
+.cid-info-row+.cid-stats-mode-label{margin-top:10px;}
 .cid-section-title{
   display:flex;align-items:center;gap:6px;
   font-size:10px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#ff6b6b;
   margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.07);
 }
 .cid-section-title:first-child{margin-top:0;padding-top:0;border-top:none;}
+
+.cid-columns{display:flex;flex-direction:column;gap:14px;}
+.cid-columns .cid-result-card{margin-bottom:0;}
+.cid-fullinfo-title{
+  display:flex;align-items:center;gap:6px;
+  font-size:10px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#ff6b6b;
+  margin-bottom:8px;
+}
 
 .cid-reset-btn{
   width:100%;padding:12px;border-radius:13px;cursor:pointer;margin-top:2px;
@@ -18138,8 +18164,18 @@ async function stkStalk(type){
 </div>
 
 <div class="cid-result" id="cidResult">
-  <div class="cid-result-card" style="text-align:left;">
-    <div id="cidProfileHead"></div>
+  <div class="cid-columns">
+    <div class="cid-col cid-col-1">
+      <div class="cid-result-card" style="text-align:left;">
+        <div id="cidProfileHead"></div>
+      </div>
+    </div>
+    <div class="cid-col cid-col-2">
+      <div class="cid-result-card" style="text-align:left;">
+        <div class="cid-fullinfo-title"><i class="fa-solid fa-list-check"></i>Info Lengkap</div>
+        <div class="cid-info-rows" id="cidInfoRows"></div>
+      </div>
+    </div>
   </div>
   <button class="cid-reset-btn" onclick="cidReset()"><i class="fa-solid fa-arrow-rotate-left"></i>CEK INFO LAIN</button>
 </div>
@@ -18218,14 +18254,14 @@ async function cidCheck(){
       // & statistik ranked BR/CS dianggap pelengkap: kalau gagal/limit,
       // profil utama tetap tampil tanpa bagian itu.
       const bannerUrl=tffBuildBannerUrl(uidVal,region);
-      let statsBr=null,statsCs=null;
-      try{ statsBr=await tffFetchStats(uidVal,region,'br','RANKED'); }catch(e){ statsBr=null; }
-      try{ statsCs=await tffFetchStats(uidVal,region,'cs','RANKED'); }catch(e){ statsCs=null; }
+      let statsBr=null,statsCs=null,statsBrErr=null,statsCsErr=null;
+      try{ statsBr=await tffFetchStats(uidVal,region,'br','RANKED'); console.log('[CID] statistik BR:',statsBr); }catch(e){ statsBr=null; statsBrErr=(e&&e.debugDetail)||(e&&e.message)||'Gagal memuat.'; console.warn('[CID] statistik BR gagal:',e); }
+      try{ statsCs=await tffFetchStats(uidVal,region,'cs','RANKED'); console.log('[CID] statistik CS:',statsCs); }catch(e){ statsCs=null; statsCsErr=(e&&e.debugDetail)||(e&&e.message)||'Gagal memuat.'; console.warn('[CID] statistik CS gagal:',e); }
 
       const profileHeadEl=document.getElementById('cidProfileHead');
-      if(profileHeadEl) profileHeadEl.innerHTML=tffBuildProfileHead(json,{bannerUrl:bannerUrl},'cidCheck()');
+      if(profileHeadEl){ profileHeadEl.innerHTML=tffBuildProfileHead(json,{bannerUrl:bannerUrl},'cidCheck()'); tffFitBioText(profileHeadEl); }
       const infoRows=document.getElementById('cidInfoRows');
-      if(infoRows) infoRows.innerHTML=cidRenderInfoSections(json,{statsBr:statsBr,statsCs:statsCs});
+      if(infoRows) infoRows.innerHTML=cidRenderInfoSections(json,{statsBr:statsBr,statsCs:statsCs,statsBrErr:statsBrErr,statsCsErr:statsCsErr});
 
       cidShowState(null);
       cidSetLoadingBtn(false);
@@ -18249,23 +18285,34 @@ async function cidCheck(){
    dalam gaya baris cid-info-row supaya konsisten dengan tampilan halaman ini. */
 function cidRenderInfoSections(json,extra){
   extra=extra||{};
+  const statsBrOk=!!extra.statsBr, statsCsOk=!!extra.statsCs;
   const sections=[
-    ['fa-user-shield','Info Akun',json.basicInfo,['nickname','accountid','level','liked','region','primelevel','createat','lastloginat','signature']],
-    ['fa-ranking-star','Statistik Ranked BR',extra.statsBr?tffUnwrap(extra.statsBr):null,[]],
-    ['fa-chess-board','Statistik Ranked CS',extra.statsCs?tffUnwrap(extra.statsCs):null,[]],
-    ['fa-shield-halved','Info Guild',json.clanBasicInfo,['clanname','id','clanlevel','membernum','captainid']],
-    ['fa-crown','Info Ketua Guild',json.captainBasicInfo,['nickname']],
-    ['fa-paw','Info Peliharaan',json.petInfo,[]],
-    ['fa-comment-dots','Info Sosial',json.socialInfo,['signature']],
-    ['fa-gem','Perkiraan Harga',json.diamondCostRes,[]],
-    ['fa-star','Skor Kredit',json.creditScoreInfo,[]],
-    ['fa-user-astronaut','Info Profil',json.profileInfo,[]]
+    ['fa-user-shield','Info Akun',json.basicInfo,['nickname','accountid','level','liked','region','primelevel','createat','lastloginat','signature'],null,null],
+    ['fa-ranking-star','Statistik Ranked BR',null,[],extra.statsBrErr,statsBrOk?tffUnwrap(extra.statsBr):null],
+    ['fa-chess-board','Statistik Ranked CS',null,[],extra.statsCsErr,statsCsOk?tffUnwrap(extra.statsCs):null],
+    ['fa-shield-halved','Info Guild',json.clanBasicInfo,['clanname','id','clanlevel','membernum','captainid'],null,null],
+    ['fa-crown','Info Ketua Guild',json.captainBasicInfo,['nickname'],null,null],
+    ['fa-paw','Info Peliharaan',json.petInfo,[],null,null],
+    ['fa-comment-dots','Info Sosial',json.socialInfo,['signature'],null,null],
+    ['fa-gem','Perkiraan Harga',json.diamondCostRes,[],null,null],
+    ['fa-star','Skor Kredit',json.creditScoreInfo,[],null,null],
+    ['fa-user-astronaut','Info Profil',json.profileInfo,[],null,null]
   ];
   let html='';
   sections.forEach(function(sec){
-    const rows=cidRenderRows(sec[2],sec[3]);
-    if(!rows) return;
-    html+='<div class="cid-section-title"><i class="fa-solid '+sec[0]+'"></i>'+tffEsc(sec[1])+'</div>'+rows;
+    const rows=cidRenderRows(sec[2],sec[3])||(sec[5]!=null?cidStatsRowsHtml(sec[5]):'');
+    const head='<div class="cid-section-title"><i class="fa-solid '+sec[0]+'"></i>'+tffEsc(sec[1])+'</div>';
+    if(rows){
+      html+=head+rows;
+    }else if(sec[4]){
+      html+=head+'<div class="cid-info-row-error"><i class="fa-solid fa-triangle-exclamation"></i>Gagal memuat: '+tffEsc(String(sec[4]))+'</div>';
+    }else if(sec[5]!==undefined&&sec[5]!==null){
+      // Fetch berhasil (sukses/tidak ada error) tapi field-nya kosong/semua null -> tetap tampilkan
+      // supaya kelihatan responsnya seperti apa (bukan cuma menghilang tanpa keterangan).
+      let dump='';
+      try{ dump=JSON.stringify(sec[5]).slice(0,220); }catch(e){ dump=''; }
+      html+=head+'<div class="cid-info-row-error"><i class="fa-solid fa-circle-info"></i>Data kosong/tidak ada statistik untuk mode ini.'+(dump&&dump!=='{}'?' Respons: '+tffEsc(dump):'')+'</div>';
+    }
   });
   return html;
 }
@@ -18989,56 +19036,83 @@ function tffAttrEsc(str){
    penutup eksplisit [/B] dst. Parser ini jalan per-baris (newline mereset
    warna) supaya warna satu baris tidak "bocor" ke baris berikutnya yang
    tidak diberi kode warna. Teks di luar tag tetap di-escape aman. */
+/* Lebar wrap bio Free Fire: 41 karakter TAMPIL per baris (termasuk spasi),
+   tidak termasuk kode warna/style [FF0000], [B], [/I] dst — meniru cara
+   game membungkus baris signature di layar profil. */
+const TFF_BIO_WRAP_WIDTH=41;
 function tffFormatBio(raw){
-  const str=String(raw==null?'':raw);
-  const lines=str.split('\n');
+  /* Wrap per KATA (bukan potong tengah kata) supaya rapi dibaca, tapi tiap
+     baris tetap dibatasi maksimal 41 karakter tampil (termasuk spasi).
+     Enter/baris baru asli yang diketik pemain di dalam bio game TETAP
+     diabaikan sebagai titik patah baris (diganti spasi) -> satu-satunya
+     sumber baris baru di hasil akhir adalah wrap kata otomatis di bawah. */
+  const line=String(raw==null?'':raw).replace(/\r\n|\r|\n|\t/g,' ');
   const styleTokenRe=/\[\/?(B|I|U)\]/gi;
   const colorTokenRe=/^\[([0-9A-Fa-f]{6})\]/;
-  const outLines=lines.map(function(line){
-    let html='',pos=0,currentColor=null;
-    const styleStack=[];
-    const openColor=function(hex){
-      if(currentColor) html+='</span>';
-      html+='<span style="color:#'+hex.toUpperCase()+'">';
-      currentColor=hex;
-    };
-    while(pos<line.length){
-      const rest=line.slice(pos);
-      const colorMatch=rest.match(colorTokenRe);
-      if(colorMatch){
-        openColor(colorMatch[1]);
-        pos+=colorMatch[0].length;
-        continue;
+  const map={B:'b',I:'i',U:'u'};
+  let pos=0,currentColor=null;
+  const styleStack=[];
+  const words=[];
+  let cur={html:'',visible:0};
+  const pushWord=function(){
+    if(cur.html!==''||cur.visible>0) words.push(cur);
+    cur={html:'',visible:0};
+  };
+  while(pos<line.length){
+    const rest=line.slice(pos);
+    const colorMatch=rest.match(colorTokenRe);
+    if(colorMatch){
+      if(currentColor) cur.html+='</span>';
+      cur.html+='<span style="color:#'+colorMatch[1].toUpperCase()+'">';
+      currentColor=colorMatch[1];
+      pos+=colorMatch[0].length;
+      continue;
+    }
+    styleTokenRe.lastIndex=0;
+    const styleMatch=styleTokenRe.exec(rest);
+    if(styleMatch&&styleMatch.index===0){
+      const tag=styleMatch[1].toUpperCase();
+      const isClose=styleMatch[0].charAt(1)==='/';
+      if(isClose){
+        cur.html+='</'+map[tag]+'>';
+        const idx=styleStack.lastIndexOf(tag);
+        if(idx!==-1) styleStack.splice(idx,1);
+      }else{
+        cur.html+='<'+map[tag]+'>';
+        styleStack.push(tag);
       }
-      styleTokenRe.lastIndex=0;
-      const styleMatch=styleTokenRe.exec(rest);
-      if(styleMatch&&styleMatch.index===0){
-        const tag=styleMatch[1].toUpperCase();
-        const isClose=styleMatch[0].charAt(1)==='/';
-        const map={B:'b',I:'i',U:'u'};
-        if(isClose){
-          html+='</'+map[tag]+'>';
-          const idx=styleStack.lastIndexOf(tag);
-          if(idx!==-1) styleStack.splice(idx,1);
-        }else{
-          html+='<'+map[tag]+'>';
-          styleStack.push(tag);
-        }
-        pos+=styleMatch[0].length;
-        continue;
-      }
-      html+=tffEsc(line.charAt(pos));
+      pos+=styleMatch[0].length;
+      continue;
+    }
+    const ch=line.charAt(pos);
+    if(ch===' '){
+      pushWord();
       pos++;
+      continue;
     }
-    while(styleStack.length){
-      const tag=styleStack.pop();
-      const map={B:'b',I:'i',U:'u'};
-      html+='</'+map[tag]+'>';
+    cur.html+=tffEsc(ch);
+    cur.visible++;
+    pos++;
+  }
+  pushWord();
+  let html='',lineVisible=0;
+  words.forEach(function(word){
+    if(lineVisible>0&&lineVisible+1+word.visible>TFF_BIO_WRAP_WIDTH){
+      html+='\n';
+      lineVisible=0;
+    }else if(lineVisible>0){
+      html+=' ';
+      lineVisible+=1;
     }
-    if(currentColor) html+='</span>';
-    return html;
+    html+=word.html;
+    lineVisible+=word.visible;
   });
-  return outLines.join('\n');
+  while(styleStack.length){
+    const tag=styleStack.pop();
+    html+='</'+map[tag]+'>';
+  }
+  if(currentColor) html+='</span>';
+  return html;
 }
 function tffStripBioTags(raw){
   return String(raw==null?'':raw)
@@ -19083,7 +19157,7 @@ const TFF_ROW_SKIP_KEYS=['status','success','creator','accountprefers','socialhi
 const TFF_LABEL_MAP={
   nickname:'Nama (Nickname)',accountid:'ID Akun (UID)',level:'Level',exp:'EXP',
   rank:'Rank BR',rankingpoints:'Poin Rank BR',maxrank:'Rank BR Tertinggi',
-  csrank:'Rank CS',csrankingpoints:'Poin Rank CS',csmaxrank:'Rank CS Tertinggi',
+  csrank:'Rank CS',cs_rank:'Rank CS',csrankingpoints:'Poin Rank CS',csmaxrank:'Rank CS Tertinggi',
   liked:'Jumlah Like',badgecnt:'Jumlah Badge',region:'Region',accounttype:'Tipe Akun',
   seasonid:'ID Season',lastloginat:'Login Terakhir',createat:'Akun Dibuat',
   releaseversion:'Versi Rilis',showbrrank:'Tampilkan Rank BR',showcsrank:'Tampilkan Rank CS',
@@ -19093,8 +19167,18 @@ const TFF_LABEL_MAP={
   id:'ID Peliharaan',skinid:'ID Skin Peliharaan',selectedskillid:'Skill Aktif',
   gender:'Jenis Kelamin',language:'Bahasa',signature:'Bio (Signature)',rankshow:'Rank Ditampilkan',
   diamondcost:'Perkiraan Harga (Diamond)',creditscore:'Skor Kredit',rewardstate:'Status Reward',
-  periodicsummaryendtime:'Reset Skor Kredit'
+  periodicsummaryendtime:'Reset Skor Kredit',
+  kills:'Jumlah Kill',headshots:'Jumlah Headshot',winrate:'Win Rate',gamesplayed:'Total Game Dimainkan',
+  wins:'Kemenangan',top10:'Top 10 (BR)',kd:'K/D Ratio',longestkill:'Longest Kill',mvp:'MVP',
+  deaths:'Jumlah Kematian',distancetravelled:'Jarak Tempuh',survivaltime:'Waktu Bertahan',
+  pickups:'Item Diambil',mvpcount:'Jumlah MVP',doublekills:'Double Kill',triplekills:'Triple Kill',
+  fourkills:'Quadra Kill',damage:'Total Damage',knockdown:'Knockdown',knockdowns:'Knockdown',
+  revives:'Revive',revivals:'Revive',headshotkills:'Jumlah Headshot',highestkills:'Kill Terbanyak (1 Game)',
+  assists:'Assist'
 };
+
+// Field statistik ranked yang nilainya perlu ditambah satuan (%, m) biar jelas.
+const TFF_UNIT_SUFFIX_MAP={winrate:'%',longestkill:' m',distancetravelled:' m',survivaltime:' detik'};
 
 // Urutan tampil field yang dianggap penting duluan; sisanya menyusul sesuai urutan asli JSON.
 const TFF_FIELD_ORDER=['nickname','accountid','level','exp','rank','rankingpoints','maxrank','csrank','csrankingpoints','csmaxrank','liked','badgecnt','region','clanname','clanlevel','membernum','capacity','captainid','id','skinid','selectedskillid','gender','language','signature','rankshow','diamondcost','creditscore','rewardstate','accounttype','seasonid','createat','lastloginat','releaseversion','showbrrank','showcsrank','primelevel','clanid','periodicsummaryendtime'];
@@ -19122,6 +19206,8 @@ function tffPrettyValue(key,val){
   const enumKey=String(val).toLowerCase();
   if(TFF_ENUM_MAP[enumKey]) return TFF_ENUM_MAP[enumKey];
   if(k==='signature') return tffStripBioTags(String(val).trim())||'-';
+  const suffix=TFF_UNIT_SUFFIX_MAP[k];
+  if(suffix!=null) return String(val)+suffix;
   return String(val);
 }
 function tffYearsSince(unixVal){
@@ -19162,6 +19248,68 @@ function tffRelativeTime(unixVal){
   if(diffMonth<12) return diffMonth+' bulan lalu';
   const diffYear=Math.floor(diffMonth/12);
   return diffYear+' tahun lalu';
+}
+/* Respons statistik ranked BR datang terbagi per mode (solostats/duostats/
+   squadstats), dan tiap mode punya "detailedstats" bersarang satu level lagi
+   (deaths, distancetra, dst). tffRenderRows/cidRenderRows cuma baca field
+   level-atas yang bukan object, jadi tanpa dipipihkan dulu semua field ini
+   ke-skip dan section-nya kelihatan "kosong" padahal datanya ada. */
+function tffFlattenStatsObj(obj){
+  if(!obj||typeof obj!=='object') return {};
+  const out={};
+  Object.keys(obj).forEach(function(key){
+    const val=obj[key];
+    if(key.toLowerCase()==='detailedstats'&&val&&typeof val==='object'){
+      Object.keys(val).forEach(function(k2){ if(out[k2]===undefined) out[k2]=val[k2]; });
+    }else if(val==null||typeof val!=='object'){
+      out[key]=val;
+    }
+  });
+  return out;
+}
+const TFF_STATS_MODE_LABEL={solostats:'Solo',duostats:'Duo',squadstats:'Squad',quadstats:'Squad',cssranked:'Ranked',cssstats:'Ranked',cscareer:'Career',brranked:'Ranked',brcareer:'Career'};
+// Field ini cuma pengulangan UID yang sudah tampil di bagian lain halaman;
+// di dalam tiap blok mode dia cuma bikin penuh tanpa nilai tambah.
+function tffStripAccountId(flat){ delete flat.accountid; delete flat.account_id; return flat; }
+// Sebagian mode (solostats/duostats/quadstats/cssstats/dst) dibungkus per
+// tipe-antrian; sebagian lain (matchmode=CAREER) sudah flat di level atas.
+// Deteksi generik: tiap key yang isinya object dianggap 1 blok mode.
+function tffStatsModeKeys(statsObj){
+  return Object.keys(statsObj).filter(function(k){
+    return k.toLowerCase()!=='detailedstats'&&statsObj[k]&&typeof statsObj[k]==='object';
+  });
+}
+function tffStatsRowsHtml(statsObj){
+  if(!statsObj||typeof statsObj!=='object') return '';
+  const modeKeys=tffStatsModeKeys(statsObj);
+  if(modeKeys.length){
+    let out='';
+    modeKeys.forEach(function(mk){
+      const rows=tffRenderRows(tffStripAccountId(tffFlattenStatsObj(statsObj[mk])));
+      // Mode yang belum pernah dimainkan cuma nyisa accountid -> tidak
+      // informatif, jadi blok mode-nya dilewati saja daripada nampilin
+      // judul kosong.
+      if(rows) out+='<div class="tff-stats-mode-label">'+tffEsc(TFF_STATS_MODE_LABEL[mk.toLowerCase()]||tffPrettyLabel(mk))+'</div>'+rows;
+    });
+    if(out) return out;
+  }
+  return tffRenderRows(tffStripAccountId(tffFlattenStatsObj(statsObj)));
+}
+/* Sama seperti tffStatsRowsHtml, tapi baris-nya dirender gaya cid-info-row
+   (label kiri, nilai kanan, garis pemisah tipis - TANPA kotak/kartu per
+   baris) supaya konsisten dengan section lain di halaman Cek Info FF. */
+function cidStatsRowsHtml(statsObj){
+  if(!statsObj||typeof statsObj!=='object') return '';
+  const modeKeys=tffStatsModeKeys(statsObj);
+  if(modeKeys.length){
+    let out='';
+    modeKeys.forEach(function(mk){
+      const rows=cidRenderRows(tffStripAccountId(tffFlattenStatsObj(statsObj[mk])));
+      if(rows) out+='<div class="cid-stats-mode-label">'+tffEsc(TFF_STATS_MODE_LABEL[mk.toLowerCase()]||tffPrettyLabel(mk))+'</div>'+rows;
+    });
+    if(out) return out;
+  }
+  return cidRenderRows(tffStripAccountId(tffFlattenStatsObj(statsObj)));
 }
 function tffRenderRows(obj,extraSkip){
   if(!obj||typeof obj!=='object') return '';
@@ -19207,6 +19355,17 @@ function tffRenderRows(obj,extraSkip){
 function tffSection(iconCls,title,obj,extraSkip){
   if(!obj||typeof obj!=='object') return '';
   const rows=tffRenderRows(obj,extraSkip);
+  if(!rows) return '';
+  return '<div class="tff-section">'+
+    '<div class="tff-section-head"><i class="fa-solid '+iconCls+'"></i><span>'+tffEsc(title)+'</span></div>'+
+    '<div class="tff-result-rows">'+rows+'</div>'+
+  '</div>';
+}
+/* Sama seperti tffSection, tapi untuk statistik ranked yang datang terbagi
+   per mode (solostats/duostats/squadstats) alih-alih field flat langsung. */
+function tffStatsSection(iconCls,title,statsObj){
+  if(!statsObj||typeof statsObj!=='object') return '';
+  const rows=tffStatsRowsHtml(statsObj);
   if(!rows) return '';
   return '<div class="tff-section">'+
     '<div class="tff-section-head"><i class="fa-solid '+iconCls+'"></i><span>'+tffEsc(title)+'</span></div>'+
@@ -19260,6 +19419,71 @@ async function stkFfSubmit(){
   if(btn){ btn.disabled=false; btn.innerHTML='<i class="fa-solid fa-paper-plane"></i> CEK INFO'; }
 }
 
+/* Lebar layar tiap HP beda-beda, jadi 41 karakter tidak selalu muat di
+   font-size tetap (apalagi bio banyak huruf KAPITAL yang lebih lebar).
+   Fungsi ini mengecilkan font bio SEDIKIT DEMI SEDIKIT sampai baris
+   terlebar benar-benar pas di lebar kotak -> tidak perlu digeser sama
+   sekali. Dipanggil tiap kali profil (berisi bio) baru saja dirender. */
+function tffFitBioText(root){
+  if(!root||!root.querySelectorAll) return;
+  const run=function(){
+    const wraps=root.querySelectorAll('.tff-bio-scroll');
+    wraps.forEach(function(wrap){
+      const textEl=wrap.querySelector('.tff-bio-text');
+      if(!textEl) return;
+      let size=14;
+      textEl.style.fontSize=size+'px';
+      let guard=0;
+      while(wrap.scrollWidth>wrap.clientWidth+1&&size>8&&guard<40){
+        size-=0.5;
+        textEl.style.fontSize=size+'px';
+        guard++;
+      }
+    });
+  };
+  if(window.requestAnimationFrame) requestAnimationFrame(run); else run();
+}
+/* Ambang poin buat nentuin tier rank BR & CS (dipakai buat pilih gambar
+   badge pangkat + label tier di kartu profil). "min" = poin minimal buat
+   masuk tier itu; dicari mundur dari yang paling tinggi dulu. */
+const TFF_RANK_BR_TABLE=[
+  {min:1000,tier:'bronze',label:'Bronze I'},{min:1050,tier:'bronze',label:'Bronze II'},{min:1150,tier:'bronze',label:'Bronze III'},
+  {min:1250,tier:'silver',label:'Silver I'},{min:1350,tier:'silver',label:'Silver II'},{min:1450,tier:'silver',label:'Silver III'},
+  {min:1550,tier:'gold',label:'Gold I'},{min:1663,tier:'gold',label:'Gold II'},{min:1788,tier:'gold',label:'Gold III'},{min:1913,tier:'gold',label:'Gold IV'},
+  {min:2038,tier:'platinum',label:'Platinum I'},{min:2163,tier:'platinum',label:'Platinum II'},{min:2288,tier:'platinum',label:'Platinum III'},{min:2413,tier:'platinum',label:'Platinum IV'},{min:2538,tier:'platinum',label:'Platinum V'},
+  {min:2675,tier:'diamond',label:'Diamond I'},{min:2825,tier:'diamond',label:'Diamond II'},{min:2975,tier:'diamond',label:'Diamond III'},{min:3125,tier:'diamond',label:'Diamond IV'},{min:3275,tier:'diamond',label:'Diamond V'},
+  {min:3425,tier:'heroic',label:'Heroic'},{min:3800,tier:'heroic',label:'Heroic II'},
+  {min:4300,tier:'eliteheroic',label:'Elite Heroic III'},{min:4900,tier:'eliteheroic',label:'Elite Heroic IV'},{min:5500,tier:'eliteheroic',label:'Elite Heroic V'},
+  {min:6300,tier:'master',label:'Master I'},{min:7100,tier:'master',label:'Master II'},
+  {min:8000,tier:'elitemaster',label:'Elite Master III'},{min:9000,tier:'elitemaster',label:'Elite Master IV'},{min:10000,tier:'elitemaster',label:'Elite Master V'}
+];
+const TFF_RANK_CS_TABLE=[
+  {min:0,tier:'bronze',label:'Bronze I'},{min:3,tier:'bronze',label:'Bronze II'},{min:6,tier:'bronze',label:'Bronze III'},
+  {min:9,tier:'silver',label:'Silver I'},{min:13,tier:'silver',label:'Silver II'},{min:17,tier:'silver',label:'Silver III'},
+  {min:21,tier:'gold',label:'Gold I'},{min:25,tier:'gold',label:'Gold II'},{min:29,tier:'gold',label:'Gold III'},{min:33,tier:'gold',label:'Gold IV'},
+  {min:37,tier:'platinum',label:'Platinum I'},{min:42,tier:'platinum',label:'Platinum II'},{min:47,tier:'platinum',label:'Platinum III'},{min:52,tier:'platinum',label:'Platinum IV'},{min:57,tier:'platinum',label:'Platinum V'},
+  {min:62,tier:'diamond',label:'Diamond I'},{min:67,tier:'diamond',label:'Diamond II'},{min:72,tier:'diamond',label:'Diamond III'},{min:77,tier:'diamond',label:'Diamond IV'},{min:82,tier:'diamond',label:'Diamond V'},
+  {min:87,tier:'heroic',label:'Heroic'},
+  {min:112,tier:'eliteheroic',label:'Elite Heroic'},
+  {min:137,tier:'master',label:'Master'},
+  {min:187,tier:'elitemaster',label:'Elite Master'}
+];
+function tffRankLookup(points,table){
+  const n=Number(points);
+  if(isNaN(n)) return null;
+  let found=null;
+  for(let i=0;i<table.length;i++){ if(n>=table[i].min) found=table[i]; else break; }
+  return found;
+}
+function tffRankBadgeHtml(points,game){
+  const entry=tffRankLookup(points,game==='cs'?TFF_RANK_CS_TABLE:TFF_RANK_BR_TABLE);
+  if(!entry) return '';
+  const file=game+entry.tier+'.png';
+  return '<div class="tff-rank-badge">'+
+      '<img src="zusmo-asset/'+file+'" alt="'+tffAttrEsc(entry.label)+'" onerror="this.style.visibility=\'hidden\'">'+
+      '<div class="tff-rank-badge-info"><span class="tff-rank-badge-game">'+(game==='cs'?'Rank CS':'Rank BR')+'</span><span class="tff-rank-badge-tier">'+tffEsc(entry.label)+'</span></div>'+
+    '</div>';
+}
 function tffBuildProfileHead(json,extra,refreshAttr){
   extra=extra||{};
   const b=json.basicInfo||{};
@@ -19271,6 +19495,8 @@ function tffBuildProfileHead(json,extra,refreshAttr){
   const primeLevel=stkPick(b,['primeLevel','prime_level']);
   const createAt=stkPick(b,['createAt','create_at']);
   const lastLoginAt=stkPick(b,['lastLoginAt','last_login_at']);
+  const rankPointsBr=stkPick(b,['rankingPoints','ranking_points','rankingpoints']);
+  const rankPointsCs=stkPick(b,['csRankingPoints','cs_ranking_points','csrankingpoints']);
   const social=json.socialInfo||{};
   const signature=stkPick(b,['signature'])||stkPick(social,['signature']);
 
@@ -19291,6 +19517,11 @@ function tffBuildProfileHead(json,extra,refreshAttr){
   const ffAge=tffYearsSince(createAt);
   if(ffAge) badges.push('<span class="tff-profile-badge"><i class="fa-solid fa-cake-candles"></i> '+ffAge+' tahun FF</span>');
   if(primeLevel) badges.push('<span class="tff-profile-badge"><i class="fa-solid fa-crown"></i> Prime '+tffEsc(String(primeLevel))+'</span>');
+
+  const rankBadges=[];
+  if(rankPointsBr!=null) rankBadges.push(tffRankBadgeHtml(rankPointsBr,'br'));
+  if(rankPointsCs!=null) rankBadges.push(tffRankBadgeHtml(rankPointsCs,'cs'));
+  const rankBadgesHtml=rankBadges.filter(Boolean).join('');
 
   const dateRows=[];
   if(createAt){
@@ -19316,12 +19547,13 @@ function tffBuildProfileHead(json,extra,refreshAttr){
         (level!=null?'<span class="tff-profile-lvl">Lvl. '+tffEsc(String(level))+'</span>':'')+
       '</div>'+
       (metaParts.length?'<div class="tff-profile-meta">'+metaParts.join('')+'</div>':'')+
+      (rankBadgesHtml?'<div class="tff-rank-badges">'+rankBadgesHtml+'</div>':'')+
       (badges.length?'<div class="tff-profile-badges">'+badges.join('')+'</div>':'')+
       (dateRows.length?'<div class="tff-profile-dates">'+dateRows.join('')+'</div>':'')+
       (signature?(
         '<div class="tff-profile-bio-label">Bio</div>'+
-        '<div class="tff-profile-bio-box"><span class="tff-bio-text">'+tffFormatBio(String(signature).trim())+'</span>'+
-        '<button class="stk-copy-btn" data-val="'+tffAttrEsc(tffStripBioTags(String(signature).trim()))+'" onclick="tffCopyVal(this)"><i class="fa-solid fa-copy"></i></button></div>'
+        '<div class="tff-profile-bio-box"><div class="tff-bio-scroll"><span class="tff-bio-text" style="font-family:\'Anton\',sans-serif;font-weight:400!important;text-shadow:.4px 0 currentColor,-.4px 0 currentColor,0 .4px currentColor,0 -.4px currentColor">'+tffFormatBio(String(signature).trim())+'</span></div>'+
+        '<button class="stk-copy-btn" data-val="'+tffAttrEsc(String(signature).trim())+'" onclick="tffCopyVal(this)"><i class="fa-solid fa-copy"></i></button></div>'
       ):'')+
       (clanName?(
         '<div class="tff-profile-guild-label">Guild</div>'+
@@ -19347,8 +19579,8 @@ function tffRenderResult(box,json,extra){
   const head=tffBuildProfileHead(json,extra,'stkFfSubmit()');
   let html='';
   html+=tffSection('fa-user-shield','Info Akun',json.basicInfo,['nickname','accountid','level','liked','region','primelevel','createat','lastloginat','signature']);
-  html+=tffSection('fa-ranking-star','Statistik Ranked BR',extra.statsBr?tffUnwrap(extra.statsBr):null);
-  html+=tffSection('fa-chess-board','Statistik Ranked CS',extra.statsCs?tffUnwrap(extra.statsCs):null);
+  html+=tffStatsSection('fa-ranking-star','Statistik Ranked BR',extra.statsBr?tffUnwrap(extra.statsBr):null);
+  html+=tffStatsSection('fa-chess-board','Statistik Ranked CS',extra.statsCs?tffUnwrap(extra.statsCs):null);
   html+=tffSection('fa-shield-halved','Info Guild',json.clanBasicInfo,['clanname','id','clanlevel','membernum','captainid']);
   html+=tffSection('fa-crown','Info Ketua Guild',json.captainBasicInfo,['nickname']);
   html+=tffSection('fa-paw','Info Peliharaan',json.petInfo);
@@ -19360,6 +19592,7 @@ function tffRenderResult(box,json,extra){
     box.innerHTML='<div class="tff-result-error"><i class="fa-solid fa-triangle-exclamation"></i>Data tidak ditemukan atau UID salah.</div>';
   }else{
     box.innerHTML=head+html;
+    tffFitBioText(box);
   }
   box.classList.add('show');
 }
