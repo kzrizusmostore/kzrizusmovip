@@ -18135,6 +18135,19 @@ async function stkStalk(type){
   font-size:10px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#ff6b6b;
   margin-bottom:8px;
 }
+.cid-fullinfo-head{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  cursor:pointer;user-select:none;
+}
+.cid-fullinfo-toggle{
+  display:flex;align-items:center;gap:5px;flex-shrink:0;
+  font-size:9.5px;font-weight:800;letter-spacing:.3px;text-transform:uppercase;color:#999;
+  padding:5px 10px;border-radius:20px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  transition:.15s;
+}
+.cid-fullinfo-toggle i{font-size:8px;transition:transform .2s ease;}
+.cid-fullinfo-toggle.open{color:#ff6b6b;background:rgba(255,43,43,.1);border-color:rgba(255,80,80,.3);}
+.cid-fullinfo-toggle.open i{transform:rotate(180deg);}
 
 .cid-reset-btn{
   width:100%;padding:12px;border-radius:13px;cursor:pointer;margin-top:2px;
@@ -18143,29 +18156,37 @@ async function stkStalk(type){
   display:flex;align-items:center;justify-content:center;gap:8px;
 }
 
-.cid-rank-card{padding:16px 16px 18px;}
-.cid-rank-tabs{display:flex;gap:6px;background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.08);border-radius:13px;padding:4px;margin-bottom:14px;}
-.cid-rank-panel{background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:14px;}
-.cid-rank-tab{flex:1;text-align:center;padding:10px 6px;border-radius:11px;font-size:10px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#8a8a8a;cursor:pointer;transition:.2s;font-family:'Outfit',sans-serif;}
+.cid-rank-card{padding:12px 14px 13px;}
+.cid-rank-tabs{display:flex;gap:6px;background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:3px;margin-bottom:9px;}
+.cid-rank-panel{background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:10px 12px;}
+.cid-rank-tab{flex:1;text-align:center;padding:7px 6px;border-radius:9px;font-size:9.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#8a8a8a;cursor:pointer;transition:.2s;font-family:'Outfit',sans-serif;}
 .cid-rank-tab.active{background:linear-gradient(135deg,#ff3b3b,#c40d0d);color:#fff;box-shadow:0 6px 14px rgba(255,43,43,.35);}
-.cid-rank-body{display:flex;align-items:center;gap:14px;}
-.cid-rank-icon-wrap{
-  width:64px;height:64px;border-radius:18px;flex-shrink:0;
-  background:radial-gradient(circle at 30% 25%,rgba(255,82,82,.22),rgba(0,0,0,.35) 70%);
-  border:1px solid rgba(255,80,80,.25);
-  display:flex;align-items:center;justify-content:center;
-}
-.cid-rank-icon{width:44px;height:44px;object-fit:contain;filter:drop-shadow(0 3px 8px rgba(255,43,43,.4));}
+.cid-rank-body{display:flex;align-items:center;gap:12px;}
+.cid-rank-icon{width:42px;height:42px;object-fit:contain;flex-shrink:0;filter:drop-shadow(0 3px 8px rgba(255,43,43,.4));}
 .cid-rank-info{flex:1;min-width:0;}
-.cid-rank-tier{font-size:16.5px;font-weight:900;color:#fff;font-family:'Outfit',sans-serif;letter-spacing:.2px;line-height:1.25;}
-.cid-rank-points{font-size:10.5px;color:#999;font-weight:700;margin-top:3px;display:flex;align-items:center;gap:5px;}
+.cid-rank-tier{font-size:15px;font-weight:900;color:#fff;font-family:'Outfit',sans-serif;letter-spacing:.2px;line-height:1.2;}
+.cid-rank-points{font-size:10px;color:#999;font-weight:700;margin-top:2px;display:flex;align-items:center;gap:5px;}
 .cid-rank-points i{color:#ff5252;font-size:9px;}
-.cid-rank-bar-wrap{width:100%;height:7px;border-radius:7px;background:rgba(255,255,255,.07);margin-top:11px;overflow:hidden;box-shadow:inset 0 1px 2px rgba(0,0,0,.3);}
-.cid-rank-bar-fill{height:100%;border-radius:7px;background:linear-gradient(90deg,#ff8a5c,#ff3b3b);transition:width .4s ease;}
-.cid-rank-next{font-size:10px;color:#8f8f8f;margin-top:8px;font-weight:600;letter-spacing:.1px;}
+.cid-rank-bar-wrap{width:100%;height:6px;border-radius:6px;background:rgba(255,255,255,.07);margin-top:7px;overflow:hidden;box-shadow:inset 0 1px 2px rgba(0,0,0,.3);}
+.cid-rank-bar-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,#ff8a5c,#ff3b3b);transition:width .4s ease;}
+.cid-rank-next{font-size:9.5px;color:#8f8f8f;margin-top:5px;font-weight:600;letter-spacing:.1px;}
 .cid-rank-next b{color:#eee;font-weight:800;}
-.cid-rank-empty{font-size:11px;color:#8f8f8f;text-align:center;padding:16px 2px;display:flex;align-items:center;gap:6px;justify-content:center;}
+.cid-rank-empty{font-size:10.5px;color:#8f8f8f;text-align:center;padding:8px 2px;display:flex;align-items:center;gap:6px;justify-content:center;}
+
+.cid-outfit-frame{
+  width:100%;aspect-ratio:1/1;border-radius:16px;overflow:hidden;
+  background:#111;border:1px solid rgba(255,255,255,.1);
+  display:flex;align-items:center;justify-content:center;position:relative;
+}
+.cid-outfit-img{width:100%;height:100%;object-fit:contain;display:block;filter:url(#cidOutfitPhotoFilter) contrast(1.15) brightness(1.25) saturate(1.20);}
+.cid-outfit-watermark{position:absolute;bottom:6px;right:6px;width:20px;height:20px;border-radius:50%;object-fit:cover;box-shadow:0 2px 8px rgba(0,0,0,.6);z-index:2;pointer-events:none;}
+.cid-outfit-frame .cid-rank-empty{padding:10px;}
 </style>
+<svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true">
+  <filter id="cidOutfitPhotoFilter" color-interpolation-filters="sRGB">
+    <feColorMatrix type="matrix" values="0.96 0 0 0 0  0 1 0 0 0  0 0 1.06 0 0  0 0 0 1 0"/>
+  </filter>
+</svg>
 
 <div class="cid-page-head">
   <span class="cid-page-head-icon" aria-hidden="true"></span>
@@ -18223,9 +18244,17 @@ async function stkStalk(type){
       </div>
     </div>
     <div class="cid-col cid-col-4">
+      <div class="cid-result-card" style="text-align:center;">
+        <div class="cid-outfit-frame" id="cidOutfitFrame"></div>
+      </div>
+    </div>
+    <div class="cid-col cid-col-5">
       <div class="cid-result-card" style="text-align:left;">
-        <div class="cid-fullinfo-title"><i class="fa-solid fa-list-check"></i>Info Lengkap</div>
-        <div class="cid-info-rows" id="cidInfoRows"></div>
+        <div class="cid-fullinfo-head" onclick="cidToggleInfoLengkap()">
+          <div class="cid-fullinfo-title" style="margin:0;"><i class="fa-solid fa-list-check"></i>Info Lengkap</div>
+          <span class="cid-fullinfo-toggle" id="cidInfoToggleBtn">Tampilkan<i class="fa-solid fa-chevron-down"></i></span>
+        </div>
+        <div class="cid-info-rows" id="cidInfoRows" style="display:none;"></div>
       </div>
     </div>
   </div>
@@ -18326,7 +18355,11 @@ async function cidCheck(){
       const rankBodyEl=document.getElementById('cidRankBody');
       if(rankBodyEl) rankBodyEl.innerHTML=cidBuildRankBody(cidRankData.br,'br');
       const infoRows=document.getElementById('cidInfoRows');
-      if(infoRows) infoRows.innerHTML=cidRenderInfoSections(json,{statsBr:statsBr,statsCs:statsCs,statsBrErr:statsBrErr,statsCsErr:statsCsErr});
+      if(infoRows){ infoRows.innerHTML=cidRenderInfoSections(json,{statsBr:statsBr,statsCs:statsCs,statsBrErr:statsBrErr,statsCsErr:statsCsErr}); infoRows.style.display='none'; }
+      const infoToggleBtn=document.getElementById('cidInfoToggleBtn');
+      if(infoToggleBtn){ infoToggleBtn.classList.remove('open'); infoToggleBtn.innerHTML='Tampilkan<i class="fa-solid fa-chevron-down"></i>'; }
+
+      cidLoadOutfit(uidVal,region);
 
       cidShowState(null);
       cidSetLoadingBtn(false);
@@ -18447,7 +18480,7 @@ function cidBuildRankBody(points,game){
   }
   const file=game+entry.tier+'.png';
   return '<div class="cid-rank-panel"><div class="cid-rank-body">'+
-      '<div class="cid-rank-icon-wrap"><img class="cid-rank-icon" src="zusmo-asset/'+file+'" alt="'+tffAttrEsc(entry.label)+'" onerror="this.style.visibility=\'hidden\'"></div>'+
+      '<img class="cid-rank-icon" src="zusmo-asset/'+file+'" alt="'+tffAttrEsc(entry.label)+'" onerror="this.style.visibility=\'hidden\'">'+
       '<div class="cid-rank-info">'+
         '<div class="cid-rank-tier">'+tffEsc(entry.label)+'</div>'+
         '<div class="cid-rank-points"><i class="fa-solid fa-bolt"></i>'+tffEsc(String(points))+' Poin</div>'+
@@ -18455,6 +18488,38 @@ function cidBuildRankBody(points,game){
         '<div class="cid-rank-next">'+nextHtml+'</div>'+
       '</div>'+
     '</div></div>';
+}
+
+/* Kolom outfit di CEK INFO FF: memakai endpoint /outfits/outfit & fungsi retry
+   antar-region (cofTryRegion) yang sama dengan halaman CEK OUTFIT, ditampilkan
+   dalam bingkai persegi (1x1) supaya pas jadi satu kolom kecil. Dijalankan
+   belakangan (tidak di-await) supaya profil utama tetap tampil cepat walau
+   outfit masih dimuat/gagal. */
+function cidLoadOutfit(uidVal,region){
+  const frame=document.getElementById('cidOutfitFrame');
+  if(!frame) return;
+  frame.innerHTML='<div class="cid-rank-empty"><i class="fa-solid fa-spinner fa-spin"></i>Memuat outfit...</div>';
+  const regions=[region].concat(TFF_ALL_REGIONS.filter(function(r){ return r!==region; }));
+  cofTryRegion(uidVal,regions,0).then(function(res){
+    const f=document.getElementById('cidOutfitFrame');
+    if(f) f.innerHTML='<img class="cid-outfit-img" src="'+tffAttrEsc(res.url)+'" alt="outfit" referrerpolicy="no-referrer">'+
+      '<img class="cid-outfit-watermark" src="zusmo-asset/677288085_miwamikadono.jpg" alt="KZRIZUSMO">';
+  }).catch(function(){
+    const f=document.getElementById('cidOutfitFrame');
+    if(f) f.innerHTML='<div class="cid-rank-empty"><i class="fa-solid fa-triangle-exclamation"></i>Outfit tidak tersedia.</div>';
+  });
+}
+
+function cidToggleInfoLengkap(){
+  const rows=document.getElementById('cidInfoRows');
+  const btn=document.getElementById('cidInfoToggleBtn');
+  if(!rows) return;
+  const willOpen=rows.style.display==='none';
+  rows.style.display=willOpen?'block':'none';
+  if(btn){
+    btn.classList.toggle('open',willOpen);
+    btn.innerHTML=(willOpen?'Sembunyikan':'Tampilkan')+'<i class="fa-solid fa-chevron-down"></i>';
+  }
 }
 
 function cidReset(){
@@ -18466,6 +18531,12 @@ function cidReset(){
   if(rankTabsEl) rankTabsEl.querySelectorAll('.cid-rank-tab').forEach(function(t){ t.classList.toggle('active',t.dataset.game==='br'); });
   const rankBodyEl=document.getElementById('cidRankBody');
   if(rankBodyEl) rankBodyEl.innerHTML='';
+  const outfitFrameEl=document.getElementById('cidOutfitFrame');
+  if(outfitFrameEl) outfitFrameEl.innerHTML='';
+  const infoRowsEl=document.getElementById('cidInfoRows');
+  if(infoRowsEl) infoRowsEl.style.display='none';
+  const infoToggleBtnEl=document.getElementById('cidInfoToggleBtn');
+  if(infoToggleBtnEl){ infoToggleBtnEl.classList.remove('open'); infoToggleBtnEl.innerHTML='Tampilkan<i class="fa-solid fa-chevron-down"></i>'; }
   cidShowState('cidStateIdle');
 }
 
@@ -19717,6 +19788,11 @@ function tffFitBioText(root){
   };
   if(window.requestAnimationFrame) requestAnimationFrame(run); else run();
 }
+/* Logo pangkat Prime 1-8 (aset sama seperti dipakai kalkulator harga Prime). */
+const TFF_PRIME_ICONS={
+  1:'zusmo-asset/x5pypw.png',2:'zusmo-asset/b2byx1.png',3:'zusmo-asset/nrllzm.png',4:'zusmo-asset/yip9im.png',
+  5:'zusmo-asset/juhyc3.png',6:'zusmo-asset/2d9n67.png',7:'zusmo-asset/3gth19.png',8:'zusmo-asset/fvplwr.png'
+};
 /* Ambang poin buat nentuin tier rank BR & CS (dipakai buat pilih gambar
    badge pangkat + label tier di kartu profil). "min" = poin minimal buat
    masuk tier itu; dicari mundur dari yang paling tinggi dulu. */
@@ -19766,7 +19842,7 @@ function tffBuildProfileHead(json,extra,refreshAttr){
   const region=stkPick(b,['region']);
   const level=stkPick(b,['level']);
   const liked=stkPick(b,['liked']);
-  const primeLevel=stkPick(b,['primeLevel','prime_level']);
+  const primeLevel=stkPick(b,['primeLevel','prime_level'])||(b.primeInfo&&stkPick(b.primeInfo,['primeLevel','prime_level']));
   const createAt=stkPick(b,['createAt','create_at']);
   const lastLoginAt=stkPick(b,['lastLoginAt','last_login_at']);
   const rankPointsBr=stkPick(b,['rankingPoints','ranking_points','rankingpoints']);
@@ -19790,7 +19866,14 @@ function tffBuildProfileHead(json,extra,refreshAttr){
   const badges=[];
   const ffAge=tffYearsSince(createAt);
   if(ffAge) badges.push('<span class="tff-profile-badge"><i class="fa-solid fa-cake-candles"></i> '+ffAge+' tahun FF</span>');
-  if(primeLevel) badges.push('<span class="tff-profile-badge"><i class="fa-solid fa-crown"></i> Prime '+tffEsc(String(primeLevel))+'</span>');
+  if(primeLevel){
+    const primeIcon=TFF_PRIME_ICONS[parseInt(primeLevel,10)];
+    badges.push(primeIcon?(
+      '<span class="tff-profile-badge" style="display:inline-flex;align-items:center;gap:5px;"><img src="'+tffAttrEsc(primeIcon)+'" alt="Prime '+tffAttrEsc(String(primeLevel))+'" style="width:16px;height:16px;object-fit:contain;" onerror="this.style.display=\'none\'">Prime '+tffEsc(String(primeLevel))+'</span>'
+    ):(
+      '<span class="tff-profile-badge"><i class="fa-solid fa-crown"></i> Prime '+tffEsc(String(primeLevel))+'</span>'
+    ));
+  }
 
   const rankBadges=[];
   if(rankPointsBr!=null) rankBadges.push(tffRankBadgeHtml(rankPointsBr,'br'));
