@@ -16710,7 +16710,13 @@ async function rndDownload(url,keyName,isVideo){
    keliatan cuma kotak avatarnya aja. */
 .tff-banner-wrap{width:72px;aspect-ratio:1/1;border-radius:0;overflow:hidden;background:#161616;border:1px solid rgba(255,255,255,.1);position:relative;margin-bottom:14px;}
 .tff-banner-img{position:absolute;top:0;left:0;height:100%;width:calc(100% * 200 / 51);max-width:none;display:block;}
-.tff-banner-prime-badge{position:absolute;top:3px;right:3px;width:22px;height:22px;object-fit:contain;z-index:2;filter:drop-shadow(0 1px 3px rgba(0,0,0,.85));pointer-events:none;}
+.tff-banner-prime-badge{position:absolute;top:-1px;right:-1px;width:22px;height:22px;object-fit:contain;z-index:2;filter:drop-shadow(0 1px 3px rgba(0,0,0,.85));pointer-events:none;}
+/* Wrapper luar avatar: TIDAK overflow:hidden (beda dari .tff-banner-wrap di
+   dalamnya) supaya bingkai Prime 8 yang ujung-ujungnya lebih lebar dari
+   kotak avatar (72x72) tetap kelihatan penuh, gak kepotong. */
+.tff-avatar-frame-wrap{position:relative;display:inline-block;flex-shrink:0;margin-bottom:14px;}
+.tff-avatar-frame-wrap .tff-banner-wrap{margin-bottom:0;}
+.tff-prime8-frame{position:absolute;top:50%;left:50%;width:122px;height:122px;transform:translate(-50%,-50%);pointer-events:none;z-index:3;}
 .tff-friends-list{display:flex;flex-direction:column;gap:8px;}
 .tff-friend-row{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:9px 10px;}
 .tff-friend-avatar{width:36px;height:36px;border-radius:50%;object-fit:cover;flex-shrink:0;background:#111;}
@@ -16781,6 +16787,7 @@ async function rndDownload(url,keyName,isVideo){
 .tff-rank-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
 .tff-profile-top-row{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:6px;}
 .tff-profile-top-row .tff-banner-wrap{margin-bottom:0;flex-shrink:0;}
+.tff-profile-top-row .tff-avatar-frame-wrap{margin-bottom:0;flex-shrink:0;}
 .tff-rank-badges.tff-rank-badges-top{margin-top:2px;flex-direction:column;align-items:flex-end;flex-wrap:nowrap;gap:2px;}
 .tff-rank-badges.tff-rank-badges-top .tff-rank-badge-info{align-items:flex-end;}
 .tff-rank-badge{display:flex;align-items:center;gap:8px;}
@@ -19603,14 +19610,22 @@ function tffRelativeTime(unixVal){
 function tffFlattenStatsObj(obj){
   if(!obj||typeof obj!=='object') return {};
   const out={};
-  Object.keys(obj).forEach(function(key){
-    const val=obj[key];
-    if(key.toLowerCase()==='detailedstats'&&val&&typeof val==='object'){
-      Object.keys(val).forEach(function(k2){ if(out[k2]===undefined) out[k2]=val[k2]; });
-    }else if(val==null||typeof val!=='object'){
-      out[key]=val;
-    }
-  });
+  function walk(o){
+    Object.keys(o).forEach(function(key){
+      const val=o[key];
+      // Sebelumnya cuma object bernama "detailedstats" yang dibuka satu
+      // level; kalau ada nesting lebih dalam lagi (mis. BR yang strukturnya
+      // lebih berlapis dari CS) field di dalamnya ke-skip karena dianggap
+      // object dan dibuang di tffRenderRows. Sekarang dibuka rekursif ke
+      // semua level object (bukan array) biar semua field ikut kepakai.
+      if(val&&typeof val==='object'&&!Array.isArray(val)){
+        walk(val);
+      }else if(out[key]===undefined){
+        out[key]=val;
+      }
+    });
+  }
+  walk(obj);
   return out;
 }
 const TFF_STATS_MODE_LABEL={solostats:'Solo',duostats:'Duo',squadstats:'Squad',quadstats:'Squad',cssranked:'Ranked',cssstats:'Ranked',cscareer:'Career',brranked:'Ranked',brcareer:'Career'};
@@ -19857,9 +19872,17 @@ function tffBuildProfileHead(json,extra,refreshAttr){
   // avatarnya aja: wrapper .tff-banner-wrap yang crop bagian kiri itu (lihat CSS).
   const bannerUrl=extra.bannerUrl||'';
   const primeIconForAvatar=primeLevel?TFF_PRIME_ICONS[parseInt(primeLevel,10)]:null;
-  const avatarHtml=bannerUrl?
+  const isPrime8=primeLevel&&parseInt(primeLevel,10)===8;
+  const avatarInnerHtml=bannerUrl?
     '<div class="tff-banner-wrap"><img class="tff-banner-img" src="'+tffAttrEsc(bannerUrl)+'" alt="avatar profil" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src=\'zusmo-asset/bpjwcf.png\';this.style.width=\'100%\';this.style.objectFit=\'cover\';">'+
     (primeIconForAvatar?'<img class="tff-banner-prime-badge" src="'+tffAttrEsc(primeIconForAvatar)+'" alt="Prime '+tffAttrEsc(String(primeLevel))+'" onerror="this.style.display=\'none\'">':'')+
+    '</div>':'';
+  // Prime 8: avatar dikasih bingkai emas-kristal ekstra (borderprime.png).
+  // Dibungkus wrapper terpisah yang TANPA overflow:hidden biar ujung
+  // bingkai yang lebih lebar dari kotak avatar gak kepotong.
+  const avatarHtml=bannerUrl?
+    '<div class="tff-avatar-frame-wrap">'+avatarInnerHtml+
+    (isPrime8?'<img class="tff-prime8-frame" src="zusmo-asset/borderprime.png" alt="Bingkai Prime 8" onerror="this.style.display=\'none\'">':'')+
     '</div>':'';
 
   const metaParts=[];
@@ -19873,7 +19896,7 @@ function tffBuildProfileHead(json,extra,refreshAttr){
   if(primeLevel){
     const primeIcon=TFF_PRIME_ICONS[parseInt(primeLevel,10)];
     badges.push(primeIcon?(
-      '<span class="tff-profile-badge" style="display:inline-flex;align-items:center;gap:5px;"><img src="'+tffAttrEsc(primeIcon)+'" alt="Prime '+tffAttrEsc(String(primeLevel))+'" style="width:22px;height:22px;object-fit:contain;" onerror="this.style.display=\'none\'">Prime '+tffEsc(String(primeLevel))+'</span>'
+      '<span class="tff-profile-badge" style="display:inline-flex;align-items:center;gap:5px;"><img src="'+tffAttrEsc(primeIcon)+'" alt="Prime '+tffAttrEsc(String(primeLevel))+'" style="width:22px;height:22px;object-fit:contain;margin:-3px 0;" onerror="this.style.display=\'none\'">Prime '+tffEsc(String(primeLevel))+'</span>'
     ):(
       '<span class="tff-profile-badge"><i class="fa-solid fa-crown"></i> Prime '+tffEsc(String(primeLevel))+'</span>'
     ));
