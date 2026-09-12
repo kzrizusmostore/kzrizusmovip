@@ -16792,7 +16792,7 @@ async function rndDownload(url,keyName,isVideo){
 .tff-profile-name-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px;}
 .tff-profile-name{font-size:21px;font-weight:400;color:#fff;font-family:'Anton',sans-serif;letter-spacing:.5px;word-break:break-word;}
 .tff-profile-lvl{flex-shrink:0;border:1px solid rgba(255,193,7,.5);color:#ffc107;background:rgba(255,193,7,.08);font-size:11px;font-weight:800;padding:4px 10px;border-radius:20px;}
-.tff-profile-meta{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px;font-size:12px;color:#aaa;}
+.tff-profile-meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 14px;margin-top:8px;font-size:12px;color:#aaa;}
 .tff-profile-meta b{color:#eee;font-weight:700;}
 .tff-profile-meta i{margin-right:4px;color:#ff5252;}
 .tff-meta-icon{width:13px;height:13px;object-fit:contain;margin-right:4px;vertical-align:-2px;display:inline-block;}
@@ -16821,7 +16821,7 @@ async function rndDownload(url,keyName,isVideo){
 .tff-profile-bio-box .tff-bio-text{display:block;font-family:'Anton',sans-serif;font-size:17px;font-weight:400;letter-spacing:.3px;line-height:1.45;color:#eee;text-shadow:.4px 0 currentColor,-.4px 0 currentColor,0 .4px currentColor,0 -.4px currentColor;white-space:pre;word-break:normal;}
 .tff-profile-bio-box .tff-bio-text,.tff-profile-bio-box .tff-bio-text b,.tff-profile-bio-box .tff-bio-text i,.tff-profile-bio-box .tff-bio-text u{font-weight:400!important;font-family:'Anton',sans-serif!important;}
 .tff-profile-bio-box .stk-copy-btn{position:absolute;top:10px;right:10px;}
-.tff-profile-items-groups{display:flex;flex-direction:column;gap:10px;margin-top:10px;}
+.tff-profile-items-groups{display:flex;flex-direction:column;gap:10px;margin-top:10px;padding:6px 12px;border-radius:14px;background:linear-gradient(165deg,rgba(255,43,43,.14),rgba(20,20,20,.92) 60%);border:1px solid rgba(255,255,255,.14);box-shadow:0 6px 16px rgba(0,0,0,.35);}
 .tff-profile-item-group-label{font-size:10.5px;font-weight:800;letter-spacing:1px;color:#888;text-transform:uppercase;margin-bottom:6px;}
 .tff-profile-items-row{display:flex;flex-wrap:nowrap;align-items:center;gap:6px;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
 .tff-profile-items-row::-webkit-scrollbar{display:none;}
@@ -18105,8 +18105,19 @@ async function stkStalk(type){
 
 .cid-result-card{
   border-radius:20px;padding:22px 18px;margin-bottom:14px;text-align:center;
-  background:linear-gradient(165deg,rgba(255,43,43,.1),rgba(0,0,0,.4) 55%);
-  border:1px solid rgba(255,80,80,.25);position:relative;overflow:hidden;
+  background:linear-gradient(165deg,rgba(255,43,43,.08),rgba(10,10,10,1) 55%);
+  border:1px solid rgba(255,255,255,.08);position:relative;overflow:hidden;z-index:0;
+  box-shadow:0 10px 28px rgba(0,0,0,.45);
+}
+.cid-result-card::before{
+  content:'';position:absolute;z-index:-1;pointer-events:none;
+  top:-70px;left:-70px;width:240px;height:240px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,255,.16),rgba(255,255,255,0) 70%);
+}
+.cid-result-card::after{
+  content:'';position:absolute;z-index:-1;pointer-events:none;
+  bottom:-80px;right:-80px;width:260px;height:260px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,43,43,.2),rgba(255,43,43,0) 70%);
 }
 .cid-avatar-ring{
   width:78px;height:78px;border-radius:16px;margin:0 auto 14px;padding:3px;
@@ -18846,7 +18857,7 @@ function cbnDownload(){
 <div class="cid-result" id="cofResult">
   <div class="cid-result-card">
     <div class="cof-outfit-frame"><img class="cof-outfit-img" id="cofOutfitImg" alt="outfit free fire"/><img class="cof-outfit-watermark" src="zusmo-asset/677288085_miwamikadono.jpg" alt="KZRIZUSMO"/></div>
-    <div class="cid-id-chip" id="cofIdChip"></div>
+    <div id="cofItemIcons"></div>
     <button class="cid-btn" style="margin-top:14px;" id="cofDownloadBtn" onclick="cofDownload()"><i class="fa-solid fa-download"></i>UNDUH OUTFIT</button>
   </div>
   <button class="cid-reset-btn" onclick="cofReset()"><i class="fa-solid fa-arrow-rotate-left"></i>CEK OUTFIT LAIN</button>
@@ -18922,6 +18933,27 @@ function cofTryRegion(uid,regions,idx){
   });
 }
 
+/* Item satuan (foto profil/title/outfit/skin senjata/pet) di CEK OUTFIT:
+   sama seperti kolom 1 di CEK INFO FF (cidCombinedItemIconsHtml), diambil dari
+   endpoint /freefireinfo/bhau lalu ditaruh tepat di bawah frame outfit 1x1.
+   Dijalankan belakangan (tidak di-await) supaya outfit tetap tampil cepat
+   walau data item masih dimuat/gagal. */
+function cofLoadItems(uid,regions,idx){
+  idx=idx||0;
+  const box=document.getElementById('cofItemIcons');
+  if(!box||idx>=regions.length) return;
+  const region=regions[idx];
+  const queryBase='key='+encodeURIComponent(TFF_KEY)+'&uid='+encodeURIComponent(uid)+'&region='+encodeURIComponent(region);
+  xyureiRequest(function(){
+    return TFF_BASE+'/freefireinfo/bhau?'+queryBase;
+  },{isDataOk:function(j){ return !!(j&&(j.basicInfo||j.data||j.result)); }}).then(function(json){
+    const b=document.getElementById('cofItemIcons');
+    if(b) b.innerHTML=cidCombinedItemIconsHtml(json);
+  }).catch(function(){
+    cofLoadItems(uid,regions,idx+1);
+  });
+}
+
 async function cofCheck(){
   const inp=document.getElementById('cofUidInput');
   const uid=inp?inp.value.trim():'';
@@ -18935,8 +18967,9 @@ async function cofCheck(){
     cofCurrentUrl=res.url;
     const outfitImg=document.getElementById('cofOutfitImg');
     if(outfitImg) outfitImg.src=res.url;
-    const idChip=document.getElementById('cofIdChip');
-    if(idChip) idChip.innerHTML='<i class="fa-solid fa-hashtag"></i> '+tffEsc(uid)+' &middot; '+tffEsc(res.region);
+    const itemsBox=document.getElementById('cofItemIcons');
+    if(itemsBox) itemsBox.innerHTML='';
+    cofLoadItems(uid,[res.region].concat(TFF_ALL_REGIONS.filter(function(r){ return r!==res.region; })),0);
     cofShowState(null);
   }catch(e){
     console.error('[COF]',e);
@@ -18951,14 +18984,114 @@ function cofReset(){
   const inp=document.getElementById('cofUidInput');
   if(inp){ inp.value=''; inp.focus(); }
   cofCurrentUrl='';
+  const itemsBox=document.getElementById('cofItemIcons');
+  if(itemsBox) itemsBox.innerHTML='';
   cofShowState('cofStateIdle');
 }
 
-function cofDownload(){
-  if(!cofCurrentUrl) return;
-  if(window.aiSaveMediaFallback){ window.aiSaveMediaFallback(cofCurrentUrl); return; }
-  window.open(cofCurrentUrl,'_blank');
+/* Muat gambar jadi elemen <img> lewat Promise. crossOrigin='anonymous' WAJIB
+   dipasang untuk gambar outfit (beda domain) supaya canvas tidak "tainted"
+   dan boleh diekspor (toBlob/getImageData) -- kalau server API tidak
+   mengizinkan CORS, pemuatan ini akan gagal dan cofDownload otomatis
+   fallback ke file asli (lihat catch di cofDownload). Watermark tidak perlu
+   crossOrigin karena filenya satu domain dengan web ini. */
+function cofLoadImgEl(src,crossOrigin){
+  return new Promise(function(resolve,reject){
+    const img=new Image();
+    if(crossOrigin) img.crossOrigin=crossOrigin;
+    img.referrerPolicy='no-referrer';
+    img.onload=function(){ resolve(img); };
+    img.onerror=function(e){ reject(e); };
+    img.src=src;
+  });
 }
+
+/* Bikin ulang persis efek yang dilihat user di tampilan (filter suhu warna
+   SVG + contrast/brightness/saturate CSS + watermark bulat pojok kanan
+   bawah), tapi kali ini "dibakar" langsung ke piksel gambar lewat canvas
+   supaya file PNG yang diunduh sama seperti yang ditampilkan -- bukan cuma
+   efek CSS yang hilang begitu file dibuka di luar web ini. */
+async function cofBuildDownloadBlob(){
+  const outfitImg=await cofLoadImgEl(cofCurrentUrl,'anonymous');
+  const w=outfitImg.naturalWidth||outfitImg.width;
+  const h=outfitImg.naturalHeight||outfitImg.height;
+  if(!w||!h) throw new Error('Ukuran gambar outfit tidak valid');
+
+  // Tahap 1: replikasi feColorMatrix (#cofPhotoFilter) -> merah x0.96, biru x1.06.
+  const c1=document.createElement('canvas');
+  c1.width=w; c1.height=h;
+  const ctx1=c1.getContext('2d');
+  ctx1.drawImage(outfitImg,0,0,w,h);
+  const imgData=ctx1.getImageData(0,0,w,h); // lempar error kalau canvas tainted (CORS gagal)
+  const data=imgData.data;
+  for(let i=0;i<data.length;i+=4){
+    data[i]=Math.min(255,data[i]*0.96);
+    data[i+2]=Math.min(255,data[i+2]*1.06);
+  }
+  ctx1.putImageData(imgData,0,0);
+
+  // Tahap 2: replikasi contrast(1.15) brightness(1.25) saturate(1.20) dari CSS.
+  const c2=document.createElement('canvas');
+  c2.width=w; c2.height=h;
+  const ctx2=c2.getContext('2d');
+  ctx2.filter='contrast(1.15) brightness(1.25) saturate(1.20)';
+  ctx2.drawImage(c1,0,0,w,h);
+  ctx2.filter='none';
+
+  // Tahap 3: tempel watermark bulat di pojok kanan bawah, ukuran & jarak
+  // dibuat proporsional terhadap resolusi asli gambar (di tampilan tetap
+  // 34px/10px karena framenya kecil, di file asli resolusinya jauh lebih
+  // besar jadi dipersentasekan biar posisinya tetap pas).
+  try{
+    const wm=await cofLoadImgEl('zusmo-asset/677288085_miwamikadono.jpg');
+    const wmSize=Math.max(1,Math.round(w*0.09));
+    const margin=Math.round(w*0.028);
+    const cx=w-margin-wmSize/2;
+    const cy=h-margin-wmSize/2;
+    ctx2.save();
+    ctx2.beginPath();
+    ctx2.arc(cx,cy,wmSize/2,0,Math.PI*2);
+    ctx2.closePath();
+    ctx2.clip();
+    ctx2.drawImage(wm,cx-wmSize/2,cy-wmSize/2,wmSize,wmSize);
+    ctx2.restore();
+  }catch(e){
+    console.warn('[COF] watermark gagal ditempel ke file unduhan, lanjut tanpa watermark:',e);
+  }
+
+  return new Promise(function(resolve,reject){
+    c2.toBlob(function(blob){
+      if(blob) resolve(blob); else reject(new Error('canvas.toBlob gagal'));
+    },'image/png');
+  });
+}
+
+async function cofDownload(){
+  if(!cofCurrentUrl) return;
+  const btn=document.getElementById('cofDownloadBtn');
+  const origHtml=btn?btn.innerHTML:null;
+  if(btn){ btn.disabled=true; btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i>MENYIAPKAN...'; }
+  try{
+    const blob=await cofBuildDownloadBlob();
+    const blobUrl=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=blobUrl;
+    a.download='kzrizusmo-outfit.png';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(blobUrl); },4000);
+  }catch(e){
+    // Gagal (biasanya karena server API tidak mengizinkan CORS buat canvas) ->
+    // fallback ke unduhan file asli seperti sebelumnya (tanpa filter/watermark
+    // ter-bake) daripada tombol unduh sama sekali tidak berfungsi.
+    console.warn('[COF] gagal membuat file unduhan dgn filter & watermark, fallback ke file asli:',e);
+    if(window.aiSaveMediaFallback){ window.aiSaveMediaFallback(cofCurrentUrl); }
+    else{ window.open(cofCurrentUrl,'_blank'); }
+  }
+  if(btn){ btn.disabled=false; btn.innerHTML=origHtml; }
+}
+
 </script>
 
 <!-- CHECK STATISTIK PAGE -->
@@ -19820,20 +19953,34 @@ function tffIdArraySection(iconCls,title,arr){
 // skin kendaraan (mobil/motor/car sport), skin gloo wall, skin granat,
 // emote/animasi end, lootbox, atau skin tinju — jadi kategori itu sengaja
 // tidak ada di sini, bukan kelewat.
+// Urutan mentah "clothes" dari API ternyata: 0 Sepatu, 1 Celana, 2 Makeup,
+// 3 Baju, 4 Topi/Kepala, 5 Topeng (dicek langsung dari hasil nyata, BUKAN
+// urutan kepala->topeng->makeup->baju->celana->sepatu yang dikira sebelumnya).
+// Fungsi ini menyusun ulang jadi urutan tampil yang diminta: Kepala-Topeng-
+// Makeup-Baju-Celana-Sepatu. Kalau panjang array bukan 6 (API berubah/data
+// tidak lengkap), dibiarkan apa adanya biar gak salah susun/rusak.
+function cidReorderClothes(arr){
+  if(!Array.isArray(arr)||arr.length<6) return arr;
+  const order=[4,5,2,3,1,0];
+  const reordered=order.map(function(i){ return arr[i]; });
+  if(arr.length>6) reordered.push.apply(reordered,arr.slice(6));
+  return reordered;
+}
 function cidCombinedItemGroups(json){
   const groups=[];
   const pushGroup=function(label,ids){
     const list=(Array.isArray(ids)?ids:[ids]).filter(function(v){ return v!=null&&v!==''; });
     if(list.length) groups.push({label:label,ids:list});
   };
-  // Urutan digabung jadi 1 baris tanpa label teks: Profile (foto profil) -> Title ->
-  // Outfit (array clothes dari API, urutannya sudah kepala->topeng->makeup->baju->
-  // celana->sepatu, tidak dipecah per nama karena tidak ada database nama/tipe item
-  // FF di sini) -> Skin Senjata -> Pet.
+  // Urutan digabung jadi 1 baris tanpa label teks: Outfit (array clothes,
+  // sudah disusun ulang lewat cidReorderClothes jadi Kepala->Topeng->Makeup->
+  // Baju->Celana->Sepatu) ditaruh PALING DEPAN, langsung disambung Skin
+  // Senjata (biar urutannya nyambung tanpa kepotong), baru disusul
+  // Foto Profil -> Title -> Pet.
+  pushGroup('Outfit',json.profileInfo&&cidReorderClothes(json.profileInfo.clothes));
+  pushGroup('Skin Senjata',json.basicInfo&&json.basicInfo.weaponSkinShows);
   pushGroup('Foto Profil',cidPickIdCI(json,'headpic'));
   pushGroup('Title',cidPickIdCI(json,'title'));
-  pushGroup('Outfit',json.profileInfo&&json.profileInfo.clothes);
-  pushGroup('Skin Senjata',json.basicInfo&&json.basicInfo.weaponSkinShows);
   pushGroup('Pet',json.petInfo&&json.petInfo.id);
   return groups;
 }
