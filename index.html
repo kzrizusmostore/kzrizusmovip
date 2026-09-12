@@ -29052,7 +29052,7 @@ if(id==='progressTab' && typeof renderProgressOrders==='function') renderProgres
 if(id==='redeemPage' && typeof renderRedeemPageHistory==='function') renderRedeemPageHistory();
 if(id==='vipKeyHistoryPage' && typeof renderVipKeyHistory==='function') renderVipKeyHistory();
 
-var homeTabs=['home','eventTab','shopTab','progressTab','communityTab'];
+var homeTabs=['home','eventTab','shopTab','progressTab','communityTab','leaderboardTab','developerTab'];
 var bottomBar=document.querySelector('.app-bottombar');
 var backBtn=document.getElementById('topbarBackBtn');
 var tLeft=document.getElementById('topbarLeft');
@@ -29063,12 +29063,12 @@ if(homeTabs.indexOf(id)!==-1){
   if(bottomBar) bottomBar.style.display='';
 
   document.querySelectorAll('.app-bottombar .tab').forEach(t=>t.classList.remove('active'));
-  var tabMap={eventTab:0,shopTab:1,home:2,progressTab:3,communityTab:4};
+  var tabMap={leaderboardTab:0,eventTab:1,shopTab:2,home:3,progressTab:4,communityTab:5,developerTab:6};
   var tabs=document.querySelectorAll('.app-bottombar .tab');
   var idx=tabMap[id];
   if(tabs[idx]) tabs[idx].classList.add('active');
 
-  // Semua 5 halaman ini (home, event, shop, progress, community) adalah halaman utama:
+  // Semua 7 halaman ini (testimoni, event, shop, home, progress, community, developer) adalah halaman utama:
   // tombol menu selalu tampil, tombol kembali selalu disembunyikan.
   if(backBtn) backBtn.style.display='none';
   if(tLeft) tLeft.style.display='';
@@ -36279,39 +36279,34 @@ function launchGame(url, logoUrl, gameName, evt){
 .testi-item{position:relative;width:100%;aspect-ratio:1/1;overflow:hidden;border-radius:4px;background:rgba(255,255,255,.06);cursor:pointer;border:1px solid rgba(255,255,255,.06)}
 .testi-item img{width:100%;height:100%;object-fit:cover;display:block}
 .testi-item:active{opacity:.6;transform:scale(.94)}
-.testi-lightbox{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.94);display:none;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .25s ease}
+.testi-lightbox{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.94);display:none;align-items:center;justify-content:center;padding:14px;opacity:0;transition:opacity .25s ease}
 .testi-lightbox.show{display:flex}
 .testi-lightbox.show.in{opacity:1}
-.testi-lb-frame{width:100%;max-width:290px;aspect-ratio:9/16;max-height:62vh;border-radius:16px;overflow:hidden;background:#0d0d0d;display:flex;align-items:center;justify-content:center;box-shadow:0 20px 60px rgba(0,0,0,.6);transform:scale(.8);transition:transform .28s cubic-bezier(.2,.8,.2,1)}
+.testi-lb-row{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;max-width:380px}
+.testi-lb-frame{flex:1 1 auto;min-width:0;max-width:260px;aspect-ratio:9/16;max-height:62vh;border-radius:16px;overflow:hidden;background:#0d0d0d;display:flex;align-items:center;justify-content:center;box-shadow:0 20px 60px rgba(0,0,0,.6);transform:scale(.8);transition:transform .28s cubic-bezier(.2,.8,.2,1)}
 .testi-lightbox.show.in .testi-lb-frame{transform:scale(1)}
 .testi-lb-frame img{width:100%;height:100%;object-fit:contain;display:block;opacity:0;transition:opacity .25s ease}
 .testi-lb-frame img.testi-img-in{opacity:1}
-.testi-lb-nav{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:16px;border:1px solid rgba(255,255,255,.15);background:linear-gradient(150deg,rgba(255,43,43,.4),rgba(255,43,43,.08));backdrop-filter:blur(8px);color:#fff;font-size:19px;display:flex;align-items:center;justify-content:center;z-index:2;box-shadow:0 8px 20px rgba(0,0,0,.4)}
-.testi-lb-nav:active{transform:translateY(-50%) scale(.88);background:linear-gradient(150deg,rgba(255,43,43,.6),rgba(255,43,43,.18))}
-.testi-lb-prev{left:8px}
-.testi-lb-next{right:8px}
+.testi-lb-nav{flex:0 0 auto;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);backdrop-filter:blur(6px);color:#fff;font-size:16px;display:flex;align-items:center;justify-content:center}
+.testi-lb-nav:active{background:rgba(255,255,255,.28);transform:scale(.88)}
+.testi-wrap{padding:6px 0 14px}
+.testi-title{text-align:center;font-size:1.7rem;margin:4px 0 6px}
+.testi-sub{text-align:center;color:rgba(255,255,255,.55);font-size:.76rem;margin:0 0 18px;padding:0 10px;line-height:1.5}
 </style>
 <div class="page" id="leaderboardTab">
-
-<div class="shop-hero testi-hero">
-  <div class="shop-hero-glow"></div>
-  <div class="shop-hero-glow2"></div>
-  <div class="shop-hero-top">
-    <div class="shop-hero-title"><i class="fa-solid fa-comment-dots"></i><span>TESTIMONI ZUSMO</span></div>
-  </div>
-  <p class="shop-hero-desc">Testimoni asli dari pengguna KZRIZUSMO. Tap gambar untuk melihat ukuran penuh.</p>
-</div>
-
-<div class="hm-section-lbl"><span>🖼️ Bukti Transaksi</span></div>
-
+<div class="testi-wrap">
+<h1 class="testi-title">𝗧𝗘𝗦𝗧𝗜𝗠𝗢𝗡𝗜</h1>
+<p class="testi-sub">Testimoni asli dari pengguna KZRIZUSMO. Tap gambar untuk melihat ukuran penuh.</p>
 <div class="testi-grid" id="testiGrid"></div>
-
+</div>
 </div>
 
 <div class="testi-lightbox" id="testiLightbox" onclick="if(event.target===this) closeTestiLightbox()">
+<div class="testi-lb-row" onclick="if(event.target===this) closeTestiLightbox()">
 <button class="testi-lb-nav testi-lb-prev" onclick="testiLbNav(-1)" aria-label="Sebelumnya"><i class="fa-solid fa-chevron-left"></i></button>
 <div class="testi-lb-frame"><img id="testiLightboxImg" src="" alt="Testimoni"></div>
 <button class="testi-lb-nav testi-lb-next" onclick="testiLbNav(1)" aria-label="Berikutnya"><i class="fa-solid fa-chevron-right"></i></button>
+</div>
 </div>
 
 <script>
