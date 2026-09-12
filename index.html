@@ -6702,6 +6702,21 @@ function closeVipShadowApp(){
 <p>YA, 100% aman. Zusmo Shadow menggunakan sistem VPN/Proxy dan tidak memodifikasi file game pengguna.</p>
 </details>
 <details class="faq-item">
+<summary>🔌 Apa saja grup API yang tersedia di server SiamBhau?</summary>
+<p>
+Server API pihak ketiga (siambhau69.eu.cc) yang dipakai sebagian fitur di sini punya beberapa grup endpoint. Halaman ini hanya mengaktifkan grup yang bersifat lookup info publik:
+</p>
+<ul style="margin:8px 0 4px 18px;line-height:1.9;font-size:13px;opacity:.85;">
+<li><b>Ban Check</b> (/bancheck) — cek status banned UID, sudah aktif di fitur "Cek Banned".</li>
+<li><b>Free Fire Info</b> (/freefireinfo) — profil publik pemain, sudah aktif di fitur "Info Pemain".</li>
+<li><b>Friends</b> (/friends), <b>Guild</b> (/guild), <b>Banner</b> (/banner), <b>Craftlands</b> (/craftlands), <b>Long Bio</b> (/longbio), <b>Outfits</b> (/outfits) — info publik, belum diintegrasikan di halaman ini.</li>
+<li><b>JWT Decode</b> (/jwttokendecode) — hanya membaca isi token milik pengguna sendiri, belum diintegrasikan.</li>
+</ul>
+<p style="margin-top:6px;font-size:13px;opacity:.85;">
+Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b>Add Item</b>, dan <b>Name Changer</b> berkaitan dengan konversi token login atau modifikasi akun/item, sehingga sengaja <b>tidak</b> diintegrasikan ke aplikasi ini.
+</p>
+</details>
+<details class="faq-item">
 <summary>👑 Siapakah pengembang Zusmo Shadow?</summary>
 <p>RIZQI — Pendiri Tim Zusmo Indonesia yang mengembangkan dan mengelola proyek Zusmo Shadow.</p>
 </details>
@@ -17424,6 +17439,45 @@ async function stkFetchJsonSmart(url){
   return await res2.json();
 }
 
+/* ============================================================
+   KLASIFIKASI ERROR API KEY (siambhau69.eu.cc)
+   Server ini balikin field "error" berformat:
+   "<pesan utama>. | Contact: <link>"
+   Fungsi ini memisahkan pesan utama & info kontak, lalu
+   mengelompokkan jenis errornya supaya UI bisa tampilkan
+   pesan/aksi yang sesuai (mis. tombol "Beli Key" utk key
+   invalid/expired, vs pesan "Hubungi admin" utk key inactive).
+   ============================================================ */
+function zsClassifyApiError(rawError){
+  if(!rawError) return null;
+  const parts=String(rawError).split('|');
+  const mainMessage=(parts[0]||'').trim();
+  const contactInfo=(parts[1]||'').trim().replace(/^Contact:\s*/i,'')||null;
+
+  let type='unknown';
+  let friendly=mainMessage||'Terjadi kesalahan pada API.';
+  if(/key required/i.test(mainMessage)){
+    type='missing_key';
+    friendly='Kunci API belum diisi. Hubungi @kzrizusmo_store di TikTok untuk mendapatkan key.';
+  }else if(/invalid api key/i.test(mainMessage)){
+    type='invalid_key';
+    friendly='Kunci API tidak valid. Periksa kembali key kamu atau hubungi @kzrizusmo_store.';
+  }else if(/inactive/i.test(mainMessage)){
+    type='inactive_key';
+    friendly='Kunci API sedang nonaktif. Hubungi admin @kzrizusmo_store untuk aktivasi.';
+  }else if(/expired/i.test(mainMessage)){
+    type='expired_key';
+    const m=mainMessage.match(/expired on ([\d-]+)/i);
+    friendly=m?('Kunci API sudah kedaluwarsa sejak '+m[1]+'. Perpanjang lewat @kzrizusmo_store.'):'Kunci API sudah kedaluwarsa. Perpanjang lewat @kzrizusmo_store.';
+  }else if(/no access/i.test(mainMessage)){
+    type='no_access';
+    const m=mainMessage.match(/'([^']+)'\s*endpoint/i);
+    friendly=m?('Kunci API kamu tidak punya akses ke fitur "'+m[1]+'". Hubungi @kzrizusmo_store untuk upgrade.'):'Kunci API tidak punya akses ke fitur ini. Hubungi @kzrizusmo_store untuk upgrade.';
+  }
+
+  return {type:type,message:mainMessage,friendly:friendly,contact:contactInfo};
+}
+
 async function stkStalkFreeFireOb54(uid,region){
   const base=FF_OB54_API_BASE.replace(/\/+$/,'');
   const regionParam='&region='+encodeURIComponent(region||'ID');
@@ -17438,9 +17492,13 @@ async function stkStalkFreeFireOb54(uid,region){
   }
 
   const infoJson=await stkFetchJsonSmart(infoUrl);
+  if(infoJson&&infoJson.error){
+    const cls=zsClassifyApiError(infoJson.error);
+    throw Object.assign(new Error(cls.friendly),{raw:infoJson,apiErrorType:cls.type,apiErrorContact:cls.contact});
+  }
   const b0=infoJson&&(infoJson.basicInfo||infoJson.basic_info);
-  if(!infoJson||infoJson.error||!b0||!b0.nickname){
-    throw Object.assign(new Error((infoJson&&infoJson.error)||'UID Free Fire tidak ditemukan.'),{raw:infoJson});
+  if(!infoJson||!b0||!b0.nickname){
+    throw Object.assign(new Error('UID Free Fire tidak ditemukan.'),{raw:infoJson});
   }
 
   // Wishlist dianggap pelengkap: kalau gagal/kosong, profil tetap ditampilkan.
@@ -18068,14 +18126,194 @@ async function stkStalk(type){
     <div class="cifm-tile-icon"><i class="fa-solid fa-map"></i></div>
     <span>INFO CRAFTLAND</span>
   </div>
+  <div class="cifm-tile" onclick="showPage('cekidffFriends')">
+    <div class="cifm-tile-icon"><i class="fa-solid fa-user-group"></i></div>
+    <span>DAFTAR TEMAN</span>
+  </div>
+  <div class="cifm-tile" onclick="showPage('cekidffAddItem')">
+    <div class="cifm-tile-icon"><i class="fa-solid fa-shirt"></i></div>
+    <span>UBAH EQUIP ITEM</span>
+  </div>
   <div class="cifm-tile" onclick="showPage('cekidffCraftlandDetail')">
     <div class="cifm-tile-icon"><i class="fa-solid fa-map-location-dot"></i></div>
     <span>CRAFTLAND DETAIL</span>
+  </div>
+  <div class="cifm-tile" onclick="showPage('cekidffLongBio')">
+    <div class="cifm-tile-icon"><i class="fa-solid fa-align-left"></i></div>
+    <span>BIO PANJANG</span>
+  </div>
+  <div class="cifm-tile" onclick="showPage('cekidffBindInfo')">
+    <div class="cifm-tile-icon"><i class="fa-solid fa-envelope"></i></div>
+    <span>BIND INFO</span>
   </div>
 </div>
 
 <div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
 </div>
+
+<!-- UBAH EQUIP ITEM (CEK INFO FF) — halaman ini hanya bisa dibuka/dijalankan
+     oleh developer aplikasi. -->
+<div class="page" id="cekidffAddItem">
+<style>
+#cekidffAddItem{padding-bottom:80px;}
+.cai-dev-gate{
+  border-radius:20px;padding:26px 18px;margin-top:6px;text-align:center;
+  background:linear-gradient(165deg,rgba(255,43,43,.08),rgba(10,10,10,1) 55%);
+  border:1px solid rgba(255,255,255,.08);
+}
+.cai-dev-gate i{font-size:34px;color:#ff5252;margin-bottom:10px;display:block;}
+.cai-dev-gate p{font-size:11.5px;color:#c9c9c9;line-height:1.6;max-width:260px;margin:0 auto;}
+</style>
+
+<div class="cid-page-head">
+  <span class="cid-page-head-icon" aria-hidden="true"></span>
+  <div>
+    <p class="cid-hero-title"><span class="red">UBAH</span>&nbsp;<span class="wht">EQUIP ITEM</span></p>
+    <p class="cid-hero-sub">Fitur ini hanya bisa diakses oleh developer aplikasi.</p>
+  </div>
+</div>
+
+<div class="dev-badge">KHUSUS DEVELOPER</div>
+
+<div class="cid-card">
+  <div class="cid-label"><i class="fa-solid fa-hashtag"></i>ID / UID AKUN</div>
+  <div class="cid-input-wrap">
+    <i class="fa-solid fa-hashtag"></i>
+    <input class="cid-input" id="caiIdInput" placeholder="Masukkan ID / UID akun" type="text"/>
+  </div>
+  <div class="cid-label"><i class="fa-solid fa-shirt"></i>ITEM YANG DI-EQUIP</div>
+  <div class="cid-input-wrap" style="margin-bottom:0;">
+    <i class="fa-solid fa-shirt"></i>
+    <input class="cid-input" id="caiItemInput" placeholder="Nama/kode item yang ingin di-equip" type="text"/>
+  </div>
+
+  <button class="cid-btn" id="caiAddBtn" onclick="caiTryAdd()" style="margin-top:14px;"><i class="fa-solid fa-lock"></i>UBAH EQUIP ITEM</button>
+  <p class="cid-hint">Fitur ini terkunci untuk pengguna umum.</p>
+</div>
+
+<div class="cai-dev-gate" id="caiGate" style="display:none;">
+  <i class="fa-solid fa-user-lock"></i>
+  <p>Akses ditolak. Fitur "Ubah Equip Item" hanya bisa dibuka oleh developer aplikasi.</p>
+</div>
+</div>
+
+<script>
+function caiTryAdd(){
+  var g=document.getElementById('caiGate');
+  if(g) g.style.display='block';
+}
+</script>
+
+<!-- BIO PANJANG (CEK INFO FF) — halaman ini hanya bisa dibuka/dijalankan
+     oleh developer aplikasi. -->
+<div class="page" id="cekidffLongBio">
+<style>
+#cekidffLongBio{padding-bottom:80px;}
+.clb-dev-gate{
+  border-radius:20px;padding:26px 18px;margin-top:6px;text-align:center;
+  background:linear-gradient(165deg,rgba(255,43,43,.08),rgba(10,10,10,1) 55%);
+  border:1px solid rgba(255,255,255,.08);
+}
+.clb-dev-gate i{font-size:34px;color:#ff5252;margin-bottom:10px;display:block;}
+.clb-dev-gate p{font-size:11.5px;color:#c9c9c9;line-height:1.6;max-width:260px;margin:0 auto;}
+.clb-textarea{
+  width:100%;box-sizing:border-box;padding:12px 14px;border-radius:13px;
+  background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.1);color:#fff;
+  font-size:12.5px;font-weight:600;line-height:1.5;resize:vertical;min-height:74px;
+  font-family:'Outfit',sans-serif;
+}
+.clb-textarea:focus{outline:none;border-color:rgba(255,82,82,.55);box-shadow:0 0 0 3px rgba(255,43,43,.12);}
+</style>
+
+<div class="cid-page-head">
+  <span class="cid-page-head-icon" aria-hidden="true"></span>
+  <div>
+    <p class="cid-hero-title"><span class="red">BIO</span>&nbsp;<span class="wht">PANJANG</span></p>
+    <p class="cid-hero-sub">Fitur ini hanya bisa diakses oleh developer aplikasi.</p>
+  </div>
+</div>
+
+<div class="dev-badge">KHUSUS DEVELOPER</div>
+
+<div class="cid-card">
+  <div class="cid-label"><i class="fa-solid fa-hashtag"></i>UID FREE FIRE</div>
+  <div class="cid-input-wrap">
+    <i class="fa-solid fa-hashtag"></i>
+    <input class="cid-input" id="clbUidInput" type="text" inputmode="numeric" placeholder="Contoh: 123456789" maxlength="13"/>
+  </div>
+  <div class="cid-label"><i class="fa-solid fa-align-left"></i>TEKS BIO</div>
+  <div class="cid-input-wrap" style="margin-bottom:0;">
+    <textarea class="clb-textarea" id="clbBioInput" rows="3" placeholder="Tulis teks bio di sini..."></textarea>
+  </div>
+
+  <button class="cid-btn" id="clbSetBtn" onclick="clbTrySet()" style="margin-top:14px;"><i class="fa-solid fa-lock"></i>PASANG BIO PANJANG</button>
+  <p class="cid-hint">Fitur ini terkunci untuk pengguna umum.</p>
+</div>
+
+<div class="clb-dev-gate" id="clbGate" style="display:none;">
+  <i class="fa-solid fa-user-lock"></i>
+  <p>Akses ditolak. Fitur "Bio Panjang" hanya bisa dibuka oleh developer aplikasi.</p>
+</div>
+
+<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
+</div>
+
+<script>
+function clbTrySet(){
+  var g=document.getElementById('clbGate');
+  if(g) g.style.display='block';
+}
+</script>
+
+<!-- BIND INFO (CEK INFO FF) — halaman ini hanya bisa dibuka/dijalankan
+     oleh developer aplikasi. -->
+<div class="page" id="cekidffBindInfo">
+<style>
+#cekidffBindInfo{padding-bottom:80px;}
+.cbi-dev-gate{
+  border-radius:20px;padding:26px 18px;margin-top:6px;text-align:center;
+  background:linear-gradient(165deg,rgba(255,43,43,.08),rgba(10,10,10,1) 55%);
+  border:1px solid rgba(255,255,255,.08);
+}
+.cbi-dev-gate i{font-size:34px;color:#ff5252;margin-bottom:10px;display:block;}
+.cbi-dev-gate p{font-size:11.5px;color:#c9c9c9;line-height:1.6;max-width:260px;margin:0 auto;}
+</style>
+
+<div class="cid-page-head">
+  <span class="cid-page-head-icon" aria-hidden="true"></span>
+  <div>
+    <p class="cid-hero-title"><span class="red">BIND</span>&nbsp;<span class="wht">INFO</span></p>
+    <p class="cid-hero-sub">Fitur ini hanya bisa diakses oleh developer aplikasi.</p>
+  </div>
+</div>
+
+<div class="dev-badge">KHUSUS DEVELOPER</div>
+
+<div class="cid-card">
+  <div class="cid-label"><i class="fa-solid fa-hashtag"></i>UID FREE FIRE</div>
+  <div class="cid-input-wrap" style="margin-bottom:0;">
+    <i class="fa-solid fa-hashtag"></i>
+    <input class="cid-input" id="cbiUidInput" type="text" inputmode="numeric" placeholder="Contoh: 123456789" maxlength="13"/>
+  </div>
+
+  <button class="cid-btn" id="cbiCheckBtn" onclick="cbiTryCheck()" style="margin-top:14px;"><i class="fa-solid fa-lock"></i>CEK BIND INFO</button>
+  <p class="cid-hint">Fitur ini terkunci untuk pengguna umum.</p>
+</div>
+
+<div class="cbi-dev-gate" id="cbiGate" style="display:none;">
+  <i class="fa-solid fa-user-lock"></i>
+  <p>Akses ditolak. Fitur "Bind Info" hanya bisa dibuka oleh developer aplikasi.</p>
+</div>
+
+<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
+</div>
+
+<script>
+function cbiTryCheck(){
+  var g=document.getElementById('cbiGate');
+  if(g) g.style.display='block';
+}
+</script>
 
 <div class="page" id="cekidffPlayer">
 <style>
@@ -20781,84 +21019,122 @@ function ccdReset(){
 <div class="page" id="cekidffBanned">
 <style>
 #cekidffBanned{padding-bottom:80px;}
-.cbd-badge{display:inline-flex;align-items:center;gap:7px;padding:10px 16px;border-radius:14px;font-size:13px;font-weight:900;letter-spacing:.3px;margin-bottom:2px;}
-.cbd-badge.safe{background:rgba(46,204,113,.12);border:1px solid rgba(46,204,113,.35);color:#4ee08a;}
-.cbd-badge.banned{background:rgba(255,43,43,.12);border:1px solid rgba(255,43,43,.4);color:#ff6b6b;}
+.cbd-dev-gate{
+  border-radius:20px;padding:26px 18px;margin-top:6px;text-align:center;
+  background:linear-gradient(165deg,rgba(255,43,43,.08),rgba(10,10,10,1) 55%);
+  border:1px solid rgba(255,255,255,.08);
+}
+.cbd-dev-gate i{font-size:34px;color:#ff5252;margin-bottom:10px;display:block;}
+.cbd-dev-gate p{font-size:11.5px;color:#c9c9c9;line-height:1.6;max-width:260px;margin:0 auto;}
 </style>
 
 <div class="cid-page-head">
   <span class="cid-page-head-icon" aria-hidden="true"></span>
   <div>
     <p class="cid-hero-title"><span class="red">CEK</span>&nbsp;<span class="wht">BANNED FREE FIRE</span></p>
-    <p class="cid-hero-sub">Masukkan UID Free Fire kamu untuk mengecek status banned akun.</p>
+    <p class="cid-hero-sub">Fitur ini hanya bisa diakses oleh developer aplikasi.</p>
   </div>
 </div>
+
+<div class="dev-badge">KHUSUS DEVELOPER</div>
 
 <div class="cid-card">
   <div class="cid-label"><i class="fa-solid fa-hashtag"></i>UID FREE FIRE</div>
-  <div class="cid-input-wrap">
+  <div class="cid-input-wrap" style="margin-bottom:0;">
     <i class="fa-solid fa-hashtag"></i>
     <input class="cid-input" id="cbdUidInput" type="text" inputmode="numeric" placeholder="Contoh: 123456789" maxlength="13"/>
   </div>
-  <button class="cid-btn" id="cbdCheckBtn" onclick="cbdCheck()"><i class="fa-solid fa-user-slash"></i>CEK BANNED SEKARANG</button>
-  <p class="cid-hint">Cek status banned akun Free Fire cukup lewat UID.</p>
+  <button class="cid-btn" id="cbdCheckBtn" onclick="cbdTryCheck()" style="margin-top:14px;"><i class="fa-solid fa-lock"></i>CEK BANNED SEKARANG</button>
+  <p class="cid-hint">Fitur ini terkunci untuk pengguna umum.</p>
 </div>
 
-<div class="cid-state show" id="cbdStateIdle">
-  <i class="fa-solid fa-user-slash"></i>
-  <p>Belum ada UID yang dicek. Masukkan UID Free Fire di atas lalu tekan "Cek Banned Sekarang".</p>
-</div>
-
-<div class="cid-state cid-loading" id="cbdStateLoading">
-  <i class="fa-solid fa-spinner fa-spin"></i>
-  <p>Sedang mengecek status banned, tunggu sebentar ya...</p>
-</div>
-
-<div class="cid-state cid-error" id="cbdStateError">
-  <i class="fa-solid fa-triangle-exclamation"></i>
-  <p id="cbdErrorMsg">UID Free Fire tidak ditemukan. Periksa kembali UID kamu.</p>
-  <div class="cid-retry" onclick="cbdReset()"><i class="fa-solid fa-rotate-left"></i>Coba Lagi</div>
-</div>
-
-<div class="cid-result" id="cbdResult">
-  <div class="cid-result-card">
-    <div class="cbd-badge" id="cbdBadge"></div>
-    <div class="cid-nick-row" style="margin-top:10px;">
-      <span class="cid-nick" id="cbdNickText"></span>
-    </div>
-    <div class="cid-id-chip" id="cbdIdChip"></div>
-    <div class="cid-info-rows" id="cbdInfoRows"></div>
-  </div>
-  <button class="cid-reset-btn" onclick="cbdReset()"><i class="fa-solid fa-arrow-rotate-left"></i>CEK BANNED LAIN</button>
+<div class="cbd-dev-gate" id="cbdGate" style="display:none;">
+  <i class="fa-solid fa-user-lock"></i>
+  <p>Akses ditolak. Fitur "Cek Banned" hanya bisa dibuka oleh developer aplikasi.</p>
 </div>
 
 <div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
 </div>
 
 <script>
-(function(){
-  const uidInput=document.getElementById('cbdUidInput');
-  if(uidInput){
-    uidInput.addEventListener('input',function(){
-      uidInput.value=uidInput.value.replace(/[^0-9]/g,'').slice(0,13);
-    });
-    uidInput.addEventListener('keydown',function(e){
-      if(e.key==='Enter') cbdCheck();
-    });
-  }
-})();
+function cbdTryCheck(){
+  var g=document.getElementById('cbdGate');
+  if(g) g.style.display='block';
+}
+</script>
 
-function cbdShowState(which){
-  ['cbdStateIdle','cbdStateLoading','cbdStateError'].forEach(function(id){
+<!-- DAFTAR TEMAN (CEK INFO FF) PAGE -->
+<div class="page" id="cekidffFriends">
+<style>
+#cekidffFriends{padding-bottom:80px;}
+.cff-jwt-textarea{
+  width:100%;box-sizing:border-box;padding:12px 14px;border-radius:13px;
+  background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.1);color:#fff;
+  font-size:11.5px;font-weight:600;line-height:1.5;resize:vertical;min-height:74px;
+  font-family:'Space Mono',monospace;
+}
+.cff-jwt-textarea:focus{outline:none;border-color:rgba(255,82,82,.55);box-shadow:0 0 0 3px rgba(255,43,43,.12);}
+.cff-note{font-size:10px;color:#777;margin:8px 0 12px;line-height:1.6;display:flex;gap:7px;align-items:flex-start;}
+.cff-note i{color:#ff6b6b;flex-shrink:0;margin-top:1px;}
+</style>
+
+<div class="cid-page-head">
+  <span class="cid-page-head-icon" aria-hidden="true"></span>
+  <div>
+    <p class="cid-hero-title"><span class="red">DAFTAR</span>&nbsp;<span class="wht">TEMAN FREE FIRE</span></p>
+    <p class="cid-hero-sub">Masukkan JWT token akun kamu untuk melihat daftar teman.</p>
+  </div>
+</div>
+
+<div class="cid-card">
+  <div class="cid-label"><i class="fa-solid fa-key"></i>JWT TOKEN AKUN</div>
+  <div class="cid-input-wrap" style="margin-bottom:0;">
+    <textarea class="cff-jwt-textarea" id="cffJwtInput" rows="3" placeholder="Tempel JWT token akun Free Fire kamu di sini..."></textarea>
+  </div>
+  <div class="cff-note"><i class="fa-solid fa-circle-info"></i><span>Fitur ini hanya menampilkan (melihat) daftar teman, tidak mengubah apa pun di akun.</span></div>
+
+  <button class="cid-btn" id="cffCheckBtn" onclick="cffCheck()"><i class="fa-solid fa-users-viewfinder"></i>CEK DAFTAR TEMAN</button>
+  <p class="cid-hint">Menampilkan daftar teman memakai JWT token akun.</p>
+</div>
+
+<div class="cid-state show" id="cffStateIdle">
+  <i class="fa-solid fa-user-group"></i>
+  <p>Belum ada JWT yang dicek. Tempel JWT token di atas lalu tekan "Cek Daftar Teman".</p>
+</div>
+
+<div class="cid-state cid-loading" id="cffStateLoading">
+  <i class="fa-solid fa-spinner fa-spin"></i>
+  <p>Sedang mengambil daftar teman, tunggu sebentar ya...</p>
+</div>
+
+<div class="cid-state cid-error" id="cffStateError">
+  <i class="fa-solid fa-triangle-exclamation"></i>
+  <p id="cffErrorMsg">Gagal mengambil daftar teman. JWT mungkin salah/kedaluwarsa.</p>
+  <div class="cid-retry" onclick="cffReset()"><i class="fa-solid fa-rotate-left"></i>Coba Lagi</div>
+</div>
+
+<div class="cid-result" id="cffResult">
+  <div class="cid-result-card" style="text-align:left;">
+    <div id="cffListBox"></div>
+  </div>
+  <button class="cid-reset-btn" onclick="cffReset()"><i class="fa-solid fa-arrow-rotate-left"></i>CEK JWT LAIN</button>
+</div>
+
+<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
+</div>
+
+<script>
+function cffShowState(which){
+  ['cffStateIdle','cffStateLoading','cffStateError'].forEach(function(id){
     const el=document.getElementById(id);
     if(el) el.classList.toggle('show',id===which);
   });
-  const result=document.getElementById('cbdResult');
+  const result=document.getElementById('cffResult');
   if(result) result.classList.toggle('show',which===null);
 }
 
-function cbdSetLoadingBtn(loading){
-  const btn=document.getElementById('cbdCheckBtn');
+function cffSetLoadingBtn(loading){
+  const btn=document.getElementById('cffCheckBtn');
   if(!btn) return;
   if(loading){
     btn.disabled=true;
@@ -20870,8 +21146,8 @@ function cbdSetLoadingBtn(loading){
   }
 }
 
-function cbdShake(){
-  const inp=document.getElementById('cbdUidInput');
+function cffShake(){
+  const inp=document.getElementById('cffJwtInput');
   if(!inp) return;
   inp.classList.remove('cid-shake');
   void inp.offsetWidth;
@@ -20879,69 +21155,32 @@ function cbdShake(){
   inp.focus();
 }
 
-async function cbdCheck(){
-  const inp=document.getElementById('cbdUidInput');
-  const uid=inp?inp.value.trim():'';
-  if(!uid||uid.length<6){ cbdShake(); return; }
+async function cffCheck(){
+  const inp=document.getElementById('cffJwtInput');
+  const jwt=inp?inp.value.trim():'';
+  if(!jwt){ cffShake(); return; }
 
-  cbdShowState('cbdStateLoading');
-  cbdSetLoadingBtn(true);
+  cffShowState('cffStateLoading');
+  cffSetLoadingBtn(true);
 
   try{
-    const url=TFF_BASE+'/bancheck/bancheck?uid='+encodeURIComponent(uid)+'&key='+encodeURIComponent(TFF_KEY);
-    const json=await stkFetchJsonSmart(url);
-
-    if(json&&json.error){
-      // Petakan pesan error mentah dari API ke pesan yang lebih ramah untuk user.
-      const errLower=String(json.error).toLowerCase();
-      let friendly='Gagal mengecek status banned. Periksa kembali UID kamu atau coba lagi sebentar lagi.';
-      if(errLower.indexOf('not found')>-1) friendly='UID Free Fire tidak ditemukan. Periksa kembali UID kamu.';
-      else if(errLower.indexOf('required')>-1) friendly='UID belum diisi. Masukkan UID Free Fire terlebih dahulu.';
-      else if(errLower.indexOf('failed to retrieve')>-1) friendly='Gagal mengambil status banned dari server. Coba lagi beberapa saat.';
-      throw Object.assign(new Error(friendly),{raw:json});
-    }
-    if(!json||!json.nickname){
-      throw Object.assign(new Error('Data akun tidak ditemukan. Periksa kembali UID kamu.'),{raw:json});
-    }
-
-    const nickname=json.nickname||'-';
-    const region=json.region||'-';
-    const banStatus=json.ban_status||'-';
-    const banPeriod=json.ban_period;
-    const isBanned=/banned/i.test(banStatus)&&!/not banned/i.test(banStatus);
-
-    const badge=document.getElementById('cbdBadge');
-    if(badge){
-      badge.className='cbd-badge '+(isBanned?'banned':'safe');
-      badge.innerHTML='<i class="fa-solid '+(isBanned?'fa-ban':'fa-circle-check')+'"></i>'+tffEsc(banStatus);
-    }
-    const nickText=document.getElementById('cbdNickText');
-    if(nickText) nickText.textContent=nickname;
-    const idChip=document.getElementById('cbdIdChip');
-    if(idChip) idChip.innerHTML='<i class="fa-solid fa-hashtag"></i> '+tffEsc(uid)+' &middot; '+tffEsc(region);
-
-    let rows='';
-    rows+='<div class="cid-info-row"><b>Nickname</b><span>'+tffEsc(nickname)+'</span></div>';
-    rows+='<div class="cid-info-row"><b>Region</b><span>'+tffEsc(region)+'</span></div>';
-    rows+='<div class="cid-info-row"><b>Status Banned</b><span>'+tffEsc(banStatus)+'</span></div>';
-    rows+='<div class="cid-info-row"><b>Periode Banned</b><span>'+tffEsc(banPeriod||'-')+'</span></div>';
-    const infoRows=document.getElementById('cbdInfoRows');
-    if(infoRows) infoRows.innerHTML=rows;
-
-    cbdShowState(null);
+    const json=await tffFetchFriends(jwt);
+    const box=document.getElementById('cffListBox');
+    tffRenderFriendsList(box,json);
+    cffShowState(null);
   }catch(e){
-    console.error('[CBD]',e,(e&&e.raw)||'');
-    const errMsg=document.getElementById('cbdErrorMsg');
-    if(errMsg) errMsg.textContent=(e&&e.message)||'Gagal mengecek status banned. Periksa kembali UID kamu atau coba lagi sebentar lagi.';
-    cbdShowState('cbdStateError');
+    console.error('[CFF]',e,(e&&e.raw)||'');
+    const errMsg=document.getElementById('cffErrorMsg');
+    if(errMsg) errMsg.textContent=(e&&e.message)||'Gagal mengambil daftar teman. JWT mungkin salah/kedaluwarsa.';
+    cffShowState('cffStateError');
   }
-  cbdSetLoadingBtn(false);
+  cffSetLoadingBtn(false);
 }
 
-function cbdReset(){
-  const inp=document.getElementById('cbdUidInput');
+function cffReset(){
+  const inp=document.getElementById('cffJwtInput');
   if(inp){ inp.value=''; inp.focus(); }
-  cbdShowState('cbdStateIdle');
+  cffShowState('cffStateIdle');
 }
 </script>
 
