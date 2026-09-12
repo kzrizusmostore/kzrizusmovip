@@ -16814,14 +16814,25 @@ async function rndDownload(url,keyName,isVideo){
 .tff-profile-dates{margin-top:14px;display:flex;flex-direction:column;gap:8px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);}
 .tff-profile-date-row{display:flex;align-items:center;gap:9px;font-size:12px;color:#ccc;}
 .tff-profile-date-row i{width:15px;text-align:center;color:#888;font-size:12px;}
-.tff-profile-bio-label{font-size:10.5px;font-weight:800;letter-spacing:1px;color:#888;text-transform:uppercase;margin:14px 0 8px;}
+.tff-profile-bio-label{font-size:10.5px;font-weight:800;letter-spacing:1px;color:#888;text-transform:uppercase;margin:14px 0 8px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);}
 .tff-profile-guild-label{font-size:10.5px;font-weight:800;letter-spacing:1px;color:#888;text-transform:uppercase;margin:14px 0 8px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);}
 .tff-profile-bio-box{position:relative;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:10px 12px;}
 .tff-profile-bio-box .tff-bio-scroll{max-width:calc(100% - 32px);overflow-x:auto;}
 .tff-profile-bio-box .tff-bio-text{display:block;font-family:'Anton',sans-serif;font-size:17px;font-weight:400;letter-spacing:.3px;line-height:1.45;color:#eee;text-shadow:.4px 0 currentColor,-.4px 0 currentColor,0 .4px currentColor,0 -.4px currentColor;white-space:pre;word-break:normal;}
 .tff-profile-bio-box .tff-bio-text,.tff-profile-bio-box .tff-bio-text b,.tff-profile-bio-box .tff-bio-text i,.tff-profile-bio-box .tff-bio-text u{font-weight:400!important;font-family:'Anton',sans-serif!important;}
 .tff-profile-bio-box .stk-copy-btn{position:absolute;top:10px;right:10px;}
-.tff-profile-items-groups{display:flex;flex-direction:column;gap:10px;margin-top:10px;padding:6px 12px;border-radius:14px;background:linear-gradient(165deg,rgba(255,43,43,.14),rgba(20,20,20,.92) 60%);border:1px solid rgba(255,255,255,.14);box-shadow:0 6px 16px rgba(0,0,0,.35);}
+/* Bungkus baris item (chip outfit) supaya bisa dikasih garis pemisah di
+   ATAS-nya, gaya sama seperti garis sebelum "Akun dibuat" / sebelum "Guild"
+   (border-top tipis rgba(255,255,255,.08) + jarak margin/padding). Garis
+   di BAWAH kolom item otomatis kepakai dari border-top milik
+   .tff-profile-bio-label persis di atas ini (baris label "Bio"). */
+.tff-profile-items-wrap{margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);}
+.tff-profile-items-groups{display:flex;flex-direction:column;gap:10px;margin-top:0;padding:6px 12px;border-radius:14px;background:linear-gradient(165deg,rgba(255,43,43,.14),rgba(20,20,20,.92) 60%);border:1px solid rgba(255,255,255,.14);box-shadow:0 6px 16px rgba(0,0,0,.35);}
+/* Khusus saat kolom 1 diunduh (class cid-export-solid ditempel ke #cidCard1,
+   lihat cidDownloadCard1): background merah tipis di kotak baris item (yang
+   ada di atas BIO) dimatikan, diganti solid gelap polos. Tampilan normal di
+   layar TIDAK berubah. */
+.cid-export-solid .tff-profile-items-groups{background:#161616!important;}
 .tff-profile-item-group-label{font-size:10.5px;font-weight:800;letter-spacing:1px;color:#888;text-transform:uppercase;margin-bottom:6px;}
 .tff-profile-items-row{display:flex;flex-wrap:nowrap;align-items:center;gap:6px;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
 .tff-profile-items-row::-webkit-scrollbar{display:none;}
@@ -18119,20 +18130,22 @@ async function stkStalk(type){
   bottom:-80px;right:-80px;width:260px;height:260px;border-radius:50%;
   background:radial-gradient(circle,rgba(255,43,43,.2),rgba(255,43,43,0) 70%);
 }
-/* Dipakai KHUSUS saat kolom 1 di-screenshot/diunduh (lihat cidDownloadCard1):
-   background jadi solid polos tanpa gradasi/glow transparan, biar hasil
-   gambar unduhannya gak transparan. Tampilan normal (gak diunduh) tetap
-   pakai gradasi+glow di atas. */
+/* KHUSUS dipakai saat kolom 1 di-screenshot/diunduh (lihat cidDownloadCard1).
+   TIDAK memengaruhi tampilan normal di layar (yang di atas ini tetap apa
+   adanya). Shine pojok DIMATIKAN TOTAL di hasil download (biar gak ada
+   masalah render sama sekali), background kartu dipaksa solid gelap. */
 .cid-export-solid{background:#0c0c0c!important;}
 .cid-export-solid::before,.cid-export-solid::after{display:none!important;}
 .cid-card-download-btn{
   position:absolute;bottom:12px;right:12px;z-index:5;
-  width:34px;height:34px;border-radius:50%;border:none;color:#fff;
-  background:linear-gradient(135deg,#ff3b3b,#c40d0d);
+  width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.3);color:#fff;
+  background:rgba(255,255,255,.2);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
   display:flex;align-items:center;justify-content:center;
-  font-size:14px;cursor:pointer;box-shadow:0 4px 10px rgba(255,43,43,.35);
+  font-size:14px;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,.3);transition:.2s;
 }
 .cid-card-download-btn:active{transform:scale(.92);}
+.cid-card-download-btn.cid-dl-busy{pointer-events:none;opacity:.85;}
+.cid-card-download-btn.cid-dl-done{background:rgba(56,199,120,.35);border-color:rgba(56,199,120,.6);}
 .cid-avatar-ring{
   width:78px;height:78px;border-radius:16px;margin:0 auto 14px;padding:3px;
   background:linear-gradient(140deg,#ff5252,#7a0a0a);
@@ -18434,34 +18447,72 @@ async function cidCheck(){
 }
 
 /* Download KHUSUS kolom 1 (kartu profil utama CEK INFO FF) jadi gambar PNG.
-   Tombol download & pseudo-element glow/gradasi disembunyikan dulu lewat
-   class cid-export-solid supaya hasil PNG-nya background solid (gak
-   transparan), lalu di-capture pakai html2canvas, lalu class dilepas lagi
-   biar tampilan normal balik seperti semula (yang gak diunduh tetap
-   pakai gradasi+glow seperti biasa). */
+   Tampilan normal di layar TIDAK diubah sama sekali. Saat proses:
+   1) tombol download berubah jadi ikon loading (spinner) & gak bisa
+      diklik dobel, tapi tetap kelihatan di layar (cuma DIKECUALIKAN dari
+      hasil capture lewat ignoreElements, bukan disembunyikan lewat CSS).
+   2) class cid-export-solid ditempel sebentar cuma buat mematikan efek
+      shine pojok & bikin background solid KHUSUS di hasil unduhan (lihat
+      CSS-nya), lalu dilepas lagi setelah selesai.
+   3) html2canvas capture pakai backgroundColor:null (transparan) supaya
+      cuma bentuk kartu yang ke-render (siku-siku tumpul, sama kayak
+      tampilan sebelum diunduh), lalu hasilnya ditaruh di tengah kanvas
+      baru berukuran rasio 9:16 (sisanya transparan) biar file yang
+      terunduh selalu 9:16.
+   4) begitu link download ke-klik, tombol berubah jadi ikon ceklis
+      sebentar sebagai tanda selesai, baru balik ke ikon download lagi. */
 function cidDownloadCard1(){
   const card=document.getElementById('cidCard1');
   if(!card||typeof html2canvas!=='function') return;
   const btn=card.querySelector('.cid-card-download-btn');
+  const icon=btn?btn.querySelector('i'):null;
+  if(btn&&btn.classList.contains('cid-dl-busy')) return; // cegah klik dobel
+  if(btn){ btn.classList.add('cid-dl-busy'); btn.classList.remove('cid-dl-done'); }
+  if(icon){ icon.className='fa-solid fa-spinner fa-spin'; }
   card.classList.add('cid-export-solid');
-  if(btn) btn.style.visibility='hidden';
   html2canvas(card,{
-    backgroundColor:'#0c0c0c',
+    backgroundColor:null,
     useCORS:true,
     scale:2,
     ignoreElements:function(el){ return !!(el&&el.classList&&el.classList.contains('cid-card-download-btn')); }
   }).then(function(canvas){
     card.classList.remove('cid-export-solid');
-    if(btn) btn.style.visibility='';
+    // Kanvas baru rasio 9:16. Kartu TIDAK PERNAH dipotong (siku-sikunya
+    // yang tumpul tetap utuh): kalau muat penuh di lebar frame, kartu
+    // dipas-in mentok atas-bawah + margin transparan kiri-kanan. Kalau
+    // kartu lebih lebar dari frame, baru diperkecil proporsional (gak
+    // gepeng) biar tetap masuk penuh, jadi ada margin transparan
+    // atas-bawah sebagai gantinya. Intinya kartu selalu utuh & center.
+    const W=canvas.width, H=canvas.height;
+    const outH=H, outW=Math.round(H*9/16);
+    const outCanvas=document.createElement('canvas');
+    outCanvas.width=outW; outCanvas.height=outH;
+    const ctx=outCanvas.getContext('2d');
+    let drawW=W,drawH=H,offX=0,offY=0;
+    if(W>outW){
+      const s=outW/W;
+      drawW=outW; drawH=Math.round(H*s);
+      offY=Math.round((outH-drawH)/2);
+    }else{
+      offX=Math.round((outW-W)/2);
+    }
+    ctx.drawImage(canvas,offX,offY,drawW,drawH);
     const link=document.createElement('a');
     link.download='kzrizusmo-infoplayer-'+Date.now()+'.png';
-    link.href=canvas.toDataURL('image/png');
+    link.href=outCanvas.toDataURL('image/png');
     document.body.appendChild(link);
     link.click();
     link.remove();
+    if(btn){ btn.classList.remove('cid-dl-busy'); btn.classList.add('cid-dl-done'); }
+    if(icon){ icon.className='fa-solid fa-check'; }
+    setTimeout(function(){
+      if(btn) btn.classList.remove('cid-dl-done');
+      if(icon) icon.className='fa-solid fa-download';
+    },1800);
   }).catch(function(e){
     card.classList.remove('cid-export-solid');
-    if(btn) btn.style.visibility='';
+    if(btn){ btn.classList.remove('cid-dl-busy'); }
+    if(icon){ icon.className='fa-solid fa-download'; }
     console.error('[CID] Gagal download kolom 1 jadi gambar',e);
   });
 }
@@ -20037,10 +20088,10 @@ function cidCombinedItemIconsHtml(json){
   if(!groups.length) return '';
   const allIds=[];
   groups.forEach(function(g){ allIds.push.apply(allIds,g.ids); });
-  return '<div class="tff-profile-items-groups"><div class="tff-profile-items-row">'+allIds.map(function(id){
+  return '<div class="tff-profile-items-wrap"><div class="tff-profile-items-groups"><div class="tff-profile-items-row">'+allIds.map(function(id){
     const idStr=String(id);
     return '<img src="'+tffAttrEsc(tffItemIconUrl(idStr))+'" alt="item" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display=\'none\'">';
-  }).join('')+'</div></div>';
+  }).join('')+'</div></div></div>';
 }
 /* Sama seperti tffSection, tapi untuk statistik ranked yang datang terbagi
    per mode (solostats/duostats/squadstats) alih-alih field flat langsung. */
