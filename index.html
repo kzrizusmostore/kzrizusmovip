@@ -18044,6 +18044,34 @@ async function stkStalk(type){
     <div class="cifm-tile-icon"><i class="fa-solid fa-chart-simple"></i></div>
     <span>CHECK STATISTIK</span>
   </div>
+  <div class="cifm-tile" onclick="showPage('cekidffGuild')">
+    <div class="cifm-tile-icon"><i class="fa-solid fa-people-group"></i></div>
+    <span>INFO GUILD</span>
+  </div>
+  <div class="cifm-tile" onclick="showPage('cekidffJoinGuild')">
+    <div class="cifm-tile-icon"><i class="fa-solid fa-user-plus"></i></div>
+    <span>GABUNG GUILD</span>
+  </div>
+  <div class="cifm-tile" onclick="showPage('cekidffLeaveGuild')">
+    <div class="cifm-tile-icon"><i class="fa-solid fa-right-from-bracket"></i></div>
+    <span>KELUAR GUILD</span>
+  </div>
+  <div class="cifm-tile" onclick="showPage('cekidffCreateGuild')">
+    <div class="cifm-tile-icon"><i class="fa-solid fa-flag"></i></div>
+    <span>BUAT GUILD</span>
+  </div>
+  <div class="cifm-tile" onclick="showPage('cekidffChangeName')">
+    <div class="cifm-tile-icon"><i class="fa-solid fa-signature"></i></div>
+    <span>GANTI NICKNAME</span>
+  </div>
+  <div class="cifm-tile" onclick="showPage('cekidffCraftland')">
+    <div class="cifm-tile-icon"><i class="fa-solid fa-map"></i></div>
+    <span>INFO CRAFTLAND</span>
+  </div>
+  <div class="cifm-tile" onclick="showPage('cekidffCraftlandDetail')">
+    <div class="cifm-tile-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+    <span>CRAFTLAND DETAIL</span>
+  </div>
 </div>
 
 <div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
@@ -19353,6 +19381,1402 @@ function cisReset(){
 }
 </script>
 
+<!-- INFO GUILD PAGE -->
+<div class="page" id="cekidffGuild">
+<style>
+#cekidffGuild{padding-bottom:80px;}
+.cgi-welcome-box{
+  background:rgba(255,43,43,.08);border:1px solid rgba(255,43,43,.25);border-radius:14px;
+  padding:12px 14px;margin-bottom:14px;font-size:12px;line-height:1.55;color:#ddd;
+  text-align:left;font-style:italic;
+}
+.cgi-welcome-box i{color:#ff6b6b;margin-right:6px;font-style:normal;}
+</style>
+
+<div class="cid-page-head">
+  <span class="cid-page-head-icon" aria-hidden="true"></span>
+  <div>
+    <p class="cid-hero-title"><span class="red">INFO</span>&nbsp;<span class="wht">GUILD FREE FIRE</span></p>
+    <p class="cid-hero-sub">Masukkan ID Guild Free Fire kamu untuk melihat detail lengkap guild.</p>
+  </div>
+</div>
+
+<div class="cid-card">
+  <div class="cid-label"><i class="fa-solid fa-people-group"></i>ID GUILD FREE FIRE</div>
+  <div class="cid-input-wrap">
+    <i class="fa-solid fa-hashtag"></i>
+    <input class="cid-input" id="cgiClanIdInput" type="text" inputmode="numeric" placeholder="Contoh: 3048889605" maxlength="15"/>
+  </div>
+  <button class="cid-btn" id="cgiCheckBtn" onclick="cgiCheck()"><i class="fa-solid fa-magnifying-glass"></i>CEK INFO GUILD</button>
+  <p class="cid-hint">Cek info guild Free Fire cukup lewat ID Guild (Clan ID).</p>
+</div>
+
+<div class="cid-state show" id="cgiStateIdle">
+  <i class="fa-solid fa-people-group"></i>
+  <p>Belum ada ID Guild yang dicek. Masukkan ID Guild di atas lalu tekan "Cek Info Guild".</p>
+</div>
+
+<div class="cid-state cid-loading" id="cgiStateLoading">
+  <i class="fa-solid fa-spinner fa-spin"></i>
+  <p>Sedang mengambil info guild kamu, tunggu sebentar ya...</p>
+</div>
+
+<div class="cid-state cid-error" id="cgiStateError">
+  <i class="fa-solid fa-triangle-exclamation"></i>
+  <p id="cgiErrorMsg">ID Guild tidak ditemukan. Periksa kembali ID guild kamu.</p>
+  <div class="cid-retry" onclick="cgiReset()"><i class="fa-solid fa-rotate-left"></i>Coba Lagi</div>
+</div>
+
+<div class="cid-result" id="cgiResult">
+  <div class="cid-result-card" style="text-align:left;">
+    <div class="cid-nick-row" style="justify-content:flex-start;margin-bottom:4px;">
+      <i class="fa-solid fa-shield-halved" style="color:#ff6b6b;"></i>
+      <span class="cid-nick" id="cgiClanName">-</span>
+    </div>
+    <div class="cgi-welcome-box" id="cgiWelcomeMsgBox" style="display:none;">
+      <i class="fa-solid fa-quote-left"></i><span id="cgiWelcomeMsg"></span>
+    </div>
+    <div class="cid-info-rows" id="cgiInfoRows"></div>
+  </div>
+  <button class="cid-reset-btn" onclick="cgiReset()"><i class="fa-solid fa-arrow-rotate-left"></i>CEK GUILD LAIN</button>
+</div>
+
+<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
+</div>
+
+<script>
+(function(){
+  const clanInput=document.getElementById('cgiClanIdInput');
+  if(clanInput){
+    clanInput.addEventListener('input',function(){
+      clanInput.value=clanInput.value.replace(/[^0-9]/g,'').slice(0,15);
+    });
+    clanInput.addEventListener('keydown',function(e){
+      if(e.key==='Enter') cgiCheck();
+    });
+  }
+})();
+
+function cgiShowState(which){
+  ['cgiStateIdle','cgiStateLoading','cgiStateError'].forEach(function(id){
+    const el=document.getElementById(id);
+    if(el) el.classList.toggle('show',id===which);
+  });
+  const result=document.getElementById('cgiResult');
+  if(result) result.classList.toggle('show',which===null);
+}
+
+function cgiSetLoadingBtn(loading){
+  const btn=document.getElementById('cgiCheckBtn');
+  if(!btn) return;
+  if(loading){
+    btn.disabled=true;
+    btn.dataset.origHtml=btn.innerHTML;
+    btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i>MENGECEK...';
+  }else{
+    btn.disabled=false;
+    if(btn.dataset.origHtml) btn.innerHTML=btn.dataset.origHtml;
+  }
+}
+
+function cgiShake(){
+  const inp=document.getElementById('cgiClanIdInput');
+  if(!inp) return;
+  inp.classList.remove('cid-shake');
+  void inp.offsetWidth;
+  inp.classList.add('cid-shake');
+  inp.focus();
+}
+
+// Angka besar (score, xp, balance, dst) ditampilkan dengan pemisah ribuan ala Indonesia.
+function cgiFmtNum(n){
+  if(n===undefined||n===null||n==='') return '-';
+  const num=Number(n);
+  if(isNaN(num)) return tffEsc(String(n));
+  return num.toLocaleString('id-ID');
+}
+
+// total_playtime dari API dalam detik -> ditampilkan "X hari Y jam Z menit" biar gampang dibaca.
+function cgiFmtDuration(sec){
+  if(sec===undefined||sec===null||sec==='') return '-';
+  const total=Number(sec);
+  if(isNaN(total)||total<0) return '-';
+  const days=Math.floor(total/86400);
+  const hours=Math.floor((total%86400)/3600);
+  const mins=Math.floor((total%3600)/60);
+  const parts=[];
+  if(days>0) parts.push(days+' hari');
+  if(hours>0) parts.push(hours+' jam');
+  if(mins>0||parts.length===0) parts.push(mins+' menit');
+  return parts.join(' ');
+}
+
+// reward_time / expire_time dari API dalam unix timestamp (detik) -> tanggal & jam lokal.
+function cgiFmtTimestamp(ts){
+  if(ts===undefined||ts===null||ts===''||Number(ts)<=0) return '-';
+  try{
+    const d=new Date(Number(ts)*1000);
+    if(isNaN(d.getTime())) return '-';
+    return d.toLocaleString('id-ID',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  }catch(e){ return '-'; }
+}
+
+// last_active dari API berupa string "YYYY-MM-DD HH:MM:SS" (bukan unix timestamp
+// seperti reward_time/expire_time), jadi diparse terpisah dari cgiFmtTimestamp.
+function cgiFmtLastActive(str){
+  if(!str) return '-';
+  const m=/^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2}):(\d{2})/.exec(String(str));
+  if(!m) return String(str);
+  const d=new Date(Number(m[1]),Number(m[2])-1,Number(m[3]),Number(m[4]),Number(m[5]),Number(m[6]));
+  if(isNaN(d.getTime())) return String(str);
+  return d.toLocaleString('id-ID',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+}
+
+async function cgiCheck(){
+  const inp=document.getElementById('cgiClanIdInput');
+  const clanId=inp?inp.value.trim():'';
+  if(!clanId){ cgiShake(); return; }
+
+  cgiShowState('cgiStateLoading');
+  cgiSetLoadingBtn(true);
+
+  try{
+    const url=TFF_BASE+'/guild/info?clan_id='+encodeURIComponent(clanId)+'&key='+encodeURIComponent(TFF_KEY);
+    const json=await stkFetchJsonSmart(url);
+
+    if(json&&json.error){
+      // Petakan pesan error mentah dari API ke pesan yang lebih ramah untuk user.
+      const errLower=String(json.error).toLowerCase();
+      let friendly='Gagal mengambil info guild. Periksa kembali ID guild kamu.';
+      if(errLower.indexOf('required')>-1) friendly='ID Guild belum diisi. Masukkan ID guild terlebih dahulu.';
+      else if(errLower.indexOf('invalid')>-1) friendly='ID Guild tidak ditemukan atau tidak valid.';
+      else if(errLower.indexOf('jwt')>-1) friendly='Server sedang sibuk (gagal membuat token). Coba lagi beberapa saat.';
+      else if(errLower.indexOf('server error')>-1||errLower.indexOf('500')>-1) friendly='Server Free Fire sedang bermasalah. Coba lagi nanti.';
+      throw Object.assign(new Error(friendly),{raw:json});
+    }
+    if(!json||!json.clan_name){
+      throw Object.assign(new Error('Data guild tidak ditemukan. Periksa kembali ID guild kamu.'),{raw:json});
+    }
+
+    const gd=json.guild_details||{};
+
+    const nameEl=document.getElementById('cgiClanName');
+    if(nameEl) nameEl.textContent=json.clan_name||'-';
+
+    const welcomeBox=document.getElementById('cgiWelcomeMsgBox');
+    const welcomeEl=document.getElementById('cgiWelcomeMsg');
+    if(json.welcome_message){
+      if(welcomeEl) welcomeEl.textContent=json.welcome_message;
+      if(welcomeBox) welcomeBox.style.display='';
+    }else if(welcomeBox){
+      welcomeBox.style.display='none';
+    }
+
+    const rowsEl=document.getElementById('cgiInfoRows');
+    if(rowsEl){
+      let rows='';
+      rows+='<div class="cid-info-row"><b>ID Guild</b><span>'+tffEsc(json.id!=null?json.id:clanId)+'</span></div>';
+      rows+='<div class="cid-info-row"><b>Level Guild</b><span>'+tffEsc(json.level!=null?json.level:'-')+'</span></div>';
+      rows+='<div class="cid-info-row"><b>Region</b><span>'+tffEsc(json.region||gd.region||'-')+'</span></div>';
+      rows+='<div class="cid-info-row"><b>Rank</b><span>'+tffEsc(json.rank!=null?json.rank:'-')+'</span></div>';
+      rows+='<div class="cid-info-row"><b>Score</b><span>'+cgiFmtNum(json.score)+'</span></div>';
+      rows+='<div class="cid-info-row"><b>XP</b><span>'+cgiFmtNum(json.xp)+'</span></div>';
+      rows+='<div class="cid-info-row"><b>Balance</b><span>'+cgiFmtNum(json.balance)+'</span></div>';
+      rows+='<div class="cid-info-row"><b>Energy</b><span>'+tffEsc(json.energy!=null?json.energy:'-')+'</span></div>';
+      rows+='<div class="cid-info-row"><b>Upgrades</b><span>'+tffEsc(json.upgrades!=null?json.upgrades:'-')+'</span></div>';
+      rows+='<div class="cid-info-row"><b>Achievements</b><span>'+tffEsc(json.achievements!=null?json.achievements:'-')+'</span></div>';
+      rows+='<div class="cid-info-row"><b>Total Playtime</b><span>'+cgiFmtDuration(json.total_playtime)+'</span></div>';
+      rows+='<div class="cid-info-row"><b>Member Online</b><span>'+tffEsc(gd.members_online!=null?gd.members_online:'-')+' / '+tffEsc(gd.total_members!=null?gd.total_members:'-')+'</span></div>';
+      rows+='<div class="cid-info-row"><b>Waktu Reward</b><span>'+cgiFmtTimestamp(gd.reward_time)+'</span></div>';
+      rows+='<div class="cid-info-row"><b>Waktu Expire</b><span>'+cgiFmtTimestamp(gd.expire_time)+'</span></div>';
+      rows+='<div class="cid-info-row"><b>Terakhir Aktif</b><span>'+tffEsc(cgiFmtLastActive(json.last_active))+'</span></div>';
+      rowsEl.innerHTML=rows;
+    }
+
+    cgiShowState(null);
+  }catch(e){
+    console.error('[CGI]',e,(e&&e.raw)||'');
+    const errMsg=document.getElementById('cgiErrorMsg');
+    if(errMsg) errMsg.textContent=(e&&e.message)||'Gagal mengambil info guild. Periksa kembali ID guild kamu.';
+    cgiShowState('cgiStateError');
+  }
+  cgiSetLoadingBtn(false);
+}
+
+function cgiReset(){
+  const inp=document.getElementById('cgiClanIdInput');
+  if(inp){ inp.value=''; inp.focus(); }
+  cgiShowState('cgiStateIdle');
+}
+</script>
+
+<!-- GABUNG GUILD PAGE (via JWT) -->
+<div class="page" id="cekidffJoinGuild">
+<style>
+#cekidffJoinGuild{padding-bottom:80px;}
+.cjg-jwt-textarea{
+  width:100%;box-sizing:border-box;padding:12px 14px;border-radius:13px;
+  background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.1);color:#fff;
+  font-size:11.5px;font-weight:600;line-height:1.5;resize:vertical;min-height:74px;
+  font-family:'Space Mono',monospace;
+}
+.cjg-jwt-textarea:focus{outline:none;border-color:rgba(255,82,82,.55);box-shadow:0 0 0 3px rgba(255,43,43,.12);}
+.cjg-note{font-size:10px;color:#777;margin:8px 0 12px;line-height:1.6;display:flex;gap:7px;align-items:flex-start;}
+.cjg-note i{color:#ff6b6b;flex-shrink:0;margin-top:1px;}
+.cjg-success-badge{
+  display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:14px;
+  font-size:13px;font-weight:900;letter-spacing:.3px;margin-bottom:12px;
+  background:rgba(46,204,113,.12);border:1px solid rgba(46,204,113,.35);color:#4ee08a;
+}
+</style>
+
+<div class="cid-page-head">
+  <span class="cid-page-head-icon" aria-hidden="true"></span>
+  <div>
+    <p class="cid-hero-title"><span class="red">GABUNG</span>&nbsp;<span class="wht">GUILD FREE FIRE</span></p>
+    <p class="cid-hero-sub">Masukkan ID Guild tujuan dan JWT token akun kamu untuk otomatis bergabung.</p>
+  </div>
+</div>
+
+<div class="cid-card">
+  <div class="cid-label"><i class="fa-solid fa-hashtag"></i>ID GUILD TUJUAN</div>
+  <div class="cid-input-wrap">
+    <i class="fa-solid fa-hashtag"></i>
+    <input class="cid-input" id="cjgClanIdInput" type="text" inputmode="numeric" placeholder="Contoh: 3048889605" maxlength="15"/>
+  </div>
+
+  <div class="cid-label" style="margin-top:14px;"><i class="fa-solid fa-key"></i>JWT TOKEN AKUN</div>
+  <div class="cid-input-wrap" style="margin-bottom:0;">
+    <textarea class="cjg-jwt-textarea" id="cjgJwtInput" rows="3" placeholder="Tempel JWT token akun Free Fire kamu di sini..."></textarea>
+  </div>
+  <div class="cjg-note"><i class="fa-solid fa-circle-info"></i><span>Hanya menerima JWT token (bukan password). Pastikan pengaturan permintaan bergabung guild sudah diset default/terbuka.</span></div>
+
+  <button class="cid-btn" id="cjgJoinBtn" onclick="cjgJoin()"><i class="fa-solid fa-right-to-bracket"></i>GABUNG GUILD SEKARANG</button>
+  <p class="cid-hint">Proses bergabung memakai JWT token, ID Guild wajib diisi.</p>
+</div>
+
+<div class="cid-state show" id="cjgStateIdle">
+  <i class="fa-solid fa-user-plus"></i>
+  <p>Belum ada permintaan gabung guild. Lengkapi ID Guild &amp; JWT token di atas lalu tekan "Gabung Guild Sekarang".</p>
+</div>
+
+<div class="cid-state cid-loading" id="cjgStateLoading">
+  <i class="fa-solid fa-spinner fa-spin"></i>
+  <p>Sedang memproses permintaan gabung guild, tunggu sebentar ya...</p>
+</div>
+
+<div class="cid-state cid-error" id="cjgStateError">
+  <i class="fa-solid fa-triangle-exclamation"></i>
+  <p id="cjgErrorMsg">Gagal bergabung ke guild. Periksa kembali ID Guild &amp; JWT token kamu.</p>
+  <div class="cid-retry" onclick="cjgReset()"><i class="fa-solid fa-rotate-left"></i>Coba Lagi</div>
+</div>
+
+<div class="cid-result" id="cjgResult">
+  <div class="cid-result-card" style="text-align:left;">
+    <div class="cjg-success-badge"><i class="fa-solid fa-circle-check"></i>Berhasil Gabung Guild</div>
+    <div class="cid-info-rows" id="cjgInfoRows"></div>
+  </div>
+  <button class="cid-reset-btn" onclick="cjgReset()"><i class="fa-solid fa-arrow-rotate-left"></i>GABUNG GUILD LAIN</button>
+</div>
+
+<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
+</div>
+
+<script>
+(function(){
+  const clanInput=document.getElementById('cjgClanIdInput');
+  if(clanInput){
+    clanInput.addEventListener('input',function(){
+      clanInput.value=clanInput.value.replace(/[^0-9]/g,'').slice(0,15);
+    });
+  }
+})();
+
+function cjgShowState(which){
+  ['cjgStateIdle','cjgStateLoading','cjgStateError'].forEach(function(id){
+    const el=document.getElementById(id);
+    if(el) el.classList.toggle('show',id===which);
+  });
+  const result=document.getElementById('cjgResult');
+  if(result) result.classList.toggle('show',which===null);
+}
+
+function cjgSetLoadingBtn(loading){
+  const btn=document.getElementById('cjgJoinBtn');
+  if(!btn) return;
+  if(loading){
+    btn.disabled=true;
+    btn.dataset.origHtml=btn.innerHTML;
+    btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i>MEMPROSES...';
+  }else{
+    btn.disabled=false;
+    if(btn.dataset.origHtml) btn.innerHTML=btn.dataset.origHtml;
+  }
+}
+
+function cjgShake(elId){
+  const inp=document.getElementById(elId);
+  if(!inp) return;
+  inp.classList.remove('cid-shake');
+  void inp.offsetWidth;
+  inp.classList.add('cid-shake');
+  inp.focus();
+}
+
+async function cjgJoin(){
+  const clanInp=document.getElementById('cjgClanIdInput');
+  const jwtInp=document.getElementById('cjgJwtInput');
+  const clanId=clanInp?clanInp.value.trim():'';
+  const jwt=jwtInp?jwtInp.value.trim():'';
+
+  if(!clanId){ cjgShake('cjgClanIdInput'); return; }
+  if(!jwt){ cjgShake('cjgJwtInput'); return; }
+
+  cjgShowState('cjgStateLoading');
+  cjgSetLoadingBtn(true);
+
+  try{
+    const url=TFF_BASE+'/guild/join?clan_id='+encodeURIComponent(clanId)+'&jwt='+encodeURIComponent(jwt)+'&key='+encodeURIComponent(TFF_KEY);
+    const json=await stkFetchJsonSmart(url);
+
+    if(!json||json.success===false||json.error){
+      const errLower=String((json&&json.error)||'').toLowerCase();
+      let friendly='Gagal bergabung ke guild. Periksa kembali ID Guild & JWT token kamu.';
+      if(errLower.indexOf('clan_id')>-1) friendly='ID Guild belum diisi atau tidak valid.';
+      else if(errLower.indexOf('jwt')>-1||errLower.indexOf('pass')>-1) friendly='JWT token tidak valid atau sudah kedaluwarsa. Coba ambil ulang JWT token kamu.';
+      throw Object.assign(new Error(friendly),{raw:json});
+    }
+
+    const rowsEl=document.getElementById('cjgInfoRows');
+    if(rowsEl){
+      let rows='';
+      rows+='<div class="cid-info-row"><b>Nickname</b><span>'+tffEsc(json.name||'-')+'</span></div>';
+      rows+='<div class="cid-info-row"><b>UID</b><span>'+tffEsc(json.uid||'-')+'</span></div>';
+      rows+='<div class="cid-info-row"><b>ID Guild</b><span>'+tffEsc(json.clan_id||clanId)+'</span></div>';
+      rows+='<div class="cid-info-row"><b>Region</b><span>'+tffEsc(json.region||'-')+'</span></div>';
+      rows+='<div class="cid-info-row"><b>Metode Login</b><span>'+tffEsc((json.login_method||'-').toUpperCase())+'</span></div>';
+      if(json.server_response) rows+='<div class="cid-info-row"><b>Respons Server</b><span>'+tffEsc(json.server_response)+'</span></div>';
+      rowsEl.innerHTML=rows;
+    }
+
+    cjgShowState(null);
+  }catch(e){
+    console.error('[CJG]',e,(e&&e.raw)||'');
+    const errMsg=document.getElementById('cjgErrorMsg');
+    if(errMsg) errMsg.textContent=(e&&e.message)||'Gagal bergabung ke guild. Periksa kembali ID Guild & JWT token kamu.';
+    cjgShowState('cjgStateError');
+  }
+  cjgSetLoadingBtn(false);
+}
+
+function cjgReset(){
+  const clanInp=document.getElementById('cjgClanIdInput');
+  const jwtInp=document.getElementById('cjgJwtInput');
+  if(clanInp) clanInp.value='';
+  if(jwtInp) jwtInp.value='';
+  cjgShowState('cjgStateIdle');
+}
+</script>
+
+<!-- KELUAR GUILD PAGE (via JWT) -->
+<div class="page" id="cekidffLeaveGuild">
+<style>
+#cekidffLeaveGuild{padding-bottom:80px;}
+</style>
+
+<div class="cid-page-head">
+  <span class="cid-page-head-icon" aria-hidden="true"></span>
+  <div>
+    <p class="cid-hero-title"><span class="red">KELUAR</span>&nbsp;<span class="wht">GUILD FREE FIRE</span></p>
+    <p class="cid-hero-sub">Masukkan ID Guild &amp; JWT token akun kamu untuk keluar dari guild.</p>
+  </div>
+</div>
+
+<div class="cid-card">
+  <div class="cid-label"><i class="fa-solid fa-hashtag"></i>ID GUILD</div>
+  <div class="cid-input-wrap">
+    <i class="fa-solid fa-hashtag"></i>
+    <input class="cid-input" id="clgClanIdInput" type="text" inputmode="numeric" placeholder="Contoh: 3048889605" maxlength="15"/>
+  </div>
+
+  <div class="cid-label" style="margin-top:14px;"><i class="fa-solid fa-key"></i>JWT TOKEN AKUN</div>
+  <div class="cid-input-wrap" style="margin-bottom:0;">
+    <textarea class="cjg-jwt-textarea" id="clgJwtInput" rows="3" placeholder="Tempel JWT token akun Free Fire kamu di sini..."></textarea>
+  </div>
+  <div class="cjg-note"><i class="fa-solid fa-circle-info"></i><span>Hanya menerima JWT token (bukan password). Pastikan JWT masih berlaku.</span></div>
+
+  <button class="cid-btn" id="clgLeaveBtn" onclick="clgLeave()"><i class="fa-solid fa-right-from-bracket"></i>KELUAR GUILD SEKARANG</button>
+  <p class="cid-hint">Proses keluar guild memakai JWT token, ID Guild wajib diisi.</p>
+</div>
+
+<div class="cid-state show" id="clgStateIdle">
+  <i class="fa-solid fa-right-from-bracket"></i>
+  <p>Belum ada permintaan keluar guild. Lengkapi ID Guild &amp; JWT token di atas lalu tekan "Keluar Guild Sekarang".</p>
+</div>
+
+<div class="cid-state cid-loading" id="clgStateLoading">
+  <i class="fa-solid fa-spinner fa-spin"></i>
+  <p>Sedang memproses permintaan keluar guild, tunggu sebentar ya...</p>
+</div>
+
+<div class="cid-state cid-error" id="clgStateError">
+  <i class="fa-solid fa-triangle-exclamation"></i>
+  <p id="clgErrorMsg">Gagal keluar dari guild. Periksa kembali ID Guild &amp; JWT token kamu.</p>
+  <div class="cid-retry" onclick="clgReset()"><i class="fa-solid fa-rotate-left"></i>Coba Lagi</div>
+</div>
+
+<div class="cid-result" id="clgResult">
+  <div class="cid-result-card" style="text-align:left;">
+    <div class="cjg-success-badge"><i class="fa-solid fa-circle-check"></i>Berhasil Keluar Guild</div>
+    <div class="cid-info-rows" id="clgInfoRows"></div>
+  </div>
+  <button class="cid-reset-btn" onclick="clgReset()"><i class="fa-solid fa-arrow-rotate-left"></i>PROSES GUILD LAIN</button>
+</div>
+
+<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
+</div>
+
+<script>
+(function(){
+  const clanInput=document.getElementById('clgClanIdInput');
+  if(clanInput){
+    clanInput.addEventListener('input',function(){
+      clanInput.value=clanInput.value.replace(/[^0-9]/g,'').slice(0,15);
+    });
+  }
+})();
+
+function clgShowState(which){
+  ['clgStateIdle','clgStateLoading','clgStateError'].forEach(function(id){
+    const el=document.getElementById(id);
+    if(el) el.classList.toggle('show',id===which);
+  });
+  const result=document.getElementById('clgResult');
+  if(result) result.classList.toggle('show',which===null);
+}
+
+function clgSetLoadingBtn(loading){
+  const btn=document.getElementById('clgLeaveBtn');
+  if(!btn) return;
+  if(loading){
+    btn.disabled=true;
+    btn.dataset.origHtml=btn.innerHTML;
+    btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i>MEMPROSES...';
+  }else{
+    btn.disabled=false;
+    if(btn.dataset.origHtml) btn.innerHTML=btn.dataset.origHtml;
+  }
+}
+
+function clgShake(elId){
+  const inp=document.getElementById(elId);
+  if(!inp) return;
+  inp.classList.remove('cid-shake');
+  void inp.offsetWidth;
+  inp.classList.add('cid-shake');
+  inp.focus();
+}
+
+async function clgLeave(){
+  const clanInp=document.getElementById('clgClanIdInput');
+  const jwtInp=document.getElementById('clgJwtInput');
+  const clanId=clanInp?clanInp.value.trim():'';
+  const jwt=jwtInp?jwtInp.value.trim():'';
+
+  if(!clanId){ clgShake('clgClanIdInput'); return; }
+  if(!jwt){ clgShake('clgJwtInput'); return; }
+
+  clgShowState('clgStateLoading');
+  clgSetLoadingBtn(true);
+
+  try{
+    const url=TFF_BASE+'/guild/leave?clan_id='+encodeURIComponent(clanId)+'&jwt='+encodeURIComponent(jwt)+'&key='+encodeURIComponent(TFF_KEY);
+    const json=await stkFetchJsonSmart(url);
+
+    if(!json||json.success===false||json.error){
+      const errLower=String((json&&json.error)||'').toLowerCase();
+      let friendly='Gagal keluar dari guild. Periksa kembali ID Guild & JWT token kamu.';
+      if(errLower.indexOf('clan_id')>-1) friendly='ID Guild belum diisi atau tidak valid.';
+      else if(errLower.indexOf('jwt')>-1) friendly='JWT token tidak valid atau sudah kedaluwarsa. Coba ambil ulang JWT token kamu.';
+      throw Object.assign(new Error(friendly),{raw:json});
+    }
+
+    const rowsEl=document.getElementById('clgInfoRows');
+    if(rowsEl){
+      let rows='';
+      rows+='<div class="cid-info-row"><b>UID</b><span>'+tffEsc(json.uid||'-')+'</span></div>';
+      rows+='<div class="cid-info-row"><b>ID Guild</b><span>'+tffEsc(json.clan_id||clanId)+'</span></div>';
+      rows+='<div class="cid-info-row"><b>Region</b><span>'+tffEsc(json.region||'-')+'</span></div>';
+      rows+='<div class="cid-info-row"><b>Metode Login</b><span>'+tffEsc((json.login_method||'-').toUpperCase())+'</span></div>';
+      rowsEl.innerHTML=rows;
+    }
+
+    clgShowState(null);
+  }catch(e){
+    console.error('[CLG]',e,(e&&e.raw)||'');
+    const errMsg=document.getElementById('clgErrorMsg');
+    if(errMsg) errMsg.textContent=(e&&e.message)||'Gagal keluar dari guild. Periksa kembali ID Guild & JWT token kamu.';
+    clgShowState('clgStateError');
+  }
+  clgSetLoadingBtn(false);
+}
+
+function clgReset(){
+  const clanInp=document.getElementById('clgClanIdInput');
+  const jwtInp=document.getElementById('clgJwtInput');
+  if(clanInp) clanInp.value='';
+  if(jwtInp) jwtInp.value='';
+  clgShowState('clgStateIdle');
+}
+</script>
+
+<!-- BUAT GUILD PAGE (via JWT) -->
+<div class="page" id="cekidffCreateGuild">
+<style>
+#cekidffCreateGuild{padding-bottom:80px;}
+.cmg-select{
+  width:100%;box-sizing:border-box;padding:14px 14px;border-radius:13px;
+  background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.1);color:#fff;
+  font-size:13px;font-weight:700;letter-spacing:.3px;font-family:'Outfit',sans-serif;
+  margin-bottom:12px;
+}
+.cmg-select:focus{outline:none;border-color:rgba(255,82,82,.55);box-shadow:0 0 0 3px rgba(255,43,43,.12);}
+.cmg-row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+</style>
+
+<div class="cid-page-head">
+  <span class="cid-page-head-icon" aria-hidden="true"></span>
+  <div>
+    <p class="cid-hero-title"><span class="red">BUAT</span>&nbsp;<span class="wht">GUILD FREE FIRE</span></p>
+    <p class="cid-hero-sub">Buat guild baru langsung dari akun kamu lewat JWT token.</p>
+  </div>
+</div>
+
+<div class="cid-card">
+  <div class="cid-label"><i class="fa-solid fa-flag"></i>NAMA GUILD</div>
+  <div class="cid-input-wrap">
+    <i class="fa-solid fa-flag"></i>
+    <input class="cid-input" id="cmgNameInput" type="text" placeholder="Contoh: MyGuild" maxlength="30"/>
+  </div>
+
+  <div class="cid-label"><i class="fa-solid fa-comment"></i>SLOGAN</div>
+  <div class="cid-input-wrap">
+    <i class="fa-solid fa-comment"></i>
+    <input class="cid-input" id="cmgSloganInput" type="text" placeholder="Contoh: Best Guild BD" maxlength="60"/>
+  </div>
+
+  <div class="cmg-row2">
+    <div>
+      <div class="cid-label"><i class="fa-solid fa-image"></i>AVATAR</div>
+      <input class="cid-input" id="cmgAvatarInput" type="text" inputmode="numeric" placeholder="Contoh: 10" style="margin-bottom:12px;"/>
+    </div>
+    <div>
+      <div class="cid-label"><i class="fa-solid fa-ranking-star"></i>MIN. LEVEL</div>
+      <input class="cid-input" id="cmgMinLevelInput" type="text" inputmode="numeric" placeholder="Contoh: 20" style="margin-bottom:12px;"/>
+    </div>
+  </div>
+
+  <div class="cid-label"><i class="fa-solid fa-tags"></i>TAGS (pisahkan koma)</div>
+  <div class="cid-input-wrap">
+    <i class="fa-solid fa-tags"></i>
+    <input class="cid-input" id="cmgTagsInput" type="text" placeholder="Contoh: 1,4,13"/>
+  </div>
+
+  <div class="cid-label"><i class="fa-solid fa-coins"></i>PAYMENT</div>
+  <select class="cmg-select" id="cmgPaymentSelect">
+    <option value="0">0 - Gratis</option>
+    <option value="1" selected>1 - Berbayar</option>
+  </select>
+
+  <div class="cid-label"><i class="fa-solid fa-door-open"></i>AUTO APPROVAL</div>
+  <select class="cmg-select" id="cmgAutoApprovalSelect">
+    <option value="0">0 - Perlu Approval Manual</option>
+    <option value="1">1 - Perlu Approval (Terbatas)</option>
+    <option value="2" selected>2 - Otomatis (Default Terbuka)</option>
+  </select>
+
+  <div class="cid-label" style="margin-top:2px;"><i class="fa-solid fa-key"></i>JWT TOKEN AKUN</div>
+  <div class="cid-input-wrap" style="margin-bottom:0;">
+    <textarea class="cjg-jwt-textarea" id="cmgJwtInput" rows="3" placeholder="Tempel JWT token akun Free Fire kamu di sini..."></textarea>
+  </div>
+  <div class="cjg-note"><i class="fa-solid fa-circle-info"></i><span>Hanya menerima JWT token (bukan password). Akun wajib belum tergabung/pemilik guild lain sebelum bisa buat guild baru.</span></div>
+
+  <button class="cid-btn" id="cmgCreateBtn" onclick="cmgCreate()"><i class="fa-solid fa-flag"></i>BUAT GUILD SEKARANG</button>
+  <p class="cid-hint">Nama Guild &amp; JWT token wajib diisi.</p>
+</div>
+
+<div class="cid-state show" id="cmgStateIdle">
+  <i class="fa-solid fa-flag"></i>
+  <p>Belum ada guild yang dibuat. Lengkapi form di atas lalu tekan "Buat Guild Sekarang".</p>
+</div>
+
+<div class="cid-state cid-loading" id="cmgStateLoading">
+  <i class="fa-solid fa-spinner fa-spin"></i>
+  <p>Sedang membuat guild kamu, tunggu sebentar ya...</p>
+</div>
+
+<div class="cid-state cid-error" id="cmgStateError">
+  <i class="fa-solid fa-triangle-exclamation"></i>
+  <p id="cmgErrorMsg">Gagal membuat guild. Periksa kembali data &amp; JWT token kamu.</p>
+  <div class="cid-retry" onclick="cmgReset()"><i class="fa-solid fa-rotate-left"></i>Coba Lagi</div>
+</div>
+
+<div class="cid-result" id="cmgResult">
+  <div class="cid-result-card" style="text-align:left;">
+    <div class="cjg-success-badge"><i class="fa-solid fa-circle-check"></i>Berhasil Membuat Guild</div>
+    <div class="cid-info-rows" id="cmgInfoRows"></div>
+  </div>
+  <button class="cid-reset-btn" onclick="cmgReset()"><i class="fa-solid fa-arrow-rotate-left"></i>BUAT GUILD LAIN</button>
+</div>
+
+<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
+</div>
+
+<script>
+(function(){
+  ['cmgAvatarInput','cmgMinLevelInput'].forEach(function(id){
+    const el=document.getElementById(id);
+    if(el){
+      el.addEventListener('input',function(){
+        el.value=el.value.replace(/[^0-9]/g,'');
+      });
+    }
+  });
+})();
+
+function cmgShowState(which){
+  ['cmgStateIdle','cmgStateLoading','cmgStateError'].forEach(function(id){
+    const el=document.getElementById(id);
+    if(el) el.classList.toggle('show',id===which);
+  });
+  const result=document.getElementById('cmgResult');
+  if(result) result.classList.toggle('show',which===null);
+}
+
+function cmgSetLoadingBtn(loading){
+  const btn=document.getElementById('cmgCreateBtn');
+  if(!btn) return;
+  if(loading){
+    btn.disabled=true;
+    btn.dataset.origHtml=btn.innerHTML;
+    btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i>MEMPROSES...';
+  }else{
+    btn.disabled=false;
+    if(btn.dataset.origHtml) btn.innerHTML=btn.dataset.origHtml;
+  }
+}
+
+function cmgShake(elId){
+  const inp=document.getElementById(elId);
+  if(!inp) return;
+  inp.classList.remove('cid-shake');
+  void inp.offsetWidth;
+  inp.classList.add('cid-shake');
+  inp.focus();
+}
+
+// Render generik: tampilkan tiap field dari respons sukses sebagai baris
+// cid-info-row, tanpa terikat skema field yang pasti (skema resmi belum diberi).
+function cmgRenderRowsFromJson(json){
+  const skip=['success'];
+  let rows='';
+  Object.keys(json).forEach(function(k){
+    if(skip.indexOf(k)>-1) return;
+    let v=json[k];
+    if(v&&typeof v==='object') v=JSON.stringify(v);
+    const label=k.replace(/_/g,' ').replace(/\b\w/g,function(c){ return c.toUpperCase(); });
+    rows+='<div class="cid-info-row"><b>'+tffEsc(label)+'</b><span>'+tffEsc(String(v))+'</span></div>';
+  });
+  return rows;
+}
+
+async function cmgCreate(){
+  const nameInp=document.getElementById('cmgNameInput');
+  const sloganInp=document.getElementById('cmgSloganInput');
+  const avatarInp=document.getElementById('cmgAvatarInput');
+  const minLevelInp=document.getElementById('cmgMinLevelInput');
+  const tagsInp=document.getElementById('cmgTagsInput');
+  const paymentSel=document.getElementById('cmgPaymentSelect');
+  const autoApprovalSel=document.getElementById('cmgAutoApprovalSelect');
+  const jwtInp=document.getElementById('cmgJwtInput');
+
+  const guildName=nameInp?nameInp.value.trim():'';
+  const jwt=jwtInp?jwtInp.value.trim():'';
+
+  if(!guildName){ cmgShake('cmgNameInput'); return; }
+  if(!jwt){ cmgShake('cmgJwtInput'); return; }
+
+  const tags=(tagsInp?tagsInp.value:'').split(',').map(function(s){ return parseInt(s.trim(),10); }).filter(function(n){ return !isNaN(n); });
+
+  const body={
+    guild_name:guildName,
+    slogan:sloganInp?sloganInp.value.trim():'',
+    payment:parseInt(paymentSel?paymentSel.value:'0',10)||0,
+    auto_approval:parseInt(autoApprovalSel?autoApprovalSel.value:'2',10)||0,
+    avatar:parseInt(avatarInp&&avatarInp.value?avatarInp.value:'0',10)||0,
+    tags:tags,
+    min_level:parseInt(minLevelInp&&minLevelInp.value?minLevelInp.value:'0',10)||0
+  };
+
+  cmgShowState('cmgStateLoading');
+  cmgSetLoadingBtn(true);
+
+  try{
+    const url=TFF_BASE+'/guild/create?key='+encodeURIComponent(TFF_KEY);
+    let res,text;
+    try{
+      res=await zsFetchTimeout(url,{
+        method:'POST',
+        headers:{'Content-Type':'application/json','Accept':'application/json','Authorization':'Bearer '+jwt},
+        body:JSON.stringify(body)
+      },15000);
+      text=await res.text();
+    }catch(networkErr){
+      throw Object.assign(new Error('Gagal menghubungi server. Coba lagi beberapa saat.'),{raw:null});
+    }
+
+    let json=null;
+    try{ json=JSON.parse(text); }catch(parseErr){
+      throw Object.assign(new Error('Respons server tidak valid.'),{raw:text});
+    }
+
+    if(!res.ok||!json||json.success===false||json.error){
+      const errLower=String((json&&json.error)||'').toLowerCase();
+      let friendly='Gagal membuat guild. Periksa kembali data & JWT token kamu.';
+      if(errLower.indexOf('jwt')>-1||errLower.indexOf('auth')>-1||errLower.indexOf('token')>-1) friendly='JWT token tidak valid atau sudah kedaluwarsa. Coba ambil ulang JWT token kamu.';
+      else if(errLower.indexOf('name')>-1) friendly='Nama guild tidak valid atau sudah dipakai.';
+      else if(errLower.indexOf('already')>-1||errLower.indexOf('member')>-1) friendly='Akun ini sudah tergabung/memiliki guild, tidak bisa membuat guild baru.';
+      throw Object.assign(new Error(friendly),{raw:json});
+    }
+
+    const rowsEl=document.getElementById('cmgInfoRows');
+    if(rowsEl) rowsEl.innerHTML=cmgRenderRowsFromJson(json)||'<div class="cid-info-row"><b>Guild</b><span>'+tffEsc(guildName)+'</span></div>';
+
+    cmgShowState(null);
+  }catch(e){
+    console.error('[CMG]',e,(e&&e.raw)||'');
+    const errMsg=document.getElementById('cmgErrorMsg');
+    if(errMsg) errMsg.textContent=(e&&e.message)||'Gagal membuat guild. Periksa kembali data & JWT token kamu.';
+    cmgShowState('cmgStateError');
+  }
+  cmgSetLoadingBtn(false);
+}
+
+function cmgReset(){
+  ['cmgNameInput','cmgSloganInput','cmgAvatarInput','cmgMinLevelInput','cmgTagsInput','cmgJwtInput'].forEach(function(id){
+    const el=document.getElementById(id);
+    if(el) el.value='';
+  });
+  cmgShowState('cmgStateIdle');
+}
+</script>
+
+<!-- GANTI NICKNAME PAGE (via JWT) -->
+<div class="page" id="cekidffChangeName">
+<style>
+#cekidffChangeName{padding-bottom:80px;}
+</style>
+
+<div class="cid-page-head">
+  <span class="cid-page-head-icon" aria-hidden="true"></span>
+  <div>
+    <p class="cid-hero-title"><span class="red">GANTI</span>&nbsp;<span class="wht">NICKNAME</span></p>
+    <p class="cid-hero-sub">Ganti nickname akun Free Fire kamu langsung lewat JWT token.</p>
+  </div>
+</div>
+
+<div class="cid-card">
+  <div class="cid-label"><i class="fa-solid fa-signature"></i>NICKNAME BARU</div>
+  <div class="cid-input-wrap">
+    <i class="fa-solid fa-signature"></i>
+    <input class="cid-input" id="cgnNameInput" type="text" placeholder="Contoh: SiamBhau" maxlength="20"/>
+  </div>
+
+  <div class="cid-label" style="margin-top:2px;"><i class="fa-solid fa-key"></i>JWT TOKEN AKUN</div>
+  <div class="cid-input-wrap" style="margin-bottom:0;">
+    <textarea class="cjg-jwt-textarea" id="cgnJwtInput" rows="3" placeholder="Tempel JWT token akun Free Fire kamu di sini..."></textarea>
+  </div>
+  <div class="cjg-note"><i class="fa-solid fa-circle-info"></i><span>Hanya menerima JWT token (bukan password). Nickname baru wajib belum dipakai pemain lain.</span></div>
+
+  <button class="cid-btn" id="cgnChangeBtn" onclick="cgnChange()"><i class="fa-solid fa-signature"></i>GANTI NICKNAME SEKARANG</button>
+  <p class="cid-hint">Nickname baru &amp; JWT token wajib diisi.</p>
+</div>
+
+<div class="cid-state show" id="cgnStateIdle">
+  <i class="fa-solid fa-signature"></i>
+  <p>Belum ada nickname yang diganti. Lengkapi form di atas lalu tekan "Ganti Nickname Sekarang".</p>
+</div>
+
+<div class="cid-state cid-loading" id="cgnStateLoading">
+  <i class="fa-solid fa-spinner fa-spin"></i>
+  <p>Sedang mengganti nickname kamu, tunggu sebentar ya...</p>
+</div>
+
+<div class="cid-state cid-error" id="cgnStateError">
+  <i class="fa-solid fa-triangle-exclamation"></i>
+  <p id="cgnErrorMsg">Gagal mengganti nickname. Periksa kembali nickname &amp; JWT token kamu.</p>
+  <div class="cid-retry" onclick="cgnReset()"><i class="fa-solid fa-rotate-left"></i>Coba Lagi</div>
+</div>
+
+<div class="cid-result" id="cgnResult">
+  <div class="cid-result-card" style="text-align:left;">
+    <div class="cjg-success-badge"><i class="fa-solid fa-circle-check"></i>Berhasil Ganti Nickname</div>
+    <div class="cid-info-rows" id="cgnInfoRows"></div>
+  </div>
+  <button class="cid-reset-btn" onclick="cgnReset()"><i class="fa-solid fa-arrow-rotate-left"></i>GANTI NICKNAME LAIN</button>
+</div>
+
+<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
+</div>
+
+<script>
+function cgnShowState(which){
+  ['cgnStateIdle','cgnStateLoading','cgnStateError'].forEach(function(id){
+    const el=document.getElementById(id);
+    if(el) el.classList.toggle('show',id===which);
+  });
+  const result=document.getElementById('cgnResult');
+  if(result) result.classList.toggle('show',which===null);
+}
+
+function cgnSetLoadingBtn(loading){
+  const btn=document.getElementById('cgnChangeBtn');
+  if(!btn) return;
+  if(loading){
+    btn.disabled=true;
+    btn.dataset.origHtml=btn.innerHTML;
+    btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i>MEMPROSES...';
+  }else{
+    btn.disabled=false;
+    if(btn.dataset.origHtml) btn.innerHTML=btn.dataset.origHtml;
+  }
+}
+
+function cgnShake(elId){
+  const inp=document.getElementById(elId);
+  if(!inp) return;
+  inp.classList.remove('cid-shake');
+  void inp.offsetWidth;
+  inp.classList.add('cid-shake');
+  inp.focus();
+}
+
+// Kode error dari field "text" saat status:"failed" -> dipetakan ke pesan yang lebih ramah.
+// Daftar ini bisa ditambah lagi kalau ada kode lain yang ditemukan dari API.
+function cgnFriendlyFailText(code){
+  const c=String(code||'').toUpperCase();
+  const map={
+    'BR_NAME_ALREADY_USED':'Nickname tersebut sudah dipakai pemain lain. Coba nickname lain.'
+  };
+  if(map[c]) return map[c];
+  if(!c) return 'Gagal mengganti nickname. Coba lagi beberapa saat.';
+  return 'Gagal mengganti nickname (kode: '+c+'). Coba nickname lain atau coba lagi nanti.';
+}
+
+async function cgnChange(){
+  const nameInp=document.getElementById('cgnNameInput');
+  const jwtInp=document.getElementById('cgnJwtInput');
+  const name=nameInp?nameInp.value.trim():'';
+  const jwt=jwtInp?jwtInp.value.trim():'';
+
+  if(!name){ cgnShake('cgnNameInput'); return; }
+  if(!jwt){ cgnShake('cgnJwtInput'); return; }
+
+  cgnShowState('cgnStateLoading');
+  cgnSetLoadingBtn(true);
+
+  try{
+    const url=TFF_BASE+'/namechanger/name?token='+encodeURIComponent(jwt)+'&name='+encodeURIComponent(name)+'&key='+encodeURIComponent(TFF_KEY);
+    const json=await stkFetchJsonSmart(url);
+
+    if(json&&json.error){
+      const errLower=String(json.error).toLowerCase();
+      let friendly='Gagal mengganti nickname. Periksa kembali nickname & JWT token kamu.';
+      if(errLower.indexOf('token')>-1) friendly='JWT token belum diisi atau tidak valid.';
+      else if(errLower.indexOf('name')>-1) friendly='Nickname belum diisi. Masukkan nickname baru terlebih dahulu.';
+      throw Object.assign(new Error(friendly),{raw:json});
+    }
+    if(!json||json.status!=='success'){
+      throw Object.assign(new Error(cgnFriendlyFailText(json&&json.text)),{raw:json});
+    }
+
+    const rowsEl=document.getElementById('cgnInfoRows');
+    if(rowsEl){
+      let rows='';
+      rows+='<div class="cid-info-row"><b>Nickname Baru</b><span>'+tffEsc(name)+'</span></div>';
+      rows+='<div class="cid-info-row"><b>Status</b><span>'+tffEsc(json.status||'-')+'</span></div>';
+      rowsEl.innerHTML=rows;
+    }
+
+    cgnShowState(null);
+  }catch(e){
+    console.error('[CGN]',e,(e&&e.raw)||'');
+    const errMsg=document.getElementById('cgnErrorMsg');
+    if(errMsg) errMsg.textContent=(e&&e.message)||'Gagal mengganti nickname. Periksa kembali nickname & JWT token kamu.';
+    cgnShowState('cgnStateError');
+  }
+  cgnSetLoadingBtn(false);
+}
+
+function cgnReset(){
+  ['cgnNameInput','cgnJwtInput'].forEach(function(id){
+    const el=document.getElementById(id);
+    if(el) el.value='';
+  });
+  cgnShowState('cgnStateIdle');
+}
+</script>
+
+<!-- INFO CRAFTLAND PAGE -->
+<div class="page" id="cekidffCraftland">
+<style>
+#cekidffCraftland{padding-bottom:80px;}
+.ccl-share-img{width:100%;border-radius:16px;overflow:hidden;background:#111;border:1px solid rgba(255,255,255,.1);margin-bottom:14px;min-height:80px;}
+.ccl-share-img img{width:100%;display:block;}
+.ccl-tag-chip{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:5px 11px;font-size:11px;font-weight:700;color:#ddd;margin:2px 4px 2px 0;}
+.ccl-desc-box{
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:14px;
+  padding:12px 14px;margin-bottom:14px;font-size:12px;line-height:1.6;color:#ddd;text-align:left;
+}
+</style>
+
+<div class="cid-page-head">
+  <span class="cid-page-head-icon" aria-hidden="true"></span>
+  <div>
+    <p class="cid-hero-title"><span class="red">INFO</span>&nbsp;<span class="wht">CRAFTLAND</span></p>
+    <p class="cid-hero-sub">Masukkan Map Code Craftland Free Fire untuk melihat detail map-nya.</p>
+  </div>
+</div>
+
+<div class="cid-card">
+  <div class="cid-label"><i class="fa-solid fa-map"></i>MAP CODE</div>
+  <div class="cid-input-wrap">
+    <i class="fa-solid fa-hashtag"></i>
+    <input class="cid-input" id="cclMapCodeInput" type="text" placeholder="Contoh: ABC123" maxlength="20" style="text-transform:uppercase;"/>
+  </div>
+
+  <div class="cmg-row2">
+    <div>
+      <div class="cid-label"><i class="fa-solid fa-earth-asia"></i>REGION</div>
+      <input class="cid-input" id="cclRegionInput" type="text" placeholder="Contoh: BD" maxlength="5" style="margin-bottom:12px;text-transform:uppercase;"/>
+    </div>
+    <div>
+      <div class="cid-label"><i class="fa-solid fa-language"></i>LANG</div>
+      <input class="cid-input" id="cclLangInput" type="text" placeholder="Contoh: en" maxlength="5" style="margin-bottom:12px;"/>
+    </div>
+  </div>
+
+  <button class="cid-btn" id="cclCheckBtn" onclick="cclCheck()"><i class="fa-solid fa-magnifying-glass"></i>CEK CRAFTLAND SEKARANG</button>
+  <p class="cid-hint">Region &amp; Lang opsional (default BD &amp; en) jika dikosongkan.</p>
+</div>
+
+<div class="cid-state show" id="cclStateIdle">
+  <i class="fa-solid fa-map"></i>
+  <p>Belum ada Map Code yang dicek. Masukkan Map Code di atas lalu tekan "Cek Craftland Sekarang".</p>
+</div>
+
+<div class="cid-state cid-loading" id="cclStateLoading">
+  <i class="fa-solid fa-spinner fa-spin"></i>
+  <p>Sedang mengambil info Craftland, tunggu sebentar ya...</p>
+</div>
+
+<div class="cid-state cid-error" id="cclStateError">
+  <i class="fa-solid fa-triangle-exclamation"></i>
+  <p id="cclErrorMsg">Map Craftland tidak ditemukan. Periksa kembali Map Code kamu.</p>
+  <div class="cid-retry" onclick="cclReset()"><i class="fa-solid fa-rotate-left"></i>Coba Lagi</div>
+</div>
+
+<div class="cid-result" id="cclResult">
+  <div class="cid-result-card" style="text-align:left;">
+    <div id="cclShareImgBox"></div>
+    <div class="cid-nick-row" style="justify-content:flex-start;margin-bottom:4px;">
+      <i class="fa-solid fa-map" style="color:#ff6b6b;"></i>
+      <span class="cid-nick" id="cclMapName">-</span>
+    </div>
+    <div class="cid-id-chip" id="cclCodeChip"></div>
+    <div class="ccl-desc-box" id="cclDescBox" style="display:none;"></div>
+    <div id="cclTagsBox" style="margin-bottom:10px;"></div>
+    <div class="cid-info-rows" id="cclInfoRows"></div>
+  </div>
+  <button class="cid-reset-btn" onclick="cclReset()"><i class="fa-solid fa-arrow-rotate-left"></i>CEK MAP LAIN</button>
+</div>
+
+<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
+</div>
+
+<script>
+(function(){
+  const mapInput=document.getElementById('cclMapCodeInput');
+  if(mapInput){
+    mapInput.addEventListener('keydown',function(e){
+      if(e.key==='Enter') cclCheck();
+    });
+  }
+})();
+
+function cclShowState(which){
+  ['cclStateIdle','cclStateLoading','cclStateError'].forEach(function(id){
+    const el=document.getElementById(id);
+    if(el) el.classList.toggle('show',id===which);
+  });
+  const result=document.getElementById('cclResult');
+  if(result) result.classList.toggle('show',which===null);
+}
+
+function cclSetLoadingBtn(loading){
+  const btn=document.getElementById('cclCheckBtn');
+  if(!btn) return;
+  if(loading){
+    btn.disabled=true;
+    btn.dataset.origHtml=btn.innerHTML;
+    btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i>MENGECEK...';
+  }else{
+    btn.disabled=false;
+    if(btn.dataset.origHtml) btn.innerHTML=btn.dataset.origHtml;
+  }
+}
+
+function cclShake(){
+  const inp=document.getElementById('cclMapCodeInput');
+  if(!inp) return;
+  inp.classList.remove('cid-shake');
+  void inp.offsetWidth;
+  inp.classList.add('cid-shake');
+  inp.focus();
+}
+
+// Format detik ("300 seconds") jadi "5 menit" dst supaya lebih gampang dibaca.
+function cclFmtPlayTime(str){
+  if(!str) return '-';
+  const m=/(\d+)/.exec(String(str));
+  if(!m) return String(str);
+  const sec=parseInt(m[1],10);
+  if(isNaN(sec)) return String(str);
+  if(sec<60) return sec+' detik';
+  const mins=Math.round(sec/60);
+  return mins+' menit';
+}
+
+async function cclCheck(){
+  const mapInp=document.getElementById('cclMapCodeInput');
+  const regionInp=document.getElementById('cclRegionInput');
+  const langInp=document.getElementById('cclLangInput');
+  const mapCode=mapInp?mapInp.value.trim():'';
+  const region=(regionInp&&regionInp.value.trim())||'BD';
+  const lang=(langInp&&langInp.value.trim())||'en';
+
+  if(!mapCode){ cclShake(); return; }
+
+  cclShowState('cclStateLoading');
+  cclSetLoadingBtn(true);
+
+  try{
+    const url=TFF_BASE+'/craftlands/info?map_code='+encodeURIComponent(mapCode)+'&region='+encodeURIComponent(region)+'&lang='+encodeURIComponent(lang)+'&key='+encodeURIComponent(TFF_KEY);
+    const json=await stkFetchJsonSmart(url);
+
+    if(!json||json.status!=='success'||!json.data){
+      const msgLower=String((json&&json.msg)||'').toLowerCase();
+      let friendly='Map Craftland tidak ditemukan. Periksa kembali Map Code kamu.';
+      if(msgLower.indexOf('required')>-1) friendly='Map Code belum diisi. Masukkan Map Code terlebih dahulu.';
+      else if(msgLower.indexOf('network error')>-1) friendly='Gagal menghubungi server. Coba lagi beberapa saat.';
+      else if(msgLower.indexOf('server error')>-1) friendly='Server sedang bermasalah. Coba lagi nanti.';
+      throw Object.assign(new Error(friendly),{raw:json});
+    }
+
+    const mapInfo=json.data.map_info||{};
+    const gameInfo=json.data.game_info||{};
+    const images=json.data.images||{};
+    const ts=json.data.timestamps||{};
+
+    const shareImgBox=document.getElementById('cclShareImgBox');
+    if(shareImgBox){
+      shareImgBox.innerHTML=images.share_image?'<div class="ccl-share-img"><img src="'+tffAttrEsc(images.share_image)+'" alt="craftland map" referrerpolicy="no-referrer"/></div>':'';
+    }
+
+    const mapNameEl=document.getElementById('cclMapName');
+    if(mapNameEl) mapNameEl.textContent=mapInfo.map_name||'-';
+
+    const codeChip=document.getElementById('cclCodeChip');
+    if(codeChip) codeChip.innerHTML='<i class="fa-solid fa-hashtag"></i> '+tffEsc(mapInfo.workshop_code||mapCode);
+
+    const descBox=document.getElementById('cclDescBox');
+    if(descBox){
+      if(mapInfo.description){
+        descBox.textContent=mapInfo.description;
+        descBox.style.display='';
+      }else{
+        descBox.style.display='none';
+      }
+    }
+
+    const tagsBox=document.getElementById('cclTagsBox');
+    if(tagsBox){
+      const tags=Array.isArray(mapInfo.tags)?mapInfo.tags:[];
+      tagsBox.innerHTML=tags.length?tags.map(function(t){ return '<span class="ccl-tag-chip"><i class="fa-solid fa-tag"></i>'+tffEsc(t)+'</span>'; }).join(''):'';
+    }
+
+    const rowsEl=document.getElementById('cclInfoRows');
+    if(rowsEl){
+      let rows='';
+      rows+='<div class="cid-info-row"><b>Author</b><span>'+tffEsc(mapInfo.author_name||'-')+'</span></div>';
+      rows+='<div class="cid-info-row"><b>Jumlah Tim</b><span>'+tffEsc(mapInfo.team_count!=null?mapInfo.team_count:'-')+'</span></div>';
+      rows+='<div class="cid-info-row"><b>Game Mode</b><span>'+tffEsc(mapInfo.game_mode!=null?mapInfo.game_mode:'-')+'</span></div>';
+      rows+='<div class="cid-info-row"><b>Subscriber</b><span>'+cgiFmtNum(mapInfo.subscribe_count)+'</span></div>';
+      rows+='<div class="cid-info-row"><b>Like</b><span>'+cgiFmtNum(mapInfo.like_count)+'</span></div>';
+      rows+='<div class="cid-info-row"><b>Estimasi Main</b><span>'+tffEsc(cclFmtPlayTime(mapInfo.estimated_play_time))+'</span></div>';
+      rows+='<div class="cid-info-row"><b>Region</b><span>'+tffEsc(gameInfo.region||region)+'</span></div>';
+      rows+='<div class="cid-info-row"><b>Bahasa</b><span>'+tffEsc(gameInfo.language||lang)+'</span></div>';
+      if(ts.start_time_formatted) rows+='<div class="cid-info-row"><b>Mulai</b><span>'+tffEsc(ts.start_time_formatted)+'</span></div>';
+      if(ts.end_time_formatted) rows+='<div class="cid-info-row"><b>Berakhir</b><span>'+tffEsc(ts.end_time_formatted)+'</span></div>';
+      rowsEl.innerHTML=rows;
+    }
+
+    cclShowState(null);
+  }catch(e){
+    console.error('[CCL]',e,(e&&e.raw)||'');
+    const errMsg=document.getElementById('cclErrorMsg');
+    if(errMsg) errMsg.textContent=(e&&e.message)||'Map Craftland tidak ditemukan. Periksa kembali Map Code kamu.';
+    cclShowState('cclStateError');
+  }
+  cclSetLoadingBtn(false);
+}
+
+function cclReset(){
+  ['cclMapCodeInput','cclRegionInput','cclLangInput'].forEach(function(id){
+    const el=document.getElementById(id);
+    if(el) el.value='';
+  });
+  cclShowState('cclStateIdle');
+}
+</script>
+
+<!-- CRAFTLAND DETAIL PAGE -->
+<div class="page" id="cekidffCraftlandDetail">
+<style>
+#cekidffCraftlandDetail{padding-bottom:80px;}
+.ccd-link-row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px;}
+.ccd-link-row a{
+  display:inline-flex;align-items:center;gap:6px;padding:8px 13px;border-radius:12px;
+  background:rgba(255,43,43,.1);border:1px solid rgba(255,43,43,.3);color:#ff6b6b;
+  font-size:11px;font-weight:800;text-decoration:none;
+}
+</style>
+
+<div class="cid-page-head">
+  <span class="cid-page-head-icon" aria-hidden="true"></span>
+  <div>
+    <p class="cid-hero-title"><span class="red">CRAFTLAND</span>&nbsp;<span class="wht">DETAIL</span></p>
+    <p class="cid-hero-sub">Lihat detail lengkap map Craftland: gameplay, tag, hingga link download.</p>
+  </div>
+</div>
+
+<div class="cid-card">
+  <div class="cid-label"><i class="fa-solid fa-map"></i>MAP CODE</div>
+  <div class="cid-input-wrap">
+    <i class="fa-solid fa-hashtag"></i>
+    <input class="cid-input" id="ccdMapCodeInput" type="text" placeholder="Contoh: ABC123" maxlength="20" style="text-transform:uppercase;"/>
+  </div>
+
+  <div class="cmg-row2">
+    <div>
+      <div class="cid-label"><i class="fa-solid fa-earth-asia"></i>REGION</div>
+      <input class="cid-input" id="ccdRegionInput" type="text" placeholder="Contoh: BD" maxlength="5" style="margin-bottom:12px;text-transform:uppercase;"/>
+    </div>
+    <div>
+      <div class="cid-label"><i class="fa-solid fa-language"></i>LANG</div>
+      <input class="cid-input" id="ccdLangInput" type="text" placeholder="Contoh: en" maxlength="5" style="margin-bottom:12px;"/>
+    </div>
+  </div>
+
+  <button class="cid-btn" id="ccdCheckBtn" onclick="ccdCheck()"><i class="fa-solid fa-magnifying-glass"></i>CEK DETAIL SEKARANG</button>
+  <p class="cid-hint">Region &amp; Lang opsional (default BD &amp; en) jika dikosongkan.</p>
+</div>
+
+<div class="cid-state show" id="ccdStateIdle">
+  <i class="fa-solid fa-map-location-dot"></i>
+  <p>Belum ada Map Code yang dicek. Masukkan Map Code di atas lalu tekan "Cek Detail Sekarang".</p>
+</div>
+
+<div class="cid-state cid-loading" id="ccdStateLoading">
+  <i class="fa-solid fa-spinner fa-spin"></i>
+  <p>Sedang mengambil detail Craftland, tunggu sebentar ya...</p>
+</div>
+
+<div class="cid-state cid-error" id="ccdStateError">
+  <i class="fa-solid fa-triangle-exclamation"></i>
+  <p id="ccdErrorMsg">Map Craftland tidak ditemukan. Periksa kembali Map Code kamu.</p>
+  <div class="cid-retry" onclick="ccdReset()"><i class="fa-solid fa-rotate-left"></i>Coba Lagi</div>
+</div>
+
+<div class="cid-result" id="ccdResult">
+  <div class="cid-result-card" style="text-align:left;">
+    <div id="ccdCoverImgBox"></div>
+    <div class="cid-nick-row" style="justify-content:flex-start;margin-bottom:4px;">
+      <i class="fa-solid fa-map" style="color:#ff6b6b;"></i>
+      <span class="cid-nick" id="ccdMapName">-</span>
+    </div>
+    <div class="cid-id-chip" id="ccdCodeChip"></div>
+    <div class="ccl-desc-box" id="ccdDescBox" style="display:none;"></div>
+    <div id="ccdTagsBox" style="margin-bottom:10px;"></div>
+    <div class="cid-info-rows" id="ccdInfoRows"></div>
+    <div class="ccd-link-row" id="ccdLinksRow"></div>
+  </div>
+  <button class="cid-reset-btn" onclick="ccdReset()"><i class="fa-solid fa-arrow-rotate-left"></i>CEK MAP LAIN</button>
+</div>
+
+<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
+</div>
+
+<script>
+(function(){
+  const mapInput=document.getElementById('ccdMapCodeInput');
+  if(mapInput){
+    mapInput.addEventListener('keydown',function(e){
+      if(e.key==='Enter') ccdCheck();
+    });
+  }
+})();
+
+function ccdShowState(which){
+  ['ccdStateIdle','ccdStateLoading','ccdStateError'].forEach(function(id){
+    const el=document.getElementById(id);
+    if(el) el.classList.toggle('show',id===which);
+  });
+  const result=document.getElementById('ccdResult');
+  if(result) result.classList.toggle('show',which===null);
+}
+
+function ccdSetLoadingBtn(loading){
+  const btn=document.getElementById('ccdCheckBtn');
+  if(!btn) return;
+  if(loading){
+    btn.disabled=true;
+    btn.dataset.origHtml=btn.innerHTML;
+    btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i>MENGECEK...';
+  }else{
+    btn.disabled=false;
+    if(btn.dataset.origHtml) btn.innerHTML=btn.dataset.origHtml;
+  }
+}
+
+function ccdShake(){
+  const inp=document.getElementById('ccdMapCodeInput');
+  if(!inp) return;
+  inp.classList.remove('cid-shake');
+  void inp.offsetWidth;
+  inp.classList.add('cid-shake');
+  inp.focus();
+}
+
+async function ccdCheck(){
+  const mapInp=document.getElementById('ccdMapCodeInput');
+  const regionInp=document.getElementById('ccdRegionInput');
+  const langInp=document.getElementById('ccdLangInput');
+  const mapCode=mapInp?mapInp.value.trim():'';
+  const region=(regionInp&&regionInp.value.trim())||'BD';
+  const lang=(langInp&&langInp.value.trim())||'en';
+
+  if(!mapCode){ ccdShake(); return; }
+
+  ccdShowState('ccdStateLoading');
+  ccdSetLoadingBtn(true);
+
+  try{
+    const url=TFF_BASE+'/craftlands/map_details?map_code='+encodeURIComponent(mapCode)+'&region='+encodeURIComponent(region)+'&lang='+encodeURIComponent(lang)+'&key='+encodeURIComponent(TFF_KEY);
+    const json=await stkFetchJsonSmart(url);
+
+    if(json&&json.error){
+      const errLower=String(json.error).toLowerCase();
+      let friendly='Map Craftland tidak ditemukan. Periksa kembali Map Code kamu.';
+      if(errLower.indexOf('required')>-1) friendly='Map Code belum diisi. Masukkan Map Code terlebih dahulu.';
+      else if(errLower.indexOf('404')>-1) friendly='Map Craftland tidak ditemukan (kode tidak valid).';
+      else if(errLower.indexOf('status')>-1) friendly='Gagal menghubungi server Craftland. Coba lagi beberapa saat.';
+      throw Object.assign(new Error(friendly),{raw:json});
+    }
+    if(!json||json.status!=='success'||!json.data){
+      throw Object.assign(new Error('Data map tidak ditemukan. Periksa kembali Map Code kamu.'),{raw:json});
+    }
+
+    const d=json.data;
+    const basic=d.basic_info||{};
+    const gameplay=d.gameplay_info||{};
+    const social=d.social_info||{};
+    const dl=d.download_info||{};
+    const regionInfo=d.region_info||{};
+    const tags=Array.isArray(d.tags)?d.tags:[];
+
+    const coverBox=document.getElementById('ccdCoverImgBox');
+    if(coverBox){
+      coverBox.innerHTML=social.map_cover_url?'<div class="ccl-share-img"><img src="'+tffAttrEsc(social.map_cover_url)+'" alt="craftland map" referrerpolicy="no-referrer"/></div>':'';
+    }
+
+    const mapNameEl=document.getElementById('ccdMapName');
+    if(mapNameEl) mapNameEl.textContent=basic.map_name||'-';
+
+    const codeChip=document.getElementById('ccdCodeChip');
+    if(codeChip) codeChip.innerHTML='<i class="fa-solid fa-hashtag"></i> '+tffEsc(basic.workshop_code||mapCode);
+
+    const descBox=document.getElementById('ccdDescBox');
+    if(descBox){
+      const descText=basic.description||basic.short_description;
+      if(descText){ descBox.textContent=descText; descBox.style.display=''; }
+      else{ descBox.style.display='none'; }
+    }
+
+    const tagsBox=document.getElementById('ccdTagsBox');
+    if(tagsBox){
+      tagsBox.innerHTML=tags.length?tags.map(function(t){
+        return '<span class="ccl-tag-chip"><i class="fa-solid fa-tag"></i>'+tffEsc(t&&t.name?t.name:t)+'</span>';
+      }).join(''):'';
+    }
+
+    const gameMode=gameplay.game_mode||{};
+    const modeTemplate=gameplay.mode_template||{};
+
+    const rowsEl=document.getElementById('ccdInfoRows');
+    if(rowsEl){
+      let rows='';
+      rows+='<div class="cid-info-row"><b>Author</b><span>'+tffEsc(basic.author||'-')+'</span></div>';
+      rows+='<div class="cid-info-row"><b>Jumlah Tim</b><span>'+tffEsc(gameplay.team_count!=null?gameplay.team_count:'-')+'</span></div>';
+      rows+='<div class="cid-info-row"><b>Game Mode</b><span>'+tffEsc(gameMode.name||(gameMode.id!=null?gameMode.id:'-'))+'</span></div>';
+      rows+='<div class="cid-info-row"><b>Mode Template</b><span>'+tffEsc(modeTemplate.name||(modeTemplate.id!=null?modeTemplate.id:'-'))+'</span></div>';
+      rows+='<div class="cid-info-row"><b>Jumlah Ronde</b><span>'+tffEsc(gameplay.round_count!=null?gameplay.round_count:'-')+'</span></div>';
+      rows+='<div class="cid-info-row"><b>Estimasi Main</b><span>'+tffEsc(gameplay.estimated_play_time||'-')+'</span></div>';
+      rows+='<div class="cid-info-row"><b>Subscriber</b><span>'+cgiFmtNum(social.subscribe_count)+'</span></div>';
+      rows+='<div class="cid-info-row"><b>Like</b><span>'+cgiFmtNum(social.like_count)+'</span></div>';
+      rows+='<div class="cid-info-row"><b>Region</b><span>'+tffEsc(regionInfo.region||region)+'</span></div>';
+      rows+='<div class="cid-info-row"><b>Bahasa</b><span>'+tffEsc(regionInfo.language||lang)+'</span></div>';
+      rowsEl.innerHTML=rows;
+    }
+
+    const linksRow=document.getElementById('ccdLinksRow');
+    if(linksRow){
+      let links='';
+      if(dl.android) links+='<a href="'+tffAttrEsc(dl.android)+'" target="_blank" rel="noopener"><i class="fa-brands fa-google-play"></i>Android</a>';
+      if(dl.ios) links+='<a href="'+tffAttrEsc(dl.ios)+'" target="_blank" rel="noopener"><i class="fa-brands fa-app-store-ios"></i>iOS</a>';
+      if(dl.ugc_portal) links+='<a href="'+tffAttrEsc(dl.ugc_portal)+'" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i>UGC Portal</a>';
+      linksRow.innerHTML=links;
+    }
+
+    ccdShowState(null);
+  }catch(e){
+    console.error('[CCD]',e,(e&&e.raw)||'');
+    const errMsg=document.getElementById('ccdErrorMsg');
+    if(errMsg) errMsg.textContent=(e&&e.message)||'Map Craftland tidak ditemukan. Periksa kembali Map Code kamu.';
+    ccdShowState('ccdStateError');
+  }
+  ccdSetLoadingBtn(false);
+}
+
+function ccdReset(){
+  ['ccdMapCodeInput','ccdRegionInput','ccdLangInput'].forEach(function(id){
+    const el=document.getElementById(id);
+    if(el) el.value='';
+  });
+  ccdShowState('ccdStateIdle');
+}
+</script>
+
 <!-- CEK BANNED PAGE -->
 <div class="page" id="cekidffBanned">
 <style>
@@ -19464,12 +20888,21 @@ async function cbdCheck(){
   cbdSetLoadingBtn(true);
 
   try{
-    const queryBase='uid='+encodeURIComponent(uid)+'&key='+encodeURIComponent(TFF_KEY);
-    const json=await xyureiRequest(function(){
-      return TFF_BASE+'/bancheck/bancheck?'+queryBase;
-    },{isDataOk:function(j){ return !!(j&&!j.error); }});
+    const url=TFF_BASE+'/bancheck/bancheck?uid='+encodeURIComponent(uid)+'&key='+encodeURIComponent(TFF_KEY);
+    const json=await stkFetchJsonSmart(url);
 
-    if(json&&json.error){ throw Object.assign(new Error(json.error),{raw:json}); }
+    if(json&&json.error){
+      // Petakan pesan error mentah dari API ke pesan yang lebih ramah untuk user.
+      const errLower=String(json.error).toLowerCase();
+      let friendly='Gagal mengecek status banned. Periksa kembali UID kamu atau coba lagi sebentar lagi.';
+      if(errLower.indexOf('not found')>-1) friendly='UID Free Fire tidak ditemukan. Periksa kembali UID kamu.';
+      else if(errLower.indexOf('required')>-1) friendly='UID belum diisi. Masukkan UID Free Fire terlebih dahulu.';
+      else if(errLower.indexOf('failed to retrieve')>-1) friendly='Gagal mengambil status banned dari server. Coba lagi beberapa saat.';
+      throw Object.assign(new Error(friendly),{raw:json});
+    }
+    if(!json||!json.nickname){
+      throw Object.assign(new Error('Data akun tidak ditemukan. Periksa kembali UID kamu.'),{raw:json});
+    }
 
     const nickname=json.nickname||'-';
     const region=json.region||'-';
@@ -19497,24 +20930,9 @@ async function cbdCheck(){
 
     cbdShowState(null);
   }catch(e){
-    console.error('[CBD]',e,(e&&e.debugDetail)||'');
-    const raw=String((e&&e.debugDetail)||(e&&e.message)||'');
+    console.error('[CBD]',e,(e&&e.raw)||'');
     const errMsg=document.getElementById('cbdErrorMsg');
-    let userMsg;
-    if(/no access|belum.*akses|has no access/i.test(raw)){
-      userMsg='API key kamu belum punya akses ke fitur Cek Banned (endpoint "bancheck"). Ini beda izin dari Cek Info FF biasa. Hubungi @SiamBhau di Telegram untuk minta akses endpoint ini diaktifkan.';
-    }else if(/invalid api key|invalid.*key/i.test(raw)){
-      userMsg='API key tidak valid. Cek lagi API key yang dipakai.';
-    }else if(/inactive/i.test(raw)){
-      userMsg='API key kamu sedang nonaktif. Hubungi @SiamBhau di Telegram untuk mengaktifkannya kembali.';
-    }else if(/expired/i.test(raw)){
-      userMsg='API key kamu sudah kedaluwarsa. Hubungi @SiamBhau di Telegram untuk perpanjangan.';
-    }else if(/id not found/i.test(raw)){
-      userMsg='UID Free Fire tidak ditemukan. Periksa kembali UID kamu.';
-    }else{
-      userMsg='Gagal mengecek status banned. Periksa kembali UID kamu atau coba lagi sebentar lagi.';
-    }
-    if(errMsg) errMsg.textContent=userMsg+(raw?' ['+raw+']':'');
+    if(errMsg) errMsg.textContent=(e&&e.message)||'Gagal mengecek status banned. Periksa kembali UID kamu atau coba lagi sebentar lagi.';
     cbdShowState('cbdStateError');
   }
   cbdSetLoadingBtn(false);
