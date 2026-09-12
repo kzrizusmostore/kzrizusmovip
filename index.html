@@ -36275,14 +36275,10 @@ function launchGame(url, logoUrl, gameName, evt){
 
 <!-- TESTIMONI (tab bottombar paling kiri) -->
 <style>
-.testi-wrap{padding:6px 0 14px}
-.testi-title{text-align:center;font-size:1.7rem;margin:4px 0 6px}
-.testi-sub{text-align:center;color:rgba(255,255,255,.55);font-size:.76rem;margin:0 0 18px;padding:0 10px;line-height:1.5}
 .testi-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:3px;margin:0 -14px;padding:0 6px}
-.testi-item{position:relative;width:100%;aspect-ratio:1/1;overflow:hidden;border-radius:4px;background:rgba(255,255,255,.06);cursor:pointer;border:1px solid rgba(255,255,255,.06);opacity:0;transform:translateY(18px) scale(.9);transition:opacity .45s ease,transform .45s cubic-bezier(.2,.8,.2,1)}
-.testi-item.testi-in{opacity:1;transform:translateY(0) scale(1)}
+.testi-item{position:relative;width:100%;aspect-ratio:1/1;overflow:hidden;border-radius:4px;background:rgba(255,255,255,.06);cursor:pointer;border:1px solid rgba(255,255,255,.06)}
 .testi-item img{width:100%;height:100%;object-fit:cover;display:block}
-.testi-item:active{opacity:.6!important;transform:scale(.94)!important}
+.testi-item:active{opacity:.6;transform:scale(.94)}
 .testi-lightbox{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.94);display:none;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .25s ease}
 .testi-lightbox.show{display:flex}
 .testi-lightbox.show.in{opacity:1}
@@ -36290,23 +36286,32 @@ function launchGame(url, logoUrl, gameName, evt){
 .testi-lightbox.show.in .testi-lb-frame{transform:scale(1)}
 .testi-lb-frame img{width:100%;height:100%;object-fit:contain;display:block;opacity:0;transition:opacity .25s ease}
 .testi-lb-frame img.testi-img-in{opacity:1}
-.testi-lb-nav{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:none;background:rgba(255,255,255,.12);color:#fff;font-size:20px;font-weight:700;display:flex;align-items:center;justify-content:center;z-index:2;line-height:1}
-.testi-lb-nav:active{background:rgba(255,255,255,.25);transform:translateY(-50%) scale(.9)}
-.testi-lb-prev{left:10px}
-.testi-lb-next{right:10px}
+.testi-lb-nav{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:16px;border:1px solid rgba(255,255,255,.15);background:linear-gradient(150deg,rgba(255,43,43,.4),rgba(255,43,43,.08));backdrop-filter:blur(8px);color:#fff;font-size:19px;display:flex;align-items:center;justify-content:center;z-index:2;box-shadow:0 8px 20px rgba(0,0,0,.4)}
+.testi-lb-nav:active{transform:translateY(-50%) scale(.88);background:linear-gradient(150deg,rgba(255,43,43,.6),rgba(255,43,43,.18))}
+.testi-lb-prev{left:8px}
+.testi-lb-next{right:8px}
 </style>
 <div class="page" id="leaderboardTab">
-<div class="testi-wrap">
-<h1 class="testi-title">𝗧𝗘𝗦𝗧𝗜𝗠𝗢𝗡𝗜</h1>
-<p class="testi-sub">Testimoni asli dari pengguna KZRIZUSMO. Tap gambar untuk melihat ukuran penuh.</p>
-<div class="testi-grid" id="testiGrid"></div>
+
+<div class="shop-hero testi-hero">
+  <div class="shop-hero-glow"></div>
+  <div class="shop-hero-glow2"></div>
+  <div class="shop-hero-top">
+    <div class="shop-hero-title"><i class="fa-solid fa-comment-dots"></i><span>TESTIMONI ZUSMO</span></div>
+  </div>
+  <p class="shop-hero-desc">Testimoni asli dari pengguna KZRIZUSMO. Tap gambar untuk melihat ukuran penuh.</p>
 </div>
+
+<div class="hm-section-lbl"><span>🖼️ Bukti Transaksi</span></div>
+
+<div class="testi-grid" id="testiGrid"></div>
+
 </div>
 
 <div class="testi-lightbox" id="testiLightbox" onclick="if(event.target===this) closeTestiLightbox()">
-<button class="testi-lb-nav testi-lb-prev" onclick="testiLbNav(-1)">&lt;</button>
+<button class="testi-lb-nav testi-lb-prev" onclick="testiLbNav(-1)" aria-label="Sebelumnya"><i class="fa-solid fa-chevron-left"></i></button>
 <div class="testi-lb-frame"><img id="testiLightboxImg" src="" alt="Testimoni"></div>
-<button class="testi-lb-nav testi-lb-next" onclick="testiLbNav(1)">&gt;</button>
+<button class="testi-lb-nav testi-lb-next" onclick="testiLbNav(1)" aria-label="Berikutnya"><i class="fa-solid fa-chevron-right"></i></button>
 </div>
 
 <script>
@@ -36318,25 +36323,9 @@ function launchGame(url, logoUrl, gameName, evt){
   if(grid){
     var html='';
     for(var i=1;i<=TESTI_COUNT;i++){
-      var col=(i-1)%10;
-      html+='<div class="testi-item" style="transition-delay:'+(col*30)+'ms" onclick="openTestiLightbox('+i+')"><img loading="lazy" decoding="async" src="testi/testi'+i+'.jpg" alt="Testimoni '+i+'" onerror="this.closest(\'.testi-item\').style.display=\'none\'"></div>';
+      html+='<div class="testi-item" onclick="openTestiLightbox('+i+')"><img loading="lazy" decoding="async" src="testi/testi'+i+'.jpg" alt="Testimoni '+i+'" onerror="this.closest(\'.testi-item\').style.display=\'none\'"></div>';
     }
     grid.innerHTML=html;
-
-    var items=grid.querySelectorAll('.testi-item');
-    if('IntersectionObserver' in window){
-      var io=new IntersectionObserver(function(entries){
-        entries.forEach(function(entry){
-          if(entry.isIntersecting){
-            entry.target.classList.add('testi-in');
-            io.unobserve(entry.target);
-          }
-        });
-      },{threshold:0.1,rootMargin:'0px 0px -10px 0px'});
-      items.forEach(function(it){ io.observe(it); });
-    }else{
-      items.forEach(function(it){ it.classList.add('testi-in'); });
-    }
   }
 
   function setTestiImg(n){
@@ -36384,14 +36373,28 @@ function launchGame(url, logoUrl, gameName, evt){
 </script>
 
 <!-- DEVELOPER (tab bottombar paling kanan, belum ada isi) -->
-<div class="page" id="developerTab"><div class="dev-card">
-<i class="fa-solid fa-code" style="font-size:56px;color:#ff2b2b;margin:4px auto 18px;display:block;"></i>
-<div class="dev-badge">COMING SOON</div>
-<h1>𝗗𝗘𝗩𝗘𝗟𝗢𝗣𝗘𝗥</h1>
-<p class="dev-note">Halaman info developer &amp; tim di balik KZRIZUSMO masih dalam tahap pengembangan. Nantikan peluncuran resminya pada update berikutnya.</p>
-<div class="dev-progress"><span style="width:10%"></span></div>
-<p style="color:#00ff88;font-weight:700">Terima kasih telah menunggu. Fitur akan tersedia pada pembaruan berikutnya.</p>
-</div></div>
+<div class="page" id="developerTab">
+
+<div class="shop-hero dev-hero">
+  <div class="shop-hero-glow"></div>
+  <div class="shop-hero-glow2"></div>
+  <div class="shop-hero-top">
+    <div class="shop-hero-title"><i class="fa-solid fa-code"></i><span>DEVELOPER</span></div>
+  </div>
+  <p class="shop-hero-desc">Info developer &amp; tim di balik KZRIZUSMO. Halaman ini masih dalam tahap pengembangan.</p>
+</div>
+
+<div class="hm-section-lbl"><span>🛠️ Info Tim</span></div>
+
+<div class="shop-cat-list">
+  <div class="shop-cat-item locked">
+    <div class="shop-cat-icon"><i class="fa-solid fa-hourglass-half"></i></div>
+    <div class="shop-cat-body"><h4>Segera Hadir</h4><small>Nantikan peluncuran resminya pada update berikutnya</small></div>
+    <span class="shop-soon-badge">SEGERA</span>
+  </div>
+</div>
+
+</div>
 
 
 <script>
