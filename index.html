@@ -6264,6 +6264,10 @@ function closeVipShadowApp(){
   </div>
 </div>
 <div class="app-bottombar">
+<div class="tab" onclick="showPage('leaderboardTab')">
+<i class="fa-solid fa-trophy"></i>
+    LEADERBOARD
+  </div>
 <div class="tab" onclick="showPage('eventTab')">
 <i class="fa-solid fa-calendar-days"></i>
     EVENT
@@ -6283,6 +6287,10 @@ function closeVipShadowApp(){
 <div class="tab" onclick="showPage('communityTab')">
 <i class="fa-solid fa-users"></i>
     COMMUNITY
+  </div>
+<div class="tab" onclick="showPage('developerTab')">
+<i class="fa-solid fa-code"></i>
+    DEVELOPER
   </div>
 </div>
 
@@ -18068,8 +18076,8 @@ async function stkStalk(type){
 
 .cifm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:16px;}
 .cifm-tile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px 4px 13px;border-radius:14px;background:var(--cifm-surface);border:1px solid var(--cifm-hair);cursor:pointer;text-align:center;transition:border-color .15s,background .15s;position:relative;}
-.cifm-star-badge{position:absolute;top:6px;right:6px;width:19px;height:19px;border-radius:50%;background:linear-gradient(135deg,#ffe08a,#ff9f1c);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(255,159,28,.5);}
-.cifm-star-badge i{font-size:8.5px;color:#3a2200;}
+.cifm-star-badge{position:absolute;top:6px;right:6px;width:19px;height:19px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.cifm-star-badge i{font-size:11px;color:#ff3b3b;}
 .cifm-tile-icon{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,43,43,.1);border:1px solid var(--cifm-hair-strong);}
 .cifm-tile i{font-size:15px;color:var(--cifm-accent);}
 .cifm-tile span{font-size:9.5px;font-weight:700;color:var(--cifm-dim);line-height:1.25;}
@@ -18588,13 +18596,27 @@ function cmtTryGo(){
 .cid-result.show{display:block;animation:cidPop .35s ease;}
 @keyframes cidPop{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 .cid-dev-flag{
-  display:flex;align-items:center;gap:10px;padding:12px 16px;margin-bottom:14px;
+  position:relative;display:flex;align-items:center;gap:10px;padding:12px 16px;margin-bottom:14px;
   border-radius:14px;background:linear-gradient(135deg,rgba(255,215,90,.16),rgba(255,159,28,.08));
   border:1px solid rgba(255,196,64,.45);color:#ffd76b;font-size:11.5px;font-weight:700;
   box-shadow:0 4px 14px rgba(255,159,28,.15);
+  overflow:hidden;
+}
+.cid-dev-flag::after{
+  content:'';position:absolute;top:0;left:-60%;width:45%;height:100%;
+  background:linear-gradient(115deg,transparent 0%,rgba(255,255,255,0) 15%,rgba(255,255,255,.75) 50%,rgba(255,255,255,0) 85%,transparent 100%);
+  filter:blur(1px);transform:skewX(-18deg);
+  animation:cidDevShine 2.6s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes cidDevShine{
+  0%{left:-60%;}
+  35%{left:130%;}
+  100%{left:130%;}
 }
 .cid-dev-flag i{font-size:18px;color:#ffc23c;flex-shrink:0;}
-.cid-dev-flag-logo{width:22px;height:22px;object-fit:contain;flex-shrink:0;}
+.cid-dev-flag-logo{width:22px;height:22px;object-fit:contain;flex-shrink:0;position:relative;z-index:1;}
+.cid-dev-flag span{position:relative;z-index:1;}
 .cid-dev-flag b{color:#fff;}
 
 .cid-result-card{
@@ -18756,6 +18778,20 @@ function cmtTryGo(){
   <p class="cid-hint">Cek info akun Free Fire cukup lewat ID.</p>
 </div>
 
+<div class="cid-card" id="cidPopulerCardTop">
+  <div class="cid-label" style="justify-content:space-between;">
+    <span><i class="fa-solid fa-fire"></i>POPULER</span>
+    <span class="cid-populer-dismiss" onclick="cidHidePopuler('cidPopulerCardTop')">Hilangkan</span>
+  </div>
+  <div class="cip-chip-row">
+    <button type="button" class="cip-chip" onclick="cidUsePopuler('260190210')">260190210</button>
+    <button type="button" class="cip-chip" onclick="cidUsePopuler('55558144')">55558144</button>
+    <button type="button" class="cip-chip" onclick="cidUsePopuler('131069134')">131069134</button>
+    <button type="button" class="cip-chip" onclick="cidUsePopuler('105581609')">105581609</button>
+    <button type="button" class="cip-chip" onclick="cidUsePopuler('15555555554')">15555555554</button>
+  </div>
+</div>
+
 <style>
 .cip-chip-row{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
 .cip-chip-row::-webkit-scrollbar{display:none;}
@@ -18766,12 +18802,18 @@ function cmtTryGo(){
   cursor:pointer;font-family:'Outfit',sans-serif;white-space:nowrap;transition:.15s;
 }
 .cip-chip:active{transform:scale(.95);background:rgba(255,43,43,.16);border-color:#ff3c3c;color:#fff;}
+.cid-populer-dismiss{font-size:9.5px;font-weight:700;letter-spacing:.2px;color:#888;text-transform:none;cursor:pointer;text-decoration:underline;}
+.cid-populer-dismiss:active{color:#ff6b6b;}
 </style>
 
 <script>
 function cidUsePopuler(uid){
   var inp=document.getElementById('cidUidInput');
   if(inp){ inp.value=uid; inp.focus(); }
+}
+function cidHidePopuler(id){
+  var el=document.getElementById(id);
+  if(el) el.style.display='none';
 }
 </script>
 
@@ -18830,7 +18872,10 @@ function cidUsePopuler(uid){
         </div>
         <div class="cid-info-rows" id="cidInfoRows" style="display:none;"></div>
         <div class="cid-card" id="cidPopulerCard" style="margin-top:14px;">
-          <div class="cid-label"><i class="fa-solid fa-fire"></i>REKOMENDASI POPULER</div>
+          <div class="cid-label" style="justify-content:space-between;">
+            <span><i class="fa-solid fa-fire"></i>REKOMENDASI POPULER</span>
+            <span class="cid-populer-dismiss" onclick="cidHidePopuler('cidPopulerCard')">Hilangkan</span>
+          </div>
           <div class="cip-chip-row">
             <button type="button" class="cip-chip" onclick="cidUsePopuler('260190210')">260190210</button>
             <button type="button" class="cip-chip" onclick="cidUsePopuler('55558144')">55558144</button>
@@ -19912,14 +19957,15 @@ function cisReset(){
 </div>
 
 <div class="cid-result" id="cpkResult">
-  <div class="cid-result-card" style="text-align:left;">
+  <div class="cid-result-card" id="cpkCard1" style="text-align:left;">
     <div class="cid-nick-row" style="justify-content:flex-start;margin-bottom:4px;">
-      <i class="fa-solid fa-gem" style="color:#ff6b6b;"></i>
+      <i class="fa-solid fa-gem" style="color:#ff6b6b;" id="cpkNickIcon"></i>
       <span class="cid-nick" id="cpkNickname">-</span>
     </div>
     <div class="cid-id-chip" id="cpkIdChip"></div>
     <div class="cid-info-rows" id="cpkInfoRows" style="margin-top:10px;"></div>
   </div>
+  <button class="cid-btn" id="cpkDownloadBtn" onclick="cpkDownloadCard1()" style="margin-bottom:10px;"><i class="fa-solid fa-download"></i>DOWNLOAD KARTU</button>
   <button class="cid-reset-btn" onclick="cpkReset()"><i class="fa-solid fa-arrow-rotate-left"></i>CEK ID LAIN</button>
 </div>
 
@@ -19992,13 +20038,23 @@ async function cpkCheck(){
       const nickname=stkPick(b,['nickname']);
       if(!nickname){ throw Object.assign(new Error('Nickname tidak ditemukan.'),{raw:json}); }
       const uidVal=stkPick(b,['accountId','account_id'])||uid;
-      const primeLevelRaw=stkPick(b,['primeLevel','prime_level']);
+      const primeLevelRaw=stkPick(b,['primeLevel','prime_level'])||(b.primeInfo&&stkPick(b.primeInfo,['primeLevel','prime_level']));
       const primeLevelNum=primeLevelRaw!=null?parseInt(primeLevelRaw,10):0;
 
       const nickEl=document.getElementById('cpkNickname');
       if(nickEl) nickEl.textContent=nickname;
       const idChipEl=document.getElementById('cpkIdChip');
       if(idChipEl) idChipEl.innerHTML='<i class="fa-solid fa-hashtag"></i> '+tffEsc(String(uidVal));
+
+      const nickIconEl=document.getElementById('cpkNickIcon');
+      if(nickIconEl){
+        const primeIconUrl=(primeLevelNum>0 && typeof TFF_PRIME_ICONS!=='undefined')?TFF_PRIME_ICONS[primeLevelNum]:null;
+        if(primeIconUrl){
+          nickIconEl.outerHTML='<img id="cpkNickIcon" src="'+tffAttrEsc(primeIconUrl)+'" alt="Prime '+tffAttrEsc(String(primeLevelNum))+'" style="width:20px;height:20px;object-fit:contain;flex-shrink:0;" onerror="this.outerHTML=\'<i class=&quot;fa-solid fa-gem&quot; id=&quot;cpkNickIcon&quot; style=&quot;color:#ff6b6b;&quot;></i>\'">';
+        }else{
+          nickIconEl.outerHTML='<i class="fa-solid fa-gem" id="cpkNickIcon" style="color:#ff6b6b;"></i>';
+        }
+      }
 
       const rowsEl=document.getElementById('cpkInfoRows');
       if(rowsEl){
@@ -20034,6 +20090,58 @@ async function cpkCheck(){
   cpkSetLoadingBtn(false);
 }
 
+/* Download kartu hasil CEK PRIME jadi gambar PNG.
+   - Kartu diunduh APA ADANYA (ukuran asli kartu, tidak dipaksa jadi rasio
+     9:16 dengan bidang transparan tambahan di atas/bawah — makanya dulu
+     hasilnya kelihatan ada "kotak putih" kosong).
+   - Shine/efek pojok (radial glow putih & merah) DIMATIKAN khusus di hasil
+     unduhan lewat class cid-export-solid (tampilan normal di layar tetap
+     apa adanya, tidak berubah).
+   - Sebelum html2canvas mulai kerja (yang berat & sinkron, bikin browser
+     sempat "freeze" sesaat), kita kasih jeda 1 frame (requestAnimationFrame)
+     supaya ikon spinner sempat digambar browser dulu sebelum proses capture
+     menahan main thread. */
+function cpkDownloadCard1(){
+  const card=document.getElementById('cpkCard1');
+  if(!card||typeof html2canvas!=='function') return;
+  const btn=document.getElementById('cpkDownloadBtn');
+  const icon=btn?btn.querySelector('i'):null;
+  if(btn&&btn.classList.contains('cid-dl-busy')) return;
+  if(btn){ btn.classList.add('cid-dl-busy'); btn.classList.remove('cid-dl-done'); }
+  if(icon){ icon.className='fa-solid fa-spinner fa-spin'; }
+  card.classList.add('cid-export-solid');
+
+  const doCapture=function(){
+    html2canvas(card,{
+      backgroundColor:'#0c0c0c',
+      useCORS:true,
+      scale:2
+    }).then(function(canvas){
+      card.classList.remove('cid-export-solid');
+      const link=document.createElement('a');
+      link.download='kzrizusmo-cekprime-'+Date.now()+'.png';
+      link.href=canvas.toDataURL('image/png');
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      if(btn){ btn.classList.remove('cid-dl-busy'); btn.classList.add('cid-dl-done'); }
+      if(icon){ icon.className='fa-solid fa-check'; }
+      setTimeout(function(){
+        if(btn) btn.classList.remove('cid-dl-done');
+        if(icon) icon.className='fa-solid fa-download';
+      },1800);
+    }).catch(function(e){
+      card.classList.remove('cid-export-solid');
+      if(btn){ btn.classList.remove('cid-dl-busy'); }
+      if(icon){ icon.className='fa-solid fa-download'; }
+      console.error('[CPK] Gagal download kartu jadi gambar',e);
+    });
+  };
+  // Dua rAF berturut-turut supaya benar-benar 1 frame penuh sudah ke-paint
+  // duluan (perubahan icon jadi spinner) sebelum capture berat dimulai.
+  requestAnimationFrame(function(){ requestAnimationFrame(doCapture); });
+}
+
 function cpkReset(){
   const inp=document.getElementById('cpkUidInput');
   if(inp){ inp.value=''; inp.focus(); }
@@ -20045,19 +20153,6 @@ function cpkReset(){
 <div class="page" id="cekidffExpLevel">
 <style>
 #cekidffExpLevel{padding-bottom:80px;}
-.cel-level-grid{
-  display:grid;grid-template-columns:repeat(6,1fr);gap:6px;
-  max-height:280px;overflow-y:auto;padding:8px;border-radius:16px;
-  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);
-  margin-bottom:14px;-webkit-overflow-scrolling:touch;
-}
-.cel-level-btn{
-  padding:10px 0;border-radius:10px;border:1px solid rgba(255,255,255,.1);
-  background:rgba(255,255,255,.05);color:#ccc;font-size:11px;font-weight:800;
-  cursor:pointer;text-align:center;font-family:'Outfit',sans-serif;transition:.15s;
-}
-.cel-level-btn:active{transform:scale(.94);}
-.cel-level-btn.active{background:rgba(255,43,43,.2);border-color:#ff3c3c;color:#fff;box-shadow:0 0 0 1px rgba(255,43,43,.3) inset;}
 .cel-note{font-size:10px;color:#777;margin-top:10px;line-height:1.6;display:flex;gap:7px;align-items:flex-start;}
 .cel-note i{color:#ff6b6b;flex-shrink:0;margin-top:1px;}
 </style>
@@ -20066,16 +20161,48 @@ function cpkReset(){
   <span class="cid-page-head-icon" aria-hidden="true"></span>
   <div>
     <p class="cid-hero-title"><span class="red">CEK EXP</span>&nbsp;<span class="wht">LEVEL</span></p>
-    <p class="cid-hero-sub">Pilih level 1–100 di bawah untuk lihat estimasi EXP yang dibutuhkan.</p>
+    <p class="cid-hero-sub">Masukkan ID Free Fire kamu, Level &amp; Total EXP asli akunmu langsung ketahuan.</p>
   </div>
 </div>
 
 <div class="cid-card">
-  <div class="cid-label"><i class="fa-solid fa-star"></i>PILIH LEVEL (1–100)</div>
-  <div class="cel-level-grid" id="celLevelGrid"></div>
+  <div class="cid-label"><i class="fa-solid fa-star"></i>ID FREE FIRE</div>
+  <div class="cid-input-wrap">
+    <i class="fa-solid fa-hashtag"></i>
+    <input class="cid-input" id="celUidInput" type="text" inputmode="numeric" placeholder="Contoh: 123456789" maxlength="13"/>
+  </div>
+  <button class="cid-btn" id="celCheckBtn" onclick="celCheck()"><i class="fa-solid fa-magnifying-glass"></i>CEK EXP LEVEL SEKARANG</button>
+  <p class="cid-hint">Cek Level &amp; Total EXP akun cukup lewat ID.</p>
+</div>
 
-  <div class="cid-info-rows" id="celResultRows" style="display:none;"></div>
-  <div class="cel-note"><i class="fa-solid fa-circle-info"></i><span>Angka EXP di sini adalah estimasi, bukan data resmi dari Garena.</span></div>
+<div class="cid-state show" id="celStateIdle">
+  <i class="fa-solid fa-star"></i>
+  <p>Belum ada ID yang dicek. Masukkan ID Free Fire di atas lalu tekan "Cek Exp Level Sekarang".</p>
+</div>
+
+<div class="cid-state cid-loading" id="celStateLoading">
+  <i class="fa-solid fa-spinner fa-spin"></i>
+  <p>Sedang mengambil data Level &amp; EXP kamu, tunggu sebentar ya...</p>
+</div>
+
+<div class="cid-state cid-error" id="celStateError">
+  <i class="fa-solid fa-triangle-exclamation"></i>
+  <p id="celErrorMsg">ID Free Fire tidak ditemukan. Periksa kembali ID kamu.</p>
+  <div class="cid-retry" onclick="celReset()"><i class="fa-solid fa-rotate-left"></i>Coba Lagi</div>
+</div>
+
+<div class="cid-result" id="celResult">
+  <div class="cid-result-card" id="celCard1" style="text-align:left;">
+    <div class="cid-nick-row" style="justify-content:flex-start;margin-bottom:4px;">
+      <i class="fa-solid fa-star" style="color:#ff6b6b;"></i>
+      <span class="cid-nick" id="celNickname">-</span>
+    </div>
+    <div class="cid-id-chip" id="celIdChip"></div>
+    <div class="cid-info-rows" id="celResultRows" style="margin-top:10px;"></div>
+    <div class="cel-note"><i class="fa-solid fa-circle-info"></i><span>Data Level &amp; EXP di atas diambil langsung dari data publik akun Free Fire kamu, bukan hasil perhitungan/estimasi manual.</span></div>
+  </div>
+  <button class="cid-btn" id="celDownloadBtn" onclick="celDownloadCard1()" style="margin-bottom:10px;"><i class="fa-solid fa-download"></i>DOWNLOAD KARTU</button>
+  <button class="cid-reset-btn" onclick="celReset()"><i class="fa-solid fa-arrow-rotate-left"></i>CEK ID LAIN</button>
 </div>
 
 <div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
@@ -20083,46 +20210,160 @@ function cpkReset(){
 
 <script>
 (function(){
-  const grid=document.getElementById('celLevelGrid');
-  if(!grid||grid.dataset.built) return;
-  grid.dataset.built='1';
-  for(let lvl=1;lvl<=100;lvl++){
-    const b=document.createElement('button');
-    b.type='button';
-    b.className='cel-level-btn';
-    b.textContent=lvl;
-    b.onclick=function(){ celSelectLevel(lvl,b); };
-    grid.appendChild(b);
+  const uidInput=document.getElementById('celUidInput');
+  if(uidInput){
+    uidInput.addEventListener('input',function(){
+      uidInput.value=uidInput.value.replace(/[^0-9]/g,'').slice(0,13);
+    });
+    uidInput.addEventListener('keydown',function(e){
+      if(e.key==='Enter') celCheck();
+    });
   }
 })();
 
-function celExpForLevel(level){
-  if(level<=1) return 0;
-  return Math.round(20*level*level);
+function celShowState(which){
+  ['celStateIdle','celStateLoading','celStateError'].forEach(function(id){
+    const el=document.getElementById(id);
+    if(el) el.classList.toggle('show',id===which);
+  });
+  const result=document.getElementById('celResult');
+  if(result) result.classList.toggle('show',which===null);
 }
 
-function celCumulativeExp(level){
-  let total=0;
-  for(let i=2;i<=level;i++){ total+=celExpForLevel(i); }
-  return total;
-}
-
-function celSelectLevel(level,btn){
-  document.querySelectorAll('.cel-level-btn').forEach(function(b){ b.classList.remove('active'); });
-  if(btn) btn.classList.add('active');
-
-  const delta=celExpForLevel(level);
-  const total=celCumulativeExp(level);
-
-  const rowsEl=document.getElementById('celResultRows');
-  if(rowsEl){
-    let rows='';
-    rows+='<div class="cid-info-row"><b>Level Dipilih</b><span>Level '+level+'</span></div>';
-    rows+='<div class="cid-info-row"><b>EXP Dari Level Sebelumnya</b><span>'+delta.toLocaleString('id-ID')+' EXP</span></div>';
-    rows+='<div class="cid-info-row"><b>Total EXP Dari Level 1</b><span>'+total.toLocaleString('id-ID')+' EXP</span></div>';
-    rowsEl.innerHTML=rows;
-    rowsEl.style.display='';
+function celSetLoadingBtn(loading){
+  const btn=document.getElementById('celCheckBtn');
+  if(!btn) return;
+  if(loading){
+    btn.disabled=true;
+    btn.dataset.origHtml=btn.innerHTML;
+    btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i>MENGECEK...';
+  }else{
+    btn.disabled=false;
+    if(btn.dataset.origHtml) btn.innerHTML=btn.dataset.origHtml;
   }
+}
+
+function celShake(){
+  const inp=document.getElementById('celUidInput');
+  if(!inp) return;
+  inp.classList.remove('cid-shake');
+  void inp.offsetWidth;
+  inp.classList.add('cid-shake');
+  inp.focus();
+}
+
+/* Level & EXP diambil APA ADANYA dari field 'level' & 'exp' pada basicInfo
+   endpoint /freefireinfo/bhau (server siambhau69.eu.cc) — persis endpoint
+   yang sama dipakai fitur "Cek Info FF"/"Cek Prime". TIDAK ADA rumus/tabel
+   buatan sendiri di sini; kalau field exp tidak dikirim server, ditampilkan
+   apa adanya sebagai "Tidak tersedia" (bukan diisi angka karangan). */
+async function celCheck(){
+  const inp=document.getElementById('celUidInput');
+  const uid=inp?inp.value.trim():'';
+  if(!uid||uid.length<6){ celShake(); return; }
+
+  celShowState('celStateLoading');
+  celSetLoadingBtn(true);
+
+  let lastErr=null;
+  for(let i=0;i<TFF_ALL_REGIONS.length;i++){
+    const region=TFF_ALL_REGIONS[i];
+    const queryBase='key='+encodeURIComponent(TFF_KEY)+'&uid='+encodeURIComponent(uid)+'&region='+encodeURIComponent(region);
+    try{
+      const json=await xyureiRequest(function(){
+        return TFF_BASE+'/freefireinfo/bhau?'+queryBase;
+      },{isDataOk:function(j){ return !!(j&&(j.basicInfo||j.data||j.result)); }});
+
+      if(json&&json.error){ throw Object.assign(new Error(json.error),{raw:json}); }
+      const b=json.basicInfo||{};
+      const nickname=stkPick(b,['nickname']);
+      if(!nickname){ throw Object.assign(new Error('Nickname tidak ditemukan.'),{raw:json}); }
+      const uidVal=stkPick(b,['accountId','account_id'])||uid;
+      const levelVal=stkPick(b,['level']);
+      const expVal=stkPick(b,['exp']);
+
+      const nickEl=document.getElementById('celNickname');
+      if(nickEl) nickEl.textContent=nickname;
+      const idChipEl=document.getElementById('celIdChip');
+      if(idChipEl) idChipEl.innerHTML='<i class="fa-solid fa-hashtag"></i> '+tffEsc(String(uidVal));
+
+      const rowsEl=document.getElementById('celResultRows');
+      if(rowsEl){
+        let rows='';
+        rows+='<div class="cid-info-row"><b>Level Akun</b><span>'+(levelVal!=null?tffEsc(String(levelVal)):'Tidak tersedia')+'</span></div>';
+        rows+='<div class="cid-info-row"><b>Total EXP</b><span>'+(expVal!=null?Number(expVal).toLocaleString('id-ID')+' EXP':'Tidak tersedia')+'</span></div>';
+        rowsEl.innerHTML=rows;
+      }
+
+      celShowState(null);
+      celSetLoadingBtn(false);
+      return;
+    }catch(e){
+      lastErr=e;
+      console.warn('[CEL] region '+region+' gagal, coba region berikutnya...',(e&&e.debugDetail)||e);
+    }
+  }
+
+  console.error('[CEL]',lastErr,(lastErr&&lastErr.raw)||'');
+  const msg=(lastErr&&lastErr.isNetwork)?'Gagal menghubungi server. Coba lagi beberapa saat.':'ID Free Fire tidak ditemukan. Periksa kembali ID kamu.';
+  const errMsg=document.getElementById('celErrorMsg');
+  if(errMsg) errMsg.textContent=msg;
+  celShowState('celStateError');
+  celSetLoadingBtn(false);
+}
+
+/* Download kartu hasil CEK EXP LEVEL jadi gambar PNG.
+   Logic-nya sama persis seperti cpkDownloadCard1() di CEK PRIME:
+   - Kartu diunduh APA ADANYA (ukuran asli kartu, background solid, tanpa
+     dipaksa jadi rasio 9:16).
+   - Shine/efek pojok (radial glow putih & merah) DIMATIKAN khusus di hasil
+     unduhan lewat class cid-export-solid (tampilan normal di layar tetap
+     apa adanya, tidak berubah).
+   - Dikasih jeda 1 frame (requestAnimationFrame) dulu sebelum html2canvas
+     mulai kerja supaya ikon spinner sempat digambar browser duluan. */
+function celDownloadCard1(){
+  const card=document.getElementById('celCard1');
+  if(!card||typeof html2canvas!=='function') return;
+  const btn=document.getElementById('celDownloadBtn');
+  const icon=btn?btn.querySelector('i'):null;
+  if(btn&&btn.classList.contains('cid-dl-busy')) return;
+  if(btn){ btn.classList.add('cid-dl-busy'); btn.classList.remove('cid-dl-done'); }
+  if(icon){ icon.className='fa-solid fa-spinner fa-spin'; }
+  card.classList.add('cid-export-solid');
+
+  const doCapture=function(){
+    html2canvas(card,{
+      backgroundColor:'#0c0c0c',
+      useCORS:true,
+      scale:2
+    }).then(function(canvas){
+      card.classList.remove('cid-export-solid');
+      const link=document.createElement('a');
+      link.download='kzrizusmo-cekexplevel-'+Date.now()+'.png';
+      link.href=canvas.toDataURL('image/png');
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      if(btn){ btn.classList.remove('cid-dl-busy'); btn.classList.add('cid-dl-done'); }
+      if(icon){ icon.className='fa-solid fa-check'; }
+      setTimeout(function(){
+        if(btn) btn.classList.remove('cid-dl-done');
+        if(icon) icon.className='fa-solid fa-download';
+      },1800);
+    }).catch(function(e){
+      card.classList.remove('cid-export-solid');
+      if(btn){ btn.classList.remove('cid-dl-busy'); }
+      if(icon){ icon.className='fa-solid fa-download'; }
+      console.error('[CEL] Gagal download kartu jadi gambar',e);
+    });
+  };
+  requestAnimationFrame(function(){ requestAnimationFrame(doCapture); });
+}
+
+function celReset(){
+  const inp=document.getElementById('celUidInput');
+  if(inp){ inp.value=''; inp.focus(); }
+  celShowState('celStateIdle');
 }
 </script>
 
@@ -21745,6 +21986,14 @@ function cffReset(){
   10%,90%{transform:translateX(-1px)}20%,80%{transform:translateX(2px)}
   30%,50%,70%{transform:translateX(-4px)}40%,60%{transform:translateX(4px)}
 }
+.tls-example-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:8px;}
+.tls-example-label{font-size:9.5px;font-weight:700;color:var(--tls-faint);letter-spacing:.2px;flex:0 0 auto;}
+.tls-example-chip{
+  padding:6px 11px;border-radius:9px;background:var(--tls-surface2);border:1px solid var(--tls-hair-strong);
+  color:var(--tls-dim);font-size:10.5px;font-weight:700;cursor:pointer;letter-spacing:.2px;
+  font-family:'Space Mono',monospace;white-space:nowrap;transition:.15s;
+}
+.tls-example-chip:active{transform:scale(.95);background:rgba(255,59,59,.14);border-color:var(--tls-accent);color:var(--tls-accent-soft);}
 
 .tls-submitbtn{width:100%;margin-top:6px;padding:13px 0;border-radius:12px;border:none;background:linear-gradient(135deg,var(--tls-accent) 0%,#a10d0d 100%);color:#fff;font-size:13px;font-weight:800;letter-spacing:.3px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 8px 18px rgba(255,43,43,.22);}
 .tls-submitbtn:active{transform:scale(.97);}
@@ -21764,6 +22013,30 @@ function cffReset(){
 .tls-result-row span{color:#eee;font-weight:600;text-align:right;word-break:break-word;}
 .tls-result-error{text-align:center;padding:16px 10px;color:#ffb3a3;background:rgba(255,82,82,.08);border:1px solid rgba(255,82,82,.25);border-radius:12px;font-size:12px;line-height:1.6;}
 .tls-result-error i{color:var(--tls-danger);margin-right:4px;}
+.tls-nik-section-head{display:flex;align-items:center;gap:8px;padding:12px 2px 8px;margin-top:6px;border-top:1px solid var(--tls-hair-strong);}
+.tls-nik-section-head:first-child{margin-top:0;border-top:none;padding-top:0;}
+.tls-nik-section-head i{color:var(--tls-accent-soft);font-size:12px;width:16px;text-align:center;}
+.tls-nik-section-head span{font-size:11.5px;font-weight:800;color:var(--tls-accent-soft);letter-spacing:.4px;text-transform:uppercase;}
+.tls-nik-desa{margin-top:10px;border-top:1px solid var(--tls-hair-strong);padding-top:10px;}
+.tls-nik-desa summary{cursor:pointer;font-size:11.5px;font-weight:700;color:var(--tls-dim);list-style:none;}
+.tls-nik-desa summary::-webkit-details-marker{display:none;}
+.tls-nik-desa summary:before{content:'\25B8';display:inline-block;margin-right:6px;color:var(--tls-accent-soft);transition:.2s;}
+.tls-nik-desa[open] summary:before{transform:rotate(90deg);}
+.tls-download-btn{width:100%;margin-top:10px;padding:13px 0;border-radius:12px;border:none;background:linear-gradient(135deg,#0a84ff 0%,#0058b3 100%);color:#fff;font-size:13px;font-weight:800;letter-spacing:.3px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 8px 18px rgba(10,132,255,.25);}
+.tls-download-btn:active{transform:scale(.97);}
+.tls-ytsum-thumbwrap{position:relative;margin-bottom:12px;}
+.tls-ytsum-thumbwrap .tls-result-media{margin-bottom:0;}
+.tls-ytsum-duration{position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,.75);color:#fff;font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;}
+.tls-ytsum-content{background:var(--tls-surface2);border:1px solid var(--tls-hair-strong);border-radius:12px;padding:14px;max-height:420px;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.tls-ytsum-h1{font-size:14.5px;font-weight:800;color:var(--tls-text);margin:0 0 8px;}
+.tls-ytsum-h2{font-size:12.5px;font-weight:800;color:var(--tls-accent-soft);margin:14px 0 6px;}
+.tls-ytsum-content .tls-ytsum-h2:first-child{margin-top:0;}
+.tls-ytsum-p{font-size:12.5px;line-height:1.65;color:#ddd;margin:0 0 10px;}
+.tls-ytsum-p:last-child{margin-bottom:0;}
+.tls-ytsum-copybtn{width:100%;margin-top:8px;padding:11px 0;border-radius:10px;border:1px solid var(--tls-hair-strong);background:rgba(255,255,255,.06);color:var(--tls-dim);font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;}
+.tls-ytsum-copybtn.copied{background:rgba(46,204,113,.18);color:#5be08a;border-color:rgba(46,204,113,.35);}
+.tls-qr-wrap{background:#fff;padding:12px;border-radius:14px;display:flex;justify-content:center;margin-bottom:4px;}
+.tls-qr-wrap canvas,.tls-qr-wrap img{display:block;max-width:100%;height:auto;}
 </style>
 
 <div class="tls-header">
@@ -22604,7 +22877,7 @@ const TLS_MENU=[
             {name:'options',label:'Mode',options:['send','verif'],def:'send',required:true},
             {name:'url',label:'Link Verifikasi (khusus mode verif)',placeholder:'https://...',required:false}]},
   {key:'base64totext',label:'Base64 to Text',icon:'fa-unlock-keyhole',desc:'Decode string Base64 jadi teks biasa',
-    fields:[{name:'text',label:'String Base64',placeholder:'Tempel string base64...',required:true,type:'textarea'}]},
+    fields:[{name:'text',label:'String Base64',placeholder:'Tempel string base64...',required:true,type:'textarea',example:'SGVsbG8gV29ybGQ='}]},
   {key:'binner2text',label:'Binary to Text',icon:'fa-code',desc:'Ubah kode biner jadi teks',
     fields:[{name:'text',label:'Kode Biner (dipisah spasi)',placeholder:'Contoh: 01001000 01101001',required:true,type:'textarea'}]},
   {key:'cekresi',label:'Cek Resi',icon:'fa-truck-fast',desc:'Lacak status pengiriman paket',
@@ -22637,9 +22910,10 @@ const TLS_MENU=[
     fields:[{name:'action',label:'Aksi',options:['create','check'],def:'create',required:true},
             {name:'token',label:'Token Email (khusus aksi check)',placeholder:'Opsional',required:false}]},
   {key:'ngl',label:'NGL Message Sender',icon:'fa-paper-plane',desc:'Kirim pesan anonim ke akun NGL',
+    successMessage:'Pesan kamu berhasil dikirim secara anonim ke {id}!',hideResultKeys:['questionId','userRegion'],
     fields:[{name:'text',label:'Pesan',placeholder:'Tulis pesan...',required:true},
             {name:'id',label:'Username/URL NGL Target',placeholder:'Contoh: username',required:true}]},
-  {key:'nik',label:'NIK Parser',icon:'fa-id-card',desc:'Urai data dari 16 digit NIK KTP',
+  {key:'nik',label:'NIK Parser',icon:'fa-id-card',desc:'Urai data dari 16 digit NIK KTP',hideResultKeys:['daftar_desa_kelurahan'],
     fields:[{name:'nik',label:'16 Digit NIK',placeholder:'Contoh: 3201xxxxxxxxxxxx',required:true}]},
   {key:'saveweb',label:'SaveWeb2Zip Copier',icon:'fa-file-zipper',desc:'Clone website jadi file .zip',
     fields:[{name:'url',label:'URL Website',placeholder:'https://...',required:true}]},
@@ -22728,6 +23002,14 @@ function tlsRenderForm(menu){
     }else{
       ctrl='<input class="tls-input" id="tlsField_'+i+'" type="text" placeholder="'+tlsEscAttr(f.placeholder||'')+'" value="'+tlsEscAttr(f.def||'')+'">';
     }
+    if(f.example){
+      const examples=Array.isArray(f.example)?f.example:[f.example];
+      ctrl+='<div class="tls-example-row"><span class="tls-example-label">Contoh:</span>'+
+        examples.map(function(ex){
+          return '<button type="button" class="tls-example-chip" data-field-idx="'+i+'" data-example="'+tlsEscAttr(ex)+'" onclick="tlsUseExample(this)">'+tlsEsc(ex)+'</button>';
+        }).join('')+
+      '</div>';
+    }
     return '<div class="tls-field">'+
       '<label>'+tlsEsc(f.label)+'</label>'+
       ctrl+
@@ -22740,6 +23022,19 @@ function tlsRenderForm(menu){
 
     '</div>'+
     '<div class="tls-result" id="tlsResult"></div>';
+}
+
+// Klik chip "Contoh" -> isi field terkait dengan nilai contohnya langsung,
+// biar user gak perlu ngetik/nyari sample sendiri buat nyoba tool-nya.
+function tlsUseExample(btn){
+  if(!btn) return;
+  const idx=btn.getAttribute('data-field-idx');
+  const val=btn.getAttribute('data-example');
+  const inp=document.getElementById('tlsField_'+idx);
+  if(!inp) return;
+  inp.value=val;
+  inp.classList.remove('tls-shake');
+  inp.focus();
 }
 
 function tlsSelectOption(idx,btnEl){
@@ -22758,21 +23053,89 @@ function tlsShake(el){
   el.focus();
 }
 
+// ===== Text to QR Code: generate lokal, ikut menu "QR GENERATOR" =====
+// Sebelumnya tool ini manggil API eksternal (TLS_BASE+'text2qr') kayak tool
+// lain. Sesuai permintaan, sekarang dipakein cara yang SAMA dengan menu
+// QR GENERATOR yang sudah ada di app ini (halaman #qrgen): generate QR
+// langsung di browser pakai library qrcodejs (window.QRCode, sudah dimuat
+// global lewat <script src=".../qrcodejs/1.0.0/qrcode.min.js"> di halaman
+// qrgen) — jadi gak perlu request ke server/apikey sama sekali, dan hasilnya
+// konsisten sama style/kualitas dgn QR Generator biasa.
+function tlsText2QrDownload(){
+  const canvas=document.querySelector('#tlsQrBox canvas');
+  if(!canvas){ if(typeof showToast==='function') showToast('QR Code belum siap.'); return; }
+  try{
+    const borderSize=35,scaleFactor=2;
+    const finalCanvas=document.createElement('canvas');
+    finalCanvas.width=(canvas.width*scaleFactor)+(borderSize*2);
+    finalCanvas.height=(canvas.height*scaleFactor)+(borderSize*2);
+    const ctx=finalCanvas.getContext('2d');
+    ctx.imageSmoothingEnabled=false;
+    ctx.fillStyle='#ffffff';
+    ctx.fillRect(0,0,finalCanvas.width,finalCanvas.height);
+    ctx.drawImage(canvas,borderSize,borderSize,canvas.width*scaleFactor,canvas.height*scaleFactor);
+    finalCanvas.toBlob(function(blob){
+      if(!blob) return;
+      const blobUrl=URL.createObjectURL(blob);
+      const link=document.createElement('a');
+      link.href=blobUrl;
+      link.download='KZRIZUSMO-QR-'+Date.now()+'.png';
+      link.click();
+      URL.revokeObjectURL(blobUrl);
+    },'image/png',1.0);
+  }catch(e){
+    if(typeof showToast==='function') showToast('Download gagal, coba lagi.');
+  }
+}
+function tlsRenderTextQrResult(box,text){
+  if(!box) return;
+  box.innerHTML=
+    '<div class="tls-qr-wrap"><div id="tlsQrBox"></div></div>'+
+    '<button class="tls-download-btn" id="tlsQrDlBtn" onclick="tlsText2QrDownload()" style="display:none;"><i class="fa-solid fa-download"></i> Download PNG</button>';
+  box.classList.add('show');
+  const mount=document.getElementById('tlsQrBox');
+  if(typeof QRCode==='undefined'){
+    box.innerHTML='<div class="tls-result-error"><i class="fa-solid fa-triangle-exclamation"></i>Library QR belum siap, coba lagi sebentar.</div>';
+    return;
+  }
+  new QRCode(mount,{
+    text:text,
+    width:280,
+    height:280,
+    colorDark:'#000000',
+    colorLight:'#ffffff',
+    correctLevel:QRCode.CorrectLevel.H
+  });
+  setTimeout(function(){
+    const canvas=mount.querySelector('canvas');
+    const dlBtn=document.getElementById('tlsQrDlBtn');
+    if(canvas&&dlBtn) dlBtn.style.display='flex';
+  },600);
+}
+
 async function tlsSubmit(){
   const menu=TLS_MENU.find(function(m){return m.key===tlsActiveKey;});
   if(!menu) return;
   const params=[];
+  const values={};
   let missingRequired=false;
   menu.fields.forEach(function(f,i){
     const inp=document.getElementById('tlsField_'+i);
     const val=inp?inp.value.trim():'';
     if(f.required && !val){ tlsShake(inp); missingRequired=true; return; }
+    values[f.name]=val;
     if(val) params.push(encodeURIComponent(f.name)+'='+encodeURIComponent(val));
   });
   if(missingRequired) return;
 
-  const btn=document.getElementById('tlsSubmitBtn');
   const result=document.getElementById('tlsResult');
+  if(menu.key==='text2qr'){
+    if(result){ result.classList.remove('show'); result.innerHTML=''; }
+    tlsRenderTextQrResult(result,values.text);
+    return;
+  }
+
+  const btn=document.getElementById('tlsSubmitBtn');
   if(btn){ btn.disabled=true; btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> MENGIRIM...'; }
   if(result){ result.classList.remove('show'); result.innerHTML=''; }
 
@@ -22781,7 +23144,7 @@ async function tlsSubmit(){
     const json=await xyureiRequest(function(key){
       return TLS_BASE+menu.key+'?'+queryBase+'&apikey='+key;
     });
-    tlsRenderResult(result,json);
+    tlsRenderResult(result,json,menu,values);
   }catch(e){
     console.error('[TLS]['+menu.key+']',e,(e&&e.debugDetail)||'');
     const detail=(e&&e.debugDetail)?' ('+e.debugDetail+')':'';
@@ -22830,8 +23193,16 @@ function tlsExtractMedia(json){
 // Cari teks utama (mis. hasil decode base64/biner, atau pesan status) di level manapun.
 function tlsExtractText(json){
   if(!json||typeof json!=='object') return typeof json==='string'?json:'';
-  const textKeys=['result','text','decoded','output','message','msg'];
-  const d=json.data||json.result||json;
+  const textKeys=['result','text','decoded','output','message','msg','base64'];
+  const d=json.data!==undefined?json.data:(json.result!==undefined?json.result:json);
+  // Beberapa endpoint (mis. Binary to Text, Base64 to Text) mengembalikan hasilnya
+  // LANGSUNG sebagai string di field "data"/"result" (bukan dibungkus lagi di
+  // dalam key seperti "text"/"decoded"). Kalau d sendiri sudah berupa string,
+  // itu SUDAH jadi teks hasilnya — pakai langsung, jangan sampai ke-skip.
+  // Text to Base64 beda lagi: hasilnya DIBUNGKUS di objek {"base64":"..."}
+  // (bukan string langsung di "data"), makanya "base64" ditambahkan ke textKeys
+  // di atas biar tetap kepetik & tampil sebagai kotak teks yang bisa disalin.
+  if(typeof d==='string' && d.trim() && !/^https?:\/\//i.test(d) && !/^data:/i.test(d)) return d;
   const sources=[json,d];
   for(const src of sources){
     if(!src||typeof src!=='object') continue;
@@ -22842,29 +23213,316 @@ function tlsExtractText(json){
   return '';
 }
 
-const TLS_ROW_SKIP_KEYS=['status','success','creator','result','url','audio','video','image','media','file','link','data','output','text','decoded','message','msg'];
+const TLS_ROW_SKIP_KEYS=['status','success','creator','result','url','audio','video','image','media','file','link','data','output','text','decoded','message','msg','base64'];
 function tlsPrettyLabel(key){
   return key.replace(/_/g,' ').replace(/([a-z])([A-Z])/g,'$1 $2').replace(/\b\w/g,function(c){return c.toUpperCase();});
 }
-function tlsRenderRows(obj){
-  if(!obj||typeof obj!=='object') return '';
+// Format nilai satu baris hasil. Angka epoch milidetik (nama field berakhiran
+// "Millis", mis. expiryTimeMillis/startTimeMillis) diubah jadi tanggal yang
+// gampang dibaca, boolean diubah jadi Ya/Tidak, sisanya apa adanya.
+function tlsFormatRowValue(key,val){
+  if(typeof val==='number' && /millis$/i.test(key) && val>1e11){
+    try{
+      const d=new Date(val);
+      if(!isNaN(d.getTime())){
+        return d.toLocaleString('id-ID',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+      }
+    }catch(e){}
+  }
+  if(typeof val==='boolean') return val?'Ya':'Tidak';
+  return String(val);
+}
+// Susun baris hasil dari objek respons. Objek bersarang (mis. data.verify_data.result
+// pada Alight Motion Prem, atau result.data pada Temp Mail) SELALU DITELUSURI
+// duluan sebelum key-nya dicek ke daftar skip — soalnya key pembungkus generik
+// kayak "data"/"result" dipakai berulang di kedalaman manapun cuma buat
+// membungkus payload asli, BUKAN nilai itu sendiri, jadi gak boleh bikin
+// seluruh isinya ikut lenyap kalau kebetulan namanya ada di TLS_ROW_SKIP_KEYS.
+// TLS_ROW_SKIP_KEYS cuma dicek buat NILAI PRIMITIF (bukan objek) & cuma di
+// level paling luar (depth 0), biar key primitif bersarang yang kebetulan
+// namanya sama (mis. "status" di dalam verify_data.result) tidak ikut kehapus.
+// Array tetap dilewati karena tidak cocok direpresentasikan sebagai baris
+// label-nilai. extraSkipKeys dipakai per-tool (lewat menu.hideResultKeys)
+// buat nyembunyiin field teknis/internal yang gak berguna ditampilkan ke user
+// (mis. questionId/userRegion di NGL Message Sender).
+function tlsRenderRows(obj,depth,extraSkipKeys){
+  depth=depth||0;
+  if(!obj||typeof obj!=='object'||depth>4) return '';
   let rows='';
   Object.keys(obj).forEach(function(key){
-    if(TLS_ROW_SKIP_KEYS.indexOf(key)!==-1) return;
     const val=obj[key];
     if(val==null||val==='') return;
-    if(typeof val==='object') return;
-    rows+='<div class="tls-result-row"><b>'+tlsEsc(tlsPrettyLabel(key))+'</b><span>'+tlsEsc(String(val))+'</span></div>';
+    if(Array.isArray(val)) return;
+    // Dicek SEBELUM rekursi objek: sebelumnya extraSkipKeys cuma dicek buat nilai
+    // primitif (karena objek langsung return duluan di baris rekursi di bawah),
+    // jadi key pembungkus besar seperti "daftar_desa_kelurahan" (isinya ratusan
+    // pasangan kode->nama desa) tetap ikut ditelusuri & bikin hasil kebanjiran baris.
+    if(extraSkipKeys && extraSkipKeys.indexOf(key)!==-1) return;
+    if(typeof val==='object'){ rows+=tlsRenderRows(val,depth+1,extraSkipKeys); return; }
+    if(depth===0 && TLS_ROW_SKIP_KEYS.indexOf(key)!==-1) return;
+    const isMillisDate=typeof val==='number' && /millis$/i.test(key) && val>1e11;
+    const label=tlsPrettyLabel(isMillisDate?key.replace(/millis$/i,''):key);
+    rows+='<div class="tls-result-row"><b>'+tlsEsc(label)+'</b><span>'+tlsEsc(tlsFormatRowValue(key,val))+'</span></div>';
   });
   return rows;
 }
 
-function tlsRenderResult(box,json){
+// Isi template "{fieldName}" dengan nilai yang barusan dikirim user, dipakai
+// buat menu.successMessage (lihat tlsRenderResult) pada tool yang respons
+// suksesnya cuma berisi ID/kode teknis tanpa pesan konfirmasi yang enak dibaca.
+function tlsFillTemplate(tpl,values){
+  return String(tpl).replace(/\{(\w+)\}/g,function(_,name){
+    return (values&&values[name]!=null&&values[name]!=='')?values[name]:'';
+  });
+}
+
+// ===== Renderer khusus NIK Parser =====
+// Dipisah dari renderer generik (tlsRenderRows) karena respons NIK Parser
+// punya struktur bersarang (detailTurunan.usia, detailTurunan.ulangTahunBerikutnya,
+// lokasi.provinsi/kota_kabupaten/kecamatan) yang kalau diratakan generik jadi
+// ambigu (tiga objek beda punya key "id"/"nama" yang sama), plus field
+// lokasi.daftar_desa_kelurahan yang isinya bisa puluhan/ratusan pasangan
+// kode->nama desa (referensi seluruh kecamatan, BUKAN desa spesifik orangnya,
+// karena NIK sendiri tidak menyimpan info desa/kelurahan) sehingga ditaruh
+// di panel collapsible terpisah, bukan didaftar sebagai baris biasa.
+const TLS_NIK_BULAN=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+function tlsNikFormatTanggal(str){
+  if(!str) return '';
+  const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(String(str));
+  if(!m) return str;
+  const bln=parseInt(m[2],10);
+  return parseInt(m[3],10)+' '+(TLS_NIK_BULAN[bln-1]||m[2])+' '+m[1];
+}
+function tlsNikTitleCase(str){
+  return String(str||'').replace(/_/g,' ').replace(/\b\w/g,function(c){return c.toUpperCase();});
+}
+function tlsNikRow(label,val){
+  if(val==null||val==='') return '';
+  return '<div class="tls-result-row"><b>'+tlsEsc(label)+'</b><span>'+tlsEsc(val)+'</span></div>';
+}
+function tlsNikSectionHead(icon,title){
+  return '<div class="tls-nik-section-head"><i class="fa-solid '+icon+'"></i><span>'+tlsEsc(title)+'</span></div>';
+}
+function tlsRenderNikResult(json){
+  const d=(json&&(json.data||json.result))||json||{};
+  const det=d.detailTurunan||{};
+  const usia=det.usia||{};
+  const ultah=det.ulangTahunBerikutnya||{};
+  const lok=d.lokasi||{};
+  const prov=lok.provinsi||{};
+  const kab=lok.kota_kabupaten||{};
+  const kec=lok.kecamatan||{};
+  const desaList=(lok.daftar_desa_kelurahan&&typeof lok.daftar_desa_kelurahan==='object')?lok.daftar_desa_kelurahan:{};
+  const desaKeys=Object.keys(desaList);
+  const genderMap={laki_laki:'Laki-laki',perempuan:'Perempuan'};
+  const genderTxt=genderMap[d.jenisKelamin]||tlsNikTitleCase(d.jenisKelamin);
+
+  let html='';
+  html+=tlsNikSectionHead('fa-id-card','Data Utama');
+  html+='<div class="tls-result-rows">'+
+    tlsNikRow('NIK',d.nik)+
+    tlsNikRow('Jenis Kelamin',genderTxt)+
+    tlsNikRow('Tanggal Lahir',tlsNikFormatTanggal(d.tanggalLahir))+
+    tlsNikRow('Usia',usia.lengkap)+
+    tlsNikRow('Kode Unik',d.kodeUnik)+
+  '</div>';
+
+  html+=tlsNikSectionHead('fa-star','Info Tambahan');
+  html+='<div class="tls-result-rows">'+
+    tlsNikRow('Zodiak',tlsNikTitleCase(det.zodiak))+
+    tlsNikRow('Pasaran Jawa',tlsNikTitleCase(det.pasaranJawa))+
+    tlsNikRow('Ultah Berikutnya',tlsNikFormatTanggal(ultah.tanggal))+
+    tlsNikRow('Hitung Mundur',ultah.hitungMundur)+
+  '</div>';
+
+  html+=tlsNikSectionHead('fa-location-dot','Lokasi (Sesuai Kode Wilayah NIK)');
+  html+='<div class="tls-result-rows">'+
+    tlsNikRow('Provinsi',prov.nama)+
+    tlsNikRow('Kota/Kabupaten',kab.nama)+
+    tlsNikRow('Kecamatan',kec.nama)+
+  '</div>';
+
+  if(desaKeys.length){
+    const desaRows=desaKeys.map(function(kode){
+      return '<div class="tls-result-row"><b>'+tlsEsc(kode)+'</b><span>'+tlsEsc(desaList[kode])+'</span></div>';
+    }).join('');
+    html+='<details class="tls-nik-desa"><summary>Daftar Desa/Kelurahan di Kecamatan Ini ('+desaKeys.length+')</summary>'+
+      '<div class="tls-result-rows" style="margin-top:8px;">'+desaRows+'</div></details>';
+  }
+  return html;
+}
+
+// ===== Renderer khusus SaveWeb2Zip Copier =====
+// Respons tool ini balikin "download_url" (link arsip .zip hasil clone website)
+// yang sebelumnya cuma ke-render generik sebagai baris teks biasa (tls-result-row),
+// bukan tombol unduh yang bisa langsung diklik. Ditambah field "url" (website
+// sumber) yang justru KE-SKIP oleh TLS_ROW_SKIP_KEYS karena namanya persis "url"
+// (skip list itu buat nyaring key generik "url" pembungkus media di tool lain),
+// padahal di sini "url" adalah info yang justru berguna ditampilkan (situs mana
+// yang di-clone). Renderer ini juga nyaring size_raw yang null (API ini kadang
+// belum ngasih ukuran arsip) biar gak nongol baris kosong.
+function tlsSwzRow(label,val){
+  if(val==null||val==='') return '';
+  return '<div class="tls-result-row"><b>'+tlsEsc(label)+'</b><span>'+tlsEsc(val)+'</span></div>';
+}
+function tlsSwzFormatBytes(n){
+  if(n==null||n===''||isNaN(n)) return null;
+  const units=['B','KB','MB','GB','TB'];
+  let num=Number(n),i=0;
+  while(num>=1024&&i<units.length-1){ num/=1024; i++; }
+  return (i===0?num:num.toFixed(1))+' '+units[i];
+}
+function tlsRenderSavewebResult(json){
+  const d=(json&&(json.result||json.data))||json||{};
+  const dlUrl=d.download_url||'';
+  const html='<div class="tls-result-rows">'+
+    tlsSwzRow('Website Sumber',d.url)+
+    tlsSwzRow('Jumlah File',d.file_count!=null?(d.file_count+' file'):null)+
+    tlsSwzRow('Ukuran Arsip',tlsSwzFormatBytes(d.size_raw))+
+  '</div>'+
+  (dlUrl?'<button class="tls-download-btn" onclick="aiSaveMediaFallback(\''+dlUrl.replace(/'/g,"\\'")+'\')"><i class="fa-solid fa-file-zipper"></i> Download ZIP</button>':'');
+  return html;
+}
+
+// ===== Renderer khusus YouTube Summarizer =====
+// Field "content" (ringkasan markdown panjang berisi heading # dan ##) sebelumnya
+// TIDAK kepetik sama sekali oleh tlsExtractText (yang cuma nyari key text/result/
+// decoded/output/message/msg), jadi malah jatuh ke tlsRenderRows dan nampil
+// sebagai satu baris label-nilai raksasa berisi ribuan karakter markdown mentah
+// (tanda # dan ** ikut kelihatan, gak ke-render). Field teknis kayak message_id/
+// progress/subtitle_task_id/sum_status/video_id/video_original_subtitle_status
+// juga ikut nongol padahal gak berguna buat user. Renderer ini nampilin thumbnail
+// + durasi video, ringkasan markdown yang di-render rapi (heading & paragraf),
+// tombol salin ringkasan, dan tombol unduh transkrip SRT/TXT.
+function tlsYtsumFormatDuration(sec){
+  if(sec==null||isNaN(sec)) return '';
+  sec=Math.round(Number(sec));
+  const h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),s=sec%60;
+  const mm=String(m).padStart(2,'0'),ss=String(s).padStart(2,'0');
+  return h>0?(h+':'+mm+':'+ss):(m+':'+ss);
+}
+// Konverter markdown->HTML super ringan, cuma nangani yang dipakai API ini:
+// "# Judul", "## Subjudul" (termasuk yang ada timestamp "[mm:ss - mm:ss]"),
+// paragraf biasa, dan **tebal**. Teks di-escape dulu (tlsEsc) sebelum ditandai
+// jadi tag HTML, biar aman dari karakter aneh di transkrip video.
+function tlsYtsumMdToHtml(md){
+  const esc=tlsEsc(md||'');
+  const lines=esc.split(/\r?\n/);
+  let html='',para=[];
+  function flushPara(){
+    if(para.length){ html+='<p class="tls-ytsum-p">'+para.join(' ')+'</p>'; para=[]; }
+  }
+  lines.forEach(function(line){
+    const l=line.trim();
+    if(!l){ flushPara(); return; }
+    const h1=/^#\s+(.*)$/.exec(l);
+    const h2=/^##\s+(.*)$/.exec(l);
+    if(h1){ flushPara(); html+='<h3 class="tls-ytsum-h1">'+h1[1]+'</h3>'; return; }
+    if(h2){ flushPara(); html+='<h4 class="tls-ytsum-h2">'+h2[1]+'</h4>'; return; }
+    para.push(l.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>'));
+  });
+  flushPara();
+  return html;
+}
+function tlsRenderYtsumResult(json){
+  const d=(json&&(json.result||json.data))||json||{};
+  const thumb=d.video_thumbnail_url;
+  const dur=tlsYtsumFormatDuration(d.video_duration);
+  let html='';
+  if(thumb){
+    html+='<div class="tls-ytsum-thumbwrap">'+
+      '<img class="tls-result-media" src="'+tlsEsc(thumb)+'" alt="thumbnail" referrerpolicy="no-referrer">'+
+      (dur?'<span class="tls-ytsum-duration">'+tlsEsc(dur)+'</span>':'')+
+    '</div>';
+  }
+  const contentHtml=tlsYtsumMdToHtml(d.content);
+  if(contentHtml){
+    html+='<div class="tls-ytsum-content" id="tlsYtsumContentVal">'+contentHtml+'</div>'+
+      '<button class="tls-ytsum-copybtn" id="tlsYtsumCopyBtn" onclick="tlsYtsumCopyText()"><i class="fa-solid fa-copy"></i> Salin Ringkasan</button>';
+  }else{
+    html+='<div class="tls-result-rows"><div class="tls-result-row"><span>Ringkasan tidak tersedia.</span></div></div>';
+  }
+  if(d.srt_url){
+    html+='<button class="tls-download-btn" onclick="aiSaveMediaFallback(\''+String(d.srt_url).replace(/'/g,"\\'")+'\')"><i class="fa-solid fa-closed-captioning"></i> Download Subtitle (SRT)</button>';
+  }
+  if(d.url){
+    html+='<button class="tls-download-btn" style="background:linear-gradient(135deg,#3a3a3a 0%,#1a1a1a 100%);box-shadow:none;" onclick="aiSaveMediaFallback(\''+String(d.url).replace(/'/g,"\\'")+'\')"><i class="fa-solid fa-file-lines"></i> Download Transkrip (TXT)</button>';
+  }
+  return html;
+}
+function tlsYtsumCopyText(){
+  const el=document.getElementById('tlsYtsumContentVal');
+  const btn=document.getElementById('tlsYtsumCopyBtn');
+  if(!el) return;
+  const text=el.textContent||'';
+  const done=function(){
+    if(btn){
+      btn.classList.add('copied');
+      btn.innerHTML='<i class="fa-solid fa-check"></i> Tersalin';
+      setTimeout(function(){ btn.classList.remove('copied'); btn.innerHTML='<i class="fa-solid fa-copy"></i> Salin Ringkasan'; },1400);
+    }
+    if(typeof showToast==='function') showToast('Disalin!');
+  };
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done).catch(done);
+  }else{
+    const ta=document.createElement('textarea');
+    ta.value=text;ta.style.position='fixed';ta.style.opacity='0';
+    document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');}catch(e){}
+    document.body.removeChild(ta);
+    done();
+  }
+}
+
+function tlsRenderResult(box,json,menu,values){
+  if(menu&&menu.key==='ytsum'){
+    if(json&&(json.error||json.status===false)){
+      box.innerHTML='<div class="tls-result-error"><i class="fa-solid fa-triangle-exclamation"></i>'+tlsEsc(json.error||'Gagal memproses permintaan.')+'</div>';
+      box.classList.add('show');
+      return;
+    }
+    box.innerHTML=tlsRenderYtsumResult(json);
+    box.classList.add('show');
+    return;
+  }
+  if(menu&&menu.key==='saveweb'){
+    if(json&&(json.error||json.status===false)){
+      box.innerHTML='<div class="tls-result-error"><i class="fa-solid fa-triangle-exclamation"></i>'+tlsEsc(json.error||'Gagal memproses permintaan.')+'</div>';
+      box.classList.add('show');
+      return;
+    }
+    box.innerHTML=tlsRenderSavewebResult(json);
+    box.classList.add('show');
+    return;
+  }
+  if(menu&&menu.key==='nik'){
+    if(json&&json.error){
+      box.innerHTML='<div class="tls-result-error"><i class="fa-solid fa-triangle-exclamation"></i>'+tlsEsc(json.error)+'</div>';
+      box.classList.add('show');
+      return;
+    }
+    box.innerHTML=tlsRenderNikResult(json);
+    box.classList.add('show');
+    return;
+  }
   if(!box) return;
   const d=(json&&(json.result||json.data))||json||{};
   const media=tlsExtractMedia(json);
-  const text=tlsExtractText(json);
-  const rows=tlsRenderRows(typeof d==='object'?d:json);
+  let text=tlsExtractText(json);
+  // Sebagian endpoint (mis. NGL Message Sender) cuma balikin field teknis
+  // (questionId/userRegion) tanpa pesan konfirmasi apa pun kalau sukses.
+  // Kalau gak ada teks yang kepetik & requestnya jelas sukses (status true,
+  // gak ada error), pakai successMessage dari konfigurasi tool (kalau ada)
+  // biar user tetap dapet konfirmasi yang jelas & enak dibaca.
+  if(!text && menu && menu.successMessage && json && json.status!==false && !json.error){
+    text=tlsFillTemplate(menu.successMessage,values);
+  }
+  // Kalau payload utamanya (data/result) berupa string biasa, itu sudah
+  // sepenuhnya terwakili oleh `text` di atas — jangan jatuhkan balik ke
+  // seluruh objek json mentah buat baris (bikin field lain kayak "timestamp"
+  // ikut nongol padahal bukan bagian dari hasilnya).
+  const rows=typeof d==='object'?tlsRenderRows(d,0,menu&&menu.hideResultKeys):'';
 
   let html='';
   if(media){
@@ -35620,6 +36278,26 @@ function launchGame(url, logoUrl, gameName, evt){
 <h1>𝗭𝗨𝗦𝗠𝗢 𝗟𝗘𝗩𝗘𝗟</h1>
 <p class="dev-note">ZUSMO Level sedang dipersiapkan dengan berbagai fitur baru dan penyempurnaan sistem. Nantikan peluncuran resminya pada update berikutnya.</p>
 <div class="dev-progress"><span style="width:30%"></span></div>
+<p style="color:#00ff88;font-weight:700">Terima kasih telah menunggu. Fitur akan tersedia pada pembaruan berikutnya.</p>
+</div></div>
+
+<!-- LEADERBOARD (tab bottombar paling kiri, belum ada isi) -->
+<div class="page" id="leaderboardTab"><div class="dev-card">
+<i class="fa-solid fa-trophy" style="font-size:56px;color:#ff2b2b;margin:4px auto 18px;display:block;"></i>
+<div class="dev-badge">COMING SOON</div>
+<h1>𝗟𝗘𝗔𝗗𝗘𝗥𝗕𝗢𝗔𝗥𝗗</h1>
+<p class="dev-note">Papan peringkat pengguna teratas masih dalam tahap pengembangan. Nantikan peluncuran resminya pada update berikutnya.</p>
+<div class="dev-progress"><span style="width:10%"></span></div>
+<p style="color:#00ff88;font-weight:700">Terima kasih telah menunggu. Fitur akan tersedia pada pembaruan berikutnya.</p>
+</div></div>
+
+<!-- DEVELOPER (tab bottombar paling kanan, belum ada isi) -->
+<div class="page" id="developerTab"><div class="dev-card">
+<i class="fa-solid fa-code" style="font-size:56px;color:#ff2b2b;margin:4px auto 18px;display:block;"></i>
+<div class="dev-badge">COMING SOON</div>
+<h1>𝗗𝗘𝗩𝗘𝗟𝗢𝗣𝗘𝗥</h1>
+<p class="dev-note">Halaman info developer &amp; tim di balik KZRIZUSMO masih dalam tahap pengembangan. Nantikan peluncuran resminya pada update berikutnya.</p>
+<div class="dev-progress"><span style="width:10%"></span></div>
 <p style="color:#00ff88;font-weight:700">Terima kasih telah menunggu. Fitur akan tersedia pada pembaruan berikutnya.</p>
 </div></div>
 
