@@ -36367,27 +36367,492 @@ function launchGame(url, logoUrl, gameName, evt){
 })();
 </script>
 
-<!-- DEVELOPER (tab bottombar paling kanan, belum ada isi) -->
+<!-- DEVELOPER (tab bottombar paling kanan) -->
 <div class="page" id="developerTab">
 
-<div class="shop-hero dev-hero">
-  <div class="shop-hero-glow"></div>
-  <div class="shop-hero-glow2"></div>
-  <div class="shop-hero-top">
-    <div class="shop-hero-title"><i class="fa-solid fa-code"></i><span>DEVELOPER</span></div>
+<div class="dv2-hero">
+  <div class="dv2-hero-noise"></div>
+  <div class="dv2-hero-top">
+    <div class="dv2-avatar" onclick="devPickAvatar()">
+      <div class="dv2-avatar-inner" id="devAvatarCircle">
+        <img id="devAvatarImg" src="" alt="Foto Profil Developer" style="display:none">
+        <i class="fa-solid fa-user dev-avatar-placeholder"></i>
+      </div>
+      <div class="dv2-avatar-edit"><i class="fa-solid fa-camera"></i></div>
+    </div>
+    <div class="dv2-hero-id">
+      <h2 class="dv2-name" id="devNameText">Kv</h2>
+      <p class="dv2-handle" id="devRoleText">@kzrizusmo · Founder &amp; Developer</p>
+      <div class="dv2-chip-row">
+        <span class="dv2-chip dv2-chip-gold"><i class="fa-solid fa-code"></i> Developer</span>
+        <span class="dv2-chip"><i class="fa-solid fa-shield-halved"></i> Verified</span>
+      </div>
+    </div>
   </div>
-  <p class="shop-hero-desc">Info developer &amp; tim di balik KZRIZUSMO. Halaman ini masih dalam tahap pengembangan.</p>
+
+  <div class="dv2-meta-row">
+    <span class="dv2-meta"><i class="fa-solid fa-hashtag"></i> ID: DEV-0001</span>
+    <span class="dv2-meta-sep">•</span>
+    <span class="dv2-meta"><i class="fa-solid fa-calendar"></i> Bergabung Jan 2023</span>
+  </div>
+
+  <p class="dv2-bio" id="devBioText">Ngoding aplikasi &amp; game Free Fire sejak 2023. Bikin KZRIZUSMO buat komunitas — dari sistem redeem code, shop diamond, sampai fitur-fitur receh yang kepikiran pas begadang. Selalu buka saran &amp; kritik dari kalian semua.</p>
+
+  <div class="dv2-social-row">
+    <a class="dv2-social-btn" href="https://wa.me/6281234567890" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+    <a class="dv2-social-btn" href="https://instagram.com/username_kamu" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+    <a class="dv2-social-btn" href="https://tiktok.com/@username_kamu" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+    <a class="dv2-social-btn" href="https://youtube.com/@username_kamu" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+    <a class="dv2-social-btn" href="mailto:email_kamu@gmail.com" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+  </div>
 </div>
 
-<div class="hm-section-lbl"><span>🛠️ Info Tim</span></div>
+<div class="dv2-quicknav" id="devQuickNav">
+  <button class="dv2-qn-btn" onclick="devScrollTo('devSecMomen')"><i class="fa-solid fa-image"></i> Momen</button>
+  <button class="dv2-qn-btn" onclick="devScrollTo('devSecSkill')"><i class="fa-solid fa-gear"></i> Skill</button>
+  <button class="dv2-qn-btn" onclick="devScrollTo('devSecTimeline')"><i class="fa-solid fa-timeline"></i> Riwayat</button>
+  <button class="dv2-qn-btn" onclick="devScrollTo('devSecTesti')"><i class="fa-solid fa-comment"></i> Testimoni</button>
+  <button class="dv2-qn-btn" onclick="devScrollTo('devSecFaq')"><i class="fa-solid fa-circle-question"></i> FAQ</button>
+</div>
 
-<div class="shop-cat-list">
-  <div class="shop-cat-item locked">
-    <div class="shop-cat-icon"><i class="fa-solid fa-hourglass-half"></i></div>
-    <div class="shop-cat-body"><h4>Segera Hadir</h4><small>Nantikan peluncuran resminya pada update berikutnya</small></div>
-    <span class="shop-soon-badge">SEGERA</span>
+<div class="dv2-stat-strip">
+  <div class="dv2-stat"><span class="dv2-stat-n">2.5K+</span><span class="dv2-stat-l">Pengguna</span></div>
+  <div class="dv2-stat"><span class="dv2-stat-n">40+</span><span class="dv2-stat-l">Update</span></div>
+  <div class="dv2-stat"><span class="dv2-stat-n">2th</span><span class="dv2-stat-l">Aktif</span></div>
+  <div class="dv2-stat"><span class="dv2-stat-n">4.9★</span><span class="dv2-stat-l">Rating</span></div>
+</div>
+
+<div class="dv2-section-head">
+  <span class="dv2-section-title">Pencapaian</span>
+</div>
+<div class="dv2-badge-grid">
+  <div class="dv2-badge-item">
+    <div class="dv2-badge-ic dv2-badge-gold"><i class="fa-solid fa-trophy"></i></div>
+    <span class="dv2-badge-name">Top Developer</span>
+    <span class="dv2-badge-sub">Komunitas 2024</span>
+  </div>
+  <div class="dv2-badge-item">
+    <div class="dv2-badge-ic"><i class="fa-solid fa-bolt"></i></div>
+    <span class="dv2-badge-name">40+ Update</span>
+    <span class="dv2-badge-sub">Rilis rutin</span>
+  </div>
+  <div class="dv2-badge-item">
+    <div class="dv2-badge-ic"><i class="fa-solid fa-users"></i></div>
+    <span class="dv2-badge-name">2.500+ User</span>
+    <span class="dv2-badge-sub">Terus tumbuh</span>
+  </div>
+  <div class="dv2-badge-item">
+    <div class="dv2-badge-ic"><i class="fa-solid fa-code-branch"></i></div>
+    <span class="dv2-badge-name">Open Feedback</span>
+    <span class="dv2-badge-sub">Selalu dengar saran</span>
   </div>
 </div>
+
+<div class="dv2-section-head" id="devSecMomen">
+  <span class="dv2-section-title">Momen</span>
+  <span class="dv2-section-sub">Geser untuk lihat semua</span>
+</div>
+
+<div class="dv2-filmstrip" id="devFilmstrip">
+  <div class="dv2-film" onclick="devPickGallery(0)">
+    <img class="dev-gallery-img" data-idx="0" src="" alt="Foto 1" style="display:none">
+    <div class="dv2-film-empty"><i class="fa-solid fa-plus"></i></div>
+    <span class="dv2-film-cap">Awal ngoding</span>
+  </div>
+  <div class="dv2-film" onclick="devPickGallery(1)">
+    <img class="dev-gallery-img" data-idx="1" src="" alt="Foto 2" style="display:none">
+    <div class="dv2-film-empty"><i class="fa-solid fa-plus"></i></div>
+    <span class="dv2-film-cap">Setup kerja</span>
+  </div>
+  <div class="dv2-film" onclick="devPickGallery(2)">
+    <img class="dev-gallery-img" data-idx="2" src="" alt="Foto 3" style="display:none">
+    <div class="dv2-film-empty"><i class="fa-solid fa-plus"></i></div>
+    <span class="dv2-film-cap">Rilis update</span>
+  </div>
+  <div class="dv2-film" onclick="devPickGallery(3)">
+    <img class="dev-gallery-img" data-idx="3" src="" alt="Foto 4" style="display:none">
+    <div class="dv2-film-empty"><i class="fa-solid fa-plus"></i></div>
+    <span class="dv2-film-cap">Kumpul komunitas</span>
+  </div>
+  <div class="dv2-film" onclick="devPickGallery(4)">
+    <img class="dev-gallery-img" data-idx="4" src="" alt="Foto 5" style="display:none">
+    <div class="dv2-film-empty"><i class="fa-solid fa-plus"></i></div>
+    <span class="dv2-film-cap">Momen favorit</span>
+  </div>
+</div>
+
+<div class="dv2-section-head" id="devSecSkill">
+  <span class="dv2-section-title">Skill &amp; Tools</span>
+</div>
+<div class="dv2-skill-row">
+  <span class="dv2-skill"><i class="fa-brands fa-html5"></i>HTML/CSS/JS</span>
+  <span class="dv2-skill"><i class="fa-solid fa-cubes"></i>Three.js</span>
+  <span class="dv2-skill"><i class="fa-solid fa-mobile-screen"></i>PWA</span>
+  <span class="dv2-skill"><i class="fa-solid fa-palette"></i>UI/UX</span>
+  <span class="dv2-skill"><i class="fa-solid fa-gamepad"></i>Game Dev</span>
+</div>
+
+<div class="dv2-section-head" id="devSecTimeline">
+  <span class="dv2-section-title">Perjalanan</span>
+</div>
+<div class="dv2-timeline">
+
+  <div class="dv2-tl">
+    <div class="dv2-tl-yr">2023</div>
+    <div class="dv2-tl-line"><div class="dv2-tl-dot"></div></div>
+    <div class="dv2-tl-txt"><h4>Awal Mula</h4><p>KZRIZUSMO dimulai dari proyek iseng — satu halaman HTML buat komunitas kecil.</p></div>
+  </div>
+  <div class="dv2-tl">
+    <div class="dv2-tl-yr">2024</div>
+    <div class="dv2-tl-line"><div class="dv2-tl-dot"></div></div>
+    <div class="dv2-tl-txt"><h4>Diamond &amp; Redeem</h4><p>Ekonomi diamond, ratusan kode redeem, dan misi harian buat pengguna.</p></div>
+  </div>
+  <div class="dv2-tl">
+    <div class="dv2-tl-yr">2025</div>
+    <div class="dv2-tl-line"><div class="dv2-tl-dot"></div></div>
+    <div class="dv2-tl-txt"><h4>Komunitas Tumbuh</h4><p>Ribuan pengguna bergabung, grup &amp; sosial media makin aktif.</p></div>
+  </div>
+  <div class="dv2-tl dv2-tl-now">
+    <div class="dv2-tl-yr">Kini</div>
+    <div class="dv2-tl-line"><div class="dv2-tl-dot"></div></div>
+    <div class="dv2-tl-txt"><h4>Terus Berkembang</h4><p>Fitur baru &amp; perbaikan rutin — masih terus digarap sampai hari ini.</p></div>
+  </div>
+</div>
+
+<div class="dv2-section-head">
+  <span class="dv2-section-title">Proyek Lain</span>
+</div>
+<div class="dv2-project-list">
+  <div class="dv2-project">
+    <div class="dv2-project-ic"><i class="fa-solid fa-gamepad"></i></div>
+    <div class="dv2-project-txt"><h4>SUPER RAHULLL</h4><p>Endless runner 2D dengan karakter orisinal</p></div>
+    <span class="dv2-project-tag">Game</span>
+  </div>
+  <div class="dv2-project">
+    <div class="dv2-project-ic"><i class="fa-solid fa-train"></i></div>
+    <div class="dv2-project-txt"><h4>Rail Runner</h4><p>Endless runner 3D berbasis Three.js</p></div>
+    <span class="dv2-project-tag">Game</span>
+  </div>
+  <div class="dv2-project">
+    <div class="dv2-project-ic"><i class="fa-solid fa-pen-nib"></i></div>
+    <div class="dv2-project-txt"><h4>Editor Bio</h4><p>Tools styling teks buat bio &amp; nickname</p></div>
+    <span class="dv2-project-tag">Tools</span>
+  </div>
+</div>
+
+<div class="dv2-section-head" id="devSecTesti">
+  <span class="dv2-section-title">Kata Komunitas</span>
+  <span class="dv2-section-sub">Geser untuk lihat semua</span>
+</div>
+<div class="dv2-testi-strip">
+  <div class="dv2-testi-card">
+    <div class="dv2-testi-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+    <p class="dv2-testi-quote">"Responsnya cepat banget kalau ada bug, langsung dibenerin di update berikutnya."</p>
+    <div class="dv2-testi-who"><div class="dv2-testi-avatar">A</div><span>Anggota Komunitas</span></div>
+  </div>
+  <div class="dv2-testi-card">
+    <div class="dv2-testi-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+    <p class="dv2-testi-quote">"Fitur redeem code-nya paling gampang dipakai dibanding aplikasi sejenis lain."</p>
+    <div class="dv2-testi-who"><div class="dv2-testi-avatar">R</div><span>Pengguna Aktif</span></div>
+  </div>
+  <div class="dv2-testi-card">
+    <div class="dv2-testi-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i></div>
+    <p class="dv2-testi-quote">"Suka sama update rutinnya, kerasa developer-nya niat ngurusin komunitas."</p>
+    <div class="dv2-testi-who"><div class="dv2-testi-avatar">D</div><span>Member Grup</span></div>
+  </div>
+</div>
+
+<div class="dv2-section-head">
+  <span class="dv2-section-title">Dukung &amp; Hubungi</span>
+</div>
+<div class="dv2-support-grid">
+  <a class="dv2-support-card dv2-support-wa" href="https://wa.me/6281234567890">
+    <i class="fa-brands fa-whatsapp"></i>
+    <span>Grup WhatsApp</span>
+  </a>
+  <a class="dv2-support-card dv2-support-coffee" href="#">
+    <i class="fa-solid fa-mug-hot"></i>
+    <span>Traktir Kopi</span>
+  </a>
+</div>
+
+<div class="dv2-section-head">
+  <span class="dv2-section-title">Aktivitas Terbaru</span>
+</div>
+<div class="dv2-changelog">
+  <div class="dv2-change-item">
+    <span class="dv2-change-dot dv2-change-new"></span>
+    <div class="dv2-change-txt">
+      <div class="dv2-change-top"><h4>Halaman Developer Baru</h4><span class="dv2-change-date">Sep 2026</span></div>
+      <p>Menambahkan profil developer, galeri, dan info tim.</p>
+    </div>
+  </div>
+  <div class="dv2-change-item">
+    <span class="dv2-change-dot"></span>
+    <div class="dv2-change-txt">
+      <div class="dv2-change-top"><h4>Perbaikan Shop</h4><span class="dv2-change-date">Ags 2026</span></div>
+      <p>Memperbaiki tampilan grid wallpaper &amp; bug tombol redeem.</p>
+    </div>
+  </div>
+  <div class="dv2-change-item">
+    <span class="dv2-change-dot"></span>
+    <div class="dv2-change-txt">
+      <div class="dv2-change-top"><h4>Logo Shop A–Z</h4><span class="dv2-change-date">Jul 2026</span></div>
+      <p>26 logo baru bisa ditukar pakai diamond, tampilan grid melingkar.</p>
+    </div>
+  </div>
+</div>
+
+<div class="dv2-section-head">
+  <span class="dv2-section-title">Kontak &amp; Respons</span>
+</div>
+<div class="dv2-contact-card">
+  <div class="dv2-contact-row">
+    <div class="dv2-contact-ic"><i class="fa-solid fa-clock"></i></div>
+    <div class="dv2-contact-txt"><h4>Jam Aktif</h4><p>Setiap hari, 19.00 – 23.00 WIB</p></div>
+  </div>
+  <div class="dv2-contact-row">
+    <div class="dv2-contact-ic"><i class="fa-solid fa-reply"></i></div>
+    <div class="dv2-contact-txt"><h4>Waktu Respons</h4><p>Biasanya dibalas dalam 1×24 jam</p></div>
+  </div>
+  <div class="dv2-contact-row">
+    <div class="dv2-contact-ic"><i class="fa-solid fa-location-dot"></i></div>
+    <div class="dv2-contact-txt"><h4>Basis Tim</h4><p>Indonesia</p></div>
+  </div>
+</div>
+
+<div class="dv2-section-head" id="devSecFaq">
+  <span class="dv2-section-title">Tanya Jawab</span>
+</div>
+<div class="dv2-faq-list">
+  <details class="dv2-faq">
+    <summary>Berapa lama waktu ngoding tiap hari?<i class="fa-solid fa-chevron-down"></i></summary>
+    <p>Nggak tentu — kadang cuma sejam, kadang begadang kalau lagi keburu ada bug yang harus dibenerin sebelum rilis.</p>
+  </details>
+  <details class="dv2-faq">
+    <summary>Apakah KZRIZUSMO buatan tim atau solo?<i class="fa-solid fa-chevron-down"></i></summary>
+    <p>Sejauh ini masih dikerjakan sendiri, dari desain, kode, sampai testing. Terbuka kalau ada yang mau bantu ke depannya.</p>
+  </details>
+  <details class="dv2-faq">
+    <summary>Bisa request fitur baru?<i class="fa-solid fa-chevron-down"></i></summary>
+    <p>Bisa banget, kirim lewat grup WhatsApp atau kolom testimoni. Nggak janji semua langsung dibikin, tapi pasti dibaca.</p>
+  </details>
+</div>
+
+<input type="file" id="devFileInput" accept="image/*" style="display:none">
+
+<script>
+(function(){
+  var devPendingTarget=null; // 'avatar' atau index angka untuk galeri (string)
+
+  window.devPickAvatar=function(){
+    devPendingTarget='avatar';
+    document.getElementById('devFileInput').click();
+  };
+
+  window.devPickGallery=function(idx){
+    devPendingTarget=String(idx);
+    document.getElementById('devFileInput').click();
+  };
+
+  window.devScrollTo=function(id){
+    var el=document.getElementById(id);
+    if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+    try{ navigator.vibrate && navigator.vibrate(10); }catch(e){}
+  };
+
+  var input=document.getElementById('devFileInput');
+  if(input){
+    input.addEventListener('change',function(e){
+      var file=e.target.files && e.target.files[0];
+      if(!file || devPendingTarget===null) return;
+      var reader=new FileReader();
+      reader.onload=function(ev){
+        var url=ev.target.result;
+        if(devPendingTarget==='avatar'){
+          var img=document.getElementById('devAvatarImg');
+          img.src=url; img.style.display='block';
+          var ph=document.querySelector('#devAvatarCircle .dev-avatar-placeholder');
+          if(ph) ph.style.display='none';
+        }else{
+          var gImg=document.querySelector('.dev-gallery-img[data-idx="'+devPendingTarget+'"]');
+          if(gImg){
+            gImg.src=url; gImg.style.display='block';
+            var gph=gImg.parentElement.querySelector('.dv2-film-empty');
+            if(gph) gph.style.display='none';
+          }
+        }
+        devPendingTarget=null;
+      };
+      reader.readAsDataURL(file);
+      input.value='';
+    });
+  }
+})();
+</script>
+
+<style>
+/* ============ DEVELOPER PAGE v2 — palet: near-black + merah tipis + gold aksen ============ */
+#developerTab{--dv2-red:#ff3b3b;--dv2-gold:#e8b04b;--dv2-ink:#0c0c0e;--dv2-card:rgba(255,255,255,.045);--dv2-line:rgba(255,255,255,.09);}
+
+/* ----- HERO ----- */
+.dv2-hero{position:relative;background:linear-gradient(175deg,#151517,var(--dv2-ink));border:1px solid var(--dv2-line);border-radius:26px;padding:22px 20px 20px;margin:6px 0 16px;overflow:hidden}
+.dv2-hero-noise{position:absolute;inset:0;background:radial-gradient(600px circle at 15% -10%,rgba(255,59,59,.12),transparent 55%),radial-gradient(500px circle at 100% 110%,rgba(232,176,75,.08),transparent 50%);pointer-events:none}
+.dv2-hero-top{position:relative;display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.dv2-avatar{position:relative;flex-shrink:0;width:72px;height:72px;cursor:pointer}
+.dv2-avatar-inner{width:100%;height:100%;border-radius:20px;background:linear-gradient(160deg,#221f1f,#0a0a0a);border:1.5px solid var(--dv2-line);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.dv2-avatar-inner img{width:100%;height:100%;object-fit:cover;border-radius:19px}
+.dev-avatar-placeholder{font-size:24px;color:rgba(255,255,255,.22)}
+.dv2-avatar-edit{position:absolute;bottom:-4px;right:-4px;width:24px;height:24px;border-radius:8px;background:var(--dv2-red);display:flex;align-items:center;justify-content:center;border:2px solid var(--dv2-ink);box-shadow:0 2px 8px rgba(255,59,59,.5)}
+.dv2-avatar-edit i{font-size:9px;color:#fff}
+.dv2-hero-id{flex:1;min-width:0}
+.dv2-name{font-family:'Righteous',cursive;font-size:1.25rem;color:#fff;letter-spacing:.3px;line-height:1.2}
+.dv2-handle{font-size:.72rem;color:rgba(255,255,255,.4);margin:2px 0 8px}
+.dv2-chip-row{display:flex;gap:6px;flex-wrap:wrap}
+.dv2-chip{display:inline-flex;align-items:center;gap:5px;font-size:9.5px;font-weight:800;letter-spacing:.2px;color:rgba(255,255,255,.75);background:rgba(255,255,255,.07);border:1px solid var(--dv2-line);padding:4px 9px;border-radius:8px}
+.dv2-chip i{font-size:9px;color:var(--dv2-red)}
+.dv2-chip-gold{color:#1a1408;background:linear-gradient(135deg,#f3cc7a,var(--dv2-gold));border-color:transparent}
+.dv2-chip-gold i{color:#1a1408}
+
+.dv2-bio{position:relative;font-size:.79rem;line-height:1.7;color:rgba(255,255,255,.62);margin-bottom:16px}
+.dv2-social-row{position:relative;display:flex;gap:8px;flex-wrap:wrap}
+.dv2-social-btn{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.05);border:1px solid var(--dv2-line);color:rgba(255,255,255,.8);font-size:14px;transition:.2s}
+.dv2-social-btn:active{transform:scale(.9);border-color:var(--dv2-red);color:#fff}
+
+/* ----- STAT STRIP (di luar hero, jadi jeda visual) ----- */
+.dv2-stat-strip{display:flex;background:var(--dv2-card);border:1px solid var(--dv2-line);border-radius:18px;padding:14px 8px;margin-bottom:22px}
+.dv2-stat{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;position:relative}
+.dv2-stat:not(:last-child):after{content:'';position:absolute;right:0;top:4px;bottom:4px;width:1px;background:var(--dv2-line)}
+.dv2-stat-n{font-family:'Righteous',cursive;font-size:1rem;color:#fff}
+.dv2-stat-l{font-size:8.5px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:rgba(255,255,255,.38)}
+
+/* ----- SECTION HEAD (lebih ringan dari hm-section-lbl bawaan, khusus halaman ini) ----- */
+.dv2-section-head{display:flex;align-items:baseline;justify-content:space-between;margin:0 2px 10px;gap:10px}
+.dv2-section-title{font-size:.92rem;font-weight:800;color:#fff;letter-spacing:.2px;position:relative;padding-left:11px}
+.dv2-section-title:before{content:'';position:absolute;left:0;top:3px;bottom:3px;width:3px;border-radius:3px;background:linear-gradient(180deg,var(--dv2-red),var(--dv2-gold))}
+.dv2-section-sub{font-size:9.5px;color:rgba(255,255,255,.32);font-weight:600}
+
+/* ----- FILMSTRIP ----- */
+.dv2-filmstrip{display:flex;gap:11px;overflow-x:auto;overflow-y:hidden;padding:2px 2px 6px;margin:0 -2px 22px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+.dv2-filmstrip::-webkit-scrollbar{display:none}
+.dv2-film{position:relative;flex:0 0 auto;width:136px;aspect-ratio:4/5;border-radius:18px;overflow:hidden;background:linear-gradient(160deg,#1a1a1c,#0d0d0e);border:1px solid var(--dv2-line);cursor:pointer;scroll-snap-align:start;transition:transform .2s,border-color .2s}
+.dv2-film:active{transform:scale(.96);border-color:var(--dv2-red)}
+.dv2-film .dev-gallery-img{width:100%;height:100%;object-fit:cover;display:block}
+.dv2-film-empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.18);font-size:20px}
+.dv2-film-cap{position:absolute;left:0;right:0;bottom:0;padding:9px 10px 8px;font-size:9.5px;font-weight:700;color:rgba(255,255,255,.85);background:linear-gradient(0deg,rgba(0,0,0,.8),transparent)}
+
+/* ----- SKILLS ----- */
+.dv2-skill-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.dv2-skill{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:700;color:rgba(255,255,255,.85);background:var(--dv2-card);border:1px solid var(--dv2-line);padding:8px 13px 8px 11px;border-radius:12px}
+.dv2-skill i{color:var(--dv2-gold);font-size:12px}
+
+/* ----- TIMELINE (horizontal-feel via left rail, lebih ringkas) ----- */
+.dv2-timeline{margin-bottom:22px}
+.dv2-tl{display:grid;grid-template-columns:38px 20px 1fr;align-items:start}
+.dv2-tl-yr{font-size:10px;font-weight:800;color:rgba(255,255,255,.4);padding-top:2px}
+.dv2-tl-line{position:relative;display:flex;justify-content:center}
+.dv2-tl-line:before{content:'';position:absolute;top:14px;bottom:-6px;width:1.5px;background:var(--dv2-line)}
+.dv2-tl:last-child .dv2-tl-line:before{display:none}
+.dv2-tl-dot{width:9px;height:9px;border-radius:50%;background:var(--dv2-ink);border:2px solid var(--dv2-red);margin-top:4px;z-index:1}
+.dv2-tl-now .dv2-tl-dot{background:var(--dv2-gold);border-color:var(--dv2-gold);box-shadow:0 0 10px rgba(232,176,75,.6)}
+.dv2-tl-txt{padding-bottom:18px}
+.dv2-tl-txt h4{font-size:12.5px;font-weight:800;color:#fff;margin-bottom:3px}
+.dv2-tl-txt p{font-size:10.5px;line-height:1.55;color:rgba(255,255,255,.42)}
+.dv2-tl:last-child .dv2-tl-txt{padding-bottom:0}
+
+/* ----- PROJECTS ----- */
+.dv2-project-list{display:flex;flex-direction:column;gap:10px;margin-bottom:22px}
+.dv2-project{display:flex;align-items:center;gap:13px;padding:13px 14px;border-radius:16px;background:var(--dv2-card);border:1px solid var(--dv2-line)}
+.dv2-project-ic{flex-shrink:0;width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.06);border:1px solid var(--dv2-line)}
+.dv2-project-ic i{font-size:15px;color:#fff}
+.dv2-project-txt{flex:1;min-width:0}
+.dv2-project-txt h4{font-size:12.5px;font-weight:800;color:#fff;margin-bottom:1px}
+.dv2-project-txt p{font-size:10px;color:rgba(255,255,255,.4)}
+.dv2-project-tag{flex-shrink:0;font-size:8.5px;font-weight:800;letter-spacing:.3px;text-transform:uppercase;color:rgba(255,255,255,.5);background:rgba(255,255,255,.06);padding:4px 9px;border-radius:999px}
+
+/* ----- SUPPORT: 2 kolom, bukan list ----- */
+.dv2-support-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:22px}
+.dv2-support-card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:20px 10px;border-radius:18px;text-decoration:none;border:1px solid var(--dv2-line)}
+.dv2-support-card i{font-size:22px}
+.dv2-support-card span{font-size:11.5px;font-weight:800;color:#fff}
+.dv2-support-wa{background:linear-gradient(160deg,rgba(37,211,102,.16),rgba(255,255,255,.03))}
+.dv2-support-wa i{color:#25d366}
+.dv2-support-coffee{background:linear-gradient(160deg,rgba(232,176,75,.16),rgba(255,255,255,.03))}
+.dv2-support-coffee i{color:var(--dv2-gold)}
+.dv2-support-card:active{transform:scale(.97)}
+
+/* ----- FAQ ----- */
+.dv2-faq-list{display:flex;flex-direction:column;gap:8px;margin-bottom:8px}
+.dv2-faq{background:var(--dv2-card);border:1px solid var(--dv2-line);border-radius:14px;padding:13px 15px}
+.dv2-faq summary{font-size:12px;font-weight:700;color:#fff;cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.dv2-faq summary::-webkit-details-marker{display:none}
+.dv2-faq summary i{font-size:10px;color:rgba(255,255,255,.4);transition:transform .2s;flex-shrink:0}
+.dv2-faq[open] summary i{transform:rotate(180deg);color:var(--dv2-red)}
+.dv2-faq p{font-size:10.5px;line-height:1.6;color:rgba(255,255,255,.45);margin-top:9px}
+
+/* ----- BADGES / PENCAPAIAN ----- */
+.dv2-badge-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:22px}
+.dv2-badge-item{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:16px 10px;border-radius:16px;background:var(--dv2-card);border:1px solid var(--dv2-line)}
+.dv2-badge-ic{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:rgba(255,59,59,.12);border:1px solid rgba(255,59,59,.3)}
+.dv2-badge-ic i{font-size:16px;color:var(--dv2-red)}
+.dv2-badge-gold{background:linear-gradient(135deg,rgba(243,204,122,.25),rgba(232,176,75,.15));border-color:rgba(232,176,75,.4)}
+.dv2-badge-gold i{color:var(--dv2-gold)}
+.dv2-badge-name{font-size:11.5px;font-weight:800;color:#fff}
+.dv2-badge-sub{font-size:9px;color:rgba(255,255,255,.4)}
+
+/* ----- CHANGELOG / AKTIVITAS TERBARU ----- */
+.dv2-changelog{display:flex;flex-direction:column;margin-bottom:22px}
+.dv2-change-item{display:flex;gap:12px;padding-bottom:16px}
+.dv2-change-item:last-child{padding-bottom:0}
+.dv2-change-dot{flex-shrink:0;width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.22);margin-top:5px}
+.dv2-change-new{background:var(--dv2-red);box-shadow:0 0 8px rgba(255,59,59,.6)}
+.dv2-change-txt{flex:1;min-width:0;border-bottom:1px solid var(--dv2-line);padding-bottom:16px}
+.dv2-change-item:last-child .dv2-change-txt{border-bottom:none;padding-bottom:0}
+.dv2-change-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:3px}
+.dv2-change-top h4{font-size:12px;font-weight:800;color:#fff}
+.dv2-change-date{flex-shrink:0;font-size:9px;font-weight:700;color:rgba(255,255,255,.35);white-space:nowrap}
+.dv2-change-txt p{font-size:10.5px;line-height:1.55;color:rgba(255,255,255,.42)}
+
+/* ----- KONTAK & RESPONS ----- */
+.dv2-contact-card{background:var(--dv2-card);border:1px solid var(--dv2-line);border-radius:18px;padding:6px 15px;margin-bottom:22px}
+.dv2-contact-row{display:flex;align-items:center;gap:12px;padding:11px 0}
+.dv2-contact-row:not(:last-child){border-bottom:1px solid var(--dv2-line)}
+.dv2-contact-ic{flex-shrink:0;width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.06)}
+.dv2-contact-ic i{font-size:13px;color:var(--dv2-gold)}
+.dv2-contact-txt h4{font-size:11.5px;font-weight:800;color:#fff;margin-bottom:1px}
+.dv2-contact-txt p{font-size:10px;color:rgba(255,255,255,.42)}
+
+/* ----- META ROW (ID & join date, di dalam hero) ----- */
+.dv2-meta-row{position:relative;display:flex;align-items:center;gap:7px;flex-wrap:wrap;font-size:9.5px;font-weight:600;color:rgba(255,255,255,.35);margin-bottom:12px}
+.dv2-meta{display:flex;align-items:center;gap:5px}
+.dv2-meta i{font-size:9px;color:rgba(255,255,255,.3)}
+.dv2-meta-sep{opacity:.4}
+
+/* ----- QUICK NAV ----- */
+.dv2-quicknav{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 4px;margin:14px -2px 18px;-webkit-overflow-scrolling:touch}
+.dv2-quicknav::-webkit-scrollbar{display:none}
+.dv2-qn-btn{flex:0 0 auto;display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:rgba(255,255,255,.7);background:var(--dv2-card);border:1px solid var(--dv2-line);padding:9px 14px;border-radius:999px;cursor:pointer;white-space:nowrap}
+.dv2-qn-btn:active{border-color:var(--dv2-red);color:#fff;background:rgba(255,59,59,.1)}
+.dv2-qn-btn i{font-size:10px;color:var(--dv2-gold)}
+
+
+/* ----- TESTIMONI ----- */
+.dv2-testi-strip{display:flex;gap:12px;overflow-x:auto;padding:2px 2px 8px;margin:0 -2px 22px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+.dv2-testi-strip::-webkit-scrollbar{display:none}
+.dv2-testi-card{flex:0 0 auto;width:220px;background:var(--dv2-card);border:1px solid var(--dv2-line);border-radius:18px;padding:16px;scroll-snap-align:start}
+.dv2-testi-stars{font-size:10px;color:var(--dv2-gold);margin-bottom:9px;letter-spacing:2px}
+.dv2-testi-quote{font-size:11.5px;line-height:1.6;color:rgba(255,255,255,.68);margin-bottom:14px;min-height:66px}
+.dv2-testi-who{display:flex;align-items:center;gap:8px}
+.dv2-testi-avatar{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--dv2-red),var(--dv2-gold));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;flex-shrink:0}
+.dv2-testi-who span{font-size:10.5px;font-weight:700;color:rgba(255,255,255,.55)}
+
+@media (max-width:360px){
+  .dv2-film{width:120px}
+  .dv2-avatar{width:64px;height:64px}
+  .dv2-name{font-size:1.1rem}
+  .dv2-testi-card{width:196px}
+}
+</style>
 
 </div>
 
