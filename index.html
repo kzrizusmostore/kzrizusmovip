@@ -6265,8 +6265,8 @@ function closeVipShadowApp(){
 </div>
 <div class="app-bottombar">
 <div class="tab" onclick="showPage('leaderboardTab')">
-<i class="fa-solid fa-trophy"></i>
-    LEADERBOARD
+<i class="fa-solid fa-comment-dots"></i>
+    TESTIMONI
   </div>
 <div class="tab" onclick="showPage('eventTab')">
 <i class="fa-solid fa-calendar-days"></i>
@@ -18167,15 +18167,15 @@ async function stkStalk(type){
   </div>
   <div class="cifm-tile" onclick="showPage('cekidffModeBR')">
     <div class="cifm-tile-icon"><i class="fa-solid fa-envelope"></i></div>
-    <span>MODE BR</span>
+    <span>GANTI BIND</span>
   </div>
   <div class="cifm-tile" onclick="showPage('cekidffModeCS')">
     <div class="cifm-tile-icon"><i class="fa-solid fa-envelope"></i></div>
-    <span>MODE CS</span>
+    <span>UNBIND</span>
   </div>
   <div class="cifm-tile" onclick="showPage('cekidffModeTraining')">
     <div class="cifm-tile-icon"><i class="fa-solid fa-envelope"></i></div>
-    <span>MODE TRAINING</span>
+    <span>CANCEL BIND</span>
   </div>
 </div>
 
@@ -18346,7 +18346,7 @@ function cbiTryCheck(){
 }
 </script>
 
-<!-- MODE BR (CEK INFO FF) — halaman ini hanya bisa dibuka/dijalankan
+<!-- GANTI BIND (CEK INFO FF) — halaman ini hanya bisa dibuka/dijalankan
      oleh developer aplikasi. UI gimmick saja, tidak ada fungsi/backend. -->
 <div class="page" id="cekidffModeBR">
 <style>
@@ -18363,7 +18363,7 @@ function cbiTryCheck(){
 <div class="cid-page-head">
   <span class="cid-page-head-icon" aria-hidden="true"></span>
   <div>
-    <p class="cid-hero-title"><span class="red">MODE</span>&nbsp;<span class="wht">BR</span></p>
+    <p class="cid-hero-title"><span class="red">GANTI</span>&nbsp;<span class="wht">BIND</span></p>
     <p class="cid-hero-sub">Fitur ini hanya bisa diakses oleh developer aplikasi.</p>
   </div>
 </div>
@@ -18376,29 +18376,29 @@ function cbiTryCheck(){
     <i class="fa-solid fa-hashtag"></i>
     <input class="cid-input" id="cmbUidInput" type="text" inputmode="numeric" placeholder="Contoh: 123456789" maxlength="13"/>
   </div>
-  <div class="cid-label"><i class="fa-solid fa-user"></i>SOLO</div>
+  <div class="cid-label"><i class="fa-solid fa-user"></i>EMAIL LAMA</div>
   <div class="cid-input-wrap">
     <i class="fa-solid fa-user"></i>
-    <input class="cid-input" id="cmbSoloInput" type="text" placeholder="Ketik nilai untuk mode Solo"/>
+    <input class="cid-input" id="cmbSoloInput" type="text" placeholder="Contoh: kzrizusmo@gmail.com"/>
   </div>
-  <div class="cid-label"><i class="fa-solid fa-user-group"></i>DUO</div>
+  <div class="cid-label"><i class="fa-solid fa-user-group"></i>EMAIL BARU</div>
   <div class="cid-input-wrap">
     <i class="fa-solid fa-user-group"></i>
-    <input class="cid-input" id="cmbDuoInput" type="text" placeholder="Ketik nilai untuk mode Duo"/>
+    <input class="cid-input" id="cmbDuoInput" type="text" placeholder="Contoh: kzrizusmo@gmail.com"/>
   </div>
-  <div class="cid-label"><i class="fa-solid fa-people-group"></i>SQUAD</div>
+  <div class="cid-label"><i class="fa-solid fa-people-group"></i>PIN</div>
   <div class="cid-input-wrap" style="margin-bottom:0;">
     <i class="fa-solid fa-people-group"></i>
-    <input class="cid-input" id="cmbSquadInput" type="text" placeholder="Ketik nilai untuk mode Squad"/>
+    <input class="cid-input" id="cmbSquadInput" type="text" placeholder="Contoh: 121212"/>
   </div>
 
-  <button class="cid-btn" id="cmbGoBtn" onclick="cmbTryGo()" style="margin-top:14px;"><i class="fa-solid fa-lock"></i>TERAPKAN MODE BR</button>
+  <button class="cid-btn" id="cmbGoBtn" onclick="cmbTryGo()" style="margin-top:14px;"><i class="fa-solid fa-lock"></i>TERAPKAN GANTI BIND</button>
   <p class="cid-hint">Fitur ini terkunci untuk pengguna umum.</p>
 </div>
 
 <div class="cmb-dev-gate" id="cmbGate" style="display:none;">
   <i class="fa-solid fa-user-lock"></i>
-  <p>Akses ditolak. Fitur "Mode BR" hanya bisa dibuka oleh developer aplikasi.</p>
+  <p>Akses ditolak. Fitur "GANTI BIND" hanya bisa dibuka oleh developer aplikasi.</p>
 </div>
 
 <div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
@@ -18411,7 +18411,7 @@ function cmbTryGo(){
 }
 </script>
 
-<!-- MODE CS (CEK INFO FF) — halaman ini hanya bisa dibuka/dijalankan
+<!-- UNBIND (CEK INFO FF) — halaman ini hanya bisa dibuka/dijalankan
      oleh developer aplikasi. UI gimmick saja, tidak ada fungsi/backend. -->
 <div class="page" id="cekidffModeCS">
 <style>
@@ -18428,7 +18428,7 @@ function cmbTryGo(){
 <div class="cid-page-head">
   <span class="cid-page-head-icon" aria-hidden="true"></span>
   <div>
-    <p class="cid-hero-title"><span class="red">MODE</span>&nbsp;<span class="wht">CS</span></p>
+    <p class="cid-hero-title"><span class="red">UNBIND</span>&nbsp;<span class="wht">EMAIL</span></p>
     <p class="cid-hero-sub">Fitur ini hanya bisa diakses oleh developer aplikasi.</p>
   </div>
 </div>
@@ -18436,29 +18436,26 @@ function cmbTryGo(){
 <div class="dev-badge">KHUSUS DEVELOPER</div>
 
 <div class="cid-card">
-  <div class="cid-label"><i class="fa-solid fa-hashtag"></i>UID FREE FIRE</div>
+  <div class="cid-label"><i class="fa-solid fa-hashtag"></i>PIN</div>
   <div class="cid-input-wrap">
     <i class="fa-solid fa-hashtag"></i>
-    <input class="cid-input" id="cmcUidInput" type="text" inputmode="numeric" placeholder="Contoh: 123456789" maxlength="13"/>
+    <input class="cid-input" id="cmcUidInput" type="text" inputmode="numeric" placeholder="Contoh: 121212" maxlength="13"/>
   </div>
-  <div class="cid-label"><i class="fa-solid fa-user"></i>SOLO</div>
+  <div class="cid-label"><i class="fa-solid fa-user"></i>Email Bind</div>
   <div class="cid-input-wrap">
     <i class="fa-solid fa-user"></i>
-    <input class="cid-input" id="cmcSoloInput" type="text" placeholder="Ketik nilai untuk mode Solo"/>
-  </div>
-  <div class="cid-label"><i class="fa-solid fa-people-group"></i>SQUAD</div>
-  <div class="cid-input-wrap" style="margin-bottom:0;">
-    <i class="fa-solid fa-people-group"></i>
-    <input class="cid-input" id="cmcSquadInput" type="text" placeholder="Ketik nilai untuk mode Squad"/>
+    <input class="cid-input" id="cmcSoloInput" type="text" placeholder="Contoh: kzrizusmo@gmail.com"/>
   </div>
 
-  <button class="cid-btn" id="cmcGoBtn" onclick="cmcTryGo()" style="margin-top:14px;"><i class="fa-solid fa-lock"></i>TERAPKAN MODE CS</button>
+
+
+  <button class="cid-btn" id="cmcGoBtn" onclick="cmcTryGo()" style="margin-top:14px;"><i class="fa-solid fa-lock"></i>TERAPKAN UNBIND</button>
   <p class="cid-hint">Fitur ini terkunci untuk pengguna umum.</p>
 </div>
 
 <div class="cmc-dev-gate" id="cmcGate" style="display:none;">
   <i class="fa-solid fa-user-lock"></i>
-  <p>Akses ditolak. Fitur "Mode CS" hanya bisa dibuka oleh developer aplikasi.</p>
+  <p>Akses ditolak. Fitur "UNBIND" hanya bisa dibuka oleh developer aplikasi.</p>
 </div>
 
 <div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
@@ -18471,7 +18468,7 @@ function cmcTryGo(){
 }
 </script>
 
-<!-- MODE TRAINING (CEK INFO FF) — halaman ini hanya bisa dibuka/dijalankan
+<!-- CANCEL BIND (CEK INFO FF) — halaman ini hanya bisa dibuka/dijalankan
      oleh developer aplikasi. UI gimmick saja, tidak ada fungsi/backend. -->
 <div class="page" id="cekidffModeTraining">
 <style>
@@ -18488,7 +18485,7 @@ function cmcTryGo(){
 <div class="cid-page-head">
   <span class="cid-page-head-icon" aria-hidden="true"></span>
   <div>
-    <p class="cid-hero-title"><span class="red">MODE</span>&nbsp;<span class="wht">TRAINING</span></p>
+    <p class="cid-hero-title"><span class="red">CANCEL</span>&nbsp;<span class="wht">BIND</span></p>
     <p class="cid-hero-sub">Fitur ini hanya bisa diakses oleh developer aplikasi.</p>
   </div>
 </div>
@@ -18496,29 +18493,24 @@ function cmcTryGo(){
 <div class="dev-badge">KHUSUS DEVELOPER</div>
 
 <div class="cid-card">
-  <div class="cid-label"><i class="fa-solid fa-hashtag"></i>UID FREE FIRE</div>
+  <div class="cid-label"><i class="fa-solid fa-hashtag"></i>PIN</div>
   <div class="cid-input-wrap">
     <i class="fa-solid fa-hashtag"></i>
-    <input class="cid-input" id="cmtUidInput" type="text" inputmode="numeric" placeholder="Contoh: 123456789" maxlength="13"/>
+    <input class="cid-input" id="cmtUidInput" type="text" inputmode="numeric" placeholder="Contoh: 121212" maxlength="13"/>
   </div>
-  <div class="cid-label"><i class="fa-solid fa-user"></i>SOLO</div>
+  <div class="cid-label"><i class="fa-solid fa-user"></i>EMAIL</div>
   <div class="cid-input-wrap">
     <i class="fa-solid fa-user"></i>
-    <input class="cid-input" id="cmtSoloInput" type="text" placeholder="Ketik nilai untuk mode Solo"/>
-  </div>
-  <div class="cid-label"><i class="fa-solid fa-people-group"></i>SQUAD</div>
-  <div class="cid-input-wrap" style="margin-bottom:0;">
-    <i class="fa-solid fa-people-group"></i>
-    <input class="cid-input" id="cmtSquadInput" type="text" placeholder="Ketik nilai untuk mode Squad"/>
+    <input class="cid-input" id="cmtSoloInput" type="text" placeholder="Contoh: kzrizusmo@gma.com"/>
   </div>
 
-  <button class="cid-btn" id="cmtGoBtn" onclick="cmtTryGo()" style="margin-top:14px;"><i class="fa-solid fa-lock"></i>TERAPKAN MODE TRAINING</button>
+  <button class="cid-btn" id="cmtGoBtn" onclick="cmtTryGo()" style="margin-top:14px;"><i class="fa-solid fa-lock"></i>TERAPKAN CANCEL BIND</button>
   <p class="cid-hint">Fitur ini terkunci untuk pengguna umum.</p>
 </div>
 
 <div class="cmt-dev-gate" id="cmtGate" style="display:none;">
   <i class="fa-solid fa-user-lock"></i>
-  <p>Akses ditolak. Fitur "Mode Training" hanya bisa dibuka oleh developer aplikasi.</p>
+  <p>Akses ditolak. Fitur "CANCEL BIND" hanya bisa dibuka oleh developer aplikasi.</p>
 </div>
 
 <div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
@@ -36281,15 +36273,76 @@ function launchGame(url, logoUrl, gameName, evt){
 <p style="color:#00ff88;font-weight:700">Terima kasih telah menunggu. Fitur akan tersedia pada pembaruan berikutnya.</p>
 </div></div>
 
-<!-- LEADERBOARD (tab bottombar paling kiri, belum ada isi) -->
-<div class="page" id="leaderboardTab"><div class="dev-card">
-<i class="fa-solid fa-trophy" style="font-size:56px;color:#ff2b2b;margin:4px auto 18px;display:block;"></i>
-<div class="dev-badge">COMING SOON</div>
-<h1>𝗟𝗘𝗔𝗗𝗘𝗥𝗕𝗢𝗔𝗥𝗗</h1>
-<p class="dev-note">Papan peringkat pengguna teratas masih dalam tahap pengembangan. Nantikan peluncuran resminya pada update berikutnya.</p>
-<div class="dev-progress"><span style="width:10%"></span></div>
-<p style="color:#00ff88;font-weight:700">Terima kasih telah menunggu. Fitur akan tersedia pada pembaruan berikutnya.</p>
-</div></div>
+<!-- TESTIMONI (tab bottombar paling kiri) -->
+<style>
+.testi-wrap{padding:6px 4px 14px}
+.testi-title{text-align:center;font-size:1.7rem;margin:4px 0 6px}
+.testi-sub{text-align:center;color:rgba(255,255,255,.55);font-size:.76rem;margin:0 0 16px;padding:0 10px;line-height:1.5}
+.testi-count{text-align:center;color:#ff4747;font-weight:700;font-size:.78rem;margin:0 0 14px;letter-spacing:.5px}
+.testi-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:3px}
+.testi-item{position:relative;width:100%;aspect-ratio:1/1;overflow:hidden;border-radius:4px;background:rgba(255,255,255,.06);cursor:pointer;border:1px solid rgba(255,255,255,.06)}
+.testi-item img{width:100%;height:100%;object-fit:cover;display:block}
+.testi-item:active{opacity:.6;transform:scale(.94)}
+.testi-lightbox{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.94);display:none;align-items:center;justify-content:center;flex-direction:column;padding:20px}
+.testi-lightbox.show{display:flex;animation:fadePage .2s ease}
+.testi-lb-frame{width:100%;max-width:340px;aspect-ratio:9/16;max-height:74vh;border-radius:16px;overflow:hidden;background:#0d0d0d;display:flex;align-items:center;justify-content:center;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.testi-lb-frame img{width:100%;height:100%;object-fit:contain;display:block}
+.testi-lb-close{position:absolute;top:22px;right:20px;width:42px;height:42px;border-radius:50%;border:none;background:rgba(255,255,255,.12);color:#fff;font-size:18px}
+.testi-lb-close:active{transform:scale(.92)}
+.testi-lb-dl{margin-top:18px;padding:14px 26px;border:none;border-radius:14px;background:#ff2b2b;color:#fff;font-weight:700;font-size:14px}
+.testi-lb-dl:active{transform:scale(.95)}
+</style>
+<div class="page" id="leaderboardTab">
+<div class="testi-wrap">
+<h1 class="testi-title">𝗧𝗘𝗦𝗧𝗜𝗠𝗢𝗡𝗜</h1>
+<p class="testi-sub">Testimoni asli dari pengguna KZRIZUSMO. Tap gambar untuk melihat ukuran penuh.</p>
+<p class="testi-count" id="testiCount"></p>
+<div class="testi-grid" id="testiGrid"></div>
+</div>
+</div>
+
+<div class="testi-lightbox" id="testiLightbox" onclick="if(event.target===this) closeTestiLightbox()">
+<button class="testi-lb-close" onclick="closeTestiLightbox()"><i class="fa-solid fa-xmark"></i></button>
+<div class="testi-lb-frame"><img id="testiLightboxImg" src="" alt="Testimoni"></div>
+<button class="testi-lb-dl" id="testiLightboxDlBtn" onclick="downloadTestiImage()"><i class="fa-solid fa-download"></i> DOWNLOAD</button>
+</div>
+
+<script>
+(function(){
+  var TESTI_COUNT=500;
+  var grid=document.getElementById('testiGrid');
+  var countEl=document.getElementById('testiCount');
+  if(countEl) countEl.textContent=TESTI_COUNT+' TESTIMONI';
+  if(grid){
+    var html='';
+    for(var i=1;i<=TESTI_COUNT;i++){
+      html+='<div class="testi-item" onclick="openTestiLightbox('+i+')"><img loading="lazy" decoding="async" src="testi/testi'+i+'.jpg" alt="Testimoni '+i+'" onerror="this.closest(\'.testi-item\').style.display=\'none\'"></div>';
+    }
+    grid.innerHTML=html;
+  }
+
+  window.openTestiLightbox=function(n){
+    var url='testi/testi'+n+'.jpg';
+    var img=document.getElementById('testiLightboxImg');
+    var dlBtn=document.getElementById('testiLightboxDlBtn');
+    if(img) img.src=url;
+    if(dlBtn) dlBtn.setAttribute('data-url',url);
+    var box=document.getElementById('testiLightbox');
+    if(box){ box.classList.add('show'); document.body.style.overflow='hidden'; }
+    try{ navigator.vibrate && navigator.vibrate(12); }catch(e){}
+  };
+  window.closeTestiLightbox=function(){
+    var box=document.getElementById('testiLightbox');
+    if(box){ box.classList.remove('show'); document.body.style.overflow=''; }
+  };
+  window.downloadTestiImage=function(){
+    var dlBtn=document.getElementById('testiLightboxDlBtn');
+    var url=dlBtn?dlBtn.getAttribute('data-url'):'';
+    if(url && typeof window.aiSaveMediaFallback==='function') window.aiSaveMediaFallback(url);
+    else if(url) window.open(url,'_blank');
+  };
+})();
+</script>
 
 <!-- DEVELOPER (tab bottombar paling kanan, belum ada isi) -->
 <div class="page" id="developerTab"><div class="dev-card">
