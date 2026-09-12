@@ -18067,7 +18067,9 @@ async function stkStalk(type){
 .cifm-subtitle{position:relative;margin-top:5px;font-size:11px;color:var(--cifm-dim);}
 
 .cifm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:16px;}
-.cifm-tile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px 4px 13px;border-radius:14px;background:var(--cifm-surface);border:1px solid var(--cifm-hair);cursor:pointer;text-align:center;transition:border-color .15s,background .15s;}
+.cifm-tile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px 4px 13px;border-radius:14px;background:var(--cifm-surface);border:1px solid var(--cifm-hair);cursor:pointer;text-align:center;transition:border-color .15s,background .15s;position:relative;}
+.cifm-star-badge{position:absolute;top:6px;right:6px;width:19px;height:19px;border-radius:50%;background:linear-gradient(135deg,#ffe08a,#ff9f1c);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(255,159,28,.5);}
+.cifm-star-badge i{font-size:8.5px;color:#3a2200;}
 .cifm-tile-icon{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,43,43,.1);border:1px solid var(--cifm-hair-strong);}
 .cifm-tile i{font-size:15px;color:var(--cifm-accent);}
 .cifm-tile span{font-size:9.5px;font-weight:700;color:var(--cifm-dim);line-height:1.25;}
@@ -18083,24 +18085,33 @@ async function stkStalk(type){
 
 <div class="cifm-grid">
   <div class="cifm-tile" onclick="showPage('cekidffPlayer')">
+    <span class="cifm-star-badge"><i class="fa-solid fa-star"></i></span>
     <div class="cifm-tile-icon"><i class="fa-solid fa-user-shield"></i></div>
     <span>INFO PLAYER</span>
-  </div>
-  <div class="cifm-tile" onclick="showPage('cekidffBanner')">
-    <div class="cifm-tile-icon"><i class="fa-solid fa-image"></i></div>
-    <span>CEK BANNER</span>
-  </div>
-  <div class="cifm-tile" onclick="showPage('cekidffBanned')">
-    <div class="cifm-tile-icon"><i class="fa-solid fa-user-slash"></i></div>
-    <span>CEK BANNED</span>
   </div>
   <div class="cifm-tile" onclick="showPage('cekidffOutfit')">
     <div class="cifm-tile-icon"><i class="fa-solid fa-shirt"></i></div>
     <span>CEK OUTFIT</span>
   </div>
+  <div class="cifm-tile" onclick="showPage('cekidffBanned')">
+    <div class="cifm-tile-icon"><i class="fa-solid fa-user-slash"></i></div>
+    <span>CEK BANNED</span>
+  </div>
   <div class="cifm-tile" onclick="showPage('cekidffStats')">
     <div class="cifm-tile-icon"><i class="fa-solid fa-chart-simple"></i></div>
     <span>STATISTIK RANKED</span>
+  </div>
+  <div class="cifm-tile" onclick="showPage('cekidffPrime')">
+    <div class="cifm-tile-icon"><i class="fa-solid fa-gem"></i></div>
+    <span>CEK PRIME</span>
+  </div>
+  <div class="cifm-tile" onclick="showPage('cekidffExpLevel')">
+    <div class="cifm-tile-icon"><i class="fa-solid fa-star"></i></div>
+    <span>CEK EXP LEVEL</span>
+  </div>
+  <div class="cifm-tile" onclick="showPage('cekidffBanner')">
+    <div class="cifm-tile-icon"><i class="fa-solid fa-image"></i></div>
+    <span>CEK BANNER</span>
   </div>
   <div class="cifm-tile" onclick="showPage('cekidffGuild')">
     <div class="cifm-tile-icon"><i class="fa-solid fa-people-group"></i></div>
@@ -18145,6 +18156,18 @@ async function stkStalk(type){
   <div class="cifm-tile" onclick="showPage('cekidffBindInfo')">
     <div class="cifm-tile-icon"><i class="fa-solid fa-envelope"></i></div>
     <span>BIND INFO</span>
+  </div>
+  <div class="cifm-tile" onclick="showPage('cekidffModeBR')">
+    <div class="cifm-tile-icon"><i class="fa-solid fa-envelope"></i></div>
+    <span>MODE BR</span>
+  </div>
+  <div class="cifm-tile" onclick="showPage('cekidffModeCS')">
+    <div class="cifm-tile-icon"><i class="fa-solid fa-envelope"></i></div>
+    <span>MODE CS</span>
+  </div>
+  <div class="cifm-tile" onclick="showPage('cekidffModeTraining')">
+    <div class="cifm-tile-icon"><i class="fa-solid fa-envelope"></i></div>
+    <span>MODE TRAINING</span>
   </div>
 </div>
 
@@ -18315,6 +18338,191 @@ function cbiTryCheck(){
 }
 </script>
 
+<!-- MODE BR (CEK INFO FF) — halaman ini hanya bisa dibuka/dijalankan
+     oleh developer aplikasi. UI gimmick saja, tidak ada fungsi/backend. -->
+<div class="page" id="cekidffModeBR">
+<style>
+#cekidffModeBR{padding-bottom:80px;}
+.cmb-dev-gate{
+  border-radius:20px;padding:26px 18px;margin-top:6px;text-align:center;
+  background:linear-gradient(165deg,rgba(255,43,43,.08),rgba(10,10,10,1) 55%);
+  border:1px solid rgba(255,255,255,.08);
+}
+.cmb-dev-gate i{font-size:34px;color:#ff5252;margin-bottom:10px;display:block;}
+.cmb-dev-gate p{font-size:11.5px;color:#c9c9c9;line-height:1.6;max-width:260px;margin:0 auto;}
+</style>
+
+<div class="cid-page-head">
+  <span class="cid-page-head-icon" aria-hidden="true"></span>
+  <div>
+    <p class="cid-hero-title"><span class="red">MODE</span>&nbsp;<span class="wht">BR</span></p>
+    <p class="cid-hero-sub">Fitur ini hanya bisa diakses oleh developer aplikasi.</p>
+  </div>
+</div>
+
+<div class="dev-badge">KHUSUS DEVELOPER</div>
+
+<div class="cid-card">
+  <div class="cid-label"><i class="fa-solid fa-hashtag"></i>UID FREE FIRE</div>
+  <div class="cid-input-wrap">
+    <i class="fa-solid fa-hashtag"></i>
+    <input class="cid-input" id="cmbUidInput" type="text" inputmode="numeric" placeholder="Contoh: 123456789" maxlength="13"/>
+  </div>
+  <div class="cid-label"><i class="fa-solid fa-user"></i>SOLO</div>
+  <div class="cid-input-wrap">
+    <i class="fa-solid fa-user"></i>
+    <input class="cid-input" id="cmbSoloInput" type="text" placeholder="Ketik nilai untuk mode Solo"/>
+  </div>
+  <div class="cid-label"><i class="fa-solid fa-user-group"></i>DUO</div>
+  <div class="cid-input-wrap">
+    <i class="fa-solid fa-user-group"></i>
+    <input class="cid-input" id="cmbDuoInput" type="text" placeholder="Ketik nilai untuk mode Duo"/>
+  </div>
+  <div class="cid-label"><i class="fa-solid fa-people-group"></i>SQUAD</div>
+  <div class="cid-input-wrap" style="margin-bottom:0;">
+    <i class="fa-solid fa-people-group"></i>
+    <input class="cid-input" id="cmbSquadInput" type="text" placeholder="Ketik nilai untuk mode Squad"/>
+  </div>
+
+  <button class="cid-btn" id="cmbGoBtn" onclick="cmbTryGo()" style="margin-top:14px;"><i class="fa-solid fa-lock"></i>TERAPKAN MODE BR</button>
+  <p class="cid-hint">Fitur ini terkunci untuk pengguna umum.</p>
+</div>
+
+<div class="cmb-dev-gate" id="cmbGate" style="display:none;">
+  <i class="fa-solid fa-user-lock"></i>
+  <p>Akses ditolak. Fitur "Mode BR" hanya bisa dibuka oleh developer aplikasi.</p>
+</div>
+
+<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
+</div>
+
+<script>
+function cmbTryGo(){
+  var g=document.getElementById('cmbGate');
+  if(g) g.style.display='block';
+}
+</script>
+
+<!-- MODE CS (CEK INFO FF) — halaman ini hanya bisa dibuka/dijalankan
+     oleh developer aplikasi. UI gimmick saja, tidak ada fungsi/backend. -->
+<div class="page" id="cekidffModeCS">
+<style>
+#cekidffModeCS{padding-bottom:80px;}
+.cmc-dev-gate{
+  border-radius:20px;padding:26px 18px;margin-top:6px;text-align:center;
+  background:linear-gradient(165deg,rgba(255,43,43,.08),rgba(10,10,10,1) 55%);
+  border:1px solid rgba(255,255,255,.08);
+}
+.cmc-dev-gate i{font-size:34px;color:#ff5252;margin-bottom:10px;display:block;}
+.cmc-dev-gate p{font-size:11.5px;color:#c9c9c9;line-height:1.6;max-width:260px;margin:0 auto;}
+</style>
+
+<div class="cid-page-head">
+  <span class="cid-page-head-icon" aria-hidden="true"></span>
+  <div>
+    <p class="cid-hero-title"><span class="red">MODE</span>&nbsp;<span class="wht">CS</span></p>
+    <p class="cid-hero-sub">Fitur ini hanya bisa diakses oleh developer aplikasi.</p>
+  </div>
+</div>
+
+<div class="dev-badge">KHUSUS DEVELOPER</div>
+
+<div class="cid-card">
+  <div class="cid-label"><i class="fa-solid fa-hashtag"></i>UID FREE FIRE</div>
+  <div class="cid-input-wrap">
+    <i class="fa-solid fa-hashtag"></i>
+    <input class="cid-input" id="cmcUidInput" type="text" inputmode="numeric" placeholder="Contoh: 123456789" maxlength="13"/>
+  </div>
+  <div class="cid-label"><i class="fa-solid fa-user"></i>SOLO</div>
+  <div class="cid-input-wrap">
+    <i class="fa-solid fa-user"></i>
+    <input class="cid-input" id="cmcSoloInput" type="text" placeholder="Ketik nilai untuk mode Solo"/>
+  </div>
+  <div class="cid-label"><i class="fa-solid fa-people-group"></i>SQUAD</div>
+  <div class="cid-input-wrap" style="margin-bottom:0;">
+    <i class="fa-solid fa-people-group"></i>
+    <input class="cid-input" id="cmcSquadInput" type="text" placeholder="Ketik nilai untuk mode Squad"/>
+  </div>
+
+  <button class="cid-btn" id="cmcGoBtn" onclick="cmcTryGo()" style="margin-top:14px;"><i class="fa-solid fa-lock"></i>TERAPKAN MODE CS</button>
+  <p class="cid-hint">Fitur ini terkunci untuk pengguna umum.</p>
+</div>
+
+<div class="cmc-dev-gate" id="cmcGate" style="display:none;">
+  <i class="fa-solid fa-user-lock"></i>
+  <p>Akses ditolak. Fitur "Mode CS" hanya bisa dibuka oleh developer aplikasi.</p>
+</div>
+
+<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
+</div>
+
+<script>
+function cmcTryGo(){
+  var g=document.getElementById('cmcGate');
+  if(g) g.style.display='block';
+}
+</script>
+
+<!-- MODE TRAINING (CEK INFO FF) — halaman ini hanya bisa dibuka/dijalankan
+     oleh developer aplikasi. UI gimmick saja, tidak ada fungsi/backend. -->
+<div class="page" id="cekidffModeTraining">
+<style>
+#cekidffModeTraining{padding-bottom:80px;}
+.cmt-dev-gate{
+  border-radius:20px;padding:26px 18px;margin-top:6px;text-align:center;
+  background:linear-gradient(165deg,rgba(255,43,43,.08),rgba(10,10,10,1) 55%);
+  border:1px solid rgba(255,255,255,.08);
+}
+.cmt-dev-gate i{font-size:34px;color:#ff5252;margin-bottom:10px;display:block;}
+.cmt-dev-gate p{font-size:11.5px;color:#c9c9c9;line-height:1.6;max-width:260px;margin:0 auto;}
+</style>
+
+<div class="cid-page-head">
+  <span class="cid-page-head-icon" aria-hidden="true"></span>
+  <div>
+    <p class="cid-hero-title"><span class="red">MODE</span>&nbsp;<span class="wht">TRAINING</span></p>
+    <p class="cid-hero-sub">Fitur ini hanya bisa diakses oleh developer aplikasi.</p>
+  </div>
+</div>
+
+<div class="dev-badge">KHUSUS DEVELOPER</div>
+
+<div class="cid-card">
+  <div class="cid-label"><i class="fa-solid fa-hashtag"></i>UID FREE FIRE</div>
+  <div class="cid-input-wrap">
+    <i class="fa-solid fa-hashtag"></i>
+    <input class="cid-input" id="cmtUidInput" type="text" inputmode="numeric" placeholder="Contoh: 123456789" maxlength="13"/>
+  </div>
+  <div class="cid-label"><i class="fa-solid fa-user"></i>SOLO</div>
+  <div class="cid-input-wrap">
+    <i class="fa-solid fa-user"></i>
+    <input class="cid-input" id="cmtSoloInput" type="text" placeholder="Ketik nilai untuk mode Solo"/>
+  </div>
+  <div class="cid-label"><i class="fa-solid fa-people-group"></i>SQUAD</div>
+  <div class="cid-input-wrap" style="margin-bottom:0;">
+    <i class="fa-solid fa-people-group"></i>
+    <input class="cid-input" id="cmtSquadInput" type="text" placeholder="Ketik nilai untuk mode Squad"/>
+  </div>
+
+  <button class="cid-btn" id="cmtGoBtn" onclick="cmtTryGo()" style="margin-top:14px;"><i class="fa-solid fa-lock"></i>TERAPKAN MODE TRAINING</button>
+  <p class="cid-hint">Fitur ini terkunci untuk pengguna umum.</p>
+</div>
+
+<div class="cmt-dev-gate" id="cmtGate" style="display:none;">
+  <i class="fa-solid fa-user-lock"></i>
+  <p>Akses ditolak. Fitur "Mode Training" hanya bisa dibuka oleh developer aplikasi.</p>
+</div>
+
+<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
+</div>
+
+<script>
+function cmtTryGo(){
+  var g=document.getElementById('cmtGate');
+  if(g) g.style.display='block';
+}
+</script>
+
 <div class="page" id="cekidffPlayer">
 <style>
 #cekidffPlayer{padding-bottom:80px;}
@@ -18379,6 +18587,15 @@ function cbiTryCheck(){
 .cid-result{display:none;}
 .cid-result.show{display:block;animation:cidPop .35s ease;}
 @keyframes cidPop{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.cid-dev-flag{
+  display:flex;align-items:center;gap:10px;padding:12px 16px;margin-bottom:14px;
+  border-radius:14px;background:linear-gradient(135deg,rgba(255,215,90,.16),rgba(255,159,28,.08));
+  border:1px solid rgba(255,196,64,.45);color:#ffd76b;font-size:11.5px;font-weight:700;
+  box-shadow:0 4px 14px rgba(255,159,28,.15);
+}
+.cid-dev-flag i{font-size:18px;color:#ffc23c;flex-shrink:0;}
+.cid-dev-flag-logo{width:22px;height:22px;object-fit:contain;flex-shrink:0;}
+.cid-dev-flag b{color:#fff;}
 
 .cid-result-card{
   border-radius:20px;padding:22px 18px;margin-bottom:14px;text-align:center;
@@ -18539,6 +18756,25 @@ function cbiTryCheck(){
   <p class="cid-hint">Cek info akun Free Fire cukup lewat ID.</p>
 </div>
 
+<style>
+.cip-chip-row{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.cip-chip-row::-webkit-scrollbar{display:none;}
+.cip-chip{
+  flex:0 0 auto;padding:9px 14px;border-radius:12px;
+  border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);
+  color:#ddd;font-size:11px;font-weight:800;letter-spacing:.3px;
+  cursor:pointer;font-family:'Outfit',sans-serif;white-space:nowrap;transition:.15s;
+}
+.cip-chip:active{transform:scale(.95);background:rgba(255,43,43,.16);border-color:#ff3c3c;color:#fff;}
+</style>
+
+<script>
+function cidUsePopuler(uid){
+  var inp=document.getElementById('cidUidInput');
+  if(inp){ inp.value=uid; inp.focus(); }
+}
+</script>
+
 <div class="cid-state show" id="cidStateIdle">
   <i class="fa-solid fa-id-card"></i>
   <p>Belum ada ID yang dicek. Masukkan ID Free Fire di atas lalu tekan "Cek Sekarang".</p>
@@ -18556,6 +18792,10 @@ function cbiTryCheck(){
 </div>
 
 <div class="cid-result" id="cidResult">
+  <div class="cid-dev-flag" id="cidDevFlag" style="display:none;">
+    <img src="zusmo-asset/developer.png" alt="Developer" class="cid-dev-flag-logo"/>
+    <span>Akun ini terdeteksi sebagai <b>DEVELOPER</b> aplikasi</span>
+  </div>
   <div class="cid-columns">
     <div class="cid-col cid-col-1">
       <div class="cid-result-card" id="cidCard1" style="text-align:left;">
@@ -18589,6 +18829,16 @@ function cbiTryCheck(){
           <span class="cid-fullinfo-toggle" id="cidInfoToggleBtn">Tampilkan<i class="fa-solid fa-chevron-down"></i></span>
         </div>
         <div class="cid-info-rows" id="cidInfoRows" style="display:none;"></div>
+        <div class="cid-card" id="cidPopulerCard" style="margin-top:14px;">
+          <div class="cid-label"><i class="fa-solid fa-fire"></i>REKOMENDASI POPULER</div>
+          <div class="cip-chip-row">
+            <button type="button" class="cip-chip" onclick="cidUsePopuler('260190210')">260190210</button>
+            <button type="button" class="cip-chip" onclick="cidUsePopuler('55558144')">55558144</button>
+            <button type="button" class="cip-chip" onclick="cidUsePopuler('131069134')">131069134</button>
+            <button type="button" class="cip-chip" onclick="cidUsePopuler('105581609')">105581609</button>
+            <button type="button" class="cip-chip" onclick="cidUsePopuler('15555555554')">15555555554</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -18675,6 +18925,8 @@ async function cidCheck(){
 
       const profileHeadEl=document.getElementById('cidProfileHead');
       if(profileHeadEl){ profileHeadEl.innerHTML=tffBuildProfileHead(json,{bannerUrl:bannerUrl,showItems:true},'cidCheck()'); tffFitBioText(profileHeadEl); }
+      const devFlagEl=document.getElementById('cidDevFlag');
+      if(devFlagEl) devFlagEl.style.display=(String(uidVal)==='260190210')?'flex':'none';
       const bannerAvatarEl=document.getElementById('cidBannerAvatar');
       if(bannerAvatarEl){
         bannerAvatarEl.innerHTML=bannerUrl?(
@@ -19616,6 +19868,261 @@ function cisReset(){
   const inp=document.getElementById('cisUidInput');
   if(inp){ inp.value=''; inp.focus(); }
   cisShowState('cisStateIdle');
+}
+</script>
+
+<!-- CEK PRIME PAGE -->
+<div class="page" id="cekidffPrime">
+<style>
+#cekidffPrime{padding-bottom:80px;}
+</style>
+
+<div class="cid-page-head">
+  <span class="cid-page-head-icon" aria-hidden="true"></span>
+  <div>
+    <p class="cid-hero-title"><span class="red">CEK</span>&nbsp;<span class="wht">PRIME</span></p>
+    <p class="cid-hero-sub">Masukkan ID Free Fire kamu, point Prime &amp; estimasi nilai diamond-nya langsung ketahuan.</p>
+  </div>
+</div>
+
+<div class="cid-card">
+  <div class="cid-label"><i class="fa-solid fa-gem"></i>ID FREE FIRE</div>
+  <div class="cid-input-wrap">
+    <i class="fa-solid fa-hashtag"></i>
+    <input class="cid-input" id="cpkUidInput" type="text" inputmode="numeric" placeholder="Contoh: 123456789" maxlength="13"/>
+  </div>
+  <button class="cid-btn" id="cpkCheckBtn" onclick="cpkCheck()"><i class="fa-solid fa-magnifying-glass"></i>CEK PRIME SEKARANG</button>
+  <p class="cid-hint">Cek point Prime &amp; estimasi nilai diamond cukup lewat ID.</p>
+</div>
+
+<div class="cid-state show" id="cpkStateIdle">
+  <i class="fa-solid fa-gem"></i>
+  <p>Belum ada ID yang dicek. Masukkan ID Free Fire di atas lalu tekan "Cek Prime Sekarang".</p>
+</div>
+
+<div class="cid-state cid-loading" id="cpkStateLoading">
+  <i class="fa-solid fa-spinner fa-spin"></i>
+  <p>Sedang mengambil data Prime kamu, tunggu sebentar ya...</p>
+</div>
+
+<div class="cid-state cid-error" id="cpkStateError">
+  <i class="fa-solid fa-triangle-exclamation"></i>
+  <p id="cpkErrorMsg">ID Free Fire tidak ditemukan. Periksa kembali ID kamu.</p>
+  <div class="cid-retry" onclick="cpkReset()"><i class="fa-solid fa-rotate-left"></i>Coba Lagi</div>
+</div>
+
+<div class="cid-result" id="cpkResult">
+  <div class="cid-result-card" style="text-align:left;">
+    <div class="cid-nick-row" style="justify-content:flex-start;margin-bottom:4px;">
+      <i class="fa-solid fa-gem" style="color:#ff6b6b;"></i>
+      <span class="cid-nick" id="cpkNickname">-</span>
+    </div>
+    <div class="cid-id-chip" id="cpkIdChip"></div>
+    <div class="cid-info-rows" id="cpkInfoRows" style="margin-top:10px;"></div>
+  </div>
+  <button class="cid-reset-btn" onclick="cpkReset()"><i class="fa-solid fa-arrow-rotate-left"></i>CEK ID LAIN</button>
+</div>
+
+<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
+</div>
+
+<script>
+(function(){
+  const uidInput=document.getElementById('cpkUidInput');
+  if(uidInput){
+    uidInput.addEventListener('input',function(){
+      uidInput.value=uidInput.value.replace(/[^0-9]/g,'').slice(0,13);
+    });
+    uidInput.addEventListener('keydown',function(e){
+      if(e.key==='Enter') cpkCheck();
+    });
+  }
+})();
+
+function cpkShowState(which){
+  ['cpkStateIdle','cpkStateLoading','cpkStateError'].forEach(function(id){
+    const el=document.getElementById(id);
+    if(el) el.classList.toggle('show',id===which);
+  });
+  const result=document.getElementById('cpkResult');
+  if(result) result.classList.toggle('show',which===null);
+}
+
+function cpkSetLoadingBtn(loading){
+  const btn=document.getElementById('cpkCheckBtn');
+  if(!btn) return;
+  if(loading){
+    btn.disabled=true;
+    btn.dataset.origHtml=btn.innerHTML;
+    btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i>MENGECEK...';
+  }else{
+    btn.disabled=false;
+    if(btn.dataset.origHtml) btn.innerHTML=btn.dataset.origHtml;
+  }
+}
+
+function cpkShake(){
+  const inp=document.getElementById('cpkUidInput');
+  if(!inp) return;
+  inp.classList.remove('cid-shake');
+  void inp.offsetWidth;
+  inp.classList.add('cid-shake');
+  inp.focus();
+}
+
+async function cpkCheck(){
+  const inp=document.getElementById('cpkUidInput');
+  const uid=inp?inp.value.trim():'';
+  if(!uid||uid.length<6){ cpkShake(); return; }
+
+  cpkShowState('cpkStateLoading');
+  cpkSetLoadingBtn(true);
+
+  let lastErr=null;
+  for(let i=0;i<TFF_ALL_REGIONS.length;i++){
+    const region=TFF_ALL_REGIONS[i];
+    const queryBase='key='+encodeURIComponent(TFF_KEY)+'&uid='+encodeURIComponent(uid)+'&region='+encodeURIComponent(region);
+    try{
+      const json=await xyureiRequest(function(){
+        return TFF_BASE+'/freefireinfo/bhau?'+queryBase;
+      },{isDataOk:function(j){ return !!(j&&(j.basicInfo||j.data||j.result)); }});
+
+      if(json&&json.error){ throw Object.assign(new Error(json.error),{raw:json}); }
+      const b=json.basicInfo||{};
+      const nickname=stkPick(b,['nickname']);
+      if(!nickname){ throw Object.assign(new Error('Nickname tidak ditemukan.'),{raw:json}); }
+      const uidVal=stkPick(b,['accountId','account_id'])||uid;
+      const primeLevelRaw=stkPick(b,['primeLevel','prime_level']);
+      const primeLevelNum=primeLevelRaw!=null?parseInt(primeLevelRaw,10):0;
+
+      const nickEl=document.getElementById('cpkNickname');
+      if(nickEl) nickEl.textContent=nickname;
+      const idChipEl=document.getElementById('cpkIdChip');
+      if(idChipEl) idChipEl.innerHTML='<i class="fa-solid fa-hashtag"></i> '+tffEsc(String(uidVal));
+
+      const rowsEl=document.getElementById('cpkInfoRows');
+      if(rowsEl){
+        let rows='';
+        if(primeLevelNum>0 && typeof primeLevels!=='undefined' && primeLevels[primeLevelNum-1]){
+          const p=primeLevels[primeLevelNum-1];
+          const totalDm=p.dm;
+          const totalHarga=totalDm*(typeof HARGA_PER_DM!=='undefined'?HARGA_PER_DM:126);
+          rows+='<div class="cid-info-row"><b>Level Prime</b><span>'+tffEsc(p.name)+'</span></div>';
+          rows+='<div class="cid-info-row"><b>Point Prime (Diamond)</b><span>'+totalDm.toLocaleString('id-ID')+'</span></div>';
+          rows+='<div class="cid-info-row"><b>Estimasi Nilai</b><span>Rp '+totalHarga.toLocaleString('id-ID')+'</span></div>';
+          rows+='<div class="cid-info-row-error" style="color:#8f8f8f;"><i class="fa-solid fa-circle-info" style="color:#ff6b6b;"></i>Estimasi harga Rp 126 per 1 Diamond.</div>';
+        }else{
+          rows+='<div class="cid-info-row-error"><i class="fa-solid fa-triangle-exclamation"></i>Akun ini belum memiliki level Prime.</div>';
+        }
+        rowsEl.innerHTML=rows;
+      }
+
+      cpkShowState(null);
+      cpkSetLoadingBtn(false);
+      return;
+    }catch(e){
+      lastErr=e;
+      console.warn('[CPK] region '+region+' gagal, coba region berikutnya...',(e&&e.debugDetail)||e);
+    }
+  }
+
+  console.error('[CPK]',lastErr,(lastErr&&lastErr.raw)||'');
+  const msg=(lastErr&&lastErr.isNetwork)?'Gagal menghubungi server. Coba lagi beberapa saat.':'ID Free Fire tidak ditemukan. Periksa kembali ID kamu.';
+  const errMsg=document.getElementById('cpkErrorMsg');
+  if(errMsg) errMsg.textContent=msg;
+  cpkShowState('cpkStateError');
+  cpkSetLoadingBtn(false);
+}
+
+function cpkReset(){
+  const inp=document.getElementById('cpkUidInput');
+  if(inp){ inp.value=''; inp.focus(); }
+  cpkShowState('cpkStateIdle');
+}
+</script>
+
+<!-- CEK EXP LEVEL PAGE -->
+<div class="page" id="cekidffExpLevel">
+<style>
+#cekidffExpLevel{padding-bottom:80px;}
+.cel-level-grid{
+  display:grid;grid-template-columns:repeat(6,1fr);gap:6px;
+  max-height:280px;overflow-y:auto;padding:8px;border-radius:16px;
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);
+  margin-bottom:14px;-webkit-overflow-scrolling:touch;
+}
+.cel-level-btn{
+  padding:10px 0;border-radius:10px;border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.05);color:#ccc;font-size:11px;font-weight:800;
+  cursor:pointer;text-align:center;font-family:'Outfit',sans-serif;transition:.15s;
+}
+.cel-level-btn:active{transform:scale(.94);}
+.cel-level-btn.active{background:rgba(255,43,43,.2);border-color:#ff3c3c;color:#fff;box-shadow:0 0 0 1px rgba(255,43,43,.3) inset;}
+.cel-note{font-size:10px;color:#777;margin-top:10px;line-height:1.6;display:flex;gap:7px;align-items:flex-start;}
+.cel-note i{color:#ff6b6b;flex-shrink:0;margin-top:1px;}
+</style>
+
+<div class="cid-page-head">
+  <span class="cid-page-head-icon" aria-hidden="true"></span>
+  <div>
+    <p class="cid-hero-title"><span class="red">CEK EXP</span>&nbsp;<span class="wht">LEVEL</span></p>
+    <p class="cid-hero-sub">Pilih level 1–100 di bawah untuk lihat estimasi EXP yang dibutuhkan.</p>
+  </div>
+</div>
+
+<div class="cid-card">
+  <div class="cid-label"><i class="fa-solid fa-star"></i>PILIH LEVEL (1–100)</div>
+  <div class="cel-level-grid" id="celLevelGrid"></div>
+
+  <div class="cid-info-rows" id="celResultRows" style="display:none;"></div>
+  <div class="cel-note"><i class="fa-solid fa-circle-info"></i><span>Angka EXP di sini adalah estimasi, bukan data resmi dari Garena.</span></div>
+</div>
+
+<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
+</div>
+
+<script>
+(function(){
+  const grid=document.getElementById('celLevelGrid');
+  if(!grid||grid.dataset.built) return;
+  grid.dataset.built='1';
+  for(let lvl=1;lvl<=100;lvl++){
+    const b=document.createElement('button');
+    b.type='button';
+    b.className='cel-level-btn';
+    b.textContent=lvl;
+    b.onclick=function(){ celSelectLevel(lvl,b); };
+    grid.appendChild(b);
+  }
+})();
+
+function celExpForLevel(level){
+  if(level<=1) return 0;
+  return Math.round(20*level*level);
+}
+
+function celCumulativeExp(level){
+  let total=0;
+  for(let i=2;i<=level;i++){ total+=celExpForLevel(i); }
+  return total;
+}
+
+function celSelectLevel(level,btn){
+  document.querySelectorAll('.cel-level-btn').forEach(function(b){ b.classList.remove('active'); });
+  if(btn) btn.classList.add('active');
+
+  const delta=celExpForLevel(level);
+  const total=celCumulativeExp(level);
+
+  const rowsEl=document.getElementById('celResultRows');
+  if(rowsEl){
+    let rows='';
+    rows+='<div class="cid-info-row"><b>Level Dipilih</b><span>Level '+level+'</span></div>';
+    rows+='<div class="cid-info-row"><b>EXP Dari Level Sebelumnya</b><span>'+delta.toLocaleString('id-ID')+' EXP</span></div>';
+    rows+='<div class="cid-info-row"><b>Total EXP Dari Level 1</b><span>'+total.toLocaleString('id-ID')+' EXP</span></div>';
+    rowsEl.innerHTML=rows;
+    rowsEl.style.display='';
+  }
 }
 </script>
 
@@ -20815,19 +21322,19 @@ function cclReset(){
     <input class="cid-input" id="ccdMapCodeInput" type="text" placeholder="Contoh: ABC123" maxlength="20" style="text-transform:uppercase;"/>
   </div>
 
-  <div class="cmg-row2">
+  <div class="cmg-row2" style="display:none;">
     <div>
       <div class="cid-label"><i class="fa-solid fa-earth-asia"></i>REGION</div>
-      <input class="cid-input" id="ccdRegionInput" type="text" placeholder="Contoh: BD" maxlength="5" style="margin-bottom:12px;text-transform:uppercase;"/>
+      <input class="cid-input" id="ccdRegionInput" type="text" placeholder="Contoh: ID" maxlength="5" style="margin-bottom:12px;text-transform:uppercase;" value="ID"/>
     </div>
     <div>
       <div class="cid-label"><i class="fa-solid fa-language"></i>LANG</div>
-      <input class="cid-input" id="ccdLangInput" type="text" placeholder="Contoh: en" maxlength="5" style="margin-bottom:12px;"/>
+      <input class="cid-input" id="ccdLangInput" type="text" placeholder="Contoh: id" maxlength="5" style="margin-bottom:12px;" value="id"/>
     </div>
   </div>
 
   <button class="cid-btn" id="ccdCheckBtn" onclick="ccdCheck()"><i class="fa-solid fa-magnifying-glass"></i>CEK DETAIL SEKARANG</button>
-  <p class="cid-hint">Region &amp; Lang opsional (default BD &amp; en) jika dikosongkan.</p>
+  <p class="cid-hint">Region otomatis diatur ke Indonesia (ID).</p>
 </div>
 
 <div class="cid-state show" id="ccdStateIdle">
@@ -20911,8 +21418,8 @@ async function ccdCheck(){
   const regionInp=document.getElementById('ccdRegionInput');
   const langInp=document.getElementById('ccdLangInput');
   const mapCode=mapInp?mapInp.value.trim():'';
-  const region=(regionInp&&regionInp.value.trim())||'BD';
-  const lang=(langInp&&langInp.value.trim())||'en';
+  const region=(regionInp&&regionInp.value.trim())||'ID';
+  const lang=(langInp&&langInp.value.trim())||'id';
 
   if(!mapCode){ ccdShake(); return; }
 
