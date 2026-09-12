@@ -18119,6 +18119,20 @@ async function stkStalk(type){
   bottom:-80px;right:-80px;width:260px;height:260px;border-radius:50%;
   background:radial-gradient(circle,rgba(255,43,43,.2),rgba(255,43,43,0) 70%);
 }
+/* Dipakai KHUSUS saat kolom 1 di-screenshot/diunduh (lihat cidDownloadCard1):
+   background jadi solid polos tanpa gradasi/glow transparan, biar hasil
+   gambar unduhannya gak transparan. Tampilan normal (gak diunduh) tetap
+   pakai gradasi+glow di atas. */
+.cid-export-solid{background:#0c0c0c!important;}
+.cid-export-solid::before,.cid-export-solid::after{display:none!important;}
+.cid-card-download-btn{
+  position:absolute;bottom:12px;right:12px;z-index:5;
+  width:34px;height:34px;border-radius:50%;border:none;color:#fff;
+  background:linear-gradient(135deg,#ff3b3b,#c40d0d);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;cursor:pointer;box-shadow:0 4px 10px rgba(255,43,43,.35);
+}
+.cid-card-download-btn:active{transform:scale(.92);}
 .cid-avatar-ring{
   width:78px;height:78px;border-radius:16px;margin:0 auto 14px;padding:3px;
   background:linear-gradient(140deg,#ff5252,#7a0a0a);
@@ -18265,8 +18279,9 @@ async function stkStalk(type){
 <div class="cid-result" id="cidResult">
   <div class="cid-columns">
     <div class="cid-col cid-col-1">
-      <div class="cid-result-card" style="text-align:left;">
+      <div class="cid-result-card" id="cidCard1" style="text-align:left;">
         <div id="cidProfileHead"></div>
+        <button class="cid-card-download-btn" onclick="cidDownloadCard1()" title="Unduh kolom ini sebagai gambar"><i class="fa-solid fa-download"></i></button>
       </div>
     </div>
     <div class="cid-col cid-col-2">
@@ -18416,6 +18431,39 @@ async function cidCheck(){
   if(errMsg) errMsg.textContent=msg;
   cidShowState('cidStateError');
   cidSetLoadingBtn(false);
+}
+
+/* Download KHUSUS kolom 1 (kartu profil utama CEK INFO FF) jadi gambar PNG.
+   Tombol download & pseudo-element glow/gradasi disembunyikan dulu lewat
+   class cid-export-solid supaya hasil PNG-nya background solid (gak
+   transparan), lalu di-capture pakai html2canvas, lalu class dilepas lagi
+   biar tampilan normal balik seperti semula (yang gak diunduh tetap
+   pakai gradasi+glow seperti biasa). */
+function cidDownloadCard1(){
+  const card=document.getElementById('cidCard1');
+  if(!card||typeof html2canvas!=='function') return;
+  const btn=card.querySelector('.cid-card-download-btn');
+  card.classList.add('cid-export-solid');
+  if(btn) btn.style.visibility='hidden';
+  html2canvas(card,{
+    backgroundColor:'#0c0c0c',
+    useCORS:true,
+    scale:2,
+    ignoreElements:function(el){ return !!(el&&el.classList&&el.classList.contains('cid-card-download-btn')); }
+  }).then(function(canvas){
+    card.classList.remove('cid-export-solid');
+    if(btn) btn.style.visibility='';
+    const link=document.createElement('a');
+    link.download='kzrizusmo-infoplayer-'+Date.now()+'.png';
+    link.href=canvas.toDataURL('image/png');
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  }).catch(function(e){
+    card.classList.remove('cid-export-solid');
+    if(btn) btn.style.visibility='';
+    console.error('[CID] Gagal download kolom 1 jadi gambar',e);
+  });
 }
 
 /* Susun beberapa bagian info (akun, guild, ketua guild, pet, sosial, harga, skor kredit, profil)
