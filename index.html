@@ -130,7 +130,7 @@ border-radius:24px;
 .download-icon{font-size:72px;color:#4da3ff;display:block;text-align:center;margin-bottom:12px}
 .file-info{background:rgba(255,255,255,.05);padding:16px;border-radius:20px;margin:16px 0;line-height:1.8}
 .download-btn{width:100%;padding:18px;border:none;border-radius:20px;background:#0a84ff;color:#fff;font-size:15px;font-weight:700}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;z-index:1000;opacity:0;transition:opacity .25s ease}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;z-index:10500;opacity:0;transition:opacity .25s ease}
 .modal.show{display:flex}
 .modal.show.in{opacity:1}
 .modal-card{width:320px;max-height:80vh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;background:#181818;border-radius:28px;padding:24px;text-align:center;transform:scale(.92);transition:transform .25s ease}
@@ -1280,7 +1280,24 @@ object-fit:contain;
   color:#ffd700;
   box-shadow:0 0 8px rgba(255,215,0,.12);
 }
-.hm-prime-logo{width:32px;height:32px;object-fit:contain;flex-shrink:0;filter:drop-shadow(0 0 8px rgba(255,215,0,.4));}
+.hm-prime-badge{
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  flex-shrink:0;cursor:pointer;
+  padding:7px 9px 6px;border-radius:15px;
+  background:rgba(255,215,0,.06);
+  border:1px solid rgba(255,215,0,.32);
+  transition:transform .18s ease,box-shadow .18s ease,background .18s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+.hm-prime-badge:active{transform:scale(.92);}
+.hm-prime-badge:hover{background:rgba(255,215,0,.13);box-shadow:0 0 16px rgba(255,215,0,.22);}
+.hm-prime-logo{width:30px;height:30px;object-fit:contain;flex-shrink:0;filter:drop-shadow(0 0 8px rgba(255,215,0,.4));pointer-events:none;}
+.hm-prime-badge-lbl{
+  font-family:'Rajdhani',sans-serif;font-size:9px;font-weight:700;
+  letter-spacing:.5px;color:#ffd700;line-height:1;
+  text-shadow:0 0 6px rgba(255,215,0,.35);
+  white-space:nowrap;pointer-events:none;
+}
 
 /* NAME ROW + EDIT BUTTON */
 .hm-name-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
@@ -6312,7 +6329,10 @@ function closeVipShadowApp(){
       <span class="hm-badge prime"><span data-i18n="home.prime">PRIME</span> : 0</span>
     </div>
   </div>
-  <img loading="lazy" decoding="async" class="hm-prime-logo" src="zusmo-asset/fvplwr.png"/>
+  <div class="hm-prime-badge" onclick="showPage('prime')" role="button" tabindex="0" aria-label="Buka halaman Prime">
+    <img loading="lazy" decoding="async" class="hm-prime-logo" src="zusmo-asset/fvplwr.png" alt="Prime 8"/>
+    <span class="hm-prime-badge-lbl">PRIME 8</span>
+  </div>
 </div>
 
 <div class="hm-name-modal-overlay" id="hmNameModalOverlay">
@@ -28933,6 +28953,190 @@ function hitungLevel(){
 }
 </script>
 
+<div class="page" id="prime">
+<style>
+#prime{padding-bottom:80px;}
+.prm-title{font-family:'Fredoka One',sans-serif;font-weight:900;font-size:1.5rem;text-align:center;letter-spacing:1.2px;margin-bottom:6px;text-shadow:0 0 22px rgba(255,215,0,.25);}
+.prm-title .gold{color:#ffd700;text-shadow:0 0 16px rgba(255,215,0,.55);}
+.prm-title .red{color:#ff2b2b;text-shadow:0 0 16px rgba(255,43,43,.6);}
+.prm-sub{font-family:'Space Mono',monospace;text-align:center;font-size:10px;color:#555;letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:20px;}
+
+.prm-hero{background:linear-gradient(150deg,rgba(40,30,0,.9),rgba(10,10,10,.97));border:1px solid rgba(255,215,0,.35);border-radius:24px;padding:24px 20px;margin-bottom:16px;text-align:center;position:relative;overflow:hidden;}
+.prm-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:1.5px;background:linear-gradient(90deg,transparent,rgba(255,215,0,.7),transparent);}
+.prm-hero-icon{width:76px;height:76px;object-fit:contain;margin:0 auto 10px;display:block;filter:drop-shadow(0 0 14px rgba(255,215,0,.55));}
+.prm-hero-icon.prm-hero-icon-locked{filter:grayscale(1) opacity(.4);}
+.prm-hero-level{font-family:'Audiowide',sans-serif;font-size:1.4rem;color:#ffd700;letter-spacing:1.5px;margin-bottom:4px;text-shadow:0 0 14px rgba(255,215,0,.4);}
+.prm-hero-caption{font-size:11.5px;color:#aaa;margin-bottom:16px;}
+.prm-bar-track{width:100%;height:10px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden;margin-bottom:8px;border:1px solid rgba(255,255,255,.06);}
+.prm-bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#ff9500,#ffd700);box-shadow:0 0 10px rgba(255,215,0,.5);transition:width .6s cubic-bezier(.2,.8,.2,1);width:0%;}
+.prm-bar-text{font-size:11px;color:#ccc;font-weight:600;}
+.prm-diamond-row{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:14px;font-size:12px;color:#888;}
+.prm-diamond-row img{width:14px;height:14px;object-fit:contain;}
+.prm-diamond-row b{color:#fff;font-size:14px;}
+
+.prm-card{background:rgba(14,14,14,.82);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.07);border-radius:22px;padding:18px 16px;margin-bottom:16px;position:relative;overflow:hidden;}
+.prm-card::before{content:'';position:absolute;left:0;top:16px;bottom:16px;width:3px;background:linear-gradient(180deg,transparent,#ffd700,transparent);border-radius:0 3px 3px 0;}
+.prm-card-head{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.prm-card-head i{color:#ffd700;font-size:16px;}
+.prm-card-head h3{font-size:13px;font-weight:800;color:#fff;letter-spacing:.6px;}
+
+.prm-benefit{display:flex;align-items:center;gap:10px;padding:9px 4px;border-bottom:1px solid rgba(255,255,255,.045);font-size:12px;}
+.prm-benefit:last-child{border-bottom:none;}
+.prm-benefit i{width:16px;text-align:center;font-size:13px;flex-shrink:0;}
+.prm-benefit.unlocked{color:#e6e6e6;}
+.prm-benefit.unlocked i{color:#2ecc71;}
+.prm-benefit.locked{color:#5a5a5a;}
+.prm-benefit.locked i{color:#5a5a5a;}
+.prm-benefit .lvl-tag{margin-left:auto;font-size:9px;font-weight:700;letter-spacing:.4px;padding:2px 7px;border-radius:99px;background:rgba(255,255,255,.06);color:#777;flex-shrink:0;}
+.prm-benefit.unlocked .lvl-tag{background:rgba(46,204,113,.12);color:#7CFFA0;}
+
+.prm-tier-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.prm-tier{padding:10px 4px 9px;border-radius:13px;text-align:center;position:relative;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);transition:.17s;}
+.prm-tier img{width:38px;height:38px;object-fit:contain;margin:0 auto 4px;display:block;}
+.prm-tier-name{font-size:9.5px;font-weight:700;color:#888;}
+.prm-tier-req{font-size:8px;color:#4a4a4a;margin-top:1px;}
+.prm-tier.achieved{border-color:rgba(255,215,0,.5);background:linear-gradient(155deg,rgba(255,215,0,.14),rgba(70,50,0,.15));}
+.prm-tier.achieved .prm-tier-name{color:#ffd700;}
+.prm-tier.achieved img{filter:drop-shadow(0 0 6px rgba(255,215,0,.6));}
+.prm-tier.current{border-color:#ffd700;box-shadow:0 0 14px rgba(255,215,0,.3);}
+.prm-tier.locked img{filter:grayscale(1) opacity(.35);}
+.prm-tier.locked .prm-tier-name{color:#555;}
+.prm-tier-check{position:absolute;top:5px;right:5px;width:14px;height:14px;border-radius:50%;background:#2ecc71;color:#fff;font-size:8px;display:flex;align-items:center;justify-content:center;}
+
+.prm-cta{width:100%;padding:15px;border:none;border-radius:14px;background:linear-gradient(135deg,#ffd700 0%,#b8860b 100%);color:#1a1400;font-size:13.5px;font-weight:800;cursor:pointer;letter-spacing:.6px;box-shadow:0 5px 22px rgba(255,215,0,.25);display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:6px;}
+.prm-cta:active{transform:scale(.975);}
+</style>
+
+<p class="prm-title"><span class="gold">PRIME</span>&nbsp;<span class="red">MEMBERSHIP</span></p>
+<p class="prm-sub">Level akun &bull; dari kumpulan Diamond kamu</p>
+
+<div class="prm-hero">
+  <img class="prm-hero-icon" id="prmHeroIcon" src="zusmo-asset/fvplwr.png" alt="Prime"/>
+  <div class="prm-hero-level" id="prmHeroLevel">PRIME 8</div>
+  <div class="prm-hero-caption" id="prmHeroCaption">Memuat status Prime kamu...</div>
+
+  <div class="prm-bar-track"><div class="prm-bar-fill" id="prmBarFill"></div></div>
+  <div class="prm-bar-text" id="prmBarText">0 / 100 Diamond</div>
+
+  <div class="prm-diamond-row">
+    <img src="zusmo-asset/onzrii.png" alt="diamond"/>
+    Total diamond kamu: <b id="prmDiamondTotal">0</b>
+  </div>
+</div>
+
+<div class="prm-card">
+  <div class="prm-card-head"><i class="fa-solid fa-crown"></i><h3>KEUNTUNGAN PRIME</h3></div>
+  <div id="prmBenefitList">
+    <div class="prm-benefit" data-lvl="1"><i class="fa-solid fa-lock"></i><span>Badge Prime eksklusif di profil</span><span class="lvl-tag">LV 1</span></div>
+    <div class="prm-benefit" data-lvl="2"><i class="fa-solid fa-lock"></i><span>Prioritas antrian proses pesanan</span><span class="lvl-tag">LV 2</span></div>
+    <div class="prm-benefit" data-lvl="3"><i class="fa-solid fa-lock"></i><span>Diskon 3% setiap top up Diamond</span><span class="lvl-tag">LV 3</span></div>
+    <div class="prm-benefit" data-lvl="4"><i class="fa-solid fa-lock"></i><span>Akses lebih cepat fitur Suntik Like</span><span class="lvl-tag">LV 4</span></div>
+    <div class="prm-benefit" data-lvl="5"><i class="fa-solid fa-lock"></i><span>Diskon 5% setiap top up Diamond</span><span class="lvl-tag">LV 5</span></div>
+    <div class="prm-benefit" data-lvl="6"><i class="fa-solid fa-lock"></i><span>Bonus klaim harian lebih besar</span><span class="lvl-tag">LV 6</span></div>
+    <div class="prm-benefit" data-lvl="7"><i class="fa-solid fa-lock"></i><span>Diskon 10% setiap top up Diamond</span><span class="lvl-tag">LV 7</span></div>
+    <div class="prm-benefit" data-lvl="8"><i class="fa-solid fa-lock"></i><span>Lencana PRIME MAX + dukungan prioritas</span><span class="lvl-tag">LV 8</span></div>
+  </div>
+</div>
+
+<div class="prm-card">
+  <div class="prm-card-head"><i class="fa-solid fa-layer-group"></i><h3>SEMUA LEVEL PRIME</h3></div>
+  <div class="prm-tier-grid" id="prmTierGrid"></div>
+</div>
+
+<button class="prm-cta" onclick="showPage('shopTab')"><i class="fa-solid fa-gem"></i> TAMBAH DIAMOND SEKARANG</button>
+
+<div class="footer" style="margin-top:4px;">&copy; 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
+</div>
+
+<script>
+function prmGetDiamond(){
+  var v=parseInt(localStorage.getItem('zusmo_diamond_balance'),10);
+  return isNaN(v)?0:v;
+}
+function prmCalcLevel(diamond){
+  var lvl=0;
+  for(var i=0;i<primeLevels.length;i++){
+    if(diamond>=primeLevels[i].dm) lvl=i+1; else break;
+  }
+  return lvl;
+}
+function renderPrimePage(){
+  var page=document.getElementById('prime');
+  if(!page) return;
+  var diamond=prmGetDiamond();
+  var level=prmCalcLevel(diamond);
+  var current=level>0?primeLevels[level-1]:null;
+  var next=level<primeLevels.length?primeLevels[level]:null;
+
+  var icon=document.getElementById('prmHeroIcon');
+  var lvlText=document.getElementById('prmHeroLevel');
+  var caption=document.getElementById('prmHeroCaption');
+  var barFill=document.getElementById('prmBarFill');
+  var barText=document.getElementById('prmBarText');
+  var totalEl=document.getElementById('prmDiamondTotal');
+
+  if(icon){
+    icon.src=current?current.img:primeLevels[0].img;
+    icon.alt=current?current.name:'Belum Prime';
+    icon.classList.toggle('prm-hero-icon-locked', !current);
+  }
+  if(lvlText) lvlText.textContent=current?current.name:'BELUM PRIME';
+  if(totalEl) totalEl.textContent=diamond.toLocaleString('id-ID');
+
+  if(next){
+    var prevReq=current?current.dm:0;
+    var span=next.dm-prevReq;
+    var progressed=Math.max(0,diamond-prevReq);
+    var pct=Math.min(100,Math.round((progressed/span)*100));
+    if(barFill) barFill.style.width=pct+'%';
+    if(barText) barText.textContent=diamond.toLocaleString('id-ID')+' / '+next.dm.toLocaleString('id-ID')+' Diamond menuju '+next.name;
+    if(caption) caption.textContent=current?('Kumpulkan '+(next.dm-diamond).toLocaleString('id-ID')+' Diamond lagi untuk naik ke '+next.name):('Kumpulkan Diamond untuk membuka '+next.name);
+  }else{
+    if(barFill) barFill.style.width='100%';
+    if(barText) barText.textContent='Level maksimum tercapai';
+    if(caption) caption.textContent='Kamu sudah mencapai level Prime tertinggi';
+  }
+
+  document.querySelectorAll('#prmBenefitList .prm-benefit').forEach(function(el){
+    var need=parseInt(el.getAttribute('data-lvl'),10);
+    var unlocked=level>=need;
+    el.classList.toggle('unlocked',unlocked);
+    el.classList.toggle('locked',!unlocked);
+    var icn=el.querySelector('i');
+    if(icn) icn.className='fa-solid '+(unlocked?'fa-circle-check':'fa-lock');
+  });
+
+  var grid=document.getElementById('prmTierGrid');
+  if(grid && !grid.dataset.built){
+    grid.dataset.built='1';
+    primeLevels.forEach(function(t){
+      var d=document.createElement('div');
+      d.className='prm-tier';
+      d.innerHTML='<img loading="lazy" decoding="async" src="'+t.img+'" alt="'+t.name+'"/><div class="prm-tier-name">'+t.name+'</div><div class="prm-tier-req">'+t.dm.toLocaleString('id-ID')+' DM</div>';
+      grid.appendChild(d);
+    });
+  }
+  if(grid){
+    Array.prototype.forEach.call(grid.children,function(d,i){
+      var achieved=level>=(i+1);
+      d.classList.toggle('achieved',achieved);
+      d.classList.toggle('locked',!achieved);
+      d.classList.toggle('current',level===(i+1));
+      var oldCheck=d.querySelector('.prm-tier-check');
+      if(achieved && !oldCheck){
+        var c=document.createElement('span');
+        c.className='prm-tier-check';
+        c.innerHTML='<i class="fa-solid fa-check"></i>';
+        d.appendChild(c);
+      }else if(!achieved && oldCheck){
+        oldCheck.remove();
+      }
+    });
+  }
+}
+document.addEventListener('DOMContentLoaded', renderPrimePage);
+</script>
+
 <!-- TIKTOK STEP MODAL -->
 <div class="modal" id="tiktokModal">
 <div class="modal-card" onclick="event.stopPropagation()" style="width:340px;border:1px solid rgba(255,43,43,.4);box-shadow:0 0 30px rgba(255,43,43,.2)">
@@ -29053,6 +29257,7 @@ if(id==='eventTab' && typeof getDiamond==='function'){ var __edb=document.getEle
 if(id==='progressTab' && typeof renderProgressOrders==='function') renderProgressOrders();
 if(id==='redeemPage' && typeof renderRedeemPageHistory==='function') renderRedeemPageHistory();
 if(id==='vipKeyHistoryPage' && typeof renderVipKeyHistory==='function') renderVipKeyHistory();
+if(id==='prime' && typeof renderPrimePage==='function') renderPrimePage();
 
 var homeTabs=['home','eventTab','shopTab','progressTab','communityTab','leaderboardTab','developerTab'];
 var bottomBar=document.querySelector('.app-bottombar');
@@ -35477,7 +35682,7 @@ window.submitCreatorReward = function(){
 .crw-modal-title{text-align:center;font-size:1.05rem;margin:0 0 8px;}
 .crw-modal-desc{font-size:10.5px;line-height:1.35;color:#bbb;margin:0 0 18px;text-align:center;}
 #creatorRewardModal{align-items:flex-start;}
-#creatorRewardModal .crw-modal-card{margin-top:72px;}
+#creatorRewardModal .crw-modal-card{margin-top:56px;max-height:calc(100vh - 140px);}
 .crw-modal-desc b{color:#ffb3b3;font-weight:800;}
 .crw-benefits-lbl{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:800;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:.4px;margin:0 0 6px;}
 .crw-benefits-lbl i{color:#ff6b6b;font-size:10px;}
