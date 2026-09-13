@@ -36621,6 +36621,49 @@ function launchGame(url, logoUrl, gameName, evt){
   </div>
 </div>
 
+<div class="dv2-week-card">
+  <div class="dv2-week-head">
+    <span>Jadwal Ngoding Mingguan</span>
+    <span class="dv2-week-legend"><i></i> Aktif</span>
+  </div>
+  <div class="dv2-week-row">
+    <div class="dv2-week-day"><span class="dv2-week-lbl">Sen</span><span class="dv2-week-dot on"></span></div>
+    <div class="dv2-week-day"><span class="dv2-week-lbl">Sel</span><span class="dv2-week-dot on"></span></div>
+    <div class="dv2-week-day"><span class="dv2-week-lbl">Rab</span><span class="dv2-week-dot"></span></div>
+    <div class="dv2-week-day"><span class="dv2-week-lbl">Kam</span><span class="dv2-week-dot on"></span></div>
+    <div class="dv2-week-day"><span class="dv2-week-lbl">Jum</span><span class="dv2-week-dot on"></span></div>
+    <div class="dv2-week-day"><span class="dv2-week-lbl">Sab</span><span class="dv2-week-dot on"></span></div>
+    <div class="dv2-week-day"><span class="dv2-week-lbl">Min</span><span class="dv2-week-dot on"></span></div>
+  </div>
+  <p class="dv2-week-note">Rabu biasanya libur ngoding — istirahat dulu biar nggak burnout.</p>
+</div>
+
+<div class="dv2-section-head">
+  <span class="dv2-section-title">Gear &amp; Setup</span>
+</div>
+<div class="dv2-gear-grid">
+  <div class="dv2-gear-item">
+    <div class="dv2-gear-ic"><i class="fa-solid fa-mobile-screen-button"></i></div>
+    <span class="dv2-gear-name">Smartphone</span>
+    <span class="dv2-gear-sub">Perangkat utama ngoding</span>
+  </div>
+  <div class="dv2-gear-item">
+    <div class="dv2-gear-ic"><i class="fa-solid fa-wifi"></i></div>
+    <span class="dv2-gear-name">Koneksi Internet</span>
+    <span class="dv2-gear-sub">Buat testing &amp; deploy</span>
+  </div>
+  <div class="dv2-gear-item">
+    <div class="dv2-gear-ic"><i class="fa-solid fa-headphones"></i></div>
+    <span class="dv2-gear-name">Headset</span>
+    <span class="dv2-gear-sub">Fokus tengah malam</span>
+  </div>
+  <div class="dv2-gear-item">
+    <div class="dv2-gear-ic"><i class="fa-solid fa-mug-saucer"></i></div>
+    <span class="dv2-gear-name">Kopi/Teh</span>
+    <span class="dv2-gear-sub">Bahan bakar wajib</span>
+  </div>
+</div>
+
 <div class="dv2-section-head" id="devSecFaq">
   <span class="dv2-section-title">Tanya Jawab</span>
 </div>
@@ -36637,7 +36680,19 @@ function launchGame(url, logoUrl, gameName, evt){
     <summary>Bisa request fitur baru?<i class="fa-solid fa-chevron-down"></i></summary>
     <p>Bisa banget, kirim lewat grup WhatsApp atau kolom testimoni. Nggak janji semua langsung dibikin, tapi pasti dibaca.</p>
   </details>
+  <details class="dv2-faq">
+    <summary>Kenapa update kadang lama?<i class="fa-solid fa-chevron-down"></i></summary>
+    <p>Karena dikerjakan sendiri di sela waktu luang. Fitur besar butuh waktu testing lebih supaya nggak malah nambah bug baru.</p>
+  </details>
+  <details class="dv2-faq">
+    <summary>Apa rencana ke depan buat KZRIZUSMO?<i class="fa-solid fa-chevron-down"></i></summary>
+    <p>Terus dipoles dari sisi tampilan, tambah fitur komunitas, dan dengerin masukan dari pengguna aktif.</p>
+  </details>
 </div>
+
+<button class="dv2-totop" id="devToTop" onclick="devScrollTop()" aria-label="Kembali ke atas">
+  <i class="fa-solid fa-arrow-up"></i>
+</button>
 
 <input type="file" id="devFileInput" accept="image/*" style="display:none">
 
@@ -36660,6 +36715,64 @@ function launchGame(url, logoUrl, gameName, evt){
     if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
     try{ navigator.vibrate && navigator.vibrate(10); }catch(e){}
   };
+
+  window.devScrollTop=function(){
+    var page=document.getElementById('developerTab');
+    if(page) page.scrollIntoView({behavior:'smooth',block:'start'});
+    try{ navigator.vibrate && navigator.vibrate(10); }catch(e){}
+  };
+
+  /* ---- scroll-reveal: elemen fade-up tiap kali masuk viewport (berulang, bukan sekali) ---- */
+  var devRevealTargets=document.querySelectorAll('#developerTab .dv2-badge-item,#developerTab .dv2-film,#developerTab .dv2-skill,#developerTab .dv2-tl,#developerTab .dv2-project,#developerTab .dv2-testi-card,#developerTab .dv2-change-item,#developerTab .dv2-contact-row,#developerTab .dv2-faq,#developerTab .dv2-support-card,#developerTab .dv2-gear-item,#developerTab .dv2-week-card');
+  if('IntersectionObserver' in window && devRevealTargets.length){
+    devRevealTargets.forEach(function(el){ el.classList.add('dv2-reveal'); });
+    var devRevealObs=new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        entry.target.classList.toggle('dv2-reveal-in', entry.isIntersecting);
+      });
+    },{threshold:0.15,rootMargin:'0px 0px -40px 0px'});
+    devRevealTargets.forEach(function(el){ devRevealObs.observe(el); });
+  }else{
+    devRevealTargets.forEach(function(el){ el.classList.add('dv2-reveal-in'); });
+  }
+
+  /* ---- active-state quick-nav + tombol scroll-to-top ---- */
+  var devSecIds=['devSecMomen','devSecSkill','devSecTimeline','devSecTesti','devSecFaq'];
+  var devSecEls=devSecIds.map(function(id){ return document.getElementById(id); }).filter(Boolean);
+  var devQnBtns=document.querySelectorAll('#devQuickNav .dv2-qn-btn');
+  var devToTopBtn=document.getElementById('devToTop');
+  var devHero=document.querySelector('#developerTab .dv2-hero');
+
+  function devFindScrollParent(el){
+    var p=el.parentElement;
+    while(p){
+      var style=getComputedStyle(p);
+      if(/(auto|scroll)/.test(style.overflowY)) return p;
+      p=p.parentElement;
+    }
+    return document.scrollingElement || document.documentElement;
+  }
+
+  if(devSecEls.length && devQnBtns.length){
+    var devScrollParent=devFindScrollParent(document.getElementById('developerTab'));
+    var devOnScroll=function(){
+      var refY=(devScrollParent===document.scrollingElement||devScrollParent===document.documentElement)?120:devScrollParent.getBoundingClientRect().top+120;
+      var current=null;
+      devSecEls.forEach(function(sec){
+        if(sec.getBoundingClientRect().top<=refY) current=sec.id;
+      });
+      devQnBtns.forEach(function(btn){
+        var match=btn.getAttribute('onclick')&&btn.getAttribute('onclick').indexOf("'"+current+"'")!==-1;
+        btn.classList.toggle('dv2-qn-active', !!match);
+      });
+      if(devToTopBtn && devHero){
+        var heroBottom=devHero.getBoundingClientRect().bottom;
+        devToTopBtn.classList.toggle('dv2-totop-show', heroBottom<0);
+      }
+    };
+    devScrollParent.addEventListener('scroll', devOnScroll, {passive:true});
+    devOnScroll();
+  }
 
   var input=document.getElementById('devFileInput');
   if(input){
@@ -36831,10 +36944,10 @@ function launchGame(url, logoUrl, gameName, evt){
 /* ----- QUICK NAV ----- */
 .dv2-quicknav{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 4px;margin:14px -2px 18px;-webkit-overflow-scrolling:touch}
 .dv2-quicknav::-webkit-scrollbar{display:none}
-.dv2-qn-btn{flex:0 0 auto;display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:rgba(255,255,255,.7);background:var(--dv2-card);border:1px solid var(--dv2-line);padding:9px 14px;border-radius:999px;cursor:pointer;white-space:nowrap}
+.dv2-qn-btn{flex:0 0 auto;display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:rgba(255,255,255,.7);background:var(--dv2-card);border:1px solid var(--dv2-line);padding:9px 14px;border-radius:999px;cursor:pointer;white-space:nowrap;transition:background .2s,border-color .2s,color .2s}
 .dv2-qn-btn:active{border-color:var(--dv2-red);color:#fff;background:rgba(255,59,59,.1)}
-.dv2-qn-btn i{font-size:10px;color:var(--dv2-gold)}
-
+.dv2-qn-btn i{font-size:10px;color:var(--dv2-gold);transition:color .2s}
+.dv2-qn-active{border-color:var(--dv2-red)!important;color:#fff!important;background:linear-gradient(135deg,rgba(255,59,59,.18),rgba(232,176,75,.1))!important}
 
 /* ----- TESTIMONI ----- */
 .dv2-testi-strip{display:flex;gap:12px;overflow-x:auto;padding:2px 2px 8px;margin:0 -2px 22px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
@@ -36846,11 +36959,41 @@ function launchGame(url, logoUrl, gameName, evt){
 .dv2-testi-avatar{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--dv2-red),var(--dv2-gold));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;flex-shrink:0}
 .dv2-testi-who span{font-size:10.5px;font-weight:700;color:rgba(255,255,255,.55)}
 
+/* ----- SCROLL REVEAL ----- */
+.dv2-reveal{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease}
+.dv2-reveal-in{opacity:1;transform:translateY(0)}
+
+/* ----- SCROLL TO TOP ----- */
+.dv2-totop{position:fixed;right:18px;bottom:88px;width:44px;height:44px;border-radius:50%;background:linear-gradient(145deg,var(--dv2-red),#b30000);border:none;display:flex;align-items:center;justify-content:center;color:#fff;font-size:15px;box-shadow:0 6px 18px rgba(255,59,59,.4);z-index:40;opacity:0;pointer-events:none;transform:translateY(10px) scale(.9);transition:opacity .25s,transform .25s}
+.dv2-totop-show{opacity:1;pointer-events:auto;transform:translateY(0) scale(1)}
+.dv2-totop:active{transform:scale(.9)}
+
+/* ----- JADWAL MINGGUAN ----- */
+.dv2-week-card{background:var(--dv2-card);border:1px solid var(--dv2-line);border-radius:18px;padding:16px 14px;margin-bottom:22px}
+.dv2-week-head{display:flex;align-items:center;justify-content:space-between;font-size:11.5px;font-weight:800;color:#fff;margin-bottom:14px}
+.dv2-week-legend{display:flex;align-items:center;gap:6px;font-size:9.5px;font-weight:700;color:rgba(255,255,255,.4)}
+.dv2-week-legend i{width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,var(--dv2-red),var(--dv2-gold));display:inline-block}
+.dv2-week-row{display:flex;justify-content:space-between;gap:4px;margin-bottom:12px}
+.dv2-week-day{display:flex;flex-direction:column;align-items:center;gap:8px;flex:1}
+.dv2-week-lbl{font-size:9.5px;font-weight:700;color:rgba(255,255,255,.4)}
+.dv2-week-dot{width:22px;height:22px;border-radius:8px;background:rgba(255,255,255,.06);border:1px solid var(--dv2-line)}
+.dv2-week-dot.on{background:linear-gradient(135deg,var(--dv2-red),var(--dv2-gold));border-color:transparent}
+.dv2-week-note{font-size:10px;line-height:1.5;color:rgba(255,255,255,.4);border-top:1px solid var(--dv2-line);padding-top:11px}
+
+/* ----- GEAR & SETUP ----- */
+.dv2-gear-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:22px}
+.dv2-gear-item{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:16px 10px;border-radius:16px;background:var(--dv2-card);border:1px solid var(--dv2-line)}
+.dv2-gear-ic{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.06)}
+.dv2-gear-ic i{font-size:15px;color:var(--dv2-gold)}
+.dv2-gear-name{font-size:11px;font-weight:800;color:#fff}
+.dv2-gear-sub{font-size:9px;color:rgba(255,255,255,.4)}
+
 @media (max-width:360px){
   .dv2-film{width:120px}
   .dv2-avatar{width:64px;height:64px}
   .dv2-name{font-size:1.1rem}
   .dv2-testi-card{width:196px}
+  .dv2-week-dot{width:19px;height:19px}
 }
 </style>
 
