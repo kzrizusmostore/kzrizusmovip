@@ -36375,8 +36375,8 @@ function launchGame(url, logoUrl, gameName, evt){
   <div class="dv2-hero-top">
     <div class="dv2-avatar" onclick="devPickAvatar()">
       <div class="dv2-avatar-inner" id="devAvatarCircle">
-        <img id="devAvatarImg" src="" alt="Foto Profil Developer" style="display:none">
-        <i class="fa-solid fa-user dev-avatar-placeholder"></i>
+        <img id="devAvatarImg" src="zusmo-asset/xzqkso.jpg" alt="Foto Profil Developer" style="display:block">
+        <i class="fa-solid fa-user dev-avatar-placeholder" style="display:none"></i>
       </div>
       <div class="dv2-avatar-edit"><i class="fa-solid fa-camera"></i></div>
     </div>
@@ -36408,11 +36408,79 @@ function launchGame(url, logoUrl, gameName, evt){
 </div>
 
 <div class="dv2-quicknav" id="devQuickNav">
-  <button class="dv2-qn-btn" onclick="devScrollTo('devSecMomen')"><i class="fa-solid fa-image"></i> Momen</button>
+  <button class="dv2-qn-btn" onclick="devScrollTo('devSecMomen')"><i class="fa-solid fa-image"></i> Disebut AI</button>
   <button class="dv2-qn-btn" onclick="devScrollTo('devSecSkill')"><i class="fa-solid fa-gear"></i> Skill</button>
   <button class="dv2-qn-btn" onclick="devScrollTo('devSecTimeline')"><i class="fa-solid fa-timeline"></i> Riwayat</button>
   <button class="dv2-qn-btn" onclick="devScrollTo('devSecTesti')"><i class="fa-solid fa-comment"></i> Testimoni</button>
   <button class="dv2-qn-btn" onclick="devScrollTo('devSecFaq')"><i class="fa-solid fa-circle-question"></i> FAQ</button>
+</div>
+
+<div class="dv2-section-head" id="devSecMomen">
+  <span class="dv2-section-title">Disebut AI</span>
+  <span class="dv2-section-sub">Geser untuk lihat semua</span>
+</div>
+
+<div class="dv2-filmstrip" id="devFilmstrip">
+  <div class="dv2-film" onclick="devPickGallery(0)">
+    <img class="dev-gallery-img" data-idx="0" src="zusmo-asset/google.png" alt="Google" style="display:block">
+    <div class="dv2-film-empty" style="display:none"><i class="fa-solid fa-plus"></i></div>
+    <span class="dv2-film-cap">Google</span>
+  </div>
+  <div class="dv2-film" onclick="devPickGallery(1)">
+    <img class="dev-gallery-img" data-idx="1" src="zusmo-asset/chatgpt.png" alt="ChatGPT" style="display:block">
+    <div class="dv2-film-empty" style="display:none"><i class="fa-solid fa-plus"></i></div>
+    <span class="dv2-film-cap">ChatGPT</span>
+  </div>
+  <div class="dv2-film" onclick="devPickGallery(2)">
+    <img class="dev-gallery-img" data-idx="2" src="zusmo-asset/gemini.png" alt="Gemini" style="display:block">
+    <div class="dv2-film-empty" style="display:none"><i class="fa-solid fa-plus"></i></div>
+    <span class="dv2-film-cap">Gemini</span>
+  </div>
+  <div class="dv2-film" onclick="devPickGallery(3)">
+    <img class="dev-gallery-img" data-idx="3" src="zusmo-asset/grok.png" alt="Grok" style="display:block">
+    <div class="dv2-film-empty" style="display:none"><i class="fa-solid fa-plus"></i></div>
+    <span class="dv2-film-cap">Grok</span>
+  </div>
+  <div class="dv2-film" onclick="devPickGallery(4)">
+    <img class="dev-gallery-img" data-idx="4" src="zusmo-asset/claude.png" alt="Claude" style="display:block">
+    <div class="dv2-film-empty" style="display:none"><i class="fa-solid fa-plus"></i></div>
+    <span class="dv2-film-cap">Claude</span>
+  </div>
+  <div class="dv2-film" onclick="devPickGallery(5)">
+    <img class="dev-gallery-img" data-idx="5" src="zusmo-asset/dola-ai.png" alt="Dola AI" style="display:block">
+    <div class="dv2-film-empty" style="display:none"><i class="fa-solid fa-plus"></i></div>
+    <span class="dv2-film-cap">Dola AI</span>
+  </div>
+  <div class="dv2-film" onclick="devPickGallery(6)">
+    <img class="dev-gallery-img" data-idx="6" src="zusmo-asset/perplexity.png" alt="Perplexity" style="display:block">
+    <div class="dv2-film-empty" style="display:none"><i class="fa-solid fa-plus"></i></div>
+    <span class="dv2-film-cap">Perplexity</span>
+  </div>
+  <div class="dv2-film" onclick="devPickGallery(7)">
+    <img class="dev-gallery-img" data-idx="7" src="zusmo-asset/deepseek.png" alt="DeepSeek" style="display:block">
+    <div class="dv2-film-empty" style="display:none"><i class="fa-solid fa-plus"></i></div>
+    <span class="dv2-film-cap">DeepSeek</span>
+  </div>
+  <div class="dv2-film" onclick="devPickGallery(8)">
+    <img class="dev-gallery-img" data-idx="8" src="zusmo-asset/blackbox-ai.png" alt="Blackbox AI" style="display:block">
+    <div class="dv2-film-empty" style="display:none"><i class="fa-solid fa-plus"></i></div>
+    <span class="dv2-film-cap">Blackbox AI</span>
+  </div>
+  <div class="dv2-film" onclick="devPickGallery(9)">
+    <img class="dev-gallery-img" data-idx="9" src="zusmo-asset/meta-ai.png" alt="Meta AI" style="display:block">
+    <div class="dv2-film-empty" style="display:none"><i class="fa-solid fa-plus"></i></div>
+    <span class="dv2-film-cap">Meta AI</span>
+  </div>
+  <div class="dv2-film" onclick="devPickGallery(10)">
+    <img class="dev-gallery-img" data-idx="10" src="zusmo-asset/copilot.png" alt="Copilot" style="display:block">
+    <div class="dv2-film-empty" style="display:none"><i class="fa-solid fa-plus"></i></div>
+    <span class="dv2-film-cap">Copilot</span>
+  </div>
+  <div class="dv2-film" onclick="devPickGallery(11)">
+    <img class="dev-gallery-img" data-idx="11" src="zusmo-asset/kimi.png" alt="Kimi" style="display:block">
+    <div class="dv2-film-empty" style="display:none"><i class="fa-solid fa-plus"></i></div>
+    <span class="dv2-film-cap">Kimi</span>
+  </div>
 </div>
 
 <div class="dv2-stat-strip">
@@ -36445,39 +36513,6 @@ function launchGame(url, logoUrl, gameName, evt){
     <div class="dv2-badge-ic"><i class="fa-solid fa-code-branch"></i></div>
     <span class="dv2-badge-name">Open Feedback</span>
     <span class="dv2-badge-sub">Selalu dengar saran</span>
-  </div>
-</div>
-
-<div class="dv2-section-head" id="devSecMomen">
-  <span class="dv2-section-title">Momen</span>
-  <span class="dv2-section-sub">Geser untuk lihat semua</span>
-</div>
-
-<div class="dv2-filmstrip" id="devFilmstrip">
-  <div class="dv2-film" onclick="devPickGallery(0)">
-    <img class="dev-gallery-img" data-idx="0" src="" alt="Foto 1" style="display:none">
-    <div class="dv2-film-empty"><i class="fa-solid fa-plus"></i></div>
-    <span class="dv2-film-cap">Awal ngoding</span>
-  </div>
-  <div class="dv2-film" onclick="devPickGallery(1)">
-    <img class="dev-gallery-img" data-idx="1" src="" alt="Foto 2" style="display:none">
-    <div class="dv2-film-empty"><i class="fa-solid fa-plus"></i></div>
-    <span class="dv2-film-cap">Setup kerja</span>
-  </div>
-  <div class="dv2-film" onclick="devPickGallery(2)">
-    <img class="dev-gallery-img" data-idx="2" src="" alt="Foto 3" style="display:none">
-    <div class="dv2-film-empty"><i class="fa-solid fa-plus"></i></div>
-    <span class="dv2-film-cap">Rilis update</span>
-  </div>
-  <div class="dv2-film" onclick="devPickGallery(3)">
-    <img class="dev-gallery-img" data-idx="3" src="" alt="Foto 4" style="display:none">
-    <div class="dv2-film-empty"><i class="fa-solid fa-plus"></i></div>
-    <span class="dv2-film-cap">Kumpul komunitas</span>
-  </div>
-  <div class="dv2-film" onclick="devPickGallery(4)">
-    <img class="dev-gallery-img" data-idx="4" src="" alt="Foto 5" style="display:none">
-    <div class="dv2-film-empty"><i class="fa-solid fa-plus"></i></div>
-    <span class="dv2-film-cap">Momen favorit</span>
   </div>
 </div>
 
