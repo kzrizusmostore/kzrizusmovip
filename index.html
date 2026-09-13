@@ -29039,6 +29039,7 @@ if(!fromBack && __currentId && __currentId!==id){
 }
 document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
 document.getElementById(id).classList.add('active');
+if(typeof window.devApplyWallpaperDark==='function') window.devApplyWallpaperDark(id==='developerTab');
 if(fromBack && __pageScrollPos.hasOwnProperty(id)){
   window.scrollTo(0,__pageScrollPos[id]);
 }else{
@@ -29092,15 +29093,24 @@ function goBackPage(){
 
 
 
+const ZUSMO_WALLPAPER_URL='zusmo-asset/jk23mr.jpg';
+window.devApplyWallpaperDark=function(dark){
+  if(!document.body.style.backgroundImage) return;
+  document.body.style.backgroundImage = dark
+    ? "linear-gradient(rgba(0,0,0,.38),rgba(0,0,0,.38)), url('"+ZUSMO_WALLPAPER_URL+"')"
+    : "url('"+ZUSMO_WALLPAPER_URL+"')";
+};
 const bg=new Image();
-bg.src='zusmo-asset/jk23mr.jpg';
+bg.src=ZUSMO_WALLPAPER_URL;
 bg.onload=()=>{
-document.body.style.backgroundImage="url('zusmo-asset/jk23mr.jpg')";
+document.body.style.backgroundImage="url('"+ZUSMO_WALLPAPER_URL+"')";
 document.body.style.backgroundSize='cover';
 document.body.style.backgroundPosition='center';
 document.body.style.backgroundAttachment='fixed';
 document.body.style.backgroundRepeat='no-repeat';const r=localStorage.getItem('role');const rc=localStorage.getItem('roleColor');
 if(r){let e=document.getElementById('roleBadge');if(e){e.textContent=r;if(rc)e.style.color=rc;}}
+var __activePage=document.querySelector('.page.active');
+window.devApplyWallpaperDark(!!(__activePage && __activePage.id==='developerTab'));
 };
 bg.onerror=()=>console.log('Wallpaper gagal dimuat');
 
@@ -36377,7 +36387,7 @@ function launchGame(url, logoUrl, gameName, evt){
       </div>
     </div>
     <div class="dv2-hero-id">
-      <h2 class="dv2-name" id="devNameText">Rizqi <i class="fa-solid fa-circle-check dv2-verified-badge" aria-label="Verified" title="Verified"></i></h2>
+      <h2 class="dv2-name" id="devNameText">Rizqi <svg class="dv2-verified-badge" viewBox="0 0 40 40" aria-label="Verified" role="img"><title>Verified</title><polygon points="20.00,1.00 23.93,5.32 29.50,3.55 30.75,9.25 36.45,10.50 34.68,16.07 39.00,20.00 34.68,23.93 36.45,29.50 30.75,30.75 29.50,36.45 23.93,34.68 20.00,39.00 16.07,34.68 10.50,36.45 9.25,30.75 3.55,29.50 5.32,23.93 1.00,20.00 5.32,16.07 3.55,10.50 9.25,9.25 10.50,3.55 16.07,5.32" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 20.5l5 5 11-11" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg></h2>
       <p class="dv2-handle" id="devRoleText">@kzrizusmo · Founder &amp; Developer</p>
       <div class="dv2-chip-row">
         <span class="dv2-chip dv2-chip-gold"><i class="fa-solid fa-code"></i> Developer</span>
@@ -36427,15 +36437,16 @@ function launchGame(url, logoUrl, gameName, evt){
 </div>
 
 <div class="dv2-vidgal-row" id="devVidGal">
-  <div class="dv2-vidclip" onclick="devToggleClip(this)"><video class="dv2-vidclip-media" src="zusmo-asset/fspc1.mp4" muted playsinline preload="metadata" onended="this.closest('.dv2-vidclip').classList.remove('playing')"></video><div class="dv2-vidclip-play"><i class="fa-solid fa-play"></i></div></div>
-  <div class="dv2-vidclip" onclick="devToggleClip(this)"><video class="dv2-vidclip-media" src="zusmo-asset/fspc2.mp4" muted playsinline preload="metadata" onended="this.closest('.dv2-vidclip').classList.remove('playing')"></video><div class="dv2-vidclip-play"><i class="fa-solid fa-play"></i></div></div>
-  <div class="dv2-vidclip" onclick="devToggleClip(this)"><video class="dv2-vidclip-media" src="zusmo-asset/fspc3.mp4" muted playsinline preload="metadata" onended="this.closest('.dv2-vidclip').classList.remove('playing')"></video><div class="dv2-vidclip-play"><i class="fa-solid fa-play"></i></div></div>
-  <div class="dv2-vidclip" onclick="devToggleClip(this)"><video class="dv2-vidclip-media" src="zusmo-asset/fspc4.mp4" muted playsinline preload="metadata" onended="this.closest('.dv2-vidclip').classList.remove('playing')"></video><div class="dv2-vidclip-play"><i class="fa-solid fa-play"></i></div></div>
-  <div class="dv2-vidclip" onclick="devToggleClip(this)"><video class="dv2-vidclip-media" src="zusmo-asset/fspc5.mp4" muted playsinline preload="metadata" onended="this.closest('.dv2-vidclip').classList.remove('playing')"></video><div class="dv2-vidclip-play"><i class="fa-solid fa-play"></i></div></div>
-  <div class="dv2-vidclip" onclick="devToggleClip(this)"><video class="dv2-vidclip-media" src="zusmo-asset/fspc6.mp4" muted playsinline preload="metadata" onended="this.closest('.dv2-vidclip').classList.remove('playing')"></video><div class="dv2-vidclip-play"><i class="fa-solid fa-play"></i></div></div>
-  <div class="dv2-vidclip" onclick="devToggleClip(this)"><video class="dv2-vidclip-media" src="zusmo-asset/fspc7.mp4" muted playsinline preload="metadata" onended="this.closest('.dv2-vidclip').classList.remove('playing')"></video><div class="dv2-vidclip-play"><i class="fa-solid fa-play"></i></div></div>
-  <div class="dv2-vidclip" onclick="devToggleClip(this)"><video class="dv2-vidclip-media" src="zusmo-asset/fspc8.mp4" muted playsinline preload="metadata" onended="this.closest('.dv2-vidclip').classList.remove('playing')"></video><div class="dv2-vidclip-play"><i class="fa-solid fa-play"></i></div></div>
+  <div class="dv2-vidclip"><video class="dv2-vidclip-media" src="zusmo-asset/fspc1.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
+  <div class="dv2-vidclip"><video class="dv2-vidclip-media" src="zusmo-asset/fspc2.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
+  <div class="dv2-vidclip"><video class="dv2-vidclip-media" src="zusmo-asset/fspc3.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
+  <div class="dv2-vidclip"><video class="dv2-vidclip-media" src="zusmo-asset/fspc4.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
+  <div class="dv2-vidclip"><video class="dv2-vidclip-media" src="zusmo-asset/fspc5.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
+  <div class="dv2-vidclip"><video class="dv2-vidclip-media" src="zusmo-asset/fspc6.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
+  <div class="dv2-vidclip"><video class="dv2-vidclip-media" src="zusmo-asset/fspc7.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
+  <div class="dv2-vidclip"><video class="dv2-vidclip-media" src="zusmo-asset/fspc8.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
 </div>
+<div class="dv2-hscroll-track"><div class="dv2-hscroll-thumb" id="devVidGalThumb"></div></div>
 
 <div class="dv2-section-head" id="devSecMomen">
   <span class="dv2-section-title">Disebut AI</span>
@@ -36504,6 +36515,7 @@ function launchGame(url, logoUrl, gameName, evt){
     <span class="dv2-film-cap">Kimi</span>
   </div>
 </div>
+<div class="dv2-hscroll-track"><div class="dv2-hscroll-thumb" id="devFilmstripThumb"></div></div>
 
 <div class="dv2-stat-strip">
   <div class="dv2-stat"><span class="dv2-stat-n">2.5K+</span><span class="dv2-stat-l">Pengguna</span></div>
@@ -36576,7 +36588,7 @@ function launchGame(url, logoUrl, gameName, evt){
   <span class="dv2-section-title">Kata Komunitas</span>
   <span class="dv2-section-sub">Geser untuk lihat semua</span>
 </div>
-<div class="dv2-testi-strip">
+<div class="dv2-testi-strip" id="devTestiStrip">
   <div class="dv2-testi-card">
     <div class="dv2-testi-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
     <p class="dv2-testi-quote">"Responsnya cepat banget kalau ada bug, langsung dibenerin di update berikutnya."</p>
@@ -36593,6 +36605,7 @@ function launchGame(url, logoUrl, gameName, evt){
     <div class="dv2-testi-who"><div class="dv2-testi-avatar"><img src="zusmo-asset/kata3.jpg" alt="Member Grup" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="dv2-testi-avatar-fallback" style="display:none">D</span></div><span>Member Grup</span></div>
   </div>
 </div>
+<div class="dv2-hscroll-track"><div class="dv2-hscroll-thumb" id="devTestiStripThumb"></div></div>
 
 <div class="dv2-section-head">
   <span class="dv2-section-title">Dukung &amp; Hubungi</span>
@@ -36697,6 +36710,29 @@ function launchGame(url, logoUrl, gameName, evt){
 </div>
 
 
+<div class="dv2-section-head">
+  <span class="dv2-section-title">Live Monitor Token Harian</span>
+  <span class="dv2-section-sub" id="devTokenUpdated">Memuat...</span>
+</div>
+<div class="dv2-token-grid" id="devTokenGrid">
+  <div class="dv2-token-card">
+    <div class="dv2-token-card-head">
+      <span class="dv2-token-name"><i class="fa-solid fa-server"></i> Sylvatica API</span>
+      <button type="button" class="dv2-token-refresh" onclick="devRefreshTokenMonitor('sylvatica')" aria-label="Refresh Sylvatica"><i class="fa-solid fa-rotate"></i></button>
+    </div>
+    <div class="dv2-token-body" id="devTokenBody-sylvatica"><span class="dv2-token-state">Memuat data...</span></div>
+    <div class="dv2-token-src">sylvatica.my.id/api/admin/analytics</div>
+  </div>
+  <div class="dv2-token-card">
+    <div class="dv2-token-card-head">
+      <span class="dv2-token-name"><i class="fa-solid fa-server"></i> SiamBhau API</span>
+      <button type="button" class="dv2-token-refresh" onclick="devRefreshTokenMonitor('siambhau')" aria-label="Refresh SiamBhau"><i class="fa-solid fa-rotate"></i></button>
+    </div>
+    <div class="dv2-token-body" id="devTokenBody-siambhau"><span class="dv2-token-state">Memuat data...</span></div>
+    <div class="dv2-token-src">siambhau.eu.cc</div>
+  </div>
+</div>
+
 <div class="dv2-section-head" id="devSecFaq">
   <span class="dv2-section-title">Tanya Jawab</span>
 </div>
@@ -36760,8 +36796,92 @@ function launchGame(url, logoUrl, gameName, evt){
     }
   };
 
+  /* ---- garis indikator posisi untuk baris yang bisa digeser horizontal ---- */
+  function devWireHscroll(rowId, thumbId){
+    var row=document.getElementById(rowId);
+    var thumb=document.getElementById(thumbId);
+    if(!row || !thumb) return;
+    function update(){
+      var maxScroll=row.scrollWidth-row.clientWidth;
+      if(maxScroll<=0){ thumb.style.width='100%'; thumb.style.left='0%'; return; }
+      var ratio=row.clientWidth/row.scrollWidth;
+      var widthPct=Math.max(ratio*100,12);
+      var progress=row.scrollLeft/maxScroll;
+      var leftPct=progress*(100-widthPct);
+      thumb.style.width=widthPct+'%';
+      thumb.style.left=leftPct+'%';
+    }
+    row.addEventListener('scroll', update, {passive:true});
+    update();
+  }
+  devWireHscroll('devFilmstrip','devFilmstripThumb');
+  devWireHscroll('devVidGal','devVidGalThumb');
+  devWireHscroll('devTestiStrip','devTestiStripThumb');
+
+  /* ---- live monitor token harian (fetch berkala dari base API) ---- */
+  var DEV_TOKEN_SOURCES = {
+    sylvatica: { url:'https://sylvatica.my.id/api/admin/analytics' },
+    siambhau:  { url:'https://siambhau.eu.cc' }
+  };
+  function devFindUsageFields(obj, out, depth){
+    if(!obj || typeof obj!=='object' || depth>4 || out.length>=6) return;
+    for(var k in obj){
+      if(!Object.prototype.hasOwnProperty.call(obj,k)) continue;
+      var v=obj[k];
+      if(out.length>=6) return;
+      if(typeof v==='number' && /token|usage|request|quota|call|pemakaian/i.test(k)){
+        out.push({label:k, value:v});
+      }else if(v && typeof v==='object'){
+        devFindUsageFields(v, out, depth+1);
+      }
+    }
+  }
+  function devPrettyLabel(key){
+    return key.replace(/[_-]+/g,' ').replace(/([a-z])([A-Z])/g,'$1 $2').replace(/\b\w/g,function(c){return c.toUpperCase();});
+  }
+  function devUpdateTokenTimestamp(){
+    var el=document.getElementById('devTokenUpdated');
+    if(!el) return;
+    var d=new Date();
+    var hh=(d.getHours()<10?'0':'')+d.getHours();
+    var mm=(d.getMinutes()<10?'0':'')+d.getMinutes();
+    el.textContent='Update terakhir '+hh+':'+mm+' WIB';
+  }
+  window.devRefreshTokenMonitor=function(key){
+    var src=DEV_TOKEN_SOURCES[key];
+    var body=document.getElementById('devTokenBody-'+key);
+    if(!src || !body) return;
+    body.innerHTML='<span class="dv2-token-state">Memuat data...</span>';
+    fetch(src.url, {cache:'no-store'}).then(function(r){
+      if(!r.ok) throw new Error('HTTP '+r.status);
+      return r.json();
+    }).then(function(data){
+      var found=[];
+      devFindUsageFields(data, found, 0);
+      if(found.length){
+        body.innerHTML=found.map(function(f){
+          var n=(typeof f.value==='number')?f.value.toLocaleString('id-ID'):f.value;
+          return '<div class="dv2-token-stat"><span class="dv2-token-stat-n">'+n+'</span><span class="dv2-token-stat-l">'+devPrettyLabel(f.label)+'</span></div>';
+        }).join('');
+      }else{
+        body.innerHTML='<span class="dv2-token-state">API aktif, tapi responsnya tidak berisi data token/pemakaian.</span>';
+      }
+      devUpdateTokenTimestamp();
+    }).catch(function(err){
+      body.innerHTML='<span class="dv2-token-state dv2-token-error">Gagal memuat data (kemungkinan butuh API key atau diblokir CORS).</span>';
+      devUpdateTokenTimestamp();
+    });
+  };
+  function devTokenTick(){
+    var page=document.getElementById('developerTab');
+    if(!page || !page.classList.contains('active')) return;
+    Object.keys(DEV_TOKEN_SOURCES).forEach(function(k){ window.devRefreshTokenMonitor(k); });
+  }
+  devTokenTick();
+  setInterval(devTokenTick, 60000);
+
   /* ---- scroll-reveal: elemen fade-up tiap kali masuk viewport (berulang, bukan sekali) ---- */
-  var devRevealTargets=document.querySelectorAll('#developerTab .dv2-film,#developerTab .dv2-vidclip,#developerTab .dv2-skill,#developerTab .dv2-tl,#developerTab .dv2-project,#developerTab .dv2-testi-card,#developerTab .dv2-change-item,#developerTab .dv2-contact-row,#developerTab .dv2-faq,#developerTab .dv2-support-card,#developerTab .dv2-gear-item,#developerTab .dv2-week-card');
+  var devRevealTargets=document.querySelectorAll('#developerTab .dv2-film,#developerTab .dv2-vidclip,#developerTab .dv2-skill,#developerTab .dv2-tl,#developerTab .dv2-project,#developerTab .dv2-testi-card,#developerTab .dv2-change-item,#developerTab .dv2-contact-row,#developerTab .dv2-faq,#developerTab .dv2-support-card,#developerTab .dv2-gear-item,#developerTab .dv2-week-card,#developerTab .dv2-token-card');
   if('IntersectionObserver' in window && devRevealTargets.length){
     devRevealTargets.forEach(function(el){ el.classList.add('dv2-reveal'); });
     var devRevealObs=new IntersectionObserver(function(entries){
@@ -36828,7 +36948,7 @@ function launchGame(url, logoUrl, gameName, evt){
 .dev-avatar-placeholder{font-size:24px;color:rgba(255,255,255,.22)}
 .dv2-hero-id{flex:1;min-width:0}
 .dv2-name{font-family:'Righteous',cursive;font-size:1.25rem;color:#fff;letter-spacing:.3px;line-height:1.2}
-.dv2-verified-badge{font-size:.85rem;color:#3ba7ff;margin-left:5px;vertical-align:middle}
+.dv2-verified-badge{width:.95rem;height:.95rem;color:#3ba7ff;margin-left:5px;vertical-align:middle;flex-shrink:0}
 .dv2-handle{font-size:.72rem;color:rgba(255,255,255,.4);margin:2px 0 8px}
 .dv2-chip-row{display:flex;gap:6px;flex-wrap:wrap}
 .dv2-chip{display:inline-flex;align-items:center;gap:5px;font-size:9.5px;font-weight:800;letter-spacing:.2px;color:rgba(255,255,255,.75);background:rgba(255,255,255,.07);border:1px solid var(--dv2-line);padding:4px 9px;border-radius:8px}
@@ -36876,8 +36996,8 @@ function launchGame(url, logoUrl, gameName, evt){
 .dv2-section-sub{font-size:9.5px;color:rgba(255,255,255,.32);font-weight:600}
 
 /* ----- FILMSTRIP ----- */
-.dv2-filmstrip{display:flex;gap:11px;overflow-x:auto;overflow-y:hidden;padding:2px 2px 6px;margin:0 -2px 22px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
-.dv2-vidgal-row{display:flex;gap:11px;overflow-x:auto;overflow-y:hidden;padding:2px 2px 6px;margin:0 -2px 22px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+.dv2-filmstrip{display:flex;gap:11px;overflow-x:auto;overflow-y:hidden;padding:2px 2px 6px;margin:0 -2px 8px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+.dv2-vidgal-row{display:flex;gap:11px;overflow-x:auto;overflow-y:hidden;padding:2px 2px 6px;margin:0 -2px 8px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
 .dv2-vidclip{position:relative;flex:0 0 auto;width:100px;aspect-ratio:1/1;border-radius:14px;overflow:hidden;background:linear-gradient(160deg,#1a1a1c,#0d0d0e);border:1px solid var(--dv2-line);scroll-snap-align:start;cursor:pointer}
 .dv2-vidclip-media{width:100%;height:100%;object-fit:cover;display:block}
 .dv2-vidclip-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.28);color:#fff;font-size:15px;transition:opacity .2s}
@@ -36935,7 +37055,21 @@ function launchGame(url, logoUrl, gameName, evt){
 .dv2-support-coffee i{color:var(--dv2-gold)}
 .dv2-support-card:active{transform:scale(.97)}
 
-/* ----- FAQ ----- */
+/* ----- LIVE MONITOR TOKEN HARIAN ----- */
+.dv2-token-grid{display:flex;flex-direction:column;gap:10px;margin-bottom:22px}
+.dv2-token-card{background:var(--dv2-card);border:1px solid var(--dv2-line);border-radius:16px;padding:14px 15px}
+.dv2-token-card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;gap:10px}
+.dv2-token-name{font-size:12px;font-weight:800;color:#fff;display:flex;align-items:center;gap:7px}
+.dv2-token-name i{color:var(--dv2-gold);font-size:12px}
+.dv2-token-refresh{flex-shrink:0;width:26px;height:26px;border-radius:8px;border:1px solid var(--dv2-line);background:rgba(255,255,255,.05);color:rgba(255,255,255,.7);display:flex;align-items:center;justify-content:center;font-size:11px;cursor:pointer;padding:0;-webkit-tap-highlight-color:transparent}
+.dv2-token-refresh:active{transform:scale(.9);border-color:var(--dv2-gold);color:#fff}
+.dv2-token-body{display:flex;flex-wrap:wrap;gap:14px 22px;min-height:20px}
+.dv2-token-state{font-size:10.5px;color:rgba(255,255,255,.42);line-height:1.5}
+.dv2-token-error{color:#ff8a8a}
+.dv2-token-stat{display:flex;flex-direction:column;gap:2px}
+.dv2-token-stat-n{font-family:'Righteous',cursive;font-size:1rem;color:#fff}
+.dv2-token-stat-l{font-size:8.5px;font-weight:700;letter-spacing:.3px;text-transform:uppercase;color:rgba(255,255,255,.4)}
+.dv2-token-src{margin-top:10px;font-size:9px;color:rgba(255,255,255,.28);word-break:break-all}
 .dv2-faq-list{display:flex;flex-direction:column;gap:8px;margin-bottom:8px}
 .dv2-faq{background:var(--dv2-card);border:1px solid var(--dv2-line);border-radius:14px;padding:13px 15px}
 .dv2-faq summary{font-size:12px;font-weight:700;color:#fff;cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px}
@@ -36984,7 +37118,9 @@ function launchGame(url, logoUrl, gameName, evt){
 .dv2-qn-active{border-color:var(--dv2-red)!important;color:#fff!important;background:linear-gradient(135deg,rgba(255,59,59,.18),rgba(232,176,75,.1))!important}
 
 /* ----- TESTIMONI ----- */
-.dv2-testi-strip{display:flex;gap:12px;overflow-x:auto;padding:2px 2px 8px;margin:0 -2px 22px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+.dv2-testi-strip{display:flex;gap:12px;overflow-x:auto;padding:2px 2px 8px;margin:0 -2px 8px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+.dv2-hscroll-track{position:relative;height:3px;border-radius:3px;background:rgba(255,255,255,.08);margin:0 2px 22px;overflow:hidden}
+.dv2-hscroll-thumb{position:absolute;top:0;left:0;height:100%;border-radius:3px;background:linear-gradient(90deg,var(--dv2-red),var(--dv2-gold));width:30%}
 .dv2-testi-strip::-webkit-scrollbar{display:none}
 .dv2-testi-card{flex:0 0 auto;width:220px;background:var(--dv2-card);border:1px solid var(--dv2-line);border-radius:18px;padding:16px;scroll-snap-align:start}
 .dv2-testi-stars{font-size:10px;color:var(--dv2-gold);margin-bottom:9px;letter-spacing:2px}
