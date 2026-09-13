@@ -28859,14 +28859,14 @@ function submitJoinGuild(){
 <script>
 /* ── PRIME DATA ── */
 const primeLevels=[
-  {label:'Prime 1',name:'PRIME 1',img:'zusmo-asset/x5pypw.png',dm:100},
-  {label:'Prime 2',name:'PRIME 2',img:'zusmo-asset/b2byx1.png',dm:1000},
-  {label:'Prime 3',name:'PRIME 3',img:'zusmo-asset/nrllzm.png',dm:3000},
-  {label:'Prime 4',name:'PRIME 4',img:'zusmo-asset/yip9im.png',dm:10000},
-  {label:'Prime 5',name:'PRIME 5',img:'zusmo-asset/juhyc3.png',dm:30000},
-  {label:'Prime 6',name:'PRIME 6',img:'zusmo-asset/2d9n67.png',dm:60000},
-  {label:'Prime 7',name:'PRIME 7',img:'zusmo-asset/3gth19.png',dm:120000},
-  {label:'Prime 8',name:'PRIME 8',img:'zusmo-asset/fvplwr.png',dm:200000},
+  {label:'Prime 1',name:'PRIME 1',img:'zusmo-asset/x5pypw.png',dm:1000},
+  {label:'Prime 2',name:'PRIME 2',img:'zusmo-asset/b2byx1.png',dm:10000},
+  {label:'Prime 3',name:'PRIME 3',img:'zusmo-asset/nrllzm.png',dm:30000},
+  {label:'Prime 4',name:'PRIME 4',img:'zusmo-asset/yip9im.png',dm:100000},
+  {label:'Prime 5',name:'PRIME 5',img:'zusmo-asset/juhyc3.png',dm:300000},
+  {label:'Prime 6',name:'PRIME 6',img:'zusmo-asset/2d9n67.png',dm:600000},
+  {label:'Prime 7',name:'PRIME 7',img:'zusmo-asset/3gth19.png',dm:1200000},
+  {label:'Prime 8',name:'PRIME 8',img:'zusmo-asset/fvplwr.png',dm:2000000},
 ];
 const HARGA_PER_DM=126;
 let selPrime=-1;
@@ -28961,57 +28961,83 @@ function hitungLevel(){
 .prm-title .red{color:#ff2b2b;text-shadow:0 0 16px rgba(255,43,43,.6);}
 .prm-sub{font-family:'Space Mono',monospace;text-align:center;font-size:10px;color:#555;letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:20px;}
 
-.prm-hero{background:linear-gradient(150deg,rgba(40,30,0,.9),rgba(10,10,10,.97));border:1px solid rgba(255,215,0,.35);border-radius:24px;padding:24px 20px;margin-bottom:16px;text-align:center;position:relative;overflow:hidden;}
-.prm-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:1.5px;background:linear-gradient(90deg,transparent,rgba(255,215,0,.7),transparent);}
-.prm-hero-icon{width:76px;height:76px;object-fit:contain;margin:0 auto 10px;display:block;filter:drop-shadow(0 0 14px rgba(255,215,0,.55));}
-.prm-hero-icon.prm-hero-icon-locked{filter:grayscale(1) opacity(.4);}
-.prm-hero-level{font-family:'Audiowide',sans-serif;font-size:1.4rem;color:#ffd700;letter-spacing:1.5px;margin-bottom:4px;text-shadow:0 0 14px rgba(255,215,0,.4);}
+/* Header ringkas tanpa kotak/border — hanya ikon, level, progress bar */
+.prm-simple{text-align:center;margin-bottom:20px;}
+.prm-simple-icon{width:72px;height:72px;object-fit:contain;margin:0 auto 10px;display:block;filter:drop-shadow(0 0 14px rgba(255,215,0,.5));}
+.prm-simple-icon.prm-hero-icon-locked{filter:grayscale(1) opacity(.4);}
+.prm-hero-level{font-family:'Audiowide',sans-serif;font-size:1.4rem;background:linear-gradient(180deg,#fff3c4,#ffd700 55%,#b8860b);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:1.5px;margin-bottom:4px;filter:drop-shadow(0 0 10px rgba(255,215,0,.3));}
 .prm-hero-caption{font-size:11.5px;color:#aaa;margin-bottom:16px;}
-.prm-bar-track{width:100%;height:10px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden;margin-bottom:8px;border:1px solid rgba(255,255,255,.06);}
-.prm-bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#ff9500,#ffd700);box-shadow:0 0 10px rgba(255,215,0,.5);transition:width .6s cubic-bezier(.2,.8,.2,1);width:0%;}
+.prm-bar-track{width:100%;height:9px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden;margin-bottom:8px;border:1px solid rgba(255,215,0,.15);}
+.prm-bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#b8860b,#ffd700 50%,#fff3b0);box-shadow:0 0 10px rgba(255,215,0,.5);transition:width .6s cubic-bezier(.2,.8,.2,1);width:0%;}
 .prm-bar-text{font-size:11px;color:#ccc;font-weight:600;}
 .prm-diamond-row{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:14px;font-size:12px;color:#888;}
 .prm-diamond-row img{width:14px;height:14px;object-fit:contain;}
-.prm-diamond-row b{color:#fff;font-size:14px;}
+.prm-diamond-row b{color:#ffd700;font-size:14px;}
 
-.prm-card{background:rgba(14,14,14,.82);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.07);border-radius:22px;padding:18px 16px;margin-bottom:16px;position:relative;overflow:hidden;}
+.prm-card{background:rgba(14,13,10,.86);backdrop-filter:blur(16px);border:1px solid rgba(255,215,0,.14);border-radius:22px;padding:18px 16px;margin-bottom:16px;position:relative;overflow:hidden;}
 .prm-card::before{content:'';position:absolute;left:0;top:16px;bottom:16px;width:3px;background:linear-gradient(180deg,transparent,#ffd700,transparent);border-radius:0 3px 3px 0;}
 .prm-card-head{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
 .prm-card-head i{color:#ffd700;font-size:16px;}
 .prm-card-head h3{font-size:13px;font-weight:800;color:#fff;letter-spacing:.6px;}
 
-.prm-benefit{display:flex;align-items:center;gap:10px;padding:9px 4px;border-bottom:1px solid rgba(255,255,255,.045);font-size:12px;}
+.prm-benefit{display:flex;align-items:center;gap:10px;padding:9px 4px;border-bottom:1px solid rgba(255,215,0,.06);font-size:12px;}
 .prm-benefit:last-child{border-bottom:none;}
 .prm-benefit i{width:16px;text-align:center;font-size:13px;flex-shrink:0;}
 .prm-benefit.unlocked{color:#e6e6e6;}
-.prm-benefit.unlocked i{color:#2ecc71;}
+.prm-benefit.unlocked i{color:#ffd700;}
 .prm-benefit.locked{color:#5a5a5a;}
 .prm-benefit.locked i{color:#5a5a5a;}
 .prm-benefit .lvl-tag{margin-left:auto;font-size:9px;font-weight:700;letter-spacing:.4px;padding:2px 7px;border-radius:99px;background:rgba(255,255,255,.06);color:#777;flex-shrink:0;}
-.prm-benefit.unlocked .lvl-tag{background:rgba(46,204,113,.12);color:#7CFFA0;}
+.prm-benefit.unlocked .lvl-tag{background:rgba(255,215,0,.14);color:#ffd700;}
 
 .prm-tier-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
-.prm-tier{padding:10px 4px 9px;border-radius:13px;text-align:center;position:relative;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);transition:.17s;}
+.prm-tier{padding:10px 4px 9px;border-radius:13px;text-align:center;position:relative;border:1px solid rgba(255,215,0,.1);background:rgba(255,255,255,.02);transition:.17s;}
 .prm-tier img{width:38px;height:38px;object-fit:contain;margin:0 auto 4px;display:block;}
 .prm-tier-name{font-size:9.5px;font-weight:700;color:#888;}
 .prm-tier-req{font-size:8px;color:#4a4a4a;margin-top:1px;}
-.prm-tier.achieved{border-color:rgba(255,215,0,.5);background:linear-gradient(155deg,rgba(255,215,0,.14),rgba(70,50,0,.15));}
+.prm-tier.achieved{border-color:rgba(255,215,0,.55);background:linear-gradient(155deg,rgba(255,215,0,.18),rgba(70,50,0,.18));}
 .prm-tier.achieved .prm-tier-name{color:#ffd700;}
-.prm-tier.achieved img{filter:drop-shadow(0 0 6px rgba(255,215,0,.6));}
-.prm-tier.current{border-color:#ffd700;box-shadow:0 0 14px rgba(255,215,0,.3);}
+.prm-tier.achieved img{filter:drop-shadow(0 0 6px rgba(255,215,0,.65));}
+.prm-tier.current{border-color:#ffd700;box-shadow:0 0 16px rgba(255,215,0,.35);}
 .prm-tier.locked img{filter:grayscale(1) opacity(.35);}
 .prm-tier.locked .prm-tier-name{color:#555;}
-.prm-tier-check{position:absolute;top:5px;right:5px;width:14px;height:14px;border-radius:50%;background:#2ecc71;color:#fff;font-size:8px;display:flex;align-items:center;justify-content:center;}
+.prm-tier-check{position:absolute;top:5px;right:5px;width:14px;height:14px;border-radius:50%;background:#ffd700;color:#1a1400;font-size:8px;display:flex;align-items:center;justify-content:center;}
 
-.prm-cta{width:100%;padding:15px;border:none;border-radius:14px;background:linear-gradient(135deg,#ffd700 0%,#b8860b 100%);color:#1a1400;font-size:13.5px;font-weight:800;cursor:pointer;letter-spacing:.6px;box-shadow:0 5px 22px rgba(255,215,0,.25);display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:6px;}
+/* LEADERBOARD PRIME */
+.prm-lb-list{display:flex;flex-direction:column;gap:0;}
+.prm-lb-item{display:flex;align-items:center;gap:10px;padding:10px 4px;border-bottom:1px solid rgba(255,215,0,.06);}
+.prm-lb-item:last-child{border-bottom:none;}
+.prm-lb-rank{width:24px;height:24px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:800;background:rgba(255,255,255,.06);color:#888;}
+.prm-lb-item:nth-child(1) .prm-lb-rank{background:linear-gradient(135deg,#fff3b0,#ffd700);color:#1a1400;box-shadow:0 0 10px rgba(255,215,0,.5);}
+.prm-lb-item:nth-child(2) .prm-lb-rank{background:linear-gradient(135deg,#e8e8e8,#b8b8b8);color:#1a1400;}
+.prm-lb-item:nth-child(3) .prm-lb-rank{background:linear-gradient(135deg,#e0a86b,#a9682f);color:#1a1400;}
+.prm-lb-icon{width:26px;height:26px;object-fit:contain;flex-shrink:0;}
+.prm-lb-body{flex:1;min-width:0;}
+.prm-lb-name{font-size:12px;font-weight:700;color:#e6e6e6;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.prm-lb-name.me{color:#ffd700;}
+.prm-lb-lvl{font-size:10px;color:#777;margin-top:1px;}
+.prm-lb-dm{font-size:11.5px;font-weight:700;color:#ffd700;flex-shrink:0;}
+.prm-lb-item.me{background:rgba(255,215,0,.06);border-radius:12px;margin:0 -4px;padding:10px 8px;border-bottom:none;}
+
+/* RIWAYAT NAIK LEVEL */
+.prm-history-list{display:flex;flex-direction:column;gap:0;}
+.prm-history-item{display:flex;align-items:center;gap:11px;padding:10px 2px;border-bottom:1px solid rgba(255,215,0,.06);}
+.prm-history-item:last-child{border-bottom:none;}
+.prm-history-icon{width:34px;height:34px;object-fit:contain;flex-shrink:0;filter:drop-shadow(0 0 6px rgba(255,215,0,.4));}
+.prm-history-body{flex:1;min-width:0;}
+.prm-history-name{font-size:12px;font-weight:700;color:#ffd700;}
+.prm-history-date{font-size:10px;color:#777;margin-top:1px;}
+.prm-history-empty{font-size:11.5px;color:#666;text-align:center;padding:18px 4px;}
+
+.prm-cta{width:100%;padding:15px;border:none;border-radius:14px;background:linear-gradient(135deg,#fff3b0 0%,#ffd700 35%,#b8860b 100%);color:#1a1400;font-size:13.5px;font-weight:800;cursor:pointer;letter-spacing:.6px;box-shadow:0 6px 26px rgba(255,215,0,.32);display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:16px;}
 .prm-cta:active{transform:scale(.975);}
 </style>
 
 <p class="prm-title"><span class="gold">PRIME</span>&nbsp;<span class="red">MEMBERSHIP</span></p>
 <p class="prm-sub">Level akun &bull; dari kumpulan Diamond kamu</p>
 
-<div class="prm-hero">
-  <img class="prm-hero-icon" id="prmHeroIcon" src="zusmo-asset/fvplwr.png" alt="Prime"/>
+<div class="prm-simple">
+  <img class="prm-simple-icon" id="prmHeroIcon" src="zusmo-asset/fvplwr.png" alt="Prime"/>
   <div class="prm-hero-level" id="prmHeroLevel">PRIME 8</div>
   <div class="prm-hero-caption" id="prmHeroCaption">Memuat status Prime kamu...</div>
 
@@ -29022,6 +29048,18 @@ function hitungLevel(){
     <img src="zusmo-asset/onzrii.png" alt="diamond"/>
     Total diamond kamu: <b id="prmDiamondTotal">0</b>
   </div>
+</div>
+
+<button class="prm-cta" onclick="showPage('shopTab')"><i class="fa-solid fa-gem"></i> TAMBAH DIAMOND SEKARANG</button>
+
+<div class="prm-card">
+  <div class="prm-card-head"><i class="fa-solid fa-ranking-star"></i><h3>LEADERBOARD PRIME</h3></div>
+  <div class="prm-lb-list" id="prmLbList"></div>
+</div>
+
+<div class="prm-card">
+  <div class="prm-card-head"><i class="fa-solid fa-layer-group"></i><h3>SEMUA LEVEL PRIME</h3></div>
+  <div class="prm-tier-grid" id="prmTierGrid"></div>
 </div>
 
 <div class="prm-card">
@@ -29039,11 +29077,11 @@ function hitungLevel(){
 </div>
 
 <div class="prm-card">
-  <div class="prm-card-head"><i class="fa-solid fa-layer-group"></i><h3>SEMUA LEVEL PRIME</h3></div>
-  <div class="prm-tier-grid" id="prmTierGrid"></div>
+  <div class="prm-card-head"><i class="fa-solid fa-clock-rotate-left"></i><h3>RIWAYAT NAIK LEVEL</h3></div>
+  <div class="prm-history-list" id="prmHistoryList">
+    <div class="prm-history-empty">Belum ada riwayat kenaikan level.</div>
+  </div>
 </div>
-
-<button class="prm-cta" onclick="showPage('shopTab')"><i class="fa-solid fa-gem"></i> TAMBAH DIAMOND SEKARANG</button>
 
 <div class="footer" style="margin-top:4px;">&copy; 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
 </div>
@@ -29060,6 +29098,82 @@ function prmCalcLevel(diamond){
   }
   return lvl;
 }
+/* Riwayat naik level — dicatat di localStorage tiap kali level tertinggi berubah */
+function prmGetHistory(){
+  try{
+    var raw=localStorage.getItem('zusmo_prime_history');
+    var arr=raw?JSON.parse(raw):[];
+    return Array.isArray(arr)?arr:[];
+  }catch(e){return [];}
+}
+function prmSaveHistory(arr){
+  try{localStorage.setItem('zusmo_prime_history',JSON.stringify(arr));}catch(e){}
+}
+function prmTrackLevelUp(level){
+  var hist=prmGetHistory();
+  var lastLvl=hist.length?hist[hist.length-1].level:0;
+  if(level>lastLvl){
+    for(var l=lastLvl+1;l<=level;l++){
+      hist.push({level:l,name:primeLevels[l-1].name,ts:Date.now()});
+    }
+    prmSaveHistory(hist);
+  }
+  return hist;
+}
+function prmRenderHistory(hist){
+  var list=document.getElementById('prmHistoryList');
+  if(!list) return;
+  if(!hist.length){
+    list.innerHTML='<div class="prm-history-empty">Belum ada riwayat kenaikan level.</div>';
+    return;
+  }
+  var html='';
+  for(var i=hist.length-1;i>=0;i--){
+    var h=hist[i];
+    var tier=primeLevels[h.level-1];
+    var d=new Date(h.ts);
+    var dateStr=d.toLocaleDateString('id-ID',{day:'2-digit',month:'short',year:'numeric'})+' &bull; '+d.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
+    html+='<div class="prm-history-item">'+
+      '<img class="prm-history-icon" loading="lazy" decoding="async" src="'+(tier?tier.img:'')+'" alt="'+h.name+'"/>'+
+      '<div class="prm-history-body">'+
+        '<div class="prm-history-name">Naik ke '+h.name+'</div>'+
+        '<div class="prm-history-date">'+dateStr+'</div>'+
+      '</div>'+
+    '</div>';
+  }
+  list.innerHTML=html;
+}
+/* Leaderboard Prime — pemain contoh (statis) dipadukan posisi kamu, diurut dari diamond terbanyak */
+var PRM_LB_SAMPLE=[
+  {name:'RzyGaming_ff',dm:1850000},
+  {name:'ShadowXCloud',dm:920000},
+  {name:'DevilKing.ff',dm:410000},
+  {name:'NoobMaster99',dm:85000},
+  {name:'Kirana_ff',dm:22000},
+];
+function prmRenderLeaderboard(diamond,level){
+  var list=document.getElementById('prmLbList');
+  if(!list) return;
+  var entries=PRM_LB_SAMPLE.map(function(e){return {name:e.name,dm:e.dm,me:false};});
+  entries.push({name:'Kamu',dm:diamond,me:true});
+  entries.sort(function(a,b){return b.dm-a.dm;});
+
+  var html='';
+  entries.forEach(function(e,i){
+    var lvl=prmCalcLevel(e.dm);
+    var tier=lvl>0?primeLevels[lvl-1]:null;
+    html+='<div class="prm-lb-item'+(e.me?' me':'')+'">'+
+      '<div class="prm-lb-rank">'+(i+1)+'</div>'+
+      (tier?'<img class="prm-lb-icon" loading="lazy" decoding="async" src="'+tier.img+'" alt="'+tier.name+'"/>':'<div class="prm-lb-icon"></div>')+
+      '<div class="prm-lb-body">'+
+        '<div class="prm-lb-name'+(e.me?' me':'')+'">'+e.name+'</div>'+
+        '<div class="prm-lb-lvl">'+(tier?tier.name:'Belum Prime')+'</div>'+
+      '</div>'+
+      '<div class="prm-lb-dm">'+e.dm.toLocaleString('id-ID')+' DM</div>'+
+    '</div>';
+  });
+  list.innerHTML=html;
+}
 function renderPrimePage(){
   var page=document.getElementById('prime');
   if(!page) return;
@@ -29067,6 +29181,10 @@ function renderPrimePage(){
   var level=prmCalcLevel(diamond);
   var current=level>0?primeLevels[level-1]:null;
   var next=level<primeLevels.length?primeLevels[level]:null;
+
+  var history=prmTrackLevelUp(level);
+  prmRenderHistory(history);
+  prmRenderLeaderboard(diamond,level);
 
   var icon=document.getElementById('prmHeroIcon');
   var lvlText=document.getElementById('prmHeroLevel');
