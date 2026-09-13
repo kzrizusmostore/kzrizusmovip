@@ -32703,7 +32703,6 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
   var LS_MISSION_CLAIMED = 'zusmo_mission_claimed';
 
   var DAILY_MISSIONS = [
-    { id:'open_app',    title:'Buka Aplikasi Hari Ini', icon:'fa-door-open',   reward:20, goal:1 },
     { id:'claim_daily',title:'Klaim Diamond Harian',    icon:'fa-gift',        reward:20, goal:1 },
     { id:'visit_shop',  title:'Kunjungi Toko',          icon:'fa-store',       reward:15, goal:1 },
     { id:'redeem_code', title:'Redeem 1 Kode',          icon:'fa-ticket',      reward:25, goal:1 }
@@ -32885,7 +32884,6 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
   }
 
   window.openMissionModal = function(){
-    progressMission('open_app', 1);
     renderMissionUI();
     var ov = document.getElementById('missionOverlay');
     if(ov) ov.classList.add('open');
@@ -32899,7 +32897,6 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
   };
 
   document.addEventListener('DOMContentLoaded', function(){
-    progressMission('open_app', 1);
     updateMissionDot();
   });
   /* ================= END DAILY MISSION SYSTEM ================= */
@@ -36412,11 +36409,12 @@ function launchGame(url, logoUrl, gameName, evt){
   </div>
 
   <div class="dv2-social-row">
-    <a class="dv2-social-btn" href="https://wa.me/6281234567890" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
-    <a class="dv2-social-btn" href="https://instagram.com/username_kamu" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-    <a class="dv2-social-btn" href="https://tiktok.com/@username_kamu" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-    <a class="dv2-social-btn" href="https://youtube.com/@username_kamu" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
-    <a class="dv2-social-btn" href="mailto:email_kamu@gmail.com" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+    <a class="dv2-social-btn" href="https://wa.me/6283800287738" target="_blank" rel="noopener" aria-label="WhatsApp" title="WhatsApp: +62 838-0028-7738"><i class="fa-brands fa-whatsapp"></i></a>
+    <a class="dv2-social-btn" href="https://instagram.com/kzrizusmo.2" target="_blank" rel="noopener" aria-label="Instagram kzrizusmo.2" title="Instagram: @kzrizusmo.2"><i class="fa-brands fa-instagram"></i></a>
+    <a class="dv2-social-btn" href="https://instagram.com/zusmoshadow.id" target="_blank" rel="noopener" aria-label="Instagram zusmoshadow.id" title="Instagram: @zusmoshadow.id"><i class="fa-brands fa-instagram"></i></a>
+    <a class="dv2-social-btn" href="https://tiktok.com/@kzrizusmo_store" target="_blank" rel="noopener" aria-label="TikTok" title="TikTok: @kzrizusmo_store"><i class="fa-brands fa-tiktok"></i></a>
+    <button type="button" class="dv2-social-btn" onclick="bvCopyText('kzrizusmo','Username Discord disalin.')" aria-label="Discord" title="Discord: kzrizusmo"><i class="fa-brands fa-discord"></i></button>
+    <a class="dv2-social-btn" href="https://t.me/kzrizusmo" target="_blank" rel="noopener" aria-label="Telegram" title="Telegram: @kzrizusmo"><i class="fa-brands fa-telegram"></i></a>
   </div>
 </div>
 
@@ -36429,14 +36427,14 @@ function launchGame(url, logoUrl, gameName, evt){
 </div>
 
 <div class="dv2-vidgal-row" id="devVidGal">
-  <div class="dv2-vidclip"><video class="dv2-vidclip-media" src="zusmo-asset/fspc1.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
-  <div class="dv2-vidclip"><video class="dv2-vidclip-media" src="zusmo-asset/fspc2.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
-  <div class="dv2-vidclip"><video class="dv2-vidclip-media" src="zusmo-asset/fspc3.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
-  <div class="dv2-vidclip"><video class="dv2-vidclip-media" src="zusmo-asset/fspc4.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
-  <div class="dv2-vidclip"><video class="dv2-vidclip-media" src="zusmo-asset/fspc5.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
-  <div class="dv2-vidclip"><video class="dv2-vidclip-media" src="zusmo-asset/fspc6.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
-  <div class="dv2-vidclip"><video class="dv2-vidclip-media" src="zusmo-asset/fspc7.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
-  <div class="dv2-vidclip"><video class="dv2-vidclip-media" src="zusmo-asset/fspc8.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
+  <div class="dv2-vidclip" onclick="devToggleClip(this)"><video class="dv2-vidclip-media" src="zusmo-asset/fspc1.mp4" muted playsinline preload="metadata" onended="this.closest('.dv2-vidclip').classList.remove('playing')"></video><div class="dv2-vidclip-play"><i class="fa-solid fa-play"></i></div></div>
+  <div class="dv2-vidclip" onclick="devToggleClip(this)"><video class="dv2-vidclip-media" src="zusmo-asset/fspc2.mp4" muted playsinline preload="metadata" onended="this.closest('.dv2-vidclip').classList.remove('playing')"></video><div class="dv2-vidclip-play"><i class="fa-solid fa-play"></i></div></div>
+  <div class="dv2-vidclip" onclick="devToggleClip(this)"><video class="dv2-vidclip-media" src="zusmo-asset/fspc3.mp4" muted playsinline preload="metadata" onended="this.closest('.dv2-vidclip').classList.remove('playing')"></video><div class="dv2-vidclip-play"><i class="fa-solid fa-play"></i></div></div>
+  <div class="dv2-vidclip" onclick="devToggleClip(this)"><video class="dv2-vidclip-media" src="zusmo-asset/fspc4.mp4" muted playsinline preload="metadata" onended="this.closest('.dv2-vidclip').classList.remove('playing')"></video><div class="dv2-vidclip-play"><i class="fa-solid fa-play"></i></div></div>
+  <div class="dv2-vidclip" onclick="devToggleClip(this)"><video class="dv2-vidclip-media" src="zusmo-asset/fspc5.mp4" muted playsinline preload="metadata" onended="this.closest('.dv2-vidclip').classList.remove('playing')"></video><div class="dv2-vidclip-play"><i class="fa-solid fa-play"></i></div></div>
+  <div class="dv2-vidclip" onclick="devToggleClip(this)"><video class="dv2-vidclip-media" src="zusmo-asset/fspc6.mp4" muted playsinline preload="metadata" onended="this.closest('.dv2-vidclip').classList.remove('playing')"></video><div class="dv2-vidclip-play"><i class="fa-solid fa-play"></i></div></div>
+  <div class="dv2-vidclip" onclick="devToggleClip(this)"><video class="dv2-vidclip-media" src="zusmo-asset/fspc7.mp4" muted playsinline preload="metadata" onended="this.closest('.dv2-vidclip').classList.remove('playing')"></video><div class="dv2-vidclip-play"><i class="fa-solid fa-play"></i></div></div>
+  <div class="dv2-vidclip" onclick="devToggleClip(this)"><video class="dv2-vidclip-media" src="zusmo-asset/fspc8.mp4" muted playsinline preload="metadata" onended="this.closest('.dv2-vidclip').classList.remove('playing')"></video><div class="dv2-vidclip-play"><i class="fa-solid fa-play"></i></div></div>
 </div>
 
 <div class="dv2-section-head" id="devSecMomen">
@@ -36558,18 +36556,18 @@ function launchGame(url, logoUrl, gameName, evt){
 </div>
 <div class="dv2-project-list">
   <div class="dv2-project">
-    <div class="dv2-project-ic"><i class="fa-solid fa-gamepad"></i></div>
-    <div class="dv2-project-txt"><h4>SUPER RAHULLL</h4><p>Endless runner 2D dengan karakter orisinal</p></div>
-    <span class="dv2-project-tag">Game</span>
+    <div class="dv2-project-ic"><i class="fa-solid fa-shield-halved"></i></div>
+    <div class="dv2-project-txt"><h4>Zusmo Shadow</h4><p>Platform layanan &amp; shop Free Fire utama</p></div>
+    <span class="dv2-project-tag">Platform</span>
   </div>
   <div class="dv2-project">
-    <div class="dv2-project-ic"><i class="fa-solid fa-train"></i></div>
-    <div class="dv2-project-txt"><h4>Rail Runner</h4><p>Endless runner 3D berbasis Three.js</p></div>
-    <span class="dv2-project-tag">Game</span>
+    <div class="dv2-project-ic"><i class="fa-solid fa-magnifying-glass"></i></div>
+    <div class="dv2-project-txt"><h4>Cek Info Player FF</h4><p>Lihat detail akun Free Fire cuma pakai ID</p></div>
+    <span class="dv2-project-tag">Tools</span>
   </div>
   <div class="dv2-project">
-    <div class="dv2-project-ic"><i class="fa-solid fa-pen-nib"></i></div>
-    <div class="dv2-project-txt"><h4>Editor Bio</h4><p>Tools styling teks buat bio &amp; nickname</p></div>
+    <div class="dv2-project-ic"><i class="fa-solid fa-download"></i></div>
+    <div class="dv2-project-txt"><h4>Sosmed Downloader</h4><p>Unduh video &amp; foto dari media sosial tanpa watermark</p></div>
     <span class="dv2-project-tag">Tools</span>
   </div>
 </div>
@@ -36582,17 +36580,17 @@ function launchGame(url, logoUrl, gameName, evt){
   <div class="dv2-testi-card">
     <div class="dv2-testi-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
     <p class="dv2-testi-quote">"Responsnya cepat banget kalau ada bug, langsung dibenerin di update berikutnya."</p>
-    <div class="dv2-testi-who"><div class="dv2-testi-avatar">A</div><span>Anggota Komunitas</span></div>
+    <div class="dv2-testi-who"><div class="dv2-testi-avatar"><img src="zusmo-asset/kata1.jpg" alt="Anggota Komunitas" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="dv2-testi-avatar-fallback" style="display:none">A</span></div><span>Anggota Komunitas</span></div>
   </div>
   <div class="dv2-testi-card">
     <div class="dv2-testi-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
     <p class="dv2-testi-quote">"Fitur redeem code-nya paling gampang dipakai dibanding aplikasi sejenis lain."</p>
-    <div class="dv2-testi-who"><div class="dv2-testi-avatar">R</div><span>Pengguna Aktif</span></div>
+    <div class="dv2-testi-who"><div class="dv2-testi-avatar"><img src="zusmo-asset/kata2.jpg" alt="Pengguna Aktif" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="dv2-testi-avatar-fallback" style="display:none">R</span></div><span>Pengguna Aktif</span></div>
   </div>
   <div class="dv2-testi-card">
     <div class="dv2-testi-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i></div>
     <p class="dv2-testi-quote">"Suka sama update rutinnya, kerasa developer-nya niat ngurusin komunitas."</p>
-    <div class="dv2-testi-who"><div class="dv2-testi-avatar">D</div><span>Member Grup</span></div>
+    <div class="dv2-testi-who"><div class="dv2-testi-avatar"><img src="zusmo-asset/kata3.jpg" alt="Member Grup" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="dv2-testi-avatar-fallback" style="display:none">D</span></div><span>Member Grup</span></div>
   </div>
 </div>
 
@@ -36743,6 +36741,25 @@ function launchGame(url, logoUrl, gameName, evt){
     try{ navigator.vibrate && navigator.vibrate(10); }catch(e){}
   };
 
+  window.devToggleClip=function(clipEl){
+    var v=clipEl.querySelector('video');
+    if(!v) return;
+    if(v.paused){
+      document.querySelectorAll('#developerTab .dv2-vidclip.playing').forEach(function(other){
+        if(other!==clipEl){
+          var ov=other.querySelector('video');
+          if(ov){ ov.pause(); ov.currentTime=0; }
+          other.classList.remove('playing');
+        }
+      });
+      v.play();
+      clipEl.classList.add('playing');
+    }else{
+      v.pause();
+      clipEl.classList.remove('playing');
+    }
+  };
+
   /* ---- scroll-reveal: elemen fade-up tiap kali masuk viewport (berulang, bukan sekali) ---- */
   var devRevealTargets=document.querySelectorAll('#developerTab .dv2-film,#developerTab .dv2-vidclip,#developerTab .dv2-skill,#developerTab .dv2-tl,#developerTab .dv2-project,#developerTab .dv2-testi-card,#developerTab .dv2-change-item,#developerTab .dv2-contact-row,#developerTab .dv2-faq,#developerTab .dv2-support-card,#developerTab .dv2-gear-item,#developerTab .dv2-week-card');
   if('IntersectionObserver' in window && devRevealTargets.length){
@@ -36842,7 +36859,7 @@ function launchGame(url, logoUrl, gameName, evt){
 .dv2-hl-b{color:#f1fa8c;font-weight:600}
 .dv2-hl-c{color:#ff5555;font-weight:700}
 .dv2-social-row{position:relative;display:flex;gap:8px;flex-wrap:wrap}
-.dv2-social-btn{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.05);border:1px solid var(--dv2-line);color:rgba(255,255,255,.8);font-size:14px;transition:.2s}
+.dv2-social-btn{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.05);border:1px solid var(--dv2-line);color:rgba(255,255,255,.8);font-size:14px;transition:.2s;padding:0;font-family:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .dv2-social-btn:active{transform:scale(.9);border-color:var(--dv2-red);color:#fff}
 
 /* ----- STAT STRIP (di luar hero, jadi jeda visual) ----- */
@@ -36861,8 +36878,11 @@ function launchGame(url, logoUrl, gameName, evt){
 /* ----- FILMSTRIP ----- */
 .dv2-filmstrip{display:flex;gap:11px;overflow-x:auto;overflow-y:hidden;padding:2px 2px 6px;margin:0 -2px 22px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
 .dv2-vidgal-row{display:flex;gap:11px;overflow-x:auto;overflow-y:hidden;padding:2px 2px 6px;margin:0 -2px 22px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
-.dv2-vidclip{position:relative;flex:0 0 auto;width:100px;aspect-ratio:1/1;border-radius:14px;overflow:hidden;background:linear-gradient(160deg,#1a1a1c,#0d0d0e);border:1px solid var(--dv2-line);scroll-snap-align:start}
+.dv2-vidclip{position:relative;flex:0 0 auto;width:100px;aspect-ratio:1/1;border-radius:14px;overflow:hidden;background:linear-gradient(160deg,#1a1a1c,#0d0d0e);border:1px solid var(--dv2-line);scroll-snap-align:start;cursor:pointer}
 .dv2-vidclip-media{width:100%;height:100%;object-fit:cover;display:block}
+.dv2-vidclip-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.28);color:#fff;font-size:15px;transition:opacity .2s}
+.dv2-vidclip-play i{width:30px;height:30px;border-radius:50%;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center}
+.dv2-vidclip.playing .dv2-vidclip-play{opacity:0;pointer-events:none}
 .dv2-filmstrip::-webkit-scrollbar{display:none}
 .dv2-film{position:relative;flex:0 0 auto;width:136px;aspect-ratio:4/5;border-radius:18px;overflow:hidden;background:linear-gradient(160deg,#1a1a1c,#0d0d0e);border:1px solid var(--dv2-line);scroll-snap-align:start}
 .dv2-film .dev-gallery-img{width:100%;height:100%;object-fit:cover;display:block}
@@ -36970,7 +36990,9 @@ function launchGame(url, logoUrl, gameName, evt){
 .dv2-testi-stars{font-size:10px;color:var(--dv2-gold);margin-bottom:9px;letter-spacing:2px}
 .dv2-testi-quote{font-size:11.5px;line-height:1.6;color:rgba(255,255,255,.68);margin-bottom:14px;min-height:66px}
 .dv2-testi-who{display:flex;align-items:center;gap:8px}
-.dv2-testi-avatar{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--dv2-red),var(--dv2-gold));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;flex-shrink:0}
+.dv2-testi-avatar{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--dv2-red),var(--dv2-gold));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;flex-shrink:0;overflow:hidden}
+.dv2-testi-avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.dv2-testi-avatar-fallback{width:100%;height:100%;align-items:center;justify-content:center}
 .dv2-testi-who span{font-size:10.5px;font-weight:700;color:rgba(255,255,255,.55)}
 
 /* ----- SCROLL REVEAL ----- */
