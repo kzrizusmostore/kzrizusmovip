@@ -28955,88 +28955,102 @@ function hitungLevel(){
 
 <div class="page" id="prime">
 <style>
-#prime{padding-bottom:80px;}
+#prime{padding-bottom:80px;background:radial-gradient(ellipse at 50% 0%,rgba(255,140,0,.08),transparent 55%);}
 .prm-title{font-family:'Fredoka One',sans-serif;font-weight:900;font-size:1.5rem;text-align:center;letter-spacing:1.2px;margin-bottom:6px;text-shadow:0 0 22px rgba(255,215,0,.25);}
 .prm-title .gold{color:#ffd700;text-shadow:0 0 16px rgba(255,215,0,.55);}
 .prm-title .red{color:#ff2b2b;text-shadow:0 0 16px rgba(255,43,43,.6);}
-.prm-sub{font-family:'Space Mono',monospace;text-align:center;font-size:10px;color:#555;letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:20px;}
+.prm-sub{font-family:'Space Mono',monospace;text-align:center;font-size:10px;color:#555;letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:16px;}
 
-/* Header ringkas tanpa kotak/border — hanya ikon, level, progress bar */
-.prm-simple{text-align:center;margin-bottom:20px;}
-.prm-simple-icon{width:72px;height:72px;object-fit:contain;margin:0 auto 10px;display:block;filter:drop-shadow(0 0 14px rgba(255,215,0,.5));}
+/* HEADER — tanpa kotak/blok/bingkai, hanya ikon Prime polos + progress */
+.prm-banner{position:relative;text-align:center;margin-bottom:16px;}
+.prm-banner-rank{display:inline-block;font-family:'Audiowide',sans-serif;font-size:9px;letter-spacing:1px;color:rgba(255,215,0,.6);margin-bottom:8px;}
+.prm-simple-icon{width:76px;height:76px;object-fit:contain;margin:0 auto 10px;display:block;filter:drop-shadow(0 0 14px rgba(255,180,0,.55));}
 .prm-simple-icon.prm-hero-icon-locked{filter:grayscale(1) opacity(.4);}
-.prm-hero-level{font-family:'Audiowide',sans-serif;font-size:1.4rem;background:linear-gradient(180deg,#fff3c4,#ffd700 55%,#b8860b);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:1.5px;margin-bottom:4px;filter:drop-shadow(0 0 10px rgba(255,215,0,.3));}
-.prm-hero-caption{font-size:11.5px;color:#aaa;margin-bottom:16px;}
-.prm-bar-track{width:100%;height:9px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden;margin-bottom:8px;border:1px solid rgba(255,215,0,.15);}
-.prm-bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#b8860b,#ffd700 50%,#fff3b0);box-shadow:0 0 10px rgba(255,215,0,.5);transition:width .6s cubic-bezier(.2,.8,.2,1);width:0%;}
-.prm-bar-text{font-size:11px;color:#ccc;font-weight:600;}
-.prm-diamond-row{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:14px;font-size:12px;color:#888;}
-.prm-diamond-row img{width:14px;height:14px;object-fit:contain;}
-.prm-diamond-row b{color:#ffd700;font-size:14px;}
+.prm-hero-level{font-family:'Audiowide',sans-serif;font-size:1.3rem;color:#ffd23f;letter-spacing:2px;margin-bottom:3px;text-shadow:0 0 12px rgba(255,180,0,.5);}
+.prm-hero-caption{font-size:11px;color:#a89a7a;margin-bottom:14px;}
+.prm-bar-track{width:100%;height:8px;border-radius:99px;background:rgba(255,255,255,.06);overflow:hidden;margin-bottom:7px;border:1px solid rgba(255,180,0,.2);}
+.prm-bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#ff8a00,#ffd23f 60%,#fff3b0);box-shadow:0 0 8px rgba(255,180,0,.6);transition:width .6s cubic-bezier(.2,.8,.2,1);width:0%;}
+.prm-bar-text{font-size:10.5px;color:#c9bb9a;font-weight:600;}
+.prm-diamond-row{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:13px;font-size:11.5px;color:#8a7c5e;}
+.prm-diamond-row img{width:13px;height:13px;object-fit:contain;}
+.prm-diamond-row b{color:#ffd23f;font-size:13px;}
 
-.prm-card{background:rgba(14,13,10,.86);backdrop-filter:blur(16px);border:1px solid rgba(255,215,0,.14);border-radius:22px;padding:18px 16px;margin-bottom:16px;position:relative;overflow:hidden;}
-.prm-card::before{content:'';position:absolute;left:0;top:16px;bottom:16px;width:3px;background:linear-gradient(180deg,transparent,#ffd700,transparent);border-radius:0 3px 3px 0;}
-.prm-card-head{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
-.prm-card-head i{color:#ffd700;font-size:16px;}
-.prm-card-head h3{font-size:13px;font-weight:800;color:#fff;letter-spacing:.6px;}
+/* TAB MENU — navigasi horizontal ala menu Prime di game, biar gak scroll panjang lurus */
+.prm-tabbar{display:flex;gap:6px;margin-bottom:16px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;}
+.prm-tabbar::-webkit-scrollbar{display:none;}
+.prm-tab-btn{flex:1;min-width:74px;display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px 8px;background:rgba(255,180,0,.05);border:1px solid rgba(255,180,0,.15);clip-path:polygon(10% 0,100% 0,100% 78%,90% 100%,0 100%,0 22%);color:#8a7c5e;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:10px;letter-spacing:.6px;}
+.prm-tab-btn i{font-size:14px;}
+.prm-tab-btn.active{background:linear-gradient(155deg,rgba(255,180,0,.22),rgba(255,180,0,.06));border-color:#ffb300;color:#ffd23f;box-shadow:0 0 14px rgba(255,180,0,.2);}
+.prm-tab-btn:active{transform:scale(.96);}
 
-.prm-benefit{display:flex;align-items:center;gap:10px;padding:9px 4px;border-bottom:1px solid rgba(255,215,0,.06);font-size:12px;}
+.prm-panel{display:none;}
+.prm-panel.active{display:block;animation:prmPanelIn .25s ease;}
+@keyframes prmPanelIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+.prm-section{margin-bottom:0;}
+.prm-section-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(255,180,0,.18);}
+.prm-section-head i{color:#ffb300;font-size:14px;}
+.prm-section-head h3{font-size:12px;font-weight:800;color:#fff;letter-spacing:.8px;font-family:'Audiowide',sans-serif;}
+
+.prm-benefit{display:flex;align-items:center;gap:10px;padding:8px 2px;border-bottom:1px solid rgba(255,180,0,.06);font-size:12px;}
 .prm-benefit:last-child{border-bottom:none;}
 .prm-benefit i{width:16px;text-align:center;font-size:13px;flex-shrink:0;}
 .prm-benefit.unlocked{color:#e6e6e6;}
-.prm-benefit.unlocked i{color:#ffd700;}
+.prm-benefit.unlocked i{color:#ffb300;}
 .prm-benefit.locked{color:#5a5a5a;}
 .prm-benefit.locked i{color:#5a5a5a;}
-.prm-benefit .lvl-tag{margin-left:auto;font-size:9px;font-weight:700;letter-spacing:.4px;padding:2px 7px;border-radius:99px;background:rgba(255,255,255,.06);color:#777;flex-shrink:0;}
-.prm-benefit.unlocked .lvl-tag{background:rgba(255,215,0,.14);color:#ffd700;}
+.prm-benefit .lvl-tag{margin-left:auto;font-size:9px;font-weight:700;letter-spacing:.4px;padding:2px 7px;border-radius:5px;background:rgba(255,255,255,.06);color:#777;flex-shrink:0;}
+.prm-benefit.unlocked .lvl-tag{background:rgba(255,180,0,.16);color:#ffb300;}
 
-.prm-tier-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
-.prm-tier{padding:10px 4px 9px;border-radius:13px;text-align:center;position:relative;border:1px solid rgba(255,215,0,.1);background:rgba(255,255,255,.02);transition:.17s;}
-.prm-tier img{width:38px;height:38px;object-fit:contain;margin:0 auto 4px;display:block;}
-.prm-tier-name{font-size:9.5px;font-weight:700;color:#888;}
-.prm-tier-req{font-size:8px;color:#4a4a4a;margin-top:1px;}
-.prm-tier.achieved{border-color:rgba(255,215,0,.55);background:linear-gradient(155deg,rgba(255,215,0,.18),rgba(70,50,0,.18));}
-.prm-tier.achieved .prm-tier-name{color:#ffd700;}
-.prm-tier.achieved img{filter:drop-shadow(0 0 6px rgba(255,215,0,.65));}
-.prm-tier.current{border-color:#ffd700;box-shadow:0 0 16px rgba(255,215,0,.35);}
+/* TIER PATH — kartu level dihubungkan garis progres seperti battle pass */
+.prm-tier-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;position:relative;}
+.prm-tier{padding:9px 3px 8px;border-radius:10px;text-align:center;position:relative;border:1px solid rgba(255,180,0,.12);background:rgba(255,255,255,.02);clip-path:polygon(8% 0,100% 0,100% 92%,92% 100%,0 100%,0 8%);}
+.prm-tier img{width:34px;height:34px;object-fit:contain;margin:0 auto 4px;display:block;}
+.prm-tier-name{font-size:9px;font-weight:800;color:#888;letter-spacing:.3px;}
+.prm-tier-req{font-size:7.5px;color:#4a4a4a;margin-top:1px;}
+.prm-tier.achieved{border-color:rgba(255,180,0,.5);background:linear-gradient(155deg,rgba(255,180,0,.16),rgba(60,40,0,.16));}
+.prm-tier.achieved .prm-tier-name{color:#ffb300;}
+.prm-tier.achieved img{filter:drop-shadow(0 0 6px rgba(255,180,0,.6));}
+.prm-tier.current{border-color:#ffd23f;box-shadow:0 0 14px rgba(255,180,0,.35);}
 .prm-tier.locked img{filter:grayscale(1) opacity(.35);}
 .prm-tier.locked .prm-tier-name{color:#555;}
-.prm-tier-check{position:absolute;top:5px;right:5px;width:14px;height:14px;border-radius:50%;background:#ffd700;color:#1a1400;font-size:8px;display:flex;align-items:center;justify-content:center;}
+.prm-tier-check{position:absolute;top:4px;right:4px;width:13px;height:13px;border-radius:50%;background:#ffb300;color:#1a1400;font-size:7px;display:flex;align-items:center;justify-content:center;}
 
 /* LEADERBOARD PRIME */
 .prm-lb-list{display:flex;flex-direction:column;gap:0;}
-.prm-lb-item{display:flex;align-items:center;gap:10px;padding:10px 4px;border-bottom:1px solid rgba(255,215,0,.06);}
+.prm-lb-item{display:flex;align-items:center;gap:10px;padding:9px 3px;border-bottom:1px solid rgba(255,180,0,.06);}
 .prm-lb-item:last-child{border-bottom:none;}
-.prm-lb-rank{width:24px;height:24px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:800;background:rgba(255,255,255,.06);color:#888;}
-.prm-lb-item:nth-child(1) .prm-lb-rank{background:linear-gradient(135deg,#fff3b0,#ffd700);color:#1a1400;box-shadow:0 0 10px rgba(255,215,0,.5);}
+.prm-lb-rank{width:22px;height:22px;border-radius:5px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;background:rgba(255,255,255,.06);color:#888;}
+.prm-lb-item:nth-child(1) .prm-lb-rank{background:linear-gradient(135deg,#fff3b0,#ffb300);color:#1a1400;box-shadow:0 0 8px rgba(255,180,0,.5);}
 .prm-lb-item:nth-child(2) .prm-lb-rank{background:linear-gradient(135deg,#e8e8e8,#b8b8b8);color:#1a1400;}
 .prm-lb-item:nth-child(3) .prm-lb-rank{background:linear-gradient(135deg,#e0a86b,#a9682f);color:#1a1400;}
-.prm-lb-icon{width:26px;height:26px;object-fit:contain;flex-shrink:0;}
+.prm-lb-icon{width:24px;height:24px;object-fit:contain;flex-shrink:0;}
 .prm-lb-body{flex:1;min-width:0;}
-.prm-lb-name{font-size:12px;font-weight:700;color:#e6e6e6;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.prm-lb-name.me{color:#ffd700;}
-.prm-lb-lvl{font-size:10px;color:#777;margin-top:1px;}
-.prm-lb-dm{font-size:11.5px;font-weight:700;color:#ffd700;flex-shrink:0;}
-.prm-lb-item.me{background:rgba(255,215,0,.06);border-radius:12px;margin:0 -4px;padding:10px 8px;border-bottom:none;}
+.prm-lb-name{font-size:11.5px;font-weight:700;color:#e6e6e6;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.prm-lb-name.me{color:#ffb300;}
+.prm-lb-lvl{font-size:9.5px;color:#777;margin-top:1px;}
+.prm-lb-dm{font-size:11px;font-weight:700;color:#ffb300;flex-shrink:0;}
+.prm-lb-item.me{background:rgba(255,180,0,.07);border-radius:8px;margin:0 -4px;padding:9px 7px;border-bottom:none;}
 
 /* RIWAYAT NAIK LEVEL */
 .prm-history-list{display:flex;flex-direction:column;gap:0;}
-.prm-history-item{display:flex;align-items:center;gap:11px;padding:10px 2px;border-bottom:1px solid rgba(255,215,0,.06);}
+.prm-history-item{display:flex;align-items:center;gap:10px;padding:9px 1px;border-bottom:1px solid rgba(255,180,0,.06);}
 .prm-history-item:last-child{border-bottom:none;}
-.prm-history-icon{width:34px;height:34px;object-fit:contain;flex-shrink:0;filter:drop-shadow(0 0 6px rgba(255,215,0,.4));}
+.prm-history-icon{width:30px;height:30px;object-fit:contain;flex-shrink:0;filter:drop-shadow(0 0 6px rgba(255,180,0,.4));}
 .prm-history-body{flex:1;min-width:0;}
-.prm-history-name{font-size:12px;font-weight:700;color:#ffd700;}
-.prm-history-date{font-size:10px;color:#777;margin-top:1px;}
-.prm-history-empty{font-size:11.5px;color:#666;text-align:center;padding:18px 4px;}
+.prm-history-name{font-size:11.5px;font-weight:700;color:#ffb300;}
+.prm-history-date{font-size:9.5px;color:#777;margin-top:1px;}
+.prm-history-empty{font-size:11px;color:#666;text-align:center;padding:16px 4px;}
 
-.prm-cta{width:100%;padding:15px;border:none;border-radius:14px;background:linear-gradient(135deg,#fff3b0 0%,#ffd700 35%,#b8860b 100%);color:#1a1400;font-size:13.5px;font-weight:800;cursor:pointer;letter-spacing:.6px;box-shadow:0 6px 26px rgba(255,215,0,.32);display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:16px;}
+.prm-cta{width:100%;padding:14px;border:none;clip-path:polygon(3% 0,100% 0,100% 70%,97% 100%,0 100%,0 30%);background:linear-gradient(135deg,#ffe694 0%,#ffb300 40%,#c47800 100%);color:#1a1400;font-size:13px;font-weight:800;cursor:pointer;letter-spacing:.6px;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:14px;font-family:'Audiowide',sans-serif;}
 .prm-cta:active{transform:scale(.975);}
 </style>
 
 <p class="prm-title"><span class="gold">PRIME</span>&nbsp;<span class="red">MEMBERSHIP</span></p>
 <p class="prm-sub">Level akun &bull; dari kumpulan Diamond kamu</p>
 
-<div class="prm-simple">
+<div class="prm-banner">
+  <div class="prm-banner-rank" id="prmHeroCaptionTag">STATUS AKUN</div>
   <img class="prm-simple-icon" id="prmHeroIcon" src="zusmo-asset/fvplwr.png" alt="Prime"/>
   <div class="prm-hero-level" id="prmHeroLevel">PRIME 8</div>
   <div class="prm-hero-caption" id="prmHeroCaption">Memuat status Prime kamu...</div>
@@ -29052,34 +29066,45 @@ function hitungLevel(){
 
 <button class="prm-cta" onclick="showPage('shopTab')"><i class="fa-solid fa-gem"></i> TAMBAH DIAMOND SEKARANG</button>
 
-<div class="prm-card">
-  <div class="prm-card-head"><i class="fa-solid fa-ranking-star"></i><h3>LEADERBOARD PRIME</h3></div>
-  <div class="prm-lb-list" id="prmLbList"></div>
+<div class="prm-tabbar" id="prmTabbar">
+  <button class="prm-tab-btn active" data-panel="prmPanelLb" onclick="prmSwitchTab('prmPanelLb',this)"><i class="fa-solid fa-ranking-star"></i>LEADERBOARD</button>
+  <button class="prm-tab-btn" data-panel="prmPanelLvl" onclick="prmSwitchTab('prmPanelLvl',this)"><i class="fa-solid fa-layer-group"></i>LEVEL</button>
+  <button class="prm-tab-btn" data-panel="prmPanelBenefit" onclick="prmSwitchTab('prmPanelBenefit',this)"><i class="fa-solid fa-crown"></i>KEUNTUNGAN</button>
+  <button class="prm-tab-btn" data-panel="prmPanelHistory" onclick="prmSwitchTab('prmPanelHistory',this)"><i class="fa-solid fa-clock-rotate-left"></i>RIWAYAT</button>
 </div>
 
-<div class="prm-card">
-  <div class="prm-card-head"><i class="fa-solid fa-layer-group"></i><h3>SEMUA LEVEL PRIME</h3></div>
-  <div class="prm-tier-grid" id="prmTierGrid"></div>
-</div>
-
-<div class="prm-card">
-  <div class="prm-card-head"><i class="fa-solid fa-crown"></i><h3>KEUNTUNGAN PRIME</h3></div>
-  <div id="prmBenefitList">
-    <div class="prm-benefit" data-lvl="1"><i class="fa-solid fa-lock"></i><span>Badge Prime eksklusif di profil</span><span class="lvl-tag">LV 1</span></div>
-    <div class="prm-benefit" data-lvl="2"><i class="fa-solid fa-lock"></i><span>Prioritas antrian proses pesanan</span><span class="lvl-tag">LV 2</span></div>
-    <div class="prm-benefit" data-lvl="3"><i class="fa-solid fa-lock"></i><span>Diskon 3% setiap top up Diamond</span><span class="lvl-tag">LV 3</span></div>
-    <div class="prm-benefit" data-lvl="4"><i class="fa-solid fa-lock"></i><span>Akses lebih cepat fitur Suntik Like</span><span class="lvl-tag">LV 4</span></div>
-    <div class="prm-benefit" data-lvl="5"><i class="fa-solid fa-lock"></i><span>Diskon 5% setiap top up Diamond</span><span class="lvl-tag">LV 5</span></div>
-    <div class="prm-benefit" data-lvl="6"><i class="fa-solid fa-lock"></i><span>Bonus klaim harian lebih besar</span><span class="lvl-tag">LV 6</span></div>
-    <div class="prm-benefit" data-lvl="7"><i class="fa-solid fa-lock"></i><span>Diskon 10% setiap top up Diamond</span><span class="lvl-tag">LV 7</span></div>
-    <div class="prm-benefit" data-lvl="8"><i class="fa-solid fa-lock"></i><span>Lencana PRIME MAX + dukungan prioritas</span><span class="lvl-tag">LV 8</span></div>
+<div class="prm-panel active" id="prmPanelLb">
+  <div class="prm-section">
+    <div class="prm-lb-list" id="prmLbList"></div>
   </div>
 </div>
 
-<div class="prm-card">
-  <div class="prm-card-head"><i class="fa-solid fa-clock-rotate-left"></i><h3>RIWAYAT NAIK LEVEL</h3></div>
-  <div class="prm-history-list" id="prmHistoryList">
-    <div class="prm-history-empty">Belum ada riwayat kenaikan level.</div>
+<div class="prm-panel" id="prmPanelLvl">
+  <div class="prm-section">
+    <div class="prm-tier-grid" id="prmTierGrid"></div>
+  </div>
+</div>
+
+<div class="prm-panel" id="prmPanelBenefit">
+  <div class="prm-section">
+    <div id="prmBenefitList">
+      <div class="prm-benefit" data-lvl="1"><i class="fa-solid fa-lock"></i><span>Badge Prime eksklusif di profil</span><span class="lvl-tag">LV 1</span></div>
+      <div class="prm-benefit" data-lvl="2"><i class="fa-solid fa-lock"></i><span>Prioritas antrian proses pesanan</span><span class="lvl-tag">LV 2</span></div>
+      <div class="prm-benefit" data-lvl="3"><i class="fa-solid fa-lock"></i><span>Diskon 3% setiap top up Diamond</span><span class="lvl-tag">LV 3</span></div>
+      <div class="prm-benefit" data-lvl="4"><i class="fa-solid fa-lock"></i><span>Akses lebih cepat fitur Suntik Like</span><span class="lvl-tag">LV 4</span></div>
+      <div class="prm-benefit" data-lvl="5"><i class="fa-solid fa-lock"></i><span>Diskon 5% setiap top up Diamond</span><span class="lvl-tag">LV 5</span></div>
+      <div class="prm-benefit" data-lvl="6"><i class="fa-solid fa-lock"></i><span>Bonus klaim harian lebih besar</span><span class="lvl-tag">LV 6</span></div>
+      <div class="prm-benefit" data-lvl="7"><i class="fa-solid fa-lock"></i><span>Diskon 10% setiap top up Diamond</span><span class="lvl-tag">LV 7</span></div>
+      <div class="prm-benefit" data-lvl="8"><i class="fa-solid fa-lock"></i><span>Lencana PRIME MAX + dukungan prioritas</span><span class="lvl-tag">LV 8</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="prm-panel" id="prmPanelHistory">
+  <div class="prm-section">
+    <div class="prm-history-list" id="prmHistoryList">
+      <div class="prm-history-empty">Belum ada riwayat kenaikan level.</div>
+    </div>
   </div>
 </div>
 
@@ -29251,6 +29276,10 @@ function renderPrimePage(){
       }
     });
   }
+}
+function prmSwitchTab(panelId,btn){
+  document.querySelectorAll('#prime .prm-panel').forEach(function(p){p.classList.toggle('active',p.id===panelId);});
+  document.querySelectorAll('#prmTabbar .prm-tab-btn').forEach(function(b){b.classList.toggle('active',b===btn);});
 }
 document.addEventListener('DOMContentLoaded', renderPrimePage);
 </script>
