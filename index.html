@@ -5751,7 +5751,7 @@ function closeVipShadowApp(){
 })();
 </script>
 <video id="zusmoWallpaperBg" muted loop autoplay playsinline preload="auto" fetchpriority="high" poster="zusmo-asset/jk23mr.jpg"></video>
-<audio id="bgMusic" src="zusmo-asset/mbkpbs.mp3" loop autoplay></audio>
+<audio id="bgMusic" src="zusmo-asset/mbkpbs.mp3" loop></audio>
 <audio id="clickSound" preload="auto" src="data:audio/wav;base64,UklGRlQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA="></audio>
 
 <style>
@@ -9682,6 +9682,7 @@ function orderSuntikLike(){
 
 <p class="pc-title"><span class="red">SOSMED</span>&nbsp;<span class="wht">DOWNLOADER</span></p>
 <p class="pc-sub">Download Video &amp; Cari Konten Tanpa Watermark</p>
+<p class="cid-hint" style="margin:-8px 0 14px;"><img src="zusmo-asset/onzrii.png" alt="diamond" style="width:10px;height:10px;object-fit:contain;vertical-align:-1px;margin-right:3px;"/>50 per download</p>
 
 <div class="smdl-cat-tabs">
   <div class="smdl-cat active" data-cat="all" onclick="smdlSwitchCat('all')">Semua</div>
@@ -10261,6 +10262,14 @@ qrgenUpdateColorPreview();
 
 #sensiai .pc-head-text h3{font-family:'Rajdhani',sans-serif;letter-spacing:.6px;}
 #sensiai .pc-card{overflow:visible;}
+#sensiai .pc-head{justify-content:space-between;}
+#sensiai .pc-head-text{flex:1;min-width:0;}
+#sensiai .sai-price-badge{
+  display:flex;align-items:center;gap:4px;flex-shrink:0;
+  font-family:'Space Mono',monospace;font-size:11px;font-weight:700;
+  color:#999;
+}
+#sensiai .sai-price-badge img{width:11px;height:11px;object-fit:contain;display:block;}
 
 .sai-loading{
   display:none;flex-direction:column;align-items:center;gap:14px;
@@ -10368,6 +10377,7 @@ qrgenUpdateColorPreview();
   <div class="pc-head">
     <div class="pc-head-icon"><i class="fa-solid fa-crosshairs"></i></div>
     <div class="pc-head-text"><h3>BUAT SENSI DARI AI</h3><p>Masukkan nama device kamu</p></div>
+    <div class="sai-price-badge"><img src="zusmo-asset/onzrii.png" alt="diamond"/> 150</div>
   </div>
   <img class="sai-device-img" src="zusmo-asset/sensiai.jpg" alt="Sensi AI" loading="lazy" decoding="async"/>
   <div class="pc-input-wrap" style="margin-bottom:0;">
@@ -10576,7 +10586,21 @@ function saiGenerate(){
   if(!device){ saiShake(inp); return; }
   saiHideSuggest();
 
+  const SAI_COST=150;
   const btn=document.getElementById('saiBtn');
+  if(typeof window.getDiamond!=='function' || typeof window.setDiamond!=='function'){ return; }
+  if(window.getDiamond() < SAI_COST){
+    if(btn){
+      btn.classList.remove('shake'); void btn.offsetWidth; btn.classList.add('shake');
+      setTimeout(function(){ btn.classList.remove('shake'); },550);
+    }
+    if(typeof window.zxShowToast==='function') window.zxShowToast('Diamond kamu tidak cukup (butuh 150, saldo: '+window.getDiamond()+')','error');
+    if(window.ZUSMO && window.ZUSMO.playClick) window.ZUSMO.playClick();
+    return;
+  }
+  window.setDiamond(window.getDiamond() - SAI_COST);
+  if(typeof window.addHistoryEntry==='function') window.addHistoryEntry('buy','Generate Sensi AI','Sensitivitas AI: '+device,-SAI_COST);
+
   const loading=document.getElementById('saiLoading');
   const result=document.getElementById('saiResult');
 
@@ -18596,7 +18620,7 @@ function cmtTryGo(){
     <input class="cid-input" id="cidUidInput" type="text" inputmode="numeric" placeholder="Contoh: 123456789" maxlength="13"/>
   </div>
   <button class="cid-btn" id="cidCheckBtn" onclick="cidCheck()"><i class="fa-solid fa-magnifying-glass"></i>CEK INFO SEKARANG</button>
-  <p class="cid-hint">Cek info akun Free Fire cukup lewat ID.</p>
+  <p class="cid-hint"><img src="zusmo-asset/onzrii.png" alt="diamond" style="width:10px;height:10px;object-fit:contain;vertical-align:-1px;margin-right:3px;"/>100 per cek &middot; gratis untuk ID Populer</p>
 </div>
 
 <div class="cid-card" id="cidPopulerCardTop">
@@ -18758,15 +18782,56 @@ function cidShake(){
   inp.focus();
 }
 
+const CID_CHECK_COST=100;
+const CID_POPULER_UIDS=['260190210','55558144','131069134','105581609','15555555554'];
+
+/* Helper generik dipakai semua fitur CEK INFO FF berbayar (Cek Outfit, Cek
+   Banner, Statistik Ranked, Info Guild, Cek Exp Level, Info Craftland,
+   Craftland Detail): cek saldo dulu sebelum request dimulai (biar gak buang
+   request kalau diamond kurang), shake+toast kalau kurang. Pemotongan
+   saldo aslinya (cidDeductDiamond) baru dipanggil masing-masing fungsi
+   SETELAH hasil sukses didapat, supaya percobaan yang gagal (ID/kode tidak
+   ketemu) tidak memotong diamond. */
+function cidPreCheckDiamond(cost,btnId){
+  if(typeof window.getDiamond!=='function' || typeof window.setDiamond!=='function'){ return false; }
+  if(window.getDiamond() < cost){
+    const btn=btnId?document.getElementById(btnId):null;
+    if(btn){ btn.classList.remove('shake'); void btn.offsetWidth; btn.classList.add('shake'); setTimeout(function(){ btn.classList.remove('shake'); },550); }
+    if(typeof window.zxShowToast==='function') window.zxShowToast('Diamond kamu tidak cukup (butuh '+cost+', saldo: '+window.getDiamond()+')','error');
+    if(window.ZUSMO && window.ZUSMO.playClick) window.ZUSMO.playClick();
+    return false;
+  }
+  return true;
+}
+function cidDeductDiamond(cost,title,desc){
+  window.setDiamond(window.getDiamond() - cost);
+  if(typeof window.addHistoryEntry==='function') window.addHistoryEntry('buy',title,desc,-cost);
+}
+const CID_SUB_COST=50;
+const CID_ACTION_COST=90;
+
 async function cidCheck(){
   const inp=document.getElementById('cidUidInput');
   const uid=inp?inp.value.trim():'';
   if(!uid||uid.length<6){ cidShake(); return; }
 
+  const isPopuler=CID_POPULER_UIDS.indexOf(uid)!==-1;
+  if(!isPopuler){
+    if(typeof window.getDiamond!=='function' || typeof window.setDiamond!=='function'){ return; }
+    if(window.getDiamond() < CID_CHECK_COST){
+      const btn=document.getElementById('cidCheckBtn');
+      if(btn){ btn.classList.remove('shake'); void btn.offsetWidth; btn.classList.add('shake'); setTimeout(function(){ btn.classList.remove('shake'); },550); }
+      if(typeof window.zxShowToast==='function') window.zxShowToast('Diamond kamu tidak cukup (butuh '+CID_CHECK_COST+', saldo: '+window.getDiamond()+')','error');
+      if(window.ZUSMO && window.ZUSMO.playClick) window.ZUSMO.playClick();
+      return;
+    }
+  }
+
   cidShowState('cidStateLoading');
   cidSetLoadingBtn(true);
 
   let lastErr=null;
+  let charged=false;
   for(let i=0;i<TFF_ALL_REGIONS.length;i++){
     const region=TFF_ALL_REGIONS[i];
     const queryBase='key='+encodeURIComponent(TFF_KEY)+'&uid='+encodeURIComponent(uid)+'&region='+encodeURIComponent(region);
@@ -18780,6 +18845,12 @@ async function cidCheck(){
       const nickname=stkPick(b,['nickname']);
       if(!nickname){ throw Object.assign(new Error('Nickname tidak ditemukan.'),{raw:json}); }
       const uidVal=stkPick(b,['accountId','account_id'])||uid;
+
+      if(!isPopuler && !charged){
+        window.setDiamond(window.getDiamond() - CID_CHECK_COST);
+        if(typeof window.addHistoryEntry==='function') window.addHistoryEntry('buy','Cek Info FF','Cek info player: '+uidVal,-CID_CHECK_COST);
+        charged=true;
+      }
 
       // Banner (gambar PNG langsung dari server, berisi avatar+nama+guild+level)
       // & statistik ranked BR/CS dianggap pelengkap: kalau gagal/limit,
@@ -19151,7 +19222,7 @@ function cidCopyNick(){
     <input class="cid-input" id="cbnUidInput" type="text" inputmode="numeric" placeholder="Contoh: 123456789" maxlength="13"/>
   </div>
   <button class="cid-btn" id="cbnCheckBtn" onclick="cbnCheck()"><i class="fa-solid fa-image"></i>BUAT BANNER SEKARANG</button>
-  <p class="cid-hint">Banner profil dibuat otomatis dari data akun Free Fire kamu.</p>
+  <p class="cid-hint"><img src="zusmo-asset/onzrii.png" alt="diamond" style="width:10px;height:10px;object-fit:contain;vertical-align:-1px;margin-right:3px;"/>50 per cek &middot; banner profil dibuat otomatis</p>
 </div>
 
 <div class="cid-state show" id="cbnStateIdle">
@@ -19253,12 +19324,14 @@ async function cbnCheck(){
   const inp=document.getElementById('cbnUidInput');
   const uid=inp?inp.value.trim():'';
   if(!uid||uid.length<6){ cbnShake(); return; }
+  if(!cidPreCheckDiamond(CID_SUB_COST,'cbnCheckBtn')) return;
 
   cbnShowState('cbnStateLoading');
   cbnSetLoadingBtn(true);
 
   try{
     const res=await cbnTryRegion(uid,TFF_ALL_REGIONS,0);
+    cidDeductDiamond(CID_SUB_COST,'Cek Banner FF','Buat banner: '+uid);
     cbnCurrentUrl=res.url;
     const bannerImg=document.getElementById('cbnBannerImg');
     if(bannerImg) bannerImg.src=res.url;
@@ -19318,7 +19391,7 @@ function cbnDownload(){
     <input class="cid-input" id="cofUidInput" type="text" inputmode="numeric" placeholder="Contoh: 123456789" maxlength="13"/>
   </div>
   <button class="cid-btn" id="cofCheckBtn" onclick="cofCheck()"><i class="fa-solid fa-shirt"></i>CEK OUTFIT SEKARANG</button>
-  <p class="cid-hint">Cek info outfit Free fire cukup lewat ID</p>
+  <p class="cid-hint"><img src="zusmo-asset/onzrii.png" alt="diamond" style="width:10px;height:10px;object-fit:contain;vertical-align:-1px;margin-right:3px;"/>50 per cek</p>
 </div>
 
 <div class="cid-state show" id="cofStateIdle">
@@ -19441,12 +19514,14 @@ async function cofCheck(){
   const inp=document.getElementById('cofUidInput');
   const uid=inp?inp.value.trim():'';
   if(!uid||uid.length<6){ cofShake(); return; }
+  if(!cidPreCheckDiamond(CID_SUB_COST,'cofCheckBtn')) return;
 
   cofShowState('cofStateLoading');
   cofSetLoadingBtn(true);
 
   try{
     const res=await cofTryRegion(uid,TFF_ALL_REGIONS,0);
+    cidDeductDiamond(CID_SUB_COST,'Cek Outfit FF','Cek outfit: '+uid);
     cofCurrentUrl=res.url;
     const outfitImg=document.getElementById('cofOutfitImg');
     if(outfitImg) outfitImg.src=res.url;
@@ -19598,7 +19673,7 @@ async function cofDownload(){
     <input class="cid-input" id="cisUidInput" type="text" inputmode="numeric" placeholder="Contoh: 123456789" maxlength="13"/>
   </div>
   <button class="cid-btn" id="cisCheckBtn" onclick="cisCheck()"><i class="fa-solid fa-magnifying-glass"></i>CEK STATISTIK SEKARANG</button>
-  <p class="cid-hint">Cek statistik ranked BR &amp; CS cukup lewat ID.</p>
+  <p class="cid-hint"><img src="zusmo-asset/onzrii.png" alt="diamond" style="width:10px;height:10px;object-fit:contain;vertical-align:-1px;margin-right:3px;"/>50 per cek</p>
 </div>
 
 <div class="cid-state show" id="cisStateIdle">
@@ -19675,6 +19750,7 @@ async function cisCheck(){
   const inp=document.getElementById('cisUidInput');
   const uid=inp?inp.value.trim():'';
   if(!uid||uid.length<6){ cisShake(); return; }
+  if(!cidPreCheckDiamond(CID_SUB_COST,'cisCheckBtn')) return;
 
   cisShowState('cisStateLoading');
   cisSetLoadingBtn(true);
@@ -19693,6 +19769,7 @@ async function cisCheck(){
       const nickname=stkPick(b,['nickname']);
       if(!nickname){ throw Object.assign(new Error('Nickname tidak ditemukan.'),{raw:json}); }
       const uidVal=stkPick(b,['accountId','account_id'])||uid;
+      cidDeductDiamond(CID_SUB_COST,'Statistik Ranked FF','Cek statistik: '+uidVal);
       const rankPointsBr=stkPick(b,['rankingPoints','ranking_points','rankingpoints']);
       const rankPointsCs=stkPick(b,['csRankingPoints','cs_ranking_points','csrankingpoints']);
 
@@ -19758,7 +19835,7 @@ function cisReset(){
     <input class="cid-input" id="cpkUidInput" type="text" inputmode="numeric" placeholder="Contoh: 123456789" maxlength="13"/>
   </div>
   <button class="cid-btn" id="cpkCheckBtn" onclick="cpkCheck()"><i class="fa-solid fa-magnifying-glass"></i>CEK PRIME SEKARANG</button>
-  <p class="cid-hint">Cek point Prime &amp; estimasi nilai diamond cukup lewat ID.</p>
+  <p class="cid-hint"><img src="zusmo-asset/onzrii.png" alt="diamond" style="width:10px;height:10px;object-fit:contain;vertical-align:-1px;margin-right:3px;"/>50 per cek</p>
 </div>
 
 <div class="cid-state show" id="cpkStateIdle">
@@ -19841,6 +19918,7 @@ async function cpkCheck(){
   const inp=document.getElementById('cpkUidInput');
   const uid=inp?inp.value.trim():'';
   if(!uid||uid.length<6){ cpkShake(); return; }
+  if(!cidPreCheckDiamond(CID_SUB_COST,'cpkCheckBtn')) return;
 
   cpkShowState('cpkStateLoading');
   cpkSetLoadingBtn(true);
@@ -19859,6 +19937,7 @@ async function cpkCheck(){
       const nickname=stkPick(b,['nickname']);
       if(!nickname){ throw Object.assign(new Error('Nickname tidak ditemukan.'),{raw:json}); }
       const uidVal=stkPick(b,['accountId','account_id'])||uid;
+      cidDeductDiamond(CID_SUB_COST,'Cek Prime FF','Cek prime: '+uidVal);
       const primeLevelRaw=stkPick(b,['primeLevel','prime_level'])||(b.primeInfo&&stkPick(b.primeInfo,['primeLevel','prime_level']));
       const primeLevelNum=primeLevelRaw!=null?parseInt(primeLevelRaw,10):0;
 
@@ -19993,7 +20072,7 @@ function cpkReset(){
     <input class="cid-input" id="celUidInput" type="text" inputmode="numeric" placeholder="Contoh: 123456789" maxlength="13"/>
   </div>
   <button class="cid-btn" id="celCheckBtn" onclick="celCheck()"><i class="fa-solid fa-magnifying-glass"></i>CEK EXP LEVEL SEKARANG</button>
-  <p class="cid-hint">Cek Level &amp; Total EXP akun cukup lewat ID.</p>
+  <p class="cid-hint"><img src="zusmo-asset/onzrii.png" alt="diamond" style="width:10px;height:10px;object-fit:contain;vertical-align:-1px;margin-right:3px;"/>50 per cek</p>
 </div>
 
 <div class="cid-state show" id="celStateIdle">
@@ -20082,6 +20161,7 @@ async function celCheck(){
   const inp=document.getElementById('celUidInput');
   const uid=inp?inp.value.trim():'';
   if(!uid||uid.length<6){ celShake(); return; }
+  if(!cidPreCheckDiamond(CID_SUB_COST,'celCheckBtn')) return;
 
   celShowState('celStateLoading');
   celSetLoadingBtn(true);
@@ -20100,6 +20180,7 @@ async function celCheck(){
       const nickname=stkPick(b,['nickname']);
       if(!nickname){ throw Object.assign(new Error('Nickname tidak ditemukan.'),{raw:json}); }
       const uidVal=stkPick(b,['accountId','account_id'])||uid;
+      cidDeductDiamond(CID_SUB_COST,'Cek Exp Level FF','Cek exp level: '+uidVal);
       const levelVal=stkPick(b,['level']);
       const expVal=stkPick(b,['exp']);
 
@@ -20215,7 +20296,7 @@ function celReset(){
     <input class="cid-input" id="cgiClanIdInput" type="text" inputmode="numeric" placeholder="Contoh: 3048889605" maxlength="15"/>
   </div>
   <button class="cid-btn" id="cgiCheckBtn" onclick="cgiCheck()"><i class="fa-solid fa-magnifying-glass"></i>CEK INFO GUILD</button>
-  <p class="cid-hint">Cek info guild Free Fire cukup lewat ID Guild (Clan ID).</p>
+  <p class="cid-hint"><img src="zusmo-asset/onzrii.png" alt="diamond" style="width:10px;height:10px;object-fit:contain;vertical-align:-1px;margin-right:3px;"/>50 per cek</p>
 </div>
 
 <div class="cid-state show" id="cgiStateIdle">
@@ -20343,6 +20424,7 @@ async function cgiCheck(){
   const inp=document.getElementById('cgiClanIdInput');
   const clanId=inp?inp.value.trim():'';
   if(!clanId){ cgiShake(); return; }
+  if(!cidPreCheckDiamond(CID_SUB_COST,'cgiCheckBtn')) return;
 
   cgiShowState('cgiStateLoading');
   cgiSetLoadingBtn(true);
@@ -20364,6 +20446,7 @@ async function cgiCheck(){
     if(!json||!json.clan_name){
       throw Object.assign(new Error('Data guild tidak ditemukan. Periksa kembali ID guild kamu.'),{raw:json});
     }
+    cidDeductDiamond(CID_SUB_COST,'Info Guild FF','Cek info guild: '+clanId);
 
     const gd=json.guild_details||{};
 
@@ -20459,7 +20542,7 @@ function cgiReset(){
   <div class="cjg-note"><i class="fa-solid fa-circle-info"></i><span>Pastikan pengaturan permintaan bergabung guild sudah diset default/terbuka.</span></div>
 
   <button class="cid-btn" id="cjgJoinBtn" onclick="cjgJoin()"><i class="fa-solid fa-right-to-bracket"></i>GABUNG GUILD SEKARANG</button>
-  <p class="cid-hint">Proses bergabung memakai JWT token, ID Guild wajib diisi.</p>
+  <p class="cid-hint"><img src="zusmo-asset/onzrii.png" alt="diamond" style="width:10px;height:10px;object-fit:contain;vertical-align:-1px;margin-right:3px;"/>90 per proses</p>
 </div>
 
 <div class="cid-state show" id="cjgStateIdle">
@@ -20538,6 +20621,7 @@ async function cjgJoin(){
 
   if(!clanId){ cjgShake('cjgClanIdInput'); return; }
   if(!jwt){ cjgShake('cjgJwtInput'); return; }
+  if(!cidPreCheckDiamond(CID_ACTION_COST,'cjgJoinBtn')) return;
 
   cjgShowState('cjgStateLoading');
   cjgSetLoadingBtn(true);
@@ -20553,6 +20637,7 @@ async function cjgJoin(){
       else if(errLower.indexOf('jwt')>-1||errLower.indexOf('pass')>-1) friendly='JWT token tidak valid atau sudah kedaluwarsa. Coba ambil ulang JWT token kamu.';
       throw Object.assign(new Error(friendly),{raw:json});
     }
+    cidDeductDiamond(CID_ACTION_COST,'Gabung Guild FF','Gabung guild: '+clanId);
 
     const rowsEl=document.getElementById('cjgInfoRows');
     if(rowsEl){
@@ -20613,7 +20698,7 @@ function cjgReset(){
   <div class="cjg-note"><i class="fa-solid fa-circle-info"></i><span>Pastikan JWT masih berlaku.</span></div>
 
   <button class="cid-btn" id="clgLeaveBtn" onclick="clgLeave()"><i class="fa-solid fa-right-from-bracket"></i>KELUAR GUILD SEKARANG</button>
-  <p class="cid-hint">Proses keluar guild memakai JWT token, ID Guild wajib diisi.</p>
+  <p class="cid-hint"><img src="zusmo-asset/onzrii.png" alt="diamond" style="width:10px;height:10px;object-fit:contain;vertical-align:-1px;margin-right:3px;"/>90 per proses</p>
 </div>
 
 <div class="cid-state show" id="clgStateIdle">
@@ -20692,6 +20777,7 @@ async function clgLeave(){
 
   if(!clanId){ clgShake('clgClanIdInput'); return; }
   if(!jwt){ clgShake('clgJwtInput'); return; }
+  if(!cidPreCheckDiamond(CID_ACTION_COST,'clgLeaveBtn')) return;
 
   clgShowState('clgStateLoading');
   clgSetLoadingBtn(true);
@@ -20707,6 +20793,7 @@ async function clgLeave(){
       else if(errLower.indexOf('jwt')>-1) friendly='JWT token tidak valid atau sudah kedaluwarsa. Coba ambil ulang JWT token kamu.';
       throw Object.assign(new Error(friendly),{raw:json});
     }
+    cidDeductDiamond(CID_ACTION_COST,'Keluar Guild FF','Keluar guild: '+clanId);
 
     const rowsEl=document.getElementById('clgInfoRows');
     if(rowsEl){
@@ -20809,7 +20896,7 @@ function clgReset(){
   <div class="cjg-note"><i class="fa-solid fa-circle-info"></i><span>Akun wajib belum tergabung/pemilik guild lain sebelum bisa buat guild baru.</span></div>
 
   <button class="cid-btn" id="cmgCreateBtn" onclick="cmgCreate()"><i class="fa-solid fa-flag"></i>BUAT GUILD SEKARANG</button>
-  <p class="cid-hint">Nama Guild &amp; JWT token wajib diisi.</p>
+  <p class="cid-hint"><img src="zusmo-asset/onzrii.png" alt="diamond" style="width:10px;height:10px;object-fit:contain;vertical-align:-1px;margin-right:3px;"/>90 per proses &middot; Nama Guild &amp; JWT token wajib diisi</p>
 </div>
 
 <div class="cid-state show" id="cmgStateIdle">
@@ -20912,6 +20999,7 @@ async function cmgCreate(){
 
   if(!guildName){ cmgShake('cmgNameInput'); return; }
   if(!jwt){ cmgShake('cmgJwtInput'); return; }
+  if(!cidPreCheckDiamond(CID_ACTION_COST,'cmgCreateBtn')) return;
 
   const tags=(tagsInp?tagsInp.value:'').split(',').map(function(s){ return parseInt(s.trim(),10); }).filter(function(n){ return !isNaN(n); });
 
@@ -20955,6 +21043,7 @@ async function cmgCreate(){
       else if(errLower.indexOf('already')>-1||errLower.indexOf('member')>-1) friendly='Akun ini sudah tergabung/memiliki guild, tidak bisa membuat guild baru.';
       throw Object.assign(new Error(friendly),{raw:json});
     }
+    cidDeductDiamond(CID_ACTION_COST,'Buat Guild FF','Buat guild: '+guildName);
 
     const rowsEl=document.getElementById('cmgInfoRows');
     if(rowsEl) rowsEl.innerHTML=cmgRenderRowsFromJson(json)||'<div class="cid-info-row"><b>Guild</b><span>'+tffEsc(guildName)+'</span></div>';
@@ -21006,7 +21095,7 @@ function cmgReset(){
   <div class="cjg-note"><i class="fa-solid fa-circle-info"></i><span>Hanya menerima JWT token (bukan password). Nickname baru wajib belum dipakai pemain lain.</span></div>
 
   <button class="cid-btn" id="cgnChangeBtn" onclick="cgnChange()"><i class="fa-solid fa-signature"></i>GANTI NICKNAME SEKARANG</button>
-  <p class="cid-hint">Nickname baru &amp; JWT token wajib diisi.</p>
+  <p class="cid-hint"><img src="zusmo-asset/onzrii.png" alt="diamond" style="width:10px;height:10px;object-fit:contain;vertical-align:-1px;margin-right:3px;"/>90 per proses &middot; Nickname baru &amp; JWT token wajib diisi</p>
 </div>
 
 <div class="cid-state show" id="cgnStateIdle">
@@ -21088,6 +21177,7 @@ async function cgnChange(){
 
   if(!name){ cgnShake('cgnNameInput'); return; }
   if(!jwt){ cgnShake('cgnJwtInput'); return; }
+  if(!cidPreCheckDiamond(CID_ACTION_COST,'cgnChangeBtn')) return;
 
   cgnShowState('cgnStateLoading');
   cgnSetLoadingBtn(true);
@@ -21106,6 +21196,7 @@ async function cgnChange(){
     if(!json||json.status!=='success'){
       throw Object.assign(new Error(cgnFriendlyFailText(json&&json.text)),{raw:json});
     }
+    cidDeductDiamond(CID_ACTION_COST,'Ganti Nickname FF','Ganti nickname: '+name);
 
     const rowsEl=document.getElementById('cgnInfoRows');
     if(rowsEl){
@@ -21174,7 +21265,7 @@ function cgnReset(){
   </div>
 
   <button class="cid-btn" id="cclCheckBtn" onclick="cclCheck()"><i class="fa-solid fa-magnifying-glass"></i>CEK CRAFTLAND SEKARANG</button>
-  <p class="cid-hint">Region &amp; Lang opsional (default BD &amp; en) jika dikosongkan.</p>
+  <p class="cid-hint"><img src="zusmo-asset/onzrii.png" alt="diamond" style="width:10px;height:10px;object-fit:contain;vertical-align:-1px;margin-right:3px;"/>50 per cek &middot; Region &amp; Lang opsional (default BD &amp; en)</p>
 </div>
 
 <div class="cid-state show" id="cclStateIdle">
@@ -21273,6 +21364,7 @@ async function cclCheck(){
   const lang=(langInp&&langInp.value.trim())||'en';
 
   if(!mapCode){ cclShake(); return; }
+  if(!cidPreCheckDiamond(CID_SUB_COST,'cclCheckBtn')) return;
 
   cclShowState('cclStateLoading');
   cclSetLoadingBtn(true);
@@ -21289,6 +21381,7 @@ async function cclCheck(){
       else if(msgLower.indexOf('server error')>-1) friendly='Server sedang bermasalah. Coba lagi nanti.';
       throw Object.assign(new Error(friendly),{raw:json});
     }
+    cidDeductDiamond(CID_SUB_COST,'Info Craftland FF','Cek craftland: '+mapCode);
 
     const mapInfo=json.data.map_info||{};
     const gameInfo=json.data.game_info||{};
@@ -21396,7 +21489,7 @@ function cclReset(){
   </div>
 
   <button class="cid-btn" id="ccdCheckBtn" onclick="ccdCheck()"><i class="fa-solid fa-magnifying-glass"></i>CEK DETAIL SEKARANG</button>
-  <p class="cid-hint">Region otomatis diatur ke Indonesia (ID).</p>
+  <p class="cid-hint"><img src="zusmo-asset/onzrii.png" alt="diamond" style="width:10px;height:10px;object-fit:contain;vertical-align:-1px;margin-right:3px;"/>50 per cek &middot; Region otomatis diatur ke Indonesia (ID)</p>
 </div>
 
 <div class="cid-state show" id="ccdStateIdle">
@@ -21484,6 +21577,7 @@ async function ccdCheck(){
   const lang=(langInp&&langInp.value.trim())||'id';
 
   if(!mapCode){ ccdShake(); return; }
+  if(!cidPreCheckDiamond(CID_SUB_COST,'ccdCheckBtn')) return;
 
   ccdShowState('ccdStateLoading');
   ccdSetLoadingBtn(true);
@@ -21503,6 +21597,7 @@ async function ccdCheck(){
     if(!json||json.status!=='success'||!json.data){
       throw Object.assign(new Error('Data map tidak ditemukan. Periksa kembali Map Code kamu.'),{raw:json});
     }
+    cidDeductDiamond(CID_SUB_COST,'Craftland Detail FF','Cek detail craftland: '+mapCode);
 
     const d=json.data;
     const basic=d.basic_info||{};
@@ -21663,7 +21758,7 @@ function cbdTryCheck(){
   <div class="cff-note"><i class="fa-solid fa-circle-info"></i><span>Fitur ini hanya menampilkan (melihat) daftar teman, tidak mengubah apa pun di akun.</span></div>
 
   <button class="cid-btn" id="cffCheckBtn" onclick="cffCheck()"><i class="fa-solid fa-users-viewfinder"></i>CEK DAFTAR TEMAN</button>
-  <p class="cid-hint">Menampilkan daftar teman memakai JWT token akun.</p>
+  <p class="cid-hint"><img src="zusmo-asset/onzrii.png" alt="diamond" style="width:10px;height:10px;object-fit:contain;vertical-align:-1px;margin-right:3px;"/>50 per cek</p>
 </div>
 
 <div class="cid-state show" id="cffStateIdle">
@@ -21728,12 +21823,14 @@ async function cffCheck(){
   const inp=document.getElementById('cffJwtInput');
   const jwt=inp?inp.value.trim():'';
   if(!jwt){ cffShake(); return; }
+  if(!cidPreCheckDiamond(CID_SUB_COST,'cffCheckBtn')) return;
 
   cffShowState('cffStateLoading');
   cffSetLoadingBtn(true);
 
   try{
     const json=await tffFetchFriends(jwt);
+    cidDeductDiamond(CID_SUB_COST,'Daftar Teman FF','Cek daftar teman');
     const box=document.getElementById('cffListBox');
     tffRenderFriendsList(box,json);
     cffShowState(null);
@@ -25808,6 +25905,7 @@ async function smdlFetchApi(url){
   }
 }
 
+const SMDL_COST=50;
 const SMDL_SIMPLE_CONFIG={
   dy:{endpoint:'douyindl',input:'smdlDyUrl',btn:'smdlDyBtn',box:'smdlDyResult',label:'Douyin',err:'Pastikan link Douyin valid.'},
   th:{endpoint:'threads',input:'smdlThUrl',btn:'smdlThBtn',box:'smdlThResult',label:'Threads',err:'Pastikan link Threads valid.',fallback:true},
@@ -25833,6 +25931,7 @@ async function smdlSimpleDownload(type){
   const box=document.getElementById(cfg.box);
   const url=inp?inp.value.trim():'';
   if(!url){ smdlShakeInput(inp); return; }
+  if(!cidPreCheckDiamond(SMDL_COST,cfg.btn)) return;
   box.classList.remove('show'); box.innerHTML='';
   smdlSetLoading(btn,true,'MEMPROSES...');
   try{
@@ -25843,6 +25942,7 @@ async function smdlSimpleDownload(type){
           return 'https://sylvatica.my.id/api/download/'+cfg.endpoint+'?url='+encodeURIComponent(url)+'&apikey='+key;
         },{isDataOk:isDataOk});
     const media=smdlExtractMedia(json,type);
+    cidDeductDiamond(SMDL_COST,'Sosmed Downloader','Download '+cfg.label+': '+url);
     smdlRenderTtIg(box,media,cfg.label);
   }catch(e){
     console.error('[SMDL]['+type+']',e);
@@ -25860,6 +25960,7 @@ async function smdlDownload(type){
     const box=document.getElementById('smdlTtResult');
     const url=inp?inp.value.trim():'';
     if(!url){ smdlShakeInput(inp); return; }
+    if(!cidPreCheckDiamond(SMDL_COST,'smdlTtBtn')) return;
     box.classList.remove('show'); box.innerHTML='';
     smdlSetLoading(btn,true,'MEMPROSES...');
     try{
@@ -25868,6 +25969,7 @@ async function smdlDownload(type){
       if(!smdlHasMedia(media)){
         smdlRenderError(box,'Video tidak ditemukan di response API. Coba link lain atau cek response mentah.',json);
       }else{
+        cidDeductDiamond(SMDL_COST,'Sosmed Downloader','Download TikTok: '+url);
         smdlRenderTtIg(box,media,'TikTok');
       }
     }catch(e){
@@ -25883,6 +25985,7 @@ async function smdlDownload(type){
     const box=document.getElementById('smdlIgResult');
     const url=inp?inp.value.trim():'';
     if(!url){ smdlShakeInput(inp); return; }
+    if(!cidPreCheckDiamond(SMDL_COST,'smdlIgBtn')) return;
     box.classList.remove('show'); box.innerHTML='';
     smdlSetLoading(btn,true,'MEMPROSES...');
     try{
@@ -25891,6 +25994,7 @@ async function smdlDownload(type){
       if(!smdlHasMedia(media)){
         smdlRenderError(box,'Media tidak ditemukan di response API. Coba link lain atau cek response mentah.',json);
       }else{
+        cidDeductDiamond(SMDL_COST,'Sosmed Downloader','Download Instagram: '+url);
         smdlRenderTtIg(box,media,'Instagram');
       }
     }catch(e){
@@ -25906,6 +26010,7 @@ async function smdlDownload(type){
     const box=document.getElementById('smdlFbResult');
     const url=inp?inp.value.trim():'';
     if(!url){ smdlShakeInput(inp); return; }
+    if(!cidPreCheckDiamond(SMDL_COST,'smdlFbBtn')) return;
     box.classList.remove('show'); box.innerHTML='';
     smdlSetLoading(btn,true,'MEMPROSES...');
     try{
@@ -25913,6 +26018,7 @@ async function smdlDownload(type){
         isDataOk:function(j){ return smdlHasMedia(smdlExtractMedia(j,'fb')); }
       });
       const media=smdlExtractMedia(json,'fb');
+      cidDeductDiamond(SMDL_COST,'Sosmed Downloader','Download Facebook: '+url);
       smdlRenderTtIg(box,media,'Facebook');
     }catch(e){
       console.error('[SMDL][FB]',e);
@@ -25927,6 +26033,7 @@ async function smdlDownload(type){
     const box=document.getElementById('smdlCcResult');
     const url=inp?inp.value.trim():'';
     if(!url){ smdlShakeInput(inp); return; }
+    if(!cidPreCheckDiamond(SMDL_COST,'smdlCcBtn')) return;
     box.classList.remove('show'); box.innerHTML='';
     smdlSetLoading(btn,true,'MEMPROSES...');
     try{
@@ -25934,6 +26041,7 @@ async function smdlDownload(type){
         isDataOk:function(j){ return smdlHasMedia(smdlExtractMedia(j,'cc')); }
       });
       const media=smdlExtractMedia(json,'cc');
+      cidDeductDiamond(SMDL_COST,'Sosmed Downloader','Download AIO: '+url);
       smdlRenderTtIg(box,media,'AIO');
     }catch(e){
       console.error('[SMDL][CC]',e);
@@ -25948,11 +26056,13 @@ async function smdlDownload(type){
     const box=document.getElementById('smdlYtResult');
     const q=inp?inp.value.trim():'';
     if(!q){ smdlShakeInput(inp); return; }
+    if(!cidPreCheckDiamond(SMDL_COST,'smdlYtBtn')) return;
     box.classList.remove('show'); box.innerHTML='';
     smdlSetLoading(btn,true,'MENCARI...');
     try{
       const list=await smdlYtMultiSearch(q);
       if(!list.length) throw new Error('Tidak ada hasil ditemukan.');
+      cidDeductDiamond(SMDL_COST,'Sosmed Downloader','Cari YouTube: '+q);
       smdlRenderYtList(box,list);
     }catch(e){
       console.error('[SMDL][YT]',e);
@@ -31125,9 +31235,11 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
 @keyframes zxThumbBounce{0%{transform:scale(1) rotate(0)}25%{transform:scale(1.18) rotate(-4deg)}55%{transform:scale(.94) rotate(3deg)}100%{transform:scale(1) rotate(0)}}
 .zx-confetti-piece{position:absolute;top:38%;left:50%;width:7px;height:7px;border-radius:2px;opacity:0;pointer-events:none;z-index:6;animation:zxConfettiBurst .9s ease-out forwards}
 @keyframes zxConfettiBurst{0%{opacity:1;transform:translate(-50%,-50%) scale(.6) rotate(0)}100%{opacity:0;transform:translate(var(--zx-x),var(--zx-y)) scale(1) rotate(var(--zx-r))}}
-.zx-toast{position:fixed;left:50%;bottom:100px;transform:translate(-50%,20px);background:#161616;border:1px solid rgba(0,230,118,.4);color:#fff;padding:12px 20px;border-radius:16px;font-size:.82rem;font-weight:600;display:flex;align-items:center;gap:8px;z-index:1000030;opacity:0;transition:opacity .3s ease,transform .3s ease;box-shadow:0 8px 24px rgba(0,0,0,.4);max-width:88vw;pointer-events:none}
+.zx-toast{position:fixed;left:50%;bottom:100px;transform:translate(-50%,20px);background:#161616;border:1px solid rgba(0,230,118,.4);color:#fff;padding:12px 16px;border-radius:16px;font-size:.82rem;font-weight:600;line-height:1.35;display:flex;align-items:center;justify-content:center;text-align:center;gap:9px;z-index:1000030;opacity:0;transition:opacity .3s ease,transform .3s ease;box-shadow:0 8px 24px rgba(0,0,0,.4);max-width:88vw;width:max-content;pointer-events:none}
 .zx-toast.show{opacity:1;transform:translate(-50%,0)}
-.zx-toast i{color:#00e676;font-size:1rem}
+.zx-toast i{color:#00e676;font-size:1rem;flex:none;margin-top:1px}
+.zx-toast.error{border-color:rgba(255,68,68,.45)}
+.zx-toast.error i{color:#ff4444}
 .zx-just-bought{animation:zxThumbBounce .6s ease}
 
 /* === Daily claim calendar modal === */
@@ -31612,7 +31724,7 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
     { id:'akari',     name:'Akari',              img:'zusmo-asset/t8c2zi.jpg', video:'zusmo-asset/869yvj.mp4', price:180 },
     { id:'redspace',  name:'Red Space',          img:'zusmo-asset/s4g2sc.jpg', video:'zusmo-asset/lfow35.mp4', price:180 },
     { id:'eyegaze',   name:'Eye Gaze',           img:'zusmo-asset/cf0o3d.jpg', video:'zusmo-asset/z1y8m2.mp4', price:120 },
-    { id:'sukuna',    name:'Sukuna',             img:'zusmo-asset/sydc3m.jpg', video:'zusmo-asset/myei3q.mp4', price:140 },
+    { id:'sukuna',    name:'Sukuna',             img:'zusmo-asset/sydc3m.jpg', video:'zusmo-asset/myei3q.mp4', price:0 },
     { id:'mahkota',   name:'Crown Aesthetic',   img:'zusmo-asset/9ax0zw.jpg', video:'zusmo-asset/svyazq.mp4', price:40 },
     { id:'darkgothic',name:'Dark Gothic',        img:'zusmo-asset/jel2rt.jpg', video:'zusmo-asset/keln08.mp4', price:130 },
     { id:'nyx',       name:'Nyx',                img:'zusmo-asset/1ozx1z.jpg', video:'zusmo-asset/32yxwl.mp4', price:70 },
@@ -31630,7 +31742,7 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
     { id:'wp1',  name:'1',  video:'zusmo-asset/eugokc.mp4', price:500 },
     { id:'wp2',  name:'2',  video:'zusmo-asset/ba0g44.mp4', price:500 },
     { id:'wp3',  name:'3',  video:'zusmo-asset/p7lti5.mp4', price:500 },
-    { id:'wp4',  name:'4',  video:'zusmo-asset/wcofmx.mp4', price:500 },
+    { id:'wp4',  name:'4',  video:'zusmo-asset/wcofmx.mp4', price:0 },
     { id:'wp5',  name:'5',  video:'zusmo-asset/husqi0.mp4', price:500 },
     { id:'wp6',  name:'6',  video:'zusmo-asset/q4vvvh.mp4', price:500 },
     { id:'wp7',  name:'7',  video:'zusmo-asset/drd4ic.mp4', price:500 },
@@ -33911,7 +34023,7 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
 
   // Lightweight reusable toast for quick confirmations
   var zxToastTimer = null;
-  function zxShowToast(message){
+  function zxShowToast(message, type){
     var toast = document.getElementById('zxGlobalToast');
     if(!toast){
       toast = document.createElement('div');
@@ -33920,6 +34032,10 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
       toast.innerHTML = '<i class="fa-solid fa-circle-check"></i><span></span>';
       document.body.appendChild(toast);
     }
+    var icon = toast.querySelector('i');
+    var isError = type==='error';
+    toast.classList.toggle('error', isError);
+    if(icon) icon.className = isError ? 'fa-solid fa-circle-exclamation' : 'fa-solid fa-circle-check';
     toast.querySelector('span').textContent = message;
     clearTimeout(zxToastTimer);
     requestAnimationFrame(function(){ toast.classList.add('show'); });
@@ -34124,7 +34240,7 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
   };
 
   function getWallpaperData(){
-    var id = localStorage.getItem(LS_WALLPAPER_ID) || '';
+    var id = localStorage.getItem(LS_WALLPAPER_ID) || 'wp4';
     for(var i=0;i<WALLPAPERS.length;i++){ if(WALLPAPERS[i].id===id) return WALLPAPERS[i]; }
     return null;
   }
@@ -35240,7 +35356,7 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
   /* ================= END DIAMOND / SHOP / DAILY CLAIM SYSTEM ================= */
 
   function getBannerData(){
-    var id = localStorage.getItem(LS_BANNER_ID) || 'default';
+    var id = localStorage.getItem(LS_BANNER_ID) || 'sukuna';
     for(var i=0;i<BANNERS.length;i++){ if(BANNERS[i].id===id) return BANNERS[i]; }
     return BANNERS[0];
   }
@@ -35860,8 +35976,8 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
     applyVolumeToMusic(getVolume());
     applyLanguage(getLang());
     setDiamond(getDiamond());
-    var savedWpId = localStorage.getItem(LS_WALLPAPER_ID);
-    if(savedWpId) applyWallpaperState(savedWpId);
+    var savedWpId = localStorage.getItem(LS_WALLPAPER_ID) || 'wp4';
+    applyWallpaperState(savedWpId);
     var savedLogoId = localStorage.getItem(LS_LOGO_ID);
     if(savedLogoId) applyLogoState(savedLogoId);
     var savedMusicId = localStorage.getItem(LS_MUSIC_ID);
@@ -36190,12 +36306,13 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
   if(dtModalOv) dtModalOv.addEventListener('click', function(e){ if(e.target===this) closeDiamondTopupModal(); });
   /* =================== END TOPUP DIAMOND =================== */
 
-  /* Ekspos ke global supaya bisa dipakai fitur Admin Panel (Prime) */
+  /* Ekspos ke global supaya bisa dipakai fitur Admin Panel (Prime) & alat lain (mis. Sensi AI) yang butuh biaya Diamond */
   window.setDiamond = setDiamond;
   window.getDiamond = getDiamond;
   window.updateTopbarPrimeIcon = updateTopbarPrimeIcon;
-})();
-</script>
+  window.addHistoryEntry = addHistoryEntry;
+  window.zxShowToast = zxShowToast;
+})();</script>
 
 <div class="page" id="eventTab">
 
@@ -38796,7 +38913,7 @@ const bgMusicEl=document.getElementById('bgMusic');
 var MP_LS_ON = 'zusmo_settings_music_on';
 function mpIsMusicOn(){
   var v = localStorage.getItem(MP_LS_ON);
-  return v===null ? true : v==='1';
+  return v===null ? false : v==='1';
 }
 function mpSetMusicOn(on){
   localStorage.setItem(MP_LS_ON, on ? '1' : '0');
