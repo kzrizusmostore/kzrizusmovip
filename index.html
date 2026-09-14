@@ -37551,12 +37551,36 @@ window.submitCreatorReward = function(){
 .testi-wrap{padding:6px 0 14px}
 .testi-title{text-align:center;font-size:1.7rem;margin:4px 0 6px}
 .testi-sub{text-align:center;color:rgba(255,255,255,.55);font-size:.76rem;margin:0 0 18px;padding:0 10px;line-height:1.5}
+.testi-video-row{display:grid;grid-template-columns:repeat(5,1fr);row-gap:14px;column-gap:6px;padding:2px 4px 18px;margin:0 0 4px;justify-items:center}
+.testi-video-item{flex:0 0 auto;width:68px;text-align:center;cursor:pointer}
+.testi-video-ring{width:68px;height:68px;border-radius:50%;padding:3px;background:linear-gradient(135deg,#00ff88,#00b8ff,#a855f7);display:flex;align-items:center;justify-content:center;transition:transform .15s ease}
+.testi-video-item:active .testi-video-ring{transform:scale(.93)}
+.testi-video-inner{width:100%;height:100%;border-radius:50%;overflow:hidden;position:relative;background:#0d0d0d;border:2px solid #121212}
+.testi-video-inner video{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+.testi-video-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.28)}
+.testi-video-play i{color:#fff;font-size:.85rem;text-shadow:0 1px 4px rgba(0,0,0,.6)}
+.testi-video-label{margin-top:5px;font-size:.62rem;color:rgba(255,255,255,.6);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.testi-video-lightbox{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.94);display:none;align-items:center;justify-content:center;padding:14px;opacity:0;transition:opacity .25s ease}
+.testi-video-lightbox.show{display:flex}
+.testi-video-lightbox.show.in{opacity:1}
+.testi-video-lb-frame{width:100%;max-width:300px;aspect-ratio:9/16;max-height:78vh;border-radius:16px;overflow:hidden;background:#000;box-shadow:0 20px 60px rgba(0,0,0,.6);transform:scale(.8);transition:transform .28s cubic-bezier(.2,.8,.2,1);position:relative}
+.testi-video-lightbox.show.in .testi-video-lb-frame{transform:scale(1)}
+.testi-video-lb-frame video{width:100%;height:100%;object-fit:contain;display:block;background:#000}
+.testi-video-lb-close{position:absolute;top:-40px;right:0;width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);backdrop-filter:blur(6px);color:#fff;font-size:15px;display:flex;align-items:center;justify-content:center}
 </style>
 <div class="page" id="leaderboardTab">
 <div class="testi-wrap">
 <h1 class="testi-title">𝗧𝗘𝗦𝗧𝗜𝗠𝗢𝗡𝗜</h1>
 <p class="testi-sub">Testimoni asli dari pengguna KZRIZUSMO. Tap gambar untuk melihat ukuran penuh.</p>
+<div class="testi-video-row" id="testiVideoRow"></div>
 <div class="testi-grid" id="testiGrid"></div>
+</div>
+</div>
+
+<div class="testi-video-lightbox" id="testiVideoLightbox" onclick="if(event.target===this) closeTestiVideo()">
+<div class="testi-video-lb-frame">
+<button class="testi-video-lb-close" onclick="closeTestiVideo()" aria-label="Tutup"><i class="fa-solid fa-xmark"></i></button>
+<video id="testiVideoLbPlayer" playsinline controls></video>
 </div>
 </div>
 
@@ -37571,8 +37595,57 @@ window.submitCreatorReward = function(){
 <script>
 (function(){
   var TESTI_COUNT=500;
+  var TESTI_VIDEO_COUNT=10;
   var testiCurrent=1;
   var testiClosing=false;
+  var testiVideoClosing=false;
+
+  var videoRow=document.getElementById('testiVideoRow');
+  if(videoRow){
+    var vhtml='';
+    for(var v=1;v<=TESTI_VIDEO_COUNT;v++){
+      vhtml+='<div class="testi-video-item" onclick="openTestiVideo('+v+')">'+
+        '<div class="testi-video-ring"><div class="testi-video-inner">'+
+        '<video src="testi/video'+v+'.mp4#t=0.1" preload="metadata" muted playsinline onerror="this.closest(\'.testi-video-item\').style.display=\'none\'"></video>'+
+        '<div class="testi-video-play"><i class="fa-solid fa-play"></i></div>'+
+        '</div></div>'+
+        '<div class="testi-video-label">Video '+v+'</div>'+
+        '</div>';
+    }
+    videoRow.innerHTML=vhtml;
+  }
+
+  window.openTestiVideo=function(n){
+    testiVideoClosing=false;
+    var box=document.getElementById('testiVideoLightbox');
+    var player=document.getElementById('testiVideoLbPlayer');
+    if(!box||!player) return;
+    player.src='testi/video'+n+'.mp4';
+    box.classList.add('show');
+    document.body.style.overflow='hidden';
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+        box.classList.add('in');
+        player.play().catch(function(){});
+      });
+    });
+    try{ navigator.vibrate && navigator.vibrate(12); }catch(e){}
+  };
+  window.closeTestiVideo=function(){
+    if(testiVideoClosing) return;
+    testiVideoClosing=true;
+    var box=document.getElementById('testiVideoLightbox');
+    var player=document.getElementById('testiVideoLbPlayer');
+    if(!box){ testiVideoClosing=false; return; }
+    box.classList.remove('in');
+    setTimeout(function(){
+      box.classList.remove('show');
+      document.body.style.overflow='';
+      if(player){ player.pause(); player.removeAttribute('src'); player.load(); }
+      testiVideoClosing=false;
+    },260);
+  };
+
   var grid=document.getElementById('testiGrid');
   if(grid){
     var html='';
