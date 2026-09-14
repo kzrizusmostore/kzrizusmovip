@@ -31221,11 +31221,12 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
 .banner-detail-hint.music-hint i{color:#ff2b2b}
 
 /* === Diamond widget (topbar) === */
-.diamond-widget{display:flex!important;align-items:center;gap:4px;background:transparent!important;border:none!important;border-radius:0!important;padding:6px 4px!important;margin-left:22px!important;font-weight:800;font-size:.78rem;color:#ffffff!important}
-.diamond-widget img{width:11px;height:11px;object-fit:contain;display:block}
+.diamond-widget{display:flex!important;align-items:center;justify-content:flex-start!important;gap:4px;width:auto!important;height:auto!important;background:transparent!important;border:none!important;border-radius:0!important;padding:6px 4px!important;margin-left:22px!important;font-weight:800;font-size:.78rem;color:#ffffff!important;white-space:nowrap}
+.diamond-widget img{width:11px;height:11px;object-fit:contain;display:block;flex:0 0 auto}
 .diamond-widget:active{transform:scale(.94)}
-.diamond-widget .diamond-plus{color:#ffffff;font-weight:900;margin-left:-1px}
-.diamond-widget .diamond-prime-logo{width:26px!important;height:26px!important;object-fit:contain;margin-left:7px;cursor:pointer;pointer-events:auto}
+.diamond-widget .diamond-plus{color:#ffffff;font-weight:900;margin-left:-1px;flex:0 0 auto}
+#diamondBalanceTop{flex:0 0 auto}
+.diamond-widget .diamond-prime-logo{width:26px!important;height:26px!important;object-fit:contain;margin-left:7px;cursor:pointer;pointer-events:auto;flex:0 0 auto}
 
 /* === Lock / price badge on banner options === */
 .banner-opt{opacity:1}
