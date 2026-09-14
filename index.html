@@ -1289,7 +1289,7 @@ object-fit:contain;
   -webkit-tap-highlight-color:transparent;
 }
 .hm-prime-badge:active{transform:scale(.92);}
-.hm-prime-logo{width:30px;height:30px;object-fit:contain;flex-shrink:0;filter:drop-shadow(0 0 8px rgba(255,215,0,.4));pointer-events:none;}
+.hm-prime-logo{width:48px;height:48px;object-fit:contain;flex-shrink:0;filter:drop-shadow(0 0 8px rgba(255,215,0,.4));pointer-events:none;}
 .hm-prime-badge-lbl{
   font-family:'Rajdhani',sans-serif;font-size:9px;font-weight:700;
   letter-spacing:.5px;color:#ffd700;line-height:1;
@@ -6324,11 +6324,11 @@ function closeVipShadowApp(){
     </div>
     <div class="hm-badges">
       <span class="hm-badge role"><span data-i18n="home.role">ROLE</span> : <span id="roleBadge">FREE</span></span>
-      <span class="hm-badge prime"><span data-i18n="home.prime">PRIME</span> : 0</span>
+      <span class="hm-badge prime"><span data-i18n="home.prime">PRIME</span> : <span id="hmPrimePoint">0</span></span>
     </div>
   </div>
   <div class="hm-prime-badge" onclick="showPage('prime')" role="button" tabindex="0" aria-label="Buka halaman Prime">
-    <img loading="lazy" decoding="async" class="hm-prime-logo" src="zusmo-asset/fvplwr.png" alt="Prime 8"/>
+    <img loading="lazy" decoding="async" class="hm-prime-logo" id="hmPrimeLogo" src="zusmo-asset/fvplwr.png" alt="Prime"/>
   </div>
 </div>
 
@@ -29263,12 +29263,12 @@ function submitJoinGuild(){
 /* ── PRIME DATA ── */
 const primeLevels=[
   {label:'Prime 1',name:'PRIME 1',img:'zusmo-asset/x5pypw.png',dm:1000},
-  {label:'Prime 2',name:'PRIME 2',img:'zusmo-asset/b2byx1.png',dm:10000},
-  {label:'Prime 3',name:'PRIME 3',img:'zusmo-asset/nrllzm.png',dm:30000},
-  {label:'Prime 4',name:'PRIME 4',img:'zusmo-asset/yip9im.png',dm:100000},
-  {label:'Prime 5',name:'PRIME 5',img:'zusmo-asset/juhyc3.png',dm:300000},
-  {label:'Prime 6',name:'PRIME 6',img:'zusmo-asset/2d9n67.png',dm:600000},
-  {label:'Prime 7',name:'PRIME 7',img:'zusmo-asset/3gth19.png',dm:1200000},
+  {label:'Prime 2',name:'PRIME 2',img:'zusmo-asset/b2byx1.png',dm:5000},
+  {label:'Prime 3',name:'PRIME 3',img:'zusmo-asset/nrllzm.png',dm:15000},
+  {label:'Prime 4',name:'PRIME 4',img:'zusmo-asset/yip9im.png',dm:30000},
+  {label:'Prime 5',name:'PRIME 5',img:'zusmo-asset/juhyc3.png',dm:50000},
+  {label:'Prime 6',name:'PRIME 6',img:'zusmo-asset/2d9n67.png',dm:80000},
+  {label:'Prime 7',name:'PRIME 7',img:'zusmo-asset/3gth19.png',dm:120000},
   {label:'Prime 8',name:'PRIME 8',img:'zusmo-asset/fvplwr.png',dm:200000},
 ];
 const HARGA_PER_DM=126;
@@ -33889,15 +33889,25 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
     return isNaN(v) ? 0 : v;
   }
   function updateTopbarPrimeIcon(){
+    var diamond = getDiamond();
+    var lvl = (typeof prmCalcLevel==='function') ? prmCalcLevel(diamond) : 0;
+    var tier = (lvl>0 && typeof primeLevels!=='undefined') ? primeLevels[lvl-1] : null;
+
     var img = document.getElementById('topbarPrimeIcon');
-    if(!img) return;
-    var lvl = (typeof prmCalcLevel==='function') ? prmCalcLevel(getDiamond()) : 0;
-    if(lvl>0 && typeof primeLevels!=='undefined' && primeLevels[lvl-1]){
-      img.src = primeLevels[lvl-1].img;
-      img.alt = primeLevels[lvl-1].name;
-    }else{
-      img.src = 'zusmo-asset/fvplwr.png';
-      img.alt = 'Prime';
+    if(img){
+      if(tier){ img.src = tier.img; img.alt = tier.name; }
+      else{ img.src = 'zusmo-asset/fvplwr.png'; img.alt = 'Prime'; }
+    }
+
+    /* Badge PRIME di profile home: isi dengan point prime (diamond) user */
+    var hmPoint = document.getElementById('hmPrimePoint');
+    if(hmPoint) hmPoint.textContent = diamond.toLocaleString('id-ID');
+
+    /* Logo prime di profile home: ikut level prime user saat ini */
+    var hmLogo = document.getElementById('hmPrimeLogo');
+    if(hmLogo){
+      if(tier){ hmLogo.src = tier.img; hmLogo.alt = tier.name; }
+      else{ hmLogo.src = 'zusmo-asset/fvplwr.png'; hmLogo.alt = 'Prime'; }
     }
   }
   document.addEventListener('DOMContentLoaded', updateTopbarPrimeIcon);
