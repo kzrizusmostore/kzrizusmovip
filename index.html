@@ -1283,14 +1283,12 @@ object-fit:contain;
 .hm-prime-badge{
   display:flex;flex-direction:column;align-items:center;gap:3px;
   flex-shrink:0;cursor:pointer;
-  padding:7px 9px 6px;border-radius:15px;
-  background:rgba(255,215,0,.06);
-  border:1px solid rgba(255,215,0,.32);
-  transition:transform .18s ease,box-shadow .18s ease,background .18s ease;
+  background:transparent;
+  border:none;
+  transition:transform .18s ease;
   -webkit-tap-highlight-color:transparent;
 }
 .hm-prime-badge:active{transform:scale(.92);}
-.hm-prime-badge:hover{background:rgba(255,215,0,.13);box-shadow:0 0 16px rgba(255,215,0,.22);}
 .hm-prime-logo{width:30px;height:30px;object-fit:contain;flex-shrink:0;filter:drop-shadow(0 0 8px rgba(255,215,0,.4));pointer-events:none;}
 .hm-prime-badge-lbl{
   font-family:'Rajdhani',sans-serif;font-size:9px;font-weight:700;
@@ -6331,7 +6329,6 @@ function closeVipShadowApp(){
   </div>
   <div class="hm-prime-badge" onclick="showPage('prime')" role="button" tabindex="0" aria-label="Buka halaman Prime">
     <img loading="lazy" decoding="async" class="hm-prime-logo" src="zusmo-asset/fvplwr.png" alt="Prime 8"/>
-    <span class="hm-prime-badge-lbl">PRIME 8</span>
   </div>
 </div>
 
@@ -29272,7 +29269,7 @@ const primeLevels=[
   {label:'Prime 5',name:'PRIME 5',img:'zusmo-asset/juhyc3.png',dm:300000},
   {label:'Prime 6',name:'PRIME 6',img:'zusmo-asset/2d9n67.png',dm:600000},
   {label:'Prime 7',name:'PRIME 7',img:'zusmo-asset/3gth19.png',dm:1200000},
-  {label:'Prime 8',name:'PRIME 8',img:'zusmo-asset/fvplwr.png',dm:2000000},
+  {label:'Prime 8',name:'PRIME 8',img:'zusmo-asset/fvplwr.png',dm:200000},
 ];
 const HARGA_PER_DM=126;
 let selPrime=-1;
@@ -29370,7 +29367,7 @@ function hitungLevel(){
 /* HEADER — tanpa kotak/blok/bingkai, hanya ikon Prime polos + progress */
 .prm-banner{position:relative;text-align:center;margin-bottom:16px;}
 .prm-banner-rank{display:inline-block;font-family:'Audiowide',sans-serif;font-size:9px;letter-spacing:1px;color:rgba(255,215,0,.6);margin-bottom:8px;}
-.prm-simple-icon{width:76px;height:76px;object-fit:contain;margin:0 auto 10px;display:block;filter:drop-shadow(0 0 14px rgba(255,180,0,.55));}
+.prm-simple-icon{width:130px;height:130px;object-fit:contain;margin:0 auto 10px;display:block;filter:drop-shadow(0 0 14px rgba(255,180,0,.55));}
 .prm-simple-icon.prm-hero-icon-locked{filter:grayscale(1) opacity(.4);}
 .prm-hero-level{font-family:'Audiowide',sans-serif;font-size:1.3rem;color:#ffd23f;letter-spacing:2px;margin-bottom:3px;text-shadow:0 0 12px rgba(255,180,0,.5);}
 .prm-hero-caption{font-size:11px;color:#a89a7a;margin-bottom:14px;}
@@ -29384,9 +29381,11 @@ function hitungLevel(){
 /* TAB MENU — navigasi horizontal ala menu Prime di game, biar gak scroll panjang lurus */
 .prm-tabbar{display:flex;gap:6px;margin-bottom:16px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;}
 .prm-tabbar::-webkit-scrollbar{display:none;}
-.prm-tab-btn{flex:1;min-width:74px;display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px 8px;background:rgba(255,180,0,.05);border:1px solid rgba(255,180,0,.15);clip-path:polygon(10% 0,100% 0,100% 78%,90% 100%,0 100%,0 22%);color:#8a7c5e;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:10px;letter-spacing:.6px;}
+.prm-tab-btn{position:relative;flex:1;min-width:74px;display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px 8px;background:rgba(255,180,0,.35);border:none;outline:none;-webkit-appearance:none;appearance:none;clip-path:polygon(10% 0,100% 0,100% 78%,90% 100%,0 100%,0 22%);color:#8a7c5e;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:10px;letter-spacing:.6px;}
+.prm-tab-btn::before{content:'';position:absolute;top:1px;right:1px;bottom:1px;left:1px;clip-path:polygon(10% 0,100% 0,100% 78%,90% 100%,0 100%,0 22%);background:#0e0b06;z-index:-1;}
 .prm-tab-btn i{font-size:14px;}
-.prm-tab-btn.active{background:linear-gradient(155deg,rgba(255,180,0,.22),rgba(255,180,0,.06));border-color:#ffb300;color:#ffd23f;box-shadow:0 0 14px rgba(255,180,0,.2);}
+.prm-tab-btn.active{background:#ffb300;color:#ffd23f;box-shadow:0 0 14px rgba(255,180,0,.2);}
+.prm-tab-btn.active::before{background:linear-gradient(155deg,rgba(255,180,0,.22),rgba(255,180,0,.06)),#0e0b06;}
 .prm-tab-btn:active{transform:scale(.96);}
 
 .prm-panel{display:none;}
@@ -29435,7 +29434,8 @@ function hitungLevel(){
 .prm-lb-name{font-size:11.5px;font-weight:700;color:#e6e6e6;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .prm-lb-name.me{color:#ffb300;}
 .prm-lb-lvl{font-size:9.5px;color:#777;margin-top:1px;}
-.prm-lb-dm{font-size:11px;font-weight:700;color:#ffb300;flex-shrink:0;}
+.prm-lb-dm{font-size:11px;font-weight:700;color:#ffb300;flex-shrink:0;display:flex;align-items:center;gap:4px;}
+.prm-lb-dm img{width:13px;height:13px;object-fit:contain;flex-shrink:0;}
 .prm-lb-item.me{background:rgba(255,180,0,.07);border-radius:8px;margin:0 -4px;padding:9px 7px;border-bottom:none;}
 
 /* RIWAYAT NAIK LEVEL */
@@ -29453,20 +29453,16 @@ function hitungLevel(){
 </style>
 
 <p class="prm-title"><span class="gold">PRIME</span>&nbsp;<span class="red">MEMBERSHIP</span></p>
-<p class="prm-sub">Level akun &bull; dari kumpulan Diamond kamu</p>
 
 <div class="prm-banner">
-  <div class="prm-banner-rank" id="prmHeroCaptionTag">STATUS AKUN</div>
   <img class="prm-simple-icon" id="prmHeroIcon" src="zusmo-asset/fvplwr.png" alt="Prime"/>
-  <div class="prm-hero-level" id="prmHeroLevel">PRIME 8</div>
-  <div class="prm-hero-caption" id="prmHeroCaption">Memuat status Prime kamu...</div>
 
   <div class="prm-bar-track"><div class="prm-bar-fill" id="prmBarFill"></div></div>
   <div class="prm-bar-text" id="prmBarText">0 / 100 Diamond</div>
 
   <div class="prm-diamond-row">
     <img src="zusmo-asset/onzrii.png" alt="diamond"/>
-    Total diamond kamu: <b id="prmDiamondTotal">0</b>
+    <b id="prmDiamondTotal">0</b>
   </div>
 </div>
 
@@ -29481,6 +29477,7 @@ function hitungLevel(){
 
 <div class="prm-panel active" id="prmPanelLb">
   <div class="prm-section">
+    <div style="font-size:10.5px;color:#888;margin-bottom:10px;text-align:center;">Update Leaderboard &bull; Bulan 5</div>
     <div class="prm-lb-list" id="prmLbList"></div>
   </div>
 </div>
@@ -29576,31 +29573,38 @@ function prmRenderHistory(hist){
 }
 /* Leaderboard Prime — pemain contoh (statis) dipadukan posisi kamu, diurut dari diamond terbanyak */
 var PRM_LB_SAMPLE=[
-  {name:'RzyGaming_ff',dm:1850000},
-  {name:'ShadowXCloud',dm:920000},
-  {name:'DevilKing.ff',dm:410000},
-  {name:'NoobMaster99',dm:85000},
-  {name:'Kirana_ff',dm:22000},
+  {name:'RzyGaming_ff',dm:1860000,lvl:8},
+  {name:'ShadowXCloud',dm:1150000,lvl:7},
+  {name:'DevilKing.ff',dm:640000,lvl:6},
+  {name:'Zaqila_ff',dm:320000,lvl:5},
+  {name:'NoobMaster99',dm:118000,lvl:4},
+  {name:'Kirana_ff',dm:105000,lvl:4},
+  {name:'AxelStorm_ff',dm:42000,lvl:3},
+  {name:'Vhino.ff',dm:35000,lvl:3},
+  {name:'Mikhaze_ff',dm:15000,lvl:2},
+  {name:'Ghozy_ff',dm:3200,lvl:1},
 ];
 function prmRenderLeaderboard(diamond,level){
   var list=document.getElementById('prmLbList');
   if(!list) return;
-  var entries=PRM_LB_SAMPLE.map(function(e){return {name:e.name,dm:e.dm,me:false};});
+  var entries=PRM_LB_SAMPLE.map(function(e){return {name:e.name,dm:e.dm,lvl:e.lvl,me:false};});
   entries.push({name:'Kamu',dm:diamond,me:true});
   entries.sort(function(a,b){return b.dm-a.dm;});
 
   var html='';
   entries.forEach(function(e,i){
-    var lvl=prmCalcLevel(e.dm);
+    var lvl=(typeof e.lvl==='number')?e.lvl:prmCalcLevel(e.dm);
     var tier=lvl>0?primeLevels[lvl-1]:null;
+    var rank=i+1;
+    var rankLabel=(e.me && rank>10)?'99+':rank;
     html+='<div class="prm-lb-item'+(e.me?' me':'')+'">'+
-      '<div class="prm-lb-rank">'+(i+1)+'</div>'+
+      '<div class="prm-lb-rank">'+rankLabel+'</div>'+
       (tier?'<img class="prm-lb-icon" loading="lazy" decoding="async" src="'+tier.img+'" alt="'+tier.name+'"/>':'<div class="prm-lb-icon"></div>')+
       '<div class="prm-lb-body">'+
         '<div class="prm-lb-name'+(e.me?' me':'')+'">'+e.name+'</div>'+
         '<div class="prm-lb-lvl">'+(tier?tier.name:'Belum Prime')+'</div>'+
       '</div>'+
-      '<div class="prm-lb-dm">'+e.dm.toLocaleString('id-ID')+' DM</div>'+
+      '<div class="prm-lb-dm"><img src="zusmo-asset/onzrii.png" alt="diamond"/>'+e.dm.toLocaleString('id-ID')+'</div>'+
     '</div>';
   });
   list.innerHTML=html;
@@ -29618,8 +29622,6 @@ function renderPrimePage(){
   prmRenderLeaderboard(diamond,level);
 
   var icon=document.getElementById('prmHeroIcon');
-  var lvlText=document.getElementById('prmHeroLevel');
-  var caption=document.getElementById('prmHeroCaption');
   var barFill=document.getElementById('prmBarFill');
   var barText=document.getElementById('prmBarText');
   var totalEl=document.getElementById('prmDiamondTotal');
@@ -29629,7 +29631,6 @@ function renderPrimePage(){
     icon.alt=current?current.name:'Belum Prime';
     icon.classList.toggle('prm-hero-icon-locked', !current);
   }
-  if(lvlText) lvlText.textContent=current?current.name:'BELUM PRIME';
   if(totalEl) totalEl.textContent=diamond.toLocaleString('id-ID');
 
   if(next){
@@ -29639,11 +29640,9 @@ function renderPrimePage(){
     var pct=Math.min(100,Math.round((progressed/span)*100));
     if(barFill) barFill.style.width=pct+'%';
     if(barText) barText.textContent=diamond.toLocaleString('id-ID')+' / '+next.dm.toLocaleString('id-ID')+' Diamond menuju '+next.name;
-    if(caption) caption.textContent=current?('Kumpulkan '+(next.dm-diamond).toLocaleString('id-ID')+' Diamond lagi untuk naik ke '+next.name):('Kumpulkan Diamond untuk membuka '+next.name);
   }else{
     if(barFill) barFill.style.width='100%';
     if(barText) barText.textContent='Level maksimum tercapai';
-    if(caption) caption.textContent='Kamu sudah mencapai level Prime tertinggi';
   }
 
   document.querySelectorAll('#prmBenefitList .prm-benefit').forEach(function(el){
