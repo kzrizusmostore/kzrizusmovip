@@ -37551,7 +37551,7 @@ window.submitCreatorReward = function(){
 .testi-wrap{padding:6px 0 14px}
 .testi-title{text-align:center;font-size:1.7rem;margin:4px 0 6px}
 .testi-sub{text-align:center;color:rgba(255,255,255,.55);font-size:.76rem;margin:0 0 18px;padding:0 10px;line-height:1.5}
-.testi-video-row{display:grid;grid-template-columns:repeat(5,1fr);row-gap:14px;column-gap:6px;padding:2px 4px 18px;margin:0 0 4px;justify-items:center}
+.testi-video-row{display:grid;grid-template-columns:repeat(5,1fr);row-gap:2px;column-gap:6px;padding:2px 4px 18px;margin:0 0 4px;justify-items:center}
 .testi-video-item{flex:0 0 auto;width:68px;text-align:center;cursor:pointer}
 .testi-video-ring{width:68px;height:68px;border-radius:50%;padding:3px;background:linear-gradient(135deg,#00ff88,#00b8ff,#a855f7);display:flex;align-items:center;justify-content:center;transition:transform .15s ease}
 .testi-video-item:active .testi-video-ring{transform:scale(.93)}
@@ -37559,7 +37559,6 @@ window.submitCreatorReward = function(){
 .testi-video-inner video{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
 .testi-video-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.28)}
 .testi-video-play i{color:#fff;font-size:.85rem;text-shadow:0 1px 4px rgba(0,0,0,.6)}
-.testi-video-label{margin-top:5px;font-size:.62rem;color:rgba(255,255,255,.6);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .testi-video-lightbox{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.94);display:none;align-items:center;justify-content:center;padding:14px;opacity:0;transition:opacity .25s ease}
 .testi-video-lightbox.show{display:flex}
 .testi-video-lightbox.show.in{opacity:1}
@@ -37609,7 +37608,6 @@ window.submitCreatorReward = function(){
         '<video src="testi/video'+v+'.mp4#t=0.1" preload="metadata" muted playsinline onerror="this.closest(\'.testi-video-item\').style.display=\'none\'"></video>'+
         '<div class="testi-video-play"><i class="fa-solid fa-play"></i></div>'+
         '</div></div>'+
-        '<div class="testi-video-label">Video '+v+'</div>'+
         '</div>';
     }
     videoRow.innerHTML=vhtml;
