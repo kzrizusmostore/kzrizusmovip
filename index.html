@@ -6246,7 +6246,7 @@ function closeVipShadowApp(){
 
 <div class="topbar-pro" id="topbarPro">
 <button id="topbarBackBtn" class="tb-backbtn" onclick="goBackPage()" style="display:none"><i class="fa-solid fa-arrow-left"></i><span data-i18n="nav.back">Kembali</span></button>
-<div class="left" id="topbarLeft"><button onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></button><button class="diamond-widget" onclick="openDiamondTopup('modal')"><img src="zusmo-asset/onzrii.png" alt="diamond" width="11" height="11" style="width:11px;height:11px;object-fit:contain;display:block"/><span id="diamondBalanceTop">0</span><span class="diamond-plus">+</span><img src="zusmo-asset/fvplwr.png" alt="Prime" id="topbarPrimeIcon" class="diamond-prime-logo" onclick="event.stopPropagation();showPage('prime')"/><span class="notif-dot" id="diamondDot"></span></button></div>
+<div class="left" id="topbarLeft"><button onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></button><button class="diamond-widget" onclick="openDiamondTopup('modal')"><img src="zusmo-asset/onzrii.png" alt="diamond" width="11" height="11" style="width:11px;height:11px;object-fit:contain;display:block"/><span id="diamondBalanceTop">0</span><span class="diamond-plus">+</span><img src="zusmo-asset/fvplwr.png" alt="Prime" id="topbarPrimeIcon" class="diamond-prime-logo" onclick="event.stopPropagation();showPage('prime')"/></button></div>
 <div class="center" id="topbarCenter"></div>
 <div class="right" id="topbarRight"><div class="mp-wrap" id="mpWrapHome"><button onclick="toggleMusicPopup(event,'mpWrapHome')"><i class="mp-music-icon fa-solid fa-music"></i></button><div class="mp-popup"><div class="mp-row-toggle"><span>Musik</span><div class="mp-switch" onclick="onMpSwitchToggle()"></div></div><div class="mp-vol-row"><i class="fa-solid fa-volume-low"></i><input type="range" class="vol-slider mp-volume-slider" min="0" max="100" value="80" oninput="onMpVolumeInput(this.value)"/><i class="fa-solid fa-volume-high"></i></div><div style="text-align:right;margin-top:2px"><span class="mp-vol-val mp-volume-value">80%</span></div></div></div><button onclick="showPage('notifikasi')"><i class="fa-solid fa-bell"></i><span class="notif-dot" id="notifDot"></span></button><button onclick="openSettings()"><i class="fa-solid fa-gear"></i><span class="notif-dot" id="settingsDot"></span></button></div>
 </div>
@@ -8010,12 +8010,6 @@ function confirmVpayFinal(){
   if(vplSelected.payment==='qris')return;
 
   const errEl=document.getElementById('vpdProofErr');
-  if(!vpdProofData){
-    if(errEl) errEl.textContent='Upload bukti transfer dulu ya sebelum konfirmasi.';
-    const dropEl=document.getElementById('vpdProofDrop');
-    if(dropEl) dropEl.scrollIntoView({behavior:'smooth',block:'center'});
-    return;
-  }
   if(errEl) errEl.textContent='';
 
   const elapsedSec=300-vpayTimeLeft;
@@ -8031,7 +8025,7 @@ function confirmVpayFinal(){
   if(vM) vM.textContent=meta.name;
 
   const confirmBtn=document.getElementById('vpdConfirmBtn');
-  if(confirmBtn){confirmBtn.disabled=true;confirmBtn.textContent='Mengirim bukti transfer...';}
+  if(confirmBtn){confirmBtn.disabled=true;confirmBtn.textContent='Memproses pembayaran...';}
 
   sendProofToEmailJs({
     order_id: vplSelected.orderId,
@@ -8039,9 +8033,7 @@ function confirmVpayFinal(){
     metode: meta.name,
     total: 'Rp '+vplSelected.price.toLocaleString('id-ID'),
     waktu: new Date().toLocaleString('id-ID'),
-    uid: vplSelected.uid+' • '+(serverObj?serverObj.flag+' '+serverObj.name:'-'),
-    bukti_transfer: vpdProofData.base64,
-    nama_file: vpdProofData.name
+    uid: vplSelected.uid+' • '+(serverObj?serverObj.flag+' '+serverObj.name:'-')
   }).then(function(){
     if(confirmBtn){confirmBtn.disabled=false;confirmBtn.innerHTML='<i class="fa-solid fa-check-double"></i> Saya Sudah Bayar';}
     showPage('vpdVerifying');
@@ -8058,7 +8050,7 @@ function confirmVpayFinal(){
   }).catch(function(err){
     console.error('EmailJS proof send failed (VIP):', err);
     if(confirmBtn){confirmBtn.disabled=false;confirmBtn.innerHTML='<i class="fa-solid fa-check-double"></i> Saya Sudah Bayar';}
-    if(errEl) errEl.textContent='Gagal mengirim bukti transfer. Coba lagi ya.';
+    if(errEl) errEl.textContent='Gagal mengirim konfirmasi. Coba lagi ya.';
   });
 }
 
@@ -8886,17 +8878,7 @@ function copyQris2Link(btn,link){
   </ol>
 </div>
 
-<div class="vpd-proofbox" id="vpdProofBox">
-  <div class="vpd-proof-title"><i class="fa-solid fa-receipt"></i> Upload Bukti Transfer</div>
-  <div class="vpd-proof-sub">Wajib diisi. Screenshot bukti pembayaran kamu akan dikirim otomatis ke Admin untuk verifikasi.</div>
-  <label class="vpd-proof-drop" id="vpdProofDrop">
-    <input type="file" accept="image/*" id="vpdProofInput" onchange="vpdHandleProofSelect(this)"/>
-    <i class="fa-solid fa-cloud-arrow-up"></i>
-    <div class="vpd-proof-drop-text">Tap untuk upload screenshot</div>
-    <div class="vpd-proof-drop-hint">JPG / PNG, maks 1MB</div>
-  </label>
-  <div class="vpd-proof-err" id="vpdProofErr"></div>
-</div>
+<div class="vpd-proof-err" id="vpdProofErr"></div>
 
 <button type="button" class="vpd-confirmbtn" id="vpdConfirmBtn" onclick="confirmVpayFinal()">
   <i class="fa-solid fa-check-double"></i> Saya Sudah Bayar
@@ -27902,11 +27884,35 @@ document.addEventListener('DOMContentLoaded',()=>{
   border:1px solid rgba(255,255,255,.25);box-shadow:0 6px 16px rgba(255,43,43,.35), inset 0 1px 0 rgba(255,255,255,.3);
   cursor:pointer;}
 .dt-continue-btn.ready:active{filter:brightness(1.15);transform:scale(.97);}
+.dt-confirm-btn{width:calc(100% - 4px);margin:10px 2px 0;border:none;border-radius:15px;padding:15px;
+  font-size:13px;font-weight:900;letter-spacing:.5px;text-transform:uppercase;
+  display:flex;align-items:center;justify-content:center;gap:9px;color:#fff;
+  background:linear-gradient(135deg,#c40000,#ff2b2b);border:1px solid rgba(255,255,255,.25);
+  box-shadow:0 6px 16px rgba(255,43,43,.35), inset 0 1px 0 rgba(255,255,255,.3);cursor:pointer;
+  transition:filter .15s ease, transform .15s ease;}
+.dt-confirm-btn:active{filter:brightness(1.15);transform:scale(.97);}
+.dt-selected-summary{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;
+  background:linear-gradient(160deg,#241414 0%,#171010 55%,#0a0a0a 100%);
+  border:1px solid rgba(255,43,43,.35);box-shadow:0 0 0 1px rgba(255,43,43,.15) inset;margin-bottom:2px;}
+.dt-selected-summary .dt-pkg-icon{width:30px;height:30px;}
+.dt-selected-summary .dt-pkg-icon img{width:16px;height:16px;}
+.dt-selected-summary-info{flex:1;min-width:0;}
+.dt-selected-summary-lbl{font-size:9.5px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:rgba(255,255,255,.45);}
+.dt-selected-summary-amt{font-size:13.5px;font-weight:800;color:#fff;margin-top:2px;}
+.dt-selected-summary-price{font-size:11.5px;color:rgba(255,255,255,.55);margin-top:1px;}
+.dt-selected-summary-editbtn{flex:none;width:30px;height:30px;border-radius:10px;border:1px solid rgba(255,255,255,.15);
+  background:rgba(255,255,255,.06);color:rgba(255,255,255,.75);display:flex;align-items:center;justify-content:center;
+  font-size:11px;cursor:pointer;}
+.dt-selected-summary-editbtn:active{transform:scale(.92);}
 </style>
 <div class="dt-scope" id="dtPageScope">
   <div class="vpay-sectiontitle"><i class="fa-solid fa-gem"></i> Pilih Jumlah Diamond</div>
   <div class="dt-pkg-list" id="dtPagePkgList"></div>
+  <button type="button" class="dt-confirm-btn" id="dtPageConfirmBtn" style="display:none;" onclick="dtConfirmPackage(this)">
+    <i class="fa-solid fa-check"></i> Konfirmasi Pilihan
+  </button>
   <div class="dt-method-section" id="dtPageMethodSection" style="display:none;">
+  <div class="dt-selected-summary" id="dtPageSelectedSummary"></div>
   <div class="vpay-sectiontitle"><i class="fa-solid fa-wallet"></i> Pilih Metode Bayar</div>
   <div class="vpay-grid">
     <div class="vpay-method m-qris" data-method="qris" onclick="dtSelectMethod(this,'qris')">
@@ -28044,17 +28050,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   </ol>
 </div>
 
-<div class="vpd-proofbox" id="dtdProofBox">
-  <div class="vpd-proof-title"><i class="fa-solid fa-receipt"></i> Upload Bukti Transfer</div>
-  <div class="vpd-proof-sub">Wajib diisi. Screenshot bukti pembayaran kamu akan dikirim otomatis ke Admin untuk verifikasi.</div>
-  <label class="vpd-proof-drop" id="dtdProofDrop">
-    <input type="file" accept="image/*" id="dtdProofInput" onchange="dtdHandleProofSelect(this)"/>
-    <i class="fa-solid fa-cloud-arrow-up"></i>
-    <div class="vpd-proof-drop-text">Tap untuk upload screenshot</div>
-    <div class="vpd-proof-drop-hint">JPG / PNG, maks 1MB</div>
-  </label>
-  <div class="vpd-proof-err" id="dtdProofErr"></div>
-</div>
+<div class="vpd-proof-err" id="dtdProofErr"></div>
 
 <button type="button" class="vpd-confirmbtn" id="dtdConfirmBtn" onclick="confirmDtFinal()">
   <i class="fa-solid fa-check-double"></i> Saya Sudah Bayar
@@ -31221,7 +31217,7 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
 .banner-detail-hint.music-hint i{color:#ff2b2b}
 
 /* === Diamond widget (topbar) === */
-.diamond-widget{display:flex!important;align-items:center;justify-content:flex-start!important;gap:4px;width:auto!important;height:auto!important;background:transparent!important;border:none!important;border-radius:0!important;padding:6px 4px!important;margin-left:22px!important;font-weight:800;font-size:.78rem;color:#ffffff!important;white-space:nowrap}
+.diamond-widget{display:flex!important;align-items:center;justify-content:flex-start!important;gap:4px;width:auto!important;height:auto!important;background:transparent!important;border:none!important;border-radius:0!important;padding:6px 4px!important;margin-left:1px!important;font-weight:800;font-size:.78rem;color:#ffffff!important;white-space:nowrap}
 .diamond-widget img{width:11px;height:11px;object-fit:contain;display:block;flex:0 0 auto}
 .diamond-widget:active{transform:scale(.94)}
 .diamond-widget .diamond-plus{color:#ffffff;font-weight:900;margin-left:-1px;flex:0 0 auto}
@@ -31649,7 +31645,11 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
     </div>
     <div class="dt-scope" id="dtModalScope">
       <div class="dt-pkg-list dt-pkg-list-modal" id="dtModalPkgList"></div>
+      <button type="button" class="dt-confirm-btn" id="dtModalConfirmBtn" style="display:none;" onclick="dtConfirmPackage(this)">
+        <i class="fa-solid fa-check"></i> Konfirmasi Pilihan
+      </button>
       <div class="dt-method-section" id="dtModalMethodSection" style="display:none;">
+      <div class="dt-selected-summary" id="dtModalSelectedSummary"></div>
       <div class="vpay-sectiontitle" style="margin-top:14px;"><i class="fa-solid fa-wallet"></i> Pilih Metode Bayar</div>
       <div class="vpay-grid">
         <div class="vpay-method m-qris" data-method="qris" onclick="dtSelectMethod(this,'qris')">
@@ -36049,6 +36049,10 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
     methods.forEach(function(m){m.classList.remove('selected');});
     var methodSection=scopeEl.querySelector('.dt-method-section');
     if(methodSection) methodSection.style.display='none';
+    var confirmBtn=scopeEl.querySelector('.dt-confirm-btn');
+    if(confirmBtn) confirmBtn.style.display='none';
+    var summaryEl=scopeEl.querySelector('.dt-selected-summary');
+    if(summaryEl) summaryEl.innerHTML='';
     var btn=scopeEl.querySelector('.dt-continue-btn');
     if(btn){btn.disabled=true;btn.classList.remove('ready');}
   }
@@ -36081,17 +36085,58 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
   };
   window.dtSelectPackage = function(idx, el){
     dtState.idx = idx;
+    dtState.payment = null;
     var scope = el.closest('.dt-scope');
     if(scope) scope.querySelectorAll('.dt-pkg-item').forEach(function(it){it.classList.remove('selected');});
     el.classList.add('selected');
     try{navigator.vibrate&&navigator.vibrate(15);}catch(e){}
     if(scope){
       var methodSection=scope.querySelector('.dt-method-section');
-      if(methodSection && methodSection.style.display==='none'){
-        methodSection.style.display='block';
-        methodSection.scrollIntoView({behavior:'smooth',block:'nearest'});
+      if(methodSection) methodSection.style.display='none';
+      scope.querySelectorAll('.vpay-method').forEach(function(m){m.classList.remove('selected');});
+      var confirmBtn=scope.querySelector('.dt-confirm-btn');
+      if(confirmBtn){
+        confirmBtn.style.display='flex';
+        confirmBtn.scrollIntoView({behavior:'smooth',block:'nearest'});
       }
     }
+    dtUpdateContinueBtn(scope);
+  };
+  window.dtConfirmPackage = function(btnEl){
+    if(dtState.idx===null) return;
+    var scope = btnEl.closest('.dt-scope');
+    if(!scope) return;
+    try{navigator.vibrate&&navigator.vibrate(15);}catch(e){}
+    btnEl.style.display='none';
+    var pkg=DT_PACKAGES[dtState.idx];
+    var summaryEl=scope.querySelector('.dt-selected-summary');
+    if(summaryEl && pkg){
+      summaryEl.innerHTML='<div class="dt-pkg-icon"><img src="'+DIAMOND_ICON+'" alt="diamond"/></div>'+
+        '<div class="dt-selected-summary-info">'+
+          '<div class="dt-selected-summary-lbl">Paket Dipilih</div>'+
+          '<div class="dt-selected-summary-amt">'+pkg.dm.toLocaleString('id-ID')+' Diamond</div>'+
+          '<div class="dt-selected-summary-price">Rp '+pkg.price.toLocaleString('id-ID')+'</div>'+
+        '</div>'+
+        '<button type="button" class="dt-selected-summary-editbtn" onclick="dtEditPackage(this)"><i class="fa-solid fa-pen"></i></button>';
+    }
+    var methodSection=scope.querySelector('.dt-method-section');
+    if(methodSection){
+      methodSection.style.display='block';
+      methodSection.scrollIntoView({behavior:'smooth',block:'start'});
+    }
+    dtUpdateContinueBtn(scope);
+  };
+  window.dtEditPackage = function(btnEl){
+    var scope = btnEl.closest('.dt-scope');
+    if(!scope) return;
+    var methodSection=scope.querySelector('.dt-method-section');
+    if(methodSection) methodSection.style.display='none';
+    scope.querySelectorAll('.vpay-method').forEach(function(m){m.classList.remove('selected');});
+    dtState.payment=null;
+    var confirmBtn=scope.querySelector('.dt-confirm-btn');
+    if(confirmBtn) confirmBtn.style.display='flex';
+    var selectedPkgEl=scope.querySelector('.dt-pkg-item.selected');
+    if(selectedPkgEl) selectedPkgEl.scrollIntoView({behavior:'smooth',block:'center'});
     dtUpdateContinueBtn(scope);
   };
   window.dtSelectMethod = function(el, method){
@@ -36205,12 +36250,6 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
     var meta=vpayMethodMeta[dtState.payment];
 
     var errEl=document.getElementById('dtdProofErr');
-    if(!dtdProofData){
-      if(errEl) errEl.textContent='Upload bukti transfer dulu ya sebelum konfirmasi.';
-      var dropEl=document.getElementById('dtdProofDrop');
-      if(dropEl) dropEl.scrollIntoView({behavior:'smooth',block:'center'});
-      return;
-    }
     if(errEl) errEl.textContent='';
 
     var elapsedSec=300-dtTimeLeft;
@@ -36222,7 +36261,7 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
     set('vpvMethodName', meta.name);
 
     var confirmBtn=document.getElementById('dtdConfirmBtn');
-    if(confirmBtn){confirmBtn.disabled=true;confirmBtn.textContent='Mengirim bukti transfer...';}
+    if(confirmBtn){confirmBtn.disabled=true;confirmBtn.textContent='Memproses pembayaran...';}
 
     sendProofToEmailJs({
       order_id: dtState.orderId,
@@ -36230,9 +36269,7 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
       metode: meta.name,
       total: 'Rp '+pkg.price.toLocaleString('id-ID'),
       waktu: new Date().toLocaleString('id-ID'),
-      uid: '-',
-      bukti_transfer: dtdProofData.base64,
-      nama_file: dtdProofData.name
+      uid: '-'
     }).then(function(){
       if(confirmBtn){confirmBtn.disabled=false;confirmBtn.innerHTML='<i class="fa-solid fa-check-double"></i> Saya Sudah Bayar';}
       showPage('vpdVerifying');
@@ -36246,7 +36283,7 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
     }).catch(function(err){
       console.error('EmailJS proof send failed (Diamond):', err);
       if(confirmBtn){confirmBtn.disabled=false;confirmBtn.innerHTML='<i class="fa-solid fa-check-double"></i> Saya Sudah Bayar';}
-      if(errEl) errEl.textContent='Gagal mengirim bukti transfer. Coba lagi ya.';
+      if(errEl) errEl.textContent='Gagal mengirim konfirmasi. Coba lagi ya.';
     });
   };
   function dtGoToSuccess(pkg,meta){
