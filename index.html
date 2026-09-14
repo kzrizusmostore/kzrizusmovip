@@ -6246,9 +6246,9 @@ function closeVipShadowApp(){
 
 <div class="topbar-pro" id="topbarPro">
 <button id="topbarBackBtn" class="tb-backbtn" onclick="goBackPage()" style="display:none"><i class="fa-solid fa-arrow-left"></i><span data-i18n="nav.back">Kembali</span></button>
-<div class="left" id="topbarLeft"><button onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></button></div>
+<div class="left" id="topbarLeft"><button onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></button><button class="diamond-widget" onclick="openDiamondTopup('modal')"><img src="zusmo-asset/onzrii.png" alt="diamond" width="11" height="11" style="width:11px;height:11px;object-fit:contain;display:block"/><span id="diamondBalanceTop">0</span><span class="notif-dot" id="diamondDot"></span></button></div>
 <div class="center" id="topbarCenter"></div>
-<div class="right" id="topbarRight"><button class="diamond-widget" onclick="openDailyClaim()"><img src="zusmo-asset/onzrii.png" alt="diamond" width="11" height="11" style="width:11px;height:11px;object-fit:contain;display:block"/><span id="diamondBalanceTop">0</span><span class="notif-dot" id="diamondDot"></span></button><div class="mp-wrap" id="mpWrapHome"><button onclick="toggleMusicPopup(event,'mpWrapHome')"><i class="mp-music-icon fa-solid fa-music"></i></button><div class="mp-popup"><div class="mp-row-toggle"><span>Musik</span><div class="mp-switch" onclick="onMpSwitchToggle()"></div></div><div class="mp-vol-row"><i class="fa-solid fa-volume-low"></i><input type="range" class="vol-slider mp-volume-slider" min="0" max="100" value="80" oninput="onMpVolumeInput(this.value)"/><i class="fa-solid fa-volume-high"></i></div><div style="text-align:right;margin-top:2px"><span class="mp-vol-val mp-volume-value">80%</span></div></div></div><button onclick="showPage('notifikasi')"><i class="fa-solid fa-bell"></i><span class="notif-dot" id="notifDot"></span></button><button onclick="openSettings()"><i class="fa-solid fa-gear"></i><span class="notif-dot" id="settingsDot"></span></button></div>
+<div class="right" id="topbarRight"><div class="mp-wrap" id="mpWrapHome"><button onclick="toggleMusicPopup(event,'mpWrapHome')"><i class="mp-music-icon fa-solid fa-music"></i></button><div class="mp-popup"><div class="mp-row-toggle"><span>Musik</span><div class="mp-switch" onclick="onMpSwitchToggle()"></div></div><div class="mp-vol-row"><i class="fa-solid fa-volume-low"></i><input type="range" class="vol-slider mp-volume-slider" min="0" max="100" value="80" oninput="onMpVolumeInput(this.value)"/><i class="fa-solid fa-volume-high"></i></div><div style="text-align:right;margin-top:2px"><span class="mp-vol-val mp-volume-value">80%</span></div></div></div><button onclick="showPage('notifikasi')"><i class="fa-solid fa-bell"></i><span class="notif-dot" id="notifDot"></span></button><button onclick="openSettings()"><i class="fa-solid fa-gear"></i><span class="notif-dot" id="settingsDot"></span></button></div>
 </div>
 
 <div class="side-drawer-overlay" id="sideDrawerOverlay" onclick="if(event.target===this)closeSideDrawer()">
@@ -6554,6 +6554,11 @@ function closeVipShadowApp(){
 
 <!-- SECONDARY LIST -->
 <div class="hm-section-lbl" style="margin-top:18px;"><span data-i18n="home.moreMenu">📥 Lainnya</span></div>
+<div class="hm-menu" onclick="openDiamondTopup('page')" style="position:relative;">
+  <div class="hm-menu-icon"><i class="fa-solid fa-gem"></i></div>
+  <div class="hm-menu-body"><h4>TOPUP DIAMOND</h4><small>Isi ulang Diamond dengan cepat &amp; aman</small></div>
+  <i class="fa-solid fa-chevron-right hm-menu-arrow"></i>
+</div>
 <div class="hm-menu" onclick="dismissNewBadge('redeemPage');showPage('redeemPage')" style="position:relative;">
   <span class="hm-tile-badge" id="newBadge_redeemPage" style="top:10px;right:10px;"></span>
   <div class="hm-menu-icon"><i class="fa-solid fa-ticket"></i></div>
@@ -7477,6 +7482,80 @@ function zsGetVerifiedAccount(){
   }catch(e){ return null; }
 }
 let vplSelected={tier:null,price:null,payment:null,uid:'',server:'ID'};
+
+/* ===== Upload Bukti Transfer -> EmailJS ===== */
+const PROOF_EMAILJS_SERVICE_ID='service_91kjn7g';
+const PROOF_EMAILJS_TEMPLATE_ID='template_5w00yxd';
+const PROOF_MAX_BYTES=1024*1024;
+let vpdProofData=null;
+let dtdProofData=null;
+
+function readProofFile(input, onOk, onErr){
+  const file=input.files && input.files[0];
+  if(!file) return;
+  if(file.type.indexOf('image/')!==0){ onErr('File harus berupa gambar (JPG/PNG).'); input.value=''; return; }
+  if(file.size>PROOF_MAX_BYTES){ onErr('Ukuran file maksimal 1MB.'); input.value=''; return; }
+  const reader=new FileReader();
+  reader.onload=function(){
+    const dataUrl=reader.result;
+    const base64=String(dataUrl).split(',')[1]||'';
+    onOk({dataUrl:dataUrl, base64:base64, name:file.name, type:file.type});
+  };
+  reader.onerror=function(){ onErr('Gagal membaca file, coba lagi.'); };
+  reader.readAsDataURL(file);
+}
+function renderProofPreview(dropEl, errEl, data){
+  if(errEl) errEl.textContent='';
+  if(!dropEl) return;
+  dropEl.classList.add('has-file');
+  dropEl.innerHTML =
+    '<div class="vpd-proof-preview">'+
+      '<button type="button" class="vpd-proof-removebtn" onclick="event.preventDefault();window[\''+dropEl.dataset.removeFn+'\']()"><i class="fa-solid fa-xmark"></i></button>'+
+      '<img src="'+data.dataUrl+'" alt="bukti transfer"/>'+
+    '</div>'+
+    '<div class="vpd-proof-filename">'+data.name+'</div>';
+}
+function resetProofDrop(dropEl, inputId, onchangeFn){
+  if(!dropEl) return;
+  dropEl.classList.remove('has-file');
+  dropEl.innerHTML =
+    '<input type="file" accept="image/*" id="'+inputId+'" onchange="'+onchangeFn+'(this)"/>'+
+    '<i class="fa-solid fa-cloud-arrow-up"></i>'+
+    '<div class="vpd-proof-drop-text">Tap untuk upload screenshot</div>'+
+    '<div class="vpd-proof-drop-hint">JPG / PNG, maks 1MB</div>';
+}
+window.vpdHandleProofSelect=function(input){
+  const errEl=document.getElementById('vpdProofErr');
+  readProofFile(input, function(data){
+    vpdProofData=data;
+    const dropEl=document.getElementById('vpdProofDrop');
+    if(dropEl){ dropEl.dataset.removeFn='vpdRemoveProof'; renderProofPreview(dropEl, errEl, data); }
+  }, function(msg){ if(errEl) errEl.textContent=msg; });
+};
+window.vpdRemoveProof=function(){
+  vpdProofData=null;
+  resetProofDrop(document.getElementById('vpdProofDrop'), 'vpdProofInput', 'vpdHandleProofSelect');
+  const errEl=document.getElementById('vpdProofErr'); if(errEl) errEl.textContent='';
+};
+window.dtdHandleProofSelect=function(input){
+  const errEl=document.getElementById('dtdProofErr');
+  readProofFile(input, function(data){
+    dtdProofData=data;
+    const dropEl=document.getElementById('dtdProofDrop');
+    if(dropEl){ dropEl.dataset.removeFn='dtdRemoveProof'; renderProofPreview(dropEl, errEl, data); }
+  }, function(msg){ if(errEl) errEl.textContent=msg; });
+};
+window.dtdRemoveProof=function(){
+  dtdProofData=null;
+  resetProofDrop(document.getElementById('dtdProofDrop'), 'dtdProofInput', 'dtdHandleProofSelect');
+  const errEl=document.getElementById('dtdProofErr'); if(errEl) errEl.textContent='';
+};
+function sendProofToEmailJs(params){
+  if(typeof emailjs==='undefined') return Promise.reject(new Error('emailjs belum siap'));
+  return emailjs.send(PROOF_EMAILJS_SERVICE_ID, PROOF_EMAILJS_TEMPLATE_ID, params);
+}
+/* ===== End Upload Bukti Transfer ===== */
+
 function orderVipKey(tier,price){
   vplSelected.tier=tier;
   vplSelected.price=price;
@@ -7836,6 +7915,10 @@ function goToVpayDetail(){
   if(sT) sT.textContent='VIP '+vplSelected.tier;
   if(sP) sP.textContent='Rp '+vplSelected.price.toLocaleString('id-ID');
 
+  vpdProofData=null;
+  resetProofDrop(document.getElementById('vpdProofDrop'), 'vpdProofInput', 'vpdHandleProofSelect');
+  const vpdProofErrReset=document.getElementById('vpdProofErr'); if(vpdProofErrReset) vpdProofErrReset.textContent='';
+
   const iconWrap=document.getElementById('vpdMethodIcon');
   const nameEl=document.getElementById('vpdMethodName');
   if(iconWrap){
@@ -7852,12 +7935,14 @@ function goToVpayDetail(){
   const stepsBox=document.getElementById('vpdStepsBox');
   const qris2Steps=document.getElementById('vpdQris2Steps');
   const confirmBtn=document.getElementById('vpdConfirmBtn');
+  const proofBox=document.getElementById('vpdProofBox');
   if(vplSelected.payment==='qris'){
     if(qBox) qBox.style.display='flex';
     if(nBox) nBox.style.display='none';
     if(lBox) lBox.style.display='none';
     if(stepsBox) stepsBox.style.display='block';
     if(qris2Steps) qris2Steps.style.display='none';
+    if(proofBox) proofBox.style.display='none';
     if(confirmBtn){confirmBtn.classList.add('disabled');confirmBtn.disabled=true;}
   }else if(vplSelected.payment==='qris2'){
     if(qBox) qBox.style.display='none';
@@ -7865,6 +7950,7 @@ function goToVpayDetail(){
     if(lBox) lBox.style.display='flex';
     if(stepsBox) stepsBox.style.display='none';
     if(qris2Steps) qris2Steps.style.display='block';
+    if(proofBox) proofBox.style.display='block';
     if(confirmBtn){confirmBtn.classList.remove('disabled');confirmBtn.disabled=false;}
   }else{
     if(qBox) qBox.style.display='none';
@@ -7872,6 +7958,7 @@ function goToVpayDetail(){
     if(lBox) lBox.style.display='none';
     if(stepsBox) stepsBox.style.display='block';
     if(qris2Steps) qris2Steps.style.display='none';
+    if(proofBox) proofBox.style.display='block';
     if(confirmBtn){confirmBtn.classList.remove('disabled');confirmBtn.disabled=false;}
   }
 
@@ -7921,30 +8008,58 @@ function renderVpayTimer(){
 function confirmVpayFinal(){
   if(!vplSelected.tier||!vplSelected.payment)return;
   if(vplSelected.payment==='qris')return;
+
+  const errEl=document.getElementById('vpdProofErr');
+  if(!vpdProofData){
+    if(errEl) errEl.textContent='Upload bukti transfer dulu ya sebelum konfirmasi.';
+    const dropEl=document.getElementById('vpdProofDrop');
+    if(dropEl) dropEl.scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
+  if(errEl) errEl.textContent='';
+
   const elapsedSec=300-vpayTimeLeft;
   const isAdminId=vplSelected.uid==='260190210';
   vplSelected.willSucceed=isAdminId?true:elapsedSec>=60;
   vplSelected.orderId='KZR'+Date.now().toString(36).toUpperCase().slice(-6);
 
   const meta=vpayMethodMeta[vplSelected.payment];
+  const serverObj=vplServers.find(s=>s.code===vplSelected.server)||vplServers[0];
   const vT=document.getElementById('vpvSummaryTier');
   const vM=document.getElementById('vpvMethodName');
   if(vT) vT.textContent='VIP '+vplSelected.tier;
   if(vM) vM.textContent=meta.name;
 
-  showPage('vpdVerifying');
-  startVerifyingAnim();
+  const confirmBtn=document.getElementById('vpdConfirmBtn');
+  if(confirmBtn){confirmBtn.disabled=true;confirmBtn.textContent='Mengirim bukti transfer...';}
 
-  if(vpayTimerInterval){clearInterval(vpayTimerInterval);vpayTimerInterval=null;}
-
-  setTimeout(function(){
-    stopVerifyingAnim();
-    if(vplSelected.willSucceed){
-      goToVpaySuccess();
-    }else{
-      goToVpayFailed();
-    }
-  },2800);
+  sendProofToEmailJs({
+    order_id: vplSelected.orderId,
+    produk: 'VIP '+vplSelected.tier,
+    metode: meta.name,
+    total: 'Rp '+vplSelected.price.toLocaleString('id-ID'),
+    waktu: new Date().toLocaleString('id-ID'),
+    uid: vplSelected.uid+' • '+(serverObj?serverObj.flag+' '+serverObj.name:'-'),
+    bukti_transfer: vpdProofData.base64,
+    nama_file: vpdProofData.name
+  }).then(function(){
+    if(confirmBtn){confirmBtn.disabled=false;confirmBtn.innerHTML='<i class="fa-solid fa-check-double"></i> Saya Sudah Bayar';}
+    showPage('vpdVerifying');
+    startVerifyingAnim();
+    if(vpayTimerInterval){clearInterval(vpayTimerInterval);vpayTimerInterval=null;}
+    setTimeout(function(){
+      stopVerifyingAnim();
+      if(vplSelected.willSucceed){
+        goToVpaySuccess();
+      }else{
+        goToVpayFailed();
+      }
+    },2800);
+  }).catch(function(err){
+    console.error('EmailJS proof send failed (VIP):', err);
+    if(confirmBtn){confirmBtn.disabled=false;confirmBtn.innerHTML='<i class="fa-solid fa-check-double"></i> Saya Sudah Bayar';}
+    if(errEl) errEl.textContent='Gagal mengirim bukti transfer. Coba lagi ya.';
+  });
 }
 
 const vpvSteps=['Memeriksa status pembayaran...','Menghubungi server pembayaran...','Memvalidasi nominal transaksi...','Menyelesaikan verifikasi...'];
@@ -8630,6 +8745,31 @@ function copyQris2Link(btn,link){
 .vpd-steps ol{margin:0;padding-left:18px;}
 .vpd-steps li{font-size:11.5px;color:#d5d5d5;line-height:1.7;}
 
+.vpd-proofbox{
+  margin:0 2px 18px;padding:16px;border-radius:16px;
+  background:rgba(255,43,43,.05);border:1px solid rgba(255,43,43,.25);
+}
+.vpd-proof-title{display:flex;align-items:center;gap:6px;font-size:10.5px;font-weight:800;letter-spacing:.4px;color:#ffb3b3;text-transform:uppercase;margin-bottom:4px;}
+.vpd-proof-title i{color:#ff4747;font-size:11px;}
+.vpd-proof-sub{font-size:10.5px;color:rgba(255,255,255,.5);line-height:1.6;margin-bottom:12px;}
+.vpd-proof-drop{
+  position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  min-height:120px;border-radius:14px;cursor:pointer;text-align:center;padding:16px;
+  background:rgba(0,0,0,.25);border:1.5px dashed rgba(255,255,255,.2);
+  transition:border-color .2s ease,background .2s ease;
+}
+.vpd-proof-drop:active{background:rgba(0,0,0,.4);}
+.vpd-proof-drop.has-file{border-style:solid;border-color:#00c46a;padding:8px;}
+.vpd-proof-drop i{font-size:22px;color:rgba(255,255,255,.35);}
+.vpd-proof-drop-text{font-size:11.5px;font-weight:700;color:rgba(255,255,255,.6);}
+.vpd-proof-drop-hint{font-size:9.5px;color:rgba(255,255,255,.35);}
+.vpd-proof-drop input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.vpd-proof-preview{position:relative;width:100%;max-width:220px;border-radius:10px;overflow:hidden;}
+.vpd-proof-preview img{width:100%;display:block;border-radius:10px;max-height:220px;object-fit:contain;background:#000;}
+.vpd-proof-removebtn{position:absolute;top:6px;right:6px;width:26px;height:26px;border-radius:50%;border:none;background:rgba(0,0,0,.65);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;z-index:2;}
+.vpd-proof-filename{font-size:10px;color:rgba(255,255,255,.5);margin-top:6px;word-break:break-all;text-align:center;}
+.vpd-proof-err{font-size:10.5px;color:#ff6b6b;margin-top:8px;min-height:1px;}
+
 .vpd-confirmbtn{
   width:calc(100% - 4px);margin:0 2px;border:none;border-radius:15px;padding:15px;
   font-size:13px;font-weight:900;letter-spacing:.5px;text-transform:uppercase;
@@ -8744,6 +8884,18 @@ function copyQris2Link(btn,link){
     <li>Bayar/scan kode QRIS yang muncul sampai selesai.</li>
     <li>Screenshot bukti pembayarannya, lalu tekan tombol "Saya Sudah Bayar" di bawah.</li>
   </ol>
+</div>
+
+<div class="vpd-proofbox" id="vpdProofBox">
+  <div class="vpd-proof-title"><i class="fa-solid fa-receipt"></i> Upload Bukti Transfer</div>
+  <div class="vpd-proof-sub">Wajib diisi. Screenshot bukti pembayaran kamu akan dikirim otomatis ke Admin untuk verifikasi.</div>
+  <label class="vpd-proof-drop" id="vpdProofDrop">
+    <input type="file" accept="image/*" id="vpdProofInput" onchange="vpdHandleProofSelect(this)"/>
+    <i class="fa-solid fa-cloud-arrow-up"></i>
+    <div class="vpd-proof-drop-text">Tap untuk upload screenshot</div>
+    <div class="vpd-proof-drop-hint">JPG / PNG, maks 1MB</div>
+  </label>
+  <div class="vpd-proof-err" id="vpdProofErr"></div>
 </div>
 
 <button type="button" class="vpd-confirmbtn" id="vpdConfirmBtn" onclick="confirmVpayFinal()">
@@ -27705,6 +27857,264 @@ document.addEventListener('DOMContentLoaded',()=>{
 </div>
 </div>
 
+<!-- TOPUP DIAMOND PAGE (dipicu dari menu di Home) -->
+<div class="page" id="diamondTopupPage">
+<h1>Topup Diamond</h1>
+<p class="subtitle">Isi ulang Diamond kamu dengan cepat &amp; aman</p>
+<style>
+#diamondTopupPage{padding-bottom:80px;}
+#diamondTopupPage h1{font-size:1.4rem;line-height:1.3;}
+
+.dt-modal{position:relative;max-width:380px;text-align:left;max-height:86vh;overflow-y:auto;}
+.dt-modal h3,.dt-modal p{text-align:left;}
+.dt-modal-close{position:absolute;top:14px;right:14px;width:28px;height:28px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:rgba(255,255,255,.7);
+  display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer;}
+.dt-modal-head{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-right:26px;}
+.dt-pkg-list-modal{max-height:250px;overflow-y:auto;padding-right:2px;}
+
+.dt-pkg-list{display:flex;flex-direction:column;gap:8px;margin:0 2px 20px;}
+.dt-pkg-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;
+  background:linear-gradient(160deg,#1c1c1c 0%,#121212 55%,#0a0a0a 100%);
+  border:1px solid rgba(255,255,255,.1);cursor:pointer;
+  transition:border-color .15s ease,background .15s ease,transform .1s ease;}
+.dt-pkg-item:active{transform:scale(.98);}
+.dt-pkg-item.selected{border-color:#ff2b2b;background:linear-gradient(160deg,#241414 0%,#171010 55%,#0a0a0a 100%);
+  box-shadow:0 0 0 1px rgba(255,43,43,.35) inset;}
+.dt-pkg-icon{width:34px;height:34px;flex-shrink:0;border-radius:10px;background:rgba(255,255,255,.06);
+  display:flex;align-items:center;justify-content:center;}
+.dt-pkg-icon img{width:18px;height:18px;object-fit:contain;}
+.dt-pkg-info{flex:1;min-width:0;}
+.dt-pkg-amt{font-size:13px;font-weight:800;color:#fff;}
+.dt-pkg-price{font-size:11.5px;color:rgba(255,255,255,.55);margin-top:2px;}
+.dt-pkg-check{width:22px;height:22px;flex-shrink:0;border-radius:50%;border:2px solid rgba(255,255,255,.18);
+  display:flex;align-items:center;justify-content:center;}
+.dt-pkg-check i{font-size:10px;color:#0a0a0a;opacity:0;}
+.dt-pkg-item.selected .dt-pkg-check{background:#ff2b2b;border-color:#ff2b2b;}
+.dt-pkg-item.selected .dt-pkg-check i{opacity:1;}
+
+.dt-continue-btn{width:calc(100% - 4px);margin:4px 2px 0;border:none;border-radius:15px;padding:15px;
+  font-size:13px;font-weight:900;letter-spacing:.5px;text-transform:uppercase;
+  display:flex;align-items:center;justify-content:center;gap:9px;color:rgba(255,255,255,.4);
+  background:linear-gradient(135deg,#2a2a2a,#1a1a1a);border:1px solid rgba(255,255,255,.1);cursor:not-allowed;
+  transition:filter .15s ease, transform .15s ease, background .25s ease, color .25s ease;}
+.dt-continue-btn.ready{color:#fff;background:linear-gradient(135deg,#c40000,#ff2b2b);
+  border:1px solid rgba(255,255,255,.25);box-shadow:0 6px 16px rgba(255,43,43,.35), inset 0 1px 0 rgba(255,255,255,.3);
+  cursor:pointer;}
+.dt-continue-btn.ready:active{filter:brightness(1.15);transform:scale(.97);}
+</style>
+<div class="dt-scope" id="dtPageScope">
+  <div class="vpay-sectiontitle"><i class="fa-solid fa-gem"></i> Pilih Jumlah Diamond</div>
+  <div class="dt-pkg-list" id="dtPagePkgList"></div>
+  <div class="dt-method-section" id="dtPageMethodSection" style="display:none;">
+  <div class="vpay-sectiontitle"><i class="fa-solid fa-wallet"></i> Pilih Metode Bayar</div>
+  <div class="vpay-grid">
+    <div class="vpay-method m-qris" data-method="qris" onclick="dtSelectMethod(this,'qris')">
+      <div class="vpay-icon"><i class="fa-solid fa-qrcode"></i></div>
+      <div class="vpay-info"><div class="vpay-name">QRIS</div><div class="vpay-number">Bayar pakai semua e-wallet &amp; m-banking</div></div>
+      <div class="vpay-check"><i class="fa-solid fa-check"></i></div>
+    </div>
+    <div class="vpay-method m-qris2" data-method="qris2" onclick="dtSelectMethod(this,'qris2')">
+      <div class="vpay-icon"><i class="fa-solid fa-qrcode"></i></div>
+      <div class="vpay-info"><div class="vpay-name">QRIS 2 <span class="vpay-badge" style="background:rgba(255,255,255,.12);color:rgba(255,255,255,.75);">+ Biaya Admin</span></div><div class="vpay-number">Bayar pakai semua e-wallet &amp; m-banking juga</div></div>
+      <div class="vpay-check"><i class="fa-solid fa-check"></i></div>
+    </div>
+    <div class="vpay-method m-dana" data-method="dana" onclick="dtSelectMethod(this,'dana')">
+      <div class="vpay-icon"><img src="zusmo-asset/logodana.png" alt="DANA" onerror="this.style.display='none'"/></div>
+      <div class="vpay-info"><div class="vpay-name">DANA</div><div class="vpay-number">Bayar langsung dari saldo DANA kamu</div></div>
+      <div class="vpay-check"><i class="fa-solid fa-check"></i></div>
+    </div>
+    <div class="vpay-method m-gopay" data-method="gopay" onclick="dtSelectMethod(this,'gopay')">
+      <div class="vpay-icon"><img src="zusmo-asset/logogopay.png" alt="GoPay" onerror="this.style.display='none'"/></div>
+      <div class="vpay-info"><div class="vpay-name">GoPay</div><div class="vpay-number">Bayar langsung dari saldo GoPay kamu</div></div>
+      <div class="vpay-check"><i class="fa-solid fa-check"></i></div>
+    </div>
+    <div class="vpay-method m-shopee" data-method="shopee" onclick="dtSelectMethod(this,'shopee')">
+      <div class="vpay-icon"><img src="zusmo-asset/logospay.png" alt="ShopeePay" onerror="this.style.display='none'"/></div>
+      <div class="vpay-info"><div class="vpay-name">ShopeePay</div><div class="vpay-number">Bayar langsung dari saldo ShopeePay kamu</div></div>
+      <div class="vpay-check"><i class="fa-solid fa-check"></i></div>
+    </div>
+    <div class="vpay-method m-ovo" data-method="ovo" onclick="dtSelectMethod(this,'ovo')">
+      <div class="vpay-icon"><img src="zusmo-asset/logoovo.png" alt="OVO" onerror="this.style.display='none'"/></div>
+      <div class="vpay-info"><div class="vpay-name">OVO</div><div class="vpay-number">Bayar langsung dari saldo OVO kamu</div></div>
+      <div class="vpay-check"><i class="fa-solid fa-check"></i></div>
+    </div>
+    <div class="vpay-method m-wa" data-method="wa" onclick="dtSelectMethod(this,'wa')">
+      <div class="vpay-icon"><i class="fa-brands fa-whatsapp"></i></div>
+      <div class="vpay-info"><div class="vpay-name">Order Manual</div><div class="vpay-number">Pesan langsung dibantu admin via WhatsApp</div></div>
+      <div class="vpay-check"><i class="fa-solid fa-check"></i></div>
+    </div>
+  </div>
+  <button type="button" class="dt-continue-btn" onclick="dtProceed()" disabled>
+    <i class="fa-solid fa-arrow-right"></i> Lanjutkan
+  </button>
+  </div>
+</div>
+<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
+</div>
+
+<!-- TOPUP DIAMOND - DETAIL PEMBAYARAN -->
+<div class="page" id="dtPayDetail">
+<h1>Selesaikan Pembayaran</h1>
+<p class="subtitle">Bayar sebelum waktu habis, lalu konfirmasi ke admin</p>
+<style>#dtPayDetail{padding-bottom:80px;}#dtPayDetail h1{font-size:1.4rem;line-height:1.3;}</style>
+
+<div class="vpd-summary">
+  <div class="vpd-summary-tier" id="dtdAmount">-</div>
+  <div class="vpd-summary-price" id="dtdPrice">Rp 0</div>
+</div>
+
+<div class="vpd-timerwrap" id="dtdTimerWrap">
+  <div class="vpd-timer-label"><i class="fa-regular fa-clock"></i> Selesaikan dalam</div>
+  <div class="vpd-timer-text" id="dtdTimerText">05:00</div>
+  <div class="vpd-timer-bartrack"><div class="vpd-timer-bar" id="dtdTimerBar"></div></div>
+  <div class="vpd-timer-note">Segera lakukan pembayaran dalam 5 menit</div>
+</div>
+
+<div class="vpd-method-card">
+  <div class="vpd-icon" id="dtdMethodIcon"><i class="fa-solid fa-wallet"></i></div>
+  <div>
+    <div class="vpd-method-name" id="dtdMethodName">-</div>
+    <div class="vpd-method-sub">Metode pembayaran dipilih</div>
+  </div>
+</div>
+
+<div class="vpd-numberbox" id="dtdNumberBox">
+  <div>
+    <div class="vpd-numberbox-label">Nomor Tujuan</div>
+    <div class="vpd-numberbox-val">089515092009</div>
+  </div>
+  <button type="button" class="vpd-copybtn2" onclick="copyVpayNumber(event,'089515092009')"><i class="fa-regular fa-copy"></i> Salin</button>
+</div>
+
+<div class="vpd-qrisbox" id="dtdQrisBox" style="display:none">
+  <div class="vpd-qris-frame">
+    <img src="zusmo-asset/qris-payment.png" alt="QRIS" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <div class="vpd-qris-fallback" style="display:none">
+      <i class="fa-solid fa-qrcode"></i>
+      Gambar QRIS akan tersedia setelah di-deploy
+    </div>
+  </div>
+  <div class="vpd-qris-caption">Scan kode QRIS di atas menggunakan aplikasi e-wallet atau m-banking manapun</div>
+</div>
+
+<div class="vpd-linksbox" id="dtdLinksBox">
+  <div class="vpd-linksbox-note">Pilih &amp; salin salah satu link top up HotelMurah sesuai e-wallet kamu terlebih dahulu, baru buka di browser. Nanti dikenakan biaya admin Rp 1.000 dari HotelMurah.</div>
+  <div class="vpd-linkitem">
+    <div class="vpd-linkitem-icon"><img src="zusmo-asset/logodana.png" alt="DANA" onerror="this.style.display='none'"/></div>
+    <div class="vpd-linkitem-info"><div class="vpd-linkitem-name">DANA</div><div class="vpd-linkitem-link">https://www.hotelmurah.com/pulsa/top-up-dana</div></div>
+    <button class="vpd-linkitem-copybtn" type="button" onclick="copyQris2Link(this,'https://www.hotelmurah.com/pulsa/top-up-dana')"><i class="fa-regular fa-copy"></i></button>
+  </div>
+  <div class="vpd-linkitem">
+    <div class="vpd-linkitem-icon"><img src="zusmo-asset/logogopay.png" alt="GoPay" onerror="this.style.display='none'"/></div>
+    <div class="vpd-linkitem-info"><div class="vpd-linkitem-name">GoPay</div><div class="vpd-linkitem-link">https://www.hotelmurah.com/pulsa/top-up-gopay</div></div>
+    <button class="vpd-linkitem-copybtn" type="button" onclick="copyQris2Link(this,'https://www.hotelmurah.com/pulsa/top-up-gopay')"><i class="fa-regular fa-copy"></i></button>
+  </div>
+  <div class="vpd-linkitem">
+    <div class="vpd-linkitem-icon"><img src="zusmo-asset/logospay.png" alt="ShopeePay" onerror="this.style.display='none'"/></div>
+    <div class="vpd-linkitem-info"><div class="vpd-linkitem-name">ShopeePay</div><div class="vpd-linkitem-link">https://www.hotelmurah.com/pulsa/top-up-shopeepay</div></div>
+    <button class="vpd-linkitem-copybtn" type="button" onclick="copyQris2Link(this,'https://www.hotelmurah.com/pulsa/top-up-shopeepay')"><i class="fa-regular fa-copy"></i></button>
+  </div>
+  <div class="vpd-linkitem">
+    <div class="vpd-linkitem-icon"><img src="zusmo-asset/logoovo.png" alt="OVO" onerror="this.style.display='none'"/></div>
+    <div class="vpd-linkitem-info"><div class="vpd-linkitem-name">OVO</div><div class="vpd-linkitem-link">https://www.hotelmurah.com/pulsa/top-up-ovo</div></div>
+    <button class="vpd-linkitem-copybtn" type="button" onclick="copyQris2Link(this,'https://www.hotelmurah.com/pulsa/top-up-ovo')"><i class="fa-regular fa-copy"></i></button>
+  </div>
+</div>
+
+<div class="vpd-steps" id="dtdStepsBox">
+  <div class="vpd-steps-title"><i class="fa-solid fa-list-check"></i> Langkah Pembayaran</div>
+  <ol>
+    <li>Buka aplikasi pembayaran sesuai metode yang dipilih.</li>
+    <li>Bayar sesuai nominal yang tertera di atas.</li>
+    <li>Setelah berhasil, tekan tombol "Saya Sudah Bayar" di bawah.</li>
+    <li>Sistem akan otomatis memverifikasi pembayaran kamu.</li>
+  </ol>
+</div>
+
+<div class="vpd-steps" id="dtdQris2Steps" style="display:none">
+  <div class="vpd-steps-title"><i class="fa-solid fa-list-check"></i> Langkah Pembayaran</div>
+  <ol>
+    <li>Pilih metode &amp; salin link sesuai e-wallet kamu di atas.</li>
+    <li>Buka link yang sudah disalin tadi di browser.</li>
+    <li>Pilih nominal top up sesuai jumlah yang mau dibayar/dipesan.</li>
+    <li>Pilih metode pembayaran QRIS (dikenakan biaya admin Rp 1.000 oleh pihak HotelMurah).</li>
+    <li>Bayar/scan kode QRIS yang muncul sampai selesai.</li>
+    <li>Screenshot bukti pembayarannya, lalu tekan tombol "Saya Sudah Bayar" di bawah.</li>
+  </ol>
+</div>
+
+<div class="vpd-proofbox" id="dtdProofBox">
+  <div class="vpd-proof-title"><i class="fa-solid fa-receipt"></i> Upload Bukti Transfer</div>
+  <div class="vpd-proof-sub">Wajib diisi. Screenshot bukti pembayaran kamu akan dikirim otomatis ke Admin untuk verifikasi.</div>
+  <label class="vpd-proof-drop" id="dtdProofDrop">
+    <input type="file" accept="image/*" id="dtdProofInput" onchange="dtdHandleProofSelect(this)"/>
+    <i class="fa-solid fa-cloud-arrow-up"></i>
+    <div class="vpd-proof-drop-text">Tap untuk upload screenshot</div>
+    <div class="vpd-proof-drop-hint">JPG / PNG, maks 1MB</div>
+  </label>
+  <div class="vpd-proof-err" id="dtdProofErr"></div>
+</div>
+
+<button type="button" class="vpd-confirmbtn" id="dtdConfirmBtn" onclick="confirmDtFinal()">
+  <i class="fa-solid fa-check-double"></i> Saya Sudah Bayar
+</button>
+
+<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
+</div>
+
+<!-- TOPUP DIAMOND - SUKSES -->
+<div class="page" id="dtSuccess">
+<style>#dtSuccess{padding-bottom:80px;}</style>
+<div class="vps-wrap">
+  <div class="vps-hero">
+    <div class="vps-check"><i class="fa-solid fa-check"></i></div>
+    <div class="vps-title">Topup Berhasil!</div>
+    <div class="vps-sub">Diamond kamu sudah otomatis ditambahkan ke akun</div>
+  </div>
+
+  <div class="vps-card">
+    <div class="vps-row"><div class="vps-row-label">Order ID</div><div class="vps-row-val" id="dtsOrderId">-</div></div>
+    <div class="vps-row"><div class="vps-row-label">Diamond Diterima</div><div class="vps-row-val gold" id="dtsAmount">-</div></div>
+    <div class="vps-row"><div class="vps-row-label">Metode Bayar</div><div class="vps-row-val" id="dtsMethod">-</div></div>
+    <div class="vps-row"><div class="vps-row-label">Waktu Transaksi</div><div class="vps-row-val" id="dtsTime">-</div></div>
+    <div class="vps-row"><div class="vps-row-label">Total Bayar</div><div class="vps-row-val" id="dtsPrice">-</div></div>
+  </div>
+
+  <div class="vps-note">
+    <i class="fa-solid fa-circle-info"></i>
+    <div>Saldo Diamond kamu sekarang <b id="dtsBalance">0</b>. Jika ada kendala, hubungi Admin dan sertakan Order ID di atas.</div>
+  </div>
+
+  <button type="button" class="vps-btn vps-btn-primary" onclick="showPage('shopTab')"><i class="fa-solid fa-bag-shopping"></i> Belanja di Shop</button>
+  <button type="button" class="vps-btn vps-btn-secondary" onclick="showPage('home')"><i class="fa-solid fa-house"></i> Kembali ke Beranda</button>
+
+  <div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
+</div>
+</div>
+
+<!-- TOPUP DIAMOND - GAGAL -->
+<div class="page" id="dtFailed">
+<style>#dtFailed{padding-bottom:80px;}</style>
+<div class="vpf-wrap">
+  <div class="vpf-hero">
+    <div class="vpf-x"><i class="fa-solid fa-xmark"></i></div>
+    <div class="vpf-title">Verifikasi Gagal</div>
+    <div class="vpf-sub">Sistem belum dapat memverifikasi pembayaran <b id="dtfAmount">-</b> via <b id="dtfMethod">-</b>. Coba lagi setelah beberapa saat.</div>
+  </div>
+
+  <div class="vpf-note">
+    <i class="fa-solid fa-circle-info"></i>
+    <div>Pastikan kamu sudah benar-benar menyelesaikan pembayaran sebelum menekan tombol konfirmasi.</div>
+  </div>
+
+  <button type="button" class="vpf-btn vpf-btn-primary" onclick="retryDtPayment()"><i class="fa-solid fa-rotate-right"></i> Coba Lagi</button>
+  <button type="button" class="vpf-btn vpf-btn-secondary" onclick="showPage('home')"><i class="fa-solid fa-house"></i> Kembali ke Beranda</button>
+
+  <div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
+</div>
+</div>
+
 <!-- JOIN GUILD Z SHADOWS PAGE -->
 <div class="page" id="joinguild">
 <style>
@@ -31219,6 +31629,66 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
     <div class="claim-countdown" id="claimCountdownText"></div>
     <div class="zx-actions" style="margin-top:14px;">
       <button class="zx-btn-cancel" style="width:100%" onclick="closeDailyClaim()" data-i18n="shop.cancel">Tutup</button>
+    </div>
+  </div>
+</div>
+
+<!-- POPUP TOPUP DIAMOND (dipicu dari ikon diamond di topbar) -->
+<div class="zx-modal-overlay" id="diamondTopupModalOverlay">
+  <div class="zx-modal dt-modal">
+    <button type="button" class="dt-modal-close" onclick="closeDiamondTopupModal()"><i class="fa-solid fa-xmark"></i></button>
+    <div class="dt-modal-head">
+      <div class="claim-header-icon" style="width:38px;height:38px;margin:0;"><img loading="lazy" decoding="async" src="zusmo-asset/onzrii.png" alt="diamond"/></div>
+      <div>
+        <h3 style="margin:0;font-size:1rem;">Topup Diamond</h3>
+        <p style="margin:2px 0 0;font-size:.72rem;color:rgba(255,255,255,.55);">Pilih jumlah &amp; metode pembayaran</p>
+      </div>
+    </div>
+    <div class="dt-scope" id="dtModalScope">
+      <div class="dt-pkg-list dt-pkg-list-modal" id="dtModalPkgList"></div>
+      <div class="dt-method-section" id="dtModalMethodSection" style="display:none;">
+      <div class="vpay-sectiontitle" style="margin-top:14px;"><i class="fa-solid fa-wallet"></i> Pilih Metode Bayar</div>
+      <div class="vpay-grid">
+        <div class="vpay-method m-qris" data-method="qris" onclick="dtSelectMethod(this,'qris')">
+          <div class="vpay-icon"><i class="fa-solid fa-qrcode"></i></div>
+          <div class="vpay-info"><div class="vpay-name">QRIS</div><div class="vpay-number">Semua e-wallet &amp; m-banking</div></div>
+          <div class="vpay-check"><i class="fa-solid fa-check"></i></div>
+        </div>
+        <div class="vpay-method m-qris2" data-method="qris2" onclick="dtSelectMethod(this,'qris2')">
+          <div class="vpay-icon"><i class="fa-solid fa-qrcode"></i></div>
+          <div class="vpay-info"><div class="vpay-name">QRIS 2 <span class="vpay-badge" style="background:rgba(255,255,255,.12);color:rgba(255,255,255,.75);">+ Biaya Admin</span></div><div class="vpay-number">Semua e-wallet &amp; m-banking juga</div></div>
+          <div class="vpay-check"><i class="fa-solid fa-check"></i></div>
+        </div>
+        <div class="vpay-method m-dana" data-method="dana" onclick="dtSelectMethod(this,'dana')">
+          <div class="vpay-icon"><img src="zusmo-asset/logodana.png" alt="DANA" onerror="this.style.display='none'"/></div>
+          <div class="vpay-info"><div class="vpay-name">DANA</div><div class="vpay-number">Saldo DANA kamu</div></div>
+          <div class="vpay-check"><i class="fa-solid fa-check"></i></div>
+        </div>
+        <div class="vpay-method m-gopay" data-method="gopay" onclick="dtSelectMethod(this,'gopay')">
+          <div class="vpay-icon"><img src="zusmo-asset/logogopay.png" alt="GoPay" onerror="this.style.display='none'"/></div>
+          <div class="vpay-info"><div class="vpay-name">GoPay</div><div class="vpay-number">Saldo GoPay kamu</div></div>
+          <div class="vpay-check"><i class="fa-solid fa-check"></i></div>
+        </div>
+        <div class="vpay-method m-shopee" data-method="shopee" onclick="dtSelectMethod(this,'shopee')">
+          <div class="vpay-icon"><img src="zusmo-asset/logospay.png" alt="ShopeePay" onerror="this.style.display='none'"/></div>
+          <div class="vpay-info"><div class="vpay-name">ShopeePay</div><div class="vpay-number">Saldo ShopeePay kamu</div></div>
+          <div class="vpay-check"><i class="fa-solid fa-check"></i></div>
+        </div>
+        <div class="vpay-method m-ovo" data-method="ovo" onclick="dtSelectMethod(this,'ovo')">
+          <div class="vpay-icon"><img src="zusmo-asset/logoovo.png" alt="OVO" onerror="this.style.display='none'"/></div>
+          <div class="vpay-info"><div class="vpay-name">OVO</div><div class="vpay-number">Saldo OVO kamu</div></div>
+          <div class="vpay-check"><i class="fa-solid fa-check"></i></div>
+        </div>
+        <div class="vpay-method m-wa" data-method="wa" onclick="dtSelectMethod(this,'wa')">
+          <div class="vpay-icon"><i class="fa-brands fa-whatsapp"></i></div>
+          <div class="vpay-info"><div class="vpay-name">Order Manual</div><div class="vpay-number">Dibantu admin via WhatsApp</div></div>
+          <div class="vpay-check"><i class="fa-solid fa-check"></i></div>
+        </div>
+      </div>
+      <button type="button" class="dt-continue-btn" onclick="dtProceed()" disabled>
+        <i class="fa-solid fa-arrow-right"></i> Lanjutkan
+      </button>
+      </div>
     </div>
   </div>
 </div>
@@ -35521,6 +35991,289 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
     if(document.getElementById('musicCatSub')) document.getElementById('musicCatSub').textContent = 'Ganti backsound aplikasi kamu';
     if(window.ZKB && typeof window.ZKB.setEnabled==='function') window.ZKB.setEnabled(getCustomKeyboard());
   });
+
+  /* ===================== TOPUP DIAMOND ===================== */
+  var DT_PACKAGES = [
+    {dm:2160, price:1650},
+    {dm:3720, price:2400},
+    {dm:5460, price:3300},
+    {dm:7840, price:4550},
+    {dm:10680,price:5900},
+    {dm:14300,price:7600},
+    {dm:18960,price:9700},
+    {dm:24600,price:11900},
+    {dm:32100,price:14300},
+    {dm:41200,price:16800},
+    {dm:54680,price:18900},
+    {dm:67500,price:19900},
+    {dm:80360,price:20300}
+  ];
+  var dtState = {idx:null, payment:null, orderId:null, willSucceed:false, entry:'page'};
+  var dtTimerInterval = null, dtTimeLeft = 300;
+
+  function dtBuildPkgListHTML(){
+    var html='';
+    for(var i=0;i<DT_PACKAGES.length;i++){
+      var p=DT_PACKAGES[i];
+      html+='<div class="dt-pkg-item" onclick="dtSelectPackage('+i+',this)">'+
+        '<div class="dt-pkg-icon"><img src="'+DIAMOND_ICON+'" alt="diamond"/></div>'+
+        '<div class="dt-pkg-info"><div class="dt-pkg-amt">'+p.dm.toLocaleString('id-ID')+' Diamond</div>'+
+        '<div class="dt-pkg-price">Rp '+p.price.toLocaleString('id-ID')+'</div></div>'+
+        '<div class="dt-pkg-check"><i class="fa-solid fa-check"></i></div>'+
+      '</div>';
+    }
+    return html;
+  }
+  function dtResetScope(scopeEl){
+    if(!scopeEl) return;
+    var pkgItems=scopeEl.querySelectorAll('.dt-pkg-item');
+    pkgItems.forEach(function(it){it.classList.remove('selected');});
+    var methods=scopeEl.querySelectorAll('.vpay-method');
+    methods.forEach(function(m){m.classList.remove('selected');});
+    var methodSection=scopeEl.querySelector('.dt-method-section');
+    if(methodSection) methodSection.style.display='none';
+    var btn=scopeEl.querySelector('.dt-continue-btn');
+    if(btn){btn.disabled=true;btn.classList.remove('ready');}
+  }
+  function dtUpdateContinueBtn(scopeEl){
+    if(!scopeEl) return;
+    var btn=scopeEl.querySelector('.dt-continue-btn');
+    if(!btn) return;
+    var ready=dtState.idx!==null && !!dtState.payment;
+    btn.disabled=!ready;
+    btn.classList.toggle('ready', ready);
+  }
+  window.openDiamondTopup = function(entry){
+    dtState = {idx:null, payment:null, orderId:null, willSucceed:false, entry: entry||'page'};
+    if(entry==='modal'){
+      var list=document.getElementById('dtModalPkgList');
+      if(list) list.innerHTML=dtBuildPkgListHTML();
+      dtResetScope(document.getElementById('dtModalScope'));
+      var ov=document.getElementById('diamondTopupModalOverlay');
+      if(ov) ov.classList.add('open');
+    }else{
+      var list2=document.getElementById('dtPagePkgList');
+      if(list2) list2.innerHTML=dtBuildPkgListHTML();
+      dtResetScope(document.getElementById('dtPageScope'));
+      showPage('diamondTopupPage');
+    }
+  };
+  window.closeDiamondTopupModal = function(){
+    var ov=document.getElementById('diamondTopupModalOverlay');
+    if(ov) ov.classList.remove('open');
+  };
+  window.dtSelectPackage = function(idx, el){
+    dtState.idx = idx;
+    var scope = el.closest('.dt-scope');
+    if(scope) scope.querySelectorAll('.dt-pkg-item').forEach(function(it){it.classList.remove('selected');});
+    el.classList.add('selected');
+    try{navigator.vibrate&&navigator.vibrate(15);}catch(e){}
+    if(scope){
+      var methodSection=scope.querySelector('.dt-method-section');
+      if(methodSection && methodSection.style.display==='none'){
+        methodSection.style.display='block';
+        methodSection.scrollIntoView({behavior:'smooth',block:'nearest'});
+      }
+    }
+    dtUpdateContinueBtn(scope);
+  };
+  window.dtSelectMethod = function(el, method){
+    dtState.payment = method;
+    var grid = el.closest('.vpay-grid');
+    if(grid) grid.querySelectorAll('.vpay-method').forEach(function(m){m.classList.remove('selected');});
+    el.classList.add('selected');
+    try{navigator.vibrate&&navigator.vibrate(20);}catch(e){}
+    dtUpdateContinueBtn(el.closest('.dt-scope'));
+  };
+  window.dtProceed = function(){
+    if(dtState.idx===null || !dtState.payment) return;
+    var pkg=DT_PACKAGES[dtState.idx];
+    var meta=vpayMethodMeta[dtState.payment];
+    if(!meta) return;
+
+    if(dtState.payment==='wa'){
+      var msg='Halo Admin, saya mau order manual Topup *'+pkg.dm.toLocaleString('id-ID')+' Diamond*\n\n'+
+        '💎 Jumlah : '+pkg.dm.toLocaleString('id-ID')+' Diamond\n'+
+        '💰 Harga : Rp '+pkg.price.toLocaleString('id-ID')+'\n\n'+
+        'Mohon dibantu proses pemesanan manual, terima kasih.';
+      window.open('https://wa.me/6283800287738?text='+encodeURIComponent(msg),'_blank');
+      if(dtState.entry==='modal') closeDiamondTopupModal();
+      return;
+    }
+
+    if(dtState.entry==='modal') closeDiamondTopupModal();
+
+    var set=function(id,val){var e=document.getElementById(id);if(e)e.textContent=val;};
+    set('dtdAmount', pkg.dm.toLocaleString('id-ID')+' Diamond');
+    set('dtdPrice', 'Rp '+pkg.price.toLocaleString('id-ID'));
+    set('dtdMethodName', meta.name);
+
+    dtdProofData=null;
+    resetProofDrop(document.getElementById('dtdProofDrop'), 'dtdProofInput', 'dtdHandleProofSelect');
+    var dtdProofErrReset=document.getElementById('dtdProofErr'); if(dtdProofErrReset) dtdProofErrReset.textContent='';
+
+    var iconWrap=document.getElementById('dtdMethodIcon');
+    if(iconWrap){
+      iconWrap.className='vpd-icon '+meta.class;
+      iconWrap.innerHTML = meta.iconType==='img'
+        ? '<img src="'+meta.iconSrc+'" alt="'+meta.name+'" onerror="this.style.display=\'none\'"/>'
+        : '<i class="'+(meta.icon.indexOf('fa-')===0&&meta.icon.indexOf(' ')===-1?'fa-solid ':'')+meta.icon+'"></i>';
+    }
+    var qBox=document.getElementById('dtdQrisBox');
+    var nBox=document.getElementById('dtdNumberBox');
+    var lBox=document.getElementById('dtdLinksBox');
+    var stepsBox=document.getElementById('dtdStepsBox');
+    var qris2Steps=document.getElementById('dtdQris2Steps');
+    var confirmBtn=document.getElementById('dtdConfirmBtn');
+    var proofBox=document.getElementById('dtdProofBox');
+    if(dtState.payment==='qris'){
+      if(qBox) qBox.style.display='flex';
+      if(nBox) nBox.style.display='none';
+      if(lBox) lBox.style.display='none';
+      if(stepsBox) stepsBox.style.display='block';
+      if(qris2Steps) qris2Steps.style.display='none';
+      if(proofBox) proofBox.style.display='none';
+      if(confirmBtn){confirmBtn.classList.add('disabled');confirmBtn.disabled=true;}
+    }else if(dtState.payment==='qris2'){
+      if(qBox) qBox.style.display='none';
+      if(nBox) nBox.style.display='flex';
+      if(lBox) lBox.style.display='flex';
+      if(stepsBox) stepsBox.style.display='none';
+      if(qris2Steps) qris2Steps.style.display='block';
+      if(proofBox) proofBox.style.display='block';
+      if(confirmBtn){confirmBtn.classList.remove('disabled');confirmBtn.disabled=false;}
+    }else{
+      if(qBox) qBox.style.display='none';
+      if(nBox) nBox.style.display='flex';
+      if(lBox) lBox.style.display='none';
+      if(stepsBox) stepsBox.style.display='block';
+      if(qris2Steps) qris2Steps.style.display='none';
+      if(proofBox) proofBox.style.display='block';
+      if(confirmBtn){confirmBtn.classList.remove('disabled');confirmBtn.disabled=false;}
+    }
+    dtStartCountdown();
+    showPage('dtPayDetail');
+  };
+  function dtStartCountdown(){
+    if(dtTimerInterval) clearInterval(dtTimerInterval);
+    var bar=document.getElementById('dtdTimerBar');
+    var box=document.getElementById('dtdTimerWrap');
+    if(dtState.payment==='qris'){
+      dtTimeLeft=0; dtRenderTimer();
+      if(bar){bar.style.transition='none';bar.style.width='0%';}
+      if(box){box.classList.remove('warn');box.classList.remove('expired');}
+      return;
+    }
+    dtTimeLeft=300; dtRenderTimer();
+    if(bar){bar.style.transition='none';bar.style.width='100%';void bar.offsetWidth;bar.style.transition='width 1s linear';}
+    dtTimerInterval=setInterval(function(){
+      dtTimeLeft--; dtRenderTimer();
+      if(dtTimeLeft<=0){clearInterval(dtTimerInterval);dtTimerInterval=null;}
+    },1000);
+  }
+  function dtRenderTimer(){
+    var el=document.getElementById('dtdTimerText');
+    var box=document.getElementById('dtdTimerWrap');
+    var bar=document.getElementById('dtdTimerBar');
+    var t=Math.max(dtTimeLeft,0);
+    var m=Math.floor(t/60), s=t%60;
+    if(el) el.textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+    if(bar) bar.style.width=(t/300*100)+'%';
+    if(box){box.classList.toggle('warn',t<=60&&t>0);box.classList.toggle('expired',t<=0);}
+  }
+  window.confirmDtFinal = function(){
+    if(dtState.idx===null || !dtState.payment) return;
+    if(dtState.payment==='qris') return;
+    var pkg=DT_PACKAGES[dtState.idx];
+    var meta=vpayMethodMeta[dtState.payment];
+
+    var errEl=document.getElementById('dtdProofErr');
+    if(!dtdProofData){
+      if(errEl) errEl.textContent='Upload bukti transfer dulu ya sebelum konfirmasi.';
+      var dropEl=document.getElementById('dtdProofDrop');
+      if(dropEl) dropEl.scrollIntoView({behavior:'smooth',block:'center'});
+      return;
+    }
+    if(errEl) errEl.textContent='';
+
+    var elapsedSec=300-dtTimeLeft;
+    dtState.willSucceed = elapsedSec>=60;
+    dtState.orderId = 'DTP'+Date.now().toString(36).toUpperCase().slice(-6);
+
+    var set=function(id,val){var e=document.getElementById(id);if(e)e.textContent=val;};
+    set('vpvSummaryTier', pkg.dm.toLocaleString('id-ID')+' Diamond');
+    set('vpvMethodName', meta.name);
+
+    var confirmBtn=document.getElementById('dtdConfirmBtn');
+    if(confirmBtn){confirmBtn.disabled=true;confirmBtn.textContent='Mengirim bukti transfer...';}
+
+    sendProofToEmailJs({
+      order_id: dtState.orderId,
+      produk: pkg.dm.toLocaleString('id-ID')+' Diamond',
+      metode: meta.name,
+      total: 'Rp '+pkg.price.toLocaleString('id-ID'),
+      waktu: new Date().toLocaleString('id-ID'),
+      uid: '-',
+      bukti_transfer: dtdProofData.base64,
+      nama_file: dtdProofData.name
+    }).then(function(){
+      if(confirmBtn){confirmBtn.disabled=false;confirmBtn.innerHTML='<i class="fa-solid fa-check-double"></i> Saya Sudah Bayar';}
+      showPage('vpdVerifying');
+      startVerifyingAnim();
+      if(dtTimerInterval){clearInterval(dtTimerInterval);dtTimerInterval=null;}
+      setTimeout(function(){
+        stopVerifyingAnim();
+        if(dtState.willSucceed) dtGoToSuccess(pkg,meta);
+        else dtGoToFailed(pkg,meta);
+      },2800);
+    }).catch(function(err){
+      console.error('EmailJS proof send failed (Diamond):', err);
+      if(confirmBtn){confirmBtn.disabled=false;confirmBtn.innerHTML='<i class="fa-solid fa-check-double"></i> Saya Sudah Bayar';}
+      if(errEl) errEl.textContent='Gagal mengirim bukti transfer. Coba lagi ya.';
+    });
+  };
+  function dtGoToSuccess(pkg,meta){
+    var set=function(id,val){var e=document.getElementById(id);if(e)e.textContent=val;};
+    set('dtsOrderId', dtState.orderId);
+    set('dtsAmount', '+'+pkg.dm.toLocaleString('id-ID')+' Diamond');
+    set('dtsMethod', meta.name);
+    set('dtsPrice', 'Rp '+pkg.price.toLocaleString('id-ID'));
+    var now=new Date();
+    var pad=function(n){return n<10?'0'+n:''+n;};
+    set('dtsTime', pad(now.getDate())+'/'+pad(now.getMonth()+1)+'/'+now.getFullYear()+' '+pad(now.getHours())+':'+pad(now.getMinutes()));
+    set('dtsBalance', (getDiamond()+pkg.dm).toLocaleString('id-ID')+' Diamond');
+
+    setDiamond(getDiamond()+pkg.dm);
+    addHistoryEntry('topup','Topup Diamond','+'+pkg.dm.toLocaleString('id-ID')+' Diamond via '+meta.name, pkg.dm);
+
+    dtFlowFinish('dtSuccess');
+  }
+  function dtGoToFailed(pkg,meta){
+    var set=function(id,val){var e=document.getElementById(id);if(e)e.textContent=val;};
+    set('dtfAmount', pkg.dm.toLocaleString('id-ID')+' Diamond');
+    set('dtfMethod', meta.name);
+    dtFlowFinish('dtFailed');
+  }
+  function dtFlowFinish(id){
+    var skip=['diamondTopupPage','dtPayDetail','vpdVerifying'];
+    if(typeof __pageBackStack!=='undefined'){
+      __pageBackStack=__pageBackStack.filter(function(p){return skip.indexOf(p)===-1;});
+    }
+    showPage(id,true);
+  }
+  window.retryDtPayment = function(){
+    if(!dtTimerInterval && dtTimeLeft>0){
+      dtTimerInterval=setInterval(function(){
+        dtTimeLeft--; dtRenderTimer();
+        if(dtTimeLeft<=0){clearInterval(dtTimerInterval);dtTimerInterval=null;}
+      },1000);
+    }
+    dtRenderTimer();
+    showPage('dtPayDetail');
+  };
+  var dtModalOv=document.getElementById('diamondTopupModalOverlay');
+  if(dtModalOv) dtModalOv.addEventListener('click', function(e){ if(e.target===this) closeDiamondTopupModal(); });
+  /* =================== END TOPUP DIAMOND =================== */
 })();
 </script>
 
