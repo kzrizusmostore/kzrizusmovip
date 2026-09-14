@@ -258,72 +258,7 @@ z-index:99999;
 .load-bg{
 position:absolute;
 inset:0;
-background:url('zusmo-asset/jk23mr.jpg') center/cover no-repeat;
-filter:blur(18px) brightness(0.6);
-transform:scale(1.2);
-}
-
-.load-card{
-position:relative;
-z-index:2;
-width:320px;
-padding:24px;
-border-radius:28px;
-background:rgba(255,255,255,.08);
-backdrop-filter:blur(18px);
--webkit-backdrop-filter:blur(18px);
-border:1px solid rgba(255,255,255,.12);
-box-shadow:0 10px 30px rgba(255,0,0,.25);
-text-align:center;
-color:#fff;
-animation:fadePage .6s ease;
-}
-
-.bar{
-width:100%;
-height:8px;
-background:rgba(255,255,255,0.15);
-border-radius:50px;
-overflow:hidden;
-margin-top:12px;
-}
-
-.fill{
-height:100%;
-width:0%;
-background:linear-gradient(90deg,#ff2b2b,#ff6b6b,#ff2b2b);
-transition:width .2s;
-}
-
-.stats{
-margin-top:12px;
-font-size:12px;
-opacity:0.85;
-line-height:1.6;
-}
-
-@keyframes pop{
-from{transform:scale(.8);opacity:0;}
-to{transform:scale(1);opacity:1;}
-}
-
-/* CLEAN PREMIUM LOADING UPDATE */
-
-#loadingScreen{
-position:fixed;
-inset:0;
-display:flex;
-align-items:center;
-justify-content:center;
-overflow:hidden;
-background:#000;
-z-index:99999;
-}
-
-.load-bg{
-position:absolute;
-inset:0;
-background:url('zusmo-asset/jk23mr.jpg') center/cover no-repeat;
+background:url('zusmo-asset/jk23mr.jpg') center/cover no-repeat !important;
 filter:blur(8px) brightness(0.55);
 transform:scale(1.2);
 }
@@ -343,20 +278,11 @@ box-shadow:0 0 30px rgba(255,43,43,.15),0 15px 50px rgba(0,0,0,.5);
 animation:pop .5s ease;
 }
 
-.bar{
-width:100%;
-height:8px;
-background:rgba(255,255,255,0.15);
-border-radius:50px;
-overflow:hidden;
+.stats{
 margin-top:12px;
-}
-
-.fill{
-height:100%;
-width:0%;
-background:linear-gradient(90deg,#ff2b2b,#ff6b6b,#ff2b2b);
-transition:width .2s;
+font-size:12px;
+opacity:0.85;
+line-height:1.6;
 }
 
 .stats-row{
@@ -367,26 +293,9 @@ font-size:12px;
 opacity:0.85;
 }
 
-
-.load-bg{
-background:url('zusmo-asset/jk23mr.jpg') center/cover no-repeat !important;
-}
-
-.load-bg{
-background:url('zusmo-asset/jk23mr.jpg') center/cover no-repeat !important;
-filter:blur(8px) brightness(0.55);
-transform:scale(1.2);
-}
-
-#loadingScreen{
-position:fixed;
-inset:0;
-display:flex;
-align-items:center;
-justify-content:center;
-background:#000;
-z-index:99999;
-overflow:hidden;
+@keyframes pop{
+from{transform:scale(.8);opacity:0;}
+to{transform:scale(1);opacity:1;}
 }
 
 /* === FIX: Disable ONLY banner clicks === */
@@ -466,20 +375,6 @@ font-weight: 500;
 }
 
 
-/* === FIX: Disable ONLY banner clicks === */
-img#shadowBanner,
-.banner img,
-.top-banner img,
-.shadow-banner img {
-  pointer-events: none !important;
-  cursor: default !important;
-}
-
-.banner a,
-.top-banner a,
-.shadow-banner a {
-  pointer-events: none !important;
-}
 
 </style>
 <style>
@@ -501,20 +396,6 @@ img#shadowBanner,
   box-shadow: 0 0 18px rgba(255,215,0,0.35), inset 0 0 25px rgba(255,215,0,0.25);
 }
 
-/* === FIX: Disable ONLY banner clicks === */
-img#shadowBanner,
-.banner img,
-.top-banner img,
-.shadow-banner img {
-  pointer-events: none !important;
-  cursor: default !important;
-}
-
-.banner a,
-.top-banner a,
-.shadow-banner a {
-  pointer-events: none !important;
-}
 
 </style>
 <style>
@@ -573,20 +454,6 @@ background:#ff2b2b;box-shadow:0 0 12px #ff2b2b;
 }
 
 
-/* === FIX: Disable ONLY banner clicks === */
-img#shadowBanner,
-.banner img,
-.top-banner img,
-.shadow-banner img {
-  pointer-events: none !important;
-  cursor: default !important;
-}
-
-.banner a,
-.top-banner a,
-.shadow-banner a {
-  pointer-events: none !important;
-}
 
 /* === SHADOW UI OVERHAUL === */
 .zs-card-cap{margin-top:8px;text-align:center;font-size:11.5px;font-weight:700;letter-spacing:.3px;color:#e6e6e6}
@@ -687,90 +554,6 @@ line-height:1.6;
 .faq-cmd-item b{display:block;color:#ff2b2b;font-family:'Space Mono',monospace;font-size:13px;margin-bottom:3px;letter-spacing:.3px}
 .faq-cmd-item span{display:block;font-size:12px;color:#bdbdbd;line-height:1.5}
 
-/* === FIX: Disable ONLY banner clicks === */
-img#shadowBanner,
-.banner img,
-.top-banner img,
-.shadow-banner img {
-  pointer-events: none !important;
-  cursor: default !important;
-}
-
-.banner a,
-.top-banner a,
-.shadow-banner a {
-  pointer-events: none !important;
-}
-
-</style>
-<style>
-.banner-wrap{
-  position:relative;
-  width:100%;
-  overflow:hidden;
-}
-
-.banner-wrap img{
-  width:100%;
-  display:block;
-  position:absolute;
-  top:0;
-  left:0;
-  transition: opacity 1.2s ease-in-out;
-  will-change: opacity;
-}
-
-#bannerA{opacity:1;}
-#bannerB{opacity:0;}
-
-/* === FIX: Disable ONLY banner clicks === */
-img#shadowBanner,
-.banner img,
-.top-banner img,
-.shadow-banner img {
-  pointer-events: none !important;
-  cursor: default !important;
-}
-
-.banner a,
-.top-banner a,
-.shadow-banner a {
-  pointer-events: none !important;
-}
-
-</style>
-<style>
-.banner-wrap{
-  position:relative;
-  width:100%;
-  overflow:hidden;
-}
-
-.bn{
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:auto;
-  opacity:0;
-  transition:opacity 0.2s linear;
-}
-
-
-/* === FIX: Disable ONLY banner clicks === */
-img#shadowBanner,
-.banner img,
-.top-banner img,
-.shadow-banner img {
-  pointer-events: none !important;
-  cursor: default !important;
-}
-
-.banner a,
-.top-banner a,
-.shadow-banner a {
-  pointer-events: none !important;
-}
 
 </style>
 <style>
@@ -831,20 +614,6 @@ body{
   padding-bottom:70px;
 }
 
-/* === FIX: Disable ONLY banner clicks === */
-img#shadowBanner,
-.banner img,
-.top-banner img,
-.shadow-banner img {
-  pointer-events: none !important;
-  cursor: default !important;
-}
-
-.banner a,
-.top-banner a,
-.shadow-banner a {
-  pointer-events: none !important;
-}
 
 </style>
 <style>
@@ -914,20 +683,6 @@ img#shadowBanner,
   }
 }
 
-/* === FIX: Disable ONLY banner clicks === */
-img#shadowBanner,
-.banner img,
-.top-banner img,
-.shadow-banner img {
-  pointer-events: none !important;
-  cursor: default !important;
-}
-
-.banner a,
-.top-banner a,
-.shadow-banner a {
-  pointer-events: none !important;
-}
 
 </style>
 <script>
@@ -983,20 +738,6 @@ document.querySelectorAll('.app-bottombar .tab').forEach(tab=>{
   backdrop-filter: blur(12px);
 }
 
-/* === FIX: Disable ONLY banner clicks === */
-img#shadowBanner,
-.banner img,
-.top-banner img,
-.shadow-banner img {
-  pointer-events: none !important;
-  cursor: default !important;
-}
-
-.banner a,
-.top-banner a,
-.shadow-banner a {
-  pointer-events: none !important;
-}
 
 </style>
 <script>
@@ -1043,25 +784,6 @@ if(oldShow){
 }
 </script>
 <style>
-.topbar {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:12px;
-  background:#111;
-  color:white;
-}
-
-.left {
-  display:flex;
-  gap:12px;
-  font-size:22px;
-}
-
-.right {
-  font-size:22px;
-}
-</style><style>
 .topbar-pro{position:fixed;top:0;left:0;right:0;height:56px;display:flex;justify-content:space-between;align-items:center;padding:0 8px;background:linear-gradient(90deg,#b30000,#e00000)!important;backdrop-filter:blur(18px);z-index:999999}
 .topbar-pro button{background:rgba(255,255,255,.08);border:1px solid rgba(255,43,43,.35);color:#fff;border-radius:12px;padding:8px 12px;margin-right:8px}
 .badge{background:#ff2b2b;border-radius:10px;padding:1px 5px;font-size:10px;position:relative;top:-8px;left:2px}
@@ -1159,35 +881,11 @@ border:1px solid rgba(255,255,255,.12);border-radius:22px;padding:14px 16px;marg
 .profile-name{font-size:18px;font-weight:700;margin-bottom:8px}
 .roleprime{display:flex;justify-content:space-between;align-items:center;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:8px 12px;font-size:13px}
 .role-badge{color:#9ca3af;font-weight:700}
-</style><style>.profile-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}.prime-logo{width:34px;height:34px;object-fit:contain}</style><style>
-.prime-logo{
-width:22px !important;
-height:auto !important;
-border:none !important;
-border-radius:0 !important;
-background:transparent !important;
-box-shadow:none !important;
-object-fit:contain !important;
-}
-.profile-top{gap:6px}
 </style><style>
-.prime-logo{
-  width:24px !important;
-  height:auto !important;
-}
-.profile-card{
-  padding:10px 16px !important;
-  border-radius:24px !important;
-}
-.profile-card img:not(.prime-logo){
-  width:56px !important;
-  height:56px !important;
-}
-</style><style>
-.prime-logo{
-    width:27px !important;
-    height:auto !important;
-}
+.profile-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:6px}
+.prime-logo{width:27px !important;height:auto !important;border:none !important;border-radius:0 !important;background:transparent !important;box-shadow:none !important;object-fit:contain !important}
+.profile-card{padding:10px 16px !important;border-radius:24px !important}
+.profile-card img:not(.prime-logo){width:56px !important;height:56px !important}
 </style>
 <style>
 #apk .apk-image{
@@ -9275,20 +8973,6 @@ details {
 }
 
 
-/* === FIX: Disable ONLY banner clicks === */
-img#shadowBanner,
-.banner img,
-.top-banner img,
-.shadow-banner img {
-  pointer-events: none !important;
-  cursor: default !important;
-}
-
-.banner a,
-.top-banner a,
-.shadow-banner a {
-  pointer-events: none !important;
-}
 
 </style>
 <div class="vipwrap">
@@ -17159,17 +16843,6 @@ async function rndDownload(url,keyName,isVideo){
 </div>
 <div class="tff-result" id="stkFfResult"></div>
 
-<div class="pc-card" style="margin-top:14px;">
-  <div class="pc-head">
-    <div class="pc-head-icon"><i class="fa-solid fa-user-group"></i></div>
-    <div class="pc-head-text"><h3>DAFTAR TEMAN</h3><p>Cek daftar teman lewat JWT token</p></div>
-  </div>
-  <div class="pc-input-wrap">
-    <textarea class="pc-input tff-input" id="stkFfJwtVal" rows="3" placeholder="Tempel JWT token di sini..." style="font-size:11.5px;font-weight:600;padding:12px;resize:vertical;min-height:66px;line-height:1.4;"></textarea>
-  </div>
-  <button class="pc-btn" id="stkFfFriendsBtn" onclick="stkFfFriendsSubmit()"><i class="fa-solid fa-users-viewfinder"></i> CEK TEMAN</button>
-</div>
-<div class="tff-result" id="stkFfFriendsResult"></div>
 </div>
 
 <!-- DISCORD PANEL -->
@@ -22944,31 +22617,6 @@ function tffRenderResult(box,json,extra){
     tffFitBioText(box);
   }
   box.classList.add('show');
-}
-
-/* ===== DAFTAR TEMAN (via JWT) — /friends/list?jwt=&key= ===== */
-async function stkFfFriendsSubmit(){
-  const inp=document.getElementById('stkFfJwtVal');
-  const jwtVal=inp?inp.value.trim():'';
-  if(!jwtVal){ tffShake(inp); return; }
-
-  const btn=document.getElementById('stkFfFriendsBtn');
-  const result=document.getElementById('stkFfFriendsResult');
-  if(result){ result.classList.remove('show'); result.innerHTML=''; }
-  if(btn){ btn.disabled=true; btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> MENGECEK...'; }
-
-  try{
-    const json=await tffFetchFriends(jwtVal);
-    tffRenderFriendsList(result,json);
-  }catch(e){
-    console.error('[STKFF-FRIENDS] gagal',e,(e&&e.debugDetail)||'');
-    const detail=(e&&e.debugDetail)?' ('+e.debugDetail+')':'';
-    if(result){
-      result.innerHTML='<div class="tff-result-error"><i class="fa-solid fa-triangle-exclamation"></i>Gagal mengambil daftar teman. JWT mungkin salah/kedaluwarsa.'+tffEsc(detail)+'</div>';
-      result.classList.add('show');
-    }
-  }
-  if(btn){ btn.disabled=false; btn.innerHTML='<i class="fa-solid fa-users-viewfinder"></i> CEK TEMAN'; }
 }
 
 function tffFriendsArray(json){
@@ -30842,20 +30490,6 @@ setInterval(()=>{
 
 /* remove duplicated visual overrides */
 
-/* === FIX: Disable ONLY banner clicks === */
-img#shadowBanner,
-.banner img,
-.top-banner img,
-.shadow-banner img {
-  pointer-events: none !important;
-  cursor: default !important;
-}
-
-.banner a,
-.top-banner a,
-.shadow-banner a {
-  pointer-events: none !important;
-}
 
 </style>
 <style>
@@ -30901,20 +30535,6 @@ background:rgba(255,43,43,.12);
 }
 
 
-/* === FIX: Disable ONLY banner clicks === */
-img#shadowBanner,
-.banner img,
-.top-banner img,
-.shadow-banner img {
-  pointer-events: none !important;
-  cursor: default !important;
-}
-
-.banner a,
-.top-banner a,
-.shadow-banner a {
-  pointer-events: none !important;
-}
 
 </style>
 <script>
@@ -30967,20 +30587,6 @@ if(active) moveIndicator(active);
 }
 
 
-/* === FIX: Disable ONLY banner clicks === */
-img#shadowBanner,
-.banner img,
-.top-banner img,
-.shadow-banner img {
-  pointer-events: none !important;
-  cursor: default !important;
-}
-
-.banner a,
-.top-banner a,
-.shadow-banner a {
-  pointer-events: none !important;
-}
 
 </style>
 <script>
@@ -31033,20 +30639,6 @@ window.addEventListener('scroll',()=>{
 }
 
 
-/* === FIX: Disable ONLY banner clicks === */
-img#shadowBanner,
-.banner img,
-.top-banner img,
-.shadow-banner img {
-  pointer-events: none !important;
-  cursor: default !important;
-}
-
-.banner a,
-.top-banner a,
-.shadow-banner a {
-  pointer-events: none !important;
-}
 
 </style>
 <script>
@@ -31091,20 +30683,6 @@ img#shadowBanner,
 }
 
 
-/* === FIX: Disable ONLY banner clicks === */
-img#shadowBanner,
-.banner img,
-.top-banner img,
-.shadow-banner img {
-  pointer-events: none !important;
-  cursor: default !important;
-}
-
-.banner a,
-.top-banner a,
-.shadow-banner a {
-  pointer-events: none !important;
-}
 
 </style>
 <script>
@@ -31153,20 +30731,6 @@ document.addEventListener("click",function(e){
 }
 
 
-/* === FIX: Disable ONLY banner clicks === */
-img#shadowBanner,
-.banner img,
-.top-banner img,
-.shadow-banner img {
-  pointer-events: none !important;
-  cursor: default !important;
-}
-
-.banner a,
-.top-banner a,
-.shadow-banner a {
-  pointer-events: none !important;
-}
 
 </style>
 <style>
@@ -31193,20 +30757,6 @@ img#shadowBanner,
 }
 
 
-/* === FIX: Disable ONLY banner clicks === */
-img#shadowBanner,
-.banner img,
-.top-banner img,
-.shadow-banner img {
-  pointer-events: none !important;
-  cursor: default !important;
-}
-
-.banner a,
-.top-banner a,
-.shadow-banner a {
-  pointer-events: none !important;
-}
 
 </style>
 <style>
@@ -31242,20 +30792,6 @@ img#shadowBanner,
  display:none !important;
 }
 
-/* === FIX: Disable ONLY banner clicks === */
-img#shadowBanner,
-.banner img,
-.top-banner img,
-.shadow-banner img {
-  pointer-events: none !important;
-  cursor: default !important;
-}
-
-.banner a,
-.top-banner a,
-.shadow-banner a {
-  pointer-events: none !important;
-}
 
 </style>
 <style>
@@ -31278,20 +30814,6 @@ img#shadowBanner,
 }
 
 
-/* === FIX: Disable ONLY banner clicks === */
-img#shadowBanner,
-.banner img,
-.top-banner img,
-.shadow-banner img {
-  pointer-events: none !important;
-  cursor: default !important;
-}
-
-.banner a,
-.top-banner a,
-.shadow-banner a {
-  pointer-events: none !important;
-}
 
 </style>
 <style>
@@ -31306,20 +30828,6 @@ img#shadowBanner,
 }
 
 
-/* === FIX: Disable ONLY banner clicks === */
-img#shadowBanner,
-.banner img,
-.top-banner img,
-.shadow-banner img {
-  pointer-events: none !important;
-  cursor: default !important;
-}
-
-.banner a,
-.top-banner a,
-.shadow-banner a {
-  pointer-events: none !important;
-}
 
 </style>
 <style>
@@ -31333,20 +30841,6 @@ img#shadowBanner,
 }
 
 
-/* === FIX: Disable ONLY banner clicks === */
-img#shadowBanner,
-.banner img,
-.top-banner img,
-.shadow-banner img {
-  pointer-events: none !important;
-  cursor: default !important;
-}
-
-.banner a,
-.top-banner a,
-.shadow-banner a {
-  pointer-events: none !important;
-}
 
 </style>
 <style>
@@ -31365,20 +30859,6 @@ img{
 }
 
 
-/* === FIX: Disable ONLY banner clicks === */
-img#shadowBanner,
-.banner img,
-.top-banner img,
-.shadow-banner img {
-  pointer-events: none !important;
-  cursor: default !important;
-}
-
-.banner a,
-.top-banner a,
-.shadow-banner a {
-  pointer-events: none !important;
-}
 
 </style>
 <script>
@@ -31402,20 +30882,6 @@ document.querySelectorAll('.banner, .card, .preview').forEach(el=>{
 }
 
 
-/* === FIX: Disable ONLY banner clicks === */
-img#shadowBanner,
-.banner img,
-.top-banner img,
-.shadow-banner img {
-  pointer-events: none !important;
-  cursor: default !important;
-}
-
-.banner a,
-.top-banner a,
-.shadow-banner a {
-  pointer-events: none !important;
-}
 
 </style>
 <script>
@@ -42680,20 +42146,6 @@ margin-top:16px!important;
 background:linear-gradient(90deg,#ff2b2b,#ffffff,#ff2b2b)!important;
 }
 
-/* === FIX: Disable ONLY banner clicks === */
-img#shadowBanner,
-.banner img,
-.top-banner img,
-.shadow-banner img {
-  pointer-events: none !important;
-  cursor: default !important;
-}
-
-.banner a,
-.top-banner a,
-.shadow-banner a {
-  pointer-events: none !important;
-}
 
 </style>
 <style>
@@ -42703,20 +42155,6 @@ img#shadowBanner,
 .home-circle{width:54px;height:54px;margin:auto;border-radius:50%;background:#050505;border:2px solid #ff2b2b;display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(255,43,43,.45);}
 .home-circle i{font-size:20px;color:#ff2b2b;text-shadow:none;}
 
-/* === FIX: Disable ONLY banner clicks === */
-img#shadowBanner,
-.banner img,
-.top-banner img,
-.shadow-banner img {
-  pointer-events: none !important;
-  cursor: default !important;
-}
-
-.banner a,
-.top-banner a,
-.shadow-banner a {
-  pointer-events: none !important;
-}
 
 </style><style>
 html,body{
