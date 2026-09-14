@@ -1263,22 +1263,26 @@ object-fit:contain;
   margin-bottom:8px;letter-spacing:.8px;
   text-shadow:0 0 12px rgba(255,255,255,.2);
 }
-.hm-badges{display:flex;gap:6px;flex-wrap:wrap;}
+.hm-badges{display:flex;gap:6px;flex-wrap:nowrap;min-width:0;}
 .hm-badge{
   font-size:10px;font-weight:700;letter-spacing:.6px;
   padding:4px 11px;border-radius:999px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  min-width:0;
 }
 .hm-badge.role{
   background:rgba(255,43,43,.12);
   border:1px solid rgba(255,43,43,.4);
   color:#ff8585;
   box-shadow:0 0 8px rgba(255,43,43,.12);
+  flex-shrink:0;
 }
 .hm-badge.prime{
   background:rgba(255,215,0,.1);
   border:1px solid rgba(255,215,0,.38);
   color:#ffd700;
   box-shadow:0 0 8px rgba(255,215,0,.12);
+  flex-shrink:1;
 }
 .hm-prime-badge{
   display:flex;flex-direction:column;align-items:center;gap:3px;
@@ -30141,6 +30145,238 @@ function saveNameEdit(){
   closeNameEditModal();
 }
 
+/* ===== ADMIN PANEL ===== */
+const AP_PASSWORD='151515';
+
+function apOpenPasswordModal(){
+  const overlay=document.getElementById('apPassModalOverlay');
+  const input=document.getElementById('apPassInput');
+  const err=document.getElementById('apPassError');
+  const bar=document.querySelector('.app-bottombar');
+  if(!overlay) return;
+  if(input) input.value='';
+  if(err) err.classList.remove('show');
+  overlay.classList.add('show');
+  hmLockScroll();
+  hmSyncOverlayViewport();
+  if(bar){
+    bar.style.setProperty('visibility','hidden','important');
+    bar.style.setProperty('opacity','0','important');
+  }
+  setTimeout(function(){ if(input) input.focus(); },50);
+}
+
+function apClosePasswordModal(){
+  const overlay=document.getElementById('apPassModalOverlay');
+  const input=document.getElementById('apPassInput');
+  const bar=document.querySelector('.app-bottombar');
+  if(input) input.blur();
+  if(overlay){
+    overlay.classList.remove('show');
+    overlay.style.height='';
+    overlay.style.top='';
+  }
+  if(bar){
+    bar.style.removeProperty('visibility');
+    bar.style.removeProperty('opacity');
+  }
+  hmUnlockScroll();
+}
+
+function apCheckPassword(){
+  const input=document.getElementById('apPassInput');
+  const err=document.getElementById('apPassError');
+  const wrap=document.getElementById('apPassInputWrap');
+  if(!input) return;
+  if(input.value.trim()===AP_PASSWORD){
+    if(err) err.classList.remove('show');
+    apClosePasswordModal();
+    setTimeout(apOpenPanelModal,180);
+  }else{
+    if(err) err.classList.add('show');
+    if(wrap){
+      wrap.classList.remove('shake');
+      void wrap.offsetWidth;
+      wrap.classList.add('shake');
+    }
+    input.value='';
+    input.focus();
+  }
+}
+
+function apOpenPanelModal(){
+  const overlay=document.getElementById('apPanelModalOverlay');
+  const bar=document.querySelector('.app-bottombar');
+  if(!overlay) return;
+  overlay.classList.add('show');
+  hmLockScroll();
+  hmSyncOverlayViewport();
+  if(bar){
+    bar.style.setProperty('visibility','hidden','important');
+    bar.style.setProperty('opacity','0','important');
+  }
+}
+
+function apClosePanelModal(){
+  const overlay=document.getElementById('apPanelModalOverlay');
+  const bar=document.querySelector('.app-bottombar');
+  if(overlay){
+    overlay.classList.remove('show');
+    overlay.style.height='';
+    overlay.style.top='';
+  }
+  if(bar){
+    bar.style.removeProperty('visibility');
+    bar.style.removeProperty('opacity');
+  }
+  hmUnlockScroll();
+}
+
+/* ===== ADMIN PANEL: ITEM (banner, wallpaper, logo, musik) ===== */
+function apLockAllItems(){
+  if(typeof lockAllShopItems==='function') lockAllShopItems();
+  apPrimeToast('Semua item (banner, wallpaper, logo, musik) dikunci');
+}
+
+function apUnlockAllItems(){
+  if(typeof unlockAllShopItems==='function') unlockAllShopItems();
+  apPrimeToast('Semua item (banner, wallpaper, logo, musik) dibuka');
+}
+/* ===== END ADMIN PANEL: ITEM ===== */
+
+/* ===== ADMIN PANEL: DIAMOND ===== */
+var AP_DIAMOND_UNLIMITED=999999999;
+
+function apResetDiamond(){
+  if(typeof setDiamond==='function') setDiamond(0);
+  apRefreshPrimeLevelGridState();
+  apPrimeToast('Diamond berhasil direset ke 0');
+}
+
+function apUnlimitedDiamond(){
+  if(typeof setDiamond==='function') setDiamond(AP_DIAMOND_UNLIMITED);
+  apRefreshPrimeLevelGridState();
+  apPrimeToast('Diamond diatur ke Unlimited');
+}
+
+function apToggleBebasDiamond(){
+  var row=document.getElementById('apBebasDiamondRow');
+  if(!row) return;
+  var willShow=(row.style.display==='none' || !row.style.display);
+  row.style.display=willShow?'flex':'none';
+  if(willShow){
+    var input=document.getElementById('apBebasDiamondInput');
+    if(input){
+      if(typeof getDiamond==='function') input.value=getDiamond();
+      setTimeout(function(){ input.focus(); },50);
+    }
+  }
+}
+
+function apApplyBebasDiamond(){
+  var input=document.getElementById('apBebasDiamondInput');
+  if(!input) return;
+  var val=parseInt(input.value,10);
+  if(isNaN(val) || val<0){
+    apPrimeToast('Masukkan angka yang valid');
+    return;
+  }
+  if(typeof setDiamond==='function') setDiamond(val);
+  apRefreshPrimeLevelGridState();
+  apPrimeToast('Diamond diatur ke '+val.toLocaleString('id-ID'));
+}
+/* ===== END ADMIN PANEL: DIAMOND ===== */
+
+/* ===== ADMIN PANEL: PRIME ===== */
+function apPrimeToast(msg){
+  var t=document.getElementById('apPrimeToast');
+  if(!t){
+    t=document.createElement('div');
+    t.id='apPrimeToast';
+    t.className='ap-prime-toast';
+    document.body.appendChild(t);
+  }
+  t.textContent=msg;
+  t.classList.remove('show');
+  void t.offsetWidth;
+  t.classList.add('show');
+  clearTimeout(t._apHideTimer);
+  t._apHideTimer=setTimeout(function(){ t.classList.remove('show'); },1800);
+}
+
+function apRefreshPrimeLevelGridState(){
+  var grid=document.getElementById('apPrimeLevelGrid');
+  if(!grid || typeof getDiamond!=='function' || typeof primeLevels==='undefined') return;
+  var diamond=getDiamond();
+  var activeIdx=-1;
+  for(var i=0;i<primeLevels.length;i++){ if(diamond===primeLevels[i].dm) activeIdx=i; }
+  grid.querySelectorAll('.ap-prime-lvl-btn').forEach(function(btn,idx){
+    btn.classList.toggle('on', idx===activeIdx);
+  });
+}
+
+var apBebasPrimeBuilt=false;
+function apBuildBebasPrimeGrid(){
+  var grid=document.getElementById('apPrimeLevelGrid');
+  if(!grid || apBebasPrimeBuilt || typeof primeLevels==='undefined') return;
+  primeLevels.forEach(function(p,i){
+    var b=document.createElement('button');
+    b.type='button';
+    b.className='ap-prime-lvl-btn';
+    b.innerHTML='<img loading="lazy" decoding="async" src="'+p.img+'" alt="'+p.name+'"><span>'+p.name+'</span>';
+    b.onclick=function(){ apSetPrimeLevel(i+1); };
+    grid.appendChild(b);
+  });
+  apBebasPrimeBuilt=true;
+}
+
+function apToggleBebasPrime(){
+  apBuildBebasPrimeGrid();
+  var grid=document.getElementById('apPrimeLevelGrid');
+  if(!grid) return;
+  var willShow=(grid.style.display==='none' || !grid.style.display);
+  grid.style.display=willShow?'grid':'none';
+  if(willShow) apRefreshPrimeLevelGridState();
+}
+
+function apResetPrime(){
+  if(typeof setDiamond==='function') setDiamond(0);
+  apRefreshPrimeLevelGridState();
+  apPrimeToast('Prime berhasil direset ke 0');
+}
+
+function apPrimeMax(){
+  var maxDm=200000;
+  if(typeof primeLevels!=='undefined' && primeLevels.length) maxDm=primeLevels[primeLevels.length-1].dm;
+  if(typeof setDiamond==='function') setDiamond(maxDm);
+  apRefreshPrimeLevelGridState();
+  apPrimeToast('Prime diatur ke MAX ('+maxDm.toLocaleString('id-ID')+')');
+}
+
+function apSetPrimeLevel(level){
+  if(typeof primeLevels==='undefined' || !primeLevels[level-1]) return;
+  var dm=primeLevels[level-1].dm;
+  if(typeof setDiamond==='function') setDiamond(dm);
+  apRefreshPrimeLevelGridState();
+  apPrimeToast('Prime diatur ke Level '+level);
+}
+/* ===== END ADMIN PANEL: PRIME ===== */
+
+document.addEventListener('DOMContentLoaded',function(){
+  const apPassInput=document.getElementById('apPassInput');
+  if(apPassInput){
+    apPassInput.addEventListener('keydown',function(e){
+      if(e.key==='Enter') apCheckPassword();
+    });
+  }
+  const apBebasDiamondInput=document.getElementById('apBebasDiamondInput');
+  if(apBebasDiamondInput){
+    apBebasDiamondInput.addEventListener('keydown',function(e){
+      if(e.key==='Enter') apApplyBebasDiamond();
+    });
+  }
+});
+
 document.addEventListener('DOMContentLoaded',function(){
   const input=document.getElementById('hmNameInput');
   const overlay=document.getElementById('hmNameModalOverlay');
@@ -36487,6 +36723,11 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
   var dtModalOv=document.getElementById('diamondTopupModalOverlay');
   if(dtModalOv) dtModalOv.addEventListener('click', function(e){ if(e.target===this) closeDiamondTopupModal(); });
   /* =================== END TOPUP DIAMOND =================== */
+
+  /* Ekspos ke global supaya bisa dipakai fitur Admin Panel (Prime) */
+  window.setDiamond = setDiamond;
+  window.getDiamond = getDiamond;
+  window.updateTopbarPrimeIcon = updateTopbarPrimeIcon;
 })();
 </script>
 
@@ -37950,7 +38191,7 @@ window.submitCreatorReward = function(){
       <p class="dv2-handle" id="devRoleText">@kzrizusmo · Founder &amp; Developer</p>
       <div class="dv2-chip-row">
         <span class="dv2-chip dv2-chip-gold"><i class="fa-solid fa-code"></i> Developer</span>
-        <span class="dv2-chip"><i class="fa-solid fa-shield-halved"></i> Verified</span>
+        <span class="dv2-chip dv2-chip-admin" id="devAdminPanelChip" onclick="apOpenPasswordModal()" role="button" tabindex="0" aria-label="Buka Admin Panel"><i class="fa-solid fa-user-shield"></i> Admin Panel</span>
       </div>
     </div>
   </div>
@@ -37984,6 +38225,70 @@ window.submitCreatorReward = function(){
     <a class="dv2-social-btn" href="https://tiktok.com/@kzrizusmo_store" target="_blank" rel="noopener" aria-label="TikTok" title="TikTok: @kzrizusmo_store"><i class="fa-brands fa-tiktok"></i></a>
     <button type="button" class="dv2-social-btn" onclick="bvCopyText('kzrizusmo','Username Discord disalin.')" aria-label="Discord" title="Discord: kzrizusmo"><i class="fa-brands fa-discord"></i></button>
     <a class="dv2-social-btn" href="https://t.me/kzrizusmo" target="_blank" rel="noopener" aria-label="Telegram" title="Telegram: @kzrizusmo"><i class="fa-brands fa-telegram"></i></a>
+  </div>
+</div>
+
+<!-- ADMIN PANEL: PASSWORD MODAL -->
+<div class="ap-modal-overlay" id="apPassModalOverlay">
+  <div class="ap-pass-modal">
+    <div class="hm-name-modal-icon"><i class="fa-solid fa-lock"></i></div>
+    <div class="hm-name-modal-title">ADMIN PANEL</div>
+    <div class="hm-name-modal-sub">Masukkan password untuk melanjutkan</div>
+    <div class="hm-name-input-wrap ap-pass-input-wrap" id="apPassInputWrap">
+      <input type="password" inputmode="numeric" pattern="[0-9]*" class="hm-name-input" id="apPassInput" placeholder="Password" maxlength="12" autocomplete="off">
+    </div>
+    <div class="ap-pass-error" id="apPassError">Password salah. Coba lagi.</div>
+    <div class="hm-name-modal-actions">
+      <button type="button" class="hm-name-btn hm-name-btn-cancel" onclick="apClosePasswordModal()">Batal</button>
+      <button type="button" class="hm-name-btn hm-name-btn-save" onclick="apCheckPassword()">Masuk</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN PANEL: SETTINGS MODAL -->
+<div class="ap-modal-overlay" id="apPanelModalOverlay">
+  <div class="ap-panel-modal">
+    <div class="ap-panel-header">
+      <div class="ap-panel-header-icon"><i class="fa-solid fa-user-shield"></i></div>
+      <div>
+        <div class="ap-panel-title">ADMIN PANEL</div>
+        <div class="ap-panel-sub">Pengaturan khusus admin</div>
+      </div>
+      <button type="button" class="ap-panel-close" onclick="apClosePanelModal()" aria-label="Tutup"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <div class="ap-panel-body">
+      <div class="ap-panel-section">
+        <div class="ap-panel-section-title"><i class="fa-solid fa-gem"></i> Diamond</div>
+        <div class="ap-panel-btn-grid">
+          <button type="button" class="ap-panel-btn" onclick="apResetDiamond()"><i class="fa-solid fa-rotate-left"></i> Reset Diamond</button>
+          <button type="button" class="ap-panel-btn" onclick="apUnlimitedDiamond()"><i class="fa-solid fa-infinity"></i> Unlimited Diamond</button>
+          <button type="button" class="ap-panel-btn" onclick="apToggleBebasDiamond()"><i class="fa-solid fa-unlock"></i> Bebas Diamond</button>
+        </div>
+        <div class="ap-bebas-input-row" id="apBebasDiamondRow" style="display:none;">
+          <input type="number" inputmode="numeric" class="ap-bebas-input" id="apBebasDiamondInput" placeholder="Masukkan jumlah diamond">
+          <button type="button" class="ap-bebas-apply-btn" onclick="apApplyBebasDiamond()"><i class="fa-solid fa-check"></i> Terapkan</button>
+        </div>
+      </div>
+
+      <div class="ap-panel-section">
+        <div class="ap-panel-section-title"><i class="fa-solid fa-crown"></i> Prime</div>
+        <div class="ap-panel-btn-grid">
+          <button type="button" class="ap-panel-btn" onclick="apResetPrime()"><i class="fa-solid fa-rotate-left"></i> Reset Prime</button>
+          <button type="button" class="ap-panel-btn" onclick="apPrimeMax()"><i class="fa-solid fa-star"></i> Prime Max</button>
+          <button type="button" class="ap-panel-btn" onclick="apToggleBebasPrime()"><i class="fa-solid fa-unlock"></i> Bebas Prime</button>
+        </div>
+        <div class="ap-prime-level-grid" id="apPrimeLevelGrid" style="display:none;"></div>
+      </div>
+
+      <div class="ap-panel-section">
+        <div class="ap-panel-section-title"><i class="fa-solid fa-box-archive"></i> Item</div>
+        <div class="ap-panel-btn-grid">
+          <button type="button" class="ap-panel-btn" onclick="apLockAllItems()"><i class="fa-solid fa-lock"></i> Lock Item</button>
+          <button type="button" class="ap-panel-btn" onclick="apUnlockAllItems()"><i class="fa-solid fa-lock-open"></i> Unlock Item</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -38491,6 +38796,157 @@ window.submitCreatorReward = function(){
 .dv2-chip i{font-size:9px;color:var(--dv2-red)}
 .dv2-chip-gold{color:#1a1408;background:linear-gradient(135deg,#f3cc7a,var(--dv2-gold));border-color:transparent}
 .dv2-chip-gold i{color:#1a1408}
+.dv2-chip-admin{cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .15s ease,background .15s ease,border-color .15s ease;}
+.dv2-chip-admin i{color:#3ba7ff}
+.dv2-chip-admin:hover{background:rgba(59,167,255,.12);border-color:rgba(59,167,255,.4);}
+.dv2-chip-admin:active{transform:scale(.94);}
+
+/* ===== ADMIN PANEL MODALS ===== */
+.ap-modal-overlay{
+  position:fixed;top:0;left:0;right:0;bottom:0;z-index:999999;
+  background:rgba(0,0,0,.78);backdrop-filter:blur(7px);
+  display:none;align-items:flex-start;justify-content:center;
+  padding:20px;padding-top:14vh;
+  overflow:hidden !important;overscroll-behavior:none;touch-action:none;
+}
+.ap-modal-overlay.show{display:flex !important;animation:hmNameFadeIn .2s ease;}
+.ap-pass-modal{
+  touch-action:manipulation;width:calc(100% - 40px);max-width:340px;
+  background:linear-gradient(160deg,rgba(32,2,2,.98) 0%,rgba(14,4,4,.99) 55%,rgba(6,6,6,.99) 100%);
+  border:1px solid rgba(255,60,60,.45);border-radius:24px;padding:26px 22px 22px;
+  box-shadow:0 0 0 1px rgba(255,43,43,.12),0 25px 70px rgba(0,0,0,.7),0 0 50px rgba(255,43,43,.2),inset 0 1px 0 rgba(255,255,255,.05);
+  position:relative;overflow:hidden;animation:hmNamePopIn .28s cubic-bezier(.2,.8,.2,1);z-index:9999999;
+}
+.ap-pass-error{
+  display:none;font-size:11px;color:#ff6b6b;text-align:center;
+  margin:-2px 0 14px;letter-spacing:.3px;position:relative;z-index:1;
+}
+.ap-pass-error.show{display:block;}
+.ap-pass-input-wrap.shake{animation:apShake .35s ease;}
+@keyframes apShake{
+  0%,100%{transform:translateX(0);}
+  20%{transform:translateX(-8px);}
+  40%{transform:translateX(7px);}
+  60%{transform:translateX(-5px);}
+  80%{transform:translateX(4px);}
+}
+
+.ap-panel-modal{
+  touch-action:manipulation;width:calc(100% - 32px);max-width:380px;
+  max-height:80vh;display:flex;flex-direction:column;
+  background:linear-gradient(160deg,rgba(20,6,2,.98) 0%,rgba(10,10,10,.99) 55%,rgba(6,6,6,.99) 100%);
+  border:1px solid rgba(255,60,60,.4);border-radius:22px;
+  box-shadow:0 0 0 1px rgba(255,43,43,.1),0 25px 70px rgba(0,0,0,.7),0 0 50px rgba(255,43,43,.15);
+  position:relative;overflow:hidden;animation:hmNamePopIn .28s cubic-bezier(.2,.8,.2,1);z-index:9999999;
+}
+.ap-panel-header{
+  display:flex;align-items:center;gap:12px;padding:20px 20px 16px;
+  border-bottom:1px solid rgba(255,255,255,.08);position:relative;flex-shrink:0;
+}
+.ap-panel-header::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,rgba(255,60,60,.9),transparent);
+}
+.ap-panel-header-icon{
+  width:40px;height:40px;border-radius:50%;flex-shrink:0;
+  background:radial-gradient(circle,rgba(59,167,255,.2),rgba(59,167,255,.06));
+  border:1px solid rgba(59,167,255,.5);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;color:#3ba7ff;
+  box-shadow:0 0 18px rgba(59,167,255,.3);
+}
+.ap-panel-title{font-family:'Audiowide',sans-serif;font-size:14px;color:#fff;letter-spacing:.6px;}
+.ap-panel-sub{font-size:10.5px;color:rgba(255,255,255,.5);margin-top:3px;}
+.ap-panel-close{
+  margin-left:auto;width:30px;height:30px;border-radius:50%;flex-shrink:0;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);
+  color:rgba(255,255,255,.7);font-size:12px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .15s ease,transform .15s ease;
+}
+.ap-panel-close:hover{background:rgba(255,255,255,.12);}
+.ap-panel-close:active{transform:scale(.9);}
+.ap-panel-body{padding:16px 20px 22px;overflow-y:auto;}
+.ap-panel-section{margin-bottom:18px;}
+.ap-panel-section:last-child{margin-bottom:0;}
+.ap-panel-section-title{
+  display:flex;align-items:center;gap:7px;
+  font-family:'Audiowide',sans-serif;font-size:11px;color:#ffd700;
+  letter-spacing:.6px;margin-bottom:10px;
+  text-shadow:0 0 10px rgba(255,215,0,.25);
+}
+.ap-panel-section-title i{font-size:11px;}
+.ap-panel-btn-grid{display:flex;flex-direction:column;gap:8px;}
+.ap-panel-btn{
+  display:flex;align-items:center;gap:10px;width:100%;
+  background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.1);
+  border-radius:13px;padding:11px 14px;
+  color:rgba(255,255,255,.85);font-size:12px;font-weight:600;letter-spacing:.2px;
+  cursor:pointer;text-align:left;
+  transition:background .15s ease,border-color .15s ease,transform .15s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+.ap-panel-btn i{width:16px;text-align:center;color:#ff6b6b;font-size:12px;}
+.ap-panel-btn:hover{background:rgba(255,43,43,.1);border-color:rgba(255,43,43,.35);}
+.ap-panel-btn:active{transform:scale(.97);}
+
+/* Bebas Prime: grid pilihan level 1-8 */
+.ap-bebas-input-row{display:none;align-items:center;gap:8px;margin-top:10px;}
+.ap-bebas-input{
+  flex:1;
+  min-width:0;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:10px;
+  padding:11px 12px;
+  color:#fff;
+  font-size:13px;
+  font-weight:600;
+}
+.ap-bebas-input::placeholder{color:rgba(255,255,255,.4);font-weight:400;}
+.ap-bebas-input:focus{outline:none;border-color:#ff3c3c;background:rgba(255,43,43,.08);}
+.ap-bebas-apply-btn{
+  flex:0 0 auto;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  background:rgba(255,43,43,.16);
+  border:1px solid rgba(255,43,43,.4);
+  border-radius:10px;
+  padding:11px 14px;
+  color:#ff8585;
+  font-size:12px;
+  font-weight:700;
+  cursor:pointer;
+  white-space:nowrap;
+}
+.ap-bebas-apply-btn:hover{background:rgba(255,43,43,.24);}
+.ap-bebas-apply-btn:active{transform:scale(.96);}
+.ap-prime-level-grid{display:none;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px;}
+.ap-prime-lvl-btn{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+  background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.1);
+  border-radius:13px;padding:8px 4px;cursor:pointer;
+  transition:background .15s ease,border-color .15s ease,transform .15s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+.ap-prime-lvl-btn img{width:32px;height:32px;object-fit:contain;pointer-events:none;}
+.ap-prime-lvl-btn span{font-size:9px;font-weight:700;color:rgba(255,255,255,.75);letter-spacing:.2px;}
+.ap-prime-lvl-btn:hover{background:rgba(255,43,43,.1);border-color:rgba(255,43,43,.35);}
+.ap-prime-lvl-btn:active{transform:scale(.95);}
+.ap-prime-lvl-btn.on{background:rgba(255,43,43,.16);border-color:#ff3c3c;}
+.ap-prime-lvl-btn.on span{color:#ff8585;}
+
+/* Toast kecil khusus admin panel */
+.ap-prime-toast{
+  position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);
+  background:rgba(20,10,10,.95);border:1px solid rgba(255,60,60,.4);
+  color:#fff;font-size:12px;font-weight:600;letter-spacing:.2px;
+  padding:11px 18px;border-radius:14px;z-index:10000000;
+  opacity:0;pointer-events:none;transition:opacity .2s ease,transform .2s ease;
+  box-shadow:0 12px 30px rgba(0,0,0,.5);
+}
+.ap-prime-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
 .dv2-bio-code{position:relative;padding:10px;border-radius:16px;background:linear-gradient(135deg,rgba(255,59,59,.28),rgba(232,176,75,.16) 55%,rgba(120,80,255,.16));margin-bottom:16px}
 .dv2-code-window{background:#1a1b26;border-radius:10px;overflow:hidden;box-shadow:0 14px 32px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.06)}
