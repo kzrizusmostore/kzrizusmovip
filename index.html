@@ -6246,7 +6246,7 @@ function closeVipShadowApp(){
 
 <div class="topbar-pro" id="topbarPro">
 <button id="topbarBackBtn" class="tb-backbtn" onclick="goBackPage()" style="display:none"><i class="fa-solid fa-arrow-left"></i><span data-i18n="nav.back">Kembali</span></button>
-<div class="left" id="topbarLeft"><button onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></button><button class="diamond-widget" onclick="openDiamondTopup('modal')"><img src="zusmo-asset/onzrii.png" alt="diamond" width="11" height="11" style="width:11px;height:11px;object-fit:contain;display:block"/><span id="diamondBalanceTop">0</span><span class="diamond-plus">+</span><img src="zusmo-asset/fvplwr.png" alt="Prime" class="diamond-prime-logo"/><span class="notif-dot" id="diamondDot"></span></button></div>
+<div class="left" id="topbarLeft"><button onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></button><button class="diamond-widget" onclick="openDiamondTopup('modal')"><img src="zusmo-asset/onzrii.png" alt="diamond" width="11" height="11" style="width:11px;height:11px;object-fit:contain;display:block"/><span id="diamondBalanceTop">0</span><span class="diamond-plus">+</span><img src="zusmo-asset/fvplwr.png" alt="Prime" id="topbarPrimeIcon" class="diamond-prime-logo" onclick="event.stopPropagation();showPage('prime')"/><span class="notif-dot" id="diamondDot"></span></button></div>
 <div class="center" id="topbarCenter"></div>
 <div class="right" id="topbarRight"><div class="mp-wrap" id="mpWrapHome"><button onclick="toggleMusicPopup(event,'mpWrapHome')"><i class="mp-music-icon fa-solid fa-music"></i></button><div class="mp-popup"><div class="mp-row-toggle"><span>Musik</span><div class="mp-switch" onclick="onMpSwitchToggle()"></div></div><div class="mp-vol-row"><i class="fa-solid fa-volume-low"></i><input type="range" class="vol-slider mp-volume-slider" min="0" max="100" value="80" oninput="onMpVolumeInput(this.value)"/><i class="fa-solid fa-volume-high"></i></div><div style="text-align:right;margin-top:2px"><span class="mp-vol-val mp-volume-value">80%</span></div></div></div><button onclick="showPage('notifikasi')"><i class="fa-solid fa-bell"></i><span class="notif-dot" id="notifDot"></span></button><button onclick="openSettings()"><i class="fa-solid fa-gear"></i><span class="notif-dot" id="settingsDot"></span></button></div>
 </div>
@@ -31221,11 +31221,11 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
 .banner-detail-hint.music-hint i{color:#ff2b2b}
 
 /* === Diamond widget (topbar) === */
-.diamond-widget{display:flex!important;align-items:center;gap:4px;background:transparent!important;border:none!important;border-radius:0!important;padding:6px 4px!important;margin-left:16px!important;font-weight:800;font-size:.78rem;color:#ffffff!important}
+.diamond-widget{display:flex!important;align-items:center;gap:4px;background:transparent!important;border:none!important;border-radius:0!important;padding:6px 4px!important;margin-left:22px!important;font-weight:800;font-size:.78rem;color:#ffffff!important}
 .diamond-widget img{width:11px;height:11px;object-fit:contain;display:block}
 .diamond-widget:active{transform:scale(.94)}
 .diamond-widget .diamond-plus{color:#ffffff;font-weight:900;margin-left:-1px}
-.diamond-widget .diamond-prime-logo{width:20px!important;height:20px!important;object-fit:contain;margin-left:3px}
+.diamond-widget .diamond-prime-logo{width:26px!important;height:26px!important;object-fit:contain;margin-left:7px;cursor:pointer;pointer-events:auto}
 
 /* === Lock / price badge on banner options === */
 .banner-opt{opacity:1}
@@ -33738,6 +33738,19 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
     var v = parseInt(localStorage.getItem(LS_DIAMOND), 10);
     return isNaN(v) ? 0 : v;
   }
+  function updateTopbarPrimeIcon(){
+    var img = document.getElementById('topbarPrimeIcon');
+    if(!img) return;
+    var lvl = (typeof prmCalcLevel==='function') ? prmCalcLevel(getDiamond()) : 0;
+    if(lvl>0 && typeof primeLevels!=='undefined' && primeLevels[lvl-1]){
+      img.src = primeLevels[lvl-1].img;
+      img.alt = primeLevels[lvl-1].name;
+    }else{
+      img.src = 'zusmo-asset/fvplwr.png';
+      img.alt = 'Prime';
+    }
+  }
+  document.addEventListener('DOMContentLoaded', updateTopbarPrimeIcon);
   function setDiamond(v){
     localStorage.setItem(LS_DIAMOND, String(Math.max(0, v)));
     var el = document.getElementById('diamondBalanceTop');
@@ -33752,6 +33765,7 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
     if(elWd) elWd.textContent = getDiamond();
     var elMd = document.getElementById('musicDetailDiamondBalance');
     if(elMd) elMd.textContent = getDiamond();
+    updateTopbarPrimeIcon();
   }
   function getOwnedWallpapers(){
     try{
