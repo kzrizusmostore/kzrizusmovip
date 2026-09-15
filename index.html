@@ -472,6 +472,10 @@ text-transform:uppercase;
 .vip-menu-gold:hover{box-shadow:0 0 0 1px rgba(255,215,0,.55),0 0 26px rgba(255,215,0,.18) !important;}
 .vip-menu-gold::before{background:#ffd700 !important;box-shadow:0 0 12px #ffd700 !important;}
 
+.vip-menu-gold-dark{box-shadow:0 0 0 1px rgba(184,134,11,.45),0 0 20px rgba(184,134,11,.13) !important;}
+.vip-menu-gold-dark:hover{box-shadow:0 0 0 1px rgba(184,134,11,.6),0 0 24px rgba(184,134,11,.2) !important;}
+.vip-menu-gold-dark::before{background:#b8860b !important;box-shadow:0 0 12px #b8860b !important;}
+
 .vip-badge-inline{
 position:static;display:inline-block;vertical-align:middle;margin-left:4px;white-space:nowrap;
 font-size:7.5px;font-weight:800;letter-spacing:.2px;
@@ -665,6 +669,28 @@ body{
 
 .app-bottombar .tab.active::after{
   width:60%;
+}
+
+/* dot indikator "NEW" di pojok icon tab */
+.app-bottombar .tab-icon-wrap{
+  position:relative;
+  display:inline-block;
+}
+.app-bottombar .tab-new-dot{
+  position:absolute;
+  top:-2px;
+  right:-5px;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:#00e676;
+  border:1.5px solid #0a0a0a;
+  box-shadow:0 0 6px rgba(0,230,118,.8);
+  animation:tabNewDotPulse 1.8s ease-in-out infinite;
+}
+@keyframes tabNewDotPulse{
+  0%,100%{transform:scale(1);opacity:1;}
+  50%{transform:scale(1.25);opacity:.75;}
 }
 
 /* ripple effect */
@@ -5987,11 +6013,11 @@ function closeVipShadowApp(){
 </div>
 <div class="app-bottombar">
 <div class="tab" onclick="showPage('leaderboardTab')">
-<i class="fa-solid fa-comment-dots"></i>
+<span class="tab-icon-wrap"><i class="fa-solid fa-comment-dots"></i><span class="tab-new-dot"></span></span>
     TESTIMONI
   </div>
 <div class="tab" onclick="showPage('eventTab')">
-<i class="fa-solid fa-calendar-days"></i>
+<span class="tab-icon-wrap"><i class="fa-solid fa-calendar-days"></i><span class="tab-new-dot"></span></span>
     EVENT
   </div>
 <div class="tab" onclick="showPage('shopTab')">
@@ -6011,7 +6037,7 @@ function closeVipShadowApp(){
     COMMUNITY
   </div>
 <div class="tab" onclick="showPage('developerTab')">
-<i class="fa-solid fa-code"></i>
+<span class="tab-icon-wrap"><i class="fa-solid fa-code"></i><span class="tab-new-dot"></span></span>
     DEVELOPER
   </div>
 </div>
@@ -6033,7 +6059,8 @@ function closeVipShadowApp(){
       <span class="hm-badge prime"><span data-i18n="home.prime">PRIME</span> : <span id="hmPrimePoint">0</span></span>
     </div>
   </div>
-  <div class="hm-prime-badge" onclick="showPage('prime')" role="button" tabindex="0" aria-label="Buka halaman Prime">
+  <div class="hm-prime-badge" onclick="if(typeof dismissNewBadge==='function'){dismissNewBadge('primelogo');}showPage('prime')" role="button" tabindex="0" aria-label="Buka halaman Prime" style="position:relative;">
+    <span class="hm-tile-badge" id="newBadge_primelogo" style="top:-2px;right:-2px;"></span>
     <img loading="lazy" decoding="async" class="hm-prime-logo" id="hmPrimeLogo" src="zusmo-asset/fvplwr.png" alt="Prime"/>
   </div>
 </div>
@@ -6100,7 +6127,8 @@ function closeVipShadowApp(){
     </div>
     <div class="hm-spotlight-cta"><i class="fa-solid fa-chevron-right"></i><span data-i18n="home.open">Buka</span></div>
   </div>
-  <div class="hm-spotlight" onclick="window.open('https://emotesend-lnbmahnn.manus.space','_blank')">
+  <div class="hm-spotlight" onclick="if(typeof dismissNewBadge==='function'){dismissNewBadge('zusmoemote');}window.open('https://emotesend-lnbmahnn.manus.space','_blank')">
+    <span class="hm-tile-badge" id="newBadge_zusmoemote" style="top:12px;right:12px;"></span>
     <div class="hm-spotlight-glow"></div>
     <div class="hm-spotlight-icon"><i class="fa-solid fa-mobile-screen"></i></div>
     <div class="hm-spotlight-body">
@@ -6257,7 +6285,8 @@ function closeVipShadowApp(){
 
 <!-- SECONDARY LIST -->
 <div class="hm-section-lbl" style="margin-top:18px;"><span data-i18n="home.moreMenu">📥 Lainnya</span></div>
-<div class="hm-menu" onclick="openDiamondTopup('page')" style="position:relative;">
+<div class="hm-menu" onclick="if(typeof dismissNewBadge==='function'){dismissNewBadge('topupdiamond');}openDiamondTopup('page')" style="position:relative;">
+  <span class="hm-tile-badge" id="newBadge_topupdiamond" style="top:10px;right:10px;"></span>
   <div class="hm-menu-icon"><i class="fa-solid fa-gem"></i></div>
   <div class="hm-menu-body"><h4>TOPUP DIAMOND</h4><small>Isi ulang Diamond dengan cepat &amp; aman</small></div>
   <i class="fa-solid fa-chevron-right hm-menu-arrow"></i>
@@ -6371,21 +6400,29 @@ function closeVipShadowApp(){
 <div class="zs-card-cap">Download Gratis<small>Versi tanpa VIP</small></div>
 </div>
 <div style="flex:1;">
-<div class="shine-card" onclick="openVipShadowApp()" style="cursor:pointer;">
+<div class="shine-card" onclick="if(typeof dismissNewBadge==='function'){dismissNewBadge('bukavip');}openVipShadowApp()" style="cursor:pointer;">
 <img loading="lazy" decoding="async" src="zusmo-asset/edczch.png" style="width:100%;aspect-ratio:1280/900;object-fit:cover;display:block;border-radius:16px;"/>
 </div>
-<div class="zs-card-cap">Buka VIP<small>Akses fitur premium</small></div>
+<div class="zs-card-cap">Buka VIP <span class="hm-new-dot" id="newBadge_bukavip" style="display:none;vertical-align:middle;margin-left:2px;"></span><small>Akses fitur premium</small></div>
 </div>
 </div>
 <!-- SECTION LABEL -->
 <div class="zs-section-label"><i class="fa-solid fa-bolt"></i>MENU UTAMA</div>
 <!-- MENU BUTTONS -->
 <div>
-<div class="vip-menu vip-menu-gold" onclick="showPage('vippricelist')" style="margin-bottom:26px;">
+<div class="vip-menu vip-menu-gold" onclick="if(typeof dismissNewBadge==='function'){dismissNewBadge('buyvip');dismissNewBadge('viptier');}showPage('vippricelist')" style="margin-bottom:26px;">
 <div class="vip-icon" style="border-color:rgba(255,215,0,.55);box-shadow:0 0 14px rgba(255,215,0,.3),inset 0 0 12px rgba(255,215,0,.12);"><i class="fa-solid fa-key" style="color:#ffd700;text-shadow:0 0 10px rgba(255,215,0,.9),0 0 20px rgba(255,215,0,.6);"></i></div>
 <div class="vip-content">
-<h4 style="font-size:15.5px;letter-spacing:.2px;">BUY VIP ZUSMO SHADOW <span class="vip-badge-inline">POPULER</span></h4>
+<h4 style="font-size:15.5px;letter-spacing:.2px;"><span class="hm-new-dot" id="newBadge_buyvip" style="display:none;vertical-align:middle;margin-right:5px;"></span>BUY VIP ZUSMO SHADOW <span class="vip-badge-inline">POPULER</span></h4>
 <small>Dapatkan akses premium<br>ZUSMO SHADOW VIP</small>
+</div>
+<i class="fa-solid fa-chevron-right vip-arrow"></i>
+</div>
+<div class="vip-menu vip-menu-gold-dark" onclick="showPage('upgradevip')" style="margin-bottom:26px;">
+<div class="vip-icon" style="border-color:rgba(184,134,11,.55);box-shadow:0 0 14px rgba(184,134,11,.3),inset 0 0 12px rgba(184,134,11,.12);"><i class="fa-solid fa-angles-up" style="color:#b8860b;text-shadow:0 0 10px rgba(184,134,11,.9),0 0 20px rgba(184,134,11,.6);"></i></div>
+<div class="vip-content">
+<h4 style="font-size:15.5px;letter-spacing:.2px;">UPGRADE VIP ZUSMO SHADOW</h4>
+<small>Naikkan paket VIP kamu ke level lebih tinggi</small>
 </div>
 <i class="fa-solid fa-chevron-right vip-arrow"></i>
 </div>
@@ -6423,6 +6460,140 @@ function closeVipShadowApp(){
 </div>
 </div>
 </div>
+
+<!-- UPGRADE VIP ZUSMO SHADOW PAGE -->
+<div class="page" id="upgradevip">
+<style>
+#upgradevip{padding-bottom:80px;}
+.upg-intro{font-size:12px;color:#9a9a9a;line-height:1.6;margin:2px 2px 18px;}
+.upg-section{margin-bottom:22px;}
+.upg-section-title{
+  display:flex;align-items:center;gap:8px;
+  margin-bottom:12px;
+  font-size:11.5px;font-weight:800;letter-spacing:1.3px;color:#ccc;
+  text-transform:uppercase;
+}
+.upg-section-title .upg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.upg-section-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(184,134,11,.4),transparent);}
+.upg-card{
+  display:flex;align-items:center;gap:13px;padding:14px 15px;margin-bottom:12px;
+  border-radius:16px;background:rgba(0,0,0,.72);
+  border:1px solid rgba(255,255,255,.08);
+  backdrop-filter:blur(16px);position:relative;overflow:hidden;cursor:pointer;
+  transition:.25s;box-shadow:0 0 0 1px rgba(184,134,11,.16),0 0 14px rgba(184,134,11,.05);
+}
+.upg-card:last-child{margin-bottom:0;}
+.upg-card:hover,.upg-card:active{
+  transform:translateY(-2px);
+  box-shadow:0 0 0 1px rgba(184,134,11,.4),0 0 20px rgba(184,134,11,.14);
+}
+.upg-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:#b8860b;box-shadow:0 0 10px #b8860b;}
+.upg-icon{
+  width:44px;height:44px;min-width:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+  background:rgba(184,134,11,.1);border:1px solid rgba(184,134,11,.4);
+  box-shadow:0 0 12px rgba(184,134,11,.2),inset 0 0 10px rgba(184,134,11,.1);
+  flex-shrink:0;
+}
+.upg-icon i{font-size:16px;color:#d4a72c;text-shadow:0 0 8px rgba(212,167,44,.7);}
+.upg-content{flex:1;min-width:0;}
+.upg-path{display:flex;align-items:center;gap:6px;font-size:13.5px;font-weight:800;letter-spacing:.2px;color:#e8e8e8;margin-bottom:2px;}
+.upg-path i{font-size:10px;color:#777;}
+.upg-path .to-tag{font-weight:900;}
+.upg-content small{font-size:10.5px;color:#8d8d8d;display:block;}
+.upg-price-wrap{display:flex;flex-direction:column;align-items:flex-end;flex-shrink:0;gap:2px;}
+.upg-price{font-size:14px;font-weight:800;color:#d4a72c;white-space:nowrap;}
+.upg-price-lbl{font-size:8.5px;letter-spacing:.4px;color:#777;text-transform:uppercase;}
+@media (max-width:360px){
+  .upg-card{gap:10px;padding:12px 12px;}
+  .upg-icon{width:40px;height:40px;min-width:40px;}
+  .upg-path{font-size:12.5px;}
+  .upg-price{font-size:13px;}
+}
+</style>
+
+<h1 style="color:#fff;font-weight:900;letter-spacing:1px;font-size:26px;">UPGRADE VIP</h1>
+<p class="subtitle" style="margin-top:4px;font-size:12px;opacity:.7;">Zusmo Shadow — naikkan paket VIP kamu</p>
+<p class="upg-intro">Sudah punya VIP Zusmo Shadow tapi ingin naik level? Pilih paket upgrade sesuai VIP kamu saat ini di bawah ini, cukup bayar selisih harganya — tanpa beli dari awal.</p>
+
+<div class="upg-section">
+<div class="upg-section-title"><span class="upg-dot" style="background:#a8a8a8;box-shadow:0 0 6px #a8a8a8;"></span>DARI VIP BASIC</div>
+<div class="upg-card" onclick="openUpgradeKeyVerify('BASIC','ELITE',3000)">
+  <div class="upg-icon"><i class="fa-solid fa-angles-up"></i></div>
+  <div class="upg-content">
+    <div class="upg-path">BASIC <i class="fa-solid fa-arrow-right-long"></i> <span class="to-tag" style="color:#0a84ff;">ELITE</span></div>
+    <small>Upgrade ke VIP Elite</small>
+  </div>
+  <div class="upg-price-wrap"><span class="upg-price">Rp 3.000</span><span class="upg-price-lbl">Sekali Bayar</span></div>
+</div>
+<div class="upg-card" onclick="openUpgradeKeyVerify('BASIC','ULTIMATE',6000)">
+  <div class="upg-icon"><i class="fa-solid fa-angles-up"></i></div>
+  <div class="upg-content">
+    <div class="upg-path">BASIC <i class="fa-solid fa-arrow-right-long"></i> <span class="to-tag" style="color:#a855f7;">ULTIMATE</span></div>
+    <small>Upgrade ke VIP Ultimate</small>
+  </div>
+  <div class="upg-price-wrap"><span class="upg-price">Rp 6.000</span><span class="upg-price-lbl">Sekali Bayar</span></div>
+</div>
+<div class="upg-card" onclick="openUpgradeKeyVerify('BASIC','MAX',10000)">
+  <div class="upg-icon"><i class="fa-solid fa-angles-up"></i></div>
+  <div class="upg-content">
+    <div class="upg-path">BASIC <i class="fa-solid fa-arrow-right-long"></i> <span class="to-tag" style="color:#ff3c3c;">MAX</span></div>
+    <small>Upgrade ke VIP Max</small>
+  </div>
+  <div class="upg-price-wrap"><span class="upg-price">Rp 10.000</span><span class="upg-price-lbl">Sekali Bayar</span></div>
+</div>
+</div>
+
+<div class="upg-section">
+<div class="upg-section-title"><span class="upg-dot" style="background:#0a84ff;box-shadow:0 0 6px #0a84ff;"></span>DARI VIP ELITE</div>
+<div class="upg-card" onclick="openUpgradeKeyVerify('ELITE','ULTIMATE',4000)">
+  <div class="upg-icon"><i class="fa-solid fa-angles-up"></i></div>
+  <div class="upg-content">
+    <div class="upg-path">ELITE <i class="fa-solid fa-arrow-right-long"></i> <span class="to-tag" style="color:#a855f7;">ULTIMATE</span></div>
+    <small>Upgrade ke VIP Ultimate</small>
+  </div>
+  <div class="upg-price-wrap"><span class="upg-price">Rp 4.000</span><span class="upg-price-lbl">Sekali Bayar</span></div>
+</div>
+<div class="upg-card" onclick="openUpgradeKeyVerify('ELITE','MAX',8000)">
+  <div class="upg-icon"><i class="fa-solid fa-angles-up"></i></div>
+  <div class="upg-content">
+    <div class="upg-path">ELITE <i class="fa-solid fa-arrow-right-long"></i> <span class="to-tag" style="color:#ff3c3c;">MAX</span></div>
+    <small>Upgrade ke VIP Max</small>
+  </div>
+  <div class="upg-price-wrap"><span class="upg-price">Rp 8.000</span><span class="upg-price-lbl">Sekali Bayar</span></div>
+</div>
+</div>
+
+<div class="upg-section">
+<div class="upg-section-title"><span class="upg-dot" style="background:#a855f7;box-shadow:0 0 6px #a855f7;"></span>DARI VIP ULTIMATE</div>
+<div class="upg-card" onclick="openUpgradeKeyVerify('ULTIMATE','MAX',5000)">
+  <div class="upg-icon"><i class="fa-solid fa-angles-up"></i></div>
+  <div class="upg-content">
+    <div class="upg-path">ULTIMATE <i class="fa-solid fa-arrow-right-long"></i> <span class="to-tag" style="color:#ff3c3c;">MAX</span></div>
+    <small>Upgrade ke VIP Max</small>
+  </div>
+  <div class="upg-price-wrap"><span class="upg-price">Rp 5.000</span><span class="upg-price-lbl">Sekali Bayar</span></div>
+</div>
+</div>
+
+</div>
+
+<!-- VERIFIKASI KEY VIP UNTUK UPGRADE -->
+<div class="page" id="upgradeKeyVerify">
+<div style="width:88px;height:88px;border-radius:50%;margin:4px auto 20px;display:flex;align-items:center;justify-content:center;background:rgba(184,134,11,.1);border:1px solid rgba(184,134,11,.4);"><i class="fa-solid fa-key" style="font-size:32px;color:#b8860b;"></i></div>
+<h1>VERIFIKASI KEY VIP</h1>
+<p class="subtitle">Masukkan Key VIP kamu saat ini untuk lanjut upgrade</p>
+<div class="download-box" style="border-color:rgba(184,134,11,.35);">
+  <div style="text-align:center;margin-bottom:16px;">
+    <div id="ukvPathText" style="font-size:15px;font-weight:800;color:#e8e8e8;letter-spacing:.3px;">BASIC → ELITE</div>
+    <div id="ukvPriceText" style="font-size:22px;font-weight:900;color:#d4a72c;margin-top:4px;">Rp 0</div>
+  </div>
+  <input class="glow-input" id="ukvKeyInput" placeholder="Masukkan Key VIP kamu" style="width:100%;padding:16px;border:none;border-radius:8px;background:#222;color:#fff;text-transform:uppercase;"/>
+  <button class="download-btn" onclick="checkUpgradeKey()" style="margin-top:15px;background:#b8860b;">VERIFIKASI &amp; LANJUTKAN</button>
+  <p id="ukvResult" style="text-align:center;margin-top:15px"></p>
+</div>
+<p style="text-align:center;font-size:10.5px;color:#777;margin-top:14px;line-height:1.6;">Key harus sesuai paket VIP asal pada upgrade yang kamu pilih. Setelah key valid, kamu akan diarahkan ke halaman Metode Pembayaran (QRIS, DANA, GoPay, ShopeePay, OVO, atau Order Manual via WhatsApp).</p>
+</div>
+
 <!-- PERTANYAAN UMUM (FAQ) PAGE -->
 <div class="page" id="faqPage">
 <h1 style="color:#fff;font-weight:900;letter-spacing:1px;font-size:28px;">PERTANYAAN UMUM</h1>
@@ -6518,7 +6689,7 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
 </div>
 <!-- BELI KEY VIP - PRICELIST PAGE -->
 <div class="page" id="vippricelist">
-<h1>Pilih Paket VIP</h1>
+<h1>Pilih Paket VIP <span class="hm-new-dot" id="newBadge_viptier" style="display:none;vertical-align:middle;margin-left:6px;"></span></h1>
 <p class="subtitle">Sentuh kartu untuk lihat detail fitur</p>
 <style>
 #vippricelist{padding-bottom:80px;}
@@ -6948,7 +7119,7 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
         </div>
       </div>
       <div class="vpl-price-wrap">
-        <div class="vpl-price">Rp 5.000</div>
+        <div class="vpl-price">Rp 4.000</div>
         <span class="vpl-price-order"><i class="fa-solid fa-cart-shopping"></i>/ Order</span>
       </div>
     </div>
@@ -6985,7 +7156,7 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
       <li class="yes"><i class="fa-solid fa-check"></i>Spam Invite Mufiz</li>
       <li class="yes"><i class="fa-solid fa-check"></i>Spy Mode</li>
     </ul>
-    <button class="vpl-btn" onclick="event.stopPropagation();orderVipKey('ELITE',5000)"><i class="fa-solid fa-crown"></i> Pilih VIP Elite</button>
+    <button class="vpl-btn" onclick="event.stopPropagation();orderVipKey('ELITE',4000)"><i class="fa-solid fa-crown"></i> Pilih VIP Elite</button>
   </div>
   </div>
 
@@ -7000,7 +7171,7 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
         </div>
       </div>
       <div class="vpl-price-wrap">
-        <div class="vpl-price">Rp 8.000</div>
+        <div class="vpl-price">Rp 7.000</div>
         <span class="vpl-price-order"><i class="fa-solid fa-cart-shopping"></i>/ Order</span>
       </div>
     </div>
@@ -7037,7 +7208,7 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
       <li class="yes"><i class="fa-solid fa-check"></i>Spam Invite Mufiz</li>
       <li class="yes"><i class="fa-solid fa-check"></i>Spy Mode</li>
     </ul>
-    <button class="vpl-btn" onclick="event.stopPropagation();orderVipKey('ULTIMATE',8000)"><i class="fa-solid fa-star"></i> Pilih VIP Ultimate</button>
+    <button class="vpl-btn" onclick="event.stopPropagation();orderVipKey('ULTIMATE',7000)"><i class="fa-solid fa-star"></i> Pilih VIP Ultimate</button>
   </div>
   </div>
 
@@ -7053,7 +7224,7 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
         </div>
       </div>
       <div class="vpl-price-wrap">
-        <div class="vpl-price">Rp 12.000</div>
+        <div class="vpl-price">Rp 10.000</div>
         <span class="vpl-price-order"><i class="fa-solid fa-cart-shopping"></i>/ Order</span>
       </div>
     </div>
@@ -7090,16 +7261,12 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
       <li class="yes"><i class="fa-solid fa-check"></i>Spam Invite Mufiz</li>
       <li class="yes"><i class="fa-solid fa-check"></i>Spy Mode</li>
     </ul>
-    <button class="vpl-btn" onclick="event.stopPropagation();orderVipKey('MAX',12000)"><i class="fa-solid fa-gem"></i> Pilih VIP Max</button>
+    <button class="vpl-btn" onclick="event.stopPropagation();orderVipKey('MAX',10000)"><i class="fa-solid fa-gem"></i> Pilih VIP Max</button>
   </div>
   </div>
 
 </div>
 
-<div class="vpl-note">
-  <i class="fa-solid fa-circle-info"></i>
-  <div>Pembelian diproses <b>manual</b> oleh admin melalui WhatsApp. Key akan dikirim setelah pembayaran dikonfirmasi.</div>
-</div>
 <p class="pc-sub" style="margin:10px 0 0;font-size:9.5px;text-align:center;">Admin : +62 838-0028-7738</p>
 
 <div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
@@ -7184,7 +7351,7 @@ function zsGetVerifiedAccount(){
     return raw?JSON.parse(raw):null;
   }catch(e){ return null; }
 }
-let vplSelected={tier:null,price:null,payment:null,uid:'',server:'ID'};
+let vplSelected={tier:null,price:null,payment:null,uid:'',server:'ID',upgradeFrom:null,upgradeTo:null};
 
 /* ===== Upload Bukti Transfer -> EmailJS ===== */
 const PROOF_EMAILJS_SERVICE_ID='service_91kjn7g';
@@ -7265,6 +7432,8 @@ function orderVipKey(tier,price){
   vplSelected.payment=null;
   vplSelected.uid='';
   vplSelected.server='ID';
+  vplSelected.upgradeFrom=null;
+  vplSelected.upgradeTo=null;
 
   const vT=document.getElementById('vuvSummaryTier');
   const vP=document.getElementById('vuvSummaryPrice');
@@ -7602,6 +7771,15 @@ function goToVpayDetail(){
   if(!meta)return;
 
   if(vplSelected.payment==='wa'){
+    if(vplSelected.upgradeFrom){
+      const msg='Halo Admin, saya mau *UPGRADE VIP ZUSMO SHADOW*\n\n'+
+        '🔑 Key VIP saat ini : '+vplSelected.uid+'\n'+
+        '📦 Upgrade : VIP '+vplSelected.upgradeFrom+' ➜ VIP '+vplSelected.upgradeTo+'\n'+
+        '💰 Harga Upgrade : Rp '+vplSelected.price.toLocaleString('id-ID')+'\n\n'+
+        'Mohon dibantu proses upgrade-nya, terima kasih.';
+      window.open('https://wa.me/6283800287738?text='+encodeURIComponent(msg),'_blank');
+      return;
+    }
     const serverObj=vplServers.find(s=>s.code===vplSelected.server)||vplServers[0];
     const msg='Halo Admin, saya mau order manual *KEY VIP '+vplSelected.tier+'*\n\n'+
       '🔑 Paket : VIP '+vplSelected.tier+'\n'+
@@ -8991,7 +9169,7 @@ details {
 <th class="tc-max">MAX<span class="viptbl-badge">TERBAIK</span></th>
 </tr>
 </thead>
-<tbody><tr><td>Skin Bundle Tembus Lobi</td><td class="yes"><i class="fa-solid fa-check"></i></td><td class="yes tc-basic"><i class="fa-solid fa-check"></i></td><td class="yes tc-elite"><i class="fa-solid fa-check"></i></td><td class="yes tc-ultimate"><i class="fa-solid fa-check"></i></td><td class="yes tc-max"><i class="fa-solid fa-check"></i></td></tr><tr><td>Skin Emote Tembus Lobi</td><td class="no"><i class="fa-solid fa-xmark"></i></td><td class="yes tc-basic"><i class="fa-solid fa-check"></i></td><td class="yes tc-elite"><i class="fa-solid fa-check"></i></td><td class="yes tc-ultimate"><i class="fa-solid fa-check"></i></td><td class="yes tc-max"><i class="fa-solid fa-check"></i></td></tr><tr><td>Skin Evogun Tembus Lobi</td><td class="no"><i class="fa-solid fa-xmark"></i></td><td class="yes tc-basic"><i class="fa-solid fa-check"></i></td><td class="yes tc-elite"><i class="fa-solid fa-check"></i></td><td class="yes tc-ultimate"><i class="fa-solid fa-check"></i></td><td class="yes tc-max"><i class="fa-solid fa-check"></i></td></tr><tr><td>Jaringan Anti Merah</td><td class="no"><i class="fa-solid fa-xmark"></i></td><td class="yes tc-basic"><i class="fa-solid fa-check"></i></td><td class="yes tc-elite"><i class="fa-solid fa-check"></i></td><td class="yes tc-ultimate"><i class="fa-solid fa-check"></i></td><td class="yes tc-max"><i class="fa-solid fa-check"></i></td></tr><tr><td>Akses 356 Hari</td><td class="no"><i class="fa-solid fa-xmark"></i></td><td class="yes tc-basic"><i class="fa-solid fa-check"></i></td><td class="yes tc-elite"><i class="fa-solid fa-check"></i></td><td class="yes tc-ultimate"><i class="fa-solid fa-check"></i></td><td class="yes tc-max"><i class="fa-solid fa-check"></i></td></tr><tr><td>Tembus Lobi Teman</td><td class="no"><i class="fa-solid fa-xmark"></i></td><td class="no"><i class="fa-solid fa-xmark"></i></td><td class="yes tc-elite"><i class="fa-solid fa-check"></i></td><td class="yes tc-ultimate"><i class="fa-solid fa-check"></i></td><td class="yes tc-max"><i class="fa-solid fa-check"></i></td></tr><tr><td>Tembus In Game</td><td class="no"><i class="fa-solid fa-xmark"></i></td><td class="no"><i class="fa-solid fa-xmark"></i></td><td class="no"><i class="fa-solid fa-xmark"></i></td><td class="yes tc-ultimate"><i class="fa-solid fa-check"></i></td><td class="yes tc-max"><i class="fa-solid fa-check"></i></td></tr><tr><td>Tanpa Key Login</td><td class="no"><i class="fa-solid fa-xmark"></i></td><td class="no"><i class="fa-solid fa-xmark"></i></td><td class="no"><i class="fa-solid fa-xmark"></i></td><td class="no"><i class="fa-solid fa-xmark"></i></td><td class="yes tc-max"><i class="fa-solid fa-check"></i></td></tr><tr><td>Full Update</td><td class="no"><i class="fa-solid fa-xmark"></i></td><td class="no"><i class="fa-solid fa-xmark"></i></td><td class="no"><i class="fa-solid fa-xmark"></i></td><td class="no"><i class="fa-solid fa-xmark"></i></td><td class="yes tc-max"><i class="fa-solid fa-check"></i></td></tr><tr class="vip-row-price"><td>Harga</td><td>Rp0</td><td class="tc-basic">Rp3.000</td><td class="tc-elite">Rp5.000</td><td class="tc-ultimate">Rp8.000</td><td class="tc-max">Rp12.000</td></tr></tbody>
+<tbody><tr><td>Skin Bundle Tembus Lobi</td><td class="yes"><i class="fa-solid fa-check"></i></td><td class="yes tc-basic"><i class="fa-solid fa-check"></i></td><td class="yes tc-elite"><i class="fa-solid fa-check"></i></td><td class="yes tc-ultimate"><i class="fa-solid fa-check"></i></td><td class="yes tc-max"><i class="fa-solid fa-check"></i></td></tr><tr><td>Skin Emote Tembus Lobi</td><td class="no"><i class="fa-solid fa-xmark"></i></td><td class="yes tc-basic"><i class="fa-solid fa-check"></i></td><td class="yes tc-elite"><i class="fa-solid fa-check"></i></td><td class="yes tc-ultimate"><i class="fa-solid fa-check"></i></td><td class="yes tc-max"><i class="fa-solid fa-check"></i></td></tr><tr><td>Skin Evogun Tembus Lobi</td><td class="no"><i class="fa-solid fa-xmark"></i></td><td class="yes tc-basic"><i class="fa-solid fa-check"></i></td><td class="yes tc-elite"><i class="fa-solid fa-check"></i></td><td class="yes tc-ultimate"><i class="fa-solid fa-check"></i></td><td class="yes tc-max"><i class="fa-solid fa-check"></i></td></tr><tr><td>Jaringan Anti Merah</td><td class="no"><i class="fa-solid fa-xmark"></i></td><td class="yes tc-basic"><i class="fa-solid fa-check"></i></td><td class="yes tc-elite"><i class="fa-solid fa-check"></i></td><td class="yes tc-ultimate"><i class="fa-solid fa-check"></i></td><td class="yes tc-max"><i class="fa-solid fa-check"></i></td></tr><tr><td>Akses 356 Hari</td><td class="no"><i class="fa-solid fa-xmark"></i></td><td class="yes tc-basic"><i class="fa-solid fa-check"></i></td><td class="yes tc-elite"><i class="fa-solid fa-check"></i></td><td class="yes tc-ultimate"><i class="fa-solid fa-check"></i></td><td class="yes tc-max"><i class="fa-solid fa-check"></i></td></tr><tr><td>Tembus Lobi Teman</td><td class="no"><i class="fa-solid fa-xmark"></i></td><td class="no"><i class="fa-solid fa-xmark"></i></td><td class="yes tc-elite"><i class="fa-solid fa-check"></i></td><td class="yes tc-ultimate"><i class="fa-solid fa-check"></i></td><td class="yes tc-max"><i class="fa-solid fa-check"></i></td></tr><tr><td>Tembus In Game</td><td class="no"><i class="fa-solid fa-xmark"></i></td><td class="no"><i class="fa-solid fa-xmark"></i></td><td class="no"><i class="fa-solid fa-xmark"></i></td><td class="yes tc-ultimate"><i class="fa-solid fa-check"></i></td><td class="yes tc-max"><i class="fa-solid fa-check"></i></td></tr><tr><td>Tanpa Key Login</td><td class="no"><i class="fa-solid fa-xmark"></i></td><td class="no"><i class="fa-solid fa-xmark"></i></td><td class="no"><i class="fa-solid fa-xmark"></i></td><td class="no"><i class="fa-solid fa-xmark"></i></td><td class="yes tc-max"><i class="fa-solid fa-check"></i></td></tr><tr><td>Full Update</td><td class="no"><i class="fa-solid fa-xmark"></i></td><td class="no"><i class="fa-solid fa-xmark"></i></td><td class="no"><i class="fa-solid fa-xmark"></i></td><td class="no"><i class="fa-solid fa-xmark"></i></td><td class="yes tc-max"><i class="fa-solid fa-check"></i></td></tr><tr class="vip-row-price"><td>Harga</td><td>Rp0</td><td class="tc-basic">Rp3.000</td><td class="tc-elite">Rp4.000</td><td class="tc-ultimate">Rp7.000</td><td class="tc-max">Rp10.000</td></tr></tbody>
 </table>
 </div>
 </div>
@@ -16800,6 +16978,7 @@ async function rndDownload(url,keyName,isVideo){
 .tff-profile-bio-box .tff-bio-scroll{max-width:calc(100% - 32px);overflow-x:auto;}
 .tff-profile-bio-box .tff-bio-text{display:block;font-family:'Anton',sans-serif;font-size:17px;font-weight:400;letter-spacing:.3px;line-height:1.45;color:#eee;text-shadow:.4px 0 currentColor,-.4px 0 currentColor,0 .4px currentColor,0 -.4px currentColor;white-space:pre;word-break:normal;}
 .tff-profile-bio-box .tff-bio-text,.tff-profile-bio-box .tff-bio-text b,.tff-profile-bio-box .tff-bio-text i,.tff-profile-bio-box .tff-bio-text u{font-weight:400!important;font-family:'Anton',sans-serif!important;}
+.tff-profile-bio-box .tff-bio-text .kz-bio-extra b{font-weight:800!important;}
 .tff-profile-bio-box .stk-copy-btn{position:absolute;top:10px;right:10px;}
 /* Bungkus baris item (chip outfit) supaya bisa dikasih garis pemisah di
    ATAS-nya, gaya sama seperti garis sebelum "Akun dibuat" / sebelum "Guild"
@@ -22687,6 +22866,23 @@ function tffBuildProfileHead(json,extra,refreshAttr){
   const social=json.socialInfo||{};
   const signature=stkPick(b,['signature'])||stkPick(social,['signature']);
 
+  /* EASTER EGG: ID developer KZRIZUSMO FF -> bio hasil asli TETAP DITAMPILKAN
+     apa adanya, cuma ditambahi 3 baris promosi (kode warna [RRGGBB]) di
+     BAWAHNYA pakai baris baru. Dicek dari accountId hasil API, bukan dari
+     input mentah, jadi cuma aktif kalau ID yang dicek memang 260190210. */
+  const KZ_DEV_ID='260190210';
+  const KZ_DEV_BIO_LINES=[
+    "[B][FF0000]B[FF4500]E[FF8C00]L[FFFF00]I [00FF00]B[00FFFF]I[008CFF]O [0000FF]P[8000FF]A[FF00FF]N[FF1493]J[FF0000]A[FF8C00]N[FFFF00]G [00FF00]C[00FFFF]U[008CFF]M[0000FF]A [FF00FF]5[FF0000]K",
+    "[B][FF00AA]D[FF00FF]E[CC00FF]V[9900FF]E[6600FF]L[3300FF]O[0066FF]P[00CCFF]E[00FFFF]R [00FFCC]A[00FF66]P[66FF00]K [FFFF00]K[FFCC00]Z[FF9900]R[FF6600]I[FF3300]Z[FF0066]U[FF0099]S[FF00CC]M[CC00FF]O [9900FF]F[0066FF]F",
+    "[B][4B0082]D[6A00B8]E[8900EE]V[A800FF]E[C000E8]L[D800D0]O[F000B8]P[FF1493]E[E800A8]R [D000C0]A[B000D8]P[9000F0]K [7000C8]K[5000A0]Z[3B0080]R[2F006B]I[250057]Z[1E0045]U[180033]S[120022]M[0D0018]O [080010]F[05000A]F"
+  ];
+  const isKzDevId=uidVal!=null && String(uidVal).trim()===KZ_DEV_ID;
+  const bioOriginalRaw=signature?String(signature).trim():'';
+  const bioOriginalHtml=bioOriginalRaw?tffFormatBio(bioOriginalRaw):'';
+  const bioExtraHtml=isKzDevId?'<span class="kz-bio-extra">'+KZ_DEV_BIO_LINES.map(function(l){return tffFormatBio(l);}).join('<br>')+'</span>':'';
+  const bioCombinedHtml=bioOriginalHtml+((bioOriginalHtml&&bioExtraHtml)?'<br>':'')+bioExtraHtml;
+  const bioCopyVal=bioOriginalRaw+(isKzDevId?((bioOriginalRaw?'\n':'')+KZ_DEV_BIO_LINES.join('\n')):'');
+
   // Endpoint /banner/profile langsung balikin GAMBAR PNG jadi (bukan JSON) yang
   // isinya sudah gabungan avatar+nama+guild+level dirender server, ukuran total
   // 200x43 dengan avatar persegi (43x43) nempel di ujung kiri. Kita cuma mau
@@ -22756,10 +22952,10 @@ function tffBuildProfileHead(json,extra,refreshAttr){
       (badges.length?'<div class="tff-profile-badges">'+badges.join('')+'</div>':'')+
       (dateRows.length?'<div class="tff-profile-dates">'+dateRows.join('')+'</div>':'')+
       (extra.showItems?cidCombinedItemIconsHtml(json):'')+
-      (signature?(
+      (bioCombinedHtml?(
         '<div class="tff-profile-bio-label">Bio</div>'+
-        '<div class="tff-profile-bio-box"><div class="tff-bio-scroll"><span class="tff-bio-text" style="font-family:\'Anton\',sans-serif;font-weight:400!important;text-shadow:.4px 0 currentColor,-.4px 0 currentColor,0 .4px currentColor,0 -.4px currentColor">'+tffFormatBio(String(signature).trim())+'</span></div>'+
-        '<button class="stk-copy-btn" data-val="'+tffAttrEsc(String(signature).trim())+'" onclick="tffCopyVal(this)"><i class="fa-solid fa-copy"></i></button></div>'
+        '<div class="tff-profile-bio-box"><div class="tff-bio-scroll"><span class="tff-bio-text" style="font-family:\'Anton\',sans-serif;font-weight:400!important;text-shadow:.4px 0 currentColor,-.4px 0 currentColor,0 .4px currentColor,0 -.4px currentColor">'+bioCombinedHtml+'</span></div>'+
+        '<button class="stk-copy-btn" data-val="'+tffAttrEsc(bioCopyVal)+'" onclick="tffCopyVal(this)"><i class="fa-solid fa-copy"></i></button></div>'
       ):'')+
       (clanName?(
         '<div class="tff-profile-guild-label">Guild</div>'+
@@ -30631,6 +30827,87 @@ function checkVipKey(){
  }
 }
 
+/* ===== VERIFIKASI KEY VIP UNTUK UPGRADE ZUSMO SHADOW ===== */
+let upgSelected={from:'',to:'',price:0};
+function ukvRoleFromIndex(idx){
+  if(idx>=VIP_TIER_RANGES.MAX[0]) return 'MAX';
+  if(idx>=VIP_TIER_RANGES.ULTIMATE[0]) return 'ULTIMATE';
+  if(idx>=VIP_TIER_RANGES.ELITE[0]) return 'ELITE';
+  return 'BASIC';
+}
+function openUpgradeKeyVerify(from,to,price){
+  upgSelected={from:from,to:to,price:price};
+  const pathEl=document.getElementById('ukvPathText');
+  const priceEl=document.getElementById('ukvPriceText');
+  if(pathEl) pathEl.textContent='VIP '+from+' \u2192 VIP '+to;
+  if(priceEl) priceEl.textContent='Rp '+price.toLocaleString('id-ID');
+  const input=document.getElementById('ukvKeyInput');
+  if(input){input.value='';input.style.border='';input.classList.remove('shake');}
+  const result=document.getElementById('ukvResult');
+  if(result){result.innerHTML='';result.className='';}
+  showPage('upgradeKeyVerify');
+}
+function checkUpgradeKey(){
+  const inputEl=document.getElementById('ukvKeyInput');
+  const resultEl=document.getElementById('ukvResult');
+  if(!inputEl||!resultEl) return;
+  const key=inputEl.value.toUpperCase().replace(/-/g,'').trim();
+  const idx=validKeys.indexOf(key);
+  if(idx===-1){
+    resultEl.innerHTML='❌ KEY VIP TIDAK VALID';
+    resultEl.style.color='#ff3b3b';
+    inputEl.classList.remove('shake');
+    void inputEl.offsetWidth;
+    inputEl.classList.add('shake');
+    inputEl.style.border='3px solid #ff3b3b';
+    window.ZUSMO && window.ZUSMO.vibrate([200,100,200]);
+    return;
+  }
+  const role=ukvRoleFromIndex(idx);
+  if(role!==upgSelected.from){
+    resultEl.innerHTML='⚠️ Key ini adalah VIP '+role+', bukan VIP '+upgSelected.from+'.<br>Upgrade ini khusus untuk pemilik VIP '+upgSelected.from+'.';
+    resultEl.style.color='#ff3b3b';
+    inputEl.classList.remove('shake');
+    void inputEl.offsetWidth;
+    inputEl.classList.add('shake');
+    inputEl.style.border='3px solid #ff3b3b';
+    window.ZUSMO && window.ZUSMO.vibrate([200,100,200]);
+    return;
+  }
+  resultEl.className='successAnim';
+  resultEl.innerHTML='🎉 KEY VALID!<br>Mengarahkan ke halaman pembayaran...';
+  resultEl.style.color='#00ff88';
+  inputEl.style.border='3px solid #00ff88';
+  window.ZUSMO && window.ZUSMO.vibrate([100,50,100,50,300]);
+
+  vplSelected.tier=upgSelected.to;
+  vplSelected.price=upgSelected.price;
+  vplSelected.payment=null;
+  vplSelected.uid=key;
+  vplSelected.server='ID';
+  vplSelected.nickname='Upgrade dari VIP '+upgSelected.from;
+  vplSelected.upgradeFrom=upgSelected.from;
+  vplSelected.upgradeTo=upgSelected.to;
+
+  document.querySelectorAll('.vpay-method').forEach(function(m){m.classList.remove('selected');});
+  const confirmBtn=document.getElementById('vpayConfirmBtn');
+  if(confirmBtn){confirmBtn.classList.remove('ready');confirmBtn.disabled=true;}
+
+  const sT=document.getElementById('vpaySummaryTier');
+  const sP=document.getElementById('vpaySummaryPrice');
+  const sU=document.getElementById('vpaySummaryUid');
+  const sN=document.getElementById('vpaySummaryNickname');
+  if(sT) sT.textContent='VIP '+upgSelected.from+' \u27a1 VIP '+upgSelected.to;
+  if(sP) sP.textContent='Rp '+upgSelected.price.toLocaleString('id-ID');
+  if(sU) sU.textContent='Key VIP saat ini: '+key;
+  if(sN) sN.textContent='Upgrade ke VIP '+upgSelected.to;
+
+  setTimeout(function(){
+    showPage('vippayment');
+  },1000);
+}
+
+
 
 
 
@@ -32303,13 +32580,13 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
     'Suntik Like':               [5000,25000,60000,100000],
     'Bot Glory':                 [150000,300000,450000,600000],
     'Suntik Folls Craftland':    [150000,300000,450000,600000],
-    'Vip Zusmo Shadow':          [3000,5000,8000,12000]
+    'Vip Zusmo Shadow':          [3000,4000,7000,10000]
   };
   var VIP_TIER_INFO = {
     3000:  { name:'VIP BASIC',    cls:'vip-basic',    benefits:5 },
-    5000:  { name:'VIP ELITE',    cls:'vip-elite',    benefits:6 },
-    8000:  { name:'VIP ULTIMATE', cls:'vip-ultimate', benefits:7 },
-    12000: { name:'VIP MAX',      cls:'vip-max',      benefits:9 }
+    4000:  { name:'VIP ELITE',    cls:'vip-elite',    benefits:6 },
+    7000:  { name:'VIP ULTIMATE', cls:'vip-ultimate', benefits:7 },
+    10000: { name:'VIP MAX',      cls:'vip-max',      benefits:9 }
   };
   // Distribusi order VIP Zusmo Shadow: makin tinggi tier makin sering dipilih (basic 10%, elite 20%, ultimate 30%, max 40%)
   var VIP_PRICE_WEIGHTS = [10,20,30,40]; // sejajar index dengan PROGRESS_PRICES['Vip Zusmo Shadow']
@@ -36472,14 +36749,14 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
 
 <div class="hm-section-lbl"><span>🎬 Reward Konten Kreator</span></div>
 
-<div class="crw-card" onclick="openCreatorReward()">
+<div class="crw-card" onclick="if(typeof dismissNewBadge==='function'){dismissNewBadge('eventtiktok');}openCreatorReward()">
   <div class="crw-card-shine"></div>
   <div class="crw-card-glow"></div>
   <div class="crw-card-top">
     <div class="crw-card-icon"><i class="fa-brands fa-tiktok"></i></div>
     <span class="crw-card-badge">GRATIS</span>
   </div>
-  <h4 class="crw-card-title">Upload Video TikTok, Dapat Diamond!</h4>
+  <h4 class="crw-card-title"><span class="hm-new-dot" id="newBadge_eventtiktok" style="display:none;vertical-align:middle;margin-right:6px;"></span>Upload Video TikTok, Dapat Diamond!</h4>
   <p class="crw-card-desc">Bikin konten TikTok bebas tema, asal berkaitan dengan aplikasi <b>KZRIZUSMO</b> atau <b>Zusmo Shadow</b>, dan wajib tag akun <b>@kzrizusmo_store</b>. Kirim link videonya dan dapatkan Diamond Merah gratis — jumlahnya dinilai dari views, like, komentar, dan seberapa menarik kontenmu.</p>
   <div class="crw-card-footer">
     <span class="crw-card-reward"><img loading="lazy" decoding="async" src="zusmo-asset/onzrii.png" alt="diamond" class="crw-card-reward-icon"/>100 – 10.000 DM</span>
@@ -39180,7 +39457,14 @@ const NEW_BADGE_CONFIG={
   tools:{launch:'2026-09-09'},
   re:{launch:'2026-09-09'},
   bypass:{launch:'2026-09-09'},
-  pterodactyl:{launch:'2026-09-09'}
+  pterodactyl:{launch:'2026-09-09'},
+  eventtiktok:{launch:'2026-09-15'},
+  bukavip:{launch:'2026-09-15'},
+  buyvip:{launch:'2026-09-15'},
+  viptier:{launch:'2026-09-15'},
+  zusmoemote:{launch:'2026-09-15'},
+  topupdiamond:{launch:'2026-09-15'},
+  primelogo:{launch:'2026-09-15'}
 };
 const NEW_BADGE_DURATION_DAYS=20;
 
@@ -42290,9 +42574,9 @@ if(navigator.storage && navigator.storage.persist){
         if (typeof window.openVpnBuyFlow === 'function') window.openVpnBuyFlow();
         return;
       }
-      localStorage.setItem(lastScreenStorage, 'vpn');
-      markReturnToVpn();
-      window.location.assign(vpnModalTargetUrl);
+      closeVpnAccessModal();
+      if (typeof window.closeVipShadowApp === 'function') window.closeVipShadowApp();
+      if (typeof window.showPage === 'function') window.showPage('upgradevip');
     });
 
     window.__zsMarkVpnAccessPurchased = markVpnAccessPurchased;
@@ -42444,6 +42728,133 @@ if(navigator.storage && navigator.storage.persist){
       });
     });
   }
+})();
+</script>
+
+<!-- ================= WELCOME BONUS: 2.500 Diamond gratis untuk pengguna baru yang install app ================= -->
+<style>
+.kz-welcome-overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:100000;display:none;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .25s ease;}
+.kz-welcome-overlay.show{display:flex;}
+.kz-welcome-overlay.show.in{opacity:1;}
+.kz-welcome-card{position:relative;width:100%;max-width:330px;background:linear-gradient(160deg,#181818,#0c0c0c);border:1px solid rgba(255,43,43,.4);border-radius:26px;padding:28px 22px 22px;text-align:center;transform:scale(.9);transition:transform .25s ease;box-shadow:0 20px 50px rgba(0,0,0,.6);font-family:'Inter','Outfit',system-ui,sans-serif;}
+.kz-welcome-overlay.show.in .kz-welcome-card{transform:scale(1);}
+.kz-welcome-close{position:absolute;top:14px;right:14px;background:transparent;border:none;color:#777;font-size:16px;cursor:pointer;padding:6px;line-height:1;}
+.kz-welcome-icon{width:74px;height:74px;margin:4px auto 14px;object-fit:contain;filter:drop-shadow(0 0 14px rgba(255,43,43,.5));animation:kzWelcomeFloat 2.4s ease-in-out infinite;}
+@keyframes kzWelcomeFloat{50%{transform:translateY(-8px)}}
+.kz-welcome-title{font-family:'Orbitron',sans-serif;font-size:1rem;font-weight:900;letter-spacing:1px;color:#fff;margin-bottom:6px;}
+.kz-welcome-amount{font-family:'Orbitron',sans-serif;font-size:1.85rem;font-weight:900;color:#ff3c3c;text-shadow:0 0 18px rgba(255,43,43,.5);margin:8px 0 12px;}
+.kz-welcome-amount img{width:24px;height:24px;vertical-align:-4px;margin-right:6px;}
+.kz-welcome-desc{color:#bbb;font-size:12.5px;line-height:1.65;margin-bottom:20px;}
+.kz-welcome-btn{width:100%;padding:15px;border:none;border-radius:16px;background:#ff2b2b;color:#fff;font-size:13.5px;font-weight:800;cursor:pointer;font-family:inherit;box-shadow:0 8px 20px rgba(255,43,43,.35);}
+.kz-welcome-btn:disabled{opacity:.6;}
+.kz-welcome-later{width:100%;padding:12px;border:none;background:transparent;color:#888;font-size:12px;margin-top:8px;cursor:pointer;font-family:inherit;}
+.kz-welcome-note{font-size:10px;color:#666;margin-top:12px;line-height:1.5;}
+.kz-welcome-success{display:none;}
+.kz-welcome-success.show{display:block;}
+.kz-welcome-success i{font-size:52px;color:#00ff88;margin-bottom:10px;animation:successPop .6s;}
+</style>
+<div class="kz-welcome-overlay" id="kzWelcomeOverlay">
+  <div class="kz-welcome-card">
+    <button class="kz-welcome-close" onclick="kzWelcomeDismiss()" aria-label="Tutup"><i class="fa-solid fa-xmark"></i></button>
+    <div id="kzWelcomeMain">
+      <img class="kz-welcome-icon" src="zusmo-asset/onzrii.png" alt="diamond"/>
+      <div class="kz-welcome-title">SELAMAT DATANG DI KZRIZUSMO!</div>
+      <div class="kz-welcome-amount"><img src="zusmo-asset/onzrii.png" alt="diamond"/>2.500</div>
+      <div class="kz-welcome-desc">Khusus pengguna baru! Install aplikasi KZRIZUSMO ke layar utama sekarang dan klaim <b style="color:#fff">2.500 Diamond GRATIS</b> buat dipakai di semua fitur.</div>
+      <button class="kz-welcome-btn" id="kzWelcomeBtn" onclick="kzClaimWelcomeInstall()">Install &amp; Klaim 2.500 Diamond</button>
+      <button class="kz-welcome-later" onclick="kzWelcomeDismiss()">Nanti saja</button>
+      <div class="kz-welcome-note">Bonus otomatis masuk begitu instalasi selesai.</div>
+    </div>
+    <div class="kz-welcome-success" id="kzWelcomeSuccess">
+      <i class="fa-solid fa-circle-check"></i>
+      <div class="kz-welcome-title" style="color:#00ff88">BERHASIL!</div>
+      <div class="kz-welcome-desc">2.500 Diamond sudah masuk ke akun kamu. Selamat menjelajah KZRIZUSMO!</div>
+      <button class="kz-welcome-btn" onclick="kzWelcomeDismiss()">Oke, Mantap!</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var CLAIM_KEY='zusmo_welcome_bonus_claimed';
+  var DISMISS_KEY='zusmo_welcome_bonus_dismissed_at';
+  var DISMISS_DAYS=3;
+  var BONUS_AMOUNT=2500;
+  var ov=document.getElementById('kzWelcomeOverlay');
+
+  function isStandalone(){
+    return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone===true;
+  }
+  function isIos(){ return /iphone|ipad|ipod/i.test(navigator.userAgent); }
+  function alreadyClaimed(){ return localStorage.getItem(CLAIM_KEY)==='1'; }
+  function recentlyDismissed(){
+    var t=parseInt(localStorage.getItem(DISMISS_KEY)||'0',10);
+    if(!t) return false;
+    return (Date.now()-t) < (DISMISS_DAYS*24*60*60*1000);
+  }
+
+  function openWelcome(){
+    if(!ov || alreadyClaimed() || isStandalone() || recentlyDismissed()) return;
+    ov.classList.add('show');
+    requestAnimationFrame(function(){ ov.classList.add('in'); });
+  }
+  window.kzWelcomeDismiss=function(){
+    localStorage.setItem(DISMISS_KEY,String(Date.now()));
+    if(ov){ ov.classList.remove('in'); setTimeout(function(){ ov.classList.remove('show'); },250); }
+  };
+
+  function grantBonus(){
+    if(alreadyClaimed()) return;
+    localStorage.setItem(CLAIM_KEY,'1');
+    if(typeof window.setDiamond==='function' && typeof window.getDiamond==='function'){
+      window.setDiamond(window.getDiamond()+BONUS_AMOUNT);
+    }
+    if(typeof window.addHistoryEntry==='function') window.addHistoryEntry('bonus','Bonus Install Aplikasi','Pengguna Baru KZRIZUSMO',BONUS_AMOUNT);
+    if(typeof window.updateDiamondDot==='function') window.updateDiamondDot();
+    if(typeof window.zxShowToast==='function') window.zxShowToast('2.500 Diamond berhasil ditambahkan!','success');
+    var main=document.getElementById('kzWelcomeMain');
+    var success=document.getElementById('kzWelcomeSuccess');
+    if(main) main.style.display='none';
+    if(success) success.classList.add('show');
+    if(ov){ ov.classList.add('show'); requestAnimationFrame(function(){ ov.classList.add('in'); }); }
+  }
+
+  window.kzClaimWelcomeInstall=function(){
+    var btn=document.getElementById('kzWelcomeBtn');
+    if(isStandalone()){ grantBonus(); return; }
+    if(window._kzDeferredPrompt){
+      var dp=window._kzDeferredPrompt;
+      if(btn){ btn.disabled=true; btn.textContent='Memasang...'; }
+      dp.prompt();
+      dp.userChoice.then(function(result){
+        if(result && result.outcome==='accepted'){ grantBonus(); }
+      }).finally(function(){
+        if(btn){ btn.disabled=false; btn.textContent='Install & Klaim 2.500 Diamond'; }
+        window._kzDeferredPrompt=null;
+      });
+      return;
+    }
+    if(isIos()){
+      var desc=document.querySelector('#kzWelcomeMain .kz-welcome-desc');
+      if(desc) desc.innerHTML='Tap tombol <b>Share</b> (kotak panah ke atas) di Safari, lalu pilih <b>"Add to Home Screen"</b>. Setelah itu tekan tombol di bawah untuk klaim bonusnya.';
+      if(btn){ btn.textContent='Saya Sudah Install'; btn.onclick=function(){ grantBonus(); }; }
+      return;
+    }
+    if(typeof window.kzInstallClick==='function'){ window.kzInstallClick(); return; }
+    if(typeof window.zxShowToast==='function') window.zxShowToast('Install belum tersedia di browser ini.','error');
+  };
+
+  // Tangkap event install PWA secara terpisah dari banner (aman dipasang ganda),
+  // supaya modal bonus ini tetap bisa memicu prompt instal native.
+  window.addEventListener('beforeinstallprompt', function(e){
+    window._kzDeferredPrompt = e;
+  });
+  // Jaring pengaman: kalau instalasi berhasil lewat jalur mana pun, bonus tetap cair sekali.
+  window.addEventListener('appinstalled', function(){
+    grantBonus();
+  });
+
+  document.addEventListener('DOMContentLoaded', function(){ setTimeout(openWelcome, 1600); });
+  window.addEventListener('load', function(){ setTimeout(openWelcome, 1600); });
 })();
 </script>
 </body></html>
