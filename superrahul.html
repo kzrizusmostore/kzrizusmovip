@@ -188,8 +188,8 @@
     </div>
     <div class="hud-right">
       <div id="livesWrap"></div>
-      <div class="hud-pill"><img src="zusmo-assets/onzrii.png" alt="diamond" style="width:13px;height:13px;object-fit:contain;vertical-align:middle;margin-right:3px" onerror="this.style.display='none'"><span id="diamondVal">0</span></div>
-      <div class="hud-pill" id="cangkulPill" style="display:none"><img src="zusmo-assets/skilcangkul.png" alt="cangkul" style="width:13px;height:13px;object-fit:contain;vertical-align:middle;margin-right:3px" onerror="this.style.display='none'"><span id="cangkulVal">0</span></div>
+      <div class="hud-pill"><img src="zusmo-asset/onzrii.png" alt="diamond" style="width:13px;height:13px;object-fit:contain;vertical-align:middle;margin-right:3px" onerror="this.style.display='none'"><span id="diamondVal">0</span></div>
+      <div class="hud-pill" id="cangkulPill" style="display:none"><img src="zusmo-asset/skilcangkul.png" alt="cangkul" style="width:13px;height:13px;object-fit:contain;vertical-align:middle;margin-right:3px" onerror="this.style.display='none'"><span id="cangkulVal">0</span></div>
     </div>
   </div>
 
@@ -203,16 +203,16 @@
     <h2 class="title small">PILIH SKIN</h2>
     <div class="skin-row">
       <button class="skin-box locked" data-skin="gem" disabled>
-        <img src="zusmo-assets/gemskin.png" alt="Gem" onerror="this.style.display='none'">
+        <img src="zusmo-asset/gemskin.png" alt="Gem" onerror="this.style.display='none'">
         <span class="skin-lock">🔒</span>
         <span class="skin-name">Gem</span>
       </button>
       <button class="skin-box" data-skin="rahul">
-        <img src="zusmo-assets/rahulskin.png" alt="Rahul" onerror="this.style.display='none'">
+        <img src="zusmo-asset/rahulskin.png" alt="Rahul" onerror="this.style.display='none'">
         <span class="skin-name">Rahul</span>
       </button>
       <button class="skin-box locked" data-skin="vincent" disabled>
-        <img src="zusmo-assets/vincentskin.png" alt="Vincent" onerror="this.style.display='none'">
+        <img src="zusmo-asset/vincentskin.png" alt="Vincent" onerror="this.style.display='none'">
         <span class="skin-lock">🔒</span>
         <span class="skin-name">Vincent</span>
       </button>
@@ -229,7 +229,7 @@
   <div id="startScreen" class="overlay hidden">
     <h1 class="title">SUPER<br>RAHULLL</h1>
     <p class="tagline">Berlari, melompat, kumpulkan diamond!</p>
-    <p class="cost-hint">Biaya main: <img src="zusmo-assets/onzrii.png" alt="diamond" onerror="this.style.display='none'">100</p>
+    <p class="cost-hint">Biaya main: <img src="zusmo-asset/onzrii.png" alt="diamond" onerror="this.style.display='none'">100</p>
     <button id="startBtn" class="big-btn">MULAI</button>
     <button id="homeBtnStart" class="big-btn big-btn-alt">
       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -244,7 +244,7 @@
   <div id="gameOverScreen" class="overlay hidden">
     <h2 class="title small">GAME OVER</h2>
     <p class="tagline" id="finalStats"></p>
-    <p class="cost-hint">Biaya main lagi: <img src="zusmo-assets/onzrii.png" alt="diamond" onerror="this.style.display='none'">100</p>
+    <p class="cost-hint">Biaya main lagi: <img src="zusmo-asset/onzrii.png" alt="diamond" onerror="this.style.display='none'">100</p>
     <button id="retryBtn" class="big-btn">MAIN LAGI</button>
     <p class="cost-error" id="retryCostError">Diamond kamu tidak cukup buat main lagi (butuh 100)</p>
   </div>
@@ -252,17 +252,17 @@
   <div id="controls">
     <div id="moveBtns">
       <button id="backBtn" class="ctrl-btn back-btn">
-        <img class="ctrl-icon" src="zusmo-assets/mundur.png" alt="Mundur" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+        <img class="ctrl-icon" src="zusmo-asset/mundur.png" alt="Mundur" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
         <span class="ctrl-fallback">MUNDUR</span>
       </button>
       <button id="runBtn" class="ctrl-btn run-btn">
-        <img class="ctrl-icon" src="zusmo-assets/lari.png" alt="Lari" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+        <img class="ctrl-icon" src="zusmo-asset/lari.png" alt="Lari" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
         <span class="ctrl-fallback">LARI</span>
       </button>
     </div>
     <div id="jumpGroup">
       <button id="buffBtn" class="ctrl-btn buff-btn locked" title="Klaim / pakai Cangkul">
-        <img src="zusmo-assets/buffcangkul.png" alt="Buff Cangkul" onerror="this.style.display='none'; this.parentElement.querySelector('.buff-fallback').style.display='block';">
+        <img src="zusmo-asset/buffcangkul.png" alt="Buff Cangkul" onerror="this.style.display='none'; this.parentElement.querySelector('.buff-fallback').style.display='block';">
         <span class="buff-fallback" style="display:none">⛏️</span>
         <span id="buffBadge" class="buff-badge hidden">0</span>
       </button>
@@ -280,7 +280,7 @@
             <circle class="ring-fg" id="ringFg" cx="50" cy="50" r="44" stroke-dasharray="276.46" stroke-dashoffset="276.46"></circle>
           </svg>
           <button id="jumpBtn" class="ctrl-btn jump-btn">
-            <img class="ctrl-icon" src="zusmo-assets/lompat.png" alt="Lompat" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <img class="ctrl-icon" src="zusmo-asset/lompat.png" alt="Lompat" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
             <span class="ctrl-fallback">LOMPAT</span>
           </button>
         </div>
@@ -341,7 +341,7 @@
   // ================= KARAKTER =================
   // Diam.png = pose diam. runA/runB/runC/runD = 4 pose lari, bergantian tiap 250ms
   // (total 4 x 250ms = 1 detik per siklus, berulang terus selama tombol LARI ditahan).
-  var ASSET_PATH = 'zusmo-assets/';
+  var ASSET_PATH = 'zusmo-asset/';
   // ================= INTEGRASI DIAMOND DENGAN APK KZRIZUSMO =================
   // Pakai key localStorage yang SAMA PERSIS dengan apk utama (index.html),
   // Sky Hopper Max, dan Kuis FF, supaya diamond yang didapat di Super Rahul
@@ -632,7 +632,7 @@
   muteToggleBtn.addEventListener('click', function(){ setSoundMuted(!isSoundMuted()); });
 
   // ================= MUSIK LATAR (BACKGROUND GAME SOUND) =================
-  // File musiknya taruh di zusmo-assets/bgm.mp3 -- kalau belum ada filenya,
+  // File musiknya taruh di zusmo-asset/bgm.mp3 -- kalau belum ada filenya,
   // play() bakal gagal diam-diam (di-catch) dan game tetap jalan normal tanpa musik.
   var bgMusic = new Audio();
   bgMusic.loop = true;

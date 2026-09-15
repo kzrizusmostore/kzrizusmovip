@@ -829,7 +829,7 @@
       content: '';
       width: 13px;
       height: 13px;
-      background: url('zusmo-assets/onzrii.png') center/contain no-repeat;
+      background: url('zusmo-asset/onzrii.png') center/contain no-repeat;
       flex-shrink: 0;
     }
 
@@ -1102,7 +1102,7 @@
       top: -18px;
       width: 110px;
       height: 110px;
-      background: url('zusmo-assets/onzrii.png') center/contain no-repeat;
+      background: url('zusmo-asset/onzrii.png') center/contain no-repeat;
       opacity: .28;
       transform: rotate(-12deg);
     }
@@ -1121,7 +1121,7 @@
       display: inline-block;
       width: 13px;
       height: 13px;
-      background: url('zusmo-assets/onzrii.png') center/contain no-repeat;
+      background: url('zusmo-asset/onzrii.png') center/contain no-repeat;
       vertical-align: -2px;
       flex-shrink: 0;
     }
@@ -1494,7 +1494,7 @@
     .fx-preview.cloud .dot { width: 22px; height: 12px; border-radius: 999px; background: rgba(255,255,255,.95); box-shadow: -10px 2px 0 0 rgba(255,255,255,.75), 10px -2px 0 0 rgba(255,255,255,.82), 0 14px 0 -5px rgba(255,255,255,.58); }
     .fx-preview.pixel .dot { width: 16px; height: 16px; background: #a78bfa; box-shadow: -18px -8px 0 -4px #c084fc, 18px -8px 0 -4px #c084fc, -8px 18px 0 -4px #60a5fa, 8px 18px 0 -4px #60a5fa; }
 
-    .coin-preview .coin-shape { width: 34px; height: 34px; background: url('zusmo-assets/onzrii.png') center/contain no-repeat; }
+    .coin-preview .coin-shape { width: 34px; height: 34px; background: url('zusmo-asset/onzrii.png') center/contain no-repeat; }
 
     .weapon-preview {
       flex: 1;
@@ -2189,10 +2189,10 @@
   <script>
     const canvas = document.getElementById('game');
     let ctx = canvas.getContext('2d');
-    const BGM_TRACK_URL = 'zusmo-assets/uol84a.mp3';
+    const BGM_TRACK_URL = 'zusmo-asset/uol84a.mp3';
     const HORROR_JUMPSCARE_SFX_URL = 'https://cdn.yupra.my.id/yp/t8jmyexj.mp3';
-    const FREESTYLE_KRETEK_SFX_URL = 'zusmo-assets/5vg0qe.mp3';
-    const RED_DIAMOND_COIN_URL = 'zusmo-assets/onzrii.png';
+    const FREESTYLE_KRETEK_SFX_URL = 'zusmo-asset/5vg0qe.mp3';
+    const RED_DIAMOND_COIN_URL = 'zusmo-asset/onzrii.png';
     let redDiamondCoinImg = new Image();
     let redDiamondCoinLoaded = false;
     redDiamondCoinImg.onload = () => { redDiamondCoinLoaded = true; };
@@ -2429,28 +2429,28 @@
 
     const weapons = [
       { key:'none', name:'Tanpa Senjata', image:'' },
-      { key:'kayu', name:'Kayu', image:'zusmo-assets/hf7mkd.png' },
-      { key:'one-punch-man', name:'One Punch Man', image:'zusmo-assets/7yol38.png', special:true },
-      { key:'rapper-underworld', name:'Rapper Underworld', image:'zusmo-assets/5u36vg.png', special:true },
-      { key:'sterling-conqueror', name:'Sterling Conqueror', image:'zusmo-assets/j01t4c.png', special:true },
-      { key:'hand-of-hope', name:'Emerald Power', image:'zusmo-assets/6436xq.png', special:true },
-      { key:'digital-universe', name:'Hand Of Hope', image:'zusmo-assets/zn3lvf.png', special:true },
-      { key:'sandstorm-shimmer', name:'Sandstorm Shimmer', image:'zusmo-assets/un5dkk.png', special:true },
-      { key:'golden-glare', name:'Golden Glare', image:'zusmo-assets/yp8mp9.png', special:true },
-      { key:'incendium-burst', name:'Incendium Burst', image:'zusmo-assets/wfsjb8.png', special:true },
-      { key:'aqua-burst', name:'Solaris Burst', image:'zusmo-assets/1hqczx.png', special:true },
-      { key:'freezing-flame', name:'Aqua Burst', image:'zusmo-assets/vib3yo.png', special:true },
-      { key:'terrano-burst', name:'Terrano Burst', image:'zusmo-assets/1wfsrw.png', special:true },
-      { key:'emerald-power', name:'Ráfaga Esmeralda', image:'zusmo-assets/30hngi.png', special:true },
-      { key:'winterlands', name:'Winterlands', image:'zusmo-assets/mrm391.png', special:true },
-      { key:'trouble-maker', name:'Trouble Maker', image:'zusmo-assets/f00igu.png', special:true },
-      { key:'tropical-parrot', name:'Tropical Parrot', image:'zusmo-assets/qvftov.png', special:true },
-      { key:'eagle-gaze', name:'Freezing Flame', image:'zusmo-assets/45nwwp.png', special:true },
-      { key:'mamba-gnaw', name:'Mamba Gnaw', image:'zusmo-assets/34mohs.png', special:true },
-      { key:'bunnys-order', name:"Bunny's Order", image:'zusmo-assets/qyo2jx.png', special:true },
-      { key:'xtreme-adventure', name:'Xtreme Adventure', image:'zusmo-assets/hlx54b.png', special:true },
-      { key:'glistening-nightstar', name:'Holy Bullet', image:'zusmo-assets/kvysek.png', special:true },
-      { key:'solaris-burst', name:'Eagle Gaze', image:'zusmo-assets/78edku.png', special:true }
+      { key:'kayu', name:'Kayu', image:'zusmo-asset/hf7mkd.png' },
+      { key:'one-punch-man', name:'One Punch Man', image:'zusmo-asset/7yol38.png', special:true },
+      { key:'rapper-underworld', name:'Rapper Underworld', image:'zusmo-asset/5u36vg.png', special:true },
+      { key:'sterling-conqueror', name:'Sterling Conqueror', image:'zusmo-asset/j01t4c.png', special:true },
+      { key:'hand-of-hope', name:'Emerald Power', image:'zusmo-asset/6436xq.png', special:true },
+      { key:'digital-universe', name:'Hand Of Hope', image:'zusmo-asset/zn3lvf.png', special:true },
+      { key:'sandstorm-shimmer', name:'Sandstorm Shimmer', image:'zusmo-asset/un5dkk.png', special:true },
+      { key:'golden-glare', name:'Golden Glare', image:'zusmo-asset/yp8mp9.png', special:true },
+      { key:'incendium-burst', name:'Incendium Burst', image:'zusmo-asset/wfsjb8.png', special:true },
+      { key:'aqua-burst', name:'Solaris Burst', image:'zusmo-asset/1hqczx.png', special:true },
+      { key:'freezing-flame', name:'Aqua Burst', image:'zusmo-asset/vib3yo.png', special:true },
+      { key:'terrano-burst', name:'Terrano Burst', image:'zusmo-asset/1wfsrw.png', special:true },
+      { key:'emerald-power', name:'Ráfaga Esmeralda', image:'zusmo-asset/30hngi.png', special:true },
+      { key:'winterlands', name:'Winterlands', image:'zusmo-asset/mrm391.png', special:true },
+      { key:'trouble-maker', name:'Trouble Maker', image:'zusmo-asset/f00igu.png', special:true },
+      { key:'tropical-parrot', name:'Tropical Parrot', image:'zusmo-asset/qvftov.png', special:true },
+      { key:'eagle-gaze', name:'Freezing Flame', image:'zusmo-asset/45nwwp.png', special:true },
+      { key:'mamba-gnaw', name:'Mamba Gnaw', image:'zusmo-asset/34mohs.png', special:true },
+      { key:'bunnys-order', name:"Bunny's Order", image:'zusmo-asset/qyo2jx.png', special:true },
+      { key:'xtreme-adventure', name:'Xtreme Adventure', image:'zusmo-asset/hlx54b.png', special:true },
+      { key:'glistening-nightstar', name:'Holy Bullet', image:'zusmo-asset/kvysek.png', special:true },
+      { key:'solaris-burst', name:'Eagle Gaze', image:'zusmo-asset/78edku.png', special:true }
     ];
 
 
