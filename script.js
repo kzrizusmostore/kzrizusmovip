@@ -10245,16 +10245,6 @@ function tffBuildProfileHead(json,extra,refreshAttr){
   const social=json.socialInfo||{};
   const signature=stkPick(b,['signature'])||stkPick(social,['signature']);
 
-  /* EASTER EGG: ID developer KZRIZUSMO FF -> bio hasil asli TETAP DITAMPILKAN
-     apa adanya, cuma ditambahi 3 baris promosi (kode warna [RRGGBB]) di
-     BAWAHNYA pakai baris baru. Dicek dari accountId hasil API, bukan dari
-     input mentah, jadi cuma aktif kalau ID yang dicek memang 260190210. */
-  const KZ_DEV_ID='260190210';
-  const KZ_DEV_BIO_LINES=[
-    "[B][FF0000]B[FF4500]E[FF8C00]L[FFFF00]I [00FF00]B[00FFFF]I[008CFF]O [0000FF]P[8000FF]A[FF00FF]N[FF1493]J[FF0000]A[FF8C00]N[FFFF00]G [00FF00]C[00FFFF]U[008CFF]M[0000FF]A [FF00FF]5[FF0000]K",
-    "[B][FF00AA]D[FF00FF]E[CC00FF]V[9900FF]E[6600FF]L[3300FF]O[0066FF]P[00CCFF]E[00FFFF]R [00FFCC]A[00FF66]P[66FF00]K [FFFF00]K[FFCC00]Z[FF9900]R[FF6600]I[FF3300]Z[FF0066]U[FF0099]S[FF00CC]M[CC00FF]O [9900FF]F[0066FF]F",
-    "[B][4B0082]D[6A00B8]E[8900EE]V[A800FF]E[C000E8]L[D800D0]O[F000B8]P[FF1493]E[E800A8]R [D000C0]A[B000D8]P[9000F0]K [7000C8]K[5000A0]Z[3B0080]R[2F006B]I[250057]Z[1E0045]U[180033]S[120022]M[0D0018]O [080010]F[05000A]F"
-  ];
   const isKzDevId=uidVal!=null && String(uidVal).trim()===KZ_DEV_ID;
   const bioOriginalRaw=signature?String(signature).trim():'';
   const bioOriginalHtml=bioOriginalRaw?tffFormatBio(bioOriginalRaw):'';
@@ -24472,6 +24462,43 @@ function isAppMode(){
     var bar=document.querySelector('.app-bottombar');
     if(!bar) return;
     var indicator=bar.querySelector('.nav-indicator');
+    if(!indicator) return;
+
+    var INDICATOR_WIDTH=32; // harus sama dengan width di CSS .nav-indicator
+
+    function place(tab){
+      if(!tab) return;
+      var r=tab.getBoundingClientRect();
+      var br=bar.getBoundingClientRect();
+      var center=(r.left-br.left)+(r.width/2);
+      indicator.style.width=INDICATOR_WIDTH+'px';
+      indicator.style.left=(center-INDICATOR_WIDTH/2)+'px';
+    }
+
+    var tabs=bar.querySelectorAll('.tab');
+    tabs.forEach(function(t){
+      t.addEventListener('click',function(){
+        setTimeout(function(){ place(t); },60);
+      });
+    });
+
+    function placeActive(){
+      var active=bar.querySelector('.tab.active')||bar.querySelector('.home-center');
+      place(active);
+    }
+
+    placeActive();
+    setTimeout(placeActive,150);
+    window.addEventListener('resize',placeActive);
+  }
+
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',fixIndicator);
+  }else{
+    fixIndicator();
+  }
+})();
+ctor('.nav-indicator');
     if(!indicator) return;
 
     var INDICATOR_WIDTH=32; // harus sama dengan width di CSS .nav-indicator
