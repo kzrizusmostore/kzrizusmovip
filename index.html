@@ -784,7 +784,7 @@ if(oldShow){
 }
 </script>
 <style>
-.topbar-pro{position:fixed;top:0;left:0;right:0;height:56px;display:flex;justify-content:space-between;align-items:center;padding:0 8px;background:linear-gradient(90deg,#b30000,#e00000)!important;backdrop-filter:blur(18px);z-index:999999}
+.topbar-pro{position:fixed;top:0;left:0;right:0;height:56px;display:flex;justify-content:space-between;align-items:center;padding:0 8px 0 0;background:linear-gradient(90deg,#b30000,#e00000)!important;backdrop-filter:blur(18px);z-index:999999}
 .topbar-pro button{background:rgba(255,255,255,.08);border:1px solid rgba(255,43,43,.35);color:#fff;border-radius:12px;padding:8px 12px;margin-right:8px}
 .badge{background:#ff2b2b;border-radius:10px;padding:1px 5px;font-size:10px;position:relative;top:-8px;left:2px}
 body{padding-top:46px!important}
@@ -815,6 +815,8 @@ box-shadow:0 0 14px rgba(255,43,43,.35);
 </style>
 <style>
 .topbar-pro .right{display:flex;align-items:center;gap:6px}
+.topbar-pro .left{display:flex;align-items:center!important;justify-content:flex-start!important;gap:4px;flex-wrap:nowrap!important;margin:0!important;padding-left:6px!important;}
+.topbar-pro .left button:first-child{margin-left:0!important;}
 .topbar-pro .right button,
 .topbar-pro .left button{
 padding:0;margin:0;
@@ -10105,6 +10107,7 @@ function orderSuntikLike(){
 
 <p class="pc-title"><span class="red">QR CODE</span>&nbsp;<span class="wht">GENERATOR</span></p>
 <p class="pc-sub">Buat &amp; Download QR Code Dari Teks Atau Link</p>
+<p class="cid-hint" style="margin:-8px 0 14px;"><img src="zusmo-asset/onzrii.png" alt="diamond" style="width:10px;height:10px;object-fit:contain;vertical-align:-1px;margin-right:3px;"/>30 per generate</p>
 
 <div class="pc-card">
   <div class="pc-head">
@@ -10798,6 +10801,9 @@ function saiGenerate(){
 .aic-modeswitch-item.active{color:#fff;}
 .aic-modeswitch-item .aic-modelitem-check{margin-left:auto;color:#00e676;font-size:11px;opacity:0;}
 .aic-modeswitch-item.active .aic-modelitem-check{opacity:1;}
+.aic-modeswitch-item .aic-mode-cost{margin-left:auto;display:flex;align-items:center;gap:2px;font-size:9px;font-weight:800;color:#ffb3a3;background:rgba(255,82,82,.1);border:1px solid rgba(255,82,82,.25);border-radius:7px;padding:2px 6px;}
+.aic-modeswitch-item .aic-mode-cost img{width:8px;height:8px;object-fit:contain;}
+.aic-modeswitch-item.active .aic-mode-cost{margin-left:8px;}
 .aic-textarea{
   flex:1;resize:none;max-height:100px;padding:13px 14px;border-radius:14px;
   background:rgba(255,43,43,.05);border:1.5px solid rgba(255,43,43,.38);
@@ -11032,20 +11038,20 @@ function saiGenerate(){
     <div class="aic-modeswitch">
       <button class="aic-modeswitch-btn" id="aicModeBtn" onclick="aicToggleModeMenu()"><i class="fa-solid fa-comments" id="aicModeIcon"></i></button>
       <div class="aic-modeswitch-menu" id="aicModeMenuBox">
-        <div class="aic-modeswitch-item active" id="aicModeItem_chat" onclick="aicSwitchMode('chat')"><i class="fa-solid fa-comments"></i><span>Chat</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
-        <div class="aic-modeswitch-item" id="aicModeItem_art" onclick="aicSwitchMode('art')"><i class="fa-solid fa-image"></i><span>AI Art</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
-        <div class="aic-modeswitch-item" id="aicModeItem_filter" onclick="aicSwitchMode('filter')"><i class="fa-solid fa-wand-sparkles"></i><span>AI Filter</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
-        <div class="aic-modeswitch-item" id="aicModeItem_song" onclick="aicSwitchMode('song')"><i class="fa-solid fa-music"></i><span>AI Song</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
-        <div class="aic-modeswitch-item" id="aicModeItem_anime" onclick="aicSwitchMode('anime')"><i class="fa-solid fa-image-portrait"></i><span>Anime to Real</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
-        <div class="aic-modeswitch-item" id="aicModeItem_bypass" onclick="aicSwitchMode('bypass')"><i class="fa-solid fa-user-secret"></i><span>Bypass AI</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
-        <div class="aic-modeswitch-item" id="aicModeItem_imagenai" onclick="aicSwitchMode('imagenai')"><i class="fa-solid fa-palette"></i><span>Imagen AI</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
-        <div class="aic-modeswitch-item" id="aicModeItem_img2prompt" onclick="aicSwitchMode('img2prompt')"><i class="fa-solid fa-file-image"></i><span>Image to Prompt</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
-        <div class="aic-modeswitch-item" id="aicModeItem_detectai" onclick="aicSwitchMode('detectai')"><i class="fa-solid fa-magnifying-glass"></i><span>AI Detector</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
-        <div class="aic-modeswitch-item" id="aicModeItem_nanobanana" onclick="aicSwitchMode('nanobanana')"><i class="fa-solid fa-image"></i><span>Nano Banana</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
-        <div class="aic-modeswitch-item" id="aicModeItem_txt2img" onclick="aicSwitchMode('txt2img')"><i class="fa-solid fa-images"></i><span>Text to Image</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
-        <div class="aic-modeswitch-item" id="aicModeItem_text2vid" onclick="aicSwitchMode('text2vid')"><i class="fa-solid fa-video"></i><span>Text to Video</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
-        <div class="aic-modeswitch-item" id="aicModeItem_tts" onclick="aicSwitchMode('tts')"><i class="fa-solid fa-microphone-lines"></i><span>Text to Speech</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
-        <div class="aic-modeswitch-item" id="aicModeItem_toonmix" onclick="aicSwitchMode('toonmix')"><i class="fa-solid fa-shapes"></i><span>Toonmix AI</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item active" id="aicModeItem_chat" onclick="aicSwitchMode('chat')"><i class="fa-solid fa-comments"></i><span>Chat</span><span class="aic-mode-cost"><img src="zusmo-asset/onzrii.png" alt="diamond"/>10</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_art" onclick="aicSwitchMode('art')"><i class="fa-solid fa-image"></i><span>AI Art</span><span class="aic-mode-cost"><img src="zusmo-asset/onzrii.png" alt="diamond"/>40</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_filter" onclick="aicSwitchMode('filter')"><i class="fa-solid fa-wand-sparkles"></i><span>AI Filter</span><span class="aic-mode-cost"><img src="zusmo-asset/onzrii.png" alt="diamond"/>40</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_song" onclick="aicSwitchMode('song')"><i class="fa-solid fa-music"></i><span>AI Song</span><span class="aic-mode-cost"><img src="zusmo-asset/onzrii.png" alt="diamond"/>40</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_anime" onclick="aicSwitchMode('anime')"><i class="fa-solid fa-image-portrait"></i><span>Anime to Real</span><span class="aic-mode-cost"><img src="zusmo-asset/onzrii.png" alt="diamond"/>40</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_bypass" onclick="aicSwitchMode('bypass')"><i class="fa-solid fa-user-secret"></i><span>Bypass AI</span><span class="aic-mode-cost"><img src="zusmo-asset/onzrii.png" alt="diamond"/>40</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_imagenai" onclick="aicSwitchMode('imagenai')"><i class="fa-solid fa-palette"></i><span>Imagen AI</span><span class="aic-mode-cost"><img src="zusmo-asset/onzrii.png" alt="diamond"/>40</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_img2prompt" onclick="aicSwitchMode('img2prompt')"><i class="fa-solid fa-file-image"></i><span>Image to Prompt</span><span class="aic-mode-cost"><img src="zusmo-asset/onzrii.png" alt="diamond"/>40</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_detectai" onclick="aicSwitchMode('detectai')"><i class="fa-solid fa-magnifying-glass"></i><span>AI Detector</span><span class="aic-mode-cost"><img src="zusmo-asset/onzrii.png" alt="diamond"/>40</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_nanobanana" onclick="aicSwitchMode('nanobanana')"><i class="fa-solid fa-image"></i><span>Nano Banana</span><span class="aic-mode-cost"><img src="zusmo-asset/onzrii.png" alt="diamond"/>40</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_txt2img" onclick="aicSwitchMode('txt2img')"><i class="fa-solid fa-images"></i><span>Text to Image</span><span class="aic-mode-cost"><img src="zusmo-asset/onzrii.png" alt="diamond"/>40</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_text2vid" onclick="aicSwitchMode('text2vid')"><i class="fa-solid fa-video"></i><span>Text to Video</span><span class="aic-mode-cost"><img src="zusmo-asset/onzrii.png" alt="diamond"/>40</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_tts" onclick="aicSwitchMode('tts')"><i class="fa-solid fa-microphone-lines"></i><span>Text to Speech</span><span class="aic-mode-cost"><img src="zusmo-asset/onzrii.png" alt="diamond"/>40</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_toonmix" onclick="aicSwitchMode('toonmix')"><i class="fa-solid fa-shapes"></i><span>Toonmix AI</span><span class="aic-mode-cost"><img src="zusmo-asset/onzrii.png" alt="diamond"/>40</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
       </div>
     </div>
   </div>
@@ -13504,10 +13510,13 @@ function aiLightboxDownload(){
 
 .gm-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px;}
 .gm-tile{
+  position:relative;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
   padding:12px 4px;border-radius:12px;background:rgba(255,255,255,.05);
   border:1px solid rgba(255,255,255,.08);cursor:pointer;text-align:center;
 }
+.gm-tile-cost{position:absolute;top:4px;right:4px;display:flex;align-items:center;gap:2px;background:rgba(0,0,0,.5);border:1px solid rgba(255,82,82,.35);border-radius:7px;padding:1px 4px;font-size:7px;font-weight:800;color:#ffb3a3;}
+.gm-tile-cost img{width:7px;height:7px;object-fit:contain;}
 .gm-tile i{font-size:16px;color:#ff5252;}
 .gm-tile span{font-size:9px;font-weight:700;color:#ccc;line-height:1.2;}
 .gm-tile.active{background:rgba(255,43,43,.14);border-color:#ff2b2b;}
@@ -13603,6 +13612,7 @@ function aiLightboxDownload(){
     <div class="gm-stat gm-stat-streak" id="gmStreakChip"><i class="fa-solid fa-fire"></i><span id="gmStreakVal">0</span></div>
   </div>
 </div>
+<div style="font-size:10px;color:#999;margin:-8px 0 12px;display:flex;align-items:center;gap:4px;"><img src="zusmo-asset/onzrii.png" alt="diamond" style="width:9px;height:9px;object-fit:contain;"/> 2 Diamond per soal</div>
 <div class="gm-grid" id="gmGrid"></div>
 <div id="gmPlayArea"><div class="gm-empty"><i class="fa-solid fa-gamepad"></i>Pilih game di atas untuk mulai main</div></div>
 </div>
@@ -13723,6 +13733,7 @@ function gmBuildGrid(){
   if(!grid) return;
   grid.innerHTML=GM_GAMES.map(function(g){
     return '<div class="gm-tile" id="gmTile_'+g.key+'" onclick="gmSelectGame(\''+g.key+'\')">'+
+      '<div class="gm-tile-cost"><img src="zusmo-asset/onzrii.png" alt="diamond"/>'+GM_COST+'</div>'+
       '<i class="fa-solid '+g.icon+'"></i><span>'+g.label+'</span></div>';
   }).join('');
   gmGridBuilt=true;
@@ -15477,8 +15488,10 @@ function anmEscAttr(str){
 .mkr-subtitle{position:relative;margin-top:5px;font-size:11px;color:var(--mkr-dim);font-family:'Inter',sans-serif;}
 
 .mkr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:16px;}
-.mkr-tile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px 4px 13px;border-radius:14px;background:var(--mkr-surface);border:1px solid var(--mkr-hair);cursor:pointer;text-align:center;transition:border-color .15s,background .15s;}
+.mkr-tile{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px 4px 13px;border-radius:14px;background:var(--mkr-surface);border:1px solid var(--mkr-hair);cursor:pointer;text-align:center;transition:border-color .15s,background .15s;}
 .mkr-tile-icon{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,176,32,.1);border:1px solid var(--mkr-hair-strong);}
+.mkr-tile-cost{position:absolute;top:5px;right:5px;display:flex;align-items:center;gap:2px;background:rgba(0,0,0,.5);border:1px solid rgba(255,176,32,.35);border-radius:8px;padding:2px 5px;font-size:8px;font-weight:800;color:#ffd27a;}
+.mkr-tile-cost img{width:8px;height:8px;object-fit:contain;}
 .mkr-tile i{font-size:15px;color:var(--mkr-accent);}
 .mkr-tile span{font-size:9.5px;font-weight:700;color:var(--mkr-dim);line-height:1.25;}
 .mkr-tile.active{background:var(--mkr-surface2);border-color:var(--mkr-accent);}
@@ -15529,7 +15542,7 @@ function anmEscAttr(str){
 
 <div class="mkr-header">
   <div class="mkr-title"><i class="fa-solid fa-wand-magic-sparkles"></i> MAKER</div>
-  <div class="mkr-subtitle">Buat gambar kreatif: canvas pixel, fake notif, story, dan lainnya</div>
+  <div class="mkr-subtitle">Buat gambar kreatif: canvas pixel, fake notif, story, dan lainnya · <img src="zusmo-asset/onzrii.png" alt="diamond" style="width:9px;height:9px;object-fit:contain;vertical-align:-1px;"/> 30/generate</div>
 </div>
 <div class="mkr-grid" id="mkrGrid"></div>
 <div id="mkrArea"><div class="mkr-empty"><i class="fa-solid fa-wand-magic-sparkles"></i>Pilih menu di atas untuk mulai</div></div>
@@ -15595,6 +15608,7 @@ function mkrBuildGrid(){
   grid.innerHTML=MKR_MENU.map(function(m){
     const iconCls=m.icon.indexOf('fa-')===0?('fa-solid '+m.icon):m.icon;
     return '<div class="mkr-tile" id="mkrTile_'+m.key+'" onclick="mkrSelect(\''+m.key+'\')">'+
+      '<div class="mkr-tile-cost"><img src="zusmo-asset/onzrii.png" alt="diamond"/>'+MKR_COST+'</div>'+
       '<div class="mkr-tile-icon"><i class="'+iconCls+'"></i></div><span>'+m.label+'</span></div>';
   }).join('');
   mkrGridBuilt=true;
@@ -16208,7 +16222,9 @@ function nwsRenderDetail(data,url,result){
 .qts-subtitle{position:relative;margin-top:5px;font-size:11px;color:var(--qts-dim);font-family:'Inter',sans-serif;}
 
 .qts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:16px;}
-.qts-tile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px 4px 13px;border-radius:14px;background:var(--qts-surface);border:1px solid var(--qts-hair);cursor:pointer;text-align:center;transition:border-color .15s,background .15s;}
+.qts-tile{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px 4px 13px;border-radius:14px;background:var(--qts-surface);border:1px solid var(--qts-hair);cursor:pointer;text-align:center;transition:border-color .15s,background .15s;}
+.qts-tile-cost{position:absolute;top:5px;right:5px;display:flex;align-items:center;gap:2px;background:rgba(0,0,0,.5);border:1px solid rgba(255,176,32,.35);border-radius:8px;padding:2px 5px;font-size:8px;font-weight:800;color:#ffd27a;}
+.qts-tile-cost img{width:8px;height:8px;object-fit:contain;}
 .qts-tile-icon{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(186,107,255,.1);border:1px solid var(--qts-hair-strong);}
 .qts-tile i{font-size:15px;color:var(--qts-accent);}
 .qts-tile span{font-size:9.5px;font-weight:700;color:var(--qts-dim);line-height:1.25;}
@@ -16236,7 +16252,7 @@ function nwsRenderDetail(data,url,result){
 
 <div class="qts-header">
   <div class="qts-title"><i class="fa-solid fa-quote-left"></i> QUOTES</div>
-  <div class="qts-subtitle">Kumpulan kata-kata &amp; quotes dari berbagai kategori</div>
+  <div class="qts-subtitle">Kumpulan kata-kata &amp; quotes dari berbagai kategori · <img src="zusmo-asset/onzrii.png" alt="diamond" style="width:9px;height:9px;object-fit:contain;vertical-align:-1px;"/> 10/quote</div>
 </div>
 <div class="qts-grid" id="qtsGrid"></div>
 <div id="qtsArea"><div class="qts-empty"><i class="fa-solid fa-quote-left"></i>Pilih kategori di atas untuk mulai</div></div>
@@ -16280,6 +16296,7 @@ function qtsBuildGrid(){
   if(!grid||qtsGridBuilt) return;
   grid.innerHTML=QTS_MENU.map(function(m){
     return '<div class="qts-tile" id="qtsTile_'+m.key+'" onclick="qtsSelect(\''+m.key+'\')">'+
+      '<div class="qts-tile-cost"><img src="zusmo-asset/onzrii.png" alt="diamond"/>'+QTS_COST+'</div>'+
       '<div class="qts-tile-icon"><i class="fa-solid '+m.icon+'"></i></div><span>'+m.label+'</span></div>';
   }).join('');
   qtsGridBuilt=true;
@@ -16409,7 +16426,9 @@ function qtsCopy(){
 .rnd-subtitle{position:relative;margin-top:5px;font-size:11px;color:var(--rnd-dim);font-family:'Inter',sans-serif;}
 
 .rnd-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:16px;}
-.rnd-tile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px 4px 13px;border-radius:14px;background:var(--rnd-surface);border:1px solid var(--rnd-hair);cursor:pointer;text-align:center;transition:border-color .15s,background .15s;}
+.rnd-tile{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px 4px 13px;border-radius:14px;background:var(--rnd-surface);border:1px solid var(--rnd-hair);cursor:pointer;text-align:center;transition:border-color .15s,background .15s;}
+.rnd-tile-cost{position:absolute;top:5px;right:5px;display:flex;align-items:center;gap:2px;background:rgba(0,0,0,.5);border:1px solid rgba(255,82,82,.35);border-radius:8px;padding:2px 5px;font-size:8px;font-weight:800;color:#ffb3a3;}
+.rnd-tile-cost img{width:8px;height:8px;object-fit:contain;}
 .rnd-tile-icon{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(64,224,190,.1);border:1px solid var(--rnd-hair-strong);}
 .rnd-tile i{font-size:15px;color:var(--rnd-accent);}
 .rnd-tile span{font-size:9.5px;font-weight:700;color:var(--rnd-dim);line-height:1.25;}
@@ -16435,7 +16454,7 @@ function qtsCopy(){
 
 <div class="rnd-header">
   <div class="rnd-title"><i class="fa-solid fa-shuffle"></i> RANDOM</div>
-  <div class="rnd-subtitle">Gambar acak dari berbagai kategori</div>
+  <div class="rnd-subtitle">Gambar acak dari berbagai kategori · <img src="zusmo-asset/onzrii.png" alt="diamond" style="width:9px;height:9px;object-fit:contain;vertical-align:-1px;"/> 75/gambar</div>
 </div>
 <div class="rnd-grid" id="rndGrid"></div>
 <div id="rndArea"><div class="rnd-empty"><i class="fa-solid fa-image"></i>Pilih kategori di atas untuk mulai</div></div>
@@ -16473,6 +16492,7 @@ function rndBuildGrid(){
   if(!grid||rndGridBuilt) return;
   grid.innerHTML=RND_MENU.map(function(m){
     return '<div class="rnd-tile" id="rndTile_'+m.key+'" onclick="rndSelect(\''+m.key+'\')">'+
+      '<div class="rnd-tile-cost"><img src="zusmo-asset/onzrii.png" alt="diamond"/>'+RND_COST+'</div>'+
       '<div class="rnd-tile-icon"><i class="fa-solid '+m.icon+'"></i></div><span>'+m.label+'</span></div>';
   }).join('');
   rndGridBuilt=true;
@@ -21941,7 +21961,9 @@ function cffReset(){
 .tls-subtitle{position:relative;margin-top:5px;font-size:11px;color:var(--tls-dim);}
 
 .tls-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:16px;}
-.tls-tile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px 4px 13px;border-radius:14px;background:var(--tls-surface);border:1px solid var(--tls-hair);cursor:pointer;text-align:center;transition:border-color .15s,background .15s;}
+.tls-tile{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px 4px 13px;border-radius:14px;background:var(--tls-surface);border:1px solid var(--tls-hair);cursor:pointer;text-align:center;transition:border-color .15s,background .15s;}
+.tls-tile-cost{position:absolute;top:5px;right:5px;display:flex;align-items:center;gap:2px;background:rgba(0,0,0,.5);border:1px solid rgba(255,176,32,.35);border-radius:8px;padding:2px 5px;font-size:8px;font-weight:800;color:#ffd27a;}
+.tls-tile-cost img{width:8px;height:8px;object-fit:contain;}
 .tls-tile-icon{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,59,59,.1);border:1px solid var(--tls-hair-strong);}
 .tls-tile i{font-size:15px;color:var(--tls-accent);}
 .tls-tile span{font-size:9.5px;font-weight:700;color:var(--tls-dim);line-height:1.25;}
@@ -22032,7 +22054,7 @@ function cffReset(){
 
 <div class="tls-header">
   <div class="tls-title"><i class="fa-solid fa-screwdriver-wrench"></i> TOOLS</div>
-  <div class="tls-subtitle">Kumpulan tools kecil yang praktis, tinggal pilih &amp; pakai</div>
+  <div class="tls-subtitle">Kumpulan tools kecil yang praktis, tinggal pilih &amp; pakai · <img src="zusmo-asset/onzrii.png" alt="diamond" style="width:9px;height:9px;object-fit:contain;vertical-align:-1px;"/> mulai 35/pakai</div>
 </div>
 <div class="tls-grid" id="tlsGrid"></div>
 
@@ -22926,6 +22948,7 @@ function tlsBuildGrid(){
   grid.innerHTML=TLS_MENU.map(function(m){
     const iconCls=m.icon.indexOf('fa-')===0?('fa-solid '+m.icon):m.icon;
     return '<div class="tls-tile" id="tlsTile_'+m.key+'" onclick="tlsSelect(\''+m.key+'\')">'+
+      '<div class="tls-tile-cost"><img src="zusmo-asset/onzrii.png" alt="diamond"/>'+tlsCostFor(m.key)+'</div>'+
       '<div class="tls-tile-icon"><i class="'+iconCls+'"></i></div><span>'+m.label+'</span></div>';
   }).join('');
   tlsGridBuilt=true;
@@ -23556,7 +23579,7 @@ function tlsCopyResultText(){
 <div class="page" id="re">
 <div class="tls-header">
   <div class="tls-title"><i class="fa-solid fa-shield-halved"></i> RE</div>
-  <div class="tls-subtitle">Tools reverse engineering APK: sign otomatis &amp; decode manifest</div>
+  <div class="tls-subtitle">Tools reverse engineering APK: sign otomatis &amp; decode manifest · <img src="zusmo-asset/onzrii.png" alt="diamond" style="width:9px;height:9px;object-fit:contain;vertical-align:-1px;"/> 2000/pakai</div>
 </div>
 <div class="tls-grid" id="reGrid"></div>
 
@@ -23615,6 +23638,7 @@ function reBuildGrid(){
   grid.innerHTML=RE_MENU.map(function(m){
     const iconCls=m.icon.indexOf('fa-')===0?('fa-solid '+m.icon):m.icon;
     return '<div class="tls-tile" id="reTile_'+m.key+'" onclick="reSelect(\''+m.key+'\')">'+
+      '<div class="tls-tile-cost"><img src="zusmo-asset/onzrii.png" alt="diamond"/>'+RE_COST+'</div>'+
       '<div class="tls-tile-icon"><i class="'+iconCls+'"></i></div><span>'+m.label+'</span></div>';
   }).join('');
   reGridBuilt=true;
@@ -23736,7 +23760,7 @@ async function reSubmit(){
 <div class="page" id="bypass">
 <div class="tls-header">
   <div class="tls-title"><i class="fa-solid fa-unlock-keyhole"></i> BYPASS</div>
-  <div class="tls-subtitle">Bypass shortlink, paywall, proteksi Cloudflare/Akamai &amp; fingerprint device</div>
+  <div class="tls-subtitle">Bypass shortlink, paywall, proteksi Cloudflare/Akamai &amp; fingerprint device · <img src="zusmo-asset/onzrii.png" alt="diamond" style="width:9px;height:9px;object-fit:contain;vertical-align:-1px;"/> 2000/pakai</div>
 </div>
 <div class="tls-grid" id="bypGrid"></div>
 
@@ -23782,6 +23806,7 @@ function bypBuildGrid(){
   grid.innerHTML=BYP_MENU.map(function(m){
     const iconCls=m.icon.indexOf('fa-')===0?('fa-solid '+m.icon):m.icon;
     return '<div class="tls-tile" id="bypTile_'+m.key+'" onclick="bypSelect(\''+m.key+'\')">'+
+      '<div class="tls-tile-cost"><img src="zusmo-asset/onzrii.png" alt="diamond"/>'+BYP_COST+'</div>'+
       '<div class="tls-tile-icon"><i class="'+iconCls+'"></i></div><span>'+m.label+'</span></div>';
   }).join('');
   bypGridBuilt=true;
@@ -24147,6 +24172,8 @@ async function ptSubmit(){
 .srh-tile-flag{position:absolute;top:4px;right:4px;font-size:7px;font-weight:800;padding:2px 5px;border-radius:6px;letter-spacing:.3px;}
 .srh-tile-flag.premium{background:rgba(255,43,43,.2);color:var(--srh-accent-soft);border:1px solid var(--srh-hair-strong);}
 .srh-tile-flag.maint{background:rgba(255,82,82,.18);color:#ffb3a3;border:1px solid rgba(255,82,82,.35);}
+.srh-tile-cost{position:absolute;top:4px;left:4px;display:flex;align-items:center;gap:2px;background:rgba(0,0,0,.5);border:1px solid rgba(255,82,82,.3);border-radius:6px;padding:2px 4px;font-size:7px;font-weight:800;color:#ffb3a3;}
+.srh-tile-cost img{width:7px;height:7px;object-fit:contain;}
 
 .srh-empty{text-align:center;padding:36px 10px;color:var(--srh-faint);font-size:11.5px;}
 .srh-empty i{font-size:26px;color:#2c1818;display:block;margin-bottom:10px;}
@@ -24336,7 +24363,7 @@ async function ptSubmit(){
 
 <div class="srh-header">
   <div class="srh-title"><i class="fa-solid fa-magnifying-glass"></i> SEARCH</div>
-  <div class="srh-subtitle">Cari cuaca, lagu, meme, wallpaper, video &amp; lainnya</div>
+  <div class="srh-subtitle">Cari cuaca, lagu, meme, wallpaper, video &amp; lainnya · <img src="zusmo-asset/onzrii.png" alt="diamond" style="width:9px;height:9px;object-fit:contain;vertical-align:-1px;"/> 25/pencarian</div>
 </div>
 <div class="srh-grid" id="srhGrid"></div>
 </div>
@@ -24496,6 +24523,7 @@ function srhBuildGrid(){
       : (m.premium?'<span class="srh-tile-flag premium">VIP</span>':'');
     return '<div class="srh-tile'+(m.status==='maintenance'?' srh-maint':'')+'" id="srhTile_'+m.key+'" onclick="srhSelect(\''+m.key+'\')">'+
       flag+
+      '<div class="srh-tile-cost"><img src="zusmo-asset/onzrii.png" alt="diamond"/>'+SRH_COST+'</div>'+
       '<div class="srh-tile-icon"><i class="fa-solid '+m.icon+'"></i></div><span>'+m.label+'</span></div>';
   }).join('');
   srhGridBuilt=true;
@@ -31288,7 +31316,7 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
 .banner-detail-hint.music-hint i{color:#ff2b2b}
 
 /* === Diamond widget (topbar) === */
-.diamond-widget{display:flex!important;align-items:center;justify-content:flex-start!important;gap:4px;width:auto!important;height:auto!important;background:transparent!important;border:none!important;border-radius:0!important;padding:6px 4px!important;margin-left:1px!important;font-weight:800;font-size:.78rem;color:#ffffff!important;white-space:nowrap}
+.diamond-widget{display:flex;align-items:center;justify-content:flex-start!important;gap:4px;width:auto!important;height:auto!important;background:transparent!important;border:none!important;border-radius:0!important;padding:6px 4px!important;margin-left:1px!important;font-weight:800;font-size:.78rem;color:#ffffff!important;white-space:nowrap}
 .diamond-widget img{width:11px;height:11px;object-fit:contain;display:block;flex:0 0 auto}
 .diamond-widget:active{transform:scale(.94)}
 .diamond-widget .diamond-plus{color:#ffffff;font-weight:900;margin-left:-1px;flex:0 0 auto}
