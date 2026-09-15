@@ -1,5 +1,23 @@
-(function(){if(window.emailjs)window.emailjs.init({publicKey:'zXmztw7RlWxaaD25q'});})();
+function isStandalone(){
+  return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone===true;
+}
+function isIos(){
+  return /iphone|ipad|ipod/i.test(navigator.userAgent);
+}
+async function tryOnce(u){
+  const res=await fetch(u,{headers:{'Accept':'application/json'}});
+  const text=await res.text();
+  let json;
+  try{ json=JSON.parse(text); }catch(parseErr){
+    throw new Error('HTTP '+res.status+' - respons bukan JSON: '+text.slice(0,200));
+  }
+  if(!res.ok){
+    throw new Error('HTTP '+res.status+' - '+(json&&(json.message||json.msg||json.error)||text.slice(0,200)));
+  }
+  return json;
+}
 
+(function(){if(window.emailjs)window.emailjs.init({publicKey:'zXmztw7RlWxaaD25q'});})();
 
 document.querySelectorAll('.app-bottombar .tab').forEach(tab=>{
   tab.addEventListener('click',(e)=>{
@@ -24,8 +42,6 @@ document.querySelectorAll('.app-bottombar .tab').forEach(tab=>{
     tab.classList.add('active');
   });
 });
-
-
 
 let lastScroll=0;
 
@@ -68,8 +84,6 @@ if(oldShow){
     window.ZUSMO&&window.ZUSMO.vibrate(20);
   }
 }
-
-
 
 // ================= BELI VPN (logic diporting dari vpn.html) =================
 var VPNBUY_DATA = {
@@ -373,8 +387,6 @@ document.addEventListener('DOMContentLoaded', function(){
   if (closeBtn) closeBtn.addEventListener('click', bvHandleBack);
 });
 
-
-
 // Wallpaper Zusmo Shadow VIP: ikut wallpaper yang lagi dipakai di aplikasi (default / wallpaper 1-30)
 function vipWpApply(){
   var v = document.getElementById('vipWallpaperBg');
@@ -402,8 +414,6 @@ function closeVipShadowApp(){
   var v = document.getElementById('vipWallpaperBg');
   if(v) v.pause();
 }
-
-
 
 (function(){
   function isExempt(el){
@@ -436,8 +446,6 @@ function closeVipShadowApp(){
   }, false);
 })();
 
-
-
 (function(){
   var car=document.getElementById('hmSpotlightCarousel');
   var dots=document.querySelectorAll('#hmSpotlightDots .hm-spotlight-dot');
@@ -447,8 +455,6 @@ function closeVipShadowApp(){
     dots.forEach(function(d,i){d.classList.toggle('active',i===idx);});
   },{passive:true});
 })();
-
-
 
 // Fix: paksa repaint icon FF Ori/Max saat halaman disembunyikan lalu ditampilkan lagi,
 // supaya warnanya (mask-image + background-color) tidak hilang di browser mobile.
@@ -1188,21 +1194,6 @@ function retryVpayPayment(){
   renderVpayTimer();
   showPage('vippaydetail');
 }
-function contactAdminVpaySuccess(){
-  const meta=vpayMethodMeta[vplSelected.payment];
-  const serverObj=vplServers.find(s=>s.code===vplSelected.server)||vplServers[0];
-  const keyDisplay=vplSelected.assignedKeyRaw?formatVipKeyDisplay(vplSelected.assignedKeyRaw):'-';
-  const msg='Halo Admin, saya sudah menyelesaikan pembayaran untuk *KEY VIP '+vplSelected.tier+'*\n\n'+
-    '🧾 Order ID : '+vplSelected.orderId+'\n'+
-    '🔑 Paket : VIP '+vplSelected.tier+'\n'+
-    '🔐 Key VIP : '+keyDisplay+'\n'+
-    '🆔 UID : '+vplSelected.uid+'\n'+
-    '🌐 Server : '+serverObj.flag+' '+serverObj.name+'\n'+
-    '💰 Harga : Rp '+vplSelected.price.toLocaleString('id-ID')+'\n'+
-    '💳 Metode Bayar : '+meta.name+'\n\n'+
-    'Mohon bantu konfirmasi aktivasi Key VIP saya, terima kasih.';
-  window.open('https://wa.me/6283800287738?text='+encodeURIComponent(msg),'_blank');
-}
 
 function copyQris2Link(btn,link){
   const icon=btn.querySelector('i');
@@ -1227,8 +1218,6 @@ function copyQris2Link(btn,link){
     fallback();
   }
 }
-
-
 
 var ffCurrentLink='';
 var ffCurrentCopyLink='';
@@ -1273,10 +1262,6 @@ function openFreeFileModal(name,filename,link,copyLink){
   ffSlideIndex=0;
   ffUpdateSlideUI();
   if(window.ZUSMO&&window.ZUSMO.playClick) window.ZUSMO.playClick();
-}
-
-function closeFreeFileModal(){
-  goBackPage();
 }
 
 function copyFreeFileLink(){
@@ -1329,8 +1314,6 @@ function ffComingSoon(el){
     el.classList.add('shake');
   }
 }
-
-
 
 const slPackages=[
   {like:220,price:5000,days:1},
@@ -1396,8 +1379,6 @@ function orderSuntikLike(){
 
   window.open('https://wa.me/6283800287738?text='+encodeURIComponent(msg),'_blank');
 }
-
-
 
 let qrgenInstance=null;
 const QRGEN_COST=30;
@@ -1486,8 +1467,6 @@ function qrgenDownload(){
 }
 
 qrgenUpdateColorPreview();
-
-
 
 const SAI_DEVICES=[
   // Samsung
@@ -1713,9 +1692,6 @@ function saiGenerate(){
     if(btn.dataset.origHtml) btn.innerHTML=btn.dataset.origHtml;
   },duration);
 }
-
-
-
 
 /* ============================================================================
    XYUREI API KEY — dipakai bareng oleh semua fitur yang lewat
@@ -1954,8 +1930,6 @@ async function aiEndpointFallbackRequest(endpointPath,queryBuilder,opts){
     throw lastErr;
   }
 }
-
-
 
 const AISEEK_ENDPOINT='https://sylvatica.my.id/api/ai/aiseek';
 const AIC_MODELS={
@@ -2618,17 +2592,6 @@ function aicShowTyping(show){
   }
 }
 
-async function aicFetchApi(url){
-  try{
-    const res=await fetch(url,{headers:{'Accept':'application/json'}});
-    return await res.json();
-  }catch(directErr){
-    console.warn('[AIC] fetch langsung gagal, coba proxy...',directErr);
-    const res=await fetch('https://api.allorigins.win/raw?url='+encodeURIComponent(url));
-    return await res.json();
-  }
-}
-
 function aicDeepFindText(obj,depth,best){
   if(depth>4||obj==null) return best;
   if(typeof obj==='string'){
@@ -2795,30 +2758,14 @@ function aicTouchSession(firstText){
   aicRenderSessions();
 }
 
-function aicClearChat(){
-  aicHistory.length=0;
-  const s=aicActiveSession();
-  if(s){ s.title='Obrolan baru'; s.updatedAt=Date.now(); }
-  aicSaveSessions();
-  aicRenderChat();
-  aicRenderSessions();
-}
-
 /* ============================================================================
    AI ART GENERATOR — https://sylvatica.my.id/api/ai/aiart?q=...&apikey=...
    Respons: {creator,data:{prompt,url}} -> url gambar hasil generate.
    ============================================================================ */
 const AIART_ENDPOINT='https://sylvatica.my.id/api/ai/aiart';
-const AI_HIST_CAP=15;
-function aiLoadHist(key){
-  try{ const raw=JSON.parse(localStorage.getItem(key)); return Array.isArray(raw)?raw:[]; }catch(e){ return []; }
-}
-function aiSaveHist(key,arr){
-  try{ localStorage.setItem(key,JSON.stringify(arr.slice(-AI_HIST_CAP))); }catch(e){}
-}
+
 let aiartLoading=false;
 let aiartLoadingPrompt='';
-const AIART_SUGGEST=['Kucing oren pakai jaket astronot','Karakter Free Fire gaya anime','Naga api di atas gunung','Kota cyberpunk waktu malam','Pemandangan pantai gaya lukisan','Robot ksatria futuristik'];
 
 function aicUnifiedSend(){
   if(aicCurrentMode==='art') aiartGenerate();
@@ -3096,7 +3043,6 @@ function aiartDownload(url){
 const AIFLT_ENDPOINT='https://sylvatica.my.id/api/ai/aifilter';
 let aifltLoading=false;
 let aifltLoadingLabel='';
-let aifltPreviewTimer=null;
 
 function aifltEscAttr(str){
   return String(str==null?'':str).replace(/'/g,'&#39;').replace(/"/g,'&quot;');
@@ -3824,7 +3770,6 @@ function text2vidRegen(prompt,ratio,sound){
 /* ============================================================================
    TEXT TO SPEECH — https://sylvatica.my.id/api/ai/tts?text=...&model=...&apikey=...
    ============================================================================ */
-const TTS_ENDPOINT='https://sylvatica.my.id/api/ai/tts';
 let ttsLoading=false;
 let ttsLoadingText='';
 
@@ -3992,8 +3937,6 @@ function aiLightboxDownload(){
   if(aiLightboxOrigin==='filter') aifltDownload(aiLightboxUrl);
   else aiartDownload(aiLightboxUrl);
 }
-
-
 
 const GM_TIME_LIMIT=120;
 const GM_KUISFF_BANK=[
@@ -4441,8 +4384,6 @@ function gmFinish(correct,timeup,giveup){
   }
 }
 
-
-
 const ISL_BASE='https://www.api-xyurei.my.id/api/islam/';
 const ISL_MENU=[
   {key:'bacaanshalat',label:'Bacaan Shalat',icon:'fa-hands-praying',type:'list'},
@@ -4484,18 +4425,7 @@ function islSelect(key){
 function islArea(){ return document.getElementById('islArea'); }
 
 async function islFetchAny(url){
-  async function tryOnce(u){
-    const res=await fetch(u,{headers:{'Accept':'application/json'}});
-    const text=await res.text();
-    let json;
-    try{ json=JSON.parse(text); }catch(parseErr){
-      throw new Error('HTTP '+res.status+' - respons bukan JSON: '+text.slice(0,200));
-    }
-    if(!res.ok){
-      throw new Error('HTTP '+res.status+' - '+(json&&(json.message||json.msg||json.error)||text.slice(0,200)));
-    }
-    return json;
-  }
+
   try{
     return await tryOnce(url);
   }catch(directErr){
@@ -4825,8 +4755,6 @@ function islEsc(str){
   return String(str==null?'':str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
-
-
 const KMK_BASE='https://www.api-xyurei.my.id/api/komiku/';
 const KMK_MENU=[
   {key:'komiku-search',label:'Cari Komik',icon:'fa-magnifying-glass',type:'search'},
@@ -4864,30 +4792,6 @@ function kmkSelect(key){
 }
 
 function kmkArea(){ return document.getElementById('kmkArea'); }
-
-async function kmkFetchAny(url){
-  async function tryOnce(u){
-    const res=await fetch(u,{headers:{'Accept':'application/json'}});
-    const text=await res.text();
-    let json;
-    try{ json=JSON.parse(text); }catch(parseErr){
-      throw new Error('HTTP '+res.status+' - respons bukan JSON: '+text.slice(0,200));
-    }
-    if(!res.ok){
-      throw new Error('HTTP '+res.status+' - '+(json&&(json.message||json.msg||json.error)||text.slice(0,200)));
-    }
-    return json;
-  }
-  try{
-    return await tryOnce(url);
-  }catch(directErr){
-    try{
-      return await tryOnce('https://api.allorigins.win/raw?url='+encodeURIComponent(url));
-    }catch(proxyErr){
-      throw new Error(directErr.message+' | proxy: '+proxyErr.message);
-    }
-  }
-}
 
 function kmkFetchJson(endpoint,extraParams){
   return (async function(){
@@ -5245,8 +5149,6 @@ function kmkEscAttr(str){
   return String(str==null?'':str).replace(/'/g,'&#39;').replace(/"/g,'&quot;');
 }
 
-
-
 /* ================= ANIME (MangaDex / NontonAnimeID / Otakotaku / Otakudesu) =================
    ENDPOINT MENYUSUL: isi URL di ANM_BASE & ANM_ENDPOINTS di bawah kalau API-nya sudah ada.
    Struktur form/UI sudah lengkap, tinggal isi string endpoint-nya saja tanpa perlu ubah kode lain. */
@@ -5429,18 +5331,7 @@ async function anmSubmit(key){
 }
 
 async function anmFetchAny(url){
-  async function tryOnce(u){
-    const res=await fetch(u,{headers:{'Accept':'application/json'}});
-    const text=await res.text();
-    let json;
-    try{ json=JSON.parse(text); }catch(parseErr){
-      throw new Error('HTTP '+res.status+' - respons bukan JSON: '+text.slice(0,200));
-    }
-    if(!res.ok){
-      throw new Error('HTTP '+res.status+' - '+(json&&(json.message||json.msg||json.error)||text.slice(0,200)));
-    }
-    return json;
-  }
+
   try{
     return await tryOnce(url);
   }catch(directErr){
@@ -5584,8 +5475,6 @@ function anmEsc(str){
 function anmEscAttr(str){
   return String(str==null?'':str).replace(/'/g,'&#39;').replace(/"/g,'&quot;');
 }
-
-
 
 const MKR_BASE='https://sylvatica.my.id/api/maker/';
 const MKR_MENU=[
@@ -5875,8 +5764,6 @@ async function mkrDownload(url,keyName){
     aiSaveMediaFallback(url);
   }
 }
-
-
 
 const NWS_BASE='https://www.api-xyurei.my.id/api/news/';
 const NWS_MENU=[
@@ -6175,8 +6062,6 @@ function nwsRenderDetail(data,url,result){
   '</div>';
 }
 
-
-
 const QTS_BASE='https://www.api-xyurei.my.id/api/quotes/';
 const QTS_MENU=[
   {key:'anime-quotes',label:'Anime Quotes',icon:'fa-dragon'},
@@ -6327,8 +6212,6 @@ function qtsCopy(){
   if(typeof showToast==='function'){ showToast('Quote disalin!'); }
 }
 
-
-
 const RND_BASE='https://www.api-xyurei.my.id/api/random/';
 const RND_MENU=[
   {key:'animehot',label:'Anime Hot',icon:'fa-fire'},
@@ -6370,37 +6253,8 @@ document.addEventListener('DOMContentLoaded',rndBuildGrid);
 
 function rndArea(){ return document.getElementById('rndArea'); }
 
-function rndEsc(str){
-  return String(str==null?'':str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
 function rndEscAttr(str){
   return String(str==null?'':str).replace(/'/g,'&#39;').replace(/"/g,'&quot;');
-}
-
-function rndFetchJson(endpoint){
-  return (async function(){
-    const keys=xyureiFallbackShuffledKeys();
-    let lastErr=null;
-    for(let i=0;i<keys.length;i++){
-      const key=keys[i];
-      const url=RND_BASE+endpoint+'?apikey='+encodeURIComponent(key);
-      try{
-        let res,text;
-        try{
-          res=await fetch(url,{headers:{'Accept':'application/json'}});
-          text=await res.text();
-        }catch(networkErr){
-          res=await fetch('https://api.allorigins.win/raw?url='+encodeURIComponent(url));
-          text=await res.text();
-        }
-        let json=null;
-        try{ json=JSON.parse(text); }catch(parseErr){ lastErr=new Error('Respons bukan JSON valid.'); continue; }
-        if(xyureiIsFailure(res,json)){ lastErr=new Error('apiKey xyurei gagal/limit.'); continue; }
-        return json;
-      }catch(e){ lastErr=e; continue; }
-    }
-    throw lastErr||new Error('Semua apiKey xyurei gagal.');
-  })();
 }
 
 function rndSelect(key){
@@ -6503,8 +6357,6 @@ async function rndDownload(url,keyName,isVideo){
     aiSaveMediaFallback(url);
   }
 }
-
-
 
 const STK_BASE='https://sylvatica.my.id/api/stalk/';
 const STK_TAB_ORDER=['ff','dc','gh','npm','pin','tt','yt','aov','cod','hok','ml','pb','pubg'];
@@ -6806,122 +6658,6 @@ async function stkStalkFreeFireOb54(uid,region){
   return {info:infoJson,wishlist:wishJson};
 }
 
-function stkFfDate(ts){
-  ts=Number(ts)||0;
-  if(!ts) return '';
-  const d=new Date(ts*1000);
-  if(isNaN(d.getTime())) return '';
-  return d.toLocaleDateString('id-ID',{day:'2-digit',month:'long',year:'numeric'});
-}
-function stkFfNum(n){
-  n=Number(n);
-  if(isNaN(n)) return '';
-  return n.toLocaleString('id-ID');
-}
-function stkFfRow(label,value){
-  if(value===''||value==null) return '';
-  return '<div class="stk-result-row"><b>'+stkEsc(label)+'</b><span>'+stkEsc(String(value))+'</span></div>';
-}
-
-function stkFfReleaseDate(v){
-  if(v===undefined||v===null||v==='') return '';
-  // API kadang balikin unix timestamp (angka), kadang string "2024-11-01 12:00:00".
-  if(/^[0-9]+$/.test(String(v))) return stkFfDate(v);
-  return String(v);
-}
-
-function stkRenderFFProfileResult(box,data){
-  const info=data.info||{};
-  const b=info.basicInfo||info.basic_info||{};
-  const clan=info.clanBasicInfo||info.clan_basic_info||{};
-  const captain=info.captainBasicInfo||info.captain_basic_info||{};
-  const pet=info.petInfo||info.pet_info||{};
-  const credit=info.creditScoreInfo||info.credit_score_info||{};
-  const wishRaw=data.wishlist&&(data.wishlist.wishlist||data.wishlist.items);
-  const wish=Array.isArray(wishRaw)?wishRaw:[];
-
-  const nickname=b.nickname||'-';
-  const uidVal=stkPick(b,['accountId','account_id'])||'';
-
-  let rows='';
-  rows+=stkFfRow('Region',b.region);
-  rows+=stkFfRow('Level',b.level!=null?stkFfNum(b.level):'');
-  rows+=stkFfRow('EXP',b.exp!=null?stkFfNum(b.exp):'');
-  rows+=stkFfRow('Likes',b.liked!=null?stkFfNum(b.liked):'');
-  const rankingPoints=stkPick(b,['rankingPoints','ranking_points']);
-  rows+=stkFfRow('BR Rank Points',rankingPoints!=null?stkFfNum(rankingPoints):'');
-  rows+=stkFfRow('BR Rank Tier (kode)',b.rank!=null?b.rank:'');
-  const csRankingPoints=stkPick(b,['csRankingPoints','cs_ranking_points']);
-  rows+=stkFfRow('CS Rank Points',csRankingPoints!=null?stkFfNum(csRankingPoints):'');
-  const csRank=stkPick(b,['csRank','cs_rank']);
-  rows+=stkFfRow('CS Rank Tier (kode)',csRank!=null?csRank:'');
-  const elitePass=stkPick(b,['hasElitePass','has_elite_pass']);
-  if(elitePass!==undefined) rows+=stkFfRow('Elite Pass',elitePass?'Aktif':'Tidak Aktif');
-  const badgeCnt=stkPick(b,['badgeCnt','badge_cnt']);
-  rows+=stkFfRow('Jumlah Badge',badgeCnt!=null?stkFfNum(badgeCnt):'');
-  rows+=stkFfRow('Season Berjalan',stkPick(b,['seasonId','season_id']));
-  const creditScore=stkPick(credit,['creditScore','score']);
-  rows+=stkFfRow('Credit Score',creditScore!=null?creditScore:'');
-  rows+=stkFfRow('Bergabung Sejak',stkFfDate(stkPick(b,['createAt','create_at'])));
-  rows+=stkFfRow('Login Terakhir',stkFfDate(stkPick(b,['lastLoginAt','last_login_at'])));
-
-  let clanHtml='';
-  const clanName=stkPick(clan,['clanName','clan_name']);
-  if(clan&&clanName){
-    const clanLevel=stkPick(clan,['clanLevel','clan_level']);
-    const currentMembers=stkPick(clan,['memberNum','current_members'])||0;
-    const maxMembers=stkPick(clan,['capacity','max_members'])||0;
-    clanHtml=
-      '<div class="stk-ff-section-title"><i class="fa-solid fa-people-group"></i>GUILD</div>'+
-      '<div class="stk-result-rows">'+
-        stkFfRow('Nama Guild',clanName)+
-        stkFfRow('Level Guild',clanLevel)+
-        stkFfRow('Anggota',currentMembers+' / '+maxMembers)+
-        stkFfRow('Leader',captain.nickname||'')+
-      '</div>';
-  }
-
-  let petHtml='';
-  const petLabel=stkPick(pet,['petName','pet_name'])||pet.id;
-  if(pet&&petLabel){
-    petHtml=
-      '<div class="stk-ff-section-title"><i class="fa-solid fa-paw"></i>PET AKTIF</div>'+
-      '<div class="stk-result-rows">'+
-        stkFfRow(stkPick(pet,['petName','pet_name'])?'Nama Pet':'ID Pet',petLabel)+
-        stkFfRow('Level Pet',pet.level)+
-      '</div>';
-  }
-
-  let wishHtml='';
-  if(wish.length){
-    let chips='';
-    wish.forEach(function(it){
-      const rel=stkFfReleaseDate(it.release_time);
-      chips+='<div class="stk-ff-wish-chip"><b>Item #'+stkEsc(String(it.item_id))+'</b>'+(rel?('<span>Rilis '+stkEsc(rel)+'</span>'):'')+'</div>';
-    });
-    wishHtml=
-      '<div class="stk-ff-section-title"><i class="fa-solid fa-heart"></i>WISHLIST ('+wish.length+')</div>'+
-      '<div class="stk-ff-wish-grid">'+chips+'</div>'+
-      '<div class="stk-ff-note">Nama item belum tersedia (API cuma balikin ID item), ditampilkan sebagai kode.</div>';
-  }else{
-    wishHtml=
-      '<div class="stk-ff-section-title"><i class="fa-solid fa-heart"></i>WISHLIST</div>'+
-      '<div class="stk-empty" style="padding:16px 0;"><i class="fa-solid fa-heart-crack"></i>Wishlist kosong atau tidak tersedia.</div>';
-  }
-
-  box.innerHTML=
-    '<div class="stk-result-head">'+
-      '<img class="stk-result-avatar stk-ff-logo" src="zusmo-asset/bpjwcf.png" alt="avatar">'+
-      '<div>'+
-        '<div class="stk-name-row"><span class="stk-result-name" id="stkFfNameText">'+stkEsc(nickname)+'</span><button class="stk-copy-btn" id="stkFfCopyBtn" onclick="stkCopyName()"><i class="fa-solid fa-copy"></i></button></div>'+
-        (uidVal?'<div class="stk-result-sub">UID '+stkEsc(String(uidVal))+'</div>':'')+
-      '</div>'+
-    '</div>'+
-    '<div class="stk-result-rows">'+(rows||'<div class="stk-result-row"><span>Tidak ada detail tambahan.</span></div>')+'</div>'+
-    clanHtml+petHtml+wishHtml;
-  box.classList.add('show');
-}
-
 function stkRenderResult(box,json,type){
   const cfg=STK_CONFIG[type];
   const d=(json&&(json.result||json.data))||json||{};
@@ -7120,30 +6856,6 @@ function stkRenderPinterestResult(box,json){
    (fetchFFNickname -> api.saipulanuar.eu.org/api/stalkgame/ffstalk1), bukan sylvatica.my.id.
    Direct fetch & proxy allorigins di-race bareng, sama seperti fetchFFNickname, supaya
    tetap jalan walau direct fetch kena CORS/diblok WebView. */
-async function stkStalkFreeFireRaw(uid){
-  const target='https://api.saipulanuar.eu.org/api/stalkgame/ffstalk1?userId='+encodeURIComponent(uid);
-  const proxyUrl='https://api.allorigins.win/raw?url='+encodeURIComponent(target);
-  const directPromise=fetch(target,{headers:{'Accept':'application/json'}}).then(r=>r.json());
-  const proxyPromise=fetch(proxyUrl).then(r=>r.json());
-  return new Promise((resolve,reject)=>{
-    let pending=2;
-    let lastErr=null;
-    [directPromise,proxyPromise].forEach(p=>{
-      p.then(json=>{
-        if(extractFFNickname(json)){ resolve(json); }
-        else{
-          lastErr=lastErr||Object.assign(new Error((json&&json.message)||'Nickname tidak ditemukan di response API.'),{raw:json});
-          pending--;
-          if(pending<=0) reject(lastErr);
-        }
-      }).catch(e=>{
-        lastErr=lastErr||e;
-        pending--;
-        if(pending<=0) reject(lastErr);
-      });
-    });
-  });
-}
 
 async function stkStalkAovRaw(uid){
   const target='https://api.saipulanuar.eu.org/api/stalkgame/aov?userId='+encodeURIComponent(uid);
@@ -7351,49 +7063,35 @@ async function stkStalk(type){
   stkSetLoading(btn,false);
 }
 
-
-
 function caiTryAdd(){
   var g=document.getElementById('caiGate');
   if(g) g.style.display='block';
 }
-
-
 
 function clbTrySet(){
   var g=document.getElementById('clbGate');
   if(g) g.style.display='block';
 }
 
-
-
 function cbiTryCheck(){
   var g=document.getElementById('cbiGate');
   if(g) g.style.display='block';
 }
-
-
 
 function cmbTryGo(){
   var g=document.getElementById('cmbGate');
   if(g) g.style.display='block';
 }
 
-
-
 function cmcTryGo(){
   var g=document.getElementById('cmcGate');
   if(g) g.style.display='block';
 }
 
-
-
 function cmtTryGo(){
   var g=document.getElementById('cmtGate');
   if(g) g.style.display='block';
 }
-
-
 
 function cidUsePopuler(uid){
   var inp=document.getElementById('cidUidInput');
@@ -7403,8 +7101,6 @@ function cidHidePopuler(id){
   var el=document.getElementById(id);
   if(el) el.style.display='none';
 }
-
-
 
 (function(){
   const uidInput=document.getElementById('cidUidInput');
@@ -7706,13 +7402,6 @@ function cidPickIdCI(json,keyLower){
   if(b!=null&&b!=='') return b;
   return null;
 }
-function cidPickArrayCI(json,keyLower){
-  const a=cidPickAnyCI(json.profileInfo,keyLower);
-  if(Array.isArray(a)) return a;
-  const b=cidPickAnyCI(json.basicInfo,keyLower);
-  if(Array.isArray(b)) return b;
-  return [];
-}
 
 function cidRenderRows(obj,extraSkip){
   if(!obj||typeof obj!=='object') return '';
@@ -7839,33 +7528,6 @@ function cidReset(){
   cidShowState('cidStateIdle');
 }
 
-function cidCopyNick(){
-  const nickText=document.getElementById('cidNickText');
-  const copyBtn=document.getElementById('cidCopyBtn');
-  if(!nickText||!copyBtn) return;
-  const text=nickText.textContent||'';
-  const done=function(){
-    copyBtn.classList.add('copied');
-    copyBtn.innerHTML='<i class="fa-solid fa-check"></i>';
-    setTimeout(function(){
-      copyBtn.classList.remove('copied');
-      copyBtn.innerHTML='<i class="fa-solid fa-copy"></i>';
-    },1400);
-  };
-  if(navigator.clipboard&&navigator.clipboard.writeText){
-    navigator.clipboard.writeText(text).then(done).catch(done);
-  }else{
-    const ta=document.createElement('textarea');
-    ta.value=text;ta.style.position='fixed';ta.style.opacity='0';
-    document.body.appendChild(ta);ta.select();
-    try{document.execCommand('copy');}catch(e){}
-    document.body.removeChild(ta);
-    done();
-  }
-}
-
-
-
 (function(){
   const uidInput=document.getElementById('cbnUidInput');
   if(uidInput){
@@ -7971,8 +7633,6 @@ function cbnDownload(){
   if(window.aiSaveMediaFallback){ window.aiSaveMediaFallback(cbnCurrentUrl); return; }
   window.open(cbnCurrentUrl,'_blank');
 }
-
-
 
 (function(){
   const uidInput=document.getElementById('cofUidInput');
@@ -8201,9 +7861,6 @@ async function cofDownload(){
   if(btn){ btn.disabled=false; btn.innerHTML=origHtml; }
 }
 
-
-
-
 (function(){
   const uidInput=document.getElementById('cisUidInput');
   if(uidInput){
@@ -8313,8 +7970,6 @@ function cisReset(){
   if(inp){ inp.value=''; inp.focus(); }
   cisShowState('cisStateIdle');
 }
-
-
 
 (function(){
   const uidInput=document.getElementById('cpkUidInput');
@@ -8493,8 +8148,6 @@ function cpkReset(){
   cpkShowState('cpkStateIdle');
 }
 
-
-
 (function(){
   const uidInput=document.getElementById('celUidInput');
   if(uidInput){
@@ -8653,8 +8306,6 @@ function celReset(){
   if(inp){ inp.value=''; inp.focus(); }
   celShowState('celStateIdle');
 }
-
-
 
 (function(){
   const clanInput=document.getElementById('cgiClanIdInput');
@@ -8822,8 +8473,6 @@ function cgiReset(){
   cgiShowState('cgiStateIdle');
 }
 
-
-
 (function(){
   const clanInput=document.getElementById('cjgClanIdInput');
   if(clanInput){
@@ -8920,8 +8569,6 @@ function cjgReset(){
   cjgShowState('cjgStateIdle');
 }
 
-
-
 (function(){
   const clanInput=document.getElementById('clgClanIdInput');
   if(clanInput){
@@ -9015,8 +8662,6 @@ function clgReset(){
   if(jwtInp) jwtInp.value='';
   clgShowState('clgStateIdle');
 }
-
-
 
 (function(){
   ['cmgAvatarInput','cmgMinLevelInput'].forEach(function(id){
@@ -9157,8 +8802,6 @@ function cmgReset(){
   cmgShowState('cmgStateIdle');
 }
 
-
-
 function cgnShowState(which){
   ['cgnStateIdle','cgnStateLoading','cgnStateError'].forEach(function(id){
     const el=document.getElementById(id);
@@ -9256,8 +8899,6 @@ function cgnReset(){
   });
   cgnShowState('cgnStateIdle');
 }
-
-
 
 (function(){
   const mapInput=document.getElementById('cclMapCodeInput');
@@ -9404,8 +9045,6 @@ function cclReset(){
   });
   cclShowState('cclStateIdle');
 }
-
-
 
 (function(){
   const mapInput=document.getElementById('ccdMapCodeInput');
@@ -9557,14 +9196,10 @@ function ccdReset(){
   ccdShowState('ccdStateIdle');
 }
 
-
-
 function cbdTryCheck(){
   var g=document.getElementById('cbdGate');
   if(g) g.style.display='block';
 }
-
-
 
 function cffShowState(which){
   ['cffStateIdle','cffStateLoading','cffStateError'].forEach(function(id){
@@ -9627,8 +9262,6 @@ function cffReset(){
   cffShowState('cffStateIdle');
 }
 
-
-
 const TFF_BASE='https://siambhau69.eu.cc';
 const TFF_KEY='FFAPI-PREM-30-kzrizusmo-X07';
 const TFF_ALL_REGIONS=['BD'];
@@ -9674,7 +9307,6 @@ function tffUnwrap(json){
   if(!json||typeof json!=='object') return json;
   return json.data||json.stats||json.result||json;
 }
-
 
 function tffEsc(str){
   return String(str==null?'':str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -10245,22 +9877,10 @@ function tffBuildProfileHead(json,extra,refreshAttr){
   const social=json.socialInfo||{};
   const signature=stkPick(b,['signature'])||stkPick(social,['signature']);
 
-  /* EASTER EGG: ID developer KZRIZUSMO FF -> bio hasil asli TETAP DITAMPILKAN
-     apa adanya, cuma ditambahi 3 baris promosi (kode warna [RRGGBB]) di
-     BAWAHNYA pakai baris baru. Dicek dari accountId hasil API, bukan dari
-     input mentah, jadi cuma aktif kalau ID yang dicek memang 260190210. */
-  const KZ_DEV_ID='260190210';
-  const KZ_DEV_BIO_LINES=[
-    "[B][FF0000]B[FF4500]E[FF8C00]L[FFFF00]I [00FF00]B[00FFFF]I[008CFF]O [0000FF]P[8000FF]A[FF00FF]N[FF1493]J[FF0000]A[FF8C00]N[FFFF00]G [00FF00]C[00FFFF]U[008CFF]M[0000FF]A [FF00FF]5[FF0000]K",
-    "[B][FF00AA]D[FF00FF]E[CC00FF]V[9900FF]E[6600FF]L[3300FF]O[0066FF]P[00CCFF]E[00FFFF]R [00FFCC]A[00FF66]P[66FF00]K [FFFF00]K[FFCC00]Z[FF9900]R[FF6600]I[FF3300]Z[FF0066]U[FF0099]S[FF00CC]M[CC00FF]O [9900FF]F[0066FF]F",
-    "[B][4B0082]D[6A00B8]E[8900EE]V[A800FF]E[C000E8]L[D800D0]O[F000B8]P[FF1493]E[E800A8]R [D000C0]A[B000D8]P[9000F0]K [7000C8]K[5000A0]Z[3B0080]R[2F006B]I[250057]Z[1E0045]U[180033]S[120022]M[0D0018]O [080010]F[05000A]F"
-  ];
-  const isKzDevId=uidVal!=null && String(uidVal).trim()===KZ_DEV_ID;
   const bioOriginalRaw=signature?String(signature).trim():'';
   const bioOriginalHtml=bioOriginalRaw?tffFormatBio(bioOriginalRaw):'';
-  const bioExtraHtml=isKzDevId?'<span class="kz-bio-extra">'+KZ_DEV_BIO_LINES.map(function(l){return tffFormatBio(l);}).join('<br>')+'</span>':'';
-  const bioCombinedHtml=bioOriginalHtml+((bioOriginalHtml&&bioExtraHtml)?'<br>':'')+bioExtraHtml;
-  const bioCopyVal=bioOriginalRaw+(isKzDevId?((bioOriginalRaw?'\n':'')+KZ_DEV_BIO_LINES.join('\n')):'');
+  const bioCombinedHtml=bioOriginalHtml;
+  const bioCopyVal=bioOriginalRaw;
 
   // Endpoint /banner/profile langsung balikin GAMBAR PNG jadi (bukan JSON) yang
   // isinya sudah gabungan avatar+nama+guild+level dirender server, ukuran total
@@ -10428,8 +10048,6 @@ function tffRenderFriendsList(box,json){
     '<div class="tff-friends-list">'+rows+'</div>';
   box.classList.add('show');
 }
-
-
 
 const TLS_BASE='https://sylvatica.my.id/api/tools/';
 const TLS_MENU=[
@@ -11149,8 +10767,6 @@ function tlsCopyResultText(){
   }
 }
 
-
-
 const RE_BASE='https://sylvatica.my.id/api/re/';
 const RE_MENU=[
   {key:'apk-signer',label:'Apk Auto Signer',icon:'fa-file-signature',desc:'Tanda tangani (sign) file APK secara otomatis',
@@ -11310,8 +10926,6 @@ async function reSubmit(){
   if(btn){ btn.disabled=false; btn.innerHTML='<i class="fa-solid fa-paper-plane"></i> KIRIM'; }
 }
 
-
-
 const BYP_BASE='https://sylvatica.my.id/api/bypass/';
 const BYP_MENU=[
   {key:'ouo',method:'GET',label:'OUO Bypass',icon:'fa-link',desc:'Bypass shortlink OUO.io / OUO.press',
@@ -11457,8 +11071,6 @@ async function bypSubmit(){
   }
   if(btn){ btn.disabled=false; btn.innerHTML='<i class="fa-solid fa-paper-plane"></i> KIRIM'; }
 }
-
-
 
 const PT_BASE='https://sylvatica.my.id/api/pterodactyl/';
 const PT_MENU=[
@@ -11656,8 +11268,6 @@ async function ptSubmit(){
   }
   if(btn){ btn.disabled=false; btn.innerHTML='<i class="fa-solid fa-paper-plane"></i> KIRIM'; }
 }
-
-
 
 const SRH_BASE='https://sylvatica.my.id/api/search/';
 const SRH_MENU=[
@@ -12925,8 +12535,6 @@ function srhRenderBingResult(data){
   result.innerHTML=tabsHtml+bodyHtml;
 }
 
-
-
 const SMDL_TAB_ORDER=['cc','tt','ig','yt','ytdl','fb','dy','th','x','pin','vd','cpc','sp','sc','am','mf','tb','gh','xnxx'];
 
 function smdlSwitchTab(tab){
@@ -13543,8 +13151,6 @@ function smdlRenderYtList(box,list){
   box.classList.add('show');
 }
 
-
-
 const nhPackages=[
   {followers:600,price:150000,poin:60000,level:7,bonusMax:800},
   {followers:1200,price:300000,poin:120000,level:7,bonusMax:1600},
@@ -13728,8 +13334,6 @@ function orderNickHijau(){
   window.open('https://wa.me/6283800287738?text='+encodeURIComponent(msg),'_blank');
 }
 
-
-
 const bgPackages=[
   {squad:1,bots:4,price:150000,poin:400000},
   {squad:2,bots:8,price:300000,poin:800000},
@@ -13813,8 +13417,6 @@ function orderBotGlory(){
 
   window.open('https://wa.me/6283800287738?text='+encodeURIComponent(msg),'_blank');
 }
-
-
 
 (function(){
   // Warna-warna positif & mencolok untuk demo cepat
@@ -14100,8 +13702,6 @@ document.addEventListener('DOMContentLoaded',()=>{
   const inp=document.getElementById('neInput');
   if(inp){ inp.addEventListener('input',neUpdatePreview); }
 });
-
-
 
 const jgData={role:'',gender:'',cn:'',commit:'',aturan:'',kas:''};
 
@@ -14407,8 +14007,6 @@ function submitJoinGuild(){
   },1200);
 }
 
-
-
 /* ── PRIME DATA ── */
 const primeLevels=[
   {label:'Prime 1',name:'PRIME 1',img:'zusmo-asset/x5pypw.png',dm:1000},
@@ -14503,8 +14101,6 @@ function hitungLevel(){
     [document.getElementById('res2Harga'),p.dm*HARGA_PER_DM,'c'],
   ]);
 }
-
-
 
 function prmGetDiamond(){
   var v=parseInt(localStorage.getItem('zusmo_diamond_balance'),10);
@@ -14756,8 +14352,6 @@ function prmApplyPreview(lvl){
 
 document.addEventListener('DOMContentLoaded', renderPrimePage);
 
-
-
 document.querySelectorAll('.card,.long-btn,.back').forEach(el=>el.addEventListener('click',e=>{try{
 window.audioCtx=window.audioCtx||new (window.AudioContext||window.webkitAudioContext)();
 if(window.audioCtx.state==='suspended'){window.audioCtx.resume();}
@@ -14772,16 +14366,7 @@ gain.connect(window.audioCtx.destination);
 osc.start();
 osc.stop(window.audioCtx.currentTime+0.10);
 }catch(e){console.log(e)}let r=document.createElement('span'),b=el.getBoundingClientRect(),s=Math.max(b.width,b.height);r.className='ripple';r.style.width=r.style.height=s+'px';r.style.left=e.clientX-b.left-s/2+'px';r.style.top=e.clientY-b.top-s/2+'px';el.appendChild(r);setTimeout(()=>r.remove(),600)}));
-function openPage(id){
-let t=document.getElementById('tr');
-t.classList.add('show');
-setTimeout(()=>{
-document.querySelector('.active').classList.remove('active');
-document.getElementById(id).classList.add('active');
-},400);
-setTimeout(()=>t.classList.remove('show'),800);
-}
-function showHome(){showPage('home')}
+
 document.addEventListener('DOMContentLoaded',function(){
 if(document.getElementById('faqVisibleCount'))zsFilterFaq('');
 });
@@ -14870,10 +14455,6 @@ function goBackPage(){
   var prev=__pageBackStack.pop();
   showPage(prev?prev:'home',true);
 }
-
-
-
-
 
 const ZUSMO_WALLPAPER_URL='zusmo-asset/jk23mr.jpg';
 window.devApplyWallpaperDark=function(dark){
@@ -15275,7 +14856,6 @@ document.addEventListener('DOMContentLoaded',function(){
   }
 });
 
-
 /* === TIKTOK STEP LOGIC === */
 var ttkClicked={1:false,2:false,3:false};
 var ttkVerifying=false;
@@ -15429,9 +15009,6 @@ function confirmDownload(){
 }
 
 document.getElementById('dlModal').addEventListener('click', hideDownloadPopup);
-
-
-
 
 const validKeys=['KZR031540A23D70', 'KZR9B2B704444C4', 'KZRC94E705D041F', 'KZRBE4AC0A885FE', 'KZRC75C3A154C06', 'KZR126300C9082C', 'KZRE677B0604576', 'KZR0AC16F98F115', 'KZRE30304662E0B', 'KZR09C9E73B2FE1', 'KZR56EF8763240D', 'KZR71E40216A03F', 'KZRF43FD4045E61', 'KZRE8DC47F39E3E', 'KZR4C81638D81D2', 'KZRE0639825668A', 'KZR2F96650936EB', 'KZRC304DA409D16', 'KZR7A23CC063709', 'KZR35AB8CEC4172', 'KZR67326D4767F8', 'KZR935A9A2FA715', 'KZR0893752F514A', 'KZRF50E8A4454B0', 'KZR525AA80CCC04', 'KZRE8E9283BE229', 'KZRC9F26ABC1926', 'KZRBBFEEC31BA65', 'KZRE5FE232B31FD', 'KZR7119E14863B2', 'KZRF53E9DE1DECA', 'KZR7053B5023544', 'KZRC65D04C68DA5', 'KZR61B4A4BE64C1', 'KZRD205030918CB', 'KZR6011480BA3F4', 'KZR6812F6CFBB14', 'KZR2A9F7410E4E4', 'KZRA6CF61F44090', 'KZR604AC7362752', 'KZR74CD6CF4D70A', 'KZR6690297CB9DF', 'KZRDBE30C7ABDC6', 'KZR47AB5207EC1D', 'KZRFF30C9244183', 'KZRE01C62A7AC9D', 'KZRBCEE5264BE39', 'KZR03CEA04DF863', 'KZR244E448F4D05', 'KZRD1028E2B1C9E', 'KZR7BE49D95F9A6', 'KZRDC11B258C992', 'KZR2F082EC88048', 'KZRDFF23E2A97FA', 'KZRD8D4D176C4BE', 'KZR7DC6C2693D5A', 'KZR7DCFDC09993B', 'KZR9F75E16A03C8', 'KZRF8DE813863E9', 'KZR240C35FCDD9F', 'KZRCA7B698C37B0', 'KZRD9F759743B4E', 'KZRFD0F5E0E79CE', 'KZR214EBC03FE03', 'KZR38DF29A84DAC', 'KZRC9CC8D88E468', 'KZR0805BB4BEEBF', 'KZR3B5E56A91738', 'KZRE792790BAD09', 'KZR5DDC47AF22C5', 'KZR34D7B089B05C', 'KZR534B73901E4D', 'KZRA3C1E15B9985', 'KZR7367CBC02F14', 'KZR438F3307D159', 'KZR8EBF6926F4CB', 'KZRAD92498EB6D5', 'KZR4981FED8AFF4', 'KZR76B041394B05', 'KZR90B6868E752F', 'KZR977FEFB68B7C', 'KZR69752C19EA67', 'KZR2258F7F6635F', 'KZR8E95CFFDB467', 'KZR7FD9B4338838', 'KZR1CFF15BADEA9', 'KZR62E60AFC1E68', 'KZRB794C25124F4', 'KZR28EF7856FF2C', 'KZR1469998A6DAE', 'KZR67C265C0FD12', 'KZRA70287747F1E', 'KZRAAB70F7362C5', 'KZR5F1358CB2FB7', 'KZRFFD21AFD09D5', 'KZR5491241E4D48', 'KZR13E59C2F7790', 'KZR89F169B171D6', 'KZRDA2CEC1C9030', 'KZR95B836711184', 'KZRC176D60C16EB', 'KZR690861F8776A', 'KZR7713E85E1C4E', 'KZR3B6A2EAC035E', 'KZR8509D318E63B', 'KZR3F367DEA15B0', 'KZR349AE8EE08CF', 'KZR080AB07C3F5D', 'KZR7EA6A0B336DA', 'KZR379072F0B335', 'KZRA846954EF507', 'KZR4FD6D01237C7', 'KZRC1A899D7CEF8', 'KZR519CA38DFB8F', 'KZR79CF304316E1', 'KZRD3E009D06EBF', 'KZR19166FEE96F3', 'KZR617E2737453F', 'KZRA61728AFDAA9', 'KZR30D5284CBAC9', 'KZR53FE04B83849', 'KZR106C7478B45F', 'KZR773BCC6C6B68', 'KZRA548447E79F4', 'KZRE9ABADACF682', 'KZR94FAC8D5937E', 'KZREDCE7AA61EC0', 'KZRD16E57BC4016', 'KZRAF91AC3F1829', 'KZRB0F12EB09284', 'KZR96CA2A8252F6', 'KZRCA8ADC53D66B', 'KZRE9C9E1D6E325', 'KZR3874DA3FE74B', 'KZR47FE7AFCBE85', 'KZRAA3FD72E956E', 'KZRE2A5B295B654', 'KZR6DF15DFDD693', 'KZR14075F4D2F56', 'KZR3F15C9B2238D', 'KZR4160DD485709', 'KZR886C4D531468', 'KZREFC2804F5DB5', 'KZR33F3160C9104', 'KZR02D9F5C61060', 'KZRCA64D2BE7682', 'KZRE5A232D0BB55', 'KZRB78166CA2BD9', 'KZR7DCF35D7D2B8', 'KZR9FB43695FF5B', 'KZRC9FD8C375EBD', 'KZR76008AF032C2', 'KZR23FF53C1181A', 'KZRDD6B304A0A7F', 'KZR6D32F66B1C56', 'KZR28A9C9224B9A', 'KZR89279FDC344B', 'KZR45CB78E0E877', 'KZR806CEF71E940', 'KZR86D9913985D4', 'KZREF4F8B857930', 'KZR0DB3260E6466', 'KZRDEF51A838772', 'KZR2A9D62031E68', 'KZR92D3E5DCB08B', 'KZR0D6F7FC9C793', 'KZR26C10F7221A6', 'KZR81053684046C', 'KZR9ED55BDFDCE2', 'KZR678B839FF85D', 'KZR918A63C092AC', 'KZR52531ADB0095', 'KZRFDABC1C4898C', 'KZRDE0C850EA29D', 'KZR76644A8ACF9D', 'KZRB7BB55A69ECA', 'KZRE28FC9B771DA', 'KZR490A29684F64', 'KZRB8F15A9BAC07', 'KZR96684B4BDEE9', 'KZRE8F08A4489DE', 'KZR46434EA5D146', 'KZRA6ED505D2B84', 'KZR8F2CF6951866', 'KZRE2144B25E85E', 'KZRCE4DAABABE7F', 'KZR64557D8EC441', 'KZRB8C71B3BF8CE', 'KZRB908F3C0BB31', 'KZRC08E66788142', 'KZR27DA2CDCF3AF', 'KZRB75E5C78EC3E', 'KZRCC3D7C569827', 'KZR03DC3347102E', 'KZRC8E3E77252E6', 'KZR8D3E51D6541A', 'KZRB634F9589630', 'KZRC85DDA0525C1', 'KZRB6892E0A2B2A', 'KZR10A7B2EA77ED', 'KZREA1496890B39', 'KZR690F5BC62278', 'KZR5D9323707138', 'KZR75D2E864FD34', 'KZR31AB5C8A9BFA', 'KZR11AE8C9089EA', 'KZRAD1D14686F47', 'KZRF97242EDC8C5', 'KZR4CBA6BC5B255', 'KZR215F13999EC2', 'KZRD750921DC469', 'KZR1DCB0A28592C', 'KZR651216E4FD66', 'KZRF9571BC9ED8A', 'KZRBFD175283475', 'KZR3782D0DF90AA', 'KZR387A604F64FA', 'KZR9AEBFA809CE8', 'KZR6C26C32DF153', 'KZR3AF3EE83606F', 'KZR965A93A54607', 'KZR1ACA3B48EE0E', 'KZR710595F18708', 'KZR54AC633A7922', 'KZR4C45F001EE30', 'KZR6647CEC6B4A5', 'KZR723D78EFC88D', 'KZRAED26E3AF3D4', 'KZRF5B0A21D6878', 'KZR8DD91D60DC9E', 'KZR941B81D677AC', 'KZRF3675225564B', 'KZR70AE921E477F', 'KZR791389D84D5D', 'KZR51361EA5CDB5', 'KZR6234BCEA25F5', 'KZRC0B602FC747E', 'KZR106660EDDBD6', 'KZR665CC35F8009', 'KZR756B6797703C', 'KZR41F127E2DCEC', 'KZRB17B3C82FFBD', 'KZRF15429979FDC', 'KZR5B85894AC4DF', 'KZR0CBCD17DB10E', 'KZRD7A701773CEB', 'KZRC6C481959636', 'KZR0301DD703EDF', 'KZR4DD3AAEE96BE', 'KZR77B3E5FE98B3', 'KZR494336C7262F', 'KZRCB2F1D721F03', 'KZRF13210189817', 'KZR12A56F22541F', 'KZR16ACA65138A5', 'KZR5B2BE174A7D9', 'KZR319F41A7D4ED', 'KZR50DB7D690D59', 'KZR9E5253D32A95', 'KZR47CD018A7031', 'KZR2502DC6C42E0', 'KZR38A70F18C801', 'KZR4A53EFC10376', 'KZRD9D548442E44', 'KZREE361089B332', 'KZRF1D9C21213C7', 'KZRAE40599BEEE4', 'KZR6D3EA421C363', 'KZR3E967919CC9E', 'KZR0166391818F1', 'KZRE06E7708D035', 'KZR573AA2E15709', 'KZR301BF0E88F6F', 'KZREBD4BC7F4277', 'KZRFA0676291843', 'KZR1BC9514C66AE', 'KZR92DF7149D494', 'KZR53C46FC5AC21', 'KZR95190741E746', 'KZRB6B11D44CFAD', 'KZRB5863E46D61A', 'KZRA43CE2507F1B', 'KZR84F99C38B121', 'KZRA92E14DA3966', 'KZR965601E89754', 'KZREF7E77A440F5', 'KZR2F2F3677520C', 'KZRB4ED0591BB6D', 'KZR88221AD21A73', 'KZRFC33F3BA92E1', 'KZR9BD3260EB9B8', 'KZR68CC029DCDDC', 'KZRDD34999A8C80', 'KZR23679C5358CC', 'KZR65B35D3FBCE3', 'KZR3A9016E93FC8', 'KZR225255D2BBB0', 'KZR0DBCC0974ABD', 'KZRD903FA520EB1', 'KZRE28E64A666FE', 'KZR07CB21AD40EE', 'KZRAA4EA9BF80EC', 'KZRCA253CFDCEC6', 'KZR1FA45199781F', 'KZRF037E7C9D68F', 'KZR685F2F50DC19', 'KZRBEA913D7E0B6', 'KZRF8DE26EC58AB', 'KZR9A6D15BD9808', 'KZR70C8B5108570', 'KZR3AEB41F95B21', 'KZRB1296E132D68', 'KZRA7236BFE82F3', 'KZR3E458EC76D36', 'KZR8D476AEE3F33', 'KZRC06ADA15E538', 'KZR55585E37F65A', 'KZR4679BA08E453', 'KZR23D96F04BD76', 'KZR3810F8D04632', 'KZRC9629C88A9D1', 'KZR2FE1B3FAF482', 'KZR8D8A1120E530', 'KZR252273F41783', 'KZR10A8A40CBEC7', 'KZR849270C46998', 'KZRCC3D744CD6C1', 'KZR3ACBE2FE9CD9', 'KZRF622211C8CDD', 'KZR374D28C578E3', 'KZR3DD740886FC0', 'KZR24A9BF8F763D', 'KZR47319CEF99DD', 'KZRA172CFAF6143', 'KZRAB918248F95C', 'KZRF731F7BD8F0B', 'KZR97BFD2012C40', 'KZR21DCF1A6BE53', 'KZREB3E24986B18', 'KZRFD778332CAFA', 'KZRB6D0083611D6', 'KZRE545AD8C5930', 'KZR8DA92EB6C8B4', 'KZR815836589CEB', 'KZR56D3912B9C8F', 'KZRC8ED4AFB2859', 'KZR5AB2058489F8', 'KZRE93ECDB4B8BB', 'KZRC69DEA77D517', 'KZRA48FF5FB7144', 'KZR6EB1E0D21C7A', 'KZRBC4BFC206ED2', 'KZR4900E82CAEF1', 'KZRCBC63FDCB835', 'KZR8F05E0D656C3', 'KZR77CC9F50CDA1', 'KZRE9F8927B322A', 'KZR9052337FFA57', 'KZR972FBF16F39D', 'KZR7DD724C6EC7A', 'KZR92777A80CB56', 'KZREA73FC9825A4', 'KZR382DD84CC173', 'KZRCB9C3587DC89', 'KZREC6B207CD14B', 'KZR191D31FC0FB9', 'KZRB118988BFA82', 'KZRD568C99A6698', 'KZRDC388FAB56AA', 'KZRE7FF133A8929', 'KZRA0E725B2E19C', 'KZR67E63FE6B9E1', 'KZR014A09A09B7E', 'KZRA8C3EB8410DD', 'KZRB976763C0069', 'KZRC780EBD5F031', 'KZRF83D6B4CCB31', 'KZRF9896EAD07D2', 'KZRE87832A94E75', 'KZR5F984A964E8A', 'KZR694A670763CB', 'KZR8B6216CDE076', 'KZRD41A8D7972CA', 'KZRA2BB57B663F8', 'KZR03D334CB6CDB', 'KZR5651EB7082D8', 'KZRDD4B2D02792F', 'KZR1B715EB1B88F', 'KZR59B3FA4D2DD8', 'KZR84D1D96F419B', 'KZR8A2826042BAC', 'KZRB80FDF1E592E', 'KZRE5F3E9B3F90E', 'KZR83B11FC0B899', 'KZR730D31E8DC3B', 'KZR15AD1D7725DB', 'KZR8AC1D045E333', 'KZR854EC749630F', 'KZR36304001EE02', 'KZR367CAC0A79B6'];
 
@@ -15685,21 +15262,6 @@ function checkUpgradeKey(){
   },1000);
 }
 
-
-
-
-
-
-
-
-
-let portraitMode=false;
-
-
-
-
-
-
 document.addEventListener('DOMContentLoaded',()=>{
  document.querySelectorAll('details').forEach(d=>{
    const s=d.querySelector('.faqArrow');
@@ -15746,9 +15308,6 @@ setInterval(()=>{
 
 });
 
-
-
-
 (function(){
 
 const bar=document.querySelector('.app-bottombar');
@@ -15779,9 +15338,6 @@ if(active) moveIndicator(active);
 
 })();
 
-
-
-
 let oldScroll=0;
 
 window.addEventListener('scroll',()=>{
@@ -15798,8 +15354,6 @@ window.addEventListener('scroll',()=>{
 
  oldScroll=now;
 });
-
-
 
 (function(){
  const bar=document.querySelector('.app-bottombar');
@@ -15818,8 +15372,6 @@ window.addEventListener('scroll',()=>{
 
 })();
 
-
-
 document.addEventListener("click",function(e){
 
  let tab=e.target.closest(".tab, .app-bottombar button, .app-bottombar a");
@@ -15837,21 +15389,15 @@ document.addEventListener("click",function(e){
 
 });
 
-
-
 /* pastikan overlay tidak menutup banner */
 document.querySelectorAll('.banner, .card, .preview').forEach(el=>{
  el.style.pointerEvents='auto';
 });
 
-
-
 document.querySelectorAll('.shadow-banner, .banner.shadow, .preview.shadow, .card.shadow-card')
 .forEach(el=>{
  el.style.pointerEvents='none';
 });
-
-
 
 function openSideDrawer(){
   var overlay=document.getElementById('sideDrawerOverlay');
@@ -15894,15 +15440,8 @@ function sdPressAndClose(el,cb){
 function sdGo(page,el){
   sdPressAndClose(el,function(){ showPage(page); });
 }
-function sdGoDismiss(key,page,el){
-  sdPressAndClose(el,function(){
-    if(typeof dismissNewBadge==='function') dismissNewBadge(key);
-    showPage(page);
-  });
-}
+
 function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettingsPanel(); } if(typeof markSettingsSeen==='function') markSettingsSeen(); }
-
-
 
 (function(){
   var BANNERS = [
@@ -17884,7 +17423,6 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
   });
   /* ================= END DAILY MISSION SYSTEM ================= */
 
-
   function getDiamond(){
     var v = parseInt(localStorage.getItem(LS_DIAMOND), 10);
     return isNaN(v) ? 0 : v;
@@ -19264,14 +18802,6 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
     return String(name||'').replace(/_/g, ' ');
   }
 
-  function loadLogoImg(img){
-    var real = img.getAttribute('data-src');
-    if(real){
-      img.src = real;
-      img.removeAttribute('data-src');
-    }
-  }
-
   var LOGO_ROW_SIZE = 6;   // jumlah kolom grid logo per baris
   var LOGO_WINDOW_ROWS = 2; // jaga 2 baris (12 gambar) selalu jalan bersamaan
   var logoBatchToken = 0; // bumped to cancel an in-flight batch run
@@ -19459,7 +18989,6 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
   attachFilterSwipe('bannerDetailBody', function(){ return bannerFilterMode; }, function(mode){ window.onSetBannerFilter(mode); });
   attachFilterSwipe('wallpaperDetailBody', function(){ return wallpaperFilterMode; }, function(mode){ window.onSetWallpaperFilter(mode); });
   attachFilterSwipe('musicDetailBody', function(){ return musicFilterMode; }, function(mode){ window.onSetMusicFilter(mode); });
-
 
   window.openLogoDetail = function(){
     var elLd = document.getElementById('logoDetailDiamondBalance');
@@ -20503,7 +20032,6 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
   window.zxShowToast = zxShowToast;
 })();
 
-
 function launchGame(url, logoUrl, gameName, evt){
   var ov = document.getElementById('gameLaunchOverlay');
   var img = document.getElementById('gameLaunchLogoImg');
@@ -20536,8 +20064,6 @@ function launchGame(url, logoUrl, gameName, evt){
   if(window.ZUSMO && window.ZUSMO.playClick) window.ZUSMO.playClick();
   setTimeout(function(){ window.location.href = url; }, 1800);
 }
-
-
 
 window.crwContactType = 'email';
 
@@ -20626,8 +20152,6 @@ window.submitCreatorReward = function(){
     if(sendBtn){ sendBtn.disabled = false; sendBtn.textContent = sendBtnLabel; }
   });
 };
-
-
 
 (function(){
   var TESTI_COUNT=500;
@@ -20732,8 +20256,6 @@ window.submitCreatorReward = function(){
     try{ navigator.vibrate && navigator.vibrate(10); }catch(e){}
   };
 })();
-
-
 
 (function(){
   window.devScrollTo=function(id){
@@ -20867,8 +20389,6 @@ window.submitCreatorReward = function(){
   }
 })();
 
-
-
 function switchCmtyTab(btn,name){
   const wrap=btn.closest('#communityTab');
   if(!wrap) return;
@@ -20890,60 +20410,7 @@ function toggleCmtyRules(btn){
   try{ navigator.vibrate && navigator.vibrate(12); }catch(e){}
   if(window.ZUSMO && window.ZUSMO.playClick) window.ZUSMO.playClick();
 }
-function copyAdminNumber(btn){
-  const item=btn.closest('.cmty-admin-item');
-  const number=item?item.getAttribute('data-number'):'';
-  if(!number) return;
-  const done=function(){
-    btn.classList.add('copied');
-    btn.innerHTML='<i class="fa-solid fa-check"></i>';
-    try{ navigator.vibrate && navigator.vibrate(30); }catch(e){}
-    setTimeout(function(){
-      btn.classList.remove('copied');
-      btn.innerHTML='<i class="fa-regular fa-copy"></i>';
-    },1400);
-  };
-  if(navigator.clipboard && navigator.clipboard.writeText){
-    navigator.clipboard.writeText(number).then(done).catch(function(){
-      const ta=document.createElement('textarea');
-      ta.value=number; ta.style.position='fixed'; ta.style.opacity='0';
-      document.body.appendChild(ta); ta.select();
-      try{ document.execCommand('copy'); }catch(e){}
-      document.body.removeChild(ta);
-      done();
-    });
-  }else{
-    done();
-  }
-  if(window.ZUSMO && window.ZUSMO.playClick) window.ZUSMO.playClick();
-}
-function copyCmtyLink(btn){
-  const item=btn.closest('.cmty-item');
-  const link=item?item.getAttribute('data-link'):'';
-  if(!link) return;
-  const done=function(){
-    btn.classList.add('copied');
-    btn.innerHTML='<i class="fa-solid fa-check"></i>';
-    try{ navigator.vibrate && navigator.vibrate(30); }catch(e){}
-    setTimeout(function(){
-      btn.classList.remove('copied');
-      btn.innerHTML='<i class="fa-regular fa-copy"></i>';
-    },1400);
-  };
-  if(navigator.clipboard && navigator.clipboard.writeText){
-    navigator.clipboard.writeText(link).then(done).catch(function(){
-      const ta=document.createElement('textarea');
-      ta.value=link; ta.style.position='fixed'; ta.style.opacity='0';
-      document.body.appendChild(ta); ta.select();
-      try{ document.execCommand('copy'); }catch(e){}
-      document.body.removeChild(ta);
-      done();
-    });
-  }else{
-    done();
-  }
-  if(window.ZUSMO && window.ZUSMO.playClick) window.ZUSMO.playClick();
-}
+
 const bgMusicEl=document.getElementById('bgMusic');
 var MP_LS_ON = 'zusmo_settings_music_on';
 function mpIsMusicOn(){
@@ -21047,8 +20514,6 @@ document.addEventListener('visibilitychange', function(){
 window.addEventListener('pagehide', pauseBgMusicForHide);
 window.addEventListener('pageshow', resumeBgMusicAfterShow);
 
-
-
 /* ===== LOGIC BADGE "NEW" (SUNTIK LIKE FF & BOT GLORY GUILD) ===== */
 /* Ganti tanggal "launch" di bawah sesuai tanggal fitur mulai tayang (format: YYYY-MM-DD) */
 const NEW_BADGE_CONFIG={
@@ -21112,7 +20577,6 @@ function hmToggleExtraTiles(){
   label.textContent=isOpen?'Sembunyikan Menu Lainnya':'Tampilkan Menu Lainnya';
 }
 
-
 function initNewBadges(){
   Object.keys(NEW_BADGE_CONFIG).forEach(key=>{
     const el=document.getElementById('newBadge_'+key);
@@ -21120,8 +20584,6 @@ function initNewBadges(){
   });
 }
 document.addEventListener('DOMContentLoaded',initNewBadges);
-
-
 
 (function(){
   var kb=document.getElementById('customKeyboard');
@@ -21441,8 +20903,6 @@ document.addEventListener('DOMContentLoaded',initNewBadges);
   };
 })();
 
-
-
 (function(){
   var LATEST_NOTIF_ID = '2026-08-14-b'; // bump this whenever a new notif card is added, so old "seen" state resets
   var LS_SEEN_NOTIF = 'zusmo_seen_notif_id';
@@ -21475,8 +20935,6 @@ document.addEventListener('DOMContentLoaded',initNewBadges);
   });
 })();
 
-
-
 /* ================= MEDIA CACHE (Service Worker) =================
    Nyimpen gambar/video/audio/font di cache browser biar pas dibuka
    lagi loading-nya langsung instan, gak download ulang dari internet
@@ -21494,8 +20952,6 @@ if('serviceWorker' in navigator){
 if(navigator.storage && navigator.storage.persist){
   navigator.storage.persist().catch(function(){});
 }
-
-
 
 (function(){
 
@@ -21553,7 +21009,6 @@ if(navigator.storage && navigator.storage.persist){
       screen.classList.add('active');
       screen.setAttribute('aria-hidden', 'false');
     }
-
 
     function initHackerRain() {
       if (!hackerRain || hackerRain.dataset.ready === '1') return;
@@ -23717,7 +23172,6 @@ if(navigator.storage && navigator.storage.persist){
       }
     }
 
-
     function showOnlyScreen(screenName) {
       const targetName = screenName || 'loading';
       const screenMap = {
@@ -23787,7 +23241,6 @@ if(navigator.storage && navigator.storage.persist){
       }, duration);
     }
 
-
     function updateVpnMaxLinkVisibility() {
       if (!vpnMaxLinkBtn) return;
       vpnMaxLinkBtn.classList.toggle('show', Boolean(activeTier && activeTier.tier === 'vip_max'));
@@ -23842,14 +23295,6 @@ if(navigator.storage && navigator.storage.persist){
     function closeVpnAccessModal() {
       vpnAccessModal.classList.remove('show');
       vpnAccessModal.setAttribute('aria-hidden', 'true');
-    }
-
-    function markReturnToVpn() {
-      try {
-        sessionStorage.setItem(returnToVpnStorage, '1');
-      } catch (error) {
-        localStorage.setItem(returnToVpnStorage, '1');
-      }
     }
 
     function shouldReturnToVpn() {
@@ -23995,7 +23440,6 @@ if(navigator.storage && navigator.storage.persist){
       }, 95);
     }
 
-
     initHackerRain();
 
     document.addEventListener('pointerdown', (event) => {
@@ -24104,7 +23548,6 @@ if(navigator.storage && navigator.storage.persist){
       }, 1450);
     });
 
-
     faqBtn.addEventListener('click', () => {
       localStorage.setItem(lastScreenStorage, 'faq');
       showOnlyScreen('faq');
@@ -24191,21 +23634,12 @@ if(navigator.storage && navigator.storage.persist){
   
 })();
 
-
-
 (function(){
   var DISMISS_KEY='kzInstallDismissedAt';
   var DISMISS_DAYS=7;
   var deferredPrompt=null;
   var banner=document.getElementById('kzInstallBanner');
 
-  function isStandalone(){
-    return window.matchMedia('(display-mode: standalone)').matches ||
-      window.navigator.standalone===true;
-  }
-  function isIos(){
-    return /iphone|ipad|ipod/i.test(navigator.userAgent);
-  }
   function recentlyDismissed(){
     var t=parseInt(localStorage.getItem(DISMISS_KEY)||'0',10);
     if(!t) return false;
@@ -24269,8 +23703,6 @@ if(navigator.storage && navigator.storage.persist){
   }
 })();
 
-
-
 (function(){
   var CLAIM_KEY='zusmo_welcome_bonus_claimed';
   var DISMISS_KEY='zusmo_welcome_bonus_dismissed_at';
@@ -24278,10 +23710,6 @@ if(navigator.storage && navigator.storage.persist){
   var BONUS_AMOUNT=2500;
   var ov=document.getElementById('kzWelcomeOverlay');
 
-  function isStandalone(){
-    return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone===true;
-  }
-  function isIos(){ return /iphone|ipad|ipod/i.test(navigator.userAgent); }
   function alreadyClaimed(){ return localStorage.getItem(CLAIM_KEY)==='1'; }
   function recentlyDismissed(){
     var t=parseInt(localStorage.getItem(DISMISS_KEY)||'0',10);
@@ -24353,8 +23781,6 @@ if(navigator.storage && navigator.storage.persist){
   document.addEventListener('DOMContentLoaded', function(){ setTimeout(openWelcome, 1600); });
   window.addEventListener('load', function(){ setTimeout(openWelcome, 1600); });
 })();
-
-
 
 (function(){
   /* ================= DETEKSI MODE APLIKASI (WebView / PWA standalone) ================= */
@@ -24464,8 +23890,6 @@ function isAppMode(){
   },{passive:true});
 })();
 
-
-
 /* ===== FIX FINAL: GARIS INDIKATOR SELALU CENTER DI TAB AKTIF ===== */
 (function(){
   function fixIndicator(){
@@ -24506,5 +23930,47 @@ function isAppMode(){
     document.addEventListener('DOMContentLoaded',fixIndicator);
   }else{
     fixIndicator();
+  }
+})();
+
+/* ================= DEEP LINK: buka langsung ke halaman tertentu lewat URL =================
+   Contoh: https://kzrizusmoff.vercel.app/?goto=buyvip
+   -> otomatis: Home -> Zusmo Shadow -> Buy VIP Zusmo Shadow (halaman 4 paket) */
+(function(){
+  function goDeepLink(){
+    var params = new URLSearchParams(window.location.search);
+    var target = params.get('goto');
+    if(!target) return;
+    var routes = {
+      buyvip: ['shadowmenu','vippricelist'],
+      shadowmenu: ['shadowmenu'],
+      upgradevip: ['shadowmenu','upgradevip'],
+      manfaatvip: ['shadowmenu','manfaatvip'],
+      viphistory: ['shadowmenu','vipKeyHistoryPage'],
+      vipverify: ['shadowmenu','vipverify'],
+      faq: ['shadowmenu','faqPage'],
+      // 7 tab utama di bottom navbar
+      testimoni: ['leaderboardTab'],
+      event: ['eventTab'],
+      shop: ['shopTab'],
+      home: ['home'],
+      progress: ['progressTab'],
+      community: ['communityTab'],
+      developer: ['developerTab']
+    };
+    var chain = routes[target];
+    if(!chain || typeof showPage !== 'function') return;
+    chain.forEach(function(pageId, i){
+      if(i < chain.length - 1){
+        showPage(pageId, true); // lewati tanpa masuk riwayat "kembali"
+      }else{
+        showPage(pageId); // halaman tujuan akhir, masuk riwayat supaya tombol kembali tetap jalan
+      }
+    });
+  }
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded', goDeepLink);
+  }else{
+    goDeepLink();
   }
 })();
