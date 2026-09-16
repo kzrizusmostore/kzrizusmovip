@@ -45,12 +45,13 @@ self.addEventListener('install', (event) => {
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     (async () => {
-      // Hapus semua cache versi lama biar tidak numpuk & tidak ada
-      // kemungkinan file lama ke-serve lagi secara tidak sengaja.
+      // Hapus SEMUA cache versi lama, apa pun namanya — termasuk kalau
+      // sw.js versi SEBELUMNYA (yang kita nggak tahu isinya) pakai nama
+      // cache lain. Total bersih tiap ganti versi, tidak ada sisa numpuk.
       const keys = await caches.keys();
       await Promise.all(
         keys
-          .filter((k) => k.startsWith('zusmo-media-') && k !== MEDIA_CACHE)
+          .filter((k) => k !== MEDIA_CACHE)
           .map((k) => caches.delete(k))
       );
       // Ambil alih semua tab yang sedang terbuka SEKARANG JUGA, tanpa
