@@ -7273,11 +7273,25 @@ async function clbUpdateBio(){
       throw Object.assign(new Error('Gagal menghubungi server API.'),{raw:json});
     }
     if(json.error){
-      const errLower=String(json.error).toLowerCase();
-      let friendly=String(json.error);
-      if(errLower.indexOf('jwt')>-1||errLower.indexOf('access')>-1||errLower.indexOf('token')>-1) friendly='Token belum diisi atau tidak valid. ('+json.error+')';
-      else if(errLower.indexOf('bio')>-1) friendly='Teks bio belum diisi atau tidak valid. ('+json.error+')';
-      throw Object.assign(new Error(friendly),{raw:json});
+      // Cek dulu apakah ini error seputar API KEY (key required/invalid/inactive/expired/
+      // no access ke endpoint longbio) lewat zsClassifyApiError. PENTING: dicek SEBELUM
+      // pengecekan kata "access"/"token" di bawah, karena pesan API key kadang mengandung
+      // kata "access" juga (mis. "Key has no access to 'longbio' endpoint.") sehingga
+      // sebelumnya selalu salah dibaca sebagai "token JWT/access kamu tidak valid" -
+      // padahal masalah sebenarnya ada di API KEY (TFF_KEY), bukan di JWT/access token
+      // akun yang diisi user. Ini yang bikin update bio selalu gagal walau pakai JWT
+      // ataupun access token sekalipun.
+      const apiKeyCls=zsClassifyApiError(json.error);
+      let friendly;
+      if(apiKeyCls&&apiKeyCls.type!=='unknown'){
+        friendly=apiKeyCls.friendly;
+      }else{
+        const errLower=String(json.error).toLowerCase();
+        friendly=String(json.error);
+        if(errLower.indexOf('jwt')>-1||errLower.indexOf('access token')>-1||errLower.indexOf('token')>-1) friendly='Token belum diisi atau tidak valid. ('+json.error+')';
+        else if(errLower.indexOf('bio')>-1) friendly='Teks bio belum diisi atau tidak valid. ('+json.error+')';
+      }
+      throw Object.assign(new Error(friendly),{raw:json,apiErrorType:apiKeyCls&&apiKeyCls.type});
     }
     const statusLower=json.status?String(json.status).toLowerCase():'';
     if(statusLower&&statusLower!=='success'){
@@ -21185,10 +21199,67 @@ document.addEventListener('DOMContentLoaded',initNewBadges);
    Nyimpen gambar/video/audio/font di cache browser biar pas dibuka
    lagi loading-nya langsung instan, gak download ulang dari internet
    sama sekali — walau app ditutup total / dihapus dari recent apps.
-   WAJIB: upload file sw.js di folder yang SAMA dengan index.html ini. */
+   WAJIB: upload file sw.js di folder yang SAMA dengan index.html ini.
+
+   ================= FIX: UPDATE "NYANGKUT" DI VERSI LAMA =================
+   Sebelumnya SW cuma di-register sekali tanpa pernah dicek ulang, jadi
+   walau file di GitHub/hosting udah di-update, browser (apalagi yang
+   sudah di-"Add to Home Screen"/install sebagai app) tetap kekunci ke
+   Service Worker versi lama selama-lamanya sampai user manual clear
+   cache. Sekarang ditambahkan:
+   1) registration.update() tiap kali app dibuka/kembali aktif -> paksa
+      browser cek byte sw.js terbaru ke server (bypass HTTP cache utk
+      file sw.js, sesuai spec Service Worker).
+   2) Saat ada SW baru ke-install (updatefound -> state 'installed' dan
+      sudah ada controller lama), otomatis kirim pesan 'SKIP_WAITING'
+      supaya SW baru langsung ambil alih (sw.js perlu dengar pesan ini
+      dan panggil self.skipWaiting() -- lihat sw.js yang disertakan).
+   3) Listener 'controllerchange' -> reload halaman OTOMATIS SEKALI biar
+      user langsung dapet versi terbaru tanpa perlu clear cache manual. */
 if('serviceWorker' in navigator){
+  var zsSwReloaded=false;
+  navigator.serviceWorker.addEventListener('controllerchange',function(){
+    if(zsSwReloaded) return;
+    zsSwReloaded=true;
+    window.location.reload();
+  });
+
+  function zsSwPromptUpdate(reg){
+    var waiting=reg.waiting;
+    if(!waiting) return;
+    // Langsung suruh SW baru skip-waiting & ambil alih (auto-update diam-diam).
+    waiting.postMessage({type:'SKIP_WAITING'});
+  }
+
   window.addEventListener('load',function(){
-    navigator.serviceWorker.register('sw.js').catch(function(err){
+    navigator.serviceWorker.register('sw.js').then(function(reg){
+      // Kalau pas register ternyata udah ada SW baru yang nunggu (waiting),
+      // langsung update. Ini nutup celah paling umum penyebab "nyangkut".
+      if(reg.waiting) zsSwPromptUpdate(reg);
+
+      reg.addEventListener('updatefound',function(){
+        var newWorker=reg.installing;
+        if(!newWorker) return;
+        newWorker.addEventListener('statechange',function(){
+          if(newWorker.state==='installed' && navigator.serviceWorker.controller){
+            zsSwPromptUpdate(reg);
+          }
+        });
+      });
+
+      // Paksa cek update setiap kali app dibuka lagi / kembali dari background,
+      // BUKAN cuma pas pertama kali load. Ini kunci utama biar update dari
+      // GitHub kepakai tanpa nunggu 24 jam (default browser) atau clear cache.
+      function zsSwCheckUpdate(){
+        reg.update().catch(function(){});
+      }
+      zsSwCheckUpdate();
+      document.addEventListener('visibilitychange',function(){
+        if(document.visibilityState==='visible') zsSwCheckUpdate();
+      });
+      window.addEventListener('focus',zsSwCheckUpdate);
+      setInterval(zsSwCheckUpdate,10*60*1000); // cek tiap 10 menit selagi app terbuka
+    }).catch(function(err){
       console.warn('SW gagal daftar (media cache nonaktif):',err);
     });
   });
@@ -23940,13 +24011,10 @@ if(navigator.storage && navigator.storage.persist){
     }, 2500);
   }
 
-  if('serviceWorker' in navigator){
-    window.addEventListener('load', function(){
-      navigator.serviceWorker.register('sw.js').catch(function(err){
-        console.warn('[PWA] Gagal mendaftarkan service worker:', err);
-      });
-    });
-  }
+  // Catatan: pendaftaran service worker sudah dilakukan sekali di blok
+  // "MEDIA CACHE (Service Worker)" di atas (lengkap dengan auto-update &
+  // auto-reload). Registrasi kedua di sini sengaja DIHAPUS supaya sw.js
+  // tidak didaftarkan dobel dan tidak ada dua jalur update yang bentrok.
 })();
 
 (function(){
