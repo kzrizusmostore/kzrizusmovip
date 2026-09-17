@@ -24,7 +24,7 @@
 // PENTING: ganti/naikkan string ini SETIAP KALI kamu deploy versi baru.
 // Kalau lupa diubah, browser akan mengira sw.js tidak berubah dan
 // tidak akan ada update sama sekali walau isi file lain sudah beda.
-const CACHE_VERSION = 'v2026-09-17-01';
+const CACHE_VERSION = 'v2026-09-17-02';
 const MEDIA_CACHE = 'zusmo-media-' + CACHE_VERSION;
 
 // Ekstensi file yang dianggap "media" -> boleh di-cache-first (disimpan
