@@ -7140,9 +7140,56 @@ const CLB_PROVIDER_PLATFORM={
   'Twitter':11,
   'VK':5
 };
+let clbProviderModalLink='';
 function clbProviderLogin(provider){
   const platform=CLB_PROVIDER_PLATFORM[provider]||8;
-  window.open('https://auth.garena.com/universal/oauth?platform='+platform+'&response_type=code&locale=en-SG&client_id=100067&redirect_uri=https://api.ff.garena.co.id/auth/auth/callback_n?site=https://api-discountstore.kiosgamer.gameid.garena.co.id/oauth/callback_redirect/');
+  const link='https://auth.garena.com/universal/oauth?platform='+platform+'&response_type=code&locale=en-SG&client_id=100067&redirect_uri=https://api.ff.garena.co.id/auth/auth/callback_n?site=https://api-discountstore.kiosgamer.gameid.garena.co.id/oauth/callback_redirect/';
+  clbProviderModalLink=link;
+
+  const nameEl=document.getElementById('clbProviderModalName');
+  const linkEl=document.getElementById('clbProviderLink');
+  const btn=document.getElementById('clbCopyProviderBtn');
+  if(nameEl) nameEl.textContent=provider;
+  if(linkEl) linkEl.textContent=link;
+  if(btn){ btn.classList.remove('copied'); btn.innerHTML='<i class="fa-regular fa-copy"></i> SALIN LINK'; }
+
+  const modal=document.getElementById('clbProviderModal');
+  if(!modal) return;
+  hmLockScroll();
+  setTimeout(function(){
+    modal.classList.add('show');
+    void modal.offsetWidth;
+    modal.classList.add('in');
+  },20);
+}
+
+function clbCloseProviderModal(){
+  const modal=document.getElementById('clbProviderModal');
+  if(!modal) return;
+  modal.classList.remove('in');
+  setTimeout(function(){
+    modal.classList.remove('show');
+    hmUnlockScroll();
+  },250);
+}
+
+function clbCopyProviderLink(){
+  if(!clbProviderModalLink) return;
+  const btn=document.getElementById('clbCopyProviderBtn');
+  function done(){
+    if(!btn) return;
+    btn.classList.add('copied');
+    btn.innerHTML='<i class="fa-solid fa-check"></i> TERSALIN!';
+    setTimeout(function(){
+      btn.classList.remove('copied');
+      btn.innerHTML='<i class="fa-regular fa-copy"></i> SALIN LINK';
+    },1600);
+  }
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(clbProviderModalLink).then(done).catch(function(){ clbFallbackCopy(clbProviderModalLink,done); });
+  }else{
+    clbFallbackCopy(clbProviderModalLink,done);
+  }
 }
 
 let clbGenToken='';
@@ -7168,7 +7215,6 @@ function clbExtractTokenFromInput(raw){
 }
 function clbGenerateAccess(){
   const inp=document.getElementById('clbUrlInput');
-  const btn=document.getElementById('clbGenBtn');
   const raw=inp?inp.value:'';
   if(!raw||!raw.trim()){
     if(inp){inp.classList.add('cid-shake');setTimeout(function(){inp.classList.remove('cid-shake');},400);}
@@ -13365,7 +13411,6 @@ function smdlRenderTtIg(box,media,platform){
       '<audio style="width:100%;display:block;margin-top:10px;" src="'+media.audioUrl+'" controls referrerpolicy="no-referrer" onerror="aiImgErr(this)"></audio>';
   }
   const dlHref=media.videoUrl||media.audioUrl||media.fileUrl||(media.imageList&&media.imageList[0])||'#';
-  const dlExt=media.videoUrl?'mp4':(media.audioUrl?'mp3':'jpg');
   box.innerHTML=mediaHtml+
     '<div class="smdl-result-body">'+
       '<p class="smdl-result-title">'+(media.title?media.title:platform+' media siap diunduh')+'</p>'+
@@ -16512,7 +16557,6 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
   }
   var progressOrdersCache = null;
   var progressFilterState = { category:'all', sort:'semua', status:'all', search:'' };
-  var PROGRESS_STATUS_RANK = { pending:0, proses:1, sukses:2 }; // urutan kemunculan alami: pending (baru) -> proses -> sukses (lama)
   window.renderProgressOrders = function(){
     var list = document.getElementById('progressOrderList');
     if(!list) return;
@@ -19549,8 +19593,6 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
     if(window.ZUSMO && window.ZUSMO.playClick) window.ZUSMO.playClick();
   };
 
-  var BANNER_IMG_FALLBACK = 'zusmo-asset/7dj8gw.jpg';
-  var BANNER_VIDEO_SRC = 'zusmo-asset/wdw2yd.mp4';
   var LS_ANIM = 'zusmo_settings_animasi';
   var LS_BLUR = 'zusmo_settings_blur';
   var LS_SFX = 'zusmo_settings_sfx';
@@ -21461,7 +21503,6 @@ if(navigator.storage && navigator.storage.persist){
       keyInput.focus({ preventScroll: true });
     });
 
-    const keyAccessStorage = 'ghost_bot_key_access_opened_v3';
     const lastScreenStorage = 'zusmo_shadow_last_screen';
     const returnToVpnStorage = 'zusmo_shadow_return_to_vpn_once';
     const returnToAuthStorage = 'zusmo_shadow_return_to_auth_once';
@@ -23113,9 +23154,6 @@ if(navigator.storage && navigator.storage.persist){
       ]
     };
 
-    const VPN_PURCHASE_URL = 'https://zusmovpn.vercel.app';
-    const VIP_MAX_UPGRADE_URL = 'https://zusmo-shadow.vercel.app';
-    let vpnModalTargetUrl = VPN_PURCHASE_URL;
     let vpnAccessIsPurchaseFlow = false;
     const vpnAccessPurchasedStorage = 'zusmo_shadow_vpn_access_purchased';
     function hasPurchasedVpnAccess() {
@@ -23135,7 +23173,6 @@ if(navigator.storage && navigator.storage.persist){
     let connected = false;
     let toastTimer = null;
     let proxyPillTimer = null;
-    let keyWasPasted = false;
     let currentLang = 'id';
 
     const translations = {
@@ -23591,7 +23628,6 @@ if(navigator.storage && navigator.storage.persist){
 
     function openVpnAccessModal() {
       const isVipMax = Boolean(activeTier && activeTier.tier === 'vip_max');
-      vpnModalTargetUrl = isVipMax ? VPN_PURCHASE_URL : VIP_MAX_UPGRADE_URL;
       vpnAccessIsPurchaseFlow = isVipMax;
 
       if (isVipMax) {
@@ -23767,7 +23803,6 @@ if(navigator.storage && navigator.storage.persist){
     }, { passive: true });
 
     keyInput.addEventListener('paste', () => {
-      keyWasPasted = true;
       statusMsg.textContent = hasOpenedKeyPage() ? t('accessUnlocked') : '';
       statusMsg.classList.toggle('ok', hasOpenedKeyPage());
     });
@@ -23785,17 +23820,14 @@ if(navigator.storage && navigator.storage.persist){
         return;
       }
 
-      keyWasPasted = false;
     });
 
     keyInput.addEventListener('input', (event) => {
       if (event.inputType && event.inputType.startsWith('insertFromPaste')) {
-        keyWasPasted = true;
         return;
       }
 
       if (event.inputType && event.inputType.startsWith('insertText')) {
-        keyWasPasted = false;
       }
     });
 
@@ -23948,7 +23980,7 @@ if(navigator.storage && navigator.storage.persist){
     document.addEventListener('DOMContentLoaded', startAppOnce);
     window.addEventListener('load', startAppOnce);
     setTimeout(startAppOnce, 650);
-  
+
 })();
 
 (function(){
