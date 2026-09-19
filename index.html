@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 
-<html lang="id"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover" name="viewport"/><title>KZRIZUSMO FF</title><link rel="stylesheet" href="style.css?v=20260917-0121"/><meta content="KZRIZUSMO FF - Aplikasi web resmi." name="description"/><link href="manifest.json" rel="manifest"/><meta content="#0A0A0A" name="theme-color"/><link href="zusmo-asset/icon-192.png" rel="icon" type="image/png"/><link href="zusmo-asset/icon-512.png" rel="icon" sizes="512x512" type="image/png"/><link href="zusmo-asset/apple-touch-icon.png" rel="apple-touch-icon"/><meta content="yes" name="apple-mobile-web-app-capable"/><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&family=Rajdhani:wght@500;600;700&family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Fredoka+One&family=Righteous&family=Amiri:wght@400;700&family=Anton&family=JetBrains+Mono:wght@400;500;600;700;800&family=Cinzel:wght@600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/><script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<html lang="id"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover" name="viewport"/><title>KZRIZUSMO FF</title><link rel="stylesheet" href="css/style.css"/><meta content="KZRIZUSMO FF - Aplikasi web resmi." name="description"/><meta content="#0A0A0A" name="theme-color"/><link href="zusmo-asset/icon-192.png" rel="icon" type="image/png"/><link href="zusmo-asset/icon-512.png" rel="icon" sizes="512x512" type="image/png"/><link href="zusmo-asset/apple-touch-icon.png" rel="apple-touch-icon"/><meta content="yes" name="apple-mobile-web-app-capable"/><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&family=Rajdhani:wght@500;600;700&family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Fredoka+One&family=Righteous&family=Amiri:wght@400;700&family=Anton&family=JetBrains+Mono:wght@400;500;600;700;800&family=Cinzel:wght@600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/><script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+
+<link rel="stylesheet" href="css/overrides.css"/>
+
+
+
+
+
+
+
+
 
 </head><body><div id="vipAppRoot">
   <div class="noise" aria-hidden="true"></div>
@@ -589,7 +600,7 @@
 <audio id="clickSound" preload="auto" src="data:audio/wav;base64,UklGRlQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA="></audio>
 
 <div class="topbar-pro" id="topbarPro">
-<button id="topbarBackBtn" class="tb-backbtn" onclick="goBackPage()" style="display:none"><i class="fa-solid fa-arrow-left"></i><span data-i18n="nav.back">Kembali</span></button>
+<button type="button" aria-label="Kembali ke halaman sebelumnya" id="topbarBackBtn" class="tb-backbtn" onclick="goBackPage()" style="display:none"><i class="fa-solid fa-arrow-left"></i><span data-i18n="nav.back">Kembali</span></button>
 <button class="diamond-widget tb-backdiamond" id="topbarBackDiamond" onclick="openDiamondTopup('modal')" style="display:none"><img src="zusmo-asset/onzrii.png" alt="diamond" width="11" height="11" style="width:11px;height:11px;object-fit:contain;display:block"/><span id="diamondBalanceBack">0</span><span class="diamond-plus">+</span></button>
 <div class="left" id="topbarLeft"><button onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></button><button class="diamond-widget" onclick="openDiamondTopup('modal')"><img src="zusmo-asset/onzrii.png" alt="diamond" width="11" height="11" style="width:11px;height:11px;object-fit:contain;display:block"/><span id="diamondBalanceTop">0</span><span class="diamond-plus">+</span><img src="zusmo-asset/fvplwr.png" alt="Prime" id="topbarPrimeIcon" class="diamond-prime-logo" onclick="event.stopPropagation();showPage('prime')"/></button></div>
 <div class="center" id="topbarCenter"></div>
@@ -793,7 +804,7 @@
   <div class="hm-tile" onclick="dismissNewBadge('cekidff');showPage('cekidff')">
     <span class="hm-tile-badge" id="newBadge_cekidff"></span>
     <div class="hm-tile-icon"><i class="fa-solid fa-address-card"></i></div>
-    <span class="hm-tile-label">CEK INFO FF</span>
+    <span class="hm-tile-label">FF TOOLS</span>
   </div>
   <div class="hm-tile" onclick="dismissNewBadge('sosmeddl');showPage('sosmeddl')">
     <span class="hm-tile-badge" id="newBadge_sosmeddl"></span>
@@ -898,7 +909,7 @@
 <div class="hm-menu" onclick="dismissNewBadge('redeemPage');showPage('redeemPage')" style="position:relative;">
   <span class="hm-tile-badge" id="newBadge_redeemPage" style="top:10px;right:10px;"></span>
   <div class="hm-menu-icon"><i class="fa-solid fa-ticket"></i></div>
-  <div class="hm-menu-body"><h4>REDEEM KODE</h4><small>Tukar kode redeem untuk hadiah gratis</small></div>
+  <div class="hm-menu-body"><h4>REDEEM KODE</h4><small>Tukar kode redeem untuk hadiah</small></div>
   <i class="fa-solid fa-chevron-right hm-menu-arrow"></i>
 </div>
 <div class="hm-menu" onclick="dismissNewBadge('joinguild');showPage('joinguild')" style="position:relative;">
@@ -964,7 +975,7 @@ Setelah melakukan install, kalian akan mendapatkan 2.500 Diamond secara instant.
 1. Zusmo Emote<br><br>
 ☐ <b style="color:#fff">𝗣𝗘𝗡𝗔𝗠𝗕𝗔𝗛𝗔𝗡 𝗠𝗘𝗡𝗨 𝗙𝗜𝗧𝗨𝗥 (𝗧𝗢𝗢𝗟𝗦)</b><br>
 1. SENSI AI — 1 Fitur<br>
-2. CEK INFO FF — 21 Fitur<br>
+2. FF TOOLS — 15 Tools / 33 Fitur<br>
 3. SOSMED DL — 19 Fitur<br>
 4. AI CHAT — 16 Model<br>
 5. AI TOOLS — 14 Model<br>
@@ -1055,7 +1066,7 @@ Hapus aplikasi KZRIZUSMO FF versi lama terlebih dahulu, kemudian lakukan install
 <div class="shine-card" onclick="showPage('downloadui')" style="cursor:pointer;">
 <img loading="lazy" decoding="async" src="zusmo-asset/kcxby8.png" style="width:100%;aspect-ratio:1280/900;object-fit:cover;display:block;border-radius:16px;"/>
 </div>
-<div class="zs-card-cap">Download Gratis<small>Versi tanpa VIP</small></div>
+<div class="zs-card-cap">Download<small>Versi tanpa VIP</small></div>
 </div>
 <div style="flex:1;">
 <div class="shine-card" onclick="if(typeof dismissNewBadge==='function'){dismissNewBadge('bukavip');}openVipShadowApp()" style="cursor:pointer;">
@@ -1221,18 +1232,18 @@ Hapus aplikasi KZRIZUSMO FF versi lama terlebih dahulu, kemudian lakukan install
 <p>YA, 100% aman. Zusmo Shadow menggunakan sistem VPN/Proxy dan tidak memodifikasi file game pengguna.</p>
 </details>
 <details class="faq-item">
-<summary>🔌 Apa saja grup API yang tersedia di server SiamBhau?</summary>
+<summary>🔌 Apa saja grup API yang tersedia di layanan FF?</summary>
 <p>
-Server API pihak ketiga (siambhau69.eu.cc) yang dipakai sebagian fitur di sini punya beberapa grup endpoint. Halaman ini hanya mengaktifkan grup yang bersifat lookup info publik:
+Layanan API pihak ketiga yang dipakai sebagian fitur di sini punya beberapa grup endpoint. Halaman ini hanya mengaktifkan grup yang bersifat lookup info publik:
 </p>
 <ul style="margin:8px 0 4px 18px;line-height:1.9;font-size:13px;opacity:.85;">
 <li><b>Ban Check</b> (/bancheck) — cek status banned UID, sudah aktif di fitur "Cek Banned".</li>
 <li><b>Free Fire Info</b> (/freefireinfo) — profil publik pemain, sudah aktif di fitur "Info Pemain".</li>
-<li><b>Friends</b> (/friends), <b>Guild</b> (/guild), <b>Banner</b> (/banner), <b>Craftlands</b> (/craftlands), <b>Long Bio</b> (/longbio), <b>Outfits</b> (/outfits) — info publik, belum diintegrasikan di halaman ini.</li>
-<li><b>JWT Decode</b> (/jwttokendecode) — hanya membaca isi token milik pengguna sendiri, belum diintegrasikan.</li>
+<li><b>Friends</b> (/friends) — FRIEND Tools sudah terintegrasi: daftar teman, add/remove, star/unstar, dan set/remove alias. <b>Guild</b> (/guild), <b>Banner</b> (/banner), <b>Craftlands</b> (/craftlands), <b>Long Bio</b> (/longbio), <b>Outfits</b> (/outfits) mengikuti integrasi fitur masing-masing.</li>
+<li><b>JWT Tools</b> — sudah terintegrasi di FF Tools: Access Token/Guest ke JWT, JWT Only, EAT Decode, JWT Decode, dan proses massal.</li>
 </ul>
 <p style="margin-top:6px;font-size:13px;opacity:.85;">
-Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b>Add Item</b>, dan <b>Name Changer</b> berkaitan dengan konversi token login atau modifikasi akun/item, sehingga sengaja <b>tidak</b> diintegrasikan ke aplikasi ini.
+<b>Bind Tools</b>, <b>JWT Tools</b>, <b>FRIEND Tools</b>, <b>CRAFTLAND</b>, dan <b>EQUIP ITEM</b> sekarang sudah terintegrasi di FF Tools. EQUIP ITEM memakai <code>/additem/additem</code> untuk memasang satu atau banyak Item ID lewat JWT. CRAFTLAND menggabungkan Quick Info <code>/craftlands/info</code> dan Full Detail <code>/craftlands/map_details</code> dalam satu tools. FRIEND Tools memakai <code>/friends/list</code>, <code>/friends/friend_action</code>, <code>/friends/addstar</code>, <code>/friends/removestar</code>, <code>/friends/setalias</code>, dan <code>/friends/removealias</code>. JWT Tools tetap mencakup generator, EAT decode, JWT decode, dan proses massal.
 </p>
 </details>
 <details class="faq-item">
@@ -1299,7 +1310,7 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
 </div>
 </div>
 <!-- BELI KEY VIP - PRICELIST PAGE -->
-<div class="page" id="vippricelist">
+<div class="page page-with-copyright" id="vippricelist">
 <h1>Pilih Paket VIP <span class="hm-new-dot" id="newBadge_viptier" style="display:none;vertical-align:middle;margin-left:6px;"></span></h1>
 <p class="subtitle">Sentuh kartu untuk lihat detail fitur</p>
 
@@ -1522,7 +1533,7 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
 </div>
 
 <!-- VERIFIKASI UID SEBELUM PEMBAYARAN -->
-<div class="page" id="vipuidverify">
+<div class="page page-with-copyright" id="vipuidverify">
 <h1>Verifikasi Akun</h1>
 <p class="subtitle">Masukkan data akun Free Fire kamu untuk melanjutkan</p>
 
@@ -1592,7 +1603,7 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
 </div>
 
 <!-- PILIH METODE PEMBAYARAN -->
-<div class="page" id="vippayment">
+<div class="page page-with-copyright" id="vippayment">
 <h1>Metode Pembayaran</h1>
 <p class="subtitle">Pilih cara pembayaran untuk melanjutkan pesanan</p>
 
@@ -1692,7 +1703,7 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
 </div>
 
 <!-- HALAMAN KONFIRMASI PEMBAYARAN -->
-<div class="page" id="vippaydetail">
+<div class="page page-with-copyright" id="vippaydetail">
 <h1>Selesaikan Pembayaran</h1>
 <p class="subtitle">Bayar sebelum waktu habis, lalu konfirmasi ke admin</p>
 
@@ -1815,7 +1826,7 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
 </div>
 
 <!-- TRANSAKSI SUKSES -->
-<div class="page" id="vpaySuccess">
+<div class="page page-with-copyright" id="vpaySuccess">
 
 <div class="vps-wrap">
   <div class="vps-hero">
@@ -1847,8 +1858,10 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
   <button type="button" class="vps-btn vps-btn-secondary" onclick="showPage('vipKeyHistoryPage')"><i class="fa-solid fa-clock-rotate-left"></i> Lihat Riwayat Key VIP</button>
   <button type="button" class="vps-btn vps-btn-secondary" onclick="showPage('home')"><i class="fa-solid fa-house"></i> Kembali ke Beranda</button>
 
-  <div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
+  
 </div>
+
+<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
 </div>
 
 <!-- RIWAYAT KEY VIP -->
@@ -1860,7 +1873,7 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
 </div>
 
 <!-- TRANSAKSI GAGAL -->
-<div class="page" id="vpayFailed">
+<div class="page page-with-copyright" id="vpayFailed">
 
 <div class="vpf-wrap">
   <div class="vpf-hero">
@@ -1877,8 +1890,10 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
   <button type="button" class="vpf-btn vpf-btn-primary" onclick="retryVpayPayment()"><i class="fa-solid fa-rotate-right"></i> Coba Lagi</button>
   <button type="button" class="vpf-btn vpf-btn-secondary" onclick="showPage('home')"><i class="fa-solid fa-house"></i> Kembali ke Beranda</button>
 
-  <div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
+  
 </div>
+
+<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
 </div>
 
 <div class="page" id="manfaatvip">
@@ -1961,7 +1976,7 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
 <div class="page" id="freefile">
 
 <p class="pc-title"><span class="red">FREE</span>&nbsp;<span class="wht">FILE</span></p>
-<p class="pc-sub">Download File Gratis Dari KZRIZUSMO</p>
+<p class="pc-sub">Download File KZRIZUSMO</p>
 
 <div class="pc-card">
   <div class="pc-head">
@@ -2059,7 +2074,7 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
 </div>
 
 <!-- SUNTIK LIKE FF PAGE -->
-<div class="page" id="suntiklike">
+<div class="page page-with-copyright" id="suntiklike">
 
 <p class="pc-title"><span class="red">SUNTIK</span>&nbsp;<span class="wht">LIKE FF</span></p>
 <p class="pc-sub">Tambah Like Profile Free Fire Kamu</p>
@@ -2138,11 +2153,11 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
 </div>
 
 <!-- SOSMED DOWNLOADER -->
-<div class="page" id="sosmeddl">
+<div class="page page-with-copyright" id="sosmeddl">
 
 <p class="pc-title"><span class="red">SOSMED</span>&nbsp;<span class="wht">DOWNLOADER</span></p>
 <p class="pc-sub">Download Video &amp; Cari Konten Tanpa Watermark</p>
-<p class="cid-hint" style="margin:-8px 0 14px;"><img src="zusmo-asset/onzrii.png" alt="diamond" style="width:10px;height:10px;object-fit:contain;vertical-align:-1px;margin-right:3px;"/>50 per download</p>
+
 
 <div class="smdl-cat-tabs">
   <div class="smdl-cat active" data-cat="all" onclick="smdlSwitchCat('all')">Semua</div>
@@ -2522,11 +2537,11 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
 </div>
 
 <!-- QR CODE GENERATOR -->
-<div class="page" id="qrgen">
+<div class="page page-with-copyright" id="qrgen">
 
 <p class="pc-title"><span class="red">QR CODE</span>&nbsp;<span class="wht">GENERATOR</span></p>
 <p class="pc-sub">Buat &amp; Download QR Code Dari Teks Atau Link</p>
-<p class="cid-hint" style="margin:-8px 0 14px;"><img src="zusmo-asset/onzrii.png" alt="diamond" style="width:10px;height:10px;object-fit:contain;vertical-align:-1px;margin-right:3px;"/>30 per generate</p>
+
 
 <div class="pc-card">
   <div class="pc-head">
@@ -2582,7 +2597,7 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <!-- SENSI AI -->
-<div class="page" id="sensiai">
+<div class="page page-with-copyright" id="sensiai">
 
 <p class="pc-title"><span class="red">SENSI</span>&nbsp;<span class="wht">AI</span></p>
 <p class="pc-sub">Generator Sensitivitas Free Fire</p>
@@ -2591,7 +2606,7 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
   <div class="pc-head">
     <div class="pc-head-icon"><i class="fa-solid fa-crosshairs"></i></div>
     <div class="pc-head-text"><h3>BUAT SENSI DARI AI</h3><p>Masukkan nama device kamu</p></div>
-    <div class="sai-price-badge"><img src="zusmo-asset/onzrii.png" alt="diamond"/> 150</div>
+    
   </div>
   <img class="sai-device-img" src="zusmo-asset/sensiai.jpg" alt="Sensi AI" loading="lazy" decoding="async"/>
   <div class="pc-input-wrap" style="margin-bottom:0;">
@@ -2696,20 +2711,20 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
     <div class="aic-modeswitch">
       <button class="aic-modeswitch-btn" id="aicModeBtn" onclick="aicToggleModeMenu()"><i class="fa-solid fa-comments" id="aicModeIcon"></i></button>
       <div class="aic-modeswitch-menu" id="aicModeMenuBox">
-        <div class="aic-modeswitch-item active" id="aicModeItem_chat" onclick="aicSwitchMode('chat')"><i class="fa-solid fa-comments"></i><span>Chat</span><span class="aic-mode-cost"><img src="zusmo-asset/onzrii.png" alt="diamond"/>10</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
-        <div class="aic-modeswitch-item" id="aicModeItem_art" onclick="aicSwitchMode('art')"><i class="fa-solid fa-image"></i><span>AI Art</span><span class="aic-mode-cost"><img src="zusmo-asset/onzrii.png" alt="diamond"/>40</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
-        <div class="aic-modeswitch-item" id="aicModeItem_filter" onclick="aicSwitchMode('filter')"><i class="fa-solid fa-wand-sparkles"></i><span>AI Filter</span><span class="aic-mode-cost"><img src="zusmo-asset/onzrii.png" alt="diamond"/>40</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
-        <div class="aic-modeswitch-item" id="aicModeItem_song" onclick="aicSwitchMode('song')"><i class="fa-solid fa-music"></i><span>AI Song</span><span class="aic-mode-cost"><img src="zusmo-asset/onzrii.png" alt="diamond"/>40</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
-        <div class="aic-modeswitch-item" id="aicModeItem_anime" onclick="aicSwitchMode('anime')"><i class="fa-solid fa-image-portrait"></i><span>Anime to Real</span><span class="aic-mode-cost"><img src="zusmo-asset/onzrii.png" alt="diamond"/>40</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
-        <div class="aic-modeswitch-item" id="aicModeItem_bypass" onclick="aicSwitchMode('bypass')"><i class="fa-solid fa-user-secret"></i><span>Bypass AI</span><span class="aic-mode-cost"><img src="zusmo-asset/onzrii.png" alt="diamond"/>40</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
-        <div class="aic-modeswitch-item" id="aicModeItem_imagenai" onclick="aicSwitchMode('imagenai')"><i class="fa-solid fa-palette"></i><span>Imagen AI</span><span class="aic-mode-cost"><img src="zusmo-asset/onzrii.png" alt="diamond"/>40</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
-        <div class="aic-modeswitch-item" id="aicModeItem_img2prompt" onclick="aicSwitchMode('img2prompt')"><i class="fa-solid fa-file-image"></i><span>Image to Prompt</span><span class="aic-mode-cost"><img src="zusmo-asset/onzrii.png" alt="diamond"/>40</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
-        <div class="aic-modeswitch-item" id="aicModeItem_detectai" onclick="aicSwitchMode('detectai')"><i class="fa-solid fa-magnifying-glass"></i><span>AI Detector</span><span class="aic-mode-cost"><img src="zusmo-asset/onzrii.png" alt="diamond"/>40</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
-        <div class="aic-modeswitch-item" id="aicModeItem_nanobanana" onclick="aicSwitchMode('nanobanana')"><i class="fa-solid fa-image"></i><span>Nano Banana</span><span class="aic-mode-cost"><img src="zusmo-asset/onzrii.png" alt="diamond"/>40</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
-        <div class="aic-modeswitch-item" id="aicModeItem_txt2img" onclick="aicSwitchMode('txt2img')"><i class="fa-solid fa-images"></i><span>Text to Image</span><span class="aic-mode-cost"><img src="zusmo-asset/onzrii.png" alt="diamond"/>40</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
-        <div class="aic-modeswitch-item" id="aicModeItem_text2vid" onclick="aicSwitchMode('text2vid')"><i class="fa-solid fa-video"></i><span>Text to Video</span><span class="aic-mode-cost"><img src="zusmo-asset/onzrii.png" alt="diamond"/>40</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
-        <div class="aic-modeswitch-item" id="aicModeItem_tts" onclick="aicSwitchMode('tts')"><i class="fa-solid fa-microphone-lines"></i><span>Text to Speech</span><span class="aic-mode-cost"><img src="zusmo-asset/onzrii.png" alt="diamond"/>40</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
-        <div class="aic-modeswitch-item" id="aicModeItem_toonmix" onclick="aicSwitchMode('toonmix')"><i class="fa-solid fa-shapes"></i><span>Toonmix AI</span><span class="aic-mode-cost"><img src="zusmo-asset/onzrii.png" alt="diamond"/>40</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item active" id="aicModeItem_chat" onclick="aicSwitchMode('chat')"><i class="fa-solid fa-comments"></i><span>Chat</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_art" onclick="aicSwitchMode('art')"><i class="fa-solid fa-image"></i><span>AI Art</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_filter" onclick="aicSwitchMode('filter')"><i class="fa-solid fa-wand-sparkles"></i><span>AI Filter</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_song" onclick="aicSwitchMode('song')"><i class="fa-solid fa-music"></i><span>AI Song</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_anime" onclick="aicSwitchMode('anime')"><i class="fa-solid fa-image-portrait"></i><span>Anime to Real</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_bypass" onclick="aicSwitchMode('bypass')"><i class="fa-solid fa-user-secret"></i><span>Bypass AI</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_imagenai" onclick="aicSwitchMode('imagenai')"><i class="fa-solid fa-palette"></i><span>Imagen AI</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_img2prompt" onclick="aicSwitchMode('img2prompt')"><i class="fa-solid fa-file-image"></i><span>Image to Prompt</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_detectai" onclick="aicSwitchMode('detectai')"><i class="fa-solid fa-magnifying-glass"></i><span>AI Detector</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_nanobanana" onclick="aicSwitchMode('nanobanana')"><i class="fa-solid fa-image"></i><span>Nano Banana</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_txt2img" onclick="aicSwitchMode('txt2img')"><i class="fa-solid fa-images"></i><span>Text to Image</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_text2vid" onclick="aicSwitchMode('text2vid')"><i class="fa-solid fa-video"></i><span>Text to Video</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_tts" onclick="aicSwitchMode('tts')"><i class="fa-solid fa-microphone-lines"></i><span>Text to Speech</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
+        <div class="aic-modeswitch-item" id="aicModeItem_toonmix" onclick="aicSwitchMode('toonmix')"><i class="fa-solid fa-shapes"></i><span>Toonmix AI</span><i class="fa-solid fa-check aic-modelitem-check"></i></div>
       </div>
     </div>
   </div>
@@ -2880,7 +2895,7 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
     <div class="gm-stat gm-stat-streak" id="gmStreakChip"><i class="fa-solid fa-fire"></i><span id="gmStreakVal">0</span></div>
   </div>
 </div>
-<div style="font-size:10px;color:#999;margin:-8px 0 12px;display:flex;align-items:center;gap:4px;"><img src="zusmo-asset/onzrii.png" alt="diamond" style="width:9px;height:9px;object-fit:contain;"/> 2 Diamond per soal</div>
+<div style="font-size:10px;color:#999;margin:-8px 0 12px;display:flex;align-items:center;gap:4px;">Pilih game untuk mulai bermain</div>
 <div class="gm-grid" id="gmGrid"></div>
 <div id="gmPlayArea"><div class="gm-empty"><i class="fa-solid fa-gamepad"></i>Pilih game di atas untuk mulai main</div></div>
 </div>
@@ -2922,7 +2937,7 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
 
 <div class="mkr-header">
   <div class="mkr-title"><i class="fa-solid fa-wand-magic-sparkles"></i> MAKER</div>
-  <div class="mkr-subtitle">Buat gambar kreatif: canvas pixel, fake notif, story, dan lainnya · <img src="zusmo-asset/onzrii.png" alt="diamond" style="width:9px;height:9px;object-fit:contain;vertical-align:-1px;"/> 30/generate</div>
+  <div class="mkr-subtitle">Buat gambar kreatif: canvas pixel, fake notif, story, dan lainnya</div>
 </div>
 <div class="mkr-grid" id="mkrGrid"></div>
 <div id="mkrArea"><div class="mkr-empty"><i class="fa-solid fa-wand-magic-sparkles"></i>Pilih menu di atas untuk mulai</div></div>
@@ -2944,7 +2959,7 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
 
 <div class="qts-header">
   <div class="qts-title"><i class="fa-solid fa-quote-left"></i> QUOTES</div>
-  <div class="qts-subtitle">Kumpulan kata-kata &amp; quotes dari berbagai kategori · <img src="zusmo-asset/onzrii.png" alt="diamond" style="width:9px;height:9px;object-fit:contain;vertical-align:-1px;"/> 10/quote</div>
+  <div class="qts-subtitle">Kumpulan kata-kata &amp; quotes dari berbagai kategori</div>
 </div>
 <div class="qts-grid" id="qtsGrid"></div>
 <div id="qtsArea"><div class="qts-empty"><i class="fa-solid fa-quote-left"></i>Pilih kategori di atas untuk mulai</div></div>
@@ -2955,14 +2970,14 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
 
 <div class="rnd-header">
   <div class="rnd-title"><i class="fa-solid fa-shuffle"></i> RANDOM</div>
-  <div class="rnd-subtitle">Gambar acak dari berbagai kategori · <img src="zusmo-asset/onzrii.png" alt="diamond" style="width:9px;height:9px;object-fit:contain;vertical-align:-1px;"/> 75/gambar</div>
+  <div class="rnd-subtitle">Gambar acak dari berbagai kategori</div>
 </div>
 <div class="rnd-grid" id="rndGrid"></div>
 <div id="rndArea"><div class="rnd-empty"><i class="fa-solid fa-image"></i>Pilih kategori di atas untuk mulai</div></div>
 </div>
 
 <!-- STALK PAGE -->
-<div class="page" id="stalk">
+<div class="page page-with-copyright" id="stalk">
 
 <p class="pc-title"><span class="red">STALK</span>&nbsp;<span class="wht">UID / USERNAME</span></p>
 <p class="pc-sub">Cek info akun/profil dari UID atau username</p>
@@ -3229,433 +3244,564 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
 </div>
 
 <!-- CEK NICK FF PAGE -->
-<!-- CEK INFO FF - MENU -->
-<div class="page" id="cekidff">
-
-<div class="cifm-header">
-  <div class="cifm-title"><i class="fa-solid fa-address-card"></i> CEK INFO FF</div>
-  <div class="cifm-subtitle">Pilih menu di bawah untuk mulai cek</div>
-</div>
-
+<!-- FF TOOLS - MENU -->
+<div class="page page-with-copyright" id="cekidff">
+<header class="cifm-header">
+  <h1 class="cifm-title">FF <em>Tools</em></h1>
+  <p class="cifm-subtitle">Pilih fitur untuk mulai cek akunmu.</p>
+</header>
 <div class="cifm-grid">
-  <div class="cifm-tile" onclick="showPage('cekidffPlayer')">
-    <span class="cifm-star-badge"><i class="fa-solid fa-star"></i></span>
-    <div class="cifm-tile-icon"><i class="fa-solid fa-user-shield"></i></div>
-    <span>INFO PLAYER</span>
-  </div>
-  <div class="cifm-tile" onclick="showPage('cekidffOutfit')">
-    <div class="cifm-tile-icon"><i class="fa-solid fa-shirt"></i></div>
-    <span>CEK OUTFIT</span>
-  </div>
-  <div class="cifm-tile" onclick="showPage('cekidffBanned')">
-    <div class="cifm-tile-icon"><i class="fa-solid fa-user-slash"></i></div>
-    <span>CEK BANNED</span>
-  </div>
-  <div class="cifm-tile" onclick="showPage('cekidffStats')">
-    <div class="cifm-tile-icon"><i class="fa-solid fa-chart-simple"></i></div>
-    <span>STATISTIK RANKED</span>
-  </div>
-  <div class="cifm-tile" onclick="showPage('cekidffPrime')">
-    <div class="cifm-tile-icon"><i class="fa-solid fa-gem"></i></div>
-    <span>CEK PRIME</span>
-  </div>
-  <div class="cifm-tile" onclick="showPage('cekidffExpLevel')">
-    <div class="cifm-tile-icon"><i class="fa-solid fa-star"></i></div>
-    <span>CEK EXP LEVEL</span>
-  </div>
-  <div class="cifm-tile" onclick="showPage('cekidffBanner')">
-    <div class="cifm-tile-icon"><i class="fa-solid fa-image"></i></div>
-    <span>CEK BANNER</span>
-  </div>
-  <div class="cifm-tile" onclick="showPage('cekidffGuild')">
-    <div class="cifm-tile-icon"><i class="fa-solid fa-people-group"></i></div>
-    <span>INFO GUILD</span>
-  </div>
-  <div class="cifm-tile" onclick="showPage('cekidffJoinGuild')">
-    <div class="cifm-tile-icon"><i class="fa-solid fa-user-plus"></i></div>
-    <span>GABUNG GUILD</span>
-  </div>
-  <div class="cifm-tile" onclick="showPage('cekidffLeaveGuild')">
-    <div class="cifm-tile-icon"><i class="fa-solid fa-right-from-bracket"></i></div>
-    <span>KELUAR GUILD</span>
-  </div>
-  <div class="cifm-tile" onclick="showPage('cekidffCreateGuild')">
-    <div class="cifm-tile-icon"><i class="fa-solid fa-flag"></i></div>
-    <span>BUAT GUILD</span>
-  </div>
-  <div class="cifm-tile" onclick="showPage('cekidffChangeName')">
-    <div class="cifm-tile-icon"><i class="fa-solid fa-signature"></i></div>
-    <span>GANTI NICKNAME</span>
-  </div>
-  <div class="cifm-tile" onclick="showPage('cekidffCraftland')">
-    <div class="cifm-tile-icon"><i class="fa-solid fa-map"></i></div>
-    <span>INFO CRAFTLAND</span>
-  </div>
-  <div class="cifm-tile" onclick="showPage('cekidffFriends')">
-    <div class="cifm-tile-icon"><i class="fa-solid fa-user-group"></i></div>
-    <span>DAFTAR TEMAN</span>
-  </div>
-  <div class="cifm-tile" onclick="showPage('cekidffAddItem')">
-    <div class="cifm-tile-icon"><i class="fa-solid fa-shirt"></i></div>
-    <span>UBAH EQUIP ITEM</span>
-  </div>
-  <div class="cifm-tile" onclick="showPage('cekidffCraftlandDetail')">
-    <div class="cifm-tile-icon"><i class="fa-solid fa-map-location-dot"></i></div>
-    <span>CRAFTLAND DETAIL</span>
-  </div>
-  <div class="cifm-tile" onclick="showPage('cekidffLongBio')">
-    <div class="cifm-tile-icon"><i class="fa-solid fa-align-left"></i></div>
-    <span>BIO PANJANG</span>
-  </div>
-  <div class="cifm-tile" onclick="showPage('cekidffBindInfo')">
-    <div class="cifm-tile-icon"><i class="fa-solid fa-envelope"></i></div>
-    <span>BIND INFO</span>
-  </div>
-  <div class="cifm-tile" onclick="showPage('cekidffModeBR')">
-    <div class="cifm-tile-icon"><i class="fa-solid fa-envelope"></i></div>
-    <span>GANTI BIND</span>
-  </div>
-  <div class="cifm-tile" onclick="showPage('cekidffModeCS')">
-    <div class="cifm-tile-icon"><i class="fa-solid fa-envelope"></i></div>
-    <span>UNBIND</span>
-  </div>
-  <div class="cifm-tile" onclick="showPage('cekidffModeTraining')">
-    <div class="cifm-tile-icon"><i class="fa-solid fa-envelope"></i></div>
-    <span>CANCEL BIND</span>
-  </div>
+<button type="button" class="cifm-tile cifm-featured" onclick="showPage('cekidffPlayer')">
+    <span class="cifm-tile-icon" aria-hidden="true"><i class="fa-solid fa-user-shield"></i></span>
+    <span class="cifm-copy"><strong>Info Player</strong></span>
+  </button>
+<button type="button" class="cifm-tile" onclick="showPage('cekidffBanned')">
+    <span class="cifm-tile-icon" aria-hidden="true"><i class="fa-solid fa-user-slash"></i></span>
+    <span class="cifm-copy"><strong>Cek Banned</strong></span>
+  </button>
+<button type="button" class="cifm-tile" onclick="showPage('cekidffOutfit')">
+    <span class="cifm-tile-icon" aria-hidden="true"><i class="fa-solid fa-shirt"></i></span>
+    <span class="cifm-copy"><strong>Cek Outfit</strong></span>
+  </button>
+<button type="button" class="cifm-tile" onclick="showPage('cekidffStats')">
+    <span class="cifm-tile-icon" aria-hidden="true"><i class="fa-solid fa-chart-simple"></i></span>
+    <span class="cifm-copy"><strong>Statistik Ranked</strong></span>
+  </button>
+<button type="button" class="cifm-tile" onclick="showPage('cekidffPrime')">
+    <span class="cifm-tile-icon" aria-hidden="true"><i class="fa-solid fa-gem"></i></span>
+    <span class="cifm-copy"><strong>Cek Prime</strong></span>
+  </button>
+<button type="button" class="cifm-tile" onclick="showPage('cekidffExpLevel')">
+    <span class="cifm-tile-icon" aria-hidden="true"><i class="fa-solid fa-star"></i></span>
+    <span class="cifm-copy"><strong>Cek Exp Level</strong></span>
+  </button>
+<button type="button" class="cifm-tile" onclick="showPage('cekidffBanner')">
+    <span class="cifm-tile-icon" aria-hidden="true"><i class="fa-solid fa-image"></i></span>
+    <span class="cifm-copy"><strong>Cek Banner</strong></span>
+  </button>
+<button type="button" class="cifm-tile" onclick="showPage('cekidffGuildTools')">
+    <span class="cifm-tile-icon" aria-hidden="true"><i class="fa-solid fa-people-group"></i></span>
+    <span class="cifm-copy"><strong>Guild</strong></span>
+  </button>
+<button type="button" class="cifm-tile" onclick="showPage('cekidffFriendTools')">
+    <span class="cifm-tile-icon" aria-hidden="true"><i class="fa-solid fa-user-group"></i></span>
+    <span class="cifm-copy"><strong>Friend</strong></span>
+  </button>
+<button type="button" class="cifm-tile" onclick="showPage('cekidffChangeName')">
+    <span class="cifm-tile-icon" aria-hidden="true"><i class="fa-solid fa-signature"></i></span>
+    <span class="cifm-copy"><strong>Ganti Nickname</strong></span>
+  </button>
+<button type="button" class="cifm-tile" onclick="showPage('cekidffLongBio')">
+    <span class="cifm-tile-icon" aria-hidden="true"><i class="fa-solid fa-align-left"></i></span>
+    <span class="cifm-copy"><strong>Bio Panjang</strong></span>
+  </button>
+<button type="button" class="cifm-tile" onclick="showPage('cekidffAddItem')">
+    <span class="cifm-tile-icon" aria-hidden="true"><i class="fa-solid fa-shirt"></i></span>
+    <span class="cifm-copy"><strong>Equip Item</strong></span>
+  </button>
+<button type="button" class="cifm-tile" onclick="showPage('cekidffCraftlandTools')">
+    <span class="cifm-tile-icon" aria-hidden="true"><i class="fa-solid fa-map-location-dot"></i></span>
+    <span class="cifm-copy"><strong>Craftland</strong></span>
+  </button>
+<button type="button" class="cifm-tile" onclick="showPage('cekidffBindTools')">
+    <span class="cifm-tile-icon" aria-hidden="true"><i class="fa-solid fa-envelope-circle-check"></i></span>
+    <span class="cifm-copy"><strong>Bind Tools</strong></span>
+  </button>
+<button type="button" class="cifm-tile" onclick="showPage('cekidffJwtTools')">
+    <span class="cifm-tile-icon" aria-hidden="true"><i class="fa-solid fa-key"></i></span>
+    <span class="cifm-copy"><strong>Jwt</strong></span>
+  </button>
+</div>
+<div class="cifm-references">
+<details class="cifm-reference"><summary>Supported Regions</summary><div class="cifm-table-wrap"><table aria-label="Supported Regions"><thead><tr><th scope="col">Code</th><th scope="col">Region</th><th scope="col">Location</th></tr></thead><tbody><tr class="cifm-indonesia"><th scope="row"><code class="cifm-code">ID</code></th><td>Indonesia</td><td>Southeast Asia</td></tr><tr><th scope="row"><code class="cifm-code">BD</code></th><td>Bangladesh</td><td>South Asia</td></tr><tr><th scope="row"><code class="cifm-code">IND</code></th><td>India</td><td>South Asia</td></tr><tr><th scope="row"><code class="cifm-code">PK</code></th><td>Pakistan</td><td>South Asia</td></tr><tr><th scope="row"><code class="cifm-code">SG</code></th><td>Singapore</td><td>Southeast Asia</td></tr><tr><th scope="row"><code class="cifm-code">TH</code></th><td>Thailand</td><td>Southeast Asia</td></tr><tr><th scope="row"><code class="cifm-code">VN</code></th><td>Vietnam</td><td>Southeast Asia</td></tr><tr><th scope="row"><code class="cifm-code">TW</code></th><td>Taiwan</td><td>East Asia</td></tr><tr><th scope="row"><code class="cifm-code">BR</code></th><td>Brazil</td><td>South America</td></tr><tr><th scope="row"><code class="cifm-code">SAC</code></th><td>South America</td><td>South America</td></tr><tr><th scope="row"><code class="cifm-code">US</code></th><td>United States</td><td>North America</td></tr><tr><th scope="row"><code class="cifm-code">NA</code></th><td>North America</td><td>North America</td></tr><tr><th scope="row"><code class="cifm-code">ME</code></th><td>Middle East</td><td>Middle East</td></tr><tr><th scope="row"><code class="cifm-code">RU</code></th><td>Russia</td><td>CIS</td></tr><tr><th scope="row"><code class="cifm-code">CIS</code></th><td>CIS Countries</td><td>CIS</td></tr><tr><th scope="row"><code class="cifm-code">EUROPE</code></th><td>Europe</td><td>Europe</td></tr></tbody></table></div></details>
+<details class="cifm-reference"><summary>Error Reference</summary><div class="cifm-table-wrap"><table aria-label="Error Reference"><thead><tr><th scope="col">HTTP Status</th><th scope="col">Description</th></tr></thead><tbody><tr><th scope="row"><code class="cifm-code cifm-ok">200</code></th><td>Request completed successfully</td></tr><tr><th scope="row"><code class="cifm-code">400</code></th><td>Missing or invalid parameter</td></tr><tr><th scope="row"><code class="cifm-code">401</code></th><td>Invalid JWT or login failed</td></tr><tr><th scope="row"><code class="cifm-code">403</code></th><td>Invalid / expired / no-access API key</td></tr><tr><th scope="row"><code class="cifm-code">404</code></th><td>Player or data not found</td></tr><tr><th scope="row"><code class="cifm-code">500</code></th><td>Internal error or upstream failure</td></tr><tr><th scope="row"><code class="cifm-code">502</code></th><td>Free Fire server error</td></tr><tr><th scope="row"><code class="cifm-code">504</code></th><td>Request timeout</td></tr></tbody></table></div></details>
+</div>
+<div class="footer" style="margin-top:12px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
 </div>
 
-<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
-</div>
-
-<!-- UBAH EQUIP ITEM (CEK INFO FF) — halaman ini hanya bisa dibuka/dijalankan
-     oleh developer aplikasi. -->
-<div class="page" id="cekidffAddItem">
+<!-- EQUIP ITEM (FF TOOLS) -->
+<div class="page page-with-copyright" id="cekidffAddItem">
 
 <div class="cid-page-head">
   <span class="cid-page-head-icon" aria-hidden="true"></span>
   <div>
-    <p class="cid-hero-title"><span class="red">UBAH</span>&nbsp;<span class="wht">EQUIP ITEM</span></p>
-    <p class="cid-hero-sub">Fitur ini hanya bisa diakses oleh developer aplikasi.</p>
+    <p class="cid-hero-title"><span class="red">EQUIP</span>&nbsp;<span class="wht">ITEM</span></p>
+    <p class="cid-hero-sub">Pasang outfit, gun skin, vehicle skin, vault item, dan item Free Fire lain lewat Item ID + JWT.</p>
   </div>
 </div>
-
-<div class="dev-badge">KHUSUS DEVELOPER</div>
 
 <div class="cid-card">
-  <div class="cid-label"><i class="fa-solid fa-hashtag"></i>ID AKUN</div>
+  <div class="cid-label"><i class="fa-solid fa-shirt"></i>ITEM ID</div>
   <div class="cid-input-wrap">
-    <i class="fa-solid fa-hashtag"></i>
-    <input class="cid-input" id="caiIdInput" placeholder="Masukkan ID / UID akun" type="text"/>
+    <i class="fa-solid fa-list-ol"></i>
+    <textarea class="cjg-jwt-textarea" id="caiItemInput" rows="3" inputmode="numeric" autocomplete="off" spellcheck="false" placeholder="211050001,214050001,208050001"></textarea>
   </div>
-  <div class="cid-label"><i class="fa-solid fa-shirt"></i>ITEM YANG DI-EQUIP</div>
-  <div class="cid-input-wrap" style="margin-bottom:0;">
-    <i class="fa-solid fa-shirt"></i>
-    <input class="cid-input" id="caiItemInput" placeholder="Nama/kode item yang ingin di-equip" type="text"/>
+  <p class="cai-helper">Bisa satu atau banyak Item ID. Pisahkan dengan koma, spasi, atau baris baru. Hanya angka yang dikirim ke API.</p>
+
+  <div class="cid-label"><i class="fa-solid fa-key"></i>JWT BEARER</div>
+  <div class="cai-secret-wrap">
+    <input class="cid-input" id="caiJwtInput" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Tempel JWT / BearerAuth / JSON token"/>
+    <button class="cai-eye-btn" type="button" onclick="caiToggleJwt(this)" aria-label="Tampilkan JWT"><i class="fa-solid fa-eye"></i></button>
   </div>
+  <div class="gd-mini-row">
+    <button class="gd-mini-btn" type="button" onclick="caiUseLatestJwt()"><i class="fa-solid fa-wand-magic-sparkles"></i> PAKAI JWT TERAKHIR</button>
+    <button class="gd-mini-btn" type="button" onclick="caiClear()"><i class="fa-solid fa-trash-can"></i> HAPUS DATA</button>
+  </div>
+  <p class="cai-helper">JWT hanya dipakai saat request dan tidak disimpan ke localStorage.</p>
 
-  <button class="cid-btn" id="caiAddBtn" onclick="caiTryAdd()" style="margin-top:14px;"><i class="fa-solid fa-lock"></i>UBAH EQUIP ITEM</button>
-  <p class="cid-hint">Fitur ini terkunci untuk pengguna umum.</p>
+  <button class="cid-btn" id="caiAddBtn" type="button" onclick="caiTryAdd()"><i class="fa-solid fa-shirt"></i>EQUIP ITEM SEKARANG</button>
+  
 </div>
 
-<div class="cai-dev-gate" id="caiGate" style="display:none;">
-  <i class="fa-solid fa-user-lock"></i>
-  <p>Akses ditolak. Fitur "Ubah Equip Item" hanya bisa dibuka oleh developer aplikasi.</p>
-</div>
+<div class="cai-status info" id="caiStatus" hidden></div>
+<div class="cai-result" id="caiResult" hidden></div>
+
+<div class="footer" style="margin-top:14px;">&copy; 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
 </div>
 
-<!-- BIO PANJANG (CEK INFO FF) — halaman ini hanya bisa dibuka/dijalankan
-     oleh developer aplikasi. -->
-<div class="page" id="cekidffLongBio">
+<!-- BIO PANJANG: guided token preparation, editor, preview and explicit submission. -->
+<div class="page" id="cekidffLongBio" aria-labelledby="clbTitle">
+  <nav class="clb-crumb" aria-label="Lokasi halaman">
+    <button type="button" onclick="showPage('home')">Home</button><span aria-hidden="true">/</span>
+    <button type="button" onclick="showPage('cekidff')">FF Tools</button><span aria-hidden="true">/</span><span aria-current="page">Bio Panjang</span>
+  </nav>
+  <header class="clb-hero">
+    <div><div class="clb-eyebrow"><span class="clb-dot" aria-hidden="true"></span>FREE FIRE TOOLS</div>
+      <h1 id="clbTitle">Bio <span>Panjang.</span></h1>
+      <p>Login ke akunmu, bawa URL hasil login ke sini, lalu buat bio dengan warna pilihanmu.</p><div class="clb-hero-actions"><button class="clb-btn clb-btn-primary" type="button" id="clbStartLoginBtn">Dapatkan token &#8599;</button><button class="clb-text-btn" type="button" id="clbJumpEditorBtn">Tulis bio &#8594;</button></div>
+    </div><div class="clb-hero-mark" aria-hidden="true">Aa</div>
+  </header>
+  <ol class="clb-progress" aria-label="Progres pengisian">
+    <li id="clbStep1" class="is-current" aria-current="step"><b>1</b>Siapkan token</li>
+    <li id="clbStep2"><b>2</b>Tulis bio</li><li id="clbStep3"><b>3</b>Pasang bio</li>
+  </ol>
+  <div class="clb-layout">
+    <div class="clb-column">
+      <section class="clb-card" aria-labelledby="clbAuthTitle">
+        <div class="clb-heading"><span class="clb-step-number" aria-hidden="true">01</span><div><h2 id="clbAuthTitle">Siapkan token akun</h2><p>Belum punya token? Mulai dari Login &amp; URL.</p></div></div>
+        <details class="clb-guide" id="clbTokenGuide">
+          <summary>Cara dapat token, dari awal sampai siap</summary>
+          <div class="clb-guide-body">
+            <ol class="clb-instructions"><li>Buka <b>Login &amp; URL</b>, lalu pilih platform akunmu.</li><li>Selesaikan login pada halaman Garena/platform di tab baru. Tunggu pengalihan selesai.</li><li>Salin URL lengkap dari bilah alamat. Kembali ke sini dan tempel pada <b>URL hasil login / EAT</b>.</li><li>Tekan <b>Siapkan JWT</b>. EAT diubah menjadi Access Token, lalu JWT. Tidak perlu menyalin hasil di tengah proses.</li></ol>
+            <div class="clb-guide-item"><strong>Sudah punya token?</strong><p>Gunakan tab Access Token, JWT langsung, atau Akun Guest sesuai data yang tersedia. UID pemain saja bukan token login.</p><button class="clb-text-btn" type="button" data-clb-method="access">Pakai Access Token</button><button class="clb-text-btn" type="button" data-clb-method="jwt">Pakai JWT</button></div>
+            <div class="clb-guide-item"><strong>Login belum menghasilkan EAT?</strong><p>URL yang masih memuat <code>code=</code> bukan EAT. Tunggu pengalihan selesai. Jika URL akhir tetap tidak memuat <code>eat=</code>, alur login ini belum menyediakan token yang diperlukan; jangan gunakan kode login sebagai penggantinya.</p></div>
+            <button class="clb-text-btn" type="button" id="clbCopyHelpBtn">Salin pesan kendala login untuk admin</button>
+          </div>
+        </details>
+        <div class="clb-methods" id="clbMethodTabs" role="tablist" aria-label="Data login yang tersedia">
+          <button type="button" id="clbTabEat" role="tab" data-method="eat" aria-controls="clbEatWrap" aria-selected="true" tabindex="0">Login &amp; URL</button>
+          <button type="button" id="clbTabAccess" role="tab" data-method="access" aria-controls="clbAccessWrap" aria-selected="false" tabindex="-1">Access Token</button>
+          <button type="button" id="clbTabJwt" role="tab" data-method="jwt" aria-controls="clbJwtWrap" aria-selected="false" tabindex="-1">JWT langsung</button>
+          <button type="button" id="clbTabGuest" role="tab" data-method="uidpass" aria-controls="clbUidPassWrap" aria-selected="false" tabindex="-1">Akun Guest</button>
+        </div>
+        <div id="clbAccessWrap" role="tabpanel" aria-labelledby="clbTabAccess" hidden>
+          <label for="clbAccessInput" class="clb-field-label">Garena Access Token</label>
+          <div class="clb-secret-wrap"><input class="clb-input" id="clbAccessInput" type="password" autocomplete="off" spellcheck="false" autocapitalize="none" maxlength="32768" placeholder="Tempel Access Token milikmu" aria-describedby="clbAccessHelp" data-lpignore="true" data-1p-ignore/>
+          <button type="button" class="clb-eye" data-clb-reveal="clbAccessInput" aria-controls="clbAccessInput" aria-pressed="false" aria-label="Tampilkan Access Token">Lihat</button></div>
+          <p class="clb-helper" id="clbAccessHelp">Bisa tempel token langsung atau JSON yang berisi <code>access_token</code> atau <code>token_access</code>. Token akan diubah menjadi JWT.</p>
+          <div class="clb-tools"><button class="clb-text-btn" type="button" data-clb-paste="clbAccessInput">Tempel dari clipboard</button><button class="clb-text-btn" type="button" data-clb-guide>Di mana dapat token?</button></div>
+        </div>
+        <div id="clbEatWrap" role="tabpanel" aria-labelledby="clbTabEat">
+          <div class="clb-login-head"><span class="clb-substep">A</span><div><h3>Login dengan akunmu</h3><p>Pilih platform yang terhubung ke akun Free Fire.</p></div><span class="clb-country">Indonesia</span></div>
+          <div class="clb-login-grid" id="clbLoginGrid"><a class="clb-login-link" data-clb-platform="8" href="https://auth.garena.com/universal/oauth?platform=8&amp;response_type=code&amp;locale=en-SG&amp;client_id=100067&amp;redirect_uri=https%3A%2F%2Fapi.ff.garena.co.id%2Fauth%2Fauth%2Fcallback_n%3Fsite%3Dhttps%3A%2F%2Fapi-discountstore.kiosgamer.gameid.garena.co.id%2Foauth%2Fcallback_redirect%2F" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" aria-label="Buka login Google melalui Garena di tab baru"><span class="clb-provider-symbol" aria-hidden="true">G</span><span>Google</span><span class="clb-external" aria-hidden="true">&#8599;</span></a>
+<a class="clb-login-link" data-clb-platform="3" href="https://auth.garena.com/universal/oauth?platform=3&amp;response_type=code&amp;locale=en-SG&amp;client_id=100067&amp;redirect_uri=https%3A%2F%2Fapi.ff.garena.co.id%2Fauth%2Fauth%2Fcallback_n%3Fsite%3Dhttps%3A%2F%2Fapi-discountstore.kiosgamer.gameid.garena.co.id%2Foauth%2Fcallback_redirect%2F" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" aria-label="Buka login Facebook melalui Garena di tab baru"><span class="clb-provider-symbol" aria-hidden="true">f</span><span>Facebook</span><span class="clb-external" aria-hidden="true">&#8599;</span></a>
+<a class="clb-login-link" data-clb-platform="5" href="https://auth.garena.com/universal/oauth?platform=5&amp;response_type=code&amp;locale=en-SG&amp;client_id=100067&amp;redirect_uri=https%3A%2F%2Fapi.ff.garena.co.id%2Fauth%2Fauth%2Fcallback_n%3Fsite%3Dhttps%3A%2F%2Fapi-discountstore.kiosgamer.gameid.garena.co.id%2Foauth%2Fcallback_redirect%2F" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" aria-label="Buka login VK melalui Garena di tab baru"><span class="clb-provider-symbol" aria-hidden="true">vk</span><span>VK</span><span class="clb-external" aria-hidden="true">&#8599;</span></a>
+<a class="clb-login-link" data-clb-platform="10" href="https://auth.garena.com/universal/oauth?platform=10&amp;response_type=code&amp;locale=en-SG&amp;client_id=100067&amp;redirect_uri=https%3A%2F%2Fapi.ff.garena.co.id%2Fauth%2Fauth%2Fcallback_n%3Fsite%3Dhttps%3A%2F%2Fapi-discountstore.kiosgamer.gameid.garena.co.id%2Foauth%2Fcallback_redirect%2F" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" aria-label="Buka login Apple ID melalui Garena di tab baru"><span class="clb-provider-symbol" aria-hidden="true">ID</span><span>Apple ID</span><span class="clb-external" aria-hidden="true">&#8599;</span></a>
+<a class="clb-login-link" data-clb-platform="11" href="https://auth.garena.com/universal/oauth?platform=11&amp;response_type=code&amp;locale=en-SG&amp;client_id=100067&amp;redirect_uri=https%3A%2F%2Fapi.ff.garena.co.id%2Fauth%2Fauth%2Fcallback_n%3Fsite%3Dhttps%3A%2F%2Fapi-discountstore.kiosgamer.gameid.garena.co.id%2Foauth%2Fcallback_redirect%2F" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" aria-label="Buka login Twitter / X melalui Garena di tab baru"><span class="clb-provider-symbol" aria-hidden="true">X</span><span>Twitter / X</span><span class="clb-external" aria-hidden="true">&#8599;</span></a></div>
+          <p class="clb-helper">Login terbuka di <b>auth.garena.com</b>, bukan formulir password aplikasi ini. Gunakan browser biasa jika login gagal di browser dalam aplikasi.</p>
+          <div class="clb-login-tools"><button class="clb-text-btn" type="button" id="clbCopyLoginBtn">Salin link login Google</button><span class="clb-helper" id="clbLoginMessage" role="status" aria-live="polite">Pilih platform, lalu selesaikan login di tab baru.</span></div>
+          <div class="clb-redirect-note"><strong>Setelah login, salin URL lengkap</strong><p>Tunggu sampai URL memuat <code>eat=</code>. Salin dari bilah alamat browser, lalu tempel di bawah. URL akan dibaca di perangkat, bukan dibuka ulang oleh aplikasi.</p><code class="clb-url-example">https://.../?eat=...&amp;...</code></div>
+          <div class="clb-login-head clb-field-spacer"><span class="clb-substep">B</span><div><h3>Bawa hasil login ke sini</h3><p>Aplikasi mengambil nilai EAT dari URL secara otomatis.</p></div></div>
+          <label for="clbEatInput" class="clb-field-label">URL hasil login / EAT Token</label>
+          <div class="clb-secret-wrap"><input class="clb-input" id="clbEatInput" type="password" autocomplete="off" spellcheck="false" autocapitalize="none" maxlength="32768" placeholder="Tempel URL lengkap atau EAT Token" aria-describedby="clbEatHelp" data-lpignore="true" data-1p-ignore/>
+          <button type="button" class="clb-eye" data-clb-reveal="clbEatInput" aria-controls="clbEatInput" aria-pressed="false" aria-label="Tampilkan EAT Token">Lihat</button></div>
+          <p class="clb-helper" id="clbEatHelp">URL dengan <code>eat=</code>, EAT langsung, atau JSON berisi <code>eat_token</code> diterima. Token tetap tersembunyi sampai kamu menekan Lihat.</p>
+          <p class="clb-input-feedback" id="clbEatDetected" role="status" aria-live="polite"></p><div class="clb-tools"><button class="clb-text-btn" type="button" data-clb-paste="clbEatInput">Tempel dari clipboard</button><button class="clb-text-btn" type="button" data-clb-guide>Penjelasan EAT Token</button></div>
+        </div>
+        <div id="clbJwtWrap" role="tabpanel" aria-labelledby="clbTabJwt" hidden>
+          <label for="clbJwtInput" class="clb-field-label">JWT / BearerAuth</label>
+          <div class="clb-secret-wrap"><input class="clb-input" id="clbJwtInput" type="password" autocomplete="off" spellcheck="false" autocapitalize="none" maxlength="32768" placeholder="Tempel JWT akun Free Fire" aria-describedby="clbJwtHelp" data-lpignore="true" data-1p-ignore/>
+          <button type="button" class="clb-eye" data-clb-reveal="clbJwtInput" aria-controls="clbJwtInput" aria-pressed="false" aria-label="Tampilkan JWT">Lihat</button></div>
+          <p class="clb-helper" id="clbJwtHelp">Awalan <code>Bearer</code> dan JSON berisi <code>BearerAuth</code> atau <code>token</code> juga diterima. Format dan waktu kedaluwarsa diperiksa di perangkatmu; keaslian tetap diperiksa server.</p>
+          <div class="clb-tools"><button class="clb-text-btn" type="button" data-clb-paste="clbJwtInput">Tempel dari clipboard</button><button class="clb-text-btn" type="button" data-clb-guide>Belum punya JWT?</button></div>
+        </div>
+        <div id="clbUidPassWrap" role="tabpanel" aria-labelledby="clbTabGuest" hidden>
+          <label for="clbUidInput" class="clb-field-label">Guest UID</label><input class="clb-input" id="clbUidInput" type="text" inputmode="numeric" autocomplete="off" maxlength="30" placeholder="UID akun guest milikmu" aria-describedby="clbGuestHelp"/>
+          <label for="clbPassInput" class="clb-field-label clb-field-spacer">Guest Password</label>
+          <div class="clb-secret-wrap"><input class="clb-input" id="clbPassInput" type="password" autocomplete="off" spellcheck="false" autocapitalize="none" maxlength="4096" placeholder="Password khusus akun guest" aria-describedby="clbGuestHelp" data-lpignore="true" data-1p-ignore/>
+          <button type="button" class="clb-eye" data-clb-reveal="clbPassInput" aria-controls="clbPassInput" aria-pressed="false" aria-label="Tampilkan Guest Password">Lihat</button></div>
+          <p class="clb-helper" id="clbGuestHelp">Bukan password Facebook, Google, atau email. UID pemain tanpa Guest Password belum dapat dikonversi.</p>
+          <div class="clb-tools"><button class="clb-text-btn" type="button" data-clb-guide>Penjelasan akun guest</button></div>
+        </div>
+        <div class="clb-flow" id="clbFlowHint" aria-label="Alur token">Access Token <span aria-hidden="true">&#8594;</span> JWT <span aria-hidden="true">&#8594;</span> Bio</div>
+        <div id="clbAcaTokekCard">
+          <details class="clb-advanced" id="clbEndpointOptions"><summary>Opsi konversi</summary><div class="clb-advanced-body">
+            <label class="clb-field-label" for="clbEndpointInput">Jalur permintaan JWT</label>
+            <select class="clb-input" id="clbEndpointInput" aria-describedby="clbEndpointHelp"><option value="auto">Otomatis</option><option value="token">Lengkap: JWT + Access Token jika tersedia</option><option value="get_jwt">JWT saja</option></select>
+            <p class="clb-helper" id="clbEndpointHelp">Otomatis memakai jalur lengkap; beralih ke jalur JWT saja jika endpoint tidak tersedia (HTTP 404/405). Kesalahan login tidak dikirim ulang.</p>
+          </div></details>
+          <button class="clb-btn" id="clbTokekBtn" type="button">Siapkan JWT</button>
+          <button class="clb-btn clb-secondary" id="clbGetAccessBtn" type="button" hidden>Ambil Access Token saja</button><p class="clb-helper" id="clbConversionHelp">Siapkan JWT menjalankan seluruh alur sampai siap dipakai untuk bio.</p>
+          <p class="clb-helper">Isi bio, lalu gunakan tombol pasang untuk menjalankan alurnya sekaligus.</p>
+        </div>
+        <div class="clb-status" id="clbTokenStatus" role="status" aria-live="polite"><strong>Token belum disiapkan</strong><span id="clbTokenStatusText">Tempel Access Token atau buka panduan di atas.</span></div>
+        <div id="clbTokenActions" class="clb-tools" hidden><button type="button" class="clb-text-btn" id="clbCopyJwtBtn">Salin JWT</button><button type="button" class="clb-text-btn" id="clbContinueBtn">Lanjut tulis bio &#8594;</button></div>
+        <div id="clbAccessResult" class="clb-status" data-kind="info" hidden><strong>Access Token tersedia</strong><span>Disimpan sementara di halaman, tidak perlu disalin untuk memasang bio.</span><button type="button" class="clb-text-btn" id="clbCopyAccessBtn">Salin Access Token</button></div>
+        <button type="button" class="clb-btn clb-decode-btn" id="clbDecodeBtn" disabled>Cek info JWT</button>
+        <p class="clb-helper">Opsional. Membaca data akun &amp; masa berlaku lewat decoder; tidak mengubah bio.</p>
+        <div class="clb-status" id="clbDecodeStatus" role="status" aria-live="polite" hidden></div>
+        <div class="clb-decoded" id="clbDecodedResult" hidden><dl id="clbDecodedRows"></dl><p class="clb-helper">Data ini hasil pembacaan isi JWT, bukan verifikasi tanda tangan atau jaminan izin memasang bio.</p></div>
+        <p class="clb-privacy"><svg width="13" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 7V5a4 4 0 0 1 8 0v2M3 7h10v8H3z" stroke="currentColor" stroke-width="1.3"/></svg><span>Token dipakai sementara di halaman dan dikirim ke layanan API pihak ketiga saat kamu menjalankan fitur. Tidak disimpan ke riwayat atau penyimpanan browser oleh fitur Bio Panjang.</span></p>
+      </section>
+      <section class="clb-card" aria-labelledby="clbEditorTitle">
+        <div class="clb-heading"><span class="clb-step-number" aria-hidden="true">02</span><div><h2 id="clbEditorTitle">Tulis bio barumu</h2><p>Pratinjau ikut berubah saat kamu mengetik.</p></div></div>
+        <div class="clb-format-toolbar" role="group" aria-label="Format bio"><div class="clb-palette" aria-label="Palet warna"><button type="button" class="clb-swatch" data-clb-color="FF2B2B" style="--swatch:#FF2B2B" aria-label="Sisipkan warna Merah" title="Merah [FF2B2B]"></button><button type="button" class="clb-swatch" data-clb-color="FF8C42" style="--swatch:#FF8C42" aria-label="Sisipkan warna Oranye" title="Oranye [FF8C42]"></button><button type="button" class="clb-swatch" data-clb-color="FFD166" style="--swatch:#FFD166" aria-label="Sisipkan warna Kuning" title="Kuning [FFD166]"></button><button type="button" class="clb-swatch" data-clb-color="90E05B" style="--swatch:#90E05B" aria-label="Sisipkan warna Hijau muda" title="Hijau muda [90E05B]"></button><button type="button" class="clb-swatch" data-clb-color="41D69A" style="--swatch:#41D69A" aria-label="Sisipkan warna Hijau" title="Hijau [41D69A]"></button><button type="button" class="clb-swatch" data-clb-color="45D9D0" style="--swatch:#45D9D0" aria-label="Sisipkan warna Toska" title="Toska [45D9D0]"></button><button type="button" class="clb-swatch" data-clb-color="4DB5FF" style="--swatch:#4DB5FF" aria-label="Sisipkan warna Biru muda" title="Biru muda [4DB5FF]"></button><button type="button" class="clb-swatch" data-clb-color="6677FF" style="--swatch:#6677FF" aria-label="Sisipkan warna Biru" title="Biru [6677FF]"></button><button type="button" class="clb-swatch" data-clb-color="BA83FF" style="--swatch:#BA83FF" aria-label="Sisipkan warna Ungu" title="Ungu [BA83FF]"></button><button type="button" class="clb-swatch" data-clb-color="FF72BA" style="--swatch:#FF72BA" aria-label="Sisipkan warna Pink" title="Pink [FF72BA]"></button><button type="button" class="clb-swatch" data-clb-color="FFFFFF" style="--swatch:#FFFFFF" aria-label="Sisipkan warna Putih" title="Putih [FFFFFF]"></button><button type="button" class="clb-swatch" data-clb-color="9BA2AE" style="--swatch:#9BA2AE" aria-label="Sisipkan warna Abu-abu" title="Abu-abu [9BA2AE]"></button></div><div class="clb-format-actions"><button type="button" class="clb-format-btn" data-clb-style="B" aria-label="Sisipkan teks tebal"><b>B</b></button><button type="button" class="clb-format-btn" data-clb-style="I" aria-label="Sisipkan teks miring"><i>I</i></button><button type="button" class="clb-format-btn" data-clb-style="U" aria-label="Sisipkan garis bawah"><u>U</u></button><label class="clb-custom-color" for="clbCustomColor">Warna lain<input type="color" id="clbCustomColor" value="#ff2b2b" aria-label="Pilih warna bio"/></label><button type="button" class="clb-text-btn" id="clbInsertCustomColor">Sisipkan</button></div></div><p class="clb-helper clb-format-help">Letakkan kursor atau seleksi teks, lalu pilih warna. Kode warna ikut dihitung dan dikirim bersama bio.</p>
+        <label class="clb-screen-reader" for="clbBioInput">Teks bio baru</label>
+        <textarea class="clb-input clb-editor" id="clbBioInput" rows="6" maxlength="1000" placeholder="Ceritakan dirimu, timmu, atau motto bermainmu..." aria-describedby="clbBioHelp clbBioCounter"></textarea>
+        <div class="clb-editor-meta"><span class="clb-helper" id="clbBioHelp" style="margin:0"><span id="clbLineCounter">0 baris</span> &middot; Baris baru tetap dipertahankan.</span><span class="clb-counter" id="clbBioCounter">0 / 1.000</span></div>
+        <div class="clb-meter" aria-hidden="true"><span id="clbBioMeter"></span></div>
+        <div class="clb-tools"><button type="button" class="clb-text-btn" data-clb-paste="clbBioInput">Tempel bio</button><button type="button" class="clb-text-btn" id="clbCopyBioBtn">Salin bio</button><button type="button" class="clb-text-btn" id="clbSaveBioBtn">Unduh teks</button></div>
+      </section>
+    </div>
+    <div class="clb-column clb-aside">
+      <section class="clb-card" aria-label="Pratinjau teks bio">
+        <div class="clb-preview-top"><span class="clb-preview-label">PRATINJAU BIO</span><span class="clb-preview-pill">Belum dipasang</span></div>
+        <div class="clb-preview-account"><div class="clb-avatar" aria-hidden="true">FF</div><div><div class="clb-preview-name" id="clbPreviewName">Akun Free Fire kamu</div><div class="clb-preview-id" id="clbPreviewId">Data akun muncul jika tersedia di JWT.</div></div></div>
+        <div class="clb-preview-bio is-empty" id="clbBioPreview">Bio yang kamu tulis akan tampil di sini.</div>
+        <p class="clb-preview-note" id="clbPreviewNote">Pratinjau warna dan B/I/U di browser, bukan jaminan tampilan persis dalam game. Batas editor tetap 1.000; batas server bisa berbeda.</p>
+      </section>
+      <section class="clb-card" aria-labelledby="clbSubmitTitle">
+        <div class="clb-heading"><span class="clb-step-number" aria-hidden="true">03</span><div><h2 id="clbSubmitTitle">Cek &amp; pasang bio</h2><p>Tidak ada perubahan sebelum kamu menekan tombol.</p></div></div>
+        <div class="clb-review-row"><span>Metode</span><strong id="clbReviewMethod">Access Token</strong></div>
+        <div class="clb-review-row"><span>Panjang teks</span><strong id="clbReviewLength">0 karakter</strong></div>
+        <div class="clb-review-row" hidden><span>Biaya penggunaan</span><strong class="clb-cost" id="clbCost"></strong></div>
+        
+        <label class="clb-confirm"><input type="checkbox" id="clbConfirmInput"/><span>Saya sudah mengecek bio dan akan memasangnya pada akun milik saya yang terhubung dengan data di atas.</span></label>
+        <button class="clb-btn clb-btn-primary" id="clbSetBtn" type="button">Siapkan JWT &amp; pasang bio</button>
+        <p class="clb-submit-note" id="clbSubmitNote"></p>
+        <div class="clb-status" id="clbStateIdle"><strong>Mulai dari token akun</strong>Lengkapi token dan teks bio, lalu centang persetujuan.</div>
+        <div class="clb-status" id="clbStateLoading" role="status" aria-live="polite" hidden><strong id="clbLoadingTitle">Menyiapkan permintaan</strong><span id="clbLoadingText">Data sedang diproses.</span></div>
+        <div class="clb-status" id="clbStateError" data-kind="error" role="alert" hidden><strong id="clbErrorTitle">Belum berhasil</strong><span id="clbErrorMsg"></span></div>
+        <div class="clb-status" id="clbResult" data-kind="success" role="status" aria-live="polite" hidden><strong>Bio berhasil diperbarui</strong><div id="clbInfoRows"></div><div class="clb-success-bio" id="clbResultBio"></div><button class="clb-text-btn" id="clbAnotherBtn" type="button">Tulis bio berikutnya &#8594;</button></div>
+      </section>
+    </div>
+  </div>
+  <div class="clb-bottom">
+    <details class="clb-faq"><summary>Kenapa token ditolak atau kedaluwarsa?</summary><div class="clb-faq-body">JWT punya masa berlaku jika memuat kolom <code>exp</code>. Siapkan token baru dari metode login yang sama. Pemeriksaan format di halaman ini bukan verifikasi keaslian token. Pastikan juga jam perangkat benar dan token berasal dari akun yang hendak diubah.</div></details>
+    <details class="clb-faq"><summary>Bedanya API key, EAT, Access Token, dan JWT?</summary><div class="clb-faq-body">API key memberi aplikasi akses ke layanan penyedia. EAT ditukar menjadi Access Token. Access Token merupakan data login akun yang diterima layanan. JWT / BearerAuth adalah token yang dipakai untuk permintaan bio. Ketiganya tidak bisa saling menggantikan. API key sudah menggunakan konfigurasi aplikasi; kamu tidak perlu menempelkannya sebagai token.</div></details>
+    <details class="clb-faq" id="clbConnectionDetails"><summary>Alur API &amp; koneksi</summary><div class="clb-faq-body">
+      <p>API key memakai konfigurasi aplikasi. Nama kolom di tiap jalur berbeda; aplikasi menyesuaikannya otomatis.</p>
+      <dl class="clb-api-list">
+        <dt>Access / Guest &#8594; JWT</dt><dd><code>/accesstojwt/token</code><br>Access: <code>access_token</code><br>Guest: <code>uid</code> + <code>password</code><br>JWT dibaca dari <code>BearerAuth</code> atau <code>token</code>; Access Token dari <code>token_access</code> jika tersedia.</dd>
+        <dt>Jalur JWT saja</dt><dd><code>/accesstojwt/get_jwt</code><br>Access: <code>access_token</code><br>Guest: <code>guest_uid</code> + <code>guest_password</code><br>JWT dibaca dari <code>BearerAuth</code>.</dd>
+        <dt>EAT &#8594; Access Token &#8594; JWT</dt><dd><code>/eattojwt/eat</code> dengan <code>eat_token</code> menghasilkan <code>access_token</code>. Nilai itu diteruskan ke <code>/accesstojwt/get_jwt</code> untuk menyiapkan JWT.</dd>
+        <dt>Baca isi JWT</dt><dd><code>/jwttokendecode/decode</code> dengan <code>token</code>. Data akun dibaca dari <code>decoded</code>.</dd>
+        <dt>Pasang bio</dt><dd><code>/longbio/bio_upload</code> dengan <code>bio</code> + <code>jwt</code>. Jalur pemasangan mengikuti integrasi bio yang sudah ada.</dd>
+      </dl>
+      <p>Endpoint layanan memakai GET sesuai kontrak. Jika penghubung server aplikasi terpasang, browser mengirim POST ke server sendiri dan API key dibaca dari environment. Tidak ada permintaan saat mengetik atau membaca URL hasil login.</p>
+      <button class="clb-text-btn" id="clbCheckConnectionBtn" type="button">Periksa koneksi tanpa token</button><div class="clb-status" id="clbConnectionStatus" role="status" aria-live="polite" hidden></div>
+    </div></details>
+  </div>
+  <div class="clb-session-tools"><span class="clb-helper">Selesai memakai fitur ini?</span><button class="clb-text-btn" id="clbClearSessionBtn" type="button">Hapus token dari halaman</button></div>
+  <div class="clb-status" id="clbUtilityStatus" role="status" aria-live="polite" hidden></div>
+  <footer class="clb-footer"><strong>KZRIZUSMO</strong><span>Bio Panjang &middot; Login, tulis, pasang</span></footer>
+</div>
+
+<div class="page page-with-copyright" id="cekidffBindTools">
 
 <div class="cid-page-head">
   <span class="cid-page-head-icon" aria-hidden="true"></span>
   <div>
-    <p class="cid-hero-title"><span class="red">BIO</span>&nbsp;<span class="wht">PANJANG</span></p>
-    <p class="cid-hero-sub">Update bio Free Fire kamu jadi lebih panjang dari batas normal, lewat JWT token atau Access Token.</p>
+    <p class="cid-hero-title"><span class="red">BIND</span>&nbsp;<span class="wht">TOOLS</span></p>
+    <p class="cid-hero-sub">Kelola email recovery akun dalam satu toolkit: cek bind, ganti email, unbind, dan cancel pending bind.</p>
   </div>
 </div>
 
-<div class="cid-card">
-  <div class="cid-label"><i class="fa-solid fa-right-to-bracket"></i>PILIH PROVIDER &amp; LOGIN</div>
-  <div class="clb-provider-row">
-    <div class="clb-provider-item" onclick="clbProviderLogin('Google')">
-      <div class="clb-provider-circle"><img src="zusmo-asset/providergoogle.png" alt="Google"/></div>
-      <div class="clb-provider-name">Google</div>
-    </div>
-    <div class="clb-provider-item" onclick="clbProviderLogin('Facebook')">
-      <div class="clb-provider-circle"><img src="zusmo-asset/providerfacebook.png" alt="Facebook"/></div>
-      <div class="clb-provider-name">Facebook</div>
-    </div>
-    <div class="clb-provider-item" onclick="clbProviderLogin('Apple')">
-      <div class="clb-provider-circle"><img src="zusmo-asset/providerapple.png" alt="Apple"/></div>
-      <div class="clb-provider-name">Apple</div>
-    </div>
-    <div class="clb-provider-item" onclick="clbProviderLogin('Twitter')">
-      <div class="clb-provider-circle"><img src="zusmo-asset/providertwitter.png" alt="Twitter"/></div>
-      <div class="clb-provider-name">Twitter</div>
-    </div>
-    <div class="clb-provider-item" onclick="clbProviderLogin('VK')">
-      <div class="clb-provider-circle"><img src="zusmo-asset/providervk.png" alt="VK"/></div>
-      <div class="clb-provider-name">VK</div>
-    </div>
+<div class="bt-token-card">
+  <div class="bt-token-head">
+    <div><span class="bt-kicker">AUTH SESSION</span><h3>Access Token</h3></div>
+    <button class="bt-icon-btn" type="button" onclick="btToggleAccess()" aria-label="Tampilkan atau sembunyikan access token"><i class="fa-solid fa-eye" id="btAccessEye"></i></button>
+  </div>
+  <div class="cid-input-wrap bt-access-wrap" style="margin-bottom:8px;">
+    <i class="fa-solid fa-key"></i>
+    <input class="cid-input" id="btAccessToken" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Tempel access_token / JSON token" oninput="btOnAccessChanged()"/>
+  </div>
+  <div class="bt-token-actions">
+    <span>Token dipakai saat request dan tidak disimpan ke localStorage.</span>
+    <button type="button" onclick="btClearSession()"><i class="fa-solid fa-trash-can"></i> Hapus</button>
   </div>
 </div>
 
-<!-- Popup link login provider (ganti auto window.open -> tampilkan + salin manual) -->
-<div class="modal" id="clbProviderModal">
-  <div class="modal-card" onclick="event.stopPropagation()" style="width:320px;">
-    <div style="width:44px;height:44px;margin:0 auto 12px;border-radius:50%;background:#242424;display:flex;align-items:center;justify-content:center;">
-      <i class="fa-solid fa-link" style="color:#ff2b2b;font-size:18px;"></i>
-    </div>
-    <h3 style="margin:0 0 4px;font-size:16px;">Link Login <span id="clbProviderModalName"></span></h3>
-    <p style="margin:0 0 14px;opacity:.6;font-size:12px;">Salin link di bawah, lalu buka manual di browser kamu untuk login</p>
-    <div class="ne-output" id="clbProviderLink" style="text-align:left;"></div>
-    <div class="modal-actions">
-      <button onclick="clbCloseProviderModal()" style="background:#2a2a2a;color:#ccc;">TUTUP</button>
-      <button id="clbCopyProviderBtn" class="clb-provider-copy-btn" onclick="clbCopyProviderLink()" style="background:#ff2b2b;color:#fff;font-weight:800;"><i class="fa-regular fa-copy"></i> SALIN LINK</button>
-    </div>
-  </div>
+<div class="bt-tabs" role="tablist" aria-label="Bind Tools">
+  <button class="bt-tab active" type="button" data-bt-tab="info" onclick="btSwitchTab('info',this)"><i class="fa-solid fa-circle-info"></i><span>Bind Info</span></button>
+  <button class="bt-tab" type="button" data-bt-tab="change" onclick="btSwitchTab('change',this)"><i class="fa-solid fa-envelope-open-text"></i><span>Ganti</span></button>
+  <button class="bt-tab" type="button" data-bt-tab="unbind" onclick="btSwitchTab('unbind',this)"><i class="fa-solid fa-link-slash"></i><span>Unbind</span></button>
+  <button class="bt-tab" type="button" data-bt-tab="cancel" onclick="btSwitchTab('cancel',this)"><i class="fa-solid fa-ban"></i><span>Cancel</span></button>
 </div>
 
-<div class="cid-card">
-  <div class="cid-label"><i class="fa-solid fa-link"></i>TEMPEL URL LENGKAP ATAU TOKEN</div>
-  <div class="cid-input-wrap" style="margin-bottom:0;">
-    <textarea class="cjg-jwt-textarea" id="clbUrlInput" rows="3" placeholder="Tempel URL lengkap hasil login provider, atau token langsung di sini..."></textarea>
+<section class="bt-panel active" data-bt-panel="info">
+  <div class="cid-card bt-section-card">
+    <div class="bt-section-head"><span class="bt-step-icon"><i class="fa-solid fa-envelope-circle-check"></i></span><div><h3>View Bind Info</h3><p>Lihat email aktif, email pending, dan countdown konfirmasi.</p></div></div>
+    <button class="cid-btn" id="btInfoBtn" type="button" onclick="btLoadInfo()"><i class="fa-solid fa-magnifying-glass"></i> CEK BIND INFO</button>
   </div>
-  <button class="cid-btn" id="clbGenBtn" onclick="clbGenerateAccess()" style="margin-top:14px;"><i class="fa-solid fa-key"></i>HASILKAN AKSES</button>
-  <div class="clb-gen-result" id="clbGenResult" style="display:none;">
-    <div class="clb-gen-result-label"><i class="fa-solid fa-circle-check"></i>TOKEN DITEMUKAN</div>
-    <div class="clb-gen-result-text" id="clbGenResultText"></div>
-    <div class="clb-gen-result-actions">
-      <div class="clb-gen-mini-btn" onclick="clbCopyGenResult(event)"><i class="fa-solid fa-copy"></i>Salin</div>
-      <div class="clb-gen-mini-btn" onclick="clbUseGenResult()"><i class="fa-solid fa-arrow-right"></i>Gunakan</div>
-    </div>
-  </div>
-</div>
+  <div class="bt-status" id="btInfoStatus" hidden></div>
+  <div class="bt-result" id="btInfoResult" hidden></div>
+</section>
 
-<div class="cid-card">
-  <div class="cid-label"><i class="fa-solid fa-align-left"></i>TEKS BIO</div>
-  <div class="cid-input-wrap" style="margin-bottom:0;">
-    <textarea class="clb-textarea" id="clbBioInput" rows="4" placeholder="Tulis teks bio panjang di sini..."></textarea>
+<section class="bt-panel" data-bt-panel="change">
+  <div class="bt-flow-head"><span>CHANGE BOUND EMAIL</span><b>5 STEP OTP FLOW</b></div>
+
+  <div class="cid-card bt-step-card" id="btChangeCard1">
+    <div class="bt-step-title"><b>1</b><div><strong>OTP email lama</strong><span>Kirim OTP ke email yang sekarang terikat.</span></div></div>
+    <div class="cid-label"><i class="fa-solid fa-envelope"></i>EMAIL LAMA</div>
+    <div class="cid-input-wrap"><i class="fa-solid fa-envelope"></i><input class="cid-input" id="btOldEmail" type="email" autocomplete="email" placeholder="old@gmail.com" oninput="btChangeOldChanged()"/></div>
+    <button class="cid-btn" id="btChange1Btn" type="button" onclick="btChangeStep1()"><i class="fa-solid fa-paper-plane"></i> KIRIM OTP LAMA</button>
   </div>
 
-  <div class="cid-label" style="margin-top:2px;"><i class="fa-solid fa-key"></i>METODE LOGIN</div>
-  <div class="cid-rank-tabs" id="clbMethodTabs">
-    <div class="cid-rank-tab active" data-method="jwt" onclick="clbSwitchMethod('jwt')">JWT Token</div>
-    <div class="cid-rank-tab" data-method="access" onclick="clbSwitchMethod('access')">Access Token</div>
-    <div class="cid-rank-tab" data-method="uidpass" onclick="clbSwitchMethod('uidpass')">UID/Pass</div>
+  <div class="cid-card bt-step-card locked" id="btChangeCard2">
+    <div class="bt-step-title"><b>2</b><div><strong>Verifikasi OTP lama</strong><span>OTP valid akan menghasilkan identity token otomatis.</span></div></div>
+    <div class="cid-label"><i class="fa-solid fa-shield-halved"></i>OTP EMAIL LAMA</div>
+    <div class="cid-input-wrap"><i class="fa-solid fa-hashtag"></i><input class="cid-input bt-otp" id="btOldOtp" inputmode="numeric" autocomplete="one-time-code" placeholder="123456" maxlength="8"/></div>
+    <button class="cid-btn" id="btChange2Btn" type="button" onclick="btChangeStep2()" disabled><i class="fa-solid fa-check"></i> VERIFIKASI OTP LAMA</button>
   </div>
 
-  <div id="clbJwtWrap">
-    <div class="cid-input-wrap" style="margin-bottom:0;">
-      <textarea class="cjg-jwt-textarea" id="clbJwtInput" rows="3" placeholder="Tempel JWT token akun Free Fire kamu di sini..."></textarea>
-    </div>
+  <div class="cid-card bt-step-card locked" id="btChangeCard3">
+    <div class="bt-step-title"><b>3</b><div><strong>OTP email baru</strong><span>Kirim kode verifikasi ke alamat email pengganti.</span></div></div>
+    <div class="cid-label"><i class="fa-solid fa-envelope-open"></i>EMAIL BARU</div>
+    <div class="cid-input-wrap"><i class="fa-solid fa-envelope-open"></i><input class="cid-input" id="btNewEmail" type="email" autocomplete="email" placeholder="new@gmail.com" oninput="btChangeNewChanged()"/></div>
+    <button class="cid-btn" id="btChange3Btn" type="button" onclick="btChangeStep3()" disabled><i class="fa-solid fa-paper-plane"></i> KIRIM OTP BARU</button>
   </div>
-  <div id="clbAccessWrap" style="display:none;">
-    <div class="cid-input-wrap" style="margin-bottom:0;">
-      <textarea class="cjg-jwt-textarea" id="clbAccessInput" rows="3" placeholder="Tempel Access Token akun Free Fire kamu di sini..."></textarea>
-    </div>
+
+  <div class="cid-card bt-step-card locked" id="btChangeCard4">
+    <div class="bt-step-title"><b>4</b><div><strong>Verifikasi OTP baru</strong><span>OTP valid akan menghasilkan verifier token otomatis.</span></div></div>
+    <div class="cid-label"><i class="fa-solid fa-shield-halved"></i>OTP EMAIL BARU</div>
+    <div class="cid-input-wrap"><i class="fa-solid fa-hashtag"></i><input class="cid-input bt-otp" id="btNewOtp" inputmode="numeric" autocomplete="one-time-code" placeholder="654321" maxlength="8"/></div>
+    <button class="cid-btn" id="btChange4Btn" type="button" onclick="btChangeStep4()" disabled><i class="fa-solid fa-check-double"></i> VERIFIKASI OTP BARU</button>
   </div>
-  <div id="clbUidPassWrap" style="display:none;">
-    <div class="cid-input-wrap">
-      <input class="cid-input" id="clbUidInput" type="text" inputmode="numeric" placeholder="UID akun Free Fire"/>
-    </div>
-    <div class="cid-input-wrap" style="margin-bottom:0;">
-      <input class="cid-input" id="clbPassInput" type="password" placeholder="Password akun Free Fire"/>
-    </div>
+
+  <div class="cid-card bt-step-card locked" id="btChangeCard5">
+    <div class="bt-step-title"><b>5</b><div><strong>Submit perubahan</strong><span>Identity token dan verifier token dikirim otomatis dari step sebelumnya.</span></div></div>
+    <div class="bt-token-state"><span><i class="fa-solid fa-fingerprint"></i> Identity</span><b id="btIdentityState">Belum siap</b></div>
+    <div class="bt-token-state"><span><i class="fa-solid fa-certificate"></i> Verifier</span><b id="btVerifierState">Belum siap</b></div>
+    <button class="cid-btn" id="btChange5Btn" type="button" onclick="btChangeStep5()" disabled><i class="fa-solid fa-arrow-right-arrow-left"></i> SUBMIT GANTI EMAIL</button>
   </div>
-  <div class="cjg-note"><i class="fa-solid fa-circle-info"></i><span>Pilih salah satu metode login (JWT Token, Access Token, atau UID/Pass). Teks bio wajib diisi.</span></div>
+  <div class="bt-status" id="btChangeStatus" hidden></div>
+  <button class="bt-reset-btn" type="button" onclick="btResetChange()"><i class="fa-solid fa-rotate-left"></i> Reset flow ganti email</button>
+</section>
 
-  <button class="cid-btn" id="clbSetBtn" onclick="clbUpdateBio()" style="margin-top:14px;"><i class="fa-solid fa-align-left"></i>UPDATE BIO SEKARANG</button>
-  <p class="cid-hint"><img src="zusmo-asset/onzrii.png" alt="diamond" style="width:10px;height:10px;object-fit:contain;vertical-align:-1px;margin-right:3px;"/>90 per proses &middot; Teks bio &amp; token wajib diisi</p>
-</div>
-
-<div class="cid-state show" id="clbStateIdle">
-  <i class="fa-solid fa-align-left"></i>
-  <p>Belum ada bio yang diupdate. Lengkapi form di atas lalu tekan "Update Bio Sekarang".</p>
-</div>
-
-<div class="cid-state cid-loading" id="clbStateLoading">
-  <i class="fa-solid fa-spinner fa-spin"></i>
-  <p>Sedang mengupdate bio kamu, tunggu sebentar ya...</p>
-</div>
-
-<div class="cid-state cid-error" id="clbStateError">
-  <i class="fa-solid fa-triangle-exclamation"></i>
-  <p id="clbErrorMsg">Gagal update bio. Periksa kembali teks bio &amp; token kamu.</p>
-  <div class="cid-retry" onclick="clbReset()"><i class="fa-solid fa-rotate-left"></i>Coba Lagi</div>
-</div>
-
-<div class="cid-result" id="clbResult">
-  <div class="cid-result-card" style="text-align:left;">
-    <div class="cjg-success-badge"><i class="fa-solid fa-circle-check"></i>Berhasil Update Bio</div>
-    <div class="cid-info-rows" id="clbInfoRows"></div>
+<section class="bt-panel" data-bt-panel="unbind">
+  <div class="bt-flow-head"><span>UNBIND EMAIL</span><b>3 STEP FLOW</b></div>
+  <div class="cid-card bt-step-card" id="btUnbindCard1">
+    <div class="bt-step-title"><b>1</b><div><strong>Kirim OTP</strong><span>OTP dikirim ke email yang sedang terikat.</span></div></div>
+    <div class="cid-label"><i class="fa-solid fa-envelope"></i>EMAIL BIND</div>
+    <div class="cid-input-wrap"><i class="fa-solid fa-envelope"></i><input class="cid-input" id="btUnbindEmail" type="email" autocomplete="email" placeholder="bound@gmail.com" oninput="btUnbindEmailChanged()"/></div>
+    <button class="cid-btn" id="btUnbind1Btn" type="button" onclick="btUnbindStep1()"><i class="fa-solid fa-paper-plane"></i> KIRIM OTP UNBIND</button>
   </div>
-  <button class="cid-reset-btn" onclick="clbReset()"><i class="fa-solid fa-arrow-rotate-left"></i>UPDATE BIO LAIN</button>
-</div>
+  <div class="cid-card bt-step-card locked" id="btUnbindCard2">
+    <div class="bt-step-title"><b>2</b><div><strong>Verifikasi OTP</strong><span>OTP valid akan menghasilkan identity token otomatis.</span></div></div>
+    <div class="cid-label"><i class="fa-solid fa-shield-halved"></i>OTP</div>
+    <div class="cid-input-wrap"><i class="fa-solid fa-hashtag"></i><input class="cid-input bt-otp" id="btUnbindOtp" inputmode="numeric" autocomplete="one-time-code" placeholder="123456" maxlength="8"/></div>
+    <button class="cid-btn" id="btUnbind2Btn" type="button" onclick="btUnbindStep2()" disabled><i class="fa-solid fa-check"></i> VERIFIKASI OTP</button>
+  </div>
+  <div class="cid-card bt-step-card locked" id="btUnbindCard3">
+    <div class="bt-step-title"><b>3</b><div><strong>Buat request unbind</strong><span>Identity token dari step 2 dipakai otomatis.</span></div></div>
+    <div class="bt-token-state"><span><i class="fa-solid fa-fingerprint"></i> Identity</span><b id="btUnbindIdentityState">Belum siap</b></div>
+    <button class="cid-btn" id="btUnbind3Btn" type="button" onclick="btUnbindStep3()" disabled><i class="fa-solid fa-link-slash"></i> SUBMIT UNBIND</button>
+  </div>
+  <div class="bt-status" id="btUnbindStatus" hidden></div>
+  <button class="bt-reset-btn" type="button" onclick="btResetUnbind()"><i class="fa-solid fa-rotate-left"></i> Reset flow unbind</button>
+</section>
+
+<section class="bt-panel" data-bt-panel="cancel">
+  <div class="cid-card bt-section-card">
+    <div class="bt-section-head"><span class="bt-step-icon"><i class="fa-solid fa-ban"></i></span><div><h3>Cancel Pending Bind</h3><p>Batalkan permintaan bind yang masih pending pada access token ini.</p></div></div>
+    <button class="cid-btn bt-danger-btn" id="btCancelBtn" type="button" onclick="btCancelBind()"><i class="fa-solid fa-ban"></i> CANCEL PENDING BIND</button>
+  </div>
+  <div class="bt-status" id="btCancelStatus" hidden></div>
+</section>
 
 <div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
 </div>
 
-<!-- BIND INFO (CEK INFO FF) — halaman ini hanya bisa dibuka/dijalankan
-     oleh developer aplikasi. -->
-<div class="page" id="cekidffBindInfo">
 
-<div class="cid-page-head">
-  <span class="cid-page-head-icon" aria-hidden="true"></span>
-  <div>
-    <p class="cid-hero-title"><span class="red">BIND</span>&nbsp;<span class="wht">INFO</span></p>
-    <p class="cid-hero-sub">Fitur ini hanya bisa diakses oleh developer aplikasi.</p>
-  </div>
-</div>
 
-<div class="dev-badge">KHUSUS DEVELOPER</div>
-
-<div class="cid-card">
-  <div class="cid-label"><i class="fa-solid fa-hashtag"></i>UID FREE FIRE</div>
-  <div class="cid-input-wrap" style="margin-bottom:0;">
-    <i class="fa-solid fa-hashtag"></i>
-    <input class="cid-input" id="cbiUidInput" type="text" inputmode="numeric" placeholder="Contoh: 123456789" maxlength="13"/>
+<!-- JWT TOOLS (FF TOOLS): Access Token / Guest -> JWT, EAT decode, JWT decode, bulk generator -->
+<div class="page page-with-copyright" id="cekidffJwtTools">
+  <div class="cid-page-head">
+    <span class="cid-page-head-icon" aria-hidden="true"></span>
+    <div>
+      <p class="cid-hero-title"><span class="red">JWT</span>&nbsp;<span class="wht">TOOLS</span></p>
+      <p class="cid-hero-sub">Generate Bearer JWT Free Fire dari Access Token atau akun Guest, decode EAT/JWT, dan proses massal.</p>
+    </div>
   </div>
 
-  <button class="cid-btn" id="cbiCheckBtn" onclick="cbiTryCheck()" style="margin-top:14px;"><i class="fa-solid fa-lock"></i>CEK BIND INFO</button>
-  <p class="cid-hint">Fitur ini terkunci untuk pengguna umum.</p>
-</div>
+  <div class="jwt-clear-row"><button class="jwt-clear-btn" type="button" onclick="jwtClearAll()"><i class="fa-solid fa-trash-can"></i> Hapus semua token dari halaman</button></div>
 
-<div class="cbi-dev-gate" id="cbiGate" style="display:none;">
-  <i class="fa-solid fa-user-lock"></i>
-  <p>Akses ditolak. Fitur "Bind Info" hanya bisa dibuka oleh developer aplikasi.</p>
-</div>
-
-<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
-</div>
-
-<!-- GANTI BIND (CEK INFO FF) — halaman ini hanya bisa dibuka/dijalankan
-     oleh developer aplikasi. UI gimmick saja, tidak ada fungsi/backend. -->
-<div class="page" id="cekidffModeBR">
-
-<div class="cid-page-head">
-  <span class="cid-page-head-icon" aria-hidden="true"></span>
-  <div>
-    <p class="cid-hero-title"><span class="red">GANTI</span>&nbsp;<span class="wht">BIND</span></p>
-    <p class="cid-hero-sub">Fitur ini hanya bisa diakses oleh developer aplikasi.</p>
-  </div>
-</div>
-
-<div class="dev-badge">KHUSUS DEVELOPER</div>
-
-<div class="cid-card">
-  <div class="cid-label"><i class="fa-solid fa-hashtag"></i>UID FREE FIRE</div>
-  <div class="cid-input-wrap">
-    <i class="fa-solid fa-hashtag"></i>
-    <input class="cid-input" id="cmbUidInput" type="text" inputmode="numeric" placeholder="Contoh: 123456789" maxlength="13"/>
-  </div>
-  <div class="cid-label"><i class="fa-solid fa-user"></i>EMAIL LAMA</div>
-  <div class="cid-input-wrap">
-    <i class="fa-solid fa-user"></i>
-    <input class="cid-input" id="cmbSoloInput" type="text" placeholder="Contoh: kzrizusmo@gmail.com"/>
-  </div>
-  <div class="cid-label"><i class="fa-solid fa-user-group"></i>EMAIL BARU</div>
-  <div class="cid-input-wrap">
-    <i class="fa-solid fa-user-group"></i>
-    <input class="cid-input" id="cmbDuoInput" type="text" placeholder="Contoh: kzrizusmo@gmail.com"/>
-  </div>
-  <div class="cid-label"><i class="fa-solid fa-people-group"></i>PIN</div>
-  <div class="cid-input-wrap" style="margin-bottom:0;">
-    <i class="fa-solid fa-people-group"></i>
-    <input class="cid-input" id="cmbSquadInput" type="text" placeholder="Contoh: 121212"/>
+  <div class="jwt-tabs" role="tablist" aria-label="JWT Tools">
+    <button class="jwt-tab active" type="button" data-jwt-tab="token" onclick="jwtSwitchTab('token',this)"><i class="fa-solid fa-key"></i><span>Token</span></button>
+    <button class="jwt-tab" type="button" data-jwt-tab="only" onclick="jwtSwitchTab('only',this)"><i class="fa-solid fa-ticket"></i><span>JWT Only</span></button>
+    <button class="jwt-tab" type="button" data-jwt-tab="eat" onclick="jwtSwitchTab('eat',this)"><i class="fa-solid fa-code-branch"></i><span>EAT</span></button>
+    <button class="jwt-tab" type="button" data-jwt-tab="decode" onclick="jwtSwitchTab('decode',this)"><i class="fa-solid fa-magnifying-glass"></i><span>Decode</span></button>
+    <button class="jwt-tab" type="button" data-jwt-tab="bulk" onclick="jwtSwitchTab('bulk',this)"><i class="fa-solid fa-layer-group"></i><span>Massal</span></button>
   </div>
 
-  <button class="cid-btn" id="cmbGoBtn" onclick="cmbTryGo()" style="margin-top:14px;"><i class="fa-solid fa-lock"></i>TERAPKAN GANTI BIND</button>
-  <p class="cid-hint">Fitur ini terkunci untuk pengguna umum.</p>
+  <section class="jwt-panel active" data-jwt-panel="token">
+    <div class="cid-card jwt-card">
+      <div class="jwt-head"><span class="jwt-head-icon"><i class="fa-solid fa-key"></i></span><div><h3>Pembuatan Token JWT</h3><p>Endpoint /accesstojwt/token. Pilih Access Token atau UID + Guest Password.</p></div></div>
+      <div class="jwt-method-switch" id="jwtGenMethodSwitch">
+        <button class="jwt-method-btn active" type="button" data-jwt-mode="access" onclick="jwtSwitchMode('gen','access',this)">ACCESS TOKEN</button>
+        <button class="jwt-method-btn" type="button" data-jwt-mode="guest" onclick="jwtSwitchMode('gen','guest',this)">UID + PASSWORD</button>
+      </div>
+      <div class="jwt-method-box active" id="jwtGenAccessBox">
+        <div class="cid-label"><i class="fa-solid fa-shield-halved"></i>GARENA ACCESS TOKEN</div>
+        <div class="cid-input-wrap jwt-secret-wrap"><i class="fa-solid fa-key"></i><input class="cid-input" id="jwtAccessToken" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Tempel access_token / JSON token"/><button class="jwt-eye-btn" type="button" onclick="jwtToggleSecret('jwtAccessToken',this)" aria-label="Tampilkan token"><i class="fa-solid fa-eye"></i></button></div>
+      </div>
+      <div class="jwt-method-box" id="jwtGenGuestBox">
+        <div class="cid-label"><i class="fa-solid fa-user"></i>GUEST UID</div>
+        <div class="cid-input-wrap"><i class="fa-solid fa-hashtag"></i><input class="cid-input" id="jwtGuestUid" type="text" inputmode="numeric" autocomplete="off" placeholder="4147917569"/></div>
+        <div class="cid-label"><i class="fa-solid fa-lock"></i>GUEST PASSWORD (HEX)</div>
+        <div class="cid-input-wrap jwt-secret-wrap"><i class="fa-solid fa-lock"></i><input class="cid-input" id="jwtGuestPassword" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="8415C426BBE3371DADD82F5B"/><button class="jwt-eye-btn" type="button" onclick="jwtToggleSecret('jwtGuestPassword',this)" aria-label="Tampilkan password"><i class="fa-solid fa-eye"></i></button></div>
+      </div>
+      <button class="cid-btn" id="jwtGenBtn" type="button" onclick="jwtGenerateFull()"><i class="fa-solid fa-bolt"></i> GENERATE JWT</button>
+      <p class="jwt-note">Hasil lengkap dapat memuat region, UID, open_id, platform_type, BearerAuth/JWT, dan token_access sesuai respons server.</p>
+    </div>
+    <div class="jwt-status" id="jwtGenStatus" hidden></div>
+    <div class="jwt-result" id="jwtGenResult" hidden></div>
+  </section>
+
+  <section class="jwt-panel" data-jwt-panel="only">
+    <div class="cid-card jwt-card">
+      <div class="jwt-head"><span class="jwt-head-icon"><i class="fa-solid fa-ticket"></i></span><div><h3>Return JWT Only</h3><p>Endpoint /accesstojwt/get_jwt. Mengambil BearerAuth saja.</p></div></div>
+      <div class="jwt-method-switch" id="jwtOnlyMethodSwitch">
+        <button class="jwt-method-btn active" type="button" data-jwt-mode="access" onclick="jwtSwitchMode('only','access',this)">ACCESS TOKEN</button>
+        <button class="jwt-method-btn" type="button" data-jwt-mode="guest" onclick="jwtSwitchMode('only','guest',this)">GUEST ACCOUNT</button>
+      </div>
+      <div class="jwt-method-box active" id="jwtOnlyAccessBox">
+        <div class="cid-label"><i class="fa-solid fa-shield-halved"></i>GARENA ACCESS TOKEN</div>
+        <div class="cid-input-wrap jwt-secret-wrap"><i class="fa-solid fa-key"></i><input class="cid-input" id="jwtOnlyAccess" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Tempel access_token"/><button class="jwt-eye-btn" type="button" onclick="jwtToggleSecret('jwtOnlyAccess',this)" aria-label="Tampilkan token"><i class="fa-solid fa-eye"></i></button></div>
+      </div>
+      <div class="jwt-method-box" id="jwtOnlyGuestBox">
+        <div class="cid-label"><i class="fa-solid fa-user"></i>GUEST UID</div>
+        <div class="cid-input-wrap"><i class="fa-solid fa-hashtag"></i><input class="cid-input" id="jwtOnlyGuestUid" type="text" inputmode="numeric" autocomplete="off" placeholder="Guest UID"/></div>
+        <div class="cid-label"><i class="fa-solid fa-lock"></i>GUEST PASSWORD</div>
+        <div class="cid-input-wrap jwt-secret-wrap"><i class="fa-solid fa-lock"></i><input class="cid-input" id="jwtOnlyGuestPassword" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Guest Password"/><button class="jwt-eye-btn" type="button" onclick="jwtToggleSecret('jwtOnlyGuestPassword',this)" aria-label="Tampilkan password"><i class="fa-solid fa-eye"></i></button></div>
+      </div>
+      <button class="cid-btn" id="jwtOnlyBtn" type="button" onclick="jwtGenerateOnly()"><i class="fa-solid fa-ticket"></i> AMBIL JWT</button>
+    </div>
+    <div class="jwt-status" id="jwtOnlyStatus" hidden></div>
+    <div class="jwt-result" id="jwtOnlyResult" hidden></div>
+  </section>
+
+  <section class="jwt-panel" data-jwt-panel="eat">
+    <div class="cid-card jwt-card">
+      <div class="jwt-head"><span class="jwt-head-icon"><i class="fa-solid fa-code-branch"></i></span><div><h3>EAT Token Decode</h3><p>Decode EAT untuk mendapatkan info akun dan Garena Access Token.</p></div></div>
+      <div class="cid-label"><i class="fa-solid fa-fingerprint"></i>EAT TOKEN</div>
+      <div class="cid-input-wrap jwt-secret-wrap"><i class="fa-solid fa-key"></i><input class="cid-input" id="jwtEatToken" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Tempel EAT token / URL yang berisi eat="/><button class="jwt-eye-btn" type="button" onclick="jwtToggleSecret('jwtEatToken',this)" aria-label="Tampilkan EAT"><i class="fa-solid fa-eye"></i></button></div>
+      <button class="cid-btn" id="jwtEatBtn" type="button" onclick="jwtDecodeEat()"><i class="fa-solid fa-code"></i> DECODE EAT</button>
+    </div>
+    <div class="jwt-status" id="jwtEatStatus" hidden></div>
+    <div class="jwt-result" id="jwtEatResult" hidden></div>
+  </section>
+
+  <section class="jwt-panel" data-jwt-panel="decode">
+    <div class="cid-card jwt-card">
+      <div class="jwt-head"><span class="jwt-head-icon"><i class="fa-solid fa-magnifying-glass"></i></span><div><h3>Decode JWT Token</h3><p>Membaca payload Bearer JWT dari /jwttokendecode/decode.</p></div></div>
+      <div class="cid-label"><i class="fa-solid fa-ticket"></i>JWT / BEARER TOKEN</div>
+      <textarea class="jwt-textarea" id="jwtDecodeInput" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Tempel JWT atau Bearer eyJ..."></textarea>
+      <button class="cid-btn" id="jwtDecodeBtn" type="button" onclick="jwtDecodeJwt()" style="margin-top:12px;"><i class="fa-solid fa-magnifying-glass"></i> DECODE JWT</button>
+    </div>
+    <div class="jwt-status" id="jwtDecodeStatus" hidden></div>
+    <div class="jwt-result" id="jwtDecodeResult" hidden></div>
+  </section>
+
+  <section class="jwt-panel" data-jwt-panel="bulk">
+    <div class="cid-card jwt-card">
+      <div class="jwt-head"><span class="jwt-head-icon"><i class="fa-solid fa-layer-group"></i></span><div><h3>JWT Massal</h3><p>Proses banyak akun dengan endpoint /accesstojwt/token.</p></div></div>
+      <div class="cid-label"><i class="fa-solid fa-list"></i>DATA PER BARIS</div>
+      <textarea class="jwt-textarea" id="jwtBulkInput" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="AccessTokenSatu&#10;AccessTokenDua&#10;4147917569|8415C426BBE3371DADD82F5B"></textarea>
+      <p class="jwt-note">Format: satu <code>access_token</code> per baris, atau <code>UID|PASSWORD</code> untuk akun Guest. Maksimal 100 baris per proses.</p>
+      <button class="cid-btn" id="jwtBulkBtn" type="button" onclick="jwtRunBulk()"><i class="fa-solid fa-gears"></i> GENERATE MASSAL</button>
+    </div>
+    <div class="jwt-status" id="jwtBulkStatus" hidden></div>
+    <div class="jwt-result" id="jwtBulkResult" hidden></div>
+  </section>
+
+  <div class="footer" style="margin-top:14px;">&copy; 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
 </div>
 
-<div class="cmb-dev-gate" id="cmbGate" style="display:none;">
-  <i class="fa-solid fa-user-lock"></i>
-  <p>Akses ditolak. Fitur "GANTI BIND" hanya bisa dibuka oleh developer aplikasi.</p>
-</div>
 
-<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
-</div>
-
-<!-- UNBIND (CEK INFO FF) — halaman ini hanya bisa dibuka/dijalankan
-     oleh developer aplikasi. UI gimmick saja, tidak ada fungsi/backend. -->
-<div class="page" id="cekidffModeCS">
-
-<div class="cid-page-head">
-  <span class="cid-page-head-icon" aria-hidden="true"></span>
-  <div>
-    <p class="cid-hero-title"><span class="red">UNBIND</span>&nbsp;<span class="wht">EMAIL</span></p>
-    <p class="cid-hero-sub">Fitur ini hanya bisa diakses oleh developer aplikasi.</p>
+<!-- FRIEND TOOLS (FF TOOLS): list, add/remove, star/unstar, aliases -->
+<div class="page page-with-copyright" id="cekidffFriendTools">
+  <div class="cid-page-head">
+    <span class="cid-page-head-icon" aria-hidden="true"></span>
+    <div>
+      <p class="cid-hero-title"><span class="red">FRIEND</span>&nbsp;<span class="wht">TOOLS</span></p>
+      <p class="cid-hero-sub">Kelola teman Free Fire dengan JWT: daftar teman, add/remove, star/unstar, dan alias.</p>
+    </div>
   </div>
-</div>
 
-<div class="dev-badge">KHUSUS DEVELOPER</div>
-
-<div class="cid-card">
-  <div class="cid-label"><i class="fa-solid fa-hashtag"></i>PIN</div>
-  <div class="cid-input-wrap">
-    <i class="fa-solid fa-hashtag"></i>
-    <input class="cid-input" id="cmcUidInput" type="text" inputmode="numeric" placeholder="Contoh: 121212" maxlength="13"/>
-  </div>
-  <div class="cid-label"><i class="fa-solid fa-user"></i>Email Bind</div>
-  <div class="cid-input-wrap">
-    <i class="fa-solid fa-user"></i>
-    <input class="cid-input" id="cmcSoloInput" type="text" placeholder="Contoh: kzrizusmo@gmail.com"/>
+  <div class="fr-auth-card">
+    <div class="fr-auth-head"><div><span class="fr-kicker">AUTH SESSION</span><h3>Bearer JWT</h3></div><i class="fa-solid fa-user-shield" style="color:#ff5b5b"></i></div>
+    <div class="cid-input-wrap fr-secret-wrap" style="margin-bottom:0;"><i class="fa-solid fa-key"></i><input class="cid-input" id="frJwtInput" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Tempel Bearer JWT / JSON token"/><button class="fr-eye-btn" type="button" onclick="frToggleJwt(this)" aria-label="Tampilkan JWT"><i class="fa-solid fa-eye"></i></button></div>
+    <div class="fr-auth-actions"><button type="button" onclick="frUseLatestJwt()"><i class="fa-solid fa-arrow-down"></i> Pakai JWT terakhir</button><button type="button" onclick="frClearAll()"><i class="fa-solid fa-trash-can"></i> Hapus data halaman</button></div>
+    <p class="fr-note">JWT dipakai saat request dan tidak disimpan ke localStorage. JWT dari tools JWT bisa dipindahkan ke sini dengan satu tombol.</p>
   </div>
 
-  <button class="cid-btn" id="cmcGoBtn" onclick="cmcTryGo()" style="margin-top:14px;"><i class="fa-solid fa-lock"></i>TERAPKAN UNBIND</button>
-  <p class="cid-hint">Fitur ini terkunci untuk pengguna umum.</p>
-</div>
-
-<div class="cmc-dev-gate" id="cmcGate" style="display:none;">
-  <i class="fa-solid fa-user-lock"></i>
-  <p>Akses ditolak. Fitur "UNBIND" hanya bisa dibuka oleh developer aplikasi.</p>
-</div>
-
-<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
-</div>
-
-<!-- CANCEL BIND (CEK INFO FF) — halaman ini hanya bisa dibuka/dijalankan
-     oleh developer aplikasi. UI gimmick saja, tidak ada fungsi/backend. -->
-<div class="page" id="cekidffModeTraining">
-
-<div class="cid-page-head">
-  <span class="cid-page-head-icon" aria-hidden="true"></span>
-  <div>
-    <p class="cid-hero-title"><span class="red">CANCEL</span>&nbsp;<span class="wht">BIND</span></p>
-    <p class="cid-hero-sub">Fitur ini hanya bisa diakses oleh developer aplikasi.</p>
-  </div>
-</div>
-
-<div class="dev-badge">KHUSUS DEVELOPER</div>
-
-<div class="cid-card">
-  <div class="cid-label"><i class="fa-solid fa-hashtag"></i>PIN</div>
-  <div class="cid-input-wrap">
-    <i class="fa-solid fa-hashtag"></i>
-    <input class="cid-input" id="cmtUidInput" type="text" inputmode="numeric" placeholder="Contoh: 121212" maxlength="13"/>
-  </div>
-  <div class="cid-label"><i class="fa-solid fa-user"></i>EMAIL</div>
-  <div class="cid-input-wrap">
-    <i class="fa-solid fa-user"></i>
-    <input class="cid-input" id="cmtSoloInput" type="text" placeholder="Contoh: kzrizusmo@gma.com"/>
+  <div class="fr-tabs" role="tablist" aria-label="Friend Tools">
+    <button class="fr-tab active" type="button" data-fr-tab="list" onclick="frSwitchTab('list',this)"><i class="fa-solid fa-list"></i><span>Daftar</span></button>
+    <button class="fr-tab" type="button" data-fr-tab="action" onclick="frSwitchTab('action',this)"><i class="fa-solid fa-user-plus"></i><span>Add/Remove</span></button>
+    <button class="fr-tab" type="button" data-fr-tab="star" onclick="frSwitchTab('star',this)"><i class="fa-solid fa-star"></i><span>Star</span></button>
+    <button class="fr-tab" type="button" data-fr-tab="alias" onclick="frSwitchTab('alias',this)"><i class="fa-solid fa-tag"></i><span>Alias</span></button>
   </div>
 
-  <button class="cid-btn" id="cmtGoBtn" onclick="cmtTryGo()" style="margin-top:14px;"><i class="fa-solid fa-lock"></i>TERAPKAN CANCEL BIND</button>
-  <p class="cid-hint">Fitur ini terkunci untuk pengguna umum.</p>
+  <section class="fr-panel active" data-fr-panel="list">
+    <div class="cid-card">
+      <div class="fr-head"><span class="fr-head-icon"><i class="fa-solid fa-user-group"></i></span><div><h3>Full Friends List</h3><p>Ambil seluruh daftar teman dari <code>/friends/list</code>.</p></div></div>
+      <button class="cid-btn" id="frListBtn" type="button" onclick="frLoadList()"><i class="fa-solid fa-rotate"></i> MUAT DAFTAR TEMAN</button>
+      <div class="fr-list-tools" id="frSearchWrap" hidden><div class="cid-input-wrap"><i class="fa-solid fa-magnifying-glass"></i><input class="cid-input" id="frFriendSearch" type="text" autocomplete="off" placeholder="Cari nickname / UID" oninput="frFilterFriends()"/></div></div>
+      <div class="fr-count" id="frFriendCount" hidden></div>
+    </div>
+    <div class="fr-status" id="frListStatus" hidden></div>
+    <div class="fr-friend-list" id="frFriendList" hidden></div>
+  </section>
+
+  <section class="fr-panel" data-fr-panel="action">
+    <div class="cid-card">
+      <div class="fr-head"><span class="fr-head-icon"><i class="fa-solid fa-user-plus"></i></span><div><h3>Add / Remove Friend</h3><p>Kirim request teman atau hapus teman berdasarkan UID target.</p></div></div>
+      <div class="cid-label"><i class="fa-solid fa-hashtag"></i>TARGET UID</div>
+      <div class="cid-input-wrap"><i class="fa-solid fa-hashtag"></i><input class="cid-input fr-target-uid" id="frActionUid" type="text" inputmode="numeric" autocomplete="off" maxlength="20" placeholder="1234567890"/></div>
+      <div class="fr-action-grid"><button class="fr-action-btn green" id="frAddBtn" type="button" onclick="frFriendAction('add')"><i class="fa-solid fa-user-plus"></i> ADD FRIEND</button><button class="fr-action-btn red" id="frRemoveBtn" type="button" onclick="frFriendAction('remove')"><i class="fa-solid fa-user-minus"></i> REMOVE FRIEND</button></div>
+    </div>
+    <div class="fr-status" id="frActionStatus" hidden></div><div class="fr-result" id="frActionResult" hidden></div>
+  </section>
+
+  <section class="fr-panel" data-fr-panel="star">
+    <div class="cid-card">
+      <div class="fr-head"><span class="fr-head-icon"><i class="fa-solid fa-star"></i></span><div><h3>Star / Unstar Friend</h3><p>Tandai teman sebagai starred atau hapus tanda star.</p></div></div>
+      <div class="cid-label"><i class="fa-solid fa-hashtag"></i>FRIEND UID</div>
+      <div class="cid-input-wrap"><i class="fa-solid fa-hashtag"></i><input class="cid-input fr-target-uid" id="frStarUid" type="text" inputmode="numeric" autocomplete="off" maxlength="20" placeholder="1234567890"/></div>
+      <div class="fr-action-grid"><button class="fr-action-btn gold" id="frStarBtn" type="button" onclick="frStarAction('add')"><i class="fa-solid fa-star"></i> STAR</button><button class="fr-action-btn" id="frUnstarBtn" type="button" onclick="frStarAction('remove')"><i class="fa-regular fa-star"></i> UNSTAR</button></div>
+    </div>
+    <div class="fr-status" id="frStarStatus" hidden></div><div class="fr-result" id="frStarResult" hidden></div>
+  </section>
+
+  <section class="fr-panel" data-fr-panel="alias">
+    <div class="cid-card">
+      <div class="fr-head"><span class="fr-head-icon"><i class="fa-solid fa-tag"></i></span><div><h3>Friend Alias</h3><p>Pasang alias teman maksimal 12 karakter atau hapus alias.</p></div></div>
+      <div class="cid-label"><i class="fa-solid fa-hashtag"></i>FRIEND UID</div>
+      <div class="cid-input-wrap"><i class="fa-solid fa-hashtag"></i><input class="cid-input fr-target-uid" id="frAliasUid" type="text" inputmode="numeric" autocomplete="off" maxlength="20" placeholder="1234567890"/></div>
+      <div class="cid-label"><i class="fa-solid fa-tag"></i>ALIAS BARU</div>
+      <div class="cid-input-wrap"><i class="fa-solid fa-tag"></i><input class="cid-input" id="frAliasInput" type="text" autocomplete="off" maxlength="12" placeholder="BestBro" oninput="frAliasChanged()"/></div>
+      <div class="fr-alias-meta"><span>Maksimal 12 karakter</span><b id="frAliasCount">0/12</b></div>
+      <div class="fr-action-grid"><button class="fr-action-btn green" id="frSetAliasBtn" type="button" onclick="frAliasAction('set')"><i class="fa-solid fa-tag"></i> SET ALIAS</button><button class="fr-action-btn red" id="frRemoveAliasBtn" type="button" onclick="frAliasAction('remove')"><i class="fa-solid fa-tag"></i> REMOVE ALIAS</button></div>
+    </div>
+    <div class="fr-status" id="frAliasStatus" hidden></div><div class="fr-result" id="frAliasResult" hidden></div>
+  </section>
+
+  <div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
 </div>
 
-<div class="cmt-dev-gate" id="cmtGate" style="display:none;">
-  <i class="fa-solid fa-user-lock"></i>
-  <p>Akses ditolak. Fitur "CANCEL BIND" hanya bisa dibuka oleh developer aplikasi.</p>
-</div>
-
-<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
-</div>
-
-<div class="page" id="cekidffPlayer">
+<div class="page page-with-copyright" id="cekidffPlayer">
 
 <svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true">
   <filter id="cidOutfitPhotoFilter" color-interpolation-filters="sRGB">
@@ -3663,52 +3809,61 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
   </filter>
 </svg>
 
-<div class="cid-page-head">
+<div class="cid-page-head cip-hero">
   <span class="cid-page-head-icon" aria-hidden="true"></span>
   <div>
-    <p class="cid-hero-title"><span class="red">CEK INFO</span>&nbsp;<span class="wht">FREE FIRE</span></p>
-    <p class="cid-hero-sub">Masukkan ID Free Fire kamu, info akun lengkap langsung ketahuan tanpa ribet.</p>
+    <p class="cip-eyebrow"><span aria-hidden="true"></span>FF TOOLS / PLAYER LOOKUP</p><h1 class="cid-hero-title"><span class="cip-title-info">INFO</span> <span class="cip-title-player">PLAYER<span class="cip-title-dot">.</span></span></h1>
+    <p class="cid-hero-sub">Profil, statistik, banner, dan outfit dalam satu tempat.</p>
   </div>
 </div>
 
 <div class="cid-card">
-  <div class="cid-label"><i class="fa-solid fa-hashtag"></i>ID FREE FIRE</div>
+  <label class="cid-label" for="cidUidInput"><i class="fa-solid fa-hashtag"></i>UID FREE FIRE</label>
   <div class="cid-input-wrap">
     <i class="fa-solid fa-hashtag"></i>
-    <input class="cid-input" id="cidUidInput" type="text" inputmode="numeric" placeholder="Contoh: 123456789" maxlength="13"/>
+    <input class="cid-input" id="cidUidInput" type="text" inputmode="numeric" placeholder="Masukkan UID pemain" maxlength="13" autocomplete="off" enterkeyhint="search" aria-describedby="cidInputHint"/>
   </div>
-  <button class="cid-btn" id="cidCheckBtn" onclick="cidCheck()"><i class="fa-solid fa-magnifying-glass"></i>CEK INFO SEKARANG</button>
-  <p class="cid-hint"><img src="zusmo-asset/onzrii.png" alt="diamond" style="width:10px;height:10px;object-fit:contain;vertical-align:-1px;margin-right:3px;"/>100 per cek &middot; gratis untuk ID Populer</p>
+  <button class="cid-btn" id="cidCheckBtn" onclick="cidCheck()"><i class="fa-solid fa-magnifying-glass"></i>Cari Player</button>
+  <p class="cid-hint" id="cidInputHint" role="status" aria-live="polite"></p>
+  
 </div>
 
-<div class="cid-card" id="cidPopulerCardTop">
-  <div class="cid-label" style="justify-content:space-between;">
-    <span><i class="fa-solid fa-fire"></i>POPULER</span>
-    <span class="cid-populer-dismiss" onclick="cidHidePopuler('cidPopulerCardTop')">Hilangkan</span>
+<details class="cid-card cip-popular" id="cidPopulerCardTop" open>
+  <summary><span class="cip-popular-label"><i class="fa-solid fa-fire" aria-hidden="true"></i>UID populer</span><span class="cip-popular-toggle"><span class="cip-when-open">Sembunyikan</span><span class="cip-when-closed">Tampilkan</span><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></span></summary>
+  <div class="cip-chip-row" aria-label="UID populer, geser untuk melihat lainnya" tabindex="0">
+    <button type="button" class="cip-chip" data-uid="260190210" aria-pressed="false" onclick="cidUsePopuler('260190210')">260190210</button>
+    <button type="button" class="cip-chip" data-uid="55558144" aria-pressed="false" onclick="cidUsePopuler('55558144')">55558144</button>
+    <button type="button" class="cip-chip" data-uid="131069134" aria-pressed="false" onclick="cidUsePopuler('131069134')">131069134</button>
+    <button type="button" class="cip-chip" data-uid="105581609" aria-pressed="false" onclick="cidUsePopuler('105581609')">105581609</button>
+    <button type="button" class="cip-chip" data-uid="117745483" aria-pressed="false" onclick="cidUsePopuler('117745483')">117745483</button>
+    <button type="button" class="cip-chip" data-uid="184851686" aria-pressed="false" onclick="cidUsePopuler('184851686')">184851686</button>
+    <button type="button" class="cip-chip" data-uid="8558266123" aria-pressed="false" onclick="cidUsePopuler('8558266123')">8558266123</button>
+    <button type="button" class="cip-chip" data-uid="552972060" aria-pressed="false" onclick="cidUsePopuler('552972060')">552972060</button>
+    <button type="button" class="cip-chip" data-uid="124584603" aria-pressed="false" onclick="cidUsePopuler('124584603')">124584603</button>
+    <button type="button" class="cip-chip" data-uid="119413181" aria-pressed="false" onclick="cidUsePopuler('119413181')">119413181</button>
+    <button type="button" class="cip-chip" data-uid="782153135" aria-pressed="false" onclick="cidUsePopuler('782153135')">782153135</button>
+    <button type="button" class="cip-chip" data-uid="87980657" aria-pressed="false" onclick="cidUsePopuler('87980657')">87980657</button>
+    <button type="button" class="cip-chip" data-uid="347596038" aria-pressed="false" onclick="cidUsePopuler('347596038')">347596038</button>
+    <button type="button" class="cip-chip" data-uid="72119862" aria-pressed="false" onclick="cidUsePopuler('72119862')">72119862</button>
+    <button type="button" class="cip-chip" data-uid="211477485" aria-pressed="false" onclick="cidUsePopuler('211477485')">211477485</button>
+    <button type="button" class="cip-chip" data-uid="225009777" aria-pressed="false" onclick="cidUsePopuler('225009777')">225009777</button>
   </div>
-  <div class="cip-chip-row">
-    <button type="button" class="cip-chip" onclick="cidUsePopuler('260190210')">260190210</button>
-    <button type="button" class="cip-chip" onclick="cidUsePopuler('55558144')">55558144</button>
-    <button type="button" class="cip-chip" onclick="cidUsePopuler('131069134')">131069134</button>
-    <button type="button" class="cip-chip" onclick="cidUsePopuler('105581609')">105581609</button>
-    <button type="button" class="cip-chip" onclick="cidUsePopuler('15555555554')">15555555554</button>
-  </div>
-</div>
+</details>
 
 <div class="cid-state show" id="cidStateIdle">
   <i class="fa-solid fa-id-card"></i>
-  <p>Belum ada ID yang dicek. Masukkan ID Free Fire di atas lalu tekan "Cek Sekarang".</p>
+  <p>Siap mencari player? Masukkan UID atau pilih salah satu UID populer.</p>
 </div>
 
-<div class="cid-state cid-loading" id="cidStateLoading">
+<div class="cid-state cid-loading" id="cidStateLoading" role="status" aria-live="polite">
   <i class="fa-solid fa-spinner fa-spin"></i>
-  <p>Sedang mengecek info Free Fire kamu, tunggu sebentar ya...</p>
+  <p>Mencari akun dan mengambil informasi player…</p>
 </div>
 
-<div class="cid-state cid-error" id="cidStateError">
+<div class="cid-state cid-error" id="cidStateError" role="alert">
   <i class="fa-solid fa-triangle-exclamation"></i>
   <p id="cidErrorMsg">ID Free Fire tidak ditemukan. Periksa kembali ID kamu.</p>
-  <div class="cid-retry" onclick="cidReset()"><i class="fa-solid fa-rotate-left"></i>Coba Lagi</div>
+  <button type="button" class="cid-retry" onclick="cidCheck()"><i class="fa-solid fa-rotate-left"></i>Coba Lagi</button>
 </div>
 
 <div class="cid-result" id="cidResult">
@@ -3716,19 +3871,25 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
     <img src="zusmo-asset/developer.png" alt="Developer" class="cid-dev-flag-logo"/>
     <span>Akun ini terdeteksi sebagai <b>DEVELOPER</b> aplikasi</span>
   </div>
+<div class="cip-result-top"><h2>Hasil pencarian</h2><span>FREE FIRE</span></div><div class="cip-tabs" role="tablist" aria-label="Informasi player"><button type="button" role="tab" id="cipTab-profile" aria-controls="cipPanel-profile" aria-selected="true" tabindex="0" onclick="cidSelectPanel('profile')"><i class="fa-solid fa-user" aria-hidden="true"></i><span>Profil</span></button><button type="button" role="tab" id="cipTab-banner" aria-controls="cipPanel-banner" aria-selected="false" tabindex="-1" onclick="cidSelectPanel('banner')"><i class="fa-solid fa-image" aria-hidden="true"></i><span>Banner</span></button><button type="button" role="tab" id="cipTab-outfit" aria-controls="cipPanel-outfit" aria-selected="false" tabindex="-1" onclick="cidSelectPanel('outfit')"><i class="fa-solid fa-shirt" aria-hidden="true"></i><span>Outfit</span></button><button type="button" role="tab" id="cipTab-rank" aria-controls="cipPanel-rank" aria-selected="false" tabindex="-1" onclick="cidSelectPanel('rank')"><i class="fa-solid fa-trophy" aria-hidden="true"></i><span>Rank</span></button><button type="button" role="tab" id="cipTab-detail" aria-controls="cipPanel-detail" aria-selected="false" tabindex="-1" onclick="cidSelectPanel('detail')"><i class="fa-solid fa-list-ul" aria-hidden="true"></i><span>Detail</span></button></div>
   <div class="cid-columns">
-    <div class="cid-col cid-col-1">
+    <div class="cid-col cid-col-1" id="cipPanel-profile" role="tabpanel" aria-labelledby="cipTab-profile" tabindex="0">
       <div class="cid-result-card" id="cidCard1" style="text-align:left;">
         <div id="cidProfileHead"></div>
-        <button class="cid-card-download-btn" onclick="cidDownloadCard1()" title="Unduh kolom ini sebagai gambar"><i class="fa-solid fa-download"></i></button>
+        <button class="cid-card-download-btn" onclick="cidDownloadCard1()" type="button" aria-label="Download profil sebagai gambar" title="Download profil"><i class="fa-solid fa-download"></i></button>
       </div>
     </div>
-    <div class="cid-col cid-col-2">
+    <div class="cid-col cid-col-2" id="cipPanel-banner" role="tabpanel" aria-labelledby="cipTab-banner" tabindex="0" hidden>
       <div class="cid-result-card" style="text-align:center;">
-        <div id="cidBannerAvatar"></div>
+        <div class="cip-media-heading"><h3>Banner &amp; Avatar</h3><span>GAMBAR</span></div><div id="cidBannerAvatar"></div><button type="button" class="cip-download" id="cipDownload-banner" onclick="cidDownloadMedia('banner')" disabled><i class="fa-solid fa-download" aria-hidden="true"></i> Download banner</button><p class="cip-download-status" id="cipStatus-banner" role="status" aria-live="polite"></p><a class="cip-original" id="cipOriginal-banner" target="_blank" rel="noopener noreferrer" hidden>Buka gambar asli</a>
+        <section class="cip-avatar-section" aria-labelledby="cipAvatarTitle">
+          <div class="cip-avatar-top"><div class="cip-avatar-preview" id="cipAvatarFrame"><i class="fa-solid fa-user" aria-hidden="true"></i></div><div class="cip-avatar-copy"><p class="cip-media-kicker">FOTO PROFIL</p><h3 id="cipAvatarTitle">Avatar player</h3><p id="cipAvatarMeta">Avatar yang digunakan pemain.</p></div></div>
+          <button type="button" class="cip-download" id="cipDownload-avatar" onclick="cidDownloadMedia('avatar')" disabled><i class="fa-solid fa-download" aria-hidden="true"></i> Download avatar</button>
+          <p class="cip-download-status" id="cipStatus-avatar" role="status" aria-live="polite"></p><a class="cip-original" id="cipOriginal-avatar" target="_blank" rel="noopener noreferrer" hidden>Buka gambar asli</a>
+        </section>
       </div>
     </div>
-    <div class="cid-col cid-col-3">
+    <div class="cid-col cid-col-3" id="cipPanel-rank" role="tabpanel" aria-labelledby="cipTab-rank" tabindex="0" hidden>
       <div class="cid-result-card cid-rank-card" style="text-align:left;">
         <div class="cid-rank-tabs" id="cidRankTabs">
           <div class="cid-rank-tab active" data-game="br" onclick="cidRankSwitch('br')">Battle Royale</div>
@@ -3737,31 +3898,19 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
         <div id="cidRankBody"></div>
       </div>
     </div>
-    <div class="cid-col cid-col-4">
+    <div class="cid-col cid-col-4" id="cipPanel-outfit" role="tabpanel" aria-labelledby="cipTab-outfit" tabindex="0" hidden>
       <div class="cid-result-card" style="text-align:center;">
-        <div class="cid-outfit-frame" id="cidOutfitFrame"></div>
+        <div class="cip-media-heading"><h3>Outfit player</h3><span>GAMBAR</span></div><div class="cid-outfit-frame" id="cidOutfitFrame"></div><button type="button" class="cip-download" id="cipDownload-outfit" onclick="cidDownloadMedia('outfit')" disabled><i class="fa-solid fa-download" aria-hidden="true"></i> Download outfit</button><p class="cip-download-status" id="cipStatus-outfit" role="status" aria-live="polite"></p><a class="cip-original" id="cipOriginal-outfit" target="_blank" rel="noopener noreferrer" hidden>Buka gambar asli</a>
       </div>
     </div>
-    <div class="cid-col cid-col-5">
+    <div class="cid-col cid-col-5" id="cipPanel-detail" role="tabpanel" aria-labelledby="cipTab-detail" tabindex="0" hidden>
       <div class="cid-result-card" style="text-align:left;">
-        <div class="cid-fullinfo-head" onclick="cidToggleInfoLengkap()">
+        <button type="button" class="cid-fullinfo-head" onclick="cidToggleInfoLengkap()" aria-controls="cidInfoRows">
           <div class="cid-fullinfo-title" style="margin:0;"><i class="fa-solid fa-list-check"></i>Info Lengkap</div>
           <span class="cid-fullinfo-toggle" id="cidInfoToggleBtn">Tampilkan<i class="fa-solid fa-chevron-down"></i></span>
-        </div>
+        </button>
         <div class="cid-info-rows" id="cidInfoRows" style="display:none;"></div>
-        <div class="cid-card" id="cidPopulerCard" style="margin-top:14px;">
-          <div class="cid-label" style="justify-content:space-between;">
-            <span><i class="fa-solid fa-fire"></i>REKOMENDASI POPULER</span>
-            <span class="cid-populer-dismiss" onclick="cidHidePopuler('cidPopulerCard')">Hilangkan</span>
-          </div>
-          <div class="cip-chip-row">
-            <button type="button" class="cip-chip" onclick="cidUsePopuler('260190210')">260190210</button>
-            <button type="button" class="cip-chip" onclick="cidUsePopuler('55558144')">55558144</button>
-            <button type="button" class="cip-chip" onclick="cidUsePopuler('131069134')">131069134</button>
-            <button type="button" class="cip-chip" onclick="cidUsePopuler('105581609')">105581609</button>
-            <button type="button" class="cip-chip" onclick="cidUsePopuler('15555555554')">15555555554</button>
-          </div>
-        </div>
+
       </div>
     </div>
   </div>
@@ -3772,7 +3921,7 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
 </div>
 
 <!-- CEK BANNER PAGE -->
-<div class="page" id="cekidffBanner">
+<div class="page page-with-copyright" id="cekidffBanner">
 
 <div class="cid-page-head">
   <span class="cid-page-head-icon" aria-hidden="true"></span>
@@ -3789,7 +3938,7 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
     <input class="cid-input" id="cbnUidInput" type="text" inputmode="numeric" placeholder="Contoh: 123456789" maxlength="13"/>
   </div>
   <button class="cid-btn" id="cbnCheckBtn" onclick="cbnCheck()"><i class="fa-solid fa-image"></i>BUAT BANNER SEKARANG</button>
-  <p class="cid-hint"><img src="zusmo-asset/onzrii.png" alt="diamond" style="width:10px;height:10px;object-fit:contain;vertical-align:-1px;margin-right:3px;"/>50 per cek &middot; banner profil dibuat otomatis</p>
+  
 </div>
 
 <div class="cid-state show" id="cbnStateIdle">
@@ -3821,7 +3970,7 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
 </div>
 
 <!-- CEK OUTFIT PAGE -->
-<div class="page" id="cekidffOutfit">
+<div class="page page-with-copyright fft-refresh" id="cekidffOutfit">
 
 <svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true">
   <filter id="cofPhotoFilter" color-interpolation-filters="sRGB">
@@ -3830,45 +3979,40 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
   </filter>
 </svg>
 
-<div class="cid-page-head">
-  <span class="cid-page-head-icon" aria-hidden="true"></span>
-  <div>
-    <p class="cid-hero-title"><span class="red">CEK</span>&nbsp;<span class="wht">OUTFIT FREE FIRE</span></p>
-    <p class="cid-hero-sub">Masukkan UID Free Fire kamu, tampilan outfit lengkap kamu langsung dibuat otomatis.</p>
-  </div>
-</div>
+<header class="fft-hero"><p class="fft-eyebrow"><span aria-hidden="true"></span>FF TOOLS / PLAYER STYLE</p><h1>CEK <em>OUTFIT.</em></h1><p class="fft-subtitle">Lihat outfit pemain dan simpan gambarnya.</p></header>
+
 
 <div class="cid-card">
-  <div class="cid-label"><i class="fa-solid fa-hashtag"></i>UID FREE FIRE</div>
+  <label class="cid-label" for="cofUidInput">UID FREE FIRE</label>
   <div class="cid-input-wrap">
     <i class="fa-solid fa-hashtag"></i>
-    <input class="cid-input" id="cofUidInput" type="text" inputmode="numeric" placeholder="Contoh: 123456789" maxlength="13"/>
+    <input class="cid-input" id="cofUidInput" type="text" inputmode="numeric" placeholder="Masukkan UID pemain" maxlength="13" autocomplete="off" enterkeyhint="search"/>
   </div>
-  <button class="cid-btn" id="cofCheckBtn" onclick="cofCheck()"><i class="fa-solid fa-shirt"></i>CEK OUTFIT SEKARANG</button>
-  <p class="cid-hint"><img src="zusmo-asset/onzrii.png" alt="diamond" style="width:10px;height:10px;object-fit:contain;vertical-align:-1px;margin-right:3px;"/>50 per cek</p>
+  <button class="cid-btn" id="cofCheckBtn" onclick="cofCheck()"><i class="fa-solid fa-shirt"></i>Lihat Outfit</button>
+  
 </div>
 
 <div class="cid-state show" id="cofStateIdle">
   <i class="fa-solid fa-shirt"></i>
-  <p>Belum ada outfit yang dicek. Masukkan UID Free Fire di atas lalu tekan "Cek Outfit Sekarang".</p>
+  <p>Masukkan UID pemain untuk melihat outfit.</p>
 </div>
 
-<div class="cid-state cid-loading" id="cofStateLoading">
+<div class="cid-state cid-loading" id="cofStateLoading" role="status" aria-live="polite">
   <i class="fa-solid fa-spinner fa-spin"></i>
   <p>Sedang mengambil outfit Free Fire kamu, tunggu sebentar ya...</p>
 </div>
 
-<div class="cid-state cid-error" id="cofStateError">
+<div class="cid-state cid-error" id="cofStateError" role="alert">
   <i class="fa-solid fa-triangle-exclamation"></i>
   <p id="cofErrorMsg">UID Free Fire tidak ditemukan atau outfit gagal dimuat. Periksa kembali UID kamu.</p>
-  <div class="cid-retry" onclick="cofReset()"><i class="fa-solid fa-rotate-left"></i>Coba Lagi</div>
+  <button type="button" class="cid-retry" onclick="cofCheck()"><i class="fa-solid fa-rotate-left"></i>Coba Lagi</button>
 </div>
 
 <div class="cid-result" id="cofResult">
   <div class="cid-result-card">
-    <div class="cof-outfit-frame"><img class="cof-outfit-img" id="cofOutfitImg" alt="outfit free fire"/><img class="cof-outfit-watermark" src="zusmo-asset/677288085_miwamikadono.jpg" alt="KZRIZUSMO"/></div>
+    <div class="fft-result-heading"><h2>Outfit player</h2><span>PREVIEW</span></div><div class="cof-outfit-frame"><img class="cof-outfit-img" id="cofOutfitImg" alt="outfit free fire"/><img class="cof-outfit-watermark" src="zusmo-asset/677288085_miwamikadono.jpg" alt="KZRIZUSMO"/></div>
     <div id="cofItemIcons"></div>
-    <button class="cid-btn" style="margin-top:14px;" id="cofDownloadBtn" onclick="cofDownload()"><i class="fa-solid fa-download"></i>UNDUH OUTFIT</button>
+    <button class="cid-btn" style="margin-top:14px;" id="cofDownloadBtn" onclick="cofDownload()"><i class="fa-solid fa-download"></i>Download Outfit</button>
   </div>
   <button class="cid-reset-btn" onclick="cofReset()"><i class="fa-solid fa-arrow-rotate-left"></i>CEK OUTFIT LAIN</button>
 </div>
@@ -3877,40 +4021,35 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
 </div>
 
 <!-- CHECK STATISTIK PAGE -->
-<div class="page" id="cekidffStats">
+<div class="page page-with-copyright fft-refresh" id="cekidffStats">
 
-<div class="cid-page-head">
-  <span class="cid-page-head-icon" aria-hidden="true"></span>
-  <div>
-    <p class="cid-hero-title"><span class="red">STATISTIK</span>&nbsp;<span class="wht">RANKED</span></p>
-    <p class="cid-hero-sub">Masukkan ID Free Fire kamu, statistik ranked BR &amp; CS langsung ketahuan.</p>
-  </div>
-</div>
+<header class="fft-hero"><p class="fft-eyebrow"><span aria-hidden="true"></span>FF TOOLS / RANKED INSIGHTS</p><h1>STATISTIK <em>RANKED.</em></h1><p class="fft-subtitle">Jelajahi performa Battle Royale dan Clash Squad.</p></header>
+
 
 <div class="cid-card">
-  <div class="cid-label"><i class="fa-solid fa-chart-simple"></i>ID FREE FIRE</div>
+  <label class="cid-label" for="cisUidInput">UID FREE FIRE</label>
   <div class="cid-input-wrap">
     <i class="fa-solid fa-hashtag"></i>
-    <input class="cid-input" id="cisUidInput" type="text" inputmode="numeric" placeholder="Contoh: 123456789" maxlength="13"/>
+    <input class="cid-input" id="cisUidInput" aria-describedby="cisInputHint" type="text" inputmode="numeric" placeholder="Masukkan UID pemain" maxlength="13" autocomplete="off" enterkeyhint="search"/>
   </div>
-  <button class="cid-btn" id="cisCheckBtn" onclick="cisCheck()"><i class="fa-solid fa-magnifying-glass"></i>CEK STATISTIK SEKARANG</button>
-  <p class="cid-hint"><img src="zusmo-asset/onzrii.png" alt="diamond" style="width:10px;height:10px;object-fit:contain;vertical-align:-1px;margin-right:3px;"/>50 per cek</p>
+  <p class="cid-hint" id="cisInputHint" role="status"></p><button class="cid-btn" id="cisCheckBtn" onclick="cisCheck()"><i class="fa-solid fa-magnifying-glass"></i>Lihat Statistik</button>
+  
 </div>
 
 <div class="cid-state show" id="cisStateIdle">
   <i class="fa-solid fa-chart-simple"></i>
-  <p>Belum ada ID yang dicek. Masukkan ID Free Fire di atas lalu tekan "Cek Statistik Sekarang".</p>
+  <p>Masukkan UID pemain untuk melihat statistik ranked.</p>
 </div>
 
-<div class="cid-state cid-loading" id="cisStateLoading">
+<div class="cid-state cid-loading" id="cisStateLoading" role="status" aria-live="polite">
   <i class="fa-solid fa-spinner fa-spin"></i>
-  <p>Sedang mengambil statistik ranked kamu, tunggu sebentar ya...</p>
+  <p>Mencari akun pemain…</p>
 </div>
 
-<div class="cid-state cid-error" id="cisStateError">
+<div class="cid-state cid-error" id="cisStateError" role="alert">
   <i class="fa-solid fa-triangle-exclamation"></i>
   <p id="cisErrorMsg">ID Free Fire tidak ditemukan. Periksa kembali ID kamu.</p>
-  <div class="cid-retry" onclick="cisReset()"><i class="fa-solid fa-rotate-left"></i>Coba Lagi</div>
+  <button type="button" class="cid-retry" onclick="cisCheck()"><i class="fa-solid fa-rotate-left"></i>Coba Lagi</button>
 </div>
 
 <div class="cid-result" id="cisResult">
@@ -3924,7 +4063,7 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
 </div>
 
 <!-- CEK PRIME PAGE -->
-<div class="page" id="cekidffPrime">
+<div class="page page-with-copyright" id="cekidffPrime">
 
 <div class="cid-page-head">
   <span class="cid-page-head-icon" aria-hidden="true"></span>
@@ -3941,7 +4080,7 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
     <input class="cid-input" id="cpkUidInput" type="text" inputmode="numeric" placeholder="Contoh: 123456789" maxlength="13"/>
   </div>
   <button class="cid-btn" id="cpkCheckBtn" onclick="cpkCheck()"><i class="fa-solid fa-magnifying-glass"></i>CEK PRIME SEKARANG</button>
-  <p class="cid-hint"><img src="zusmo-asset/onzrii.png" alt="diamond" style="width:10px;height:10px;object-fit:contain;vertical-align:-1px;margin-right:3px;"/>50 per cek</p>
+  
 </div>
 
 <div class="cid-state show" id="cpkStateIdle">
@@ -3977,40 +4116,34 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
 </div>
 
 <!-- CEK EXP LEVEL PAGE -->
-<div class="page" id="cekidffExpLevel">
+<div class="page page-with-copyright fft-refresh" id="cekidffExpLevel">
 
-<div class="cid-page-head">
-  <span class="cid-page-head-icon" aria-hidden="true"></span>
-  <div>
-    <p class="cid-hero-title"><span class="red">CEK EXP</span>&nbsp;<span class="wht">LEVEL</span></p>
-    <p class="cid-hero-sub">Masukkan ID Free Fire kamu, Level &amp; Total EXP asli akunmu langsung ketahuan.</p>
-  </div>
-</div>
+<header class="fft-hero"><p class="fft-eyebrow"><span aria-hidden="true"></span>FF TOOLS / ACCOUNT PROGRESS</p><h1>EXP <em>LEVEL.</em></h1><p class="fft-subtitle">Lihat level akun dan total EXP pemain.</p></header>
 
 <div class="cid-card">
-  <div class="cid-label"><i class="fa-solid fa-star"></i>ID FREE FIRE</div>
+  <label class="cid-label" for="celUidInput">UID FREE FIRE</label>
   <div class="cid-input-wrap">
     <i class="fa-solid fa-hashtag"></i>
-    <input class="cid-input" id="celUidInput" type="text" inputmode="numeric" placeholder="Contoh: 123456789" maxlength="13"/>
+    <input class="cid-input" id="celUidInput" type="text" inputmode="numeric" placeholder="Masukkan UID pemain" maxlength="13" autocomplete="off" enterkeyhint="search"/>
   </div>
-  <button class="cid-btn" id="celCheckBtn" onclick="celCheck()"><i class="fa-solid fa-magnifying-glass"></i>CEK EXP LEVEL SEKARANG</button>
-  <p class="cid-hint"><img src="zusmo-asset/onzrii.png" alt="diamond" style="width:10px;height:10px;object-fit:contain;vertical-align:-1px;margin-right:3px;"/>50 per cek</p>
+  <button class="cid-btn" id="celCheckBtn" onclick="celCheck()"><i class="fa-solid fa-magnifying-glass"></i>Lihat Level &amp; EXP</button>
+  
 </div>
 
 <div class="cid-state show" id="celStateIdle">
   <i class="fa-solid fa-star"></i>
-  <p>Belum ada ID yang dicek. Masukkan ID Free Fire di atas lalu tekan "Cek Exp Level Sekarang".</p>
+  <p>Masukkan UID untuk melihat level dan total EXP.</p>
 </div>
 
-<div class="cid-state cid-loading" id="celStateLoading">
+<div class="cid-state cid-loading" id="celStateLoading" role="status" aria-live="polite">
   <i class="fa-solid fa-spinner fa-spin"></i>
   <p>Sedang mengambil data Level &amp; EXP kamu, tunggu sebentar ya...</p>
 </div>
 
-<div class="cid-state cid-error" id="celStateError">
+<div class="cid-state cid-error" id="celStateError" role="alert">
   <i class="fa-solid fa-triangle-exclamation"></i>
   <p id="celErrorMsg">ID Free Fire tidak ditemukan. Periksa kembali ID kamu.</p>
-  <div class="cid-retry" onclick="celReset()"><i class="fa-solid fa-rotate-left"></i>Coba Lagi</div>
+  <button type="button" class="cid-retry" onclick="celCheck()"><i class="fa-solid fa-rotate-left"></i>Coba Lagi</button>
 </div>
 
 <div class="cid-result" id="celResult">
@@ -4021,272 +4154,111 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
     </div>
     <div class="cid-id-chip" id="celIdChip"></div>
     <div class="cid-info-rows" id="celResultRows" style="margin-top:10px;"></div>
-    <div class="cel-note"><i class="fa-solid fa-circle-info"></i><span>Data Level &amp; EXP di atas diambil langsung dari data publik akun Free Fire kamu, bukan hasil perhitungan/estimasi manual.</span></div>
+    <div class="cel-note"><i class="fa-solid fa-circle-info"></i><span>Level dan EXP sesuai data akun pemain.</span></div>
   </div>
-  <button class="cid-btn" id="celDownloadBtn" onclick="celDownloadCard1()" style="margin-bottom:10px;"><i class="fa-solid fa-download"></i>DOWNLOAD KARTU</button>
+  <button class="cid-btn" id="celDownloadBtn" onclick="celDownloadCard1()" style="margin-bottom:10px;"><i class="fa-solid fa-download"></i>Download Kartu</button>
   <button class="cid-reset-btn" onclick="celReset()"><i class="fa-solid fa-arrow-rotate-left"></i>CEK ID LAIN</button>
 </div>
 
 <div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
 </div>
 
-<!-- INFO GUILD PAGE -->
-<div class="page" id="cekidffGuild">
-
-<div class="cid-page-head">
-  <span class="cid-page-head-icon" aria-hidden="true"></span>
-  <div>
-    <p class="cid-hero-title"><span class="red">INFO</span>&nbsp;<span class="wht">GUILD FREE FIRE</span></p>
-    <p class="cid-hero-sub">Masukkan ID Guild Free Fire kamu untuk melihat detail lengkap guild.</p>
+<!-- GUILD TOOLS (FF TOOLS): info, join, leave, create -->
+<div class="page page-with-copyright" id="cekidffGuildTools">
+  <div class="cid-page-head">
+    <span class="cid-page-head-icon" aria-hidden="true"></span>
+    <div><p class="cid-hero-title"><span class="red">GUILD</span>&nbsp;<span class="wht">TOOLS</span></p><p class="cid-hero-sub">Kelola guild Free Fire dalam satu tempat: info, join, leave, dan create.</p></div>
   </div>
-</div>
 
-<div class="cid-card">
-  <div class="cid-label"><i class="fa-solid fa-people-group"></i>ID GUILD FREE FIRE</div>
-  <div class="cid-input-wrap">
-    <i class="fa-solid fa-hashtag"></i>
-    <input class="cid-input" id="cgiClanIdInput" type="text" inputmode="numeric" placeholder="Contoh: 3048889605" maxlength="15"/>
+  <div class="gd-tabs" role="tablist" aria-label="Guild Tools">
+    <button class="gd-tab active" type="button" data-gd-tab="info" onclick="gdSwitchTab('info',this)"><i class="fa-solid fa-circle-info"></i><span>Info</span></button>
+    <button class="gd-tab" type="button" data-gd-tab="join" onclick="gdSwitchTab('join',this)"><i class="fa-solid fa-user-plus"></i><span>Join</span></button>
+    <button class="gd-tab" type="button" data-gd-tab="leave" onclick="gdSwitchTab('leave',this)"><i class="fa-solid fa-right-from-bracket"></i><span>Leave</span></button>
+    <button class="gd-tab" type="button" data-gd-tab="create" onclick="gdSwitchTab('create',this)"><i class="fa-solid fa-flag"></i><span>Create</span></button>
   </div>
-  <button class="cid-btn" id="cgiCheckBtn" onclick="cgiCheck()"><i class="fa-solid fa-magnifying-glass"></i>CEK INFO GUILD</button>
-  <p class="cid-hint"><img src="zusmo-asset/onzrii.png" alt="diamond" style="width:10px;height:10px;object-fit:contain;vertical-align:-1px;margin-right:3px;"/>50 per cek</p>
-</div>
 
-<div class="cid-state show" id="cgiStateIdle">
-  <i class="fa-solid fa-people-group"></i>
-  <p>Belum ada ID Guild yang dicek. Masukkan ID Guild di atas lalu tekan "Cek Info Guild".</p>
-</div>
-
-<div class="cid-state cid-loading" id="cgiStateLoading">
-  <i class="fa-solid fa-spinner fa-spin"></i>
-  <p>Sedang mengambil info guild kamu, tunggu sebentar ya...</p>
-</div>
-
-<div class="cid-state cid-error" id="cgiStateError">
-  <i class="fa-solid fa-triangle-exclamation"></i>
-  <p id="cgiErrorMsg">ID Guild tidak ditemukan. Periksa kembali ID guild kamu.</p>
-  <div class="cid-retry" onclick="cgiReset()"><i class="fa-solid fa-rotate-left"></i>Coba Lagi</div>
-</div>
-
-<div class="cid-result" id="cgiResult">
-  <div class="cid-result-card" style="text-align:left;">
-    <div class="cid-nick-row" style="justify-content:flex-start;margin-bottom:4px;">
-      <i class="fa-solid fa-shield-halved" style="color:#ff6b6b;"></i>
-      <span class="cid-nick" id="cgiClanName">-</span>
+  <section class="gd-panel active" data-gd-panel="info">
+    <div class="gd-card">
+      <div class="gd-head"><span class="gd-head-icon"><i class="fa-solid fa-people-group"></i></span><div><h3>Guild / Clan Information</h3><p>Baca detail guild dari Clan ID.</p></div></div>
+      <div class="cid-label"><i class="fa-solid fa-hashtag"></i>CLAN ID</div>
+      <div class="cid-input-wrap"><i class="fa-solid fa-hashtag"></i><input class="cid-input gd-clan-id" id="gdInfoClanId" type="text" inputmode="numeric" maxlength="20" placeholder="3048889605"/></div>
+      <button class="cid-btn" id="gdInfoBtn" type="button" onclick="gdLoadInfo()"><i class="fa-solid fa-magnifying-glass"></i> CEK GUILD INFO</button>
+      
     </div>
-    <div class="cgi-welcome-box" id="cgiWelcomeMsgBox" style="display:none;">
-      <i class="fa-solid fa-quote-left"></i><span id="cgiWelcomeMsg"></span>
+    <div class="gd-status" id="gdInfoStatus" hidden></div><div class="gd-result" id="gdInfoResult" hidden></div>
+  </section>
+
+  <section class="gd-panel" data-gd-panel="join">
+    <div class="gd-card">
+      <div class="gd-head"><span class="gd-head-icon"><i class="fa-solid fa-right-to-bracket"></i></span><div><h3>Join Guild</h3><p>Gabung lewat JWT atau Guest UID + Password.</p></div></div>
+      <div class="cid-label"><i class="fa-solid fa-hashtag"></i>CLAN ID</div>
+      <div class="cid-input-wrap"><i class="fa-solid fa-hashtag"></i><input class="cid-input gd-clan-id" id="gdJoinClanId" type="text" inputmode="numeric" maxlength="20" placeholder="3048889605"/></div>
+      <div class="gd-auth-tabs"><button class="gd-auth-btn active" type="button" data-gd-auth="jwt" data-gd-scope="join" onclick="gdAuthMode('join','jwt',this)">JWT</button><button class="gd-auth-btn" type="button" data-gd-auth="guest" data-gd-scope="join" onclick="gdAuthMode('join','guest',this)">UID + PASSWORD</button></div>
+      <div class="gd-auth-panel active" data-gd-auth-panel="join-jwt">
+        <div class="cid-label"><i class="fa-solid fa-key"></i>JWT BEARER</div><div class="gd-secret-wrap"><input class="cid-input" id="gdJoinJwt" type="password" autocomplete="off" spellcheck="false" placeholder="Tempel JWT / BearerAuth"/><button class="gd-eye" type="button" onclick="gdToggleSecret('gdJoinJwt',this)"><i class="fa-solid fa-eye"></i></button></div>
+        <div class="gd-mini-row"><button class="gd-mini-btn" type="button" onclick="gdUseLatestJwt('gdJoinJwt','gdJoinStatus')"><i class="fa-solid fa-wand-magic-sparkles"></i> PAKAI JWT TERAKHIR</button></div>
+      </div>
+      <div class="gd-auth-panel" data-gd-auth-panel="join-guest">
+        <div class="gd-grid2"><div><div class="cid-label"><i class="fa-solid fa-user"></i>UID</div><div class="cid-input-wrap"><i class="fa-solid fa-user"></i><input class="cid-input gd-uid" id="gdJoinUid" type="text" inputmode="numeric" maxlength="20" placeholder="2579249340"/></div></div><div><div class="cid-label"><i class="fa-solid fa-lock"></i>PASSWORD</div><div class="gd-secret-wrap"><input class="cid-input" id="gdJoinPass" type="password" autocomplete="off" spellcheck="false" placeholder="Guest password"/><button class="gd-eye" type="button" onclick="gdToggleSecret('gdJoinPass',this)"><i class="fa-solid fa-eye"></i></button></div></div></div>
+      </div>
+      <button class="cid-btn" id="gdJoinBtn" type="button" onclick="gdJoin()" style="margin-top:12px"><i class="fa-solid fa-right-to-bracket"></i> GABUNG GUILD</button>
+      
     </div>
-    <div class="cid-info-rows" id="cgiInfoRows"></div>
-  </div>
-  <button class="cid-reset-btn" onclick="cgiReset()"><i class="fa-solid fa-arrow-rotate-left"></i>CEK GUILD LAIN</button>
-</div>
+    <div class="gd-status" id="gdJoinStatus" hidden></div><div class="gd-result" id="gdJoinResult" hidden></div>
+  </section>
 
-<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
-</div>
-
-<!-- GABUNG GUILD PAGE (via JWT) -->
-<div class="page" id="cekidffJoinGuild">
-
-<div class="cid-page-head">
-  <span class="cid-page-head-icon" aria-hidden="true"></span>
-  <div>
-    <p class="cid-hero-title"><span class="red">GABUNG</span>&nbsp;<span class="wht">GUILD FREE FIRE</span></p>
-    <p class="cid-hero-sub">Masukkan ID Guild tujuan dan JWT token akun kamu untuk otomatis bergabung.</p>
-  </div>
-</div>
-
-<div class="cid-card">
-  <div class="cid-label"><i class="fa-solid fa-hashtag"></i>ID GUILD TUJUAN</div>
-  <div class="cid-input-wrap">
-    <i class="fa-solid fa-hashtag"></i>
-    <input class="cid-input" id="cjgClanIdInput" type="text" inputmode="numeric" placeholder="Contoh: 3099889993" maxlength="15"/>
-  </div>
-
-  <div class="cid-label" style="margin-top:14px;"><i class="fa-solid fa-key"></i>JWT TOKEN AKUN</div>
-  <div class="cid-input-wrap" style="margin-bottom:0;">
-    <textarea class="cjg-jwt-textarea" id="cjgJwtInput" rows="3" placeholder="Tempel JWT token akun Free Fire kamu di sini..."></textarea>
-  </div>
-  <div class="cjg-note"><i class="fa-solid fa-circle-info"></i><span>Pastikan pengaturan permintaan bergabung guild sudah diset default/terbuka.</span></div>
-
-  <button class="cid-btn" id="cjgJoinBtn" onclick="cjgJoin()"><i class="fa-solid fa-right-to-bracket"></i>GABUNG GUILD SEKARANG</button>
-  <p class="cid-hint"><img src="zusmo-asset/onzrii.png" alt="diamond" style="width:10px;height:10px;object-fit:contain;vertical-align:-1px;margin-right:3px;"/>90 per proses</p>
-</div>
-
-<div class="cid-state show" id="cjgStateIdle">
-  <i class="fa-solid fa-user-plus"></i>
-  <p>Belum ada permintaan gabung guild. Lengkapi ID Guild &amp; JWT token di atas lalu tekan "Gabung Guild Sekarang".</p>
-</div>
-
-<div class="cid-state cid-loading" id="cjgStateLoading">
-  <i class="fa-solid fa-spinner fa-spin"></i>
-  <p>Sedang memproses permintaan gabung guild, tunggu sebentar ya...</p>
-</div>
-
-<div class="cid-state cid-error" id="cjgStateError">
-  <i class="fa-solid fa-triangle-exclamation"></i>
-  <p id="cjgErrorMsg">Gagal bergabung ke guild. Periksa kembali ID Guild &amp; JWT token kamu.</p>
-  <div class="cid-retry" onclick="cjgReset()"><i class="fa-solid fa-rotate-left"></i>Coba Lagi</div>
-</div>
-
-<div class="cid-result" id="cjgResult">
-  <div class="cid-result-card" style="text-align:left;">
-    <div class="cjg-success-badge"><i class="fa-solid fa-circle-check"></i>Berhasil Gabung Guild</div>
-    <div class="cid-info-rows" id="cjgInfoRows"></div>
-  </div>
-  <button class="cid-reset-btn" onclick="cjgReset()"><i class="fa-solid fa-arrow-rotate-left"></i>GABUNG GUILD LAIN</button>
-</div>
-
-<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
-</div>
-
-<!-- KELUAR GUILD PAGE (via JWT) -->
-<div class="page" id="cekidffLeaveGuild">
-
-<div class="cid-page-head">
-  <span class="cid-page-head-icon" aria-hidden="true"></span>
-  <div>
-    <p class="cid-hero-title"><span class="red">KELUAR</span>&nbsp;<span class="wht">GUILD FREE FIRE</span></p>
-    <p class="cid-hero-sub">Masukkan ID Guild &amp; JWT token akun kamu untuk keluar dari guild.</p>
-  </div>
-</div>
-
-<div class="cid-card">
-  <div class="cid-label"><i class="fa-solid fa-hashtag"></i>ID GUILD</div>
-  <div class="cid-input-wrap">
-    <i class="fa-solid fa-hashtag"></i>
-    <input class="cid-input" id="clgClanIdInput" type="text" inputmode="numeric" placeholder="Contoh: 3099889993" maxlength="15"/>
-  </div>
-
-  <div class="cid-label" style="margin-top:14px;"><i class="fa-solid fa-key"></i>JWT TOKEN AKUN</div>
-  <div class="cid-input-wrap" style="margin-bottom:0;">
-    <textarea class="cjg-jwt-textarea" id="clgJwtInput" rows="3" placeholder="Tempel JWT token akun Free Fire kamu di sini..."></textarea>
-  </div>
-  <div class="cjg-note"><i class="fa-solid fa-circle-info"></i><span>Pastikan JWT masih berlaku.</span></div>
-
-  <button class="cid-btn" id="clgLeaveBtn" onclick="clgLeave()"><i class="fa-solid fa-right-from-bracket"></i>KELUAR GUILD SEKARANG</button>
-  <p class="cid-hint"><img src="zusmo-asset/onzrii.png" alt="diamond" style="width:10px;height:10px;object-fit:contain;vertical-align:-1px;margin-right:3px;"/>90 per proses</p>
-</div>
-
-<div class="cid-state show" id="clgStateIdle">
-  <i class="fa-solid fa-right-from-bracket"></i>
-  <p>Belum ada permintaan keluar guild. Lengkapi ID Guild &amp; JWT token di atas lalu tekan "Keluar Guild Sekarang".</p>
-</div>
-
-<div class="cid-state cid-loading" id="clgStateLoading">
-  <i class="fa-solid fa-spinner fa-spin"></i>
-  <p>Sedang memproses permintaan keluar guild, tunggu sebentar ya...</p>
-</div>
-
-<div class="cid-state cid-error" id="clgStateError">
-  <i class="fa-solid fa-triangle-exclamation"></i>
-  <p id="clgErrorMsg">Gagal keluar dari guild. Periksa kembali ID Guild &amp; JWT token kamu.</p>
-  <div class="cid-retry" onclick="clgReset()"><i class="fa-solid fa-rotate-left"></i>Coba Lagi</div>
-</div>
-
-<div class="cid-result" id="clgResult">
-  <div class="cid-result-card" style="text-align:left;">
-    <div class="cjg-success-badge"><i class="fa-solid fa-circle-check"></i>Berhasil Keluar Guild</div>
-    <div class="cid-info-rows" id="clgInfoRows"></div>
-  </div>
-  <button class="cid-reset-btn" onclick="clgReset()"><i class="fa-solid fa-arrow-rotate-left"></i>PROSES GUILD LAIN</button>
-</div>
-
-<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
-</div>
-
-<!-- BUAT GUILD PAGE (via JWT) -->
-<div class="page" id="cekidffCreateGuild">
-
-<div class="cid-page-head">
-  <span class="cid-page-head-icon" aria-hidden="true"></span>
-  <div>
-    <p class="cid-hero-title"><span class="red">BUAT</span>&nbsp;<span class="wht">GUILD FREE FIRE</span></p>
-    <p class="cid-hero-sub">Buat guild baru langsung dari akun kamu lewat JWT token.</p>
-  </div>
-</div>
-
-<div class="cid-card">
-  <div class="cid-label"><i class="fa-solid fa-flag"></i>NAMA GUILD</div>
-  <div class="cid-input-wrap">
-    <i class="fa-solid fa-flag"></i>
-    <input class="cid-input" id="cmgNameInput" type="text" placeholder="Contoh: MyGuild" maxlength="30"/>
-  </div>
-
-  <div class="cid-label"><i class="fa-solid fa-comment"></i>SLOGAN</div>
-  <div class="cid-input-wrap">
-    <i class="fa-solid fa-comment"></i>
-    <input class="cid-input" id="cmgSloganInput" type="text" placeholder="Contoh: Best Guild BD" maxlength="60"/>
-  </div>
-
-  <div class="cmg-row2">
-    <div>
-      <div class="cid-label"><i class="fa-solid fa-image"></i>AVATAR</div>
-      <input class="cid-input" id="cmgAvatarInput" type="text" inputmode="numeric" placeholder="Contoh: 10" style="margin-bottom:12px;"/>
+  <section class="gd-panel" data-gd-panel="leave">
+    <div class="gd-card">
+      <div class="gd-head"><span class="gd-head-icon"><i class="fa-solid fa-right-from-bracket"></i></span><div><h3>Leave Guild</h3><p>Keluar dari guild lewat JWT atau Guest UID + Password.</p></div></div>
+      <div class="cid-label"><i class="fa-solid fa-hashtag"></i>CLAN ID</div>
+      <div class="cid-input-wrap"><i class="fa-solid fa-hashtag"></i><input class="cid-input gd-clan-id" id="gdLeaveClanId" type="text" inputmode="numeric" maxlength="20" placeholder="3048889605"/></div>
+      <div class="gd-auth-tabs"><button class="gd-auth-btn active" type="button" data-gd-auth="jwt" data-gd-scope="leave" onclick="gdAuthMode('leave','jwt',this)">JWT</button><button class="gd-auth-btn" type="button" data-gd-auth="guest" data-gd-scope="leave" onclick="gdAuthMode('leave','guest',this)">UID + PASSWORD</button></div>
+      <div class="gd-auth-panel active" data-gd-auth-panel="leave-jwt">
+        <div class="cid-label"><i class="fa-solid fa-key"></i>JWT BEARER</div><div class="gd-secret-wrap"><input class="cid-input" id="gdLeaveJwt" type="password" autocomplete="off" spellcheck="false" placeholder="Tempel JWT / BearerAuth"/><button class="gd-eye" type="button" onclick="gdToggleSecret('gdLeaveJwt',this)"><i class="fa-solid fa-eye"></i></button></div>
+        <div class="gd-mini-row"><button class="gd-mini-btn" type="button" onclick="gdUseLatestJwt('gdLeaveJwt','gdLeaveStatus')"><i class="fa-solid fa-wand-magic-sparkles"></i> PAKAI JWT TERAKHIR</button></div>
+      </div>
+      <div class="gd-auth-panel" data-gd-auth-panel="leave-guest">
+        <div class="gd-grid2"><div><div class="cid-label"><i class="fa-solid fa-user"></i>UID</div><div class="cid-input-wrap"><i class="fa-solid fa-user"></i><input class="cid-input gd-uid" id="gdLeaveUid" type="text" inputmode="numeric" maxlength="20" placeholder="2579249340"/></div></div><div><div class="cid-label"><i class="fa-solid fa-lock"></i>PASSWORD</div><div class="gd-secret-wrap"><input class="cid-input" id="gdLeavePass" type="password" autocomplete="off" spellcheck="false" placeholder="Guest password"/><button class="gd-eye" type="button" onclick="gdToggleSecret('gdLeavePass',this)"><i class="fa-solid fa-eye"></i></button></div></div></div>
+      </div>
+      <button class="cid-btn gd-danger" id="gdLeaveBtn" type="button" onclick="gdLeave()" style="margin-top:12px"><i class="fa-solid fa-right-from-bracket"></i> KELUAR GUILD</button>
+      
     </div>
-    <div>
-      <div class="cid-label"><i class="fa-solid fa-ranking-star"></i>MIN. LEVEL</div>
-      <input class="cid-input" id="cmgMinLevelInput" type="text" inputmode="numeric" placeholder="Contoh: 20" style="margin-bottom:12px;"/>
+    <div class="gd-status" id="gdLeaveStatus" hidden></div><div class="gd-result" id="gdLeaveResult" hidden></div>
+  </section>
+
+  <section class="gd-panel" data-gd-panel="create">
+    <div class="gd-card">
+      <div class="gd-head"><span class="gd-head-icon"><i class="fa-solid fa-flag"></i></span><div><h3>Create Guild</h3><p>Buat guild baru. Endpoint create memakai Authorization Bearer JWT.</p></div></div>
+      <div class="cid-label"><i class="fa-solid fa-key"></i>JWT BEARER</div><div class="gd-secret-wrap"><input class="cid-input" id="gdCreateJwt" type="password" autocomplete="off" spellcheck="false" placeholder="Tempel JWT / BearerAuth"/><button class="gd-eye" type="button" onclick="gdToggleSecret('gdCreateJwt',this)"><i class="fa-solid fa-eye"></i></button></div>
+      <div class="gd-mini-row" style="margin-bottom:12px"><button class="gd-mini-btn" type="button" onclick="gdUseLatestJwt('gdCreateJwt','gdCreateStatus')"><i class="fa-solid fa-wand-magic-sparkles"></i> PAKAI JWT TERAKHIR</button></div>
+      <div class="cid-label"><i class="fa-solid fa-flag"></i>NAMA GUILD</div><div class="cid-input-wrap"><i class="fa-solid fa-flag"></i><input class="cid-input" id="gdCreateName" type="text" maxlength="30" placeholder="MyGuild"/></div>
+      <div class="cid-label"><i class="fa-solid fa-comment"></i>SLOGAN</div><div class="cid-input-wrap"><i class="fa-solid fa-comment"></i><input class="cid-input" id="gdCreateSlogan" type="text" maxlength="60" placeholder="Best Guild BD"/></div>
+      <div class="gd-grid2">
+        <div><div class="cid-label"><i class="fa-solid fa-coins"></i>PAYMENT</div><select class="gd-select" id="gdCreatePayment"><option value="1">1 - Coins</option><option value="2">2 - Diamonds</option></select></div>
+        <div><div class="cid-label"><i class="fa-solid fa-door-open"></i>AUTO APPROVAL</div><select class="gd-select" id="gdCreateApproval"><option value="1">1 - OFF</option><option value="2" selected>2 - ON</option></select></div>
+      </div>
+      <div class="gd-grid2">
+        <div><div class="cid-label"><i class="fa-solid fa-shield-cat"></i>AVATAR</div><select class="gd-select" id="gdCreateAvatar"><option value="10">10 - Lion</option><option value="11">11 - Wolf</option></select></div>
+        <div><div class="cid-label"><i class="fa-solid fa-location-dot"></i>LOCATION</div><div class="cid-input-wrap"><i class="fa-solid fa-location-dot"></i><input class="cid-input gd-number" id="gdCreateLocation" type="text" inputmode="numeric" maxlength="8" value="59999"/></div></div>
+      </div>
+      <div class="cid-label"><i class="fa-solid fa-tags"></i>TAGS (1-14)</div><div class="cid-input-wrap"><i class="fa-solid fa-tags"></i><input class="cid-input" id="gdCreateTags" type="text" inputmode="numeric" placeholder="1,4,13"/></div><div class="gd-tags-help">Wajib menyertakan <b>13 (Casual)</b> atau <b>14 (Competition)</b>. Dari tag aktivitas 1/2/3 hanya boleh pilih satu.</div>
+      <div class="gd-grid2">
+        <div><div class="cid-label"><i class="fa-solid fa-star"></i>MIN LEVEL</div><div class="cid-input-wrap"><i class="fa-solid fa-star"></i><input class="cid-input gd-number" id="gdCreateMinLevel" type="text" inputmode="numeric" maxlength="3" placeholder="20"/></div></div>
+        <div><div class="cid-label"><i class="fa-solid fa-ranking-star"></i>MIN BR RANK</div><div class="cid-input-wrap"><i class="fa-solid fa-ranking-star"></i><input class="cid-input gd-number" id="gdCreateMinBr" type="text" inputmode="numeric" maxlength="4" placeholder="Opsional"/></div></div>
+      </div>
+      <div class="cid-label"><i class="fa-solid fa-ranking-star"></i>MIN CS RANK</div><div class="cid-input-wrap"><i class="fa-solid fa-ranking-star"></i><input class="cid-input gd-number" id="gdCreateMinCs" type="text" inputmode="numeric" maxlength="4" placeholder="Opsional"/></div>
+      <button class="cid-btn" id="gdCreateBtn" type="button" onclick="gdCreate()"><i class="fa-solid fa-flag"></i> BUAT GUILD</button>
+      
     </div>
-  </div>
+    <div class="gd-status" id="gdCreateStatus" hidden></div><div class="gd-result" id="gdCreateResult" hidden></div>
+  </section>
 
-  <div class="cid-label"><i class="fa-solid fa-tags"></i>TAGS (pisahkan koma)</div>
-  <div class="cid-input-wrap">
-    <i class="fa-solid fa-tags"></i>
-    <input class="cid-input" id="cmgTagsInput" type="text" placeholder="Contoh: 1,4,13"/>
-  </div>
-
-  <div class="cid-label"><i class="fa-solid fa-coins"></i>PAYMENT</div>
-  <select class="cmg-select" id="cmgPaymentSelect">
-    <option value="0">0 - Gratis</option>
-    <option value="1" selected>1 - Berbayar</option>
-  </select>
-
-  <div class="cid-label"><i class="fa-solid fa-door-open"></i>AUTO APPROVAL</div>
-  <select class="cmg-select" id="cmgAutoApprovalSelect">
-    <option value="0">0 - Perlu Approval Manual</option>
-    <option value="1">1 - Perlu Approval (Terbatas)</option>
-    <option value="2" selected>2 - Otomatis (Default Terbuka)</option>
-  </select>
-
-  <div class="cid-label" style="margin-top:2px;"><i class="fa-solid fa-key"></i>JWT TOKEN AKUN</div>
-  <div class="cid-input-wrap" style="margin-bottom:0;">
-    <textarea class="cjg-jwt-textarea" id="cmgJwtInput" rows="3" placeholder="Tempel JWT token akun Free Fire kamu di sini..."></textarea>
-  </div>
-  <div class="cjg-note"><i class="fa-solid fa-circle-info"></i><span>Akun wajib belum tergabung/pemilik guild lain sebelum bisa buat guild baru.</span></div>
-
-  <button class="cid-btn" id="cmgCreateBtn" onclick="cmgCreate()"><i class="fa-solid fa-flag"></i>BUAT GUILD SEKARANG</button>
-  <p class="cid-hint"><img src="zusmo-asset/onzrii.png" alt="diamond" style="width:10px;height:10px;object-fit:contain;vertical-align:-1px;margin-right:3px;"/>90 per proses &middot; Nama Guild &amp; JWT token wajib diisi</p>
-</div>
-
-<div class="cid-state show" id="cmgStateIdle">
-  <i class="fa-solid fa-flag"></i>
-  <p>Belum ada guild yang dibuat. Lengkapi form di atas lalu tekan "Buat Guild Sekarang".</p>
-</div>
-
-<div class="cid-state cid-loading" id="cmgStateLoading">
-  <i class="fa-solid fa-spinner fa-spin"></i>
-  <p>Sedang membuat guild kamu, tunggu sebentar ya...</p>
-</div>
-
-<div class="cid-state cid-error" id="cmgStateError">
-  <i class="fa-solid fa-triangle-exclamation"></i>
-  <p id="cmgErrorMsg">Gagal membuat guild. Periksa kembali data &amp; JWT token kamu.</p>
-  <div class="cid-retry" onclick="cmgReset()"><i class="fa-solid fa-rotate-left"></i>Coba Lagi</div>
-</div>
-
-<div class="cid-result" id="cmgResult">
-  <div class="cid-result-card" style="text-align:left;">
-    <div class="cjg-success-badge"><i class="fa-solid fa-circle-check"></i>Berhasil Membuat Guild</div>
-    <div class="cid-info-rows" id="cmgInfoRows"></div>
-  </div>
-  <button class="cid-reset-btn" onclick="cmgReset()"><i class="fa-solid fa-arrow-rotate-left"></i>BUAT GUILD LAIN</button>
-</div>
-
-<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
+  <div class="gd-mini-row"><button class="gd-mini-btn" type="button" onclick="gdClearAll()"><i class="fa-solid fa-trash-can"></i> HAPUS DATA DI HALAMAN</button></div>
+  <div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
 </div>
 
 <!-- GANTI NICKNAME PAGE (via JWT) -->
-<div class="page" id="cekidffChangeName">
+<div class="page page-with-copyright" id="cekidffChangeName">
 
 <div class="cid-page-head">
   <span class="cid-page-head-icon" aria-hidden="true"></span>
@@ -4300,17 +4272,21 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
   <div class="cid-label"><i class="fa-solid fa-signature"></i>NICKNAME BARU</div>
   <div class="cid-input-wrap">
     <i class="fa-solid fa-signature"></i>
-    <input class="cid-input" id="cgnNameInput" type="text" placeholder="Contoh: JB  KZRIZUSMO" maxlength="20"/>
+    <input class="cid-input" id="cgnNameInput" type="text" autocomplete="off" placeholder="Contoh: SiamBhau"/>
   </div>
 
   <div class="cid-label" style="margin-top:2px;"><i class="fa-solid fa-key"></i>JWT TOKEN AKUN</div>
   <div class="cid-input-wrap" style="margin-bottom:0;">
-    <textarea class="cjg-jwt-textarea" id="cgnJwtInput" rows="3" placeholder="Tempel JWT token akun Free Fire kamu di sini..."></textarea>
+    <textarea class="cjg-jwt-textarea" id="cgnJwtInput" rows="3" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Tempel JWT / Bearer token akun Free Fire..."></textarea>
   </div>
-  <div class="cjg-note"><i class="fa-solid fa-circle-info"></i><span>Hanya menerima JWT token (bukan password). Nickname baru wajib belum dipakai pemain lain.</span></div>
+  <div class="gd-mini-row" style="margin-top:8px;">
+    <button class="gd-mini-btn" type="button" onclick="cgnUseLatestJwt()"><i class="fa-solid fa-wand-magic-sparkles"></i> PAKAI JWT TERAKHIR</button>
+    <button class="gd-mini-btn" type="button" onclick="cgnClearJwt()"><i class="fa-solid fa-trash-can"></i> HAPUS JWT</button>
+  </div>
+  <div class="cjg-note"><i class="fa-solid fa-circle-info"></i><span>Menerima JWT mentah, awalan Bearer, atau JSON yang memuat BearerAuth/token/jwt. Token hanya dipakai saat request dan tidak disimpan ke localStorage.</span></div>
 
   <button class="cid-btn" id="cgnChangeBtn" onclick="cgnChange()"><i class="fa-solid fa-signature"></i>GANTI NICKNAME SEKARANG</button>
-  <p class="cid-hint"><img src="zusmo-asset/onzrii.png" alt="diamond" style="width:10px;height:10px;object-fit:contain;vertical-align:-1px;margin-right:3px;"/>90 per proses &middot; Nickname baru &amp; JWT token wajib diisi</p>
+  
 </div>
 
 <div class="cid-state show" id="cgnStateIdle">
@@ -4340,226 +4316,221 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
 <div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
 </div>
 
-<!-- INFO CRAFTLAND PAGE -->
-<div class="page" id="cekidffCraftland">
+<!-- CRAFTLAND TOOLS: quick info + enriched map details in one tool. -->
+<div class="page page-with-copyright" id="cekidffCraftlandTools">
 
 <div class="cid-page-head">
   <span class="cid-page-head-icon" aria-hidden="true"></span>
   <div>
-    <p class="cid-hero-title"><span class="red">INFO</span>&nbsp;<span class="wht">CRAFTLAND</span></p>
-    <p class="cid-hero-sub">Masukkan Map Code Craftland Free Fire untuk melihat detail map-nya.</p>
+    <p class="cid-hero-title"><span class="red">CRAFTLAND</span>&nbsp;<span class="wht">TOOLS</span></p>
+    <p class="cid-hero-sub">Satu map code untuk info cepat atau detail lengkap Craftland Free Fire.</p>
   </div>
 </div>
 
-<div class="cid-card">
+<div class="cid-card ctl-query-card">
   <div class="cid-label"><i class="fa-solid fa-map"></i>MAP CODE</div>
   <div class="cid-input-wrap">
     <i class="fa-solid fa-hashtag"></i>
-    <input class="cid-input" id="cclMapCodeInput" type="text" placeholder="Contoh: ABC123" maxlength="20" style="text-transform:uppercase;"/>
+    <input class="cid-input" id="ctlMapCodeInput" type="text" placeholder="Contoh: ABC123 atau #ABC123" maxlength="32" autocapitalize="characters" autocomplete="off" spellcheck="false"/>
   </div>
 
   <div class="cmg-row2">
     <div>
       <div class="cid-label"><i class="fa-solid fa-earth-asia"></i>REGION</div>
-      <input class="cid-input" id="cclRegionInput" type="text" placeholder="Contoh: BD" maxlength="5" style="margin-bottom:12px;text-transform:uppercase;"/>
+      <input class="cid-input" id="ctlRegionInput" type="text" value="BD" placeholder="BD" maxlength="8" autocomplete="off" spellcheck="false" style="margin-bottom:12px;text-transform:uppercase;"/>
     </div>
     <div>
       <div class="cid-label"><i class="fa-solid fa-language"></i>LANG</div>
-      <input class="cid-input" id="cclLangInput" type="text" placeholder="Contoh: en" maxlength="5" style="margin-bottom:12px;"/>
+      <input class="cid-input" id="ctlLangInput" type="text" value="en" placeholder="en" maxlength="8" autocomplete="off" spellcheck="false" style="margin-bottom:12px;"/>
     </div>
   </div>
 
-  <button class="cid-btn" id="cclCheckBtn" onclick="cclCheck()"><i class="fa-solid fa-magnifying-glass"></i>CEK CRAFTLAND SEKARANG</button>
-  <p class="cid-hint"><img src="zusmo-asset/onzrii.png" alt="diamond" style="width:10px;height:10px;object-fit:contain;vertical-align:-1px;margin-right:3px;"/>50 per cek &middot; Region &amp; Lang opsional (default BD &amp; en)</p>
-</div>
-
-<div class="cid-state show" id="cclStateIdle">
-  <i class="fa-solid fa-map"></i>
-  <p>Belum ada Map Code yang dicek. Masukkan Map Code di atas lalu tekan "Cek Craftland Sekarang".</p>
-</div>
-
-<div class="cid-state cid-loading" id="cclStateLoading">
-  <i class="fa-solid fa-spinner fa-spin"></i>
-  <p>Sedang mengambil info Craftland, tunggu sebentar ya...</p>
-</div>
-
-<div class="cid-state cid-error" id="cclStateError">
-  <i class="fa-solid fa-triangle-exclamation"></i>
-  <p id="cclErrorMsg">Map Craftland tidak ditemukan. Periksa kembali Map Code kamu.</p>
-  <div class="cid-retry" onclick="cclReset()"><i class="fa-solid fa-rotate-left"></i>Coba Lagi</div>
-</div>
-
-<div class="cid-result" id="cclResult">
-  <div class="cid-result-card" style="text-align:left;">
-    <div id="cclShareImgBox"></div>
-    <div class="cid-nick-row" style="justify-content:flex-start;margin-bottom:4px;">
-      <i class="fa-solid fa-map" style="color:#ff6b6b;"></i>
-      <span class="cid-nick" id="cclMapName">-</span>
-    </div>
-    <div class="cid-id-chip" id="cclCodeChip"></div>
-    <div class="ccl-desc-box" id="cclDescBox" style="display:none;"></div>
-    <div id="cclTagsBox" style="margin-bottom:10px;"></div>
-    <div class="cid-info-rows" id="cclInfoRows"></div>
-  </div>
-  <button class="cid-reset-btn" onclick="cclReset()"><i class="fa-solid fa-arrow-rotate-left"></i>CEK MAP LAIN</button>
-</div>
-
-<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
-</div>
-
-<!-- CRAFTLAND DETAIL PAGE -->
-<div class="page" id="cekidffCraftlandDetail">
-
-<div class="cid-page-head">
-  <span class="cid-page-head-icon" aria-hidden="true"></span>
-  <div>
-    <p class="cid-hero-title"><span class="red">CRAFTLAND</span>&nbsp;<span class="wht">DETAIL</span></p>
-    <p class="cid-hero-sub">Lihat detail lengkap map Craftland: gameplay, tag, hingga link download.</p>
-  </div>
-</div>
-
-<div class="cid-card">
-  <div class="cid-label"><i class="fa-solid fa-map"></i>MAP CODE</div>
-  <div class="cid-input-wrap">
-    <i class="fa-solid fa-hashtag"></i>
-    <input class="cid-input" id="ccdMapCodeInput" type="text" placeholder="Contoh: ABC123" maxlength="20" style="text-transform:uppercase;"/>
+  <div class="ctl-tabs" role="tablist" aria-label="Mode Craftland">
+    <button class="ctl-tab active" type="button" data-ctl-mode="quick" onclick="ctlSwitchMode('quick',this)"><i class="fa-solid fa-bolt"></i><span>Quick Info</span></button>
+    <button class="ctl-tab" type="button" data-ctl-mode="detail" onclick="ctlSwitchMode('detail',this)"><i class="fa-solid fa-list-check"></i><span>Full Detail</span></button>
   </div>
 
-  <div class="cmg-row2" style="display:none;">
-    <div>
-      <div class="cid-label"><i class="fa-solid fa-earth-asia"></i>REGION</div>
-      <input class="cid-input" id="ccdRegionInput" type="text" placeholder="Contoh: ID" maxlength="5" style="margin-bottom:12px;text-transform:uppercase;" value="ID"/>
-    </div>
-    <div>
-      <div class="cid-label"><i class="fa-solid fa-language"></i>LANG</div>
-      <input class="cid-input" id="ccdLangInput" type="text" placeholder="Contoh: id" maxlength="5" style="margin-bottom:12px;" value="id"/>
-    </div>
-  </div>
-
-  <button class="cid-btn" id="ccdCheckBtn" onclick="ccdCheck()"><i class="fa-solid fa-magnifying-glass"></i>CEK DETAIL SEKARANG</button>
-  <p class="cid-hint"><img src="zusmo-asset/onzrii.png" alt="diamond" style="width:10px;height:10px;object-fit:contain;vertical-align:-1px;margin-right:3px;"/>50 per cek &middot; Region otomatis diatur ke Indonesia (ID)</p>
+  <div class="ctl-mode-note" id="ctlModeNote">Quick Info memakai <code>/craftlands/info</code> untuk ringkasan map, gambar, statistik, dan waktu.</div>
+  <button class="cid-btn" id="ctlCheckBtn" type="button" onclick="ctlCheck()"><i class="fa-solid fa-magnifying-glass"></i><span id="ctlCheckLabel">CEK QUICK INFO</span></button>
+  
 </div>
 
-<div class="cid-state show" id="ccdStateIdle">
+<div class="cid-state show" id="ctlStateIdle">
   <i class="fa-solid fa-map-location-dot"></i>
-  <p>Belum ada Map Code yang dicek. Masukkan Map Code di atas lalu tekan "Cek Detail Sekarang".</p>
+  <p>Masukkan Map Code, pilih Quick Info atau Full Detail, lalu mulai cek.</p>
 </div>
 
-<div class="cid-state cid-loading" id="ccdStateLoading">
+<div class="cid-state cid-loading" id="ctlStateLoading">
   <i class="fa-solid fa-spinner fa-spin"></i>
-  <p>Sedang mengambil detail Craftland, tunggu sebentar ya...</p>
+  <p id="ctlLoadingText">Sedang mengambil info Craftland...</p>
 </div>
 
-<div class="cid-state cid-error" id="ccdStateError">
+<div class="cid-state cid-error" id="ctlStateError">
   <i class="fa-solid fa-triangle-exclamation"></i>
-  <p id="ccdErrorMsg">Map Craftland tidak ditemukan. Periksa kembali Map Code kamu.</p>
-  <div class="cid-retry" onclick="ccdReset()"><i class="fa-solid fa-rotate-left"></i>Coba Lagi</div>
+  <p id="ctlErrorMsg">Map Craftland tidak ditemukan. Periksa kembali Map Code.</p>
+  <div class="cid-retry" onclick="ctlResetResult()"><i class="fa-solid fa-rotate-left"></i>Coba Lagi</div>
 </div>
 
-<div class="cid-result" id="ccdResult">
-  <div class="cid-result-card" style="text-align:left;">
-    <div id="ccdCoverImgBox"></div>
+<div class="cid-result" id="ctlResult">
+  <div class="cid-result-card ctl-result-card" style="text-align:left;">
+    <div class="ctl-result-topline"><span class="ctl-result-mode" id="ctlResultMode">QUICK INFO</span><button type="button" class="ctl-copy-json" onclick="ctlCopyJson(this)"><i class="fa-solid fa-copy"></i>JSON</button></div>
+    <div id="ctlImageBox"></div>
     <div class="cid-nick-row" style="justify-content:flex-start;margin-bottom:4px;">
       <i class="fa-solid fa-map" style="color:#ff6b6b;"></i>
-      <span class="cid-nick" id="ccdMapName">-</span>
+      <span class="cid-nick" id="ctlMapName">-</span>
     </div>
-    <div class="cid-id-chip" id="ccdCodeChip"></div>
-    <div class="ccl-desc-box" id="ccdDescBox" style="display:none;"></div>
-    <div id="ccdTagsBox" style="margin-bottom:10px;"></div>
-    <div class="cid-info-rows" id="ccdInfoRows"></div>
-    <div class="ccd-link-row" id="ccdLinksRow"></div>
+    <div class="cid-id-chip" id="ctlCodeChip"></div>
+    <div class="ccl-desc-box" id="ctlDescBox" style="display:none;"></div>
+    <div id="ctlTagsBox" class="ctl-tags-box"></div>
+    <div class="cid-info-rows" id="ctlInfoRows"></div>
+    <div class="ccd-link-row" id="ctlLinksRow"></div>
+    <details class="ctl-json-details">
+      <summary><i class="fa-solid fa-code"></i> Raw response</summary>
+      <pre id="ctlRawJson" class="allow-copy"></pre>
+    </details>
   </div>
-  <button class="cid-reset-btn" onclick="ccdReset()"><i class="fa-solid fa-arrow-rotate-left"></i>CEK MAP LAIN</button>
+  <button class="cid-reset-btn" onclick="ctlReset()"><i class="fa-solid fa-arrow-rotate-left"></i>CEK MAP LAIN</button>
 </div>
 
 <div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
 </div>
 
-<!-- CEK BANNED PAGE -->
-<div class="page" id="cekidffBanned">
+<!-- CEK BANNED PAGE: public lookup by UID -->
+<div class="page page-with-copyright fft-refresh" id="cekidffBanned" data-cbd-version="2.1-region">
+  <header class="fft-hero"><p class="fft-eyebrow"><span aria-hidden="true"></span>FF TOOLS / ACCOUNT STATUS</p><h1>CEK <em>BANNED.</em></h1><p class="fft-subtitle">Periksa status akun dan durasi banned melalui UID.</p></header>
 
-<div class="cid-page-head">
-  <span class="cid-page-head-icon" aria-hidden="true"></span>
-  <div>
-    <p class="cid-hero-title"><span class="red">CEK BANNED</span>&nbsp;<span class="wht">FREE FIRE</span></p>
-    <p class="cid-hero-sub">Fitur ini hanya bisa diakses oleh developer aplikasi.</p>
+  <form class="cid-card cbd-form" id="cbdForm" novalidate>
+    <div class="cbd-label-row">
+      <label class="cid-label" for="cbdUidInput">UID FREE FIRE</label>
+      <button class="cbd-text-btn" type="button" id="cbdPasteBtn">Tempel UID</button>
+    </div>
+    <div class="cid-input-wrap cbd-input-wrap">
+      <span class="cbd-input-symbol" aria-hidden="true">#</span>
+      <input class="cid-input" id="cbdUidInput" type="text" inputmode="numeric" enterkeyhint="search" autocomplete="off" spellcheck="false" placeholder="Masukkan UID akun" maxlength="20" aria-describedby="cbdUidHint cbdUidError"/>
+    </div>
+    <p class="cbd-field-hint" id="cbdUidHint">Buka profil Free Fire, lalu salin UID di bawah nickname.</p>
+    <p class="cbd-field-error" id="cbdUidError" role="alert" hidden></p>
+
+    <div class="cbd-region-block">
+      <label class="cid-label" for="cbdRegionSelect">REGION AKUN</label>
+      <div class="cbd-select-wrap">
+        <select id="cbdRegionSelect" aria-describedby="cbdRegionHint">
+          <option value="ID" selected>Indonesia (ID)</option>
+          <option value="">Deteksi otomatis</option>
+          <option value="SG">Singapura (SG)</option>
+          <option value="IND">India (IND)</option>
+          <option value="BD">Bangladesh (BD)</option>
+          <option value="TH">Thailand (TH)</option>
+          <option value="VN">Vietnam (VN)</option>
+          <option value="PK">Pakistan (PK)</option>
+          <option value="TW">Taiwan (TW)</option>
+          <option value="BR">Brasil (BR)</option>
+          <option value="SAC">Amerika Selatan (SAC)</option>
+          <option value="US">Amerika Serikat (US)</option>
+          <option value="NA">Amerika Utara (NA)</option>
+          <option value="ME">Timur Tengah (ME)</option>
+          <option value="RU">Rusia (RU)</option>
+          <option value="CIS">CIS</option>
+          <option value="EUROPE">Eropa (EUROPE)</option>
+        </select>
+        <span aria-hidden="true">&#8964;</span>
+      </div>
+      <p class="cbd-field-hint" id="cbdRegionHint">Pilih region akun atau gunakan deteksi otomatis. Hasil mengikuti data layanan.</p>
+      <label class="cbd-auto-label" for="cbdAutoFallback">
+        <input type="checkbox" id="cbdAutoFallback" checked>
+        <span>Coba ulang otomatis jika pencarian region gagal<small>Maksimal satu percobaan tambahan.</small></span>
+      </label>
+    </div>
+
+    <button class="cid-btn cbd-primary" id="cbdCheckBtn" type="submit">
+      <svg class="cbd-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg>
+      <span id="cbdCheckLabel">Cek Status Akun</span>
+    </button>
+    
+  </form>
+
+  <div id="cbdFeedback" aria-live="polite" aria-atomic="true">
+    <div class="cbd-state cbd-idle" id="cbdStateIdle">
+      <span class="cbd-empty-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3 4 6v5c0 5 3.5 8.1 8 10 4.5-1.9 8-5 8-10V6l-8-3Z"/><path d="M12 8v5m0 3v.01"/></svg></span>
+      <h3>Status akun akan tampil di sini</h3>
+      <p>Masukkan UID untuk melihat status, nickname, dan durasi banned.</p>
+    </div>
+    <div class="cbd-state cbd-loading" id="cbdStateLoading" hidden>
+      <span class="cbd-spinner" aria-hidden="true"></span>
+      <h3>Sedang mengecek akun</h3>
+      <p>Mengambil status banned untuk UID <b id="cbdLoadingUid"></b>.</p>
+      <p class="cbd-progress-detail" id="cbdProgressDetail"></p>
+      <button type="button" class="cbd-secondary" id="cbdCancelBtn">Batalkan</button>
+    </div>
+    <div class="cbd-state cbd-error" id="cbdStateError" hidden>
+      <span class="cbd-error-mark" aria-hidden="true">!</span>
+      <h3 id="cbdErrorTitle">Pengecekan belum berhasil</h3>
+      <p id="cbdErrorMsg"></p>
+      
+      <button type="button" class="cbd-secondary" id="cbdRetryBtn">Coba lagi</button>
+      <button class="cbd-secondary" id="cbdUseAutoBtn" type="button">Gunakan mode Otomatis</button>
+      <details class="cbd-diagnostics">
+        <summary>Lihat rincian kendala</summary>
+        <p id="cbdErrorCode" class="allow-copy"></p>
+        <p id="cbdErrorRoute"></p>
+        <ol id="cbdAttemptLog" class="allow-copy"></ol>
+        <button class="cbd-text-btn" id="cbdCopyDiagnosticsBtn" type="button">Salin rincian</button>
+      </details>
+    </div>
   </div>
+
+  <section class="cbd-result" id="cbdResult" tabindex="-1" aria-labelledby="cbdResultTitle" hidden>
+    <div class="cbd-result-banner" id="cbdResultBanner" data-status="clear">
+      <span class="cbd-status-dot" aria-hidden="true"></span>
+      <div><p class="cbd-result-kicker">HASIL PENGECEKAN</p><h3 id="cbdResultTitle"></h3></div>
+    </div>
+    <div class="cbd-result-body">
+      <p class="cbd-result-summary" id="cbdResultSummary"></p>
+      <dl class="cbd-details allow-copy">
+        <div><dt>Nickname</dt><dd id="cbdNickname"></dd></div>
+        <div><dt>UID</dt><dd id="cbdResultUid"></dd></div>
+        <div><dt>Region dari layanan</dt><dd id="cbdRegion"></dd></div>
+        <div><dt>Pilihan region</dt><dd id="cbdRequestedRegion"></dd></div>
+        <div><dt>Metode pencarian</dt><dd id="cbdSearchMode"></dd></div>
+        <div><dt>Durasi banned</dt><dd id="cbdBanPeriod"></dd></div>
+        <div><dt>Status layanan</dt><dd id="cbdRawStatus"></dd></div>
+        <div><dt>Diperiksa pada</dt><dd id="cbdCheckedAt"></dd></div>
+      </dl>
+      <p class="cbd-region-notice" id="cbdRegionNotice" hidden></p>
+      <p class="cbd-billing-note" id="cbdBillingNote"></p>
+      <div class="cbd-result-actions">
+        <button type="button" class="cbd-secondary" id="cbdCopyBtn">Salin hasil</button>
+        <button type="button" class="cbd-secondary" id="cbdResetBtn">Cek UID lain</button>
+      </div>
+    </div>
+  </section>
+  <p class="cbd-utility-message" id="cbdUtilityMessage" role="status" aria-live="polite"></p>
+
+  <details class="cbd-help">
+    <summary>Apa arti hasil pengecekan?<span aria-hidden="true">+</span></summary>
+    <dl>
+      <div><dt>Tidak banned</dt><dd>Layanan mengembalikan status Not banned saat pengecekan.</dd></div>
+      <div><dt>Banned sementara</dt><dd>Layanan menyebutkan durasi pada status atau kolom ban_period. Tanggal berakhir tidak dihitung karena tanggal mulai tidak tersedia.</dd></div>
+      <div><dt>Banned tanpa batas waktu</dt><dd>Layanan mengembalikan Banned indefinitely. Tidak ada tanggal akhir yang diberikan.</dd></div>
+    </dl>
+    <p>Fitur ini membaca status akun, bukan membuka banned. Durasi kosong tidak menjadi dasar untuk menyimpulkan jenis banned.</p>
+  </details>
+  <details class="cbd-help">
+    <summary>Sudah Indonesia, tetapi masih gagal?<span aria-hidden="true">+</span></summary>
+    <p>Opsi region tidak mengubah akun atau lokasi server. Dokumentasi Cek Banned menyebut UID dan kunci API, belum mencantumkan parameter region.</p>
+    <p>Jika ada respons pencarian gagal, aplikasi dapat mencoba satu kali tanpa region. Gangguan koneksi, kunci API, dan izin endpoint ditangani terpisah, bukan dianggap UID tidak ditemukan.</p>
+    <p>Untuk pengelola: paket lengkap menyertakan penghubung API pada server aplikasi. HTML saja tetap bergantung pada izin CORS dan HTTPS layanan. Rincian kendala tidak memuat kunci API.</p>
+  </details>
+  <div class="footer" style="margin-top:20px;">&copy; 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
 </div>
 
-<div class="dev-badge">KHUSUS DEVELOPER</div>
-
-<div class="cid-card">
-  <div class="cid-label"><i class="fa-solid fa-hashtag"></i>UID FREE FIRE</div>
-  <div class="cid-input-wrap" style="margin-bottom:0;">
-    <i class="fa-solid fa-hashtag"></i>
-    <input class="cid-input" id="cbdUidInput" type="text" inputmode="numeric" placeholder="Contoh: 123456789" maxlength="13"/>
-  </div>
-  <button class="cid-btn" id="cbdCheckBtn" onclick="cbdTryCheck()" style="margin-top:14px;"><i class="fa-solid fa-lock"></i>CEK BANNED SEKARANG</button>
-  <p class="cid-hint">Fitur ini terkunci untuk pengguna umum.</p>
-</div>
-
-<div class="cbd-dev-gate" id="cbdGate" style="display:none;">
-  <i class="fa-solid fa-user-lock"></i>
-  <p>Akses ditolak. Fitur "Cek Banned" hanya bisa dibuka oleh developer aplikasi.</p>
-</div>
-
-<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
-</div>
-
-<!-- DAFTAR TEMAN (CEK INFO FF) PAGE -->
-<div class="page" id="cekidffFriends">
-
-<div class="cid-page-head">
-  <span class="cid-page-head-icon" aria-hidden="true"></span>
-  <div>
-    <p class="cid-hero-title"><span class="red">DAFTAR</span>&nbsp;<span class="wht">TEMAN FREE FIRE</span></p>
-    <p class="cid-hero-sub">Masukkan JWT token akun kamu untuk melihat daftar teman.</p>
-  </div>
-</div>
-
-<div class="cid-card">
-  <div class="cid-label"><i class="fa-solid fa-key"></i>JWT TOKEN AKUN</div>
-  <div class="cid-input-wrap" style="margin-bottom:0;">
-    <textarea class="cff-jwt-textarea" id="cffJwtInput" rows="3" placeholder="Tempel JWT token akun Free Fire kamu di sini..."></textarea>
-  </div>
-  <div class="cff-note"><i class="fa-solid fa-circle-info"></i><span>Fitur ini hanya menampilkan (melihat) daftar teman, tidak mengubah apa pun di akun.</span></div>
-
-  <button class="cid-btn" id="cffCheckBtn" onclick="cffCheck()"><i class="fa-solid fa-users-viewfinder"></i>CEK DAFTAR TEMAN</button>
-  <p class="cid-hint"><img src="zusmo-asset/onzrii.png" alt="diamond" style="width:10px;height:10px;object-fit:contain;vertical-align:-1px;margin-right:3px;"/>50 per cek</p>
-</div>
-
-<div class="cid-state show" id="cffStateIdle">
-  <i class="fa-solid fa-user-group"></i>
-  <p>Belum ada JWT yang dicek. Tempel JWT token di atas lalu tekan "Cek Daftar Teman".</p>
-</div>
-
-<div class="cid-state cid-loading" id="cffStateLoading">
-  <i class="fa-solid fa-spinner fa-spin"></i>
-  <p>Sedang mengambil daftar teman, tunggu sebentar ya...</p>
-</div>
-
-<div class="cid-state cid-error" id="cffStateError">
-  <i class="fa-solid fa-triangle-exclamation"></i>
-  <p id="cffErrorMsg">Gagal mengambil daftar teman. JWT mungkin salah/kedaluwarsa.</p>
-  <div class="cid-retry" onclick="cffReset()"><i class="fa-solid fa-rotate-left"></i>Coba Lagi</div>
-</div>
-
-<div class="cid-result" id="cffResult">
-  <div class="cid-result-card" style="text-align:left;">
-    <div id="cffListBox"></div>
-  </div>
-  <button class="cid-reset-btn" onclick="cffReset()"><i class="fa-solid fa-arrow-rotate-left"></i>CEK JWT LAIN</button>
-</div>
-
-<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
-</div>
 
 <!-- TOOLS PAGE -->
-<div class="page" id="tools">
+<div class="page page-with-copyright" id="tools">
 
 <div class="tls-header">
   <div class="tls-title"><i class="fa-solid fa-screwdriver-wrench"></i> TOOLS</div>
-  <div class="tls-subtitle">Kumpulan tools kecil yang praktis, tinggal pilih &amp; pakai · <img src="zusmo-asset/onzrii.png" alt="diamond" style="width:9px;height:9px;object-fit:contain;vertical-align:-1px;"/> mulai 35/pakai</div>
+  <div class="tls-subtitle">Kumpulan tools kecil yang praktis, tinggal pilih &amp; pakai</div>
 </div>
 <div class="tls-grid" id="tlsGrid"></div>
 
@@ -4576,10 +4547,10 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
 </div>
 
 <!-- RE PAGE -->
-<div class="page" id="re">
+<div class="page page-with-copyright" id="re">
 <div class="tls-header">
   <div class="tls-title"><i class="fa-solid fa-shield-halved"></i> RE</div>
-  <div class="tls-subtitle">Tools reverse engineering APK: sign otomatis &amp; decode manifest · <img src="zusmo-asset/onzrii.png" alt="diamond" style="width:9px;height:9px;object-fit:contain;vertical-align:-1px;"/> 2000/pakai</div>
+  <div class="tls-subtitle">Tools reverse engineering APK: sign otomatis &amp; decode manifest</div>
 </div>
 <div class="tls-grid" id="reGrid"></div>
 
@@ -4596,10 +4567,10 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
 </div>
 
 <!-- BYPASS PAGE -->
-<div class="page" id="bypass">
+<div class="page page-with-copyright" id="bypass">
 <div class="tls-header">
   <div class="tls-title"><i class="fa-solid fa-unlock-keyhole"></i> BYPASS</div>
-  <div class="tls-subtitle">Bypass shortlink, paywall, proteksi Cloudflare/Akamai &amp; fingerprint device · <img src="zusmo-asset/onzrii.png" alt="diamond" style="width:9px;height:9px;object-fit:contain;vertical-align:-1px;"/> 2000/pakai</div>
+  <div class="tls-subtitle">Bypass shortlink, paywall, proteksi Cloudflare/Akamai &amp; fingerprint device</div>
 </div>
 <div class="tls-grid" id="bypGrid"></div>
 
@@ -4616,7 +4587,7 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
 </div>
 
 <!-- PTERODACTYL PAGE -->
-<div class="page" id="pterodactyl">
+<div class="page page-with-copyright" id="pterodactyl">
 <div class="tls-header">
   <div class="tls-title"><i class="fa-solid fa-server"></i> PTERODACTYL</div>
   <div class="tls-subtitle">Kelola panel Pterodactyl: server &amp; admin dalam satu tempat</div>
@@ -4640,7 +4611,7 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
 
 <div class="srh-header">
   <div class="srh-title"><i class="fa-solid fa-magnifying-glass"></i> SEARCH</div>
-  <div class="srh-subtitle">Cari cuaca, lagu, meme, wallpaper, video &amp; lainnya · <img src="zusmo-asset/onzrii.png" alt="diamond" style="width:9px;height:9px;object-fit:contain;vertical-align:-1px;"/> 25/pencarian</div>
+  <div class="srh-subtitle">Cari cuaca, lagu, meme, wallpaper, video &amp; lainnya</div>
 </div>
 <div class="srh-grid" id="srhGrid"></div>
 </div>
@@ -4724,7 +4695,7 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
 </div>
 
 <!-- NICKNAME HIJAU PAGE -->
-<div class="page" id="nickhijau">
+<div class="page page-with-copyright" id="nickhijau">
 
 <p class="pc-title"><span class="red">NICK</span>&nbsp;<span class="wht">HIJAU GRADIASI</span></p>
 <p class="pc-sub">Suntik Followers Craftland</p>
@@ -4840,7 +4811,7 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
 </div>
 
 <!-- BOT GLORY GUILD PAGE -->
-<div class="page" id="botglory">
+<div class="page page-with-copyright" id="botglory">
 
 <p class="pc-title"><span class="red">BOT</span>&nbsp;<span class="wht">GLORY GUILD</span></p>
 <p class="pc-sub">Bot Booster Keaktifan Guild Free Fire</p>
@@ -4936,7 +4907,7 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
 </div>
 
 <!-- NICKNAME EDITOR PAGE -->
-<div class="page" id="nickeditor">
+<div class="page page-with-copyright" id="nickeditor">
 
 <p class="pc-title"><span class="red">EDITOR</span>&nbsp;<span class="wht">BIO</span></p>
 <p class="pc-sub">Warna, Bold, Italic &amp; Underline Bio</p>
@@ -5035,7 +5006,7 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
 <div class="page" id="redeemPage">
 
 <p class="pc-title"><span class="red">REDEEM</span>&nbsp;<span class="wht">KODE</span></p>
-<p class="pc-sub">Tukarkan kode redeem untuk mendapatkan hadiah gratis</p>
+<p class="pc-sub">Tukarkan kode redeem untuk mendapatkan hadiah</p>
 
 <div class="pc-card">
   <div class="pc-head">
@@ -5076,7 +5047,7 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
 </div>
 
 <!-- TOPUP DIAMOND PAGE (dipicu dari menu di Home) -->
-<div class="page" id="diamondTopupPage">
+<div class="page page-with-copyright" id="diamondTopupPage">
 <h1>Topup Diamond</h1>
 <p class="subtitle">Isi ulang Diamond kamu dengan cepat &amp; aman</p>
 
@@ -5135,7 +5106,7 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
 </div>
 
 <!-- TOPUP DIAMOND - DETAIL PEMBAYARAN -->
-<div class="page" id="dtPayDetail">
+<div class="page page-with-copyright" id="dtPayDetail">
 <h1>Selesaikan Pembayaran</h1>
 <p class="subtitle">Bayar sebelum waktu habis, lalu konfirmasi ke admin</p>
 
@@ -5234,7 +5205,7 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
 </div>
 
 <!-- TOPUP DIAMOND - SUKSES -->
-<div class="page" id="dtSuccess">
+<div class="page page-with-copyright" id="dtSuccess">
 
 <div class="vps-wrap">
   <div class="vps-hero">
@@ -5259,12 +5230,14 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
   <button type="button" class="vps-btn vps-btn-primary" onclick="showPage('shopTab')"><i class="fa-solid fa-bag-shopping"></i> Belanja di Shop</button>
   <button type="button" class="vps-btn vps-btn-secondary" onclick="showPage('home')"><i class="fa-solid fa-house"></i> Kembali ke Beranda</button>
 
-  <div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
+  
 </div>
+
+<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
 </div>
 
 <!-- TOPUP DIAMOND - GAGAL -->
-<div class="page" id="dtFailed">
+<div class="page page-with-copyright" id="dtFailed">
 
 <div class="vpf-wrap">
   <div class="vpf-hero">
@@ -5281,12 +5254,14 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
   <button type="button" class="vpf-btn vpf-btn-primary" onclick="retryDtPayment()"><i class="fa-solid fa-rotate-right"></i> Coba Lagi</button>
   <button type="button" class="vpf-btn vpf-btn-secondary" onclick="showPage('home')"><i class="fa-solid fa-house"></i> Kembali ke Beranda</button>
 
-  <div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
+  
 </div>
+
+<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
 </div>
 
 <!-- JOIN GUILD Z SHADOWS PAGE -->
-<div class="page" id="joinguild">
+<div class="page page-with-copyright" id="joinguild">
 
 <div class="jg-hero">
   <div class="jg-hero-glow"></div>
@@ -5549,7 +5524,7 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
 </div>
 
 <!-- PRIME CALCULATOR PAGE -->
-<div class="page" id="primecalc">
+<div class="page page-with-copyright" id="primecalc">
 
 <!-- Page title -->
 <p class="pc-title"><span class="red">PRIME</span>&nbsp;<span class="wht">CALCULATOR</span></p>
@@ -5629,7 +5604,7 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
 <div class="footer" style="margin-top:4px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
 </div>
 
-<div class="page" id="prime">
+<div class="page page-with-copyright" id="prime">
 
 <p class="prm-title"><span class="gold">PRIME</span>&nbsp;<span class="red">MEMBERSHIP</span></p>
 
@@ -6044,7 +6019,7 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
     <button type="button" class="redeem-corner-btn" id="redeemCornerBtn" onclick="openRedeemModal()"><i class="fa-solid fa-ticket"></i><span>Redeem</span></button>
     <div class="claim-header-icon"><img loading="lazy" decoding="async" src="zusmo-asset/onzrii.png" alt="diamond"/></div>
     <h3 data-i18n="claim.title">Klaim Diamond Harian</h3>
-    <p data-i18n="claim.desc">Klaim 60 Diamond gratis setiap hari. Reset setiap pukul 00:00 WIB.</p>
+    <p data-i18n="claim.desc">Klaim 60 Diamond setiap hari. Reset setiap pukul 00:00 WIB.</p>
     <div class="claim-week" id="claimWeekGrid"></div>
     <button class="claim-btn-main" id="claimMainBtn" onclick="doClaimDaily()">
       <img loading="lazy" decoding="async" src="zusmo-asset/onzrii.png" alt=""/>
@@ -6125,7 +6100,7 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
   <div class="zx-modal claim-modal">
     <div class="claim-header-icon"><i class="fa-solid fa-ticket" style="font-size:34px;color:#ff4747;display:block;margin-top:10px"></i></div>
     <h3>Kode Redeem</h3>
-    <p>Masukkan kode redeem untuk mendapatkan Diamond gratis.</p>
+    <p>Masukkan kode redeem untuk mendapatkan Diamond.</p>
     <div class="redeem-row">
       <input type="text" id="redeemCodeInput" class="redeem-input" placeholder="Masukkan kode redeem" autocomplete="off" enterkeyhint="done"/>
     </div>
@@ -6191,7 +6166,7 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
       <i class="fa-solid fa-plus"></i>
     </button>
   </div>
-  <p class="shop-hero-desc">Mainkan game seru di bawah ini, kejar skor terbaikmu, dan kumpulkan Diamond gratis sebanyak-banyaknya!</p>
+  <p class="shop-hero-desc">Mainkan game seru di bawah ini, kejar skor terbaikmu, dan kumpulkan Diamond sebanyak-banyaknya!</p>
 </div>
 
 <div class="hm-section-lbl"><span>🎬 Reward Konten Kreator</span></div>
@@ -6201,10 +6176,10 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
   <div class="crw-card-glow"></div>
   <div class="crw-card-top">
     <div class="crw-card-icon"><i class="fa-brands fa-tiktok"></i></div>
-    <span class="crw-card-badge">GRATIS</span>
+    
   </div>
   <h4 class="crw-card-title"><span class="hm-new-dot" id="newBadge_eventtiktok" style="display:none;vertical-align:middle;margin-right:6px;"></span>Upload Video TikTok, Dapat Diamond!</h4>
-  <p class="crw-card-desc">Bikin konten TikTok bebas tema, asal berkaitan dengan aplikasi <b>KZRIZUSMO</b> atau <b>Zusmo Shadow</b>, dan wajib tag akun <b>@kzrizusmo_store</b>. Kirim link videonya dan dapatkan Diamond Merah gratis — jumlahnya dinilai dari views, like, komentar, dan seberapa menarik kontenmu.</p>
+  <p class="crw-card-desc">Bikin konten TikTok bebas tema, asal berkaitan dengan aplikasi <b>KZRIZUSMO</b> atau <b>Zusmo Shadow</b>, dan wajib tag akun <b>@kzrizusmo_store</b>. Kirim link videonya dan dapatkan Diamond Merah — jumlahnya dinilai dari views, like, komentar, dan seberapa menarik kontenmu.</p>
   <div class="crw-card-footer">
     <span class="crw-card-reward"><img loading="lazy" decoding="async" src="zusmo-asset/onzrii.png" alt="diamond" class="crw-card-reward-icon"/>100 – 10.000 DM</span>
     <span class="crw-card-cta">Klaim Sekarang<i class="fa-solid fa-arrow-right"></i></span>
@@ -7169,8 +7144,8 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
   </div>
   <div class="dv2-token-card">
     <div class="dv2-token-card-head">
-      <span class="dv2-token-name"><i class="fa-solid fa-server"></i> SiamBhau API</span>
-      <button type="button" class="dv2-token-refresh" onclick="devRefreshTokenMonitor('siambhau')" aria-label="Refresh SiamBhau"><i class="fa-solid fa-rotate"></i></button>
+      <span class="dv2-token-name"><i class="fa-solid fa-server"></i> API Free Fire</span>
+      <button type="button" class="dv2-token-refresh" onclick="devRefreshTokenMonitor('siambhau')" aria-label="Perbarui status API Free Fire"><i class="fa-solid fa-rotate"></i></button>
     </div>
     <div class="dv2-token-body" id="devTokenBody-siambhau"><span class="dv2-token-state">Memuat data...</span></div>
   </div>
@@ -7242,7 +7217,7 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
   <button class="kz-ib-close" onclick="kzInstallDismiss()" aria-label="Tutup"><i class="fa-solid fa-xmark"></i></button>
 </div>
 
-<!-- ================= WELCOME BONUS: 2.500 Diamond gratis untuk pengguna baru yang install app ================= -->
+<!-- ================= WELCOME BONUS: 2.500 Diamond untuk pengguna baru yang install app ================= -->
 
 <div class="kz-welcome-overlay" id="kzWelcomeOverlay">
   <div class="kz-welcome-card">
@@ -7251,7 +7226,7 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
       <img class="kz-welcome-icon" src="zusmo-asset/onzrii.png" alt="diamond"/>
       <div class="kz-welcome-title">SELAMAT DATANG DI KZRIZUSMO!</div>
       <div class="kz-welcome-amount"><img src="zusmo-asset/onzrii.png" alt="diamond"/>2.500</div>
-      <div class="kz-welcome-desc">Khusus pengguna baru! Install aplikasi KZRIZUSMO ke layar utama sekarang dan klaim <b style="color:#fff">2.500 Diamond GRATIS</b> buat dipakai di semua fitur.</div>
+      <div class="kz-welcome-desc">Khusus pengguna baru! Install aplikasi KZRIZUSMO ke layar utama sekarang dan klaim <b style="color:#fff">2.500 Diamond</b> buat dipakai di semua fitur.</div>
       <button class="kz-welcome-btn" id="kzWelcomeBtn" onclick="kzClaimWelcomeInstall()">Install &amp; Klaim 2.500 Diamond</button>
       <button class="kz-welcome-later" onclick="kzWelcomeDismiss()">Nanti saja</button>
       <div class="kz-welcome-note">Bonus otomatis masuk begitu instalasi selesai.</div>
@@ -7265,6 +7240,7 @@ Grup lain seperti <b>Access To JWT</b>, <b>EAT To JWT</b>, <b>Bind Tools</b>, <b
   </div>
 </div>
 
-<script src="script.js?v=20260917-0121"></script>
+<script src="js/app.js"></script>
+
 </body></html>
 
