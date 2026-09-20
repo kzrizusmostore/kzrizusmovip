@@ -21,10 +21,16 @@ function createServer(upstream=requestLikes){
   function json(res,status,data){res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'});res.end(JSON.stringify(data));}
   return http.createServer(async(req,res)=>{
     let pathname;try{pathname=new URL(req.url,'http://localhost').pathname;}catch(e){return json(res,400,{error:'URL tidak valid.'});}
-    if(pathname==='/api/likes'){
+    if(pathname==='/api/likes'||pathname==='/api/ff-likes/like'){
+      let uid;
+      if(pathname==='/api/ff-likes/like'){
+        if(req.method!=='GET')return json(res,405,{error:'Metode tidak didukung.'});
+        uid=new URL(req.url,'http://localhost').searchParams.get('uid');
+      }else{
       if(req.method!=='POST')return json(res,405,{error:'Gunakan tombol Tambah like.'});
       let raw='';try{for await(const chunk of req){raw+=chunk;if(raw.length>2048){json(res,413,{error:'Data terlalu panjang.'});req.resume();return;}}}catch(e){return;}
-      let uid;try{uid=JSON.parse(raw).uid;}catch(e){return json(res,400,{error:'Data tidak valid.'});}
+      try{uid=JSON.parse(raw).uid;}catch(e){return json(res,400,{error:'Data tidak valid.'});}
+      }
       if(typeof uid!=='string'||! /^[1-9]\d{5,19}$/.test(uid))return json(res,400,{error:'UID Free Fire tidak valid.'});
       if(pending.has(uid))return json(res,409,{error:'UID ini sedang diproses. Tunggu hasilnya.'});
       pending.add(uid);
@@ -32,7 +38,12 @@ function createServer(upstream=requestLikes){
     }
     if(!['GET','HEAD'].includes(req.method))return json(res,405,{error:'Metode tidak didukung.'});
     let file;if(pathname==='/'||pathname==='/index.html')file=path.join(ROOT,'index.html');
-    else if(pathname.startsWith('/zusmo-asset/')){let decoded;try{decoded=decodeURIComponent(pathname);}catch(e){return json(res,400,{error:'Path tidak valid.'});}file=path.resolve(ROOT,'.'+decoded);if(!file.startsWith(path.join(ROOT,'zusmo-asset')+path.sep))return json(res,403,{error:'Akses ditolak.'});}
+    else if(['/zusmo-asset/','/css/','/js/'].some(prefix=>pathname.startsWith(prefix))){
+      let decoded;try{decoded=decodeURIComponent(pathname);}catch(e){return json(res,400,{error:'Path tidak valid.'});}
+      const folder=pathname.split('/')[1];file=path.resolve(ROOT,'.'+decoded);
+      if(!file.startsWith(path.join(ROOT,folder)+path.sep))return json(res,403,{error:'Akses ditolak.'});
+      if((folder==='css'&&!file.endsWith('.css'))||(folder==='js'&&!file.endsWith('.js')))return json(res,403,{error:'Akses ditolak.'});
+    }
     else return json(res,404,{error:'Halaman tidak ditemukan.'});
     fs.stat(file,(err,stat)=>{if(err||!stat.isFile())return json(res,404,{error:'File tidak ditemukan.'});
       const type={'.html':'text/html; charset=utf-8','.jpg':'image/jpeg','.png':'image/png','.webp':'image/webp','.gif':'image/gif','.svg':'image/svg+xml','.mp4':'video/mp4','.mp3':'audio/mpeg','.m4a':'audio/mp4','.woff2':'font/woff2','.css':'text/css','.js':'text/javascript'}[path.extname(file)]||'application/octet-stream';

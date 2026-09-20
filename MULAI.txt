@@ -1,15 +1,20 @@
-KZRIZUSMO FF — perbaikan Likes
+KZRIZUSMO FF — Netlify
 
-1. Gunakan Node.js 18 atau lebih baru.
-2. Jalankan `node server.cjs` dari folder ini.
-3. Buka http://localhost:3000 melalui browser.
+1. Ekstrak ZIP ini.
+2. Masukkan kembali folder zusmo-asset dari proyek asli jika ada.
+3. Unggah seluruh folder kzrizusmo-ff ke bagian Deploys pada situs Netlify yang sama.
+   index.html, _redirects, _headers, css, dan js harus berada di akar hasil deploy.
+4. Tunggu deploy berstatus Published lalu muat ulang website.
 
-Untuk hosting: gunakan layanan Node.js dengan perintah mulai `npm start`.
-Server mengikuti PORT yang diberikan hosting. Tidak ada dependensi tambahan.
-Folder zusmo-asset dari proyek asli perlu diletakkan di samping index.html untuk gambar, video, dan audio lokal. Folder aset tersebut tidak ada dalam unggahan HTML, sehingga tidak disertakan di paket ini.
+Jangan unggah index.html saja. File _redirects menghubungkan Like Gratis ke API melalui Netlify. Tidak perlu menjalankan Node.js di Netlify.
 
-Like Gratis memakai POST /api/likes pada server ini. Server meneruskan satu permintaan ke API yang diberikan, tanpa percobaan otomatis. Endpoint upstream tidak memberi header CORS, jadi membuka HTML lewat content://, file://, atau hosting statis saja tidak cukup untuk fitur ini.
+Pengujian koneksi tanpa menambahkan like:
+Buka /api/ff-likes/like di domain website. Jika proxy aktif, API mengembalikan JSON error Invalid API key (bukan halaman 404 atau HTML website). Ini hanya memeriksa koneksi; bukan bukti pengiriman like berhasil.
 
-Tab Berbayar langsung memuat paket lama dan form order. Menu Likes ada setelah Cek Banner.
+Like Gratis menampilkan jumlah sebelum, sesudah, dan like yang ditambahkan sesuai hasil API. Status 2 dengan tambahan 0 berarti tidak ada like baru. Tidak ada percobaan ulang otomatis. Netlify membatasi waktu proxy; jika layanan lambat atau koneksi terputus, periksa like di game sebelum mengirim ulang.
 
-Pengujian: logika browser dan server diuji dengan respons simulasi. Koneksi status API dan penolakan request tanpa UID diperiksa langsung; tidak ada like yang dikirim ke akun pengguna selama pengujian.
+Versi index.html lengkap yang dikirim terpisah dapat menggantikan index.html dalam folder ini. Tetap sertakan _redirects dan _headers saat deploy.
+
+Opsional lokal: Node.js 18+, npm start, buka http://localhost:3000.
+
+Aset lokal zusmo-asset tidak tersedia pada sumber yang diterima; gunakan aset proyek asli. Paket berbayar tetap memakai harga dan alur pemesanan yang sudah ada.
