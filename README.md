@@ -1,19 +1,19 @@
-# KZRIZUSMO FF - versi terpisah
+# KZRIZUSMO FF - Split Project
 
-Struktur hasil pemisahan:
+Struktur:
 
-- `index.html` - struktur halaman
-- `css/style.css` - stylesheet utama (posisi cascade awal dipertahankan)
-- `css/overrides.css` - patch/override stylesheet yang semula berada setelah library eksternal
-- `js/app.js` - seluruh JavaScript inline utama
-- `zusmo-asset/` - folder untuk asset lokal yang direferensikan proyek
+- `index.html` - struktur HTML utama
+- `css/base.css` - CSS utama yang sebelumnya berada di blok `<style>` pertama
+- `css/overrides.css` - seluruh blok CSS lanjutan, urutannya dipertahankan
+- `js/app.js` - seluruh JavaScript internal, urutannya dipertahankan
+- `zusmo-asset/` - tempat asset lokal asli
+- `ASSETS_REQUIRED.txt` - daftar asset lokal yang direferensikan project
 
 Catatan penting:
+- URL relatif di CSS otomatis disesuaikan dari `zusmo-asset/...` menjadi `../zusmo-asset/...` karena file CSS sekarang berada di folder `css/`.
+- URL asset di HTML dan JavaScript tidak perlu diubah karena tetap resolve terhadap halaman `index.html`.
+- Library eksternal (Font Awesome, Google Fonts, html2canvas, EmailJS, QRCodeJS) tetap berada pada posisi/order aslinya di HTML.
+- Asset binary asli tidak ada dalam upload `index.html`, jadi folder asset hanya disiapkan dan tidak diisi file palsu.
 
-1. Library CDN yang sudah dipakai project (Font Awesome, Google Fonts, html2canvas, EmailJS, QRCode.js) tetap dipanggil dari `index.html` agar urutan load tidak berubah.
-2. URL asset relatif di CSS otomatis disesuaikan karena file CSS sekarang berada di folder `css/`.
-3. Folder `zusmo-asset/` dibuat, tetapi file asset aslinya tidak ada di upload HTML ini. Salin asset asli proyek ke folder tersebut jika memang digunakan.
-4. Untuk hasil paling konsisten, jalankan lewat local/static web server, bukan hanya `file://`. Contoh: `python -m http.server 8080` dari folder project.
-5. Atribut wiring seperti `onclick` yang sudah ada di HTML dipertahankan agar kompatibilitas perilaku lama tidak berubah; fungsi yang dipanggilnya sekarang berasal dari `js/app.js`.
-
-Jumlah blok yang dipisah: 11 blok `<style>` dan 2 blok `<script>` inline.
+Jumlah blok asal: 11 CSS internal, 2 JavaScript internal.
+Jumlah referensi asset lokal terdeteksi: 87.
