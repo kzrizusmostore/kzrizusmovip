@@ -1,0 +1,36 @@
+#cekidffAddItem .cai-catalog{margin-bottom:20px}
+#cekidffAddItem .cai-catalog-title{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}
+#cekidffAddItem .cai-catalog-title h2{font-size:18px;letter-spacing:-.3px}
+#cekidffAddItem .cai-catalog-title>span{font-size:11px;color:#999}
+#cekidffAddItem .cai-catalog-search{position:relative;margin-bottom:14px}
+#cekidffAddItem .cai-catalog-search>i{position:absolute;left:14px;top:18px;color:#888;font-size:13px}
+#cekidffAddItem .cai-catalog-search input{width:100%;height:48px;padding:12px 48px 12px 39px;border-radius:12px;border:1px solid #303030;background:#111;color:#fff;font-size:14px;outline:none}
+#cekidffAddItem .cai-catalog-search input:focus{border-color:#ff3b3b}
+#cekidffAddItem .cai-catalog-search>button{position:absolute;right:4px;top:4px;width:40px;height:40px;background:none;color:#aaa;border:0;border-radius:10px}
+#cekidffAddItem .cai-catalog-filters{display:flex;gap:8px}
+#cekidffAddItem .cai-catalog-filters button{min-height:42px;border:1px solid #303030;border-radius:10px;padding:10px 14px;background:#161616;color:#aaa;font-size:12px}
+#cekidffAddItem .cai-catalog-filters button[aria-pressed="true"]{color:#fff;border-color:#ff3b3b;background:rgba(255,59,59,.12)}
+#cekidffAddItem #caiSelectedCount{margin-left:5px;font-variant-numeric:tabular-nums}
+#cekidffAddItem .cai-catalog-summary{font-size:11px;line-height:1.6;color:#999;margin:14px 0 10px;min-height:18px}
+#cekidffAddItem .cai-catalog-item{display:block;width:100%;padding:0;text-align:center;cursor:pointer;transition:border-color .15s,background .15s;appearance:none;color:#eee;position:relative}
+#cekidffAddItem .cai-catalog-item .cai-item-art{display:flex;aspect-ratio:1/1.08}
+#cekidffAddItem .cai-catalog-item .cai-item-art img{padding:4px}
+#cekidffAddItem .cai-catalog-item.selected{border-color:#ff3b3b;box-shadow:0 0 0 1px #ff3b3b;background:#2b1515}
+#cekidffAddItem .cai-catalog-caption{display:block;padding:9px 3px;font-size:10px;line-height:1.4;color:#aaa;overflow-wrap:anywhere;border-top:1px solid rgba(255,255,255,.06);font-variant-numeric:tabular-nums}
+#cekidffAddItem .cai-selected-mark{display:none;position:absolute;top:6px;right:6px;width:22px;height:22px;border-radius:50%;background:#ff3b3b;color:white;align-items:center;justify-content:center;font-size:11px}
+#cekidffAddItem .selected .cai-selected-mark{display:flex}
+#cekidffAddItem .cai-catalog-empty{text-align:center;padding:36px 12px;font-size:13px;color:#aaa}
+#cekidffAddItem .cai-pagination{display:flex;justify-content:space-between;gap:10px;align-items:center;margin:20px 0 10px}
+#cekidffAddItem .cai-pagination>button{width:44px;height:44px;border:1px solid #333;background:#191919;color:#fff;border-radius:11px;flex-shrink:0}
+#cekidffAddItem .cai-pagination>button:disabled{opacity:.3;cursor:default}
+#cekidffAddItem .cai-pagination label{display:flex;align-items:center;gap:7px;font-size:11px;color:#aaa}
+#cekidffAddItem .cai-pagination input{width:56px;min-height:42px;border:1px solid #333;border-radius:9px;background:#111;color:#fff;font-size:12px;text-align:center}
+#cekidffAddItem .cai-source{display:block;text-align:center;color:#777;font-size:10px;text-decoration:none;padding:10px}
+#cekidffAddItem .cai-selection-bar{position:sticky;top:64px;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border:1px solid #6c2626;background:rgba(22,16,16,.97);border-radius:14px;box-shadow:0 8px 24px #0008;margin:16px 0}
+#cekidffAddItem .cai-selection-bar>span{color:#ccc;font-size:12px}
+#cekidffAddItem .cai-selection-bar b{color:#fff}
+#cekidffAddItem .cai-selection-bar button{min-height:44px;padding:10px 16px;border:0;border-radius:10px;background:#ff3b3b;color:#fff;font-weight:700;font-size:12px}
+#cekidffAddItem .cai-manual{margin-bottom:18px}
+#cekidffAddItem .cai-manual summary{padding:10px 0;min-height:44px;font-size:12px;color:#bbb;cursor:pointer}
+#cekidffAddItem .cai-manual[open] summary{margin-bottom:10px}
+#caiEquipForm,#caiCatalogGrid{scroll-margin-top:80px}

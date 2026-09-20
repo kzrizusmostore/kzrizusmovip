@@ -1,0 +1,6 @@
+
+#caiPreviewGrid .cai-item-card{position:relative}
+#caiPreviewGrid .cai-remove-selection{position:absolute;inset:0;width:100%;height:100%;padding:0;border:0;border-radius:12px;background:transparent;cursor:pointer;color:#fff}
+#caiPreviewGrid .cai-remove-selection span{position:absolute;right:6px;top:6px;width:24px;height:24px;display:flex;align-items:center;justify-content:center;border:1px solid #ffffff30;border-radius:50%;background:#181818dd;font-size:20px;line-height:1}
+#caiPreviewGrid .cai-remove-selection:hover{background:#ff3b3b12}
+#caiPreviewGrid .cai-remove-selection:focus-visible{outline:2px solid #ff3b3b;outline-offset:-2px}

@@ -1,0 +1,7 @@
+
+/* Shared footer placement: below the first screen, with space after content. */
+.page.page-with-copyright{min-height:calc(100vh + 300px)!important;min-height:calc(100svh + 300px)!important;padding-bottom:calc(40px + env(safe-area-inset-bottom,0px))!important;}
+.page.page-with-copyright.active{display:flex;flex-direction:column;}
+.page.page-with-copyright> *{flex-shrink:0;}
+.page.page-with-copyright>.footer{position:relative!important;inset:auto!important;flex-shrink:0;width:100%;margin: auto 0 0!important;padding-top:180px!important;}
+.page.page-with-copyright>.footer::before{top:160px;}

@@ -1,0 +1,34 @@
+
+/* Info Player: richer visual hierarchy and responsive interaction. */
+#cekidffPlayer .cip-hero{position:relative;isolation:isolate;overflow:hidden;gap:0;padding:22px 18px 24px;margin-bottom:14px;border:1px solid rgba(255,43,43,.25);border-radius:20px;background:radial-gradient(ellipse at 95% 10%,rgba(255,43,43,.2),transparent 60%),linear-gradient(125deg,#171111,#0b0b0b);}
+#cekidffPlayer .cip-hero::after{content:'';position:absolute;z-index:-1;width:135px;height:135px;right:-40px;top:-42px;border:1px solid rgba(255,43,43,.22);transform:rotate(35deg);box-shadow:0 0 0 16px rgba(255,43,43,.035),0 0 0 34px rgba(255,43,43,.025);pointer-events:none;}
+#cekidffPlayer .cip-hero>.cid-page-head-icon{display:none;}
+#cekidffPlayer .cip-eyebrow{display:flex;align-items:center;gap:7px;font-size:9px;font-weight:700;letter-spacing:1.5px;color:#b5a3a3;margin-bottom:12px;}
+#cekidffPlayer .cip-eyebrow>span{width:5px;height:5px;border-radius:50%;background:#ff2b2b;box-shadow:0 0 10px rgba(255,43,43,.65);}
+#cekidffPlayer .cid-hero-title{font-family:'Outfit','Inter',system-ui,sans-serif;font-size:clamp(29px,8.5vw,44px);font-weight:900;font-style:italic;letter-spacing:-1.5px;line-height:1.06;text-align:left;margin:0 0 11px;text-transform:uppercase;}
+#cekidffPlayer .cip-title-info{color:#fff;}
+#cekidffPlayer .cip-title-player{color:#ff2b2b;text-shadow:0 3px 24px rgba(255,43,43,.16);}
+#cekidffPlayer .cip-title-dot{color:#fff;}
+#cekidffPlayer .cid-hero-sub{max-width:380px;color:#b5acac;font-size:11px;line-height:1.6;}
+#cekidffPlayer .cid-card,#cekidffPlayer .cid-result-card{background:linear-gradient(145deg,#181515,#101010 65%);border-color:#332828;box-shadow:0 8px 24px rgba(0,0,0,.13);transition:border-color .2s,box-shadow .2s;}
+#cekidffPlayer .cid-card:focus-within{border-color:rgba(255,43,43,.6);box-shadow:0 0 0 3px rgba(255,43,43,.06);}
+#cekidffPlayer .cid-input:focus{outline:none;border-color:#ff2b2b;box-shadow:0 0 0 3px rgba(255,43,43,.10);}
+#cekidffPlayer .cid-btn,#cekidffPlayer .cip-download{background:linear-gradient(120deg,#ff3737,#dc1717);box-shadow:0 5px 16px rgba(255,43,43,.13);transition:transform .16s,box-shadow .16s,opacity .16s;}
+#cekidffPlayer .cid-btn:not(:disabled):active,#cekidffPlayer .cip-download:not(:disabled):active{transform:scale(.98);}
+#cekidffPlayer .cip-tabs{gap:4px;padding:5px;border-color:#332525;background:#100e0e;}
+#cekidffPlayer .cip-tabs button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:56px;transition:background .2s,color .2s,transform .2s;}
+#cekidffPlayer .cip-tabs button i{font-size:13px;}
+#cekidffPlayer .cip-tabs button[aria-selected="true"]{background:linear-gradient(145deg,#ff3838,#d81919);box-shadow:0 3px 10px rgba(255,43,43,.23);}
+#cekidffPlayer .cid-col:not([hidden]){animation:cipPanelReveal .24s ease both;}
+#cekidffPlayer .cid-banner-full,#cekidffPlayer .cid-banner-full img{border-radius:0!important;}
+#cekidffPlayer .cip-avatar-section{margin-top:22px;padding-top:20px;border-top:1px solid #342626;}
+#cekidffPlayer .cip-avatar-top{display:flex;align-items:center;gap:16px;text-align:left;}
+#cekidffPlayer .cip-avatar-preview{width:88px;height:88px;flex:0 0 88px;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle,#341818,#151010);border:1px solid rgba(255,43,43,.35);box-shadow:0 4px 18px rgba(0,0,0,.25);color:#975353;font-size:27px;}
+#cekidffPlayer .cip-avatar-preview img{width:100%;height:100%;object-fit:contain;display:block;}
+#cekidffPlayer .cip-avatar-copy{min-width:0;}
+#cekidffPlayer .cip-media-kicker{font-size:8px;font-weight:700;letter-spacing:1.5px;color:#ff5555;margin-bottom:6px;}
+#cekidffPlayer .cip-avatar-copy h3{font-size:15px;font-weight:800;margin:0 0 5px;}
+#cekidffPlayer #cipAvatarMeta{font-size:10px;line-height:1.5;color:#aaa;overflow-wrap:anywhere;}
+@keyframes cipPanelReveal{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@media(hover:hover){#cekidffPlayer .cip-tabs button:hover{color:#fff;background:#351515;}#cekidffPlayer .cid-btn:not(:disabled):hover,#cekidffPlayer .cip-download:not(:disabled):hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(255,43,43,.22);}}
+@media(prefers-reduced-motion:reduce){#cekidffPlayer .cid-col:not([hidden]){animation:none;}#cekidffPlayer .cid-card,#cekidffPlayer .cid-result-card,#cekidffPlayer .cid-btn,#cekidffPlayer .cip-download,#cekidffPlayer .cip-tabs button{transition:none;}}
