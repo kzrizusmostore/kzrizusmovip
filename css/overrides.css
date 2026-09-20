@@ -1,4 +1,3 @@
-/* ===== Original inline style block 2 ===== */
 
 /* Bio Panjang: scoped styles; other application pages are unchanged. */
 #cekidffLongBio{--clb-bg:#111214;--clb-line:#303137;--clb-muted:#b1b2bd;--clb-red:#ff2b2b;--clb-red-rgb:255,43,43;--clb-red-soft:#ff8585;--clb-red-gradient:linear-gradient(135deg,#ff3b3b,#c40d0d);--clb-red-gradient-hover:linear-gradient(135deg,#ff4747,#d41414);--clb-ok:#9ce2be;max-width:850px;margin:0 auto;padding-bottom:50px;color:#f7f7fa;}
@@ -186,7 +185,8 @@
 
 
 
-/* ===== Original inline style block 3 ===== */
+/* ---- original inline style block separator ---- */
+
 
 /* FF Tools: compact feature-first menu, original red accent. */
 #cekidff{max-width:960px;margin-inline:auto;}
@@ -230,7 +230,8 @@
 @media(prefers-reduced-motion:reduce){#cekidff .cifm-tile{transition:none;}}
 
 
-/* ===== Original inline style block 4 ===== */
+/* ---- original inline style block separator ---- */
+
 
 /* Shared footer placement: below the first screen, with space after content. */
 .page.page-with-copyright{min-height:calc(100vh + 300px)!important;min-height:calc(100svh + 300px)!important;padding-bottom:calc(40px + env(safe-area-inset-bottom,0px))!important;}
@@ -240,7 +241,8 @@
 .page.page-with-copyright>.footer::before{top:160px;}
 
 
-/* ===== Original inline style block 5 ===== */
+/* ---- original inline style block separator ---- */
+
 
 /* Info Player: compact search and focused result panels. */
 #cekidffPlayer{max-width:760px;margin-inline:auto;}
@@ -280,7 +282,8 @@
 #cekidffPlayer button:focus-visible,#cekidffPlayer a:focus-visible{outline:2px solid #ff6666;outline-offset:3px;}
 
 
-/* ===== Original inline style block 6 ===== */
+/* ---- original inline style block separator ---- */
+
 
 /* Info Player: richer visual hierarchy and responsive interaction. */
 #cekidffPlayer .cip-hero{position:relative;isolation:isolate;overflow:hidden;gap:0;padding:22px 18px 24px;margin-bottom:14px;border:1px solid rgba(255,43,43,.25);border-radius:20px;background:radial-gradient(ellipse at 95% 10%,rgba(255,43,43,.2),transparent 60%),linear-gradient(125deg,#171111,#0b0b0b);}
@@ -317,7 +320,8 @@
 @media(prefers-reduced-motion:reduce){#cekidffPlayer .cid-col:not([hidden]){animation:none;}#cekidffPlayer .cid-card,#cekidffPlayer .cid-result-card,#cekidffPlayer .cid-btn,#cekidffPlayer .cip-download,#cekidffPlayer .cip-tabs button{transition:none;}}
 
 
-/* ===== Original inline style block 7 ===== */
+/* ---- original inline style block separator ---- */
+
 
 /* Compact, reversible popular-UID picker. */
 #cekidffPlayer #cidPopulerCardTop{padding:0 11px;margin-bottom:12px;border-radius:12px;background:rgba(16,16,16,.75);border:1px solid #2c2525;box-shadow:none;}
@@ -338,7 +342,8 @@
 @media(prefers-reduced-motion:reduce){#cekidffPlayer .cip-popular-toggle i{transition:none;}}
 
 
-/* ===== Original inline style block 8 ===== */
+/* ---- original inline style block separator ---- */
+
 
 /* FF Tools typography: consistent headings, readable compact labels. */
 #cekidff .cifm-title,#cekidff .cifm-copy strong,#cekidff .cifm-ref-head h2,
@@ -358,7 +363,8 @@ font-family:'Inter',system-ui,sans-serif;letter-spacing:0;}
 #cekidffPlayer .cip-popular-toggle{font-size:10px;}
 
 
-/* ===== Original inline style block 9 ===== */
+/* ---- original inline style block separator ---- */
+
 
 /* Shared red tool UI: Banned, Outfit and Ranked statistics. */
 .fft-refresh{max-width:760px;margin-inline:auto;}
@@ -402,7 +408,8 @@ font-family:'Inter',system-ui,sans-serif;letter-spacing:0;}
 @media(prefers-reduced-motion:reduce){.fft-refresh .cid-btn{transition:none;}}
 
 
-/* ===== Original inline style block 10 ===== */
+/* ---- original inline style block separator ---- */
+
 
 /* Quiet, touch-friendly global back button. */
 .topbar-pro #topbarBackBtn{min-height:40px;min-width:96px;padding:8px 12px!important;border-radius:10px!important;border:1px solid rgba(255,255,255,.13)!important;background:rgba(20,20,20,.75)!important;gap:9px;font:600 12px 'Inter',system-ui,sans-serif;letter-spacing:0;box-shadow:none;transition:background .15s,border-color .15s;touch-action:manipulation;}
@@ -433,7 +440,8 @@ font-family:'Inter',system-ui,sans-serif;letter-spacing:0;}
 @media(prefers-reduced-motion:reduce){.topbar-pro #topbarBackBtn{transition:none;}}
 
 
-/* ===== Original inline style block 11 ===== */
+/* ---- original inline style block separator ---- */
+
 
 /* Plain back navigation and a quieter Ranked layout. */
 .topbar-pro #topbarBackBtn,.topbar-pro #topbarBackBtn:hover,.topbar-pro #topbarBackBtn:active{background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;}
