@@ -1,0 +1,15 @@
+KZRIZUSMO FF — perbaikan Likes
+
+1. Gunakan Node.js 18 atau lebih baru.
+2. Jalankan `node server.cjs` dari folder ini.
+3. Buka http://localhost:3000 melalui browser.
+
+Untuk hosting: gunakan layanan Node.js dengan perintah mulai `npm start`.
+Server mengikuti PORT yang diberikan hosting. Tidak ada dependensi tambahan.
+Folder zusmo-asset dari proyek asli perlu diletakkan di samping index.html untuk gambar, video, dan audio lokal. Folder aset tersebut tidak ada dalam unggahan HTML, sehingga tidak disertakan di paket ini.
+
+Like Gratis memakai POST /api/likes pada server ini. Server meneruskan satu permintaan ke API yang diberikan, tanpa percobaan otomatis. Endpoint upstream tidak memberi header CORS, jadi membuka HTML lewat content://, file://, atau hosting statis saja tidak cukup untuk fitur ini.
+
+Tab Berbayar langsung memuat paket lama dan form order. Menu Likes ada setelah Cek Banner.
+
+Pengujian: logika browser dan server diuji dengan respons simulasi. Koneksi status API dan penolakan request tanpa UID diperiksa langsung; tidak ada like yang dikirim ke akun pengguna selama pengujian.
