@@ -1313,14 +1313,14 @@ let slSelected=-1;
   const g=document.getElementById('slPackGrid');
   if(!g)return;
   slPackages.forEach((p,i)=>{
-    const d=document.createElement('div');
+    const d=document.createElement('button');d.type='button';d.setAttribute('aria-pressed','false');d.setAttribute('aria-label',p.like.toLocaleString('id-ID')+' like, Rp '+p.price.toLocaleString('id-ID')+', estimasi '+p.days+' hari');
     d.className='sl-pack';
     d.innerHTML='<span class="sl-pack-like">'+p.like.toLocaleString('id-ID')+'<small>LIKE</small></span>'+
       '<div class="sl-pack-price">Rp '+p.price.toLocaleString('id-ID')+'</div>'+
-      '<span class="sl-pack-days">± '+p.days+' HARI</span>';
+      '<span class="sl-pack-days">± '+p.days+' hari</span><span class="likes-pack-check" aria-hidden="true"><i class="fa-solid fa-check"></i></span>';
     d.onclick=()=>{
       slSelected=i;
-      document.querySelectorAll('.sl-pack').forEach((b,j)=>b.classList.toggle('on',j===i));
+      g.querySelectorAll('.sl-pack').forEach((b,j)=>{b.classList.toggle('on',j===i);b.setAttribute('aria-pressed',String(j===i));});document.getElementById('likesPaidError').hidden=true;
       updateSlSummary();
     };
     g.appendChild(d);
@@ -1341,13 +1341,16 @@ function orderSuntikLike(){
   const idInp=document.getElementById('slIdInput');
   const id=idInp.value.trim();
 
+  const error=document.getElementById('likesPaidError');error.hidden=true;
   if(slSelected<0){
+    error.textContent='Pilih paket like terlebih dahulu.';error.hidden=false;document.querySelector('#slPackGrid button').focus();
     const g=document.getElementById('slPackGrid');
     g.style.outline='1.5px solid #ff2b2b';g.style.borderRadius='8px';
     setTimeout(()=>{g.style.outline='none';},900);
     return;
   }
-  if(!id){
+  if(!/^[1-9]\d{5,19}$/.test(id)){
+    error.textContent='Masukkan UID Free Fire yang valid.';error.hidden=false;idInp.setAttribute('aria-invalid','true');idInp.focus();
     idInp.classList.remove('pc-shake');void idInp.offsetWidth;idInp.classList.add('pc-shake');
     idInp.style.borderColor='#ff2b2b';
     idInp.style.boxShadow='0 0 0 3px rgba(255,43,43,.22)';
@@ -1355,6 +1358,7 @@ function orderSuntikLike(){
     return;
   }
 
+  idInp.removeAttribute('aria-invalid');
   const p=slPackages[slSelected];
   const msg='Halo Admin, saya mau order *SUNTIK LIKE FF* :\n\n'+
     '🆔 ID FF : '+id+'\n'+
@@ -7254,7 +7258,7 @@ function caiEl(id){return document.getElementById(id);}
 function caiEsc(v){return String(v==null?'':v).replace(/[&<>\"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c];});}
 function caiStatus(type,msg){const e=caiEl('caiStatus');if(!e)return;e.hidden=false;e.className='cai-status '+(type||'info');e.textContent=msg;}
 function caiHideStatus(){const e=caiEl('caiStatus');if(e){e.hidden=true;e.textContent='';e.className='cai-status info';}}
-function caiToggleJwt(btn){const e=caiEl('caiJwtInput');if(!e)return;e.type=e.type==='password'?'text':'password';const i=btn&&btn.querySelector('i');if(i)i.className=e.type==='password'?'fa-solid fa-eye':'fa-solid fa-eye-slash';}
+function caiToggleJwt(btn){const e=caiEl('caiJwtInput');if(!e)return;e.type=e.type==='password'?'text':'password';const i=btn&&btn.querySelector('i');if(i)i.className=e.type==='password'?'fa-solid fa-eye':'fa-solid fa-eye-slash';if(btn){btn.setAttribute('aria-pressed',String(e.type==='text'));btn.setAttribute('aria-label',e.type==='password'?'Tampilkan token / password':'Sembunyikan token / password');}}
 function caiNormalizeJwt(raw){
   let v=String(raw||'').trim();if(!v)throw new Error('JWT wajib diisi.');
   if(v[0]==='{'){try{const j=JSON.parse(v);v=(typeof jwtPickDeep==='function'?jwtPickDeep(j,['BearerAuth','bearerAuth','bearer_auth','jwt','token']):'')||j.BearerAuth||j.token||j.jwt||v;}catch(e){}}
@@ -7266,6 +7270,42 @@ function caiParseItems(){
   if(parts.some(function(x){return !/^\d+$/.test(x);}))throw new Error('Item ID hanya boleh angka, dipisahkan koma/spasi/baris baru.');
   const uniq=Array.from(new Set(parts));if(uniq.length>100)throw new Error('Maksimal 100 Item ID per proses.');return uniq;
 }
+
+function caiItemCards(items,removable){
+  return items.map(function(item){
+    const id=String(item&&typeof item==='object'?(item.item_id||item.itemId||item.id||''):item);
+    if(!/^\d+$/.test(id))return '';
+    return '<figure class="cai-item-card"><div class="cai-item-art">'+
+      '<span class="cai-image-status">Memuat gambar…</span>'+
+      '<img src="'+caiEsc(tffItemIconUrl(id))+'" data-item-id="'+caiEsc(id)+'" alt="Item '+caiEsc(id)+'" loading="lazy" decoding="async" referrerpolicy="no-referrer" onload="caiImageReady(this)" onerror="caiImageError(this)">'+
+      '</div><figcaption><span>ITEM ID</span><strong>'+caiEsc(id)+'</strong></figcaption>'+
+      (removable?'<button type="button" class="cai-remove-selection" aria-label="Batalkan pilihan item '+caiEsc(id)+'" onclick="caiRemoveSelectedItem(\''+id+'\')"><span aria-hidden="true">×</span></button>':'')+'</figure>';
+  }).join('');
+}
+function caiImageReady(img){
+  img.parentElement.classList.add('ready');
+  img.parentElement.querySelector('.cai-image-status').textContent='';
+}
+function caiImageError(img){
+  if(!img.dataset.retried){
+    img.dataset.retried='1';
+    img.src='https://raw.githubusercontent.com/ShahGCreator/icon/main/PNG/'+encodeURIComponent(img.dataset.itemId)+'.png';
+    return;
+  }
+  img.hidden=true;img.parentElement.classList.add('unavailable');
+  img.parentElement.querySelector('.cai-image-status').textContent='Gambar belum tersedia';
+}
+function caiUpdatePreview(){
+  const input=caiEl('caiItemInput'),box=caiEl('caiPreview'),grid=caiEl('caiPreviewGrid'),count=caiEl('caiPreviewCount');
+  if(!input||!box||!grid)return;
+  const ids=Array.from(new Set(input.value.trim().split(/[\s,;]+/).filter(function(id){return /^\d+$/.test(id);}))).slice(0,100);
+  const key=ids.join(',');
+  if(grid.dataset.items!==key){grid.dataset.items=key;grid.innerHTML=caiItemCards(ids,true);}
+  box.hidden=!ids.length;
+  if(count)count.textContent=ids.length+' item';
+  if(typeof caiCatalogSync==='function')caiCatalogSync();
+}
+
 function caiLatestJwt(){
   try{
     if(typeof JWT_STATE!=='undefined'){
@@ -7278,8 +7318,9 @@ function caiLatestJwt(){
 }
 function caiUseLatestJwt(){const token=caiLatestJwt();if(!token){caiStatus('err','Belum ada JWT hasil dari tools JWT.');return;}const e=caiEl('caiJwtInput');if(e)e.value=token;caiStatus('ok','JWT terakhir dari tools JWT sudah dipakai.');setTimeout(caiHideStatus,1600);}
 function caiSetBusy(on){const b=caiEl('caiAddBtn');if(!b)return;if(on){if(!b.dataset.oldHtml)b.dataset.oldHtml=b.innerHTML;b.disabled=true;b.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i>MEMPROSES...';}else{b.disabled=false;if(b.dataset.oldHtml)b.innerHTML=b.dataset.oldHtml;b.dataset.oldHtml='';}}
-function caiClear(){const a=caiEl('caiItemInput'),j=caiEl('caiJwtInput'),r=caiEl('caiResult');if(a)a.value='';if(j){j.value='';j.type='password';}if(r){r.hidden=true;r.innerHTML='';}caiHideStatus();}
+function caiClear(){const a=caiEl('caiItemInput'),j=caiEl('caiJwtInput'),r=caiEl('caiResult');if(a)a.value='';caiUpdatePreview();if(j){j.value='';j.type='password';}if(r){r.hidden=true;r.innerHTML='';}caiHideStatus();}
 async function caiTryAdd(){
+  if(caiEl('caiAddBtn').disabled)return;
   const result=caiEl('caiResult');
   try{
     const items=caiParseItems();
@@ -7312,12 +7353,12 @@ async function caiTryAdd(){
     }
     cidDeductDiamond(CID_ACTION_COST,'Equip Item FF','Equip '+items.length+' item');
     const returned=Array.isArray(json.items)?json.items:items;
-    if(result){result.innerHTML='<div class="cai-result-title">EQUIP ITEM RESULT</div>'+
+    if(result){result.innerHTML='<div class="cai-result-title">HASIL PEMASANGAN</div>'+
       '<div class="cid-info-row"><b>Status</b><span>'+caiEsc(json.status||'success')+'</span></div>'+
       '<div class="cid-info-row"><b>Jumlah Item</b><span>'+caiEsc(json.items_count!=null?json.items_count:returned.length)+'</span></div>'+
-      '<div class="cid-info-row"><b>Pesan</b><span>'+caiEsc(json.message||'Items added successfully!')+'</span></div>'+
-      '<div class="cai-item-list">'+returned.map(function(x){return '<span class="cai-item-chip">'+caiEsc(x)+'</span>';}).join('')+'</div>';result.hidden=false;}
-    caiStatus('ok',json.message||'Items added successfully!');
+      '<div class="cid-info-row"><b>Pesan</b><span>'+caiEsc(json.message||'Item berhasil dipasang.')+'</span></div>'+
+      '<div class="cai-gallery">'+caiItemCards(returned)+'</div>';result.hidden=false;}
+    caiStatus('ok',json.message||'Item berhasil dipasang.');
   }catch(e){console.error('[CAI]',e,(e&&e.raw)||'');caiStatus('err',e.message||String(e));}
   finally{caiSetBusy(false);}
 }
@@ -8209,11 +8250,7 @@ function btStatus(id,type,msg){const el=btEl(id);if(!el)return;el.hidden=false;e
 function btHideStatus(id){const el=btEl(id);if(el){el.hidden=true;el.textContent='';el.className='bt-status';}}
 function btSetBtn(id,busy,label){const b=btEl(id);if(!b)return;if(busy){if(!b.dataset.oldHtml)b.dataset.oldHtml=b.innerHTML;b.disabled=true;b.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> MEMPROSES...';}else{if(b.dataset.oldHtml)b.innerHTML=b.dataset.oldHtml;b.dataset.oldHtml='';btRefreshFlow();}}
 function btSetGlobalBusy(v){BT_STATE.busy=!!v;btRefreshFlow();}
-function btSwitchTab(name,btn){
-  document.querySelectorAll('#cekidffBindTools .bt-tab').forEach(function(x){x.classList.toggle('active',x.dataset.btTab===name);});
-  document.querySelectorAll('#cekidffBindTools .bt-panel').forEach(function(x){x.classList.toggle('active',x.dataset.btPanel===name);});
-  if(btn)btn.blur();
-}
+function btSwitchTab(name,btn){toolsSwitchTab('bt',name);}
 function btToggleAccess(){const el=btEl('btAccessToken'),eye=btEl('btAccessEye');if(!el)return;el.type=el.type==='password'?'text':'password';if(eye)eye.className=el.type==='password'?'fa-solid fa-eye':'fa-solid fa-eye-slash';}
 function btOnAccessChanged(){btResetChange(false);btResetUnbind(false);btHideStatus('btInfoStatus');const r=btEl('btInfoResult');if(r){r.hidden=true;r.innerHTML='';}}
 function btClearSession(){const a=btEl('btAccessToken');if(a){a.value='';a.type='password';}const eye=btEl('btAccessEye');if(eye)eye.className='fa-solid fa-eye';btOnAccessChanged();['btOldEmail','btOldOtp','btNewEmail','btNewOtp','btUnbindEmail','btUnbindOtp'].forEach(function(id){const e=btEl(id);if(e)e.value='';});btStatus('btInfoStatus','info','Data token di halaman sudah dibersihkan.');}
@@ -8328,14 +8365,10 @@ async function jwtRequest(path,payload){
 function jwtStatus(id,type,msg){const el=jwtEl(id);if(!el)return;el.hidden=false;el.className='jwt-status '+(type||'');el.textContent=msg;}
 function jwtHideStatus(id){const el=jwtEl(id);if(el){el.hidden=true;el.textContent='';el.className='jwt-status';}}
 function jwtSetBusy(id,busy,label){const b=jwtEl(id);if(!b)return;if(busy){if(!b.dataset.oldHtml)b.dataset.oldHtml=b.innerHTML;b.disabled=true;b.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> '+(label||'MEMPROSES...');}else{b.disabled=false;if(b.dataset.oldHtml)b.innerHTML=b.dataset.oldHtml;b.dataset.oldHtml='';}}
-function jwtSwitchTab(name,btn){
-  document.querySelectorAll('#cekidffJwtTools .jwt-tab').forEach(function(x){x.classList.toggle('active',x.dataset.jwtTab===name);});
-  document.querySelectorAll('#cekidffJwtTools .jwt-panel').forEach(function(x){x.classList.toggle('active',x.dataset.jwtPanel===name);});
-  if(btn)btn.blur();
-}
+function jwtSwitchTab(name,btn){toolsSwitchTab('jwt',name);}
 function jwtSwitchMode(scope,mode,btn){
   const prefix=scope==='gen'?'jwtGen':'jwtOnly';
-  const sw=jwtEl(prefix+'MethodSwitch');if(sw)sw.querySelectorAll('.jwt-method-btn').forEach(function(x){x.classList.toggle('active',x.dataset.jwtMode===mode);});
+  const sw=jwtEl(prefix+'MethodSwitch');if(sw)sw.querySelectorAll('.jwt-method-btn').forEach(function(x){x.classList.toggle('active',x.dataset.jwtMode===mode);x.setAttribute('aria-pressed',String(x.dataset.jwtMode===mode));});
   const a=jwtEl(prefix+'AccessBox'),g=jwtEl(prefix+'GuestBox');if(a)a.classList.toggle('active',mode==='access');if(g)g.classList.toggle('active',mode==='guest');if(btn)btn.blur();
 }
 function jwtActiveMode(scope){const prefix=scope==='gen'?'jwtGen':'jwtOnly';const sw=jwtEl(prefix+'MethodSwitch');const b=sw&&sw.querySelector('.jwt-method-btn.active');return b?b.dataset.jwtMode:'access';}
@@ -8455,15 +8488,15 @@ async function frRequest(path,payload){
 function frStatus(id,type,msg){const e=frEl(id);if(!e)return;e.hidden=false;e.className='fr-status '+(type||'');e.textContent=msg;}
 function frHideStatus(id){const e=frEl(id);if(e){e.hidden=true;e.textContent='';e.className='fr-status';}}
 function frSetBusy(ids,busy,label){(Array.isArray(ids)?ids:[ids]).forEach(function(id){const b=frEl(id);if(!b)return;if(busy){if(!b.dataset.oldHtml)b.dataset.oldHtml=b.innerHTML;b.disabled=true;b.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> '+(label||'MEMPROSES...');}else{b.disabled=false;if(b.dataset.oldHtml)b.innerHTML=b.dataset.oldHtml;b.dataset.oldHtml='';}});}
-function frSwitchTab(name,btn){document.querySelectorAll('#cekidffFriendTools .fr-tab').forEach(function(x){x.classList.toggle('active',x.dataset.frTab===name);});document.querySelectorAll('#cekidffFriendTools .fr-panel').forEach(function(x){x.classList.toggle('active',x.dataset.frPanel===name);});if(btn)btn.blur();}
-function frToggleJwt(btn){const e=frEl('frJwtInput');if(!e)return;e.type=e.type==='password'?'text':'password';const i=btn&&btn.querySelector('i');if(i)i.className=e.type==='password'?'fa-solid fa-eye':'fa-solid fa-eye-slash';}
+function frSwitchTab(name,btn){toolsSwitchTab('fr',name);}
+function frToggleJwt(btn){const e=frEl('frJwtInput');if(!e)return;e.type=e.type==='password'?'text':'password';const i=btn&&btn.querySelector('i');if(i)i.className=e.type==='password'?'fa-solid fa-eye':'fa-solid fa-eye-slash';if(btn){btn.setAttribute('aria-pressed',String(e.type==='text'));btn.setAttribute('aria-label',e.type==='password'?'Tampilkan token / password':'Sembunyikan token / password');}}
 function frUseLatestJwt(){
   let token='';try{if(typeof JWT_STATE!=='undefined')token=JWT_STATE.genJwt||JWT_STATE.onlyJwt||'';}catch(e){}
-  if(!token){frStatus('frListStatus','err','Belum ada JWT hasil generator di halaman JWT.');return;}
-  const inp=frEl('frJwtInput');if(inp)inp.value=token;frStatus('frListStatus','ok','JWT terakhir dari tools JWT sudah dipakai.');setTimeout(function(){frHideStatus('frListStatus');},1600);
+  if(!token){frStatus('frAuthStatus','err','Belum ada JWT hasil generator di halaman JWT.');return;}
+  const inp=frEl('frJwtInput');if(inp)inp.value=token;frStatus('frAuthStatus','ok','JWT terakhir dari tools JWT sudah dipakai.');setTimeout(function(){frHideStatus('frAuthStatus');},1600);
 }
 function frAliasChanged(){const e=frEl('frAliasInput'),c=frEl('frAliasCount');if(!c)return;const n=Array.from(e?e.value:'').length;c.textContent=n+'/12';c.style.color=n>12?'#ff6868':'';}
-function frUseUid(uid){['frActionUid','frStarUid','frAliasUid'].forEach(function(id){const e=frEl(id);if(e)e.value=String(uid||'');});FR_STATE.lastUid=String(uid||'');frStatus('frListStatus','ok','UID '+uid+' siap dipakai di tab Add/Remove, Star, dan Alias.');}
+function frUseUid(uid){['frActionUid','frStarUid','frAliasUid'].forEach(function(id){const e=frEl(id);if(e)e.value=String(uid||'');});FR_STATE.lastUid=String(uid||'');frStatus('frListStatus','ok','UID '+uid+' siap dipakai di tab Kelola, Favorit, dan Alias.');}
 function frRenderList(filter){
   const box=frEl('frFriendList'),count=frEl('frFriendCount');if(!box)return;const q=String(filter==null?frVal('frFriendSearch'):filter).toLowerCase().trim();
   const all=FR_STATE.friends||[],shown=all.filter(function(f){const nick=String(f.nickname||f.name||'').toLowerCase(),uid=String(f.user_id||f.uid||f.account_id||'').toLowerCase();return !q||nick.includes(q)||uid.includes(q);});
@@ -8486,6 +8519,7 @@ async function frAliasAction(action){
   const set=action==='set',ids=['frSetAliasBtn','frRemoveAliasBtn'],status='frAliasStatus',result=frEl('frAliasResult');try{const uid=frUid('frAliasUid');let payload={jwt:frJwt(),uid:uid};let path='/friends/removealias';if(set){const alias=frVal('frAliasInput'),n=Array.from(alias).length;if(!alias)throw new Error('Alias wajib diisi.');if(n>12)throw new Error('Alias maksimal 12 karakter.');payload.alias=alias;path='/friends/setalias';}frSetBusy(ids,true,set?'MENYIMPAN...':'MENGHAPUS...');frStatus(status,'info',set?'Menyimpan alias...':'Menghapus alias...');if(result){result.hidden=true;result.innerHTML='';}const json=await frRequest(path,payload);frRenderResponse('frAliasResult',json,set?'SET FRIEND ALIAS':'REMOVE FRIEND ALIAS');frStatus(status,'ok',frMessage(json,set?'Alias berhasil disimpan.':'Alias berhasil dihapus.'));
   }catch(e){frStatus(status,'err',e.message||String(e));}finally{frSetBusy(ids,false);}}
 function frClearAll(){
+  frHideStatus('frAuthStatus');
   ['frJwtInput','frFriendSearch','frActionUid','frStarUid','frAliasUid','frAliasInput'].forEach(function(id){const e=frEl(id);if(e)e.value='';});['frListStatus','frActionStatus','frStarStatus','frAliasStatus'].forEach(frHideStatus);['frActionResult','frStarResult','frAliasResult'].forEach(function(id){const e=frEl(id);if(e){e.hidden=true;e.innerHTML='';}});const list=frEl('frFriendList');if(list){list.hidden=true;list.innerHTML='';}const search=frEl('frSearchWrap');if(search)search.hidden=true;const count=frEl('frFriendCount');if(count){count.hidden=true;count.innerHTML='';}FR_STATE.friends=[];FR_STATE.lastUid='';frAliasChanged();
 }
 (function(){const root=frEl('cekidffFriendTools');if(!root)return;root.querySelectorAll('.fr-target-uid').forEach(function(e){e.addEventListener('input',function(){this.value=this.value.replace(/\D/g,'').slice(0,20);});});frAliasChanged();})();
@@ -8507,21 +8541,21 @@ function gdGuest(uidId,passId){const uid=gdVal(uidId),pass=gdVal(passId);if(!/^\
 function gdStatus(id,type,msg){const e=gdEl(id);if(!e)return;e.hidden=false;e.className='gd-status '+(type||'');e.textContent=msg;}
 function gdHideStatus(id){const e=gdEl(id);if(e){e.hidden=true;e.textContent='';e.className='gd-status';}}
 function gdBusy(id,on,label){const b=gdEl(id);if(!b)return;if(on){if(!b.dataset.oldHtml)b.dataset.oldHtml=b.innerHTML;b.disabled=true;b.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> '+(label||'MEMPROSES...');}else{b.disabled=false;if(b.dataset.oldHtml)b.innerHTML=b.dataset.oldHtml;b.dataset.oldHtml='';}}
-function gdSwitchTab(name,btn){document.querySelectorAll('#cekidffGuildTools .gd-tab').forEach(function(x){x.classList.toggle('active',x.dataset.gdTab===name);});document.querySelectorAll('#cekidffGuildTools .gd-panel').forEach(function(x){x.classList.toggle('active',x.dataset.gdPanel===name);});if(btn)btn.blur();}
-function gdAuthMode(scope,mode,btn){GD_STATE.auth[scope]=mode;document.querySelectorAll('#cekidffGuildTools .gd-auth-btn[data-gd-scope="'+scope+'"]').forEach(function(x){x.classList.toggle('active',x.dataset.gdAuth===mode);});document.querySelectorAll('#cekidffGuildTools .gd-auth-panel[data-gd-auth-panel^="'+scope+'-"]').forEach(function(x){x.classList.toggle('active',x.dataset.gdAuthPanel===scope+'-'+mode);});if(btn)btn.blur();}
-function gdToggleSecret(id,btn){const e=gdEl(id);if(!e)return;e.type=e.type==='password'?'text':'password';const i=btn&&btn.querySelector('i');if(i)i.className=e.type==='password'?'fa-solid fa-eye':'fa-solid fa-eye-slash';}
+function gdSwitchTab(name,btn){toolsSwitchTab('gd',name);}
+function gdAuthMode(scope,mode,btn){GD_STATE.auth[scope]=mode;document.querySelectorAll('#cekidffGuildTools .gd-auth-btn[data-gd-scope="'+scope+'"]').forEach(function(x){x.classList.toggle('active',x.dataset.gdAuth===mode);x.setAttribute('aria-pressed',String(x.dataset.gdAuth===mode));});document.querySelectorAll('#cekidffGuildTools .gd-auth-panel[data-gd-auth-panel^="'+scope+'-"]').forEach(function(x){x.classList.toggle('active',x.dataset.gdAuthPanel===scope+'-'+mode);});if(btn)btn.blur();}
+function gdToggleSecret(id,btn){const e=gdEl(id);if(!e)return;e.type=e.type==='password'?'text':'password';const i=btn&&btn.querySelector('i');if(i)i.className=e.type==='password'?'fa-solid fa-eye':'fa-solid fa-eye-slash';if(btn){btn.setAttribute('aria-pressed',String(e.type==='text'));btn.setAttribute('aria-label',e.type==='password'?'Tampilkan token / password':'Sembunyikan token / password');}}
 function gdUseLatestJwt(target,status){let token='';try{if(typeof JWT_STATE!=='undefined')token=JWT_STATE.genJwt||JWT_STATE.onlyJwt||'';}catch(e){}if(!token){gdStatus(status,'err','Belum ada JWT hasil generator di tools JWT.');return;}const e=gdEl(target);if(e)e.value=token;gdStatus(status,'ok','JWT terakhir dari tools JWT sudah dipakai.');setTimeout(function(){gdHideStatus(status);},1600);}
 async function gdRequest(path,method,payload,jwtHeader){const cfg=gdApiConfig(),url=new URL(cfg.base+path);url.searchParams.set('key',cfg.key);const controller=new AbortController(),timer=setTimeout(function(){controller.abort();},22000);const opt={method:method||'GET',headers:{Accept:'application/json'},cache:'no-store',credentials:'omit',referrerPolicy:'no-referrer',signal:controller.signal};if((method||'GET')==='GET'){Object.entries(payload||{}).forEach(function(p){if(p[1]!==undefined&&p[1]!==null&&String(p[1])!=='')url.searchParams.set(p[0],String(p[1]));});}else{opt.headers['Content-Type']='application/json';if(jwtHeader)opt.headers.Authorization='Bearer '+jwtHeader;opt.body=JSON.stringify(payload||{});}try{const res=await fetch(url.href,opt),txt=await res.text();let j={};try{j=txt?JSON.parse(txt):{};}catch(e){throw new Error('Server mengirim respons non-JSON.');}const st=String(j.status||'').toLowerCase();if(!res.ok||j.success===false||st==='error'||!!j.error)throw new Error(gdMessage(j,'Request GUILD gagal (HTTP '+res.status+').'));return j;}catch(err){if(err&&err.name==='AbortError')throw new Error('Waktu tunggu server habis. Coba lagi.');if(err instanceof TypeError)throw new Error('Gagal menghubungi server GUILD. Periksa koneksi atau CORS server.');throw err;}finally{clearTimeout(timer);}}
 function gdRows(data,keys){return keys.map(function(x){const label=x[0],key=x[1],v=data&&data[key]!==undefined&&data[key]!==null&&data[key]!==''?data[key]:'-';return '<div class="gd-result-row"><b>'+gdEsc(label)+'</b><span>'+gdEsc(v)+'</span></div>';}).join('');}
 function gdShowResult(id,title,html,msg){const box=gdEl(id);if(!box)return;box.innerHTML='<div class="gd-result-title">'+gdEsc(title)+'</div>'+html+(msg?'<div class="gd-result-message">'+gdEsc(msg)+'</div>':'');box.hidden=false;}
-async function gdLoadInfo(){const id='gdInfoBtn',result=gdEl('gdInfoResult');try{if(!cidPreCheckDiamond(CID_SUB_COST,id))return;const clan=gdClan('gdInfoClanId');gdBusy(id,true,'MENGECEK...');gdStatus('gdInfoStatus','info','Mengambil informasi guild...');if(result){result.hidden=true;result.innerHTML='';}const j=await gdRequest('/guild/info','GET',{clan_id:clan});cidDeductDiamond(CID_SUB_COST,'Info Guild FF','Cek info guild: '+clan);const d=j.guild_details&&typeof j.guild_details==='object'?j.guild_details:{};let html=gdRows(j,[['Clan ID','id'],['Nama Guild','clan_name'],['Level','level'],['Region','region'],['Score','score'],['Rank','rank'],['XP','xp'],['Balance','balance'],['Energy','energy'],['Upgrades','upgrades'],['Achievements','achievements'],['Total Playtime','total_playtime']]);html+=gdRows(d,[['Member Online','members_online'],['Total Member','total_members'],['Reward Time','reward_time'],['Expire Time','expire_time']]);gdShowResult('gdInfoResult','GUILD INFO',html,j.welcome_message||'');gdStatus('gdInfoStatus','ok','Informasi guild berhasil dimuat.');}catch(e){gdStatus('gdInfoStatus','err',e.message||String(e));}finally{gdBusy(id,false);}}
+async function gdLoadInfo(){if(document.getElementById('gdInfoBtn').disabled)return;const id='gdInfoBtn',result=gdEl('gdInfoResult');try{if(!cidPreCheckDiamond(CID_SUB_COST,id))return;const clan=gdClan('gdInfoClanId');gdBusy(id,true,'MENGECEK...');gdStatus('gdInfoStatus','info','Mengambil informasi guild...');if(result){result.hidden=true;result.innerHTML='';}const j=await gdRequest('/guild/info','GET',{clan_id:clan});cidDeductDiamond(CID_SUB_COST,'Info Guild FF','Cek info guild: '+clan);const d=j.guild_details&&typeof j.guild_details==='object'?j.guild_details:{};let html=gdRows(j,[['Clan ID','id'],['Nama Guild','clan_name'],['Level','level'],['Region','region'],['Score','score'],['Rank','rank'],['XP','xp'],['Balance','balance'],['Energy','energy'],['Upgrades','upgrades'],['Achievements','achievements'],['Total Playtime','total_playtime']]);html+=gdRows(d,[['Member Online','members_online'],['Total Member','total_members'],['Reward Time','reward_time'],['Expire Time','expire_time']]);gdShowResult('gdInfoResult','GUILD INFO',html,j.welcome_message||'');gdStatus('gdInfoStatus','ok','Informasi guild berhasil dimuat.');}catch(e){gdStatus('gdInfoStatus','err',e.message||String(e));}finally{gdBusy(id,false);}}
 function gdAuthPayload(scope){const mode=GD_STATE.auth[scope]||'jwt';if(mode==='jwt'){return {jwt:gdJwt(scope==='join'?'gdJoinJwt':'gdLeaveJwt')};}return gdGuest(scope==='join'?'gdJoinUid':'gdLeaveUid',scope==='join'?'gdJoinPass':'gdLeavePass');}
-function gdActionRows(j){return gdRows(j,[['Action','action'],['Clan ID','clan_id'],['UID','uid'],['Nama','name'],['Region','region'],['Login Method','login_method'],['Server Response','server_response']]);}
-async function gdJoin(){const id='gdJoinBtn',result=gdEl('gdJoinResult');try{if(!cidPreCheckDiamond(CID_ACTION_COST,id))return;const clan=gdClan('gdJoinClanId'),auth=gdAuthPayload('join');gdBusy(id,true,'BERGABUNG...');gdStatus('gdJoinStatus','info','Memproses permintaan join guild...');if(result){result.hidden=true;result.innerHTML='';}const j=await gdRequest('/guild/join','GET',Object.assign({clan_id:clan},auth));cidDeductDiamond(CID_ACTION_COST,'Gabung Guild FF','Gabung guild: '+clan);gdShowResult('gdJoinResult','JOIN GUILD',gdActionRows(j),gdMessage(j,'Berhasil bergabung ke guild.'));gdStatus('gdJoinStatus','ok',gdMessage(j,'Berhasil bergabung ke guild.'));}catch(e){gdStatus('gdJoinStatus','err',e.message||String(e));}finally{gdBusy(id,false);}}
-async function gdLeave(){const id='gdLeaveBtn',result=gdEl('gdLeaveResult');try{const clan=gdClan('gdLeaveClanId');if(!window.confirm('Keluar dari guild '+clan+'?'))return;if(!cidPreCheckDiamond(CID_ACTION_COST,id))return;const auth=gdAuthPayload('leave');gdBusy(id,true,'KELUAR...');gdStatus('gdLeaveStatus','info','Memproses keluar dari guild...');if(result){result.hidden=true;result.innerHTML='';}const j=await gdRequest('/guild/leave','GET',Object.assign({clan_id:clan},auth));cidDeductDiamond(CID_ACTION_COST,'Keluar Guild FF','Keluar guild: '+clan);gdShowResult('gdLeaveResult','LEAVE GUILD',gdActionRows(j),gdMessage(j,'Berhasil keluar dari guild.'));gdStatus('gdLeaveStatus','ok',gdMessage(j,'Berhasil keluar dari guild.'));}catch(e){gdStatus('gdLeaveStatus','err',e.message||String(e));}finally{gdBusy(id,false);}}
+function gdActionRows(j){return gdRows(j,[['Tindakan','action'],['Clan ID','clan_id'],['UID','uid'],['Nama','name'],['Region','region'],['Metode masuk','login_method'],['Hasil','server_response']]);}
+async function gdJoin(){if(document.getElementById('gdJoinBtn').disabled)return;const id='gdJoinBtn',result=gdEl('gdJoinResult');try{if(!cidPreCheckDiamond(CID_ACTION_COST,id))return;const clan=gdClan('gdJoinClanId'),auth=gdAuthPayload('join');gdBusy(id,true,'BERGABUNG...');gdStatus('gdJoinStatus','info','Mengirim permintaan bergabung…');if(result){result.hidden=true;result.innerHTML='';}const j=await gdRequest('/guild/join','GET',Object.assign({clan_id:clan},auth));cidDeductDiamond(CID_ACTION_COST,'Gabung Guild FF','Gabung guild: '+clan);gdShowResult('gdJoinResult','GABUNG GUILD',gdActionRows(j),gdMessage(j,'Berhasil bergabung ke guild.'));gdStatus('gdJoinStatus','ok',gdMessage(j,'Berhasil bergabung ke guild.'));}catch(e){gdStatus('gdJoinStatus','err',e.message||String(e));}finally{gdBusy(id,false);}}
+async function gdLeave(){if(document.getElementById('gdLeaveBtn').disabled)return;const id='gdLeaveBtn',result=gdEl('gdLeaveResult');try{const clan=gdClan('gdLeaveClanId');if(!window.confirm('Keluar dari guild '+clan+'?'))return;if(!cidPreCheckDiamond(CID_ACTION_COST,id))return;const auth=gdAuthPayload('leave');gdBusy(id,true,'KELUAR...');gdStatus('gdLeaveStatus','info','Memproses keluar dari guild...');if(result){result.hidden=true;result.innerHTML='';}const j=await gdRequest('/guild/leave','GET',Object.assign({clan_id:clan},auth));cidDeductDiamond(CID_ACTION_COST,'Keluar Guild FF','Keluar guild: '+clan);gdShowResult('gdLeaveResult','KELUAR GUILD',gdActionRows(j),gdMessage(j,'Berhasil keluar dari guild.'));gdStatus('gdLeaveStatus','ok',gdMessage(j,'Berhasil keluar dari guild.'));}catch(e){gdStatus('gdLeaveStatus','err',e.message||String(e));}finally{gdBusy(id,false);}}
 function gdInt(id,required,def){const raw=gdVal(id);if(!raw){if(required)throw new Error(id+' wajib diisi.');return def;}const n=Number(raw);if(!Number.isInteger(n)||n<0)throw new Error('Nilai angka tidak valid.');return n;}
 function gdTags(){const raw=gdVal('gdCreateTags');if(!raw)throw new Error('Tags wajib diisi.');const tags=Array.from(new Set(raw.split(/[\s,;]+/).filter(Boolean).map(Number)));if(!tags.length||tags.some(function(n){return !Number.isInteger(n)||n<1||n>14;}))throw new Error('Tags harus berupa ID 1 sampai 14.');if(!tags.includes(13)&&!tags.includes(14))throw new Error('Tags harus menyertakan 13 (Casual) atau 14 (Competition).');const act=tags.filter(function(n){return n===1||n===2||n===3;});if(act.length>1)throw new Error('Hanya satu activity tag dari 1/2/3 yang boleh dipakai.');return tags;}
-async function gdCreate(){const id='gdCreateBtn',result=gdEl('gdCreateResult');try{if(!cidPreCheckDiamond(CID_ACTION_COST,id))return;const jwt=gdJwt('gdCreateJwt'),name=gdVal('gdCreateName'),slogan=gdVal('gdCreateSlogan');if(!name)throw new Error('Nama guild wajib diisi.');if(!slogan)throw new Error('Slogan wajib diisi.');const payment=gdInt('gdCreatePayment',true),approval=gdInt('gdCreateApproval',true),avatar=gdInt('gdCreateAvatar',true);if(payment!==1&&payment!==2)throw new Error('Payment harus 1 (Coins) atau 2 (Diamonds).');if(approval!==1&&approval!==2)throw new Error('Auto approval harus 1 (OFF) atau 2 (ON).');if(avatar!==10&&avatar!==11)throw new Error('Avatar harus 10 (Lion) atau 11 (Wolf).');const body={guild_name:name,slogan:slogan,payment:payment,auto_approval:approval,avatar:avatar,tags:gdTags()};const minLevel=gdInt('gdCreateMinLevel',false,null),minBr=gdInt('gdCreateMinBr',false,null),minCs=gdInt('gdCreateMinCs',false,null),location=gdInt('gdCreateLocation',false,59999);if(minLevel!==null)body.min_level=minLevel;if(minBr!==null)body.min_br_rank=minBr;if(minCs!==null)body.min_cs_rank=minCs;if(location!==null)body.location=location;gdBusy(id,true,'MEMBUAT...');gdStatus('gdCreateStatus','info','Membuat guild baru...');if(result){result.hidden=true;result.innerHTML='';}const j=await gdRequest('/guild/create','POST',body,jwt);cidDeductDiamond(CID_ACTION_COST,'Buat Guild FF','Buat guild: '+name);const html=gdRows(j,[['Guild ID','guild_id'],['Nama Guild','guild_name'],['Region','region'],['Status','status']]);gdShowResult('gdCreateResult','CREATE GUILD',html,gdMessage(j,'Guild berhasil dibuat.'));gdStatus('gdCreateStatus','ok',gdMessage(j,'Guild berhasil dibuat.'));}catch(e){gdStatus('gdCreateStatus','err',e.message||String(e));}finally{gdBusy(id,false);}}
+async function gdCreate(){if(document.getElementById('gdCreateBtn').disabled)return;const id='gdCreateBtn',result=gdEl('gdCreateResult');try{if(!cidPreCheckDiamond(CID_ACTION_COST,id))return;const jwt=gdJwt('gdCreateJwt'),name=gdVal('gdCreateName'),slogan=gdVal('gdCreateSlogan');if(!name)throw new Error('Nama guild wajib diisi.');if(!slogan)throw new Error('Slogan wajib diisi.');const payment=gdInt('gdCreatePayment',true),approval=gdInt('gdCreateApproval',true),avatar=gdInt('gdCreateAvatar',true);if(payment!==1&&payment!==2)throw new Error('Payment harus 1 (Coins) atau 2 (Diamonds).');if(approval!==1&&approval!==2)throw new Error('Auto approval harus 1 (OFF) atau 2 (ON).');if(avatar!==10&&avatar!==11)throw new Error('Avatar harus 10 (Lion) atau 11 (Wolf).');const body={guild_name:name,slogan:slogan,payment:payment,auto_approval:approval,avatar:avatar,tags:gdTags()};const minLevel=gdInt('gdCreateMinLevel',false,null),minBr=gdInt('gdCreateMinBr',false,null),minCs=gdInt('gdCreateMinCs',false,null),location=gdInt('gdCreateLocation',false,59999);if(minLevel!==null)body.min_level=minLevel;if(minBr!==null)body.min_br_rank=minBr;if(minCs!==null)body.min_cs_rank=minCs;if(location!==null)body.location=location;gdBusy(id,true,'MEMBUAT...');gdStatus('gdCreateStatus','info','Membuat guild baru...');if(result){result.hidden=true;result.innerHTML='';}const j=await gdRequest('/guild/create','POST',body,jwt);cidDeductDiamond(CID_ACTION_COST,'Buat Guild FF','Buat guild: '+name);const html=gdRows(j,[['Guild ID','guild_id'],['Nama Guild','guild_name'],['Region','region'],['Status','status']]);gdShowResult('gdCreateResult','GUILD BARU',html,gdMessage(j,'Guild berhasil dibuat.'));gdStatus('gdCreateStatus','ok',gdMessage(j,'Guild berhasil dibuat.'));}catch(e){gdStatus('gdCreateStatus','err',e.message||String(e));}finally{gdBusy(id,false);}}
 function gdClearAll(){['gdInfoClanId','gdJoinClanId','gdJoinJwt','gdJoinUid','gdJoinPass','gdLeaveClanId','gdLeaveJwt','gdLeaveUid','gdLeavePass','gdCreateJwt','gdCreateName','gdCreateSlogan','gdCreateTags','gdCreateMinLevel','gdCreateMinBr','gdCreateMinCs'].forEach(function(id){const e=gdEl(id);if(e)e.value='';});const loc=gdEl('gdCreateLocation');if(loc)loc.value='59999';const pay=gdEl('gdCreatePayment');if(pay)pay.value='1';const ap=gdEl('gdCreateApproval');if(ap)ap.value='2';const av=gdEl('gdCreateAvatar');if(av)av.value='10';['gdInfoStatus','gdJoinStatus','gdLeaveStatus','gdCreateStatus'].forEach(gdHideStatus);['gdInfoResult','gdJoinResult','gdLeaveResult','gdCreateResult'].forEach(function(id){const e=gdEl(id);if(e){e.hidden=true;e.innerHTML='';}});}
 (function(){const root=gdEl('cekidffGuildTools');if(!root)return;root.querySelectorAll('.gd-clan-id,.gd-uid,.gd-number').forEach(function(e){e.addEventListener('input',function(){this.value=this.value.replace(/\D/g,'');});});})();
 
@@ -9436,10 +9470,9 @@ function cpkSwitchTab(name){
     const tab=document.getElementById('cpkTab'+key.charAt(0).toUpperCase()+key.slice(1));
     const active=key===name;
     if(panel){panel.classList.toggle('active',active);panel.hidden=!active;}
-    if(tab){tab.classList.toggle('active',active);tab.setAttribute('aria-selected',String(active));}
+    if(tab){tab.classList.toggle('active',active);tab.setAttribute('aria-selected',String(active));tab.tabIndex=active?0:-1;}
   });
-  const root=document.getElementById('cekidffPrime');
-  if(root){window.setTimeout(function(){root.scrollIntoView({block:'start',behavior:'smooth'});},20);}
+
 }
 
 function cpkClearUid(){
@@ -9502,7 +9535,7 @@ function cpkRenderResult(level){
     if(progressText) progressText.textContent='0 / 8';
     if(track) track.setAttribute('aria-valuenow','0');
     if(rowsEl) rowsEl.innerHTML='<div class="cpk-stat wide"><div><small>Status Prime</small><strong>Belum memiliki Prime</strong></div><i class="fa-solid fa-lock" style="color:#777;"></i></div>';
-    if(note) note.innerHTML='<i class="fa-solid fa-circle-info"></i><span>Gunakan tab <b>Hitung Point</b> untuk melihat estimasi biaya menuju Prime 1.</span>';
+    if(note) note.innerHTML='<i class="fa-solid fa-circle-info"></i><span>Belum ada tier Prime yang terdeteksi.</span>';
     return;
   }
   const p=primeLevels[safeLevel-1];
@@ -9510,7 +9543,7 @@ function cpkRenderResult(level){
   const next=primeLevels[safeLevel]||null;
   const pct=Math.round((safeLevel/primeLevels.length)*100);
   if(nameEl) nameEl.textContent=p.name;
-  if(metaEl) metaEl.textContent='Minimal '+cpkFmtNumber(p.dm)+' diamond · Estimasi Rp '+cpkFmtNumber(price);
+  if(metaEl) metaEl.textContent='Tier akun terdeteksi';
   if(fill) fill.style.width=pct+'%';
   if(progressText) progressText.textContent=safeLevel+' / '+primeLevels.length;
   if(track) track.setAttribute('aria-valuenow',String(safeLevel));
@@ -9520,16 +9553,14 @@ function cpkRenderResult(level){
     html+='<div class="cpk-stat"><small>Estimasi Nilai</small><strong class="accent">Rp '+cpkFmtNumber(price)+'</strong></div>';
     if(next){
       const gap=next.dm-p.dm;
-      html+='<div class="cpk-stat wide"><div><small>Target Berikutnya</small><strong>'+tffEsc(next.name)+'</strong></div><b style="color:#ffbd68;font-size:10px;">+'+cpkFmtNumber(gap)+' DM</b></div>';
+      html+='<div class="cpk-stat wide"><div><small>Selisih batas tier</small><strong>'+tffEsc(next.name)+'</strong></div><b style="color:#ffbd68;font-size:10px;">+'+cpkFmtNumber(gap)+' DM</b></div>';
     }else{
       html+='<div class="cpk-stat wide"><div><small>Status Tier</small><strong style="color:#ffd56a;">PRIME MAX</strong></div><i class="fa-solid fa-star" style="color:#ffd56a;"></i></div>';
     }
     rowsEl.innerHTML=html;
   }
   if(note){
-    note.innerHTML=next
-      ? '<i class="fa-solid fa-circle-info"></i><span>API mendeteksi <b>'+tffEsc(p.name)+'</b>. Angka point di atas adalah batas minimum tier; selisih ke '+tffEsc(next.name)+' sekitar <b>'+cpkFmtNumber(next.dm-p.dm)+' diamond</b>.</span>'
-      : '<i class="fa-solid fa-circle-info"></i><span>API mendeteksi tier tertinggi. Nilai dihitung dengan estimasi Rp 126 per 1 diamond.</span>';
+    note.textContent='Estimasi berdasarkan batas minimum tier, bukan poin aktual akun.';
   }
 }
 
@@ -9567,7 +9598,8 @@ function cpkShake(){
 async function cpkCheck(){
   const inp=document.getElementById('cpkUidInput');
   const uid=inp?inp.value.trim():'';
-  if(!/^\d{6,13}$/.test(uid)){ cpkShake(); return; }
+  if(!/^\d{6,13}$/.test(uid)){ inp.setAttribute('aria-invalid','true'); document.getElementById('cpkValidation').textContent='UID tidak valid. Periksa kembali UID kamu.'; cpkShake(); return; }
+  inp.removeAttribute('aria-invalid'); document.getElementById('cpkValidation').textContent='';
   const btn=document.getElementById('cpkCheckBtn');
   if(btn&&btn.disabled) return;
   if(!cidPreCheckDiamond(CID_SUB_COST,'cpkCheckBtn')) return;
@@ -9589,7 +9621,7 @@ async function cpkCheck(){
       const nickname=stkPick(b,['nickname']);
       if(!nickname){ throw Object.assign(new Error('Nickname tidak ditemukan.'),{raw:json}); }
       const uidVal=stkPick(b,['accountId','account_id'])||uid;
-      cidDeductDiamond(CID_SUB_COST,'Cek Prime FF','Cek prime: '+uidVal);
+      cidDeductDiamond(CID_SUB_COST,'Prime FF','Cek prime: '+uidVal);
       const primeLevelRaw=stkPick(b,['primeLevel','prime_level'])||(b.primeInfo&&stkPick(b.primeInfo,['primeLevel','prime_level']));
       const primeLevelNum=primeLevelRaw!=null?parseInt(primeLevelRaw,10):0;
 
@@ -9690,10 +9722,24 @@ function cpkRetry(){
 }
 
 function cpkClearPoints(){
+  cpkClearPreset();
   const inp=document.getElementById('cpkPointInput');
   if(inp){inp.value='';inp.focus();}
   const clear=document.getElementById('cpkPointClear');
   if(clear) clear.classList.remove('show');
+}
+
+
+function cpkChoosePreset(index){
+  const tier=primeLevels[index];if(!tier)return;
+  cpkSetPoints(tier.dm);
+  document.querySelectorAll('[data-prime-preset]').forEach(function(btn){
+    const active=Number(btn.dataset.primePreset)===index;
+    btn.classList.toggle('active',active);btn.setAttribute('aria-pressed',String(active));
+  });
+}
+function cpkClearPreset(){
+  document.querySelectorAll('[data-prime-preset]').forEach(function(btn){btn.classList.remove('active');btn.setAttribute('aria-pressed','false');});
 }
 
 function cpkSetPoints(value){
@@ -9741,7 +9787,7 @@ function cpkCalcTier(index){
 }
 
 function cpkSelectTier(index){
-  document.querySelectorAll('#cpkLevelGrid .cpk-level-btn').forEach(function(btn,i){btn.classList.toggle('active',i===index);});
+  document.querySelectorAll('#cpkLevelGrid .cpk-level-btn').forEach(function(btn,i){btn.classList.toggle('active',i===index);btn.setAttribute('aria-pressed',String(i===index));});
   cpkCalcTier(index);
 }
 
@@ -9803,7 +9849,7 @@ function celShake(){
 
 /* Level & EXP diambil APA ADANYA dari field 'level' & 'exp' pada basicInfo
    endpoint /freefireinfo/bhau (server siambhau69.eu.cc) — persis endpoint
-   yang sama dipakai fitur "FF Tools"/"Cek Prime". TIDAK ADA rumus/tabel
+   yang sama dipakai fitur "FF Tools"/"Prime". TIDAK ADA rumus/tabel
    buatan sendiri di sini; kalau field exp tidak dikirim server, ditampilkan
    apa adanya sebagai "Tidak tersedia" (bukan diisi angka karangan). */
 async function celCheck(){
@@ -10486,7 +10532,8 @@ async function cgnChange(){
   const name=nameInp?nameInp.value.trim():'';
   let jwt='';
 
-  if(!name){ cgnShake('cgnNameInput'); return; }
+  if(document.getElementById('cgnChangeBtn').disabled)return;
+  if(!name){ document.getElementById('cgnErrorMsg').textContent='Masukkan nickname baru terlebih dahulu.';cgnShowState('cgnStateError');cgnShake('cgnNameInput'); return; }
   try{jwt=cgnNormalizeJwt(jwtInp?jwtInp.value:'');}catch(e){const err=document.getElementById('cgnErrorMsg');if(err)err.textContent=e.message||String(e);cgnShake('cgnJwtInput');cgnShowState('cgnStateError');return;}
   if(!cidPreCheckDiamond(CID_ACTION_COST,'cgnChangeBtn')) return;
 
@@ -10513,10 +10560,7 @@ async function cgnChange(){
     if(rowsEl){
       let rows='';
       rows+='<div class="cid-info-row"><b>Nickname Baru</b><span>'+tffEsc(name)+'</span></div>';
-      if(json.Owner!==undefined&&json.Owner!==null&&String(json.Owner)!=='')rows+='<div class="cid-info-row"><b>Owner</b><span>'+tffEsc(json.Owner)+'</span></div>';
-      rows+='<div class="cid-info-row"><b>Status</b><span>'+tffEsc(json.status||'-')+'</span></div>';
-      if(json.text!==undefined&&String(json.text)!=='')rows+='<div class="cid-info-row"><b>Text</b><span>'+tffEsc(json.text)+'</span></div>';
-      if(json.raw_content!==undefined&&String(json.raw_content)!=='')rows+='<div class="cid-info-row"><b>Raw Content</b><span style="font-family:Space Mono,monospace;word-break:break-all;">'+tffEsc(json.raw_content)+'</span></div>';
+      rows+='<div class="cid-info-row"><b>Status</b><span>Berhasil diperbarui</span></div>';
       rowsEl.innerHTML=rows;
     }
 
@@ -10536,6 +10580,7 @@ function cgnReset(){
     if(el) el.value='';
   });
   const rows=document.getElementById('cgnInfoRows');if(rows)rows.innerHTML='';
+  document.getElementById('cgnNamePreview').textContent='Nickname kamu';
   cgnShowState('cgnStateIdle');
 }
 
@@ -10544,12 +10589,12 @@ function ctlEl(id){return document.getElementById(id);}
 function ctlSwitchMode(mode,btn){
   if(mode!=='quick'&&mode!=='detail')return;
   CTL_STATE.mode=mode;
-  document.querySelectorAll('#cekidffCraftlandTools .ctl-tab').forEach(function(x){x.classList.toggle('active',x.dataset.ctlMode===mode);});
+  document.querySelectorAll('#cekidffCraftlandTools .ctl-tab').forEach(function(x){x.classList.toggle('active',x.dataset.ctlMode===mode);x.setAttribute('aria-pressed',String(x.dataset.ctlMode===mode));});
   const label=ctlEl('ctlCheckLabel'),note=ctlEl('ctlModeNote');
-  if(label)label.textContent=mode==='quick'?'CEK QUICK INFO':'CEK FULL DETAIL';
+  if(label)label.textContent=mode==='quick'?'Cari map':'Lihat detail map';
   if(note)note.innerHTML=mode==='quick'
-    ?'Quick Info memakai <code>/craftlands/info</code> untuk ringkasan map, gambar, statistik, dan waktu.'
-    :'Full Detail memakai <code>/craftlands/map_details</code> untuk gameplay, nama tag, mode, region, dan link download.';
+    ?'Gambaran umum map dan statistik.'
+    :'Mode permainan, tag, dan rincian map.';
   if(btn)btn.blur();
   ctlResetResult();
 }
@@ -10600,7 +10645,7 @@ function ctlRenderQuick(json,mapCode,region,lang){
   const tagList=Array.isArray(map.tags)?map.tags:[];
   const tags=tagList.map(function(x){return '<span class="ccl-tag-chip"><i class="fa-solid fa-tag"></i>#'+tffEsc(x)+'</span>';}).join('');
   ctlSetImage(images.share_image||images.game_icon||'');
-  ctlSetBase(map.map_name,map.workshop_code||mapCode,map.description||'',tags,'QUICK INFO');
+  ctlSetBase(map.map_name,map.workshop_code||mapCode,map.description||'',tags,'RINGKASAN');
   let rows='';
   rows+=ctlRow('Author',map.author_name);
   rows+=ctlRow('Jumlah Tim',map.team_count);
@@ -10628,7 +10673,7 @@ function ctlRenderDetail(json,mapCode,region,lang){
   }).join('');
   const gm=gp.game_mode||{},mt=gp.mode_template||{};
   ctlSetImage(social.map_cover_url||'');
-  ctlSetBase(basic.map_name,basic.workshop_code||mapCode,basic.description||basic.short_description||'',tagHtml,'FULL DETAIL');
+  ctlSetBase(basic.map_name,basic.workshop_code||mapCode,basic.description||basic.short_description||'',tagHtml,'DETAIL MAP');
   let rows='';
   rows+=ctlRow('Author',basic.author);
   if(basic.short_description)rows+=ctlRow('Short Description',basic.short_description);
@@ -10663,8 +10708,8 @@ async function ctlCheck(){
   const regionRaw=ctlEl('ctlRegionInput')?ctlEl('ctlRegionInput').value.trim():'';
   const langRaw=ctlEl('ctlLangInput')?ctlEl('ctlLangInput').value.trim():'';
   const mapCode=mapRaw;
-  const region=(regionRaw||'BD').toUpperCase();
-  const lang=(langRaw||'en').toLowerCase();
+  const region=(regionRaw||'ID').toUpperCase();
+  const lang=(langRaw||'id').toLowerCase();
   if(!mapCode){ctlShake();return;}
   if(!cidPreCheckDiamond(CID_SUB_COST,'ctlCheckBtn'))return;
   const mode=CTL_STATE.mode;
@@ -10703,7 +10748,7 @@ function ctlResetResult(){
 }
 function ctlReset(){
   const map=ctlEl('ctlMapCodeInput'),reg=ctlEl('ctlRegionInput'),lang=ctlEl('ctlLangInput');
-  if(map)map.value='';if(reg)reg.value='BD';if(lang)lang.value='en';
+  if(map)map.value='';if(reg){reg.value='ID';reg.dispatchEvent(new Event('input'));}if(lang){lang.value='id';lang.dispatchEvent(new Event('input'));}
   ctlResetResult();if(map)map.focus();
 }
 (function(){
@@ -15754,8 +15799,19 @@ let selPrime=-1;
   });
 })();
 
-/* Cek Prime memakai data tier yang sama dengan Prime Calculator. */
+/* Prime memakai data tier yang sama dengan Prime Calculator. */
 cpkInitCalculator();
+document.querySelectorAll('.cpk-tab').forEach(function(tab,index){
+  tab.tabIndex=index===0?0:-1;
+  tab.addEventListener('keydown',function(e){
+    var tabs=Array.from(document.querySelectorAll('.cpk-tab'));
+    var next=e.key==='ArrowRight'?(index+1)%3:e.key==='ArrowLeft'?(index+2)%3:e.key==='Home'?0:e.key==='End'?2:-1;
+    if(next<0)return;e.preventDefault();tabs[next].click();tabs[next].focus();
+  });
+});
+document.getElementById('cpkUidInput').addEventListener('input',function(){this.removeAttribute('aria-invalid');document.getElementById('cpkValidation').textContent='';});
+document.getElementById('cpkPointInput').addEventListener('input',function(){cpkClearPreset();document.getElementById('cpkPointResult').classList.remove('show');});
+
 
 /* Scramble animation */
 function scramble(el,final,ms){
@@ -16111,6 +16167,7 @@ if(empty)empty.classList.toggle('zs-show',visible===0);
 var __pageBackStack=[];
 var __pageScrollPos={};
 function showPage(id,fromBack){
+if(id==='suntiklike'){id='cekidffLikes';likesSwitchTab('paid');}
 var targetPage=document.getElementById(id);
 if(!targetPage || !targetPage.classList.contains('page')) return;
 var __current=document.querySelector('.page.active');
@@ -17192,24 +17249,7 @@ function sdGo(page,el){
 function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettingsPanel(); } if(typeof markSettingsSeen==='function') markSettingsSeen(); }
 
 (function(){
-  var BANNERS = [
-    { id:'default',   name:'Default',           img:'zusmo-asset/7dj8gw.jpg', video:'zusmo-asset/wdw2yd.mp4', price:0 },
-    { id:'hellfire',  name:'Hellfire',           img:'zusmo-asset/avlyba.jpg', video:'zusmo-asset/bmr4h1.mp4', price:240 },
-    { id:'akari',     name:'Akari',              img:'zusmo-asset/t8c2zi.jpg', video:'zusmo-asset/869yvj.mp4', price:180 },
-    { id:'redspace',  name:'Red Space',          img:'zusmo-asset/s4g2sc.jpg', video:'zusmo-asset/lfow35.mp4', price:180 },
-    { id:'eyegaze',   name:'Eye Gaze',           img:'zusmo-asset/cf0o3d.jpg', video:'zusmo-asset/z1y8m2.mp4', price:120 },
-    { id:'sukuna',    name:'Sukuna',             img:'zusmo-asset/sydc3m.jpg', video:'zusmo-asset/myei3q.mp4', price:0 },
-    { id:'mahkota',   name:'Crown Aesthetic',   img:'zusmo-asset/9ax0zw.jpg', video:'zusmo-asset/svyazq.mp4', price:40 },
-    { id:'darkgothic',name:'Dark Gothic',        img:'zusmo-asset/jel2rt.jpg', video:'zusmo-asset/keln08.mp4', price:130 },
-    { id:'nyx',       name:'Nyx',                img:'zusmo-asset/1ozx1z.jpg', video:'zusmo-asset/32yxwl.mp4', price:70 },
-    { id:'spiderman', name:'Spiderman BND',      img:'zusmo-asset/3m55tl.jpg', video:'zusmo-asset/si463k.mp4', price:40 },
-    { id:'spiderman2',name:'Spiderman BND 2',    img:'zusmo-asset/2a5q8p.jpg', video:'zusmo-asset/mru51x.mp4', price:90 },
-    { id:'junko',     name:'Junko',              img:'zusmo-asset/zuj3oa.jpg', video:'zusmo-asset/pcpso7.mp4', price:140 },
-    { id:'butterflies',name:'Butterflies',       img:'zusmo-asset/5mc9ui.jpg', video:'zusmo-asset/wnkc0o.mp4', price:85 },
-    { id:'gojo',      name:'Gojo',               img:'zusmo-asset/1yjnsr.jpg', video:'zusmo-asset/cavx2i.mp4', price:140 },
-    { id:'cr7',       name:'CR7',                img:'zusmo-asset/72wv8z.jpg', video:'zusmo-asset/fnddjw.mp4', price:120 },
-    { id:'lm10',      name:'LM10',               img:'zusmo-asset/16tky1.jpg', video:'zusmo-asset/rhmwqn.mp4', price:120 }
-  ];
+  var BANNERS = window.__zusmoBanners;
   var LS_BANNER_ID = 'zusmo_settings_banner';
 
   var WALLPAPERS = [
@@ -19714,7 +19754,7 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
   };
 
   function getWallpaperData(){
-    var id = localStorage.getItem(LS_WALLPAPER_ID) || 'wp4';
+    var id = localStorage.getItem(LS_WALLPAPER_ID) || 'default';
     for(var i=0;i<WALLPAPERS.length;i++){ if(WALLPAPERS[i].id===id) return WALLPAPERS[i]; }
     return null;
   }
@@ -19727,14 +19767,20 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
     if(!w){
       bgVid.pause();
       bgVid.removeAttribute('src');
+      bgVid.removeAttribute('data-current');
+      bgVid.onloadeddata = null;
+      bgVid.load();
       bgVid.style.display = 'none';
       return;
     }
     if(bgVid.getAttribute('data-current') !== w.id){
+      bgVid.style.display = 'none';
+      bgVid.onloadeddata = function(){ if(bgVid.getAttribute('data-current')===w.id) bgVid.style.display='block'; };
+      bgVid.onerror = function(){ bgVid.style.display='none'; };
       bgVid.src = w.video;
       bgVid.setAttribute('data-current', w.id);
     }
-    bgVid.style.display = 'block';
+    if(bgVid.readyState>=2) bgVid.style.display = 'block';
     bgVid.play().catch(function(){});
   }
 
@@ -19937,7 +19983,7 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
   window.onSelectWallpaper = function(id){
     if(id!=='default' && !isWallpaperOwned(id)){ openBuyWallpaper(id); return; }
     if(id==='default'){
-      localStorage.removeItem(LS_WALLPAPER_ID);
+      localStorage.setItem(LS_WALLPAPER_ID, 'default');
       applyWallpaperState('');
     }else{
       localStorage.setItem(LS_WALLPAPER_ID, id);
@@ -20821,7 +20867,7 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
   /* ================= END DIAMOND / SHOP / DAILY CLAIM SYSTEM ================= */
 
   function getBannerData(){
-    var id = localStorage.getItem(LS_BANNER_ID) || 'sukuna';
+    var id = localStorage.getItem(LS_BANNER_ID) || 'default';
     for(var i=0;i<BANNERS.length;i++){ if(BANNERS[i].id===id) return BANNERS[i]; }
     return BANNERS[0];
   }
@@ -21071,7 +21117,7 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
   }
   function getBannerRatio(){
     var v = localStorage.getItem(LS_BANNER_RATIO);
-    return (v==='16/7') ? '16/7' : '16/9';
+    return (v==='16/9') ? '16/9' : '16/7';
   }
   function getCustomKeyboard(){
     var v = localStorage.getItem(LS_CUSTOM_KEYBOARD);
@@ -21123,42 +21169,7 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
     io.observe(container);
   }
 
-  function applyBannerState(on){
-    var wrap = document.querySelector('.hm-video-wrap');
-    if(!wrap) return;
-    var data = getBannerData();
-    var existing = wrap.querySelector('video, img.hm-banner-img');
-    if(on){
-      if(existing && existing.tagName==='VIDEO' && existing.dataset.src===data.video){
-        lazyLoadMedia(wrap, existing);
-        return;
-      }
-      if(existing) existing.remove();
-      var vid = document.createElement('video');
-      vid.loop = true; vid.muted = true; vid.playsInline = true;
-      vid.preload = 'none';
-      vid.dataset.src = data.video;
-      wrap.insertBefore(vid, wrap.firstChild);
-      lazyLoadMedia(wrap, vid);
-    }else{
-      if(existing && existing.tagName==='IMG' && existing.dataset.src===data.img){
-        lazyLoadMedia(wrap, existing);
-        return;
-      }
-      if(existing) existing.remove();
-      var img = document.createElement('img');
-      img.className = 'hm-banner-img';
-      img.loading = 'lazy';
-      img.decoding = 'async';
-      img.dataset.src = data.img;
-      img.style.width='100%';
-      img.style.height='100%';
-      img.style.objectFit='cover';
-      img.style.display='block';
-      wrap.insertBefore(img, wrap.firstChild);
-      lazyLoadMedia(wrap, img);
-    }
-  }
+  function applyBannerState(on){ window.__zusmoRenderBanner(on); }
 
   function applyBlurState(on){
     var styleTag = document.getElementById('bgBlurOverrideStyle');
@@ -21439,7 +21450,7 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
     applyVolumeToMusic(getVolume());
     applyLanguage(getLang());
     setDiamond(getDiamond());
-    var savedWpId = localStorage.getItem(LS_WALLPAPER_ID) || 'wp4';
+    var savedWpId = localStorage.getItem(LS_WALLPAPER_ID) || 'default';
     applyWallpaperState(savedWpId);
     var savedLogoId = localStorage.getItem(LS_LOGO_ID);
     if(savedLogoId) applyLogoState(savedLogoId);
@@ -25690,96 +25701,3 @@ function isAppMode(){
   }
 })();
 
-
-
-/* ---- original inline script block separator ---- */
-
-
-var cidMediaAssets={banner:'',outfit:'',avatar:''};
-var cidMediaGeneration=0;
-function cidSelectPanel(name){
-  document.querySelectorAll('#cekidffPlayer .cip-tabs [role="tab"]').forEach(function(tab){
-    const selected=tab.id==='cipTab-'+name;
-    tab.setAttribute('aria-selected',String(selected));tab.tabIndex=selected?0:-1;
-  });
-  document.querySelectorAll('#cekidffPlayer [role="tabpanel"]').forEach(function(panel){panel.hidden=panel.id!=='cipPanel-'+name;});
-  if(name==='detail'){
-    const rows=document.getElementById('cidInfoRows');
-    if(rows&&rows.style.display==='none') cidToggleInfoLengkap();
-  }
-}
-(function(){
-  const tabs=Array.from(document.querySelectorAll('#cekidffPlayer .cip-tabs [role="tab"]'));
-  tabs.forEach(function(tab,index){tab.addEventListener('keydown',function(event){
-    let next=index;
-    if(event.key==='ArrowRight') next=(index+1)%tabs.length;
-    else if(event.key==='ArrowLeft') next=(index+tabs.length-1)%tabs.length;
-    else if(event.key==='Home') next=0;
-    else if(event.key==='End') next=tabs.length-1;
-    else return;
-    event.preventDefault();tabs[next].click();tabs[next].focus();
-  });});
-})();
-function cidPrepareMedia(){
-  cidMediaGeneration++;
-  ['banner','outfit','avatar'].forEach(function(kind){
-    cidMediaAssets[kind]='';
-    const btn=document.getElementById('cipDownload-'+kind);
-    btn.disabled=true;btn.removeAttribute('aria-busy');btn.innerHTML='<i class="fa-solid fa-download" aria-hidden="true"></i> Download '+kind;
-    document.getElementById('cipStatus-'+kind).textContent='Menunggu gambar…';
-    const link=document.getElementById('cipOriginal-'+kind);link.hidden=true;link.removeAttribute('href');
-  });
-  document.getElementById('cipAvatarFrame').innerHTML='<i class="fa-solid fa-user" aria-hidden="true"></i>';
-  document.getElementById('cipAvatarMeta').textContent='Avatar yang digunakan pemain.';
-  document.getElementById('cidBannerAvatar').innerHTML='';
-  document.getElementById('cidOutfitFrame').innerHTML='';
-}
-function cidRenderAvatar(json){
-  const frame=document.getElementById('cipAvatarFrame');
-  const avatarId=cidPickIdCI(json,'headpic')||cidPickIdCI(json,'avatarid');
-  if(!avatarId||!/^\d+$/.test(String(avatarId))||String(avatarId)==='0'){
-    frame.innerHTML='<i class="fa-solid fa-user" aria-hidden="true"></i>';
-    document.getElementById('cipAvatarMeta').textContent='Avatar tidak tersedia.';
-    cidMediaError('avatar');return;
-  }
-  document.getElementById('cipAvatarMeta').textContent='Item ID · '+String(avatarId);
-  frame.innerHTML='<img src="'+tffAttrEsc(tffItemIconUrl(avatarId))+'" alt="Avatar player" referrerpolicy="no-referrer" onload="cidMediaReady(\'avatar\',this)" onerror="this.hidden=true;cidMediaError(\'avatar\')">';
-}
-function cidMediaReady(kind,img){
-  if(!img.isConnected||!img.naturalWidth) return;
-  cidMediaAssets[kind]=img.currentSrc||img.src;
-  document.getElementById('cipDownload-'+kind).disabled=false;
-  document.getElementById('cipStatus-'+kind).textContent='';
-}
-function cidMediaError(kind){
-  cidMediaAssets[kind]='';
-  document.getElementById('cipDownload-'+kind).disabled=true;
-  document.getElementById('cipStatus-'+kind).textContent='Gambar belum tersedia. Coba cari ulang player.';
-}
-async function cidDownloadMedia(kind){
-  const url=cidMediaAssets[kind],btn=document.getElementById('cipDownload-'+kind);
-  if(!url||!btn||btn.disabled) return;
-  const generation=cidMediaGeneration,status=document.getElementById('cipStatus-'+kind),link=document.getElementById('cipOriginal-'+kind);
-  const controller=new AbortController(),timer=setTimeout(function(){controller.abort();},30000);
-  btn.disabled=true;btn.setAttribute('aria-busy','true');btn.innerHTML='<i class="fa-solid fa-spinner fa-spin" aria-hidden="true"></i> Menyiapkan…';status.textContent='Menyiapkan gambar untuk diunduh…';link.hidden=true;
-  try{
-    const response=await fetch(url,{signal:controller.signal,referrerPolicy:'no-referrer'});
-    if(!response.ok) throw new Error('Download failed');
-    const blob=await response.blob();
-    if(!blob.size||!/^image\//i.test(blob.type)) throw new Error('Invalid image');
-    if(generation!==cidMediaGeneration) return;
-    const ext=blob.type.includes('webp')?'webp':blob.type.includes('jpeg')?'jpg':'png';
-    const objectUrl=URL.createObjectURL(blob),anchor=document.createElement('a');
-    anchor.href=objectUrl;anchor.download='ff-'+kind+'-'+Date.now()+'.'+ext;
-    document.body.appendChild(anchor);anchor.click();anchor.remove();
-    setTimeout(function(){URL.revokeObjectURL(objectUrl);},60000);
-    status.textContent='Unduhan dimulai. Periksa folder Download.';
-  }catch(error){
-    if(generation!==cidMediaGeneration) return;
-    status.textContent='Unduhan gagal. Coba lagi atau buka gambar asli untuk menyimpannya.';
-    link.href=url;link.hidden=false;
-  }finally{
-    clearTimeout(timer);
-    if(generation===cidMediaGeneration){btn.disabled=!cidMediaAssets[kind];btn.removeAttribute('aria-busy');btn.innerHTML='<i class="fa-solid fa-download" aria-hidden="true"></i> Download '+kind;}
-  }
-}

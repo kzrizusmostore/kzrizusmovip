@@ -1,0 +1,1 @@
+try{window.__zusmoRenderBanner(localStorage.getItem('zusmo_settings_animasi')!=='0');}catch(e){window.__zusmoRenderBanner(true);}
