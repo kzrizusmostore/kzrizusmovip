@@ -1,4 +1,4 @@
-/* ===== Original inline script block 1 ===== */
+
 function isStandalone(){
   return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone===true;
 }
@@ -9408,12 +9408,130 @@ function cisReset(){
   if(uidInput){
     uidInput.addEventListener('input',function(){
       uidInput.value=uidInput.value.replace(/[^0-9]/g,'').slice(0,13);
+      const clear=document.getElementById('cpkUidClear');
+      if(clear) clear.classList.toggle('show',!!uidInput.value);
     });
     uidInput.addEventListener('keydown',function(e){
       if(e.key==='Enter') cpkCheck();
     });
   }
+  const pointInput=document.getElementById('cpkPointInput');
+  if(pointInput){
+    pointInput.addEventListener('input',function(){
+      pointInput.value=pointInput.value.replace(/[^0-9]/g,'').slice(0,9);
+      const clear=document.getElementById('cpkPointClear');
+      if(clear) clear.classList.toggle('show',!!pointInput.value);
+    });
+    pointInput.addEventListener('keydown',function(e){
+      if(e.key==='Enter') cpkCalcPoints();
+    });
+  }
 })();
+
+/* ── CEK PRIME: tab, state, dan helper visual ── */
+function cpkSwitchTab(name){
+  const names=['lookup','points','levels'];
+  names.forEach(function(key){
+    const panel=document.getElementById('cpkPanel'+key.charAt(0).toUpperCase()+key.slice(1));
+    const tab=document.getElementById('cpkTab'+key.charAt(0).toUpperCase()+key.slice(1));
+    const active=key===name;
+    if(panel){panel.classList.toggle('active',active);panel.hidden=!active;}
+    if(tab){tab.classList.toggle('active',active);tab.setAttribute('aria-selected',String(active));}
+  });
+  const root=document.getElementById('cekidffPrime');
+  if(root){window.setTimeout(function(){root.scrollIntoView({block:'start',behavior:'smooth'});},20);}
+}
+
+function cpkClearUid(){
+  const inp=document.getElementById('cpkUidInput');
+  if(inp){inp.value='';inp.focus();}
+  const clear=document.getElementById('cpkUidClear');
+  if(clear) clear.classList.remove('show');
+}
+
+function cpkParseNumber(value){
+  const raw=String(value==null?'':value).replace(/[^0-9]/g,'');
+  const n=parseInt(raw,10);
+  return Number.isFinite(n)?n:0;
+}
+
+function cpkFmtNumber(value){
+  const n=Number(value);
+  return Number.isFinite(n)?n.toLocaleString('id-ID'):'—';
+}
+
+function cpkSetPrimeIcon(level){
+  const icon=document.getElementById('cpkTierIcon');
+  const tier=(typeof primeLevels!=='undefined'&&level>0)?primeLevels[level-1]:null;
+  if(icon){
+    icon.src=tier?tier.img:'zusmo-asset/fvplwr.png';
+    icon.alt=tier?tier.name:'Prime';
+    icon.style.opacity=tier?'1':'.34';
+    icon.style.filter=tier?'':'grayscale(1)';
+  }
+  const nickIcon=document.getElementById('cpkNickIcon');
+  const iconUrl=(level>0&&typeof TFF_PRIME_ICONS!=='undefined')?TFF_PRIME_ICONS[level]:null;
+  if(nickIcon){
+    if(iconUrl){
+      if(nickIcon.tagName==='IMG'){
+        nickIcon.src=iconUrl;
+        nickIcon.alt='Prime '+level;
+      }else{
+        nickIcon.outerHTML='<img id="cpkNickIcon" src="'+tffAttrEsc(iconUrl)+'" alt="Prime '+level+'" style="width:18px;height:18px;object-fit:contain;flex-shrink:0;" onerror="this.outerHTML=\'<i class=&quot;fa-solid fa-gem&quot; id=&quot;cpkNickIcon&quot; style=&quot;color:#ff6b6b;font-size:11px;&quot;></i>\'">';
+      }
+    }else if(nickIcon.tagName==='IMG'){
+      nickIcon.outerHTML='<i class="fa-solid fa-gem" id="cpkNickIcon" style="color:#ff6b6b;font-size:11px;"></i>';
+    }
+  }
+}
+
+function cpkRenderResult(level){
+  const safeLevel=(Number.isFinite(level)&&level>=1&&level<=8)?level:0;
+  const nameEl=document.getElementById('cpkTierName');
+  const metaEl=document.getElementById('cpkTierMeta');
+  const rowsEl=document.getElementById('cpkInfoRows');
+  const fill=document.getElementById('cpkProgressFill');
+  const progressText=document.getElementById('cpkProgressText');
+  const track=document.getElementById('cpkProgressTrack');
+  const note=document.getElementById('cpkResultNote');
+  cpkSetPrimeIcon(safeLevel);
+  if(!safeLevel){
+    if(nameEl) nameEl.textContent='BELUM PRIME';
+    if(metaEl) metaEl.textContent='Akun belum memiliki tier Prime yang terdeteksi.';
+    if(fill) fill.style.width='0%';
+    if(progressText) progressText.textContent='0 / 8';
+    if(track) track.setAttribute('aria-valuenow','0');
+    if(rowsEl) rowsEl.innerHTML='<div class="cpk-stat wide"><div><small>Status Prime</small><strong>Belum memiliki Prime</strong></div><i class="fa-solid fa-lock" style="color:#777;"></i></div>';
+    if(note) note.innerHTML='<i class="fa-solid fa-circle-info"></i><span>Gunakan tab <b>Hitung Point</b> untuk melihat estimasi biaya menuju Prime 1.</span>';
+    return;
+  }
+  const p=primeLevels[safeLevel-1];
+  const price=p.dm*(typeof HARGA_PER_DM!=='undefined'?HARGA_PER_DM:126);
+  const next=primeLevels[safeLevel]||null;
+  const pct=Math.round((safeLevel/primeLevels.length)*100);
+  if(nameEl) nameEl.textContent=p.name;
+  if(metaEl) metaEl.textContent='Minimal '+cpkFmtNumber(p.dm)+' diamond · Estimasi Rp '+cpkFmtNumber(price);
+  if(fill) fill.style.width=pct+'%';
+  if(progressText) progressText.textContent=safeLevel+' / '+primeLevels.length;
+  if(track) track.setAttribute('aria-valuenow',String(safeLevel));
+  if(rowsEl){
+    let html='';
+    html+='<div class="cpk-stat"><small>Minimal Diamond</small><strong>'+cpkFmtNumber(p.dm)+'</strong></div>';
+    html+='<div class="cpk-stat"><small>Estimasi Nilai</small><strong class="accent">Rp '+cpkFmtNumber(price)+'</strong></div>';
+    if(next){
+      const gap=next.dm-p.dm;
+      html+='<div class="cpk-stat wide"><div><small>Target Berikutnya</small><strong>'+tffEsc(next.name)+'</strong></div><b style="color:#ffbd68;font-size:10px;">+'+cpkFmtNumber(gap)+' DM</b></div>';
+    }else{
+      html+='<div class="cpk-stat wide"><div><small>Status Tier</small><strong style="color:#ffd56a;">PRIME MAX</strong></div><i class="fa-solid fa-star" style="color:#ffd56a;"></i></div>';
+    }
+    rowsEl.innerHTML=html;
+  }
+  if(note){
+    note.innerHTML=next
+      ? '<i class="fa-solid fa-circle-info"></i><span>API mendeteksi <b>'+tffEsc(p.name)+'</b>. Angka point di atas adalah batas minimum tier; selisih ke '+tffEsc(next.name)+' sekitar <b>'+cpkFmtNumber(next.dm-p.dm)+' diamond</b>.</span>'
+      : '<i class="fa-solid fa-circle-info"></i><span>API mendeteksi tier tertinggi. Nilai dihitung dengan estimasi Rp 126 per 1 diamond.</span>';
+  }
+}
 
 function cpkShowState(which){
   ['cpkStateIdle','cpkStateLoading','cpkStateError'].forEach(function(id){
@@ -9449,7 +9567,9 @@ function cpkShake(){
 async function cpkCheck(){
   const inp=document.getElementById('cpkUidInput');
   const uid=inp?inp.value.trim():'';
-  if(!uid||uid.length<6){ cpkShake(); return; }
+  if(!/^\d{6,13}$/.test(uid)){ cpkShake(); return; }
+  const btn=document.getElementById('cpkCheckBtn');
+  if(btn&&btn.disabled) return;
   if(!cidPreCheckDiamond(CID_SUB_COST,'cpkCheckBtn')) return;
 
   cpkShowState('cpkStateLoading');
@@ -9478,32 +9598,7 @@ async function cpkCheck(){
       const idChipEl=document.getElementById('cpkIdChip');
       if(idChipEl) idChipEl.innerHTML='<i class="fa-solid fa-hashtag"></i> '+tffEsc(String(uidVal));
 
-      const nickIconEl=document.getElementById('cpkNickIcon');
-      if(nickIconEl){
-        const primeIconUrl=(primeLevelNum>0 && typeof TFF_PRIME_ICONS!=='undefined')?TFF_PRIME_ICONS[primeLevelNum]:null;
-        if(primeIconUrl){
-          nickIconEl.outerHTML='<img id="cpkNickIcon" src="'+tffAttrEsc(primeIconUrl)+'" alt="Prime '+tffAttrEsc(String(primeLevelNum))+'" style="width:20px;height:20px;object-fit:contain;flex-shrink:0;" onerror="this.outerHTML=\'<i class=&quot;fa-solid fa-gem&quot; id=&quot;cpkNickIcon&quot; style=&quot;color:#ff6b6b;&quot;></i>\'">';
-        }else{
-          nickIconEl.outerHTML='<i class="fa-solid fa-gem" id="cpkNickIcon" style="color:#ff6b6b;"></i>';
-        }
-      }
-
-      const rowsEl=document.getElementById('cpkInfoRows');
-      if(rowsEl){
-        let rows='';
-        if(primeLevelNum>0 && typeof primeLevels!=='undefined' && primeLevels[primeLevelNum-1]){
-          const p=primeLevels[primeLevelNum-1];
-          const totalDm=p.dm;
-          const totalHarga=totalDm*(typeof HARGA_PER_DM!=='undefined'?HARGA_PER_DM:126);
-          rows+='<div class="cid-info-row"><b>Level Prime</b><span>'+tffEsc(p.name)+'</span></div>';
-          rows+='<div class="cid-info-row"><b>Point Prime (Diamond)</b><span>'+totalDm.toLocaleString('id-ID')+'</span></div>';
-          rows+='<div class="cid-info-row"><b>Estimasi Nilai</b><span>Rp '+totalHarga.toLocaleString('id-ID')+'</span></div>';
-          rows+='<div class="cid-info-row-error" style="color:#8f8f8f;"><i class="fa-solid fa-circle-info" style="color:#ff6b6b;"></i>Estimasi harga Rp 126 per 1 Diamond.</div>';
-        }else{
-          rows+='<div class="cid-info-row-error"><i class="fa-solid fa-triangle-exclamation"></i>Akun ini belum memiliki level Prime.</div>';
-        }
-        rowsEl.innerHTML=rows;
-      }
+      cpkRenderResult(primeLevelNum);
 
       cpkShowState(null);
       cpkSetLoadingBtn(false);
@@ -9577,7 +9672,90 @@ function cpkDownloadCard1(){
 function cpkReset(){
   const inp=document.getElementById('cpkUidInput');
   if(inp){ inp.value=''; inp.focus(); }
+  const clear=document.getElementById('cpkUidClear');
+  if(clear) clear.classList.remove('show');
+  const nick=document.getElementById('cpkNickname');
+  if(nick) nick.textContent='-';
+  const idChip=document.getElementById('cpkIdChip');
+  if(idChip) idChip.textContent='';
+  const rows=document.getElementById('cpkInfoRows');
+  if(rows) rows.innerHTML='';
   cpkShowState('cpkStateIdle');
+}
+
+function cpkRetry(){
+  const inp=document.getElementById('cpkUidInput');
+  if(inp&&/^\d{6,13}$/.test(inp.value.trim())) cpkCheck();
+  else cpkReset();
+}
+
+function cpkClearPoints(){
+  const inp=document.getElementById('cpkPointInput');
+  if(inp){inp.value='';inp.focus();}
+  const clear=document.getElementById('cpkPointClear');
+  if(clear) clear.classList.remove('show');
+}
+
+function cpkSetPoints(value){
+  const inp=document.getElementById('cpkPointInput');
+  if(!inp) return;
+  inp.value=String(value);
+  const clear=document.getElementById('cpkPointClear');
+  if(clear) clear.classList.add('show');
+  cpkCalcPoints();
+}
+
+function cpkCalcPoints(){
+  const inp=document.getElementById('cpkPointInput');
+  const value=cpkParseNumber(inp?inp.value:'');
+  if(!value){
+    if(inp){inp.classList.remove('pc-shake');void inp.offsetWidth;inp.classList.add('pc-shake');inp.focus();}
+    return;
+  }
+  const level=typeof prmCalcLevel==='function'?prmCalcLevel(value):0;
+  const tier=level>0?primeLevels[level-1]:null;
+  const next=level<primeLevels.length?primeLevels[level]:null;
+  const result=document.getElementById('cpkPointResult');
+  if(result) result.classList.add('show');
+  const diamond=document.getElementById('cpkPointDiamond');
+  const price=document.getElementById('cpkPointPrice');
+  const tierEl=document.getElementById('cpkPointTier');
+  const nextEl=document.getElementById('cpkPointNext');
+  if(diamond) diamond.textContent=cpkFmtNumber(value);
+  if(price) price.textContent='Rp '+cpkFmtNumber(value*(typeof HARGA_PER_DM!=='undefined'?HARGA_PER_DM:126));
+  if(tierEl) tierEl.textContent=tier?tier.name:'Belum Prime';
+  if(nextEl) nextEl.textContent=next?'+'+cpkFmtNumber(Math.max(0,next.dm-value))+' DM ke '+next.name:'Prime Max';
+}
+
+function cpkCalcTier(index){
+  if(typeof primeLevels==='undefined'||!primeLevels[index]) return;
+  const p=primeLevels[index];
+  const result=document.getElementById('cpkTierResult');
+  if(result) result.classList.add('show');
+  const name=document.getElementById('cpkTierResultName');
+  const dm=document.getElementById('cpkTierResultDiamond');
+  const price=document.getElementById('cpkTierResultPrice');
+  if(name) name.textContent=p.name;
+  if(dm) dm.textContent=cpkFmtNumber(p.dm);
+  if(price) price.textContent='Rp '+cpkFmtNumber(p.dm*(typeof HARGA_PER_DM!=='undefined'?HARGA_PER_DM:126));
+}
+
+function cpkSelectTier(index){
+  document.querySelectorAll('#cpkLevelGrid .cpk-level-btn').forEach(function(btn,i){btn.classList.toggle('active',i===index);});
+  cpkCalcTier(index);
+}
+
+function cpkInitCalculator(){
+  const grid=document.getElementById('cpkLevelGrid');
+  if(!grid||typeof primeLevels==='undefined'||grid.dataset.ready==='1') return;
+  grid.dataset.ready='1';
+  primeLevels.forEach(function(p,i){
+    const btn=document.createElement('button');
+    btn.type='button';btn.className='cpk-level-btn';btn.setAttribute('aria-label','Pilih '+p.name);
+    btn.onclick=function(){cpkSelectTier(i);};
+    btn.innerHTML='<img src="'+tffAttrEsc(p.img)+'" alt="'+tffAttrEsc(p.name)+'" loading="lazy" decoding="async"><span>'+tffEsc(p.name)+'</span><small>'+cpkFmtNumber(p.dm)+' DM</small>';
+    grid.appendChild(btn);
+  });
 }
 
 (function(){
@@ -15575,6 +15753,9 @@ let selPrime=-1;
     g.appendChild(d);
   });
 })();
+
+/* Cek Prime memakai data tier yang sama dengan Prime Calculator. */
+cpkInitCalculator();
 
 /* Scramble animation */
 function scramble(el,final,ms){
@@ -25509,7 +25690,11 @@ function isAppMode(){
   }
 })();
 
-/* ===== Original inline script block 2 ===== */
+
+
+/* ---- original inline script block separator ---- */
+
+
 var cidMediaAssets={banner:'',outfit:'',avatar:''};
 var cidMediaGeneration=0;
 function cidSelectPanel(name){
