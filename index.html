@@ -11027,17 +11027,6 @@ font-family:'Inter',system-ui,sans-serif;letter-spacing:0;}
 #cekidff3D .ff3d-viewer canvas{display:block;width:100%;height:100%;touch-action:none}#cekidff3D .ff3d-hint{position:absolute;left:12px;bottom:10px;padding:7px 10px;border-radius:8px;background:#0009;color:#ccc;font-size:10px;pointer-events:none}
 #cekidff3D .ff3d-loading{position:absolute;inset:0;display:grid;place-items:center;color:#bbb;font-size:11px;background:#0b0b0bcc}.ff3d-loading[hidden]{display:none!important}
 @media(max-width:480px){#cekidff3D .ff3d-viewer{height:360px}}
-</style><style id="ux-update-style">
-/* UI/UX update: consistent navigation, forms and FF tool categories */
-.ux-page-nav{display:flex;align-items:center;gap:9px;margin:0 0 12px;padding:4px 1px;color:#888;font-size:10px}
-.ux-page-nav button{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:8px 11px;border:1px solid #333;border-radius:9px;background:#151515;color:#ddd;font:inherit;font-weight:700;cursor:pointer}
-.ux-page-nav button:hover{border-color:#ff2b2b;color:#fff;background:#261010}.ux-page-nav span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#777}
-#cekidff .ff-category-row{display:flex;gap:6px;overflow-x:auto;padding:1px 1px 10px;margin-top:-5px;scrollbar-width:none}.ff-category-row::-webkit-scrollbar{display:none}
-#cekidff .ff-category-row button{flex:0 0 auto;min-height:34px;padding:7px 11px;border:1px solid #292929;border-radius:9px;background:#111;color:#999;font:inherit;font-size:10px;cursor:pointer}
-#cekidff .ff-category-row button[aria-pressed="true"]{border-color:#ff2b2b;background:#351414;color:#fff;box-shadow:inset 0 0 0 1px #ff2b2b}
-#cekidff input,#cekidff textarea,#cekidff select,[id^="cekidff"] input,[id^="cekidff"] textarea,[id^="cekidff"] select{accent-color:#ff2b2b}
-[id^="cekidff"] input:focus,[id^="cekidff"] textarea:focus,[id^="cekidff"] select:focus{outline:0;border-color:#ff2b2b!important;box-shadow:0 0 0 3px rgba(255,43,43,.12)}
-.ff3d-actions{display:flex;gap:7px;position:absolute;right:10px;top:10px;z-index:2}.ff3d-actions button{width:35px;height:35px;border:1px solid #555;border-radius:9px;background:#080808c9;color:#ddd;cursor:pointer}.ff3d-actions button:hover{border-color:#ff2b2b;color:#fff}.ff3d-viewer:fullscreen{width:100vw;height:100vh;border-radius:0}.ff3d-viewer:fullscreen .ff3d-hint{bottom:18px}
 </style></head><body><div id="vipAppRoot">
   <div class="noise" aria-hidden="true"></div>
 
@@ -14201,7 +14190,7 @@ Layanan API pihak ketiga yang dipakai sebagian fitur di sini punya beberapa grup
   <p class="cifm-subtitle">Semua kebutuhan akunmu, dalam satu tempat.</p>
 </header>
 <div class="ff-search"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i><input id="ffToolSearch" type="search" placeholder="Cari tool…" autocomplete="off" aria-label="Cari tool Free Fire"/><button id="ffSearchClear" type="button" aria-label="Hapus pencarian" hidden><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div>
-<div class="ff-filter-row"><div role="group" aria-label="Tampilkan tool"><button type="button" id="ffFilterAll" aria-pressed="true">Semua</button><button type="button" id="ffFilterFavorites" aria-pressed="false"><i class="fa-regular fa-star" aria-hidden="true"></i> Favorit <span id="ffFavoriteCount">0</span></button></div><span id="ffToolCount" role="status" aria-live="polite"></span></div><div class="ff-category-row" id="ffCategoryRow" role="group" aria-label="Kategori tool"><button type="button" data-category="all" aria-pressed="true">Semua</button><button type="button" data-category="player" aria-pressed="false">Player</button><button type="button" data-category="akun" aria-pressed="false">Akun</button><button type="button" data-category="sosial" aria-pressed="false">Sosial</button><button type="button" data-category="guild" aria-pressed="false">Guild</button><button type="button" data-category="utility" aria-pressed="false">Utility</button></div>
+<div class="ff-filter-row"><div role="group" aria-label="Tampilkan tool"><button type="button" id="ffFilterAll" aria-pressed="true">Semua</button><button type="button" id="ffFilterFavorites" aria-pressed="false"><i class="fa-regular fa-star" aria-hidden="true"></i> Favorit <span id="ffFavoriteCount">0</span></button></div><span id="ffToolCount" role="status" aria-live="polite"></span></div>
 <div class="cifm-grid" id="ffToolGrid">
 
 <div class="ff-tool-card" data-tool="cekidffPlayer"><button type="button" class="cifm-tile cifm-featured" onclick="showPage('cekidffPlayer')">
@@ -14280,7 +14269,7 @@ Layanan API pihak ketiga yang dipakai sebagian fitur di sini punya beberapa grup
 <div class="page page-with-copyright tools-polished" id="cekidff3D">
 <header class="ff3d-head"><span class="ff3d-eyebrow">FREE FIRE TOOLS</span><h1>CEK <em>3D</em></h1><p class="ff3d-sub">Masukkan UID untuk membuka preview karakter Free Fire dalam tampilan 3D.</p></header>
 <form class="ff3d-form" id="ff3dForm"><label class="ff3d-label" for="ff3dUid">UID FREE FIRE</label><div class="ff3d-input-wrap"><i class="fa-solid fa-hashtag" aria-hidden="true"></i><input id="ff3dUid" inputmode="numeric" autocomplete="off" maxlength="20" placeholder="Masukkan UID pemain" required></div><button class="ff3d-btn" type="submit"><i class="fa-solid fa-cube"></i> Tampilkan Preview 3D</button></form>
-<div class="ff3d-viewer" id="ff3dViewer"><div class="ff3d-actions"><button type="button" id="ff3dAuto" aria-label="Putar otomatis"><i class="fa-solid fa-rotate"></i></button><button type="button" id="ff3dReset" aria-label="Reset tampilan"><i class="fa-solid fa-arrows-to-circle"></i></button><button type="button" id="ff3dFullscreen" aria-label="Layar penuh"><i class="fa-solid fa-expand"></i></button></div><div class="ff3d-loading" id="ff3dLoading">Memuat model 3D…</div><div class="ff3d-hint">Geser untuk memutar · Cubit untuk zoom</div></div>
+<div class="ff3d-viewer" id="ff3dViewer"><div class="ff3d-loading" id="ff3dLoading">Memuat model 3D…</div><div class="ff3d-hint">Geser untuk memutar 360° · Cubit untuk zoom</div></div>
 <div class="footer" style="margin-top:18px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div></div>
 
 <div class="page page-with-copyright tools-polished likes-redesign" id="cekidffLikes">
@@ -44271,7 +44260,7 @@ if(!viewer||!form)return;
 var scene=new THREE.Scene();scene.background=new THREE.Color(0x0b0909);
 var camera=new THREE.PerspectiveCamera(35,1,.1,100);camera.position.set(0,1.15,3.1);
 var renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.shadowMap.enabled=true;viewer.insertBefore(renderer.domElement,viewer.firstChild);
-var controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.enablePan=false;controls.minDistance=1.7;controls.maxDistance=5;controls.target.set(0,1,0);controls.autoRotateSpeed=1.8;
+var controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.enablePan=false;controls.minDistance=1.7;controls.maxDistance=5;controls.target.set(0,1,0);
 scene.add(new THREE.HemisphereLight(0xffdddd,0x180808,2.2));var key=new THREE.DirectionalLight(0xffffff,3);key.position.set(2,3,4);key.castShadow=true;scene.add(key);var rim=new THREE.PointLight(0xff2424,2.4,8);rim.position.set(-2,1.5,2);scene.add(rim);
 var ground=new THREE.Mesh(new THREE.CircleGeometry(1.25,64),new THREE.MeshBasicMaterial({color:0x351111,transparent:true,opacity:.45}));ground.rotation.x=-Math.PI/2;ground.position.y=-.98;scene.add(ground);
 function resize(){var w=viewer.clientWidth,h=viewer.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix()}window.addEventListener('resize',resize);resize();
@@ -44280,41 +44269,30 @@ function fit(obj){var box=new THREE.Box3().setFromObject(obj),size=box.getSize(n
 new GLTFLoader().load('freefire_new_tpose_adam_model_by_pace_gaming.glb',function(g){model=g.scene;model.traverse(function(o){if(o.isMesh){o.castShadow=true;o.receiveShadow=true}});fit(model);scene.add(model);loading.hidden=true},undefined,function(){loading.textContent='Preview model belum tersedia.';});
 (function loop(){requestAnimationFrame(loop);controls.update();renderer.render(scene,camera)})();
 form.addEventListener('submit',function(e){e.preventDefault();var uid=document.getElementById('ff3dUid').value.trim();if(!/^[1-9]\d{5,19}$/.test(uid)){document.getElementById('ff3dUid').focus();return;}loading.hidden=!model;});
-var autoBtn=document.getElementById('ff3dAuto'),resetBtn=document.getElementById('ff3dReset'),fullBtn=document.getElementById('ff3dFullscreen');if(autoBtn)autoBtn.addEventListener('click',function(){controls.autoRotate=!controls.autoRotate;autoBtn.classList.toggle('active',controls.autoRotate);autoBtn.style.color=controls.autoRotate?'#ff5555':''});if(resetBtn)resetBtn.addEventListener('click',function(){camera.position.set(0,1.15,3.1);controls.target.set(0,1,0);controls.update()});if(fullBtn)fullBtn.addEventListener('click',function(){if(document.fullscreenElement)document.exitFullscreen();else if(viewer.requestFullscreen)viewer.requestFullscreen()});
-})();
-</script><script id="ux-update-script">
-(function(){
-'use strict';
-var ffPages=['cekidff3D','cekidffPlayer','cekidffBanned','cekidffOutfit','cekidffStats','cekidffPrime','cekidffExpLevel','cekidffBanner','cekidffLikes','cekidffGuildTools','cekidffFriendTools','cekidffChangeName','cekidffLongBio','cekidffAddItem','cekidffCraftlandTools','cekidffBindTools','cekidffJwtTools'];
-var labels={cekidff3D:'Cek 3D',cekidffPlayer:'Info Player',cekidffBanned:'Cek Banned',cekidffOutfit:'Cek Outfit',cekidffStats:'Statistik Ranked',cekidffPrime:'Prime',cekidffExpLevel:'Cek Exp Level',cekidffBanner:'Cek Banner',cekidffLikes:'Likes',cekidffGuildTools:'Guild',cekidffFriendTools:'Friend',cekidffChangeName:'Ganti Nickname',cekidffLongBio:'Bio Panjang',cekidffAddItem:'Equip Item',cekidffCraftlandTools:'Craftland',cekidffBindTools:'Bind Tools',cekidffJwtTools:'JWT Tools'};
-function addNav(){ffPages.forEach(function(id){var page=document.getElementById(id);if(!page||page.querySelector('.ux-page-nav'))return;var nav=document.createElement('div');nav.className='ux-page-nav';nav.innerHTML='<button type="button"><i class="fa-solid fa-arrow-left"></i><span>Kembali ke Free Fire Tools</span></button><span aria-hidden="true">/</span><span>'+labels[id]+'</span>';nav.firstElementChild.addEventListener('click',function(){showPage('cekidff')});page.insertBefore(nav,page.firstChild)});}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',addNav);else addNav();
-var originalShow=window.showPage;window.showPage=function(id){var r=originalShow.apply(this,arguments);if(ffPages.indexOf(id)!==-1)addNav();return r};
 })();
 </script><script id="ff-hub-script">
 (function(){
 'use strict';
 const tools=[{"id": "cekidff3D", "name": "Cek 3D", "icon": "fa-solid fa-cube", "search": "Cek 3D model karakter uid"}, {"id": "cekidffPlayer", "name": "Info Player", "icon": "fa-solid fa-user-shield", "search": "Info Player akun profil uid player"}, {"id": "cekidffBanned", "name": "Cek Banned", "icon": "fa-solid fa-user-slash", "search": "Cek Banned ban banned blokir"}, {"id": "cekidffOutfit", "name": "Cek Outfit", "icon": "fa-solid fa-shirt", "search": "Cek Outfit baju outfit pakaian"}, {"id": "cekidffStats", "name": "Statistik Ranked", "icon": "fa-solid fa-chart-simple", "search": "Statistik Ranked rank ranked statistik"}, {"id": "cekidffPrime", "name": "Prime", "icon": "fa-solid fa-gem", "search": "Prime prime diamond kalkulator"}, {"id": "cekidffExpLevel", "name": "Cek Exp Level", "icon": "fa-solid fa-star", "search": "Cek Exp Level level exp pengalaman"}, {"id": "cekidffBanner", "name": "Cek Banner", "icon": "fa-solid fa-image", "search": "Cek Banner banner gambar"}, {"id": "cekidffLikes", "name": "Likes", "icon": "fa-solid fa-thumbs-up", "search": "Likes suntik like likes gratis berbayar"}, {"id": "cekidffGuildTools", "name": "Guild", "icon": "fa-solid fa-people-group", "search": "Guild guild clan"}, {"id": "cekidffFriendTools", "name": "Friend", "icon": "fa-solid fa-user-group", "search": "Friend friend teman"}, {"id": "cekidffChangeName", "name": "Ganti Nickname", "icon": "fa-solid fa-signature", "search": "Ganti Nickname nickname nick nama"}, {"id": "cekidffLongBio", "name": "Bio Panjang", "icon": "fa-solid fa-align-left", "search": "Bio Panjang bio biografi panjang"}, {"id": "cekidffAddItem", "name": "Equip Item", "icon": "fa-solid fa-shirt", "search": "Equip Item equip item skin pasang"}, {"id": "cekidffCraftlandTools", "name": "Craftland", "icon": "fa-solid fa-map-location-dot", "search": "Craftland craftland map peta"}, {"id": "cekidffBindTools", "name": "Bind Tools", "icon": "fa-solid fa-envelope-circle-check", "search": "Bind Tools bind email akun"}, {"id": "cekidffJwtTools", "name": "Jwt", "icon": "fa-solid fa-key", "search": "Jwt jwt token"}],known=new Map(tools.map(t=>[t.id,t]));
-const key='kz-ff-hub-v1',state={favorites:[],filter:'all',category:'all',query:''};
-const categories={cekidff3D:'utility',cekidffPlayer:'player',cekidffBanned:'player',cekidffOutfit:'player',cekidffStats:'player',cekidffPrime:'utility',cekidffExpLevel:'player',cekidffBanner:'player',cekidffLikes:'sosial',cekidffGuildTools:'guild',cekidffFriendTools:'sosial',cekidffChangeName:'akun',cekidffLongBio:'akun',cekidffAddItem:'utility',cekidffCraftlandTools:'guild',cekidffBindTools:'akun',cekidffJwtTools:'akun'};
+const key='kz-ff-hub-v1',state={favorites:[],filter:'all',query:''};
 const el=id=>document.getElementById(id);
 function safeList(list,max){return Array.isArray(list)?Array.from(new Set(list.filter(id=>typeof id==='string'&&known.has(id)))).slice(0,max):[];}
 try{const saved=JSON.parse(localStorage.getItem(key)||'{}');if(saved&&typeof saved==='object'){state.favorites=safeList(saved.favorites,tools.length);}}catch(e){}
 function save(){try{localStorage.setItem(key,JSON.stringify({favorites:state.favorites}));return true;}catch(e){return false;}}
-function matching(){const words=state.query.toLocaleLowerCase('id-ID').trim().split(/\s+/).filter(Boolean);return tools.filter(t=>(state.filter!=='favorites'||state.favorites.includes(t.id))&&(state.category==='all'||categories[t.id]===state.category)&&words.every(w=>t.search.toLocaleLowerCase('id-ID').includes(w)));}
+function matching(){const words=state.query.toLocaleLowerCase('id-ID').trim().split(/\s+/).filter(Boolean);return tools.filter(t=>(state.filter!=='favorites'||state.favorites.includes(t.id))&&words.every(w=>t.search.toLocaleLowerCase('id-ID').includes(w)));}
 function render(){
  const visible=new Set(matching().map(t=>t.id));
  tools.forEach(t=>{const card=document.querySelector('[data-tool="'+t.id+'"]');card.hidden=!visible.has(t.id);const button=card.querySelector('[data-favorite]'),on=state.favorites.includes(t.id);button.setAttribute('aria-pressed',String(on));button.setAttribute('aria-label',(on?'Hapus '+t.name+' dari favorit':'Tambahkan '+t.name+' ke favorit'));button.firstElementChild.className=on?'fa-solid fa-star':'fa-regular fa-star';});
  el('ffFilterAll').setAttribute('aria-pressed',String(state.filter==='all'));el('ffFilterFavorites').setAttribute('aria-pressed',String(state.filter==='favorites'));
- el('ffFavoriteCount').textContent=state.favorites.length;el('ffToolCount').textContent=visible.size+' tool';document.querySelectorAll('#ffCategoryRow [data-category]').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.category===state.category))});el('ffSearchClear').hidden=!state.query;el('ffToolEmpty').hidden=visible.size>0;
+ el('ffFavoriteCount').textContent=state.favorites.length;el('ffToolCount').textContent=visible.size+' tool';el('ffSearchClear').hidden=!state.query;el('ffToolEmpty').hidden=visible.size>0;
  const noFavorites=state.filter==='favorites'&&!state.favorites.length;
  el('ffEmptyTitle').textContent=noFavorites?'Belum ada favorit':'Tool tidak ditemukan';el('ffEmptyText').textContent=noFavorites?'Ketuk bintang pada tool pilihanmu.':'Coba kata kunci lain atau lihat semua tool.';
 }
 document.querySelectorAll('#ffToolGrid [data-favorite]').forEach(b=>b.addEventListener('click',()=>{const id=b.dataset.favorite,on=state.favorites.includes(id);state.favorites=on?state.favorites.filter(x=>x!==id):[...state.favorites,id];const saved=save();render();el('ffHubFeedback').textContent=known.get(id).name+(on?' dihapus dari favorit.':' ditambahkan ke favorit.')+(saved?'':' Favorit hanya tersimpan selama halaman ini dibuka.');if(on&&state.filter==='favorites')el('ffFilterFavorites').focus({preventScroll:true});}));
 el('ffToolSearch').addEventListener('input',function(){state.query=this.value;render();});
 el('ffSearchClear').addEventListener('click',()=>{state.query='';el('ffToolSearch').value='';render();el('ffToolSearch').focus({preventScroll:true});});
-el('ffFilterAll').addEventListener('click',()=>{state.filter='all';render();});el('ffFilterFavorites').addEventListener('click',()=>{state.filter='favorites';render();});document.querySelectorAll('#ffCategoryRow [data-category]').forEach(function(b){b.addEventListener('click',function(){state.category=b.dataset.category;render()})});
-el('ffResetFilters').addEventListener('click',()=>{state.filter='all';state.category='all';state.query='';el('ffToolSearch').value='';render();el('ffToolSearch').focus({preventScroll:true});});
+el('ffFilterAll').addEventListener('click',()=>{state.filter='all';render();});el('ffFilterFavorites').addEventListener('click',()=>{state.filter='favorites';render();});
+el('ffResetFilters').addEventListener('click',()=>{state.filter='all';state.query='';el('ffToolSearch').value='';render();el('ffToolSearch').focus({preventScroll:true});});
 render();
 })();
 </script></body></html>
