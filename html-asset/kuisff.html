@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover"/>
+<title>Kuis FF - ZUSMO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+<link href="https://fonts.googleapis.com/css2?family=Righteous&family=Orbitron:wght@700;900&family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter','Outfit',system-ui,sans-serif;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
+html,body{background:#000;color:#fff;min-height:100vh;overflow-x:hidden}
+body{position:relative}
+body:before{content:'';position:fixed;inset:0;background:
+  radial-gradient(circle at 12% -8%, rgba(255,43,43,.32), transparent 42%),
+  radial-gradient(circle at 105% 15%, rgba(255,43,43,.2), transparent 48%),
+  radial-gradient(circle at 50% 115%, rgba(255,43,43,.16), transparent 50%),
+  linear-gradient(180deg,#0c0000,#000 45%);
+  z-index:-2;}
+body:after{content:'';position:fixed;inset:0;background-image:radial-gradient(rgba(255,255,255,.035) 1px, transparent 1px);background-size:26px 26px;z-index:-1;opacity:.5;pointer-events:none}
+::selection{background:#ff2b2b;color:#fff}
+
+/* ================= TOPBAR ================= */
+.topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 16px;background:rgba(6,0,0,.6);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,43,43,.28);box-shadow:0 4px 20px rgba(0,0,0,.35)}
+.tb-left{display:flex;align-items:center;gap:10px;min-width:0}
+.tb-back{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;cursor:pointer;flex-shrink:0}
+.tb-back:active{transform:scale(.92)}
+.tb-logo{width:30px;height:30px;border-radius:9px;object-fit:cover;flex-shrink:0;box-shadow:0 0 0 1.5px rgba(255,43,43,.55),0 4px 10px rgba(255,43,43,.35)}
+.tb-title{font-family:'Righteous',cursive;font-size:1.02rem;letter-spacing:.5px;background:linear-gradient(90deg,#fff,#ffb3b3);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 16px rgba(255,43,43,.4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tb-diamond{display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.5);border:1px solid rgba(255,60,60,.5);border-radius:999px;padding:7px 12px;font-weight:800;font-size:.78rem;flex-shrink:0;box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 0 14px rgba(255,43,43,.2)}
+.tb-diamond i{color:#ff3b3b;font-size:11px;filter:drop-shadow(0 0 5px rgba(255,59,59,.85))}
+
+.wrap{max-width:520px;margin:0 auto;padding:24px 18px 60px}
+
+/* ================= INTRO ================= */
+.kf-intro{text-align:center;padding:10px 4px}
+.kf-hero{position:relative;border-radius:30px;padding:30px 20px 26px;margin-bottom:22px;overflow:hidden;
+  background:radial-gradient(120% 140% at 100% 0%, rgba(255,90,90,.18), transparent 55%),
+             linear-gradient(160deg,rgba(40,0,0,.9),rgba(10,0,0,.96));
+  border:1px solid rgba(255,43,43,.4);
+  box-shadow:0 14px 34px rgba(0,0,0,.5),0 0 30px rgba(255,43,43,.14),inset 0 1px 0 rgba(255,255,255,.05);}
+.kf-hero-glow{position:absolute;top:-50%;left:50%;transform:translateX(-50%);width:280px;height:280px;background:radial-gradient(circle,rgba(255,43,43,.35),transparent 70%);pointer-events:none}
+.kf-logo-ring{position:relative;width:108px;height:108px;margin:4px auto 18px;display:flex;align-items:center;justify-content:center;animation:kfFloat 3.4s ease-in-out infinite}
+.kf-logo-ring .ring-glow{position:absolute;inset:-10px;border-radius:32px;background:radial-gradient(circle,rgba(255,43,43,.45),transparent 70%);filter:blur(4px);animation:kfPulse 2.4s ease-in-out infinite}
+.kf-logo-img{position:relative;width:100%;height:100%;border-radius:26px;object-fit:cover;box-shadow:0 14px 30px rgba(255,43,43,.4),0 0 0 3px rgba(0,0,0,.5),0 0 0 4.5px rgba(255,43,43,.6);z-index:1;display:block}
+.kf-logo-fallback{position:relative;width:100%;height:100%;border-radius:26px;display:none;align-items:center;justify-content:center;background:linear-gradient(160deg,#ff6b6b,#ff2b2b 55%,#6e0000);box-shadow:0 14px 30px rgba(255,43,43,.4),0 0 0 3px rgba(0,0,0,.5),0 0 0 4.5px rgba(255,43,43,.6);z-index:1}
+.kf-logo-fallback i{font-size:44px;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.4)}
+@keyframes kfFloat{50%{transform:translateY(-8px)}}
+@keyframes kfPulse{0%,100%{opacity:.6;transform:scale(1)}50%{opacity:1;transform:scale(1.08)}}
+.kf-h1{position:relative;font-family:'Righteous',cursive;font-size:1.7rem;letter-spacing:.8px;margin-bottom:9px;
+  background:linear-gradient(90deg,#fff,#ffb3b3 60%,#ff6b6b);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  text-shadow:0 0 22px rgba(255,43,43,.3)}
+.kf-sub{position:relative;font-size:.82rem;line-height:1.7;color:rgba(255,255,255,.62);max-width:340px;margin:0 auto}
+
+.kf-info-row{display:flex;gap:9px;justify-content:center;margin:20px 0 24px;flex-wrap:wrap}
+.kf-info-chip{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:10px 13px;font-size:.7rem;font-weight:700;color:rgba(255,255,255,.85);box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+.kf-info-chip i{color:#ff4747;font-size:11px}
+
+.kf-start-btn{position:relative;width:100%;max-width:300px;padding:17px;border:none;border-radius:17px;
+  background:linear-gradient(180deg,#ff6b6b,#ff2b2b 55%,#b30000);color:#fff;font-size:1.02rem;font-weight:800;letter-spacing:.4px;cursor:pointer;
+  box-shadow:0 12px 28px rgba(255,43,43,.45),inset 0 1px 0 rgba(255,255,255,.25);
+  display:inline-flex;align-items:center;gap:10px;justify-content:center;overflow:hidden}
+.kf-start-btn:active{transform:scale(.97)}
+.kf-start-btn .btn-shine{position:absolute;top:0;left:-60%;width:45%;height:100%;background:linear-gradient(115deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-18deg);animation:kfBtnShine 2.8s ease-in-out infinite}
+@keyframes kfBtnShine{0%{left:-60%}45%,100%{left:130%}}
+.kf-highscore{margin-top:16px;font-size:.72rem;color:rgba(255,255,255,.42);letter-spacing:.3px;display:flex;align-items:center;justify-content:center;gap:6px}
+.kf-highscore i{color:#ffce54}
+.kf-highscore b{color:#ffce54;font-weight:800}
+
+/* ================= QUIZ ================= */
+.kf-quiz{display:none}
+.kf-progress-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;font-size:.72rem;font-weight:800;color:rgba(255,255,255,.55);letter-spacing:.3px}
+.kf-progress-row .live-gain{display:flex;align-items:center;gap:5px;color:#ff5b5b;font-weight:900;font-family:'Orbitron',sans-serif;font-size:.75rem;text-shadow:0 0 10px rgba(255,59,59,.5)}
+.kf-progress-row .live-gain i{color:#ff3b3b;filter:drop-shadow(0 0 5px rgba(255,59,59,.8))}
+.kf-progress-track{position:relative;height:9px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden;margin-bottom:22px;box-shadow:inset 0 1px 3px rgba(0,0,0,.4)}
+.kf-progress-fill{position:relative;height:100%;border-radius:999px;background:linear-gradient(90deg,#ff6b6b,#ff2b2b);transition:width .4s cubic-bezier(.22,.85,.32,1);box-shadow:0 0 10px rgba(255,43,43,.6)}
+.kf-progress-fill:after{content:'';position:absolute;inset:0;background:linear-gradient(115deg,transparent,rgba(255,255,255,.5),transparent);transform:skewX(-18deg);animation:egcShine 2.4s ease-in-out infinite}
+@keyframes egcShine{0%{transform:translateX(-120%) skewX(-18deg)}100%{transform:translateX(220%) skewX(-18deg)}}
+
+.kf-qcard{position:relative;background:rgba(255,255,255,.055);border:1px solid rgba(255,60,60,.22);border-radius:24px;padding:24px 20px;margin-bottom:18px;backdrop-filter:blur(16px);overflow:hidden;animation:kfQIn .38s cubic-bezier(.22,.85,.4,1) both;box-shadow:0 10px 26px rgba(0,0,0,.35),0 0 24px rgba(255,43,43,.08)}
+.kf-qcard:before{content:'';position:absolute;top:0;left:0;right:0;height:1.5px;background:linear-gradient(90deg,transparent,rgba(255,43,43,.7),transparent)}
+@keyframes kfQIn{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+.kf-qnum{display:inline-flex;align-items:center;gap:6px;font-size:.66rem;font-weight:800;letter-spacing:1.3px;color:#ff6b6b;text-transform:uppercase;margin-bottom:10px;background:rgba(255,43,43,.12);border:1px solid rgba(255,43,43,.3);padding:4px 10px;border-radius:999px}
+.kf-qtext{font-size:1.05rem;font-weight:700;line-height:1.55;color:#fff}
+
+.kf-opts{display:flex;flex-direction:column;gap:11px}
+.kf-opt{position:relative;display:flex;align-items:center;gap:13px;padding:15px 16px;border-radius:17px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.13);cursor:pointer;font-size:.87rem;font-weight:600;color:#fff;text-align:left;transition:.16s ease;overflow:hidden}
+.kf-opt:active{transform:scale(.98)}
+.kf-opt:not(.disabled):active{border-color:rgba(255,90,90,.6);background:rgba(255,60,60,.1)}
+.kf-opt .kf-opt-letter{flex-shrink:0;width:28px;height:28px;border-radius:9px;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:800;color:rgba(255,255,255,.7);transition:.16s}
+.kf-opt .kf-opt-icon{margin-left:auto;font-size:15px;opacity:0;transition:.16s;flex-shrink:0}
+.kf-opt.correct{background:rgba(46,204,113,.16);border-color:#2ecc71;box-shadow:0 0 18px rgba(46,204,113,.18)}
+.kf-opt.correct .kf-opt-letter{background:#2ecc71;color:#04220f}
+.kf-opt.correct .kf-opt-icon{opacity:1;color:#2ecc71}
+.kf-opt.wrong{background:rgba(255,60,60,.16);border-color:#ff3c3c;box-shadow:0 0 18px rgba(255,60,60,.18)}
+.kf-opt.wrong .kf-opt-letter{background:#ff3c3c;color:#2a0000}
+.kf-opt.wrong .kf-opt-icon{opacity:1;color:#ff5b5b}
+.kf-opt.disabled{cursor:default}
+
+.kf-feedback{display:none;align-items:center;gap:9px;font-size:.79rem;font-weight:800;margin-top:15px;padding:12px 15px;border-radius:14px;line-height:1.5}
+.kf-feedback.show{display:flex;animation:kfFbIn .3s ease both}
+@keyframes kfFbIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.kf-feedback.ok{background:rgba(46,204,113,.14);color:#4ee08a;border:1px solid rgba(46,204,113,.35)}
+.kf-feedback.bad{background:rgba(255,60,60,.14);color:#ff8a8a;border:1px solid rgba(255,60,60,.35)}
+.kf-feedback i{font-size:16px;flex-shrink:0}
+
+.kf-next-btn{width:100%;padding:16px;margin-top:16px;border:none;border-radius:15px;background:linear-gradient(180deg,#ff6b6b,#ff2b2b);color:#fff;font-weight:800;font-size:.9rem;letter-spacing:.3px;cursor:pointer;display:none;box-shadow:0 10px 22px rgba(255,43,43,.35)}
+.kf-next-btn.show{display:block;animation:kfFbIn .3s ease both}
+.kf-next-btn:active{transform:scale(.97)}
+
+/* ================= RESULT ================= */
+.kf-result{display:none;text-align:center;padding:12px 4px;position:relative}
+.kf-result-ring{width:158px;height:158px;margin:6px auto 20px;position:relative;display:flex;align-items:center;justify-content:center}
+.kf-result-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.kf-result-ring .track{fill:none;stroke:rgba(255,255,255,.09);stroke-width:9}
+.kf-result-ring .fill{fill:none;stroke:url(#kfRingGrad);stroke-width:9;stroke-linecap:round;filter:drop-shadow(0 0 10px rgba(255,43,43,.65))}
+.kf-result-score{position:absolute;font-family:'Orbitron',sans-serif;font-size:1.7rem;font-weight:900;color:#fff;text-shadow:0 0 14px rgba(255,43,43,.4)}
+.kf-result-badge{width:52px;height:52px;border-radius:50%;background:linear-gradient(160deg,#ff6b6b,#ff2b2b);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;box-shadow:0 10px 24px rgba(255,43,43,.4);animation:kfFloat 3.2s ease-in-out infinite}
+.kf-result-badge i{font-size:24px;color:#fff}
+.kf-result-title{font-family:'Righteous',cursive;font-size:1.4rem;margin-bottom:7px;color:#fff;text-shadow:0 0 18px rgba(255,43,43,.3)}
+.kf-result-sub{font-size:.81rem;color:rgba(255,255,255,.55);margin-bottom:22px;line-height:1.6}
+.kf-result-diamond{display:inline-flex;align-items:center;gap:9px;background:rgba(255,59,59,.14);border:1px solid rgba(255,59,59,.5);border-radius:999px;padding:11px 22px;font-weight:800;font-size:.98rem;color:#ff6b6b;margin-bottom:28px;font-family:'Orbitron',sans-serif;box-shadow:0 0 20px rgba(255,43,43,.2)}
+.kf-result-diamond i{font-size:16px;color:#ff3b3b;filter:drop-shadow(0 0 6px rgba(255,59,59,.85))}
+.kf-result-actions{display:flex;flex-direction:column;gap:12px;max-width:300px;margin:0 auto}
+.kf-btn-primary{padding:16px;border:none;border-radius:15px;background:linear-gradient(180deg,#ff6b6b,#ff2b2b);color:#fff;font-weight:800;font-size:.9rem;cursor:pointer;box-shadow:0 10px 24px rgba(255,43,43,.4)}
+.kf-btn-primary:active{transform:scale(.97)}
+.kf-btn-secondary{padding:16px;border:1px solid rgba(255,255,255,.18);border-radius:15px;background:rgba(255,255,255,.06);color:#fff;font-weight:700;font-size:.85rem;cursor:pointer}
+.kf-btn-secondary:active{transform:scale(.97)}
+
+.kf-diamond-float{position:fixed;pointer-events:none;z-index:999999;font-family:'Orbitron',sans-serif;font-weight:900;font-size:1rem;color:#ff5b5b;text-shadow:0 0 12px rgba(255,59,59,.9);animation:kfFloatUp 1s ease forwards;display:flex;align-items:center;gap:5px}
+.kf-diamond-float i{color:#ff3b3b}
+@keyframes kfFloatUp{0%{opacity:0;transform:translateY(0) scale(.8)}15%{opacity:1;transform:translateY(-6px) scale(1.1)}100%{opacity:0;transform:translateY(-48px) scale(1)}}
+
+.kf-confetti{position:fixed;top:-5%;pointer-events:none;z-index:999998;border-radius:2px;animation:kfConfettiFall linear forwards}
+@keyframes kfConfettiFall{to{transform:translateY(105vh) rotate(540deg);opacity:.2}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="tb-left">
+    <div class="tb-back" onclick="goBack()"><i class="fa-solid fa-chevron-left"></i></div>
+    <img class="tb-logo" src="zusmo-assets/kuisff.jpg" alt="Kuis FF" onerror="this.style.display='none'"/>
+    <div class="tb-title">KUIS FF</div>
+  </div>
+  <div class="tb-diamond"><i class="fa-solid fa-gem"></i><span id="topDiamond">0</span></div>
+</div>
+
+<div class="wrap">
+
+  <div class="kf-intro" id="kfIntro">
+    <div class="kf-hero">
+      <div class="kf-hero-glow"></div>
+      <div class="kf-logo-ring">
+        <div class="ring-glow"></div>
+        <img class="kf-logo-img" id="kfLogoImg" src="zusmo-assets/kuisff.jpg" alt="Kuis FF"/>
+        <div class="kf-logo-fallback" id="kfLogoFallback"><i class="fa-solid fa-champagne-glasses"></i></div>
+      </div>
+      <h1 class="kf-h1">Kuis FF</h1>
+      <p class="kf-sub">Uji seberapa jago kamu soal Free Fire! Jawab 10 soal acak dengan benar dan kumpulkan Diamond gratis sebanyak-banyaknya.</p>
+    </div>
+
+    <div class="kf-info-row">
+      <div class="kf-info-chip"><i class="fa-solid fa-list-ol"></i>10 Soal / Sesi</div>
+      <div class="kf-info-chip"><i class="fa-solid fa-gem"></i>+10 Diamond / Benar</div>
+      <div class="kf-info-chip"><i class="fa-solid fa-rotate"></i>Main Berulang Kali</div>
+    </div>
+    <button class="kf-start-btn" onclick="startQuiz()"><div class="btn-shine"></div><i class="fa-solid fa-play"></i> Mulai Kuis</button>
+    <div class="kf-highscore" id="kfHighscore"></div>
+  </div>
+
+  <div class="kf-quiz" id="kfQuiz">
+    <div class="kf-progress-row">
+      <span id="kfProgressLabel">Soal 1/10</span>
+      <span class="live-gain" id="kfLiveGain">+0 <i class="fa-solid fa-gem"></i></span>
+    </div>
+    <div class="kf-progress-track"><div class="kf-progress-fill" id="kfProgressFill" style="width:10%"></div></div>
+
+    <div class="kf-qcard">
+      <div class="kf-qnum" id="kfQNum"><i class="fa-solid fa-crosshairs"></i> PERTANYAAN 1</div>
+      <div class="kf-qtext" id="kfQText">-</div>
+    </div>
+
+    <div class="kf-opts" id="kfOpts"></div>
+
+    <div class="kf-feedback" id="kfFeedback"></div>
+    <button class="kf-next-btn" id="kfNextBtn" onclick="nextQuestion()">Lanjut <i class="fa-solid fa-arrow-right"></i></button>
+  </div>
+
+  <div class="kf-result" id="kfResult">
+    <div class="kf-result-ring">
+      <svg viewBox="0 0 120 120">
+        <defs>
+          <linearGradient id="kfRingGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#ff6b6b"/>
+            <stop offset="1" stop-color="#ff2b2b"/>
+          </linearGradient>
+        </defs>
+        <circle class="track" cx="60" cy="60" r="51"></circle>
+        <circle class="fill" id="kfResultRingFill" cx="60" cy="60" r="51" stroke-dasharray="320" stroke-dashoffset="320"></circle>
+      </svg>
+      <div class="kf-result-score" id="kfResultScore">0/10</div>
+    </div>
+    <div class="kf-result-badge" id="kfResultBadge"><i class="fa-solid fa-trophy"></i></div>
+    <div class="kf-result-title" id="kfResultTitle">Kerja Bagus!</div>
+    <div class="kf-result-sub" id="kfResultSub">Kamu menjawab benar sebagian besar soal.</div>
+    <div class="kf-result-diamond"><i class="fa-solid fa-gem"></i><span id="kfResultDiamond">+0 Diamond</span></div>
+    <div class="kf-result-actions">
+      <button class="kf-btn-primary" onclick="startQuiz()"><i class="fa-solid fa-rotate-right"></i> Main Lagi</button>
+      <button class="kf-btn-secondary" onclick="goBack()"><i class="fa-solid fa-house"></i> Kembali ke Beranda</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ============ DATA SOAL (sumber: data_100_kuis_free_fire.pdf) ============ */
+/* Format tiap item: [pertanyaan, jawabanBenar, opsiLain1, opsiLain2, opsiLain3] */
+var QUIZ_POOL = [["Senjata mana yang merupakan shotgun?", "M1887", "AWM", "MP40", "G18"], ["Apa fungsi utama Gloo Wall?", "Membuat perlindungan sementara", "Mengisi HP", "Menambah peluru", "Memanggil kendaraan"], ["Apa tujuan utama Battle Royale?", "Menjadi pemain/tim terakhir yang bertahan", "Mengumpulkan skin terbanyak", "Membeli item termahal", "Menyelesaikan semua misi"], ["AWM termasuk kategori senjata apa?", "Sniper Rifle", "Shotgun", "Pistol", "SMG"], ["MP40 termasuk kategori apa?", "SMG", "Sniper Rifle", "Shotgun", "Pistol"], ["Apa fungsi Med Kit?", "Memulihkan HP", "Menambah damage", "Mengisi peluru", "Memperbaiki kendaraan"], ["Apa fungsi Backpack?", "Menambah kapasitas membawa item", "Menambah damage", "Membuat pemain kebal", "Mengubah senjata"], ["Apa arti headshot?", "Tembakan mengenai kepala", "Tembakan mengenai kaki", "Tembakan mengenai kendaraan", "Tembakan ke tanah"], ["Apa fungsi armor?", "Memberikan perlindungan terhadap serangan", "Mengisi HP", "Menambah kapasitas tas", "Memanggil pet"], ["Apa yang dimaksud loot?", "Mengambil item atau perlengkapan", "Keluar dari pertandingan", "Mengganti nickname", "Menghapus akun"], ["Apa fungsi attachment senjata?", "Mengubah atau meningkatkan karakteristik senjata", "Mengganti karakter", "Mengubah map", "Menghapus zona"], ["Apa arti rush dalam permainan?", "Menyerang lawan secara agresif atau cepat", "Bersembunyi sepanjang pertandingan", "Mengganti nickname", "Membuka pengaturan"], ["Apa fungsi kendaraan?", "Membantu berpindah tempat lebih cepat", "Mengisi HP otomatis", "Membuka pet", "Menghapus semua lawan"], ["Desert Eagle termasuk kategori apa?", "Pistol", "Shotgun", "Sniper Rifle", "SMG"], ["Apa arti Booyah! dalam Free Fire?", "Tanda kemenangan", "Tanda kekalahan", "Nama senjata", "Nama kendaraan"], ["Apa fungsi amunisi?", "Digunakan untuk menembakkan senjata", "Mengisi HP", "Menambah kapasitas tas", "Membuat armor"], ["Apa yang terjadi ketika zona aman mengecil?", "Area aman menjadi semakin kecil", "Seluruh map aman", "Semua senjata hilang", "Pemain otomatis keluar"], ["Senjata mana yang merupakan SMG?", "MP5", "AWM", "M1887", "Desert Eagle"], ["Senjata mana yang merupakan sniper?", "Kar98k", "M1014", "MP40", "G18"], ["Senjata mana yang merupakan shotgun?", "M1014", "SCAR", "AWM", "USP"], ["Senjata SCAR termasuk kategori apa?", "Assault Rifle", "Shotgun", "Pistol", "Sniper Rifle"], ["AK47 termasuk kategori apa?", "Assault Rifle", "SMG", "Shotgun", "Pistol"], ["M1014 termasuk kategori apa?", "Shotgun", "Sniper Rifle", "SMG", "Pistol"], ["G18 termasuk kategori apa?", "Pistol", "Shotgun", "AR", "Sniper Rifle"], ["Kar98k dikenal sebagai senjata apa?", "Sniper Rifle", "SMG", "Shotgun", "Pistol"], ["Apa fungsi scope?", "Membantu membidik target dari jarak tertentu", "Mengisi HP", "Menambah kapasitas tas", "Memanggil kendaraan"], ["Apa fungsi muzzle pada senjata?", "Attachment yang memengaruhi karakteristik tembakan", "Mengisi armor", "Menambah kapasitas backpack", "Memulihkan HP"], ["Apa fungsi magazine?", "Mendukung kapasitas atau pengisian amunisi senjata", "Menambah HP", "Mengubah karakter", "Memanggil pet"], ["Apa yang dimaksud knock?", "Lawan jatuh dan belum sepenuhnya tereliminasi dalam mode yang mendukungnya", "Lawan mendapatkan Booyah", "Pemain mendapat skin", "Pemain mengganti senjata"], ["Apa yang dimaksud revive?", "Menghidupkan kembali rekan yang dapat diselamatkan", "Mengganti nickname", "Membeli skin", "Menghapus akun"], ["Apa kegunaan item healing?", "Memulihkan kesehatan", "Menambah damage senjata", "Mengubah map", "Mempercepat zona"], ["Apa yang harus diperhatikan saat zona mengecil?", "Posisi terhadap area aman", "Jumlah skin lawan", "Nickname pemain", "Warna backpack"], ["Apa keuntungan menggunakan high ground?", "Mendapat posisi yang lebih tinggi untuk membantu pengamatan", "HP otomatis penuh", "Peluru tidak habis", "Tidak bisa ditembak"], ["Apa arti camping dalam konteks game?", "Bertahan atau menunggu di suatu posisi untuk waktu tertentu", "Selalu melakukan rush", "Mengganti karakter", "Mengemudi kendaraan"], ["Apa arti flank?", "Menyerang dari sisi atau arah yang tidak terduga", "Mengisi HP", "Mengambil kendaraan", "Mengganti senjata"], ["Apa arti clutch?", "Berhasil memenangkan situasi sulit", "Mengganti nickname", "Membeli item", "Masuk ke training"], ["Apa arti solo?", "Bermain seorang diri", "Bermain empat orang", "Bermain tanpa senjata", "Bermain tanpa map"], ["Apa arti duo?", "Bermain dengan satu rekan dalam tim berdua", "Bermain sendiri", "Bermain berlima", "Bermain tanpa pet"], ["Apa arti squad?", "Tim yang terdiri dari beberapa pemain dalam satu regu", "Pemain tanpa tim", "Mode latihan", "Jenis senjata"], ["Apa fungsi minimap?", "Membantu melihat informasi lokasi di peta kecil", "Mengisi HP", "Membeli skin", "Mengubah nickname"], ["Apa fungsi marker/ping?", "Menandai lokasi atau informasi untuk membantu komunikasi tim", "Mengisi armor", "Menambah damage", "Membuka skin"], ["Mengapa komunikasi tim penting?", "Memudahkan koordinasi", "Membuat peluru tidak habis", "Membuat HP tak terbatas", "Menghilangkan zona"], ["Apa fungsi pet dalam Free Fire?", "Memberikan kemampuan atau bantuan sesuai pet yang digunakan", "Menggantikan senjata utama", "Menghapus lawan otomatis", "Membuat semua item gratis"], ["Apa itu character ability?", "Kemampuan khusus yang dimiliki karakter tertentu", "Jenis amunisi", "Jenis kendaraan", "Nama map"], ["Apa itu skill aktif?", "Kemampuan yang biasanya perlu diaktifkan pemain", "Senjata jarak jauh", "Armor khusus", "Jenis loot"], ["Apa itu skill pasif?", "Kemampuan yang bekerja tanpa aktivasi manual dalam kondisi yang sesuai", "Kendaraan", "Senjata", "Map"], ["Apa itu Evo Gun?", "Senjata dengan sistem peningkatan atau evolusi tertentu", "Jenis pet", "Jenis armor", "Jenis kendaraan"], ["Apa yang biasanya dibutuhkan untuk meningkatkan Evo Gun?", "Material atau sumber daya yang ditentukan sistem Evo Gun", "Nickname", "Kendaraan", "Med Kit saja"], ["Apa itu skin senjata?", "Tampilan atau varian kosmetik senjata", "Item healing", "Jenis kendaraan", "Zona aman"], ["Apa itu skin karakter?", "Tampilan kosmetik untuk karakter", "Jenis peluru", "Attachment", "Map"], ["Apa fungsi token atau mata uang event?", "Digunakan sesuai mekanisme event untuk mendapatkan hadiah atau item", "Mengisi HP secara otomatis", "Mengubah zona", "Membuat pemain kebal"], ["Apa fungsi Gold dalam game?", "Sebagai salah satu mata uang dalam sistem game", "Jenis senjata", "Jenis pet", "Jenis armor"], ["Apa fungsi Diamond?", "Mata uang premium yang digunakan untuk berbagai pembelian tertentu", "Jenis amunisi", "Jenis map", "Jenis kendaraan"], ["Apa itu lobby?", "Area/menu sebelum masuk ke pertandingan", "Area zona merah", "Jenis senjata", "Item healing"], ["Apa itu training?", "Mode atau area untuk berlatih", "Mode membeli diamond", "Jenis pet", "Jenis armor"], ["Apa fungsi target dummy di area latihan?", "Membantu latihan menembak atau menguji damage", "Mengisi diamond", "Membuka map baru", "Mengganti akun"], ["Apa yang dimaksud recoil?", "Gerakan atau hentakan senjata saat menembak", "Jumlah HP", "Kapasitas backpack", "Kecepatan kendaraan"], ["Apa itu damage?", "Besarnya kerusakan yang diberikan serangan", "Jumlah peluru", "Ukuran map", "Kapasitas tas"], ["Apa itu rate of fire?", "Kecepatan senjata menembakkan peluru", "Jarak pandang", "Jumlah HP", "Ukuran karakter"], ["Apa itu reload?", "Mengisi kembali amunisi senjata", "Mengisi HP", "Mengganti karakter", "Membuka map"], ["Apa arti knockdown?", "Kondisi pemain jatuh dan dapat membutuhkan bantuan rekan", "Pemain mendapat Booyah", "Pemain membeli skin", "Pemain keluar dari lobby"], ["Apa itu elimination?", "Pemain tersingkir dari pertandingan", "Pemain mendapatkan Med Kit", "Pemain naik kendaraan", "Pemain mengganti skin"], ["Apa itu kill?", "Eliminasi lawan", "Mengambil loot", "Mengganti senjata", "Menggunakan kendaraan"], ["Apa itu assist?", "Kontribusi yang membantu terjadinya eliminasi lawan", "Membeli diamond", "Mengganti karakter", "Mengambil kendaraan"], ["Apa fungsi kill feed?", "Menampilkan informasi eliminasi yang terjadi", "Menampilkan kapasitas tas", "Mengisi HP", "Membuka shop"], ["Apa fungsi HP bar?", "Menunjukkan jumlah kesehatan pemain", "Menunjukkan jumlah diamond", "Menunjukkan amunisi", "Menunjukkan jarak kendaraan"], ["Apa fungsi armor bar atau indikator armor?", "Memberikan informasi terkait perlindungan armor", "Menunjukkan diamond", "Menunjukkan jumlah pet", "Menunjukkan jumlah skin"], ["Apa yang dimaksud safe zone?", "Area yang dinyatakan aman dari efek penyusutan zona", "Area khusus untuk membeli senjata", "Area lobby", "Area kendaraan saja"], ["Apa tujuan rotasi saat bermain?", "Berpindah posisi secara strategis mengikuti situasi pertandingan", "Mengganti nickname", "Membeli skin", "Menghapus akun"], ["Apa itu third party?", "Tim atau pemain lain menyerang ketika dua pihak sedang bertarung", "Pemain keluar dari game", "Pemain membuka shop", "Pemain memakai Med Kit"], ["Apa itu one tap?", "Gaya menembak dengan satu ketukan atau satu tembakan yang ditargetkan", "Mengemudi kendaraan", "Menggunakan pet", "Membuka inventory"], ["Apa itu drag shot?", "Teknik menggeser arah bidikan saat menembak", "Mengambil loot otomatis", "Mengganti map", "Mengisi armor"], ["Apa fungsi crosshair?", "Menunjukkan titik atau area bidikan", "Menunjukkan jumlah diamond", "Menunjukkan HP", "Menunjukkan zona"], ["Apa arti close range?", "Jarak dekat", "Jarak sangat jauh", "Area lobby", "Area kendaraan"], ["Apa arti long range?", "Jarak jauh", "Jarak sangat dekat", "Area shop", "Area respawn"], ["Apa arti mid range?", "Jarak menengah", "Jarak nol", "Area lobby", "Area inventory"], ["Apa manfaat cover saat bertempur?", "Mengurangi keterbukaan terhadap serangan lawan", "Menambah diamond", "Membuka skin", "Mengisi peluru otomatis"], ["Apa itu positioning?", "Penempatan posisi pemain secara strategis", "Jumlah kill", "Jenis senjata", "Jumlah diamond"], ["Apa itu rotation zone?", "Perpindahan posisi untuk menyesuaikan area aman", "Pergantian nickname", "Pembelian skin", "Penggantian pet"], ["Apa itu inventory?", "Tempat melihat dan mengatur item yang dibawa", "Area kemenangan", "Jenis senjata", "Jenis map"], ["Apa fungsi tombol fire?", "Menembakkan senjata yang sedang digunakan", "Membuka map", "Mengisi HP", "Mengganti pet"], ["Apa fungsi tombol jump?", "Membuat karakter melompat", "Mengisi armor", "Mengganti senjata otomatis", "Membeli diamond"], ["Apa fungsi crouch?", "Membuat karakter berjongkok", "Menghidupkan kendaraan", "Membuka shop", "Mengganti karakter"], ["Apa fungsi prone jika tersedia dalam konteks kontrol permainan?", "Membuat karakter mengambil posisi tiarap", "Mengisi HP", "Membuka inventory", "Menambah diamond"], ["Apa fungsi tombol sprint?", "Membantu karakter bergerak cepat", "Menambah damage", "Mengisi peluru", "Mengubah map"], ["Apa fungsi tombol reload?", "Mengisi ulang amunisi", "Memulihkan HP", "Mengganti pet", "Membuka shop"], ["Apa fungsi tombol ganti senjata?", "Memilih senjata lain yang dibawa", "Mengubah nickname", "Membuka map baru", "Mengisi armor"], ["Apa fungsi tombol map?", "Membuka tampilan peta", "Menembakkan senjata", "Mengisi HP", "Mengganti skin"], ["Apa fungsi tombol backpack/inventory?", "Membuka daftar item yang dibawa", "Membuka leaderboard", "Mengubah server", "Menghapus akun"], ["Apa manfaat bermain dengan headphone?", "Membantu mendengar informasi suara dalam game dengan lebih jelas", "Menambah damage", "Menambah HP", "Membuka semua skin"], ["Apa yang dimaksud sensitivity dalam kontrol game?", "Pengaturan respons gerakan bidikan atau kamera terhadap input", "Jumlah diamond", "Jenis armor", "Jenis map"], ["Apa fungsi pengaturan graphics?", "Mengatur kualitas tampilan visual game", "Mengatur jumlah kill", "Mengubah nickname", "Mengisi HP"], ["Apa fungsi pengaturan audio?", "Mengatur suara dalam game", "Mengubah damage", "Menambah kapasitas tas", "Mengganti senjata"], ["Apa itu ping dalam konteks jaringan game?", "Ukuran waktu respons koneksi jaringan", "Jumlah kill", "Jumlah HP", "Kapasitas backpack"], ["Apa dampak ping tinggi?", "Respons jaringan dapat terasa lebih lambat", "Damage selalu meningkat", "HP menjadi tak terbatas", "Peluru otomatis bertambah"], ["Apa yang dimaksud lag?", "Gangguan atau keterlambatan respons permainan", "Skin senjata", "Jenis pet", "Jenis armor"], ["Apa manfaat koneksi stabil saat bermain online?", "Membantu menjaga respons permainan tetap konsisten", "Membuat semua senjata gratis", "Menambah diamond", "Menghilangkan lawan"], ["Apa itu server game?", "Sistem atau lokasi layanan yang menangani koneksi permainan", "Jenis senjata", "Item healing", "Jenis armor"], ["Apa yang sebaiknya dilakukan saat koneksi bermasalah?", "Memeriksa kualitas jaringan dan koneksi perangkat", "Menghapus semua skin", "Mengganti semua senjata", "Membuang Med Kit"], ["Apa tujuan utama latihan aim?", "Meningkatkan kemampuan membidik", "Menambah diamond", "Membuka semua karakter", "Mengubah map"], ["Apa manfaat mempelajari recoil senjata?", "Membantu mengendalikan arah tembakan", "Membuat HP tak terbatas", "Menambah kapasitas tas", "Membuka semua skin"], ["Apa manfaat memahami karakteristik senjata?", "Membantu memilih senjata sesuai situasi", "Mengubah server", "Menambah diamond", "Menghapus zona"], ["Mengapa posisi aman penting di akhir pertandingan?", "Ruang gerak semakin terbatas sehingga positioning menjadi lebih penting", "Karena semua senjata hilang", "Karena diamond tidak bisa digunakan", "Karena pet otomatis hilang"], ["Apa strategi umum ketika dua tim lain sedang bertarung?", "Memanfaatkan situasi dengan mempertimbangkan posisi dan risiko", "Selalu berdiri di tempat terbuka", "Membuang semua armor", "Keluar dari pertandingan"], ["Apa tujuan utama loot di awal pertandingan?", "Mendapatkan perlengkapan untuk bertahan dan bertarung", "Mendapatkan Booyah langsung", "Mengubah nickname", "Menghapus inventory"], ["Apa yang harus diprioritaskan ketika HP rendah?", "Mencari kesempatan aman untuk memulihkan kesehatan", "Rush tanpa perlindungan", "Membuang semua healing", "Masuk ke area terbuka"], ["Mengapa cover penting saat melakukan heal?", "Mengurangi risiko terkena serangan saat proses pemulihan", "Menambah jumlah diamond", "Mengubah karakter", "Membuka skin"], ["Apa keuntungan membawa kombinasi senjata jarak berbeda?", "Lebih fleksibel menghadapi berbagai jarak pertempuran", "Membuat semua peluru gratis", "Menghilangkan recoil", "Membuat karakter kebal"], ["Apa yang dimaksud game sense?", "Kemampuan memahami situasi dan mengambil keputusan dalam pertandingan", "Jumlah skin yang dimiliki", "Kapasitas backpack", "Jenis pet"], ["Apa tujuan utama bermain secara strategis?", "Meningkatkan peluang bertahan dan menang", "Menghabiskan semua item", "Membuka semua skin", "Mengganti nickname terus-menerus"]];
+
+/* ============ LOGO FALLBACK ============ */
+(function(){
+  var img = document.getElementById('kfLogoImg');
+  var fb = document.getElementById('kfLogoFallback');
+  if(img){
+    img.addEventListener('error', function(){
+      img.style.display = 'none';
+      if(fb) fb.style.display = 'flex';
+    });
+  }
+})();
+
+/* ============ DIAMOND STORAGE (sinkron dengan halaman utama) ============ */
+var LS_DIAMOND = 'zusmo_diamond_balance';
+function getDiamond(){
+  var v = parseInt(localStorage.getItem(LS_DIAMOND), 10);
+  return isNaN(v) ? 0 : v;
+}
+function setDiamond(v){
+  localStorage.setItem(LS_DIAMOND, String(Math.max(0, v)));
+  var el = document.getElementById('topDiamond');
+  if(el) el.textContent = getDiamond();
+}
+function addDiamond(n){
+  setDiamond(getDiamond() + n);
+}
+
+var LS_HIGHSCORE = 'zusmo_kuisff_highscore';
+function getHighscore(){
+  var v = parseInt(localStorage.getItem(LS_HIGHSCORE), 10);
+  return isNaN(v) ? 0 : v;
+}
+function setHighscore(v){
+  if(v > getHighscore()) localStorage.setItem(LS_HIGHSCORE, String(v));
+}
+
+var TOTAL_QUESTIONS = 10;
+var REWARD_PER_CORRECT = 10;
+
+var session = { questions: [], index: 0, correct: 0, gained: 0, answered: false };
+
+function shuffle(arr){
+  var a = arr.slice();
+  for(var i = a.length - 1; i > 0; i--){
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = a[i]; a[i] = a[j]; a[j] = t;
+  }
+  return a;
+}
+
+function buildSession(){
+  var pool = shuffle(QUIZ_POOL).slice(0, TOTAL_QUESTIONS);
+  session.questions = pool.map(function(item){
+    var q = item[0];
+    var opts = [item[1], item[2], item[3], item[4]];
+    var correctText = item[1];
+    var shuffled = shuffle(opts);
+    return { q: q, opts: shuffled, correctIndex: shuffled.indexOf(correctText) };
+  });
+  session.index = 0;
+  session.correct = 0;
+  session.gained = 0;
+  session.answered = false;
+}
+
+function goBack(){
+  if(window.ZUSMO_QUIZ_RETURN){ window.location.href = window.ZUSMO_QUIZ_RETURN; return; }
+  window.location.href = 'index.html';
+}
+
+function startQuiz(){
+  buildSession();
+  document.getElementById('kfIntro').style.display = 'none';
+  document.getElementById('kfResult').style.display = 'none';
+  document.getElementById('kfQuiz').style.display = 'block';
+  renderQuestion();
+}
+
+function renderQuestion(){
+  session.answered = false;
+  var q = session.questions[session.index];
+  var n = session.index + 1;
+  document.getElementById('kfProgressLabel').textContent = 'Soal ' + n + '/' + TOTAL_QUESTIONS;
+  document.getElementById('kfLiveGain').innerHTML = '+' + session.gained + ' <i class="fa-solid fa-gem"></i>';
+  document.getElementById('kfProgressFill').style.width = (n / TOTAL_QUESTIONS * 100) + '%';
+  document.getElementById('kfQNum').innerHTML = '<i class="fa-solid fa-crosshairs"></i> PERTANYAAN ' + n;
+  document.getElementById('kfQText').textContent = q.q;
+
+  var lettters = ['A','B','C','D'];
+  var optsEl = document.getElementById('kfOpts');
+  optsEl.innerHTML = '';
+  q.opts.forEach(function(opt, i){
+    var btn = document.createElement('div');
+    btn.className = 'kf-opt';
+    btn.innerHTML = '<span class="kf-opt-letter">' + lettters[i] + '</span><span>' + opt + '</span><i class="fa-solid kf-opt-icon"></i>';
+    btn.onclick = function(){ selectAnswer(i, btn); };
+    optsEl.appendChild(btn);
+  });
+
+  var fb = document.getElementById('kfFeedback');
+  fb.className = 'kf-feedback';
+  fb.innerHTML = '';
+  document.getElementById('kfNextBtn').classList.remove('show');
+}
+
+function selectAnswer(i, btnEl){
+  if(session.answered) return;
+  session.answered = true;
+  var q = session.questions[session.index];
+  var opts = document.querySelectorAll('#kfOpts .kf-opt');
+  opts.forEach(function(o){ o.classList.add('disabled'); });
+
+  var fb = document.getElementById('kfFeedback');
+  if(i === q.correctIndex){
+    btnEl.classList.add('correct');
+    btnEl.querySelector('.kf-opt-icon').className = 'fa-solid fa-circle-check kf-opt-icon';
+    session.correct++;
+    session.gained += REWARD_PER_CORRECT;
+    addDiamond(REWARD_PER_CORRECT);
+    spawnDiamondFloat(btnEl);
+    fb.className = 'kf-feedback show ok';
+    fb.innerHTML = '<i class="fa-solid fa-circle-check"></i> Benar! +' + REWARD_PER_CORRECT + ' Diamond';
+  } else {
+    btnEl.classList.add('wrong');
+    btnEl.querySelector('.kf-opt-icon').className = 'fa-solid fa-circle-xmark kf-opt-icon';
+    opts[q.correctIndex].classList.add('correct');
+    opts[q.correctIndex].querySelector('.kf-opt-icon').className = 'fa-solid fa-circle-check kf-opt-icon';
+    fb.className = 'kf-feedback show bad';
+    fb.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Kurang tepat, jawaban benar: ' + q.opts[q.correctIndex];
+  }
+  document.getElementById('kfLiveGain').innerHTML = '+' + session.gained + ' <i class="fa-solid fa-gem"></i>';
+  var nb = document.getElementById('kfNextBtn');
+  nb.classList.add('show');
+  nb.innerHTML = (session.index + 1 < TOTAL_QUESTIONS) ? 'Lanjut <i class="fa-solid fa-arrow-right"></i>' : 'Lihat Hasil <i class="fa-solid fa-flag-checkered"></i>';
+}
+
+function nextQuestion(){
+  session.index++;
+  if(session.index >= TOTAL_QUESTIONS){
+    showResult();
+  } else {
+    renderQuestion();
+  }
+}
+
+function spawnDiamondFloat(anchorEl){
+  var rect = anchorEl.getBoundingClientRect();
+  var el = document.createElement('div');
+  el.className = 'kf-diamond-float';
+  el.innerHTML = '+' + REWARD_PER_CORRECT + ' <i class="fa-solid fa-gem"></i>';
+  el.style.left = (rect.right - 74) + 'px';
+  el.style.top = (rect.top + rect.height / 2 - 10) + 'px';
+  document.body.appendChild(el);
+  setTimeout(function(){ el.remove(); }, 1000);
+}
+
+function spawnConfetti(){
+  var colors = ['#ff2b2b','#ff6b6b','#ffce54','#ffffff','#ff8a8a'];
+  for(var i = 0; i < 26; i++){
+    (function(){
+      var el = document.createElement('div');
+      el.className = 'kf-confetti';
+      var size = 5 + Math.random() * 5;
+      el.style.width = size + 'px';
+      el.style.height = (size * 1.6) + 'px';
+      el.style.left = (Math.random() * 100) + 'vw';
+      el.style.background = colors[Math.floor(Math.random() * colors.length)];
+      el.style.animationDuration = (2.4 + Math.random() * 1.6) + 's';
+      el.style.opacity = String(0.75 + Math.random() * 0.25);
+      document.body.appendChild(el);
+      setTimeout(function(){ el.remove(); }, 4200);
+    })();
+  }
+}
+
+function showResult(){
+  document.getElementById('kfQuiz').style.display = 'none';
+  document.getElementById('kfResult').style.display = 'block';
+  setHighscore(session.correct);
+
+  document.getElementById('kfResultScore').textContent = session.correct + '/' + TOTAL_QUESTIONS;
+  document.getElementById('kfResultDiamond').textContent = '+' + session.gained + ' Diamond';
+
+  var ratio = session.correct / TOTAL_QUESTIONS;
+  var circumference = 320;
+  var offset = circumference - (circumference * ratio);
+  var ring = document.getElementById('kfResultRingFill');
+  setTimeout(function(){ ring.style.transition = 'stroke-dashoffset 1s ease'; ring.style.strokeDashoffset = offset; }, 80);
+
+  var title, sub, badgeIcon;
+  if(ratio === 1){ title = 'Sempurna! Booyah!'; sub = 'Kamu jago banget soal Free Fire!'; badgeIcon = 'fa-crown'; spawnConfetti(); }
+  else if(ratio >= 0.7){ title = 'Keren Banget!'; sub = 'Pengetahuan Free Fire kamu solid.'; badgeIcon = 'fa-trophy'; }
+  else if(ratio >= 0.4){ title = 'Lumayan!'; sub = 'Terus asah pengetahuanmu tentang Free Fire.'; badgeIcon = 'fa-medal'; }
+  else { title = 'Coba Lagi Yuk!'; sub = 'Main lagi buat kumpulin lebih banyak Diamond.'; badgeIcon = 'fa-rotate-right'; }
+  document.getElementById('kfResultTitle').textContent = title;
+  document.getElementById('kfResultSub').textContent = sub;
+  document.getElementById('kfResultBadge').innerHTML = '<i class="fa-solid ' + badgeIcon + '"></i>';
+}
+
+(function init(){
+  setDiamond(getDiamond());
+  var hs = getHighscore();
+  document.getElementById('kfHighscore').innerHTML = hs > 0 ? ('<i class="fa-solid fa-trophy"></i> Rekor terbaikmu: <b>' + hs + '/' + TOTAL_QUESTIONS + '</b>') : '';
+})();
+</script>
+</body>
+</html>
