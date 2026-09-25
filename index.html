@@ -10313,7 +10313,7 @@ font-family:'Inter',system-ui,sans-serif;letter-spacing:0;}
 #cekidffPrime .cpk-level-btn{min-height:100px;border-radius:12px}
 #cekidffPrime .cpk-level-btn span{font-size:12px}
 #cekidffPrime .cpk-level-btn small{font-size:10px;color:#aaa}
-#cekidffPrime button:focus-visible{outline:2px solid #ff8e95;outline-offset:3px}
+#cekidffPrime button:focus-visible{outline:2px solid #ff8e95;outline-offset:3px;isolation:isolate;contain:paint}
 @media(prefers-reduced-motion:reduce){#cekidffPrime *{animation:none!important;transition:none!important}}
 </style><style id="tools-polish-v2">
 .tools-polished{--tools-red:#ff3b3b;--tools-muted:#a3a3a3;--cpk-red:#ff3b3b;--cpk-red-deep:#c40d0d}
@@ -10733,8 +10733,8 @@ font-family:'Inter',system-ui,sans-serif;letter-spacing:0;}
 .old-banner-frame{margin:18px auto;max-width:1200px;width:100%;position:relative}
 .old-poster-slider{width:100%;aspect-ratio:1200/590;overflow:hidden;touch-action:pan-y;position:relative;background:#100d18;outline-offset:3px}
 .old-poster-track{display:flex;width:100%;height:100%;transform:translate3d(-100%,0,0);will-change:transform}
-.old-poster-slide{flex:0 0 100%;width:100%;height:100%;position:relative;overflow:hidden}
-.old-poster-slide img{display:block;width:100%;height:100%;object-fit:contain;user-select:none;-webkit-user-drag:none}
+.old-poster-slide{flex:0 0 100%;min-width:0;width:100%;height:100%;position:relative;overflow:hidden;background:#100d18;backface-visibility:hidden}
+.old-poster-slide img{display:block;width:100%;height:100%;object-fit:contain;user-select:none;-webkit-user-drag:none;pointer-events:none;opacity:1;transition:none;animation:none;background:#100d18}
 .old-poster-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(ellipse at top right,#502334,transparent 70%),#100d18;color:#fff;font-family:Arial,sans-serif;gap:10px}
 .old-poster-placeholder strong{font-size:clamp(18px,5vw,42px);letter-spacing:3px}
 .old-poster-placeholder span{font-size:12px;opacity:.65}
@@ -43294,6 +43294,7 @@ refresh();
  const posters=Array.from({length:14},(_,i)=>'zusmo-asset/Old'+(i+1)+'.png');
  const root=document.getElementById('oldPosterSlider'),track=root.querySelector('.old-poster-track');
  let current=6,busy=false,gesture=null,timer,finishTimer;
+ const GAP_MS=1500,SLIDE_MS=320;
  const wrap=n=>(n+14)%14;
  function panel(n){
   const box=document.createElement('div');box.className='old-poster-slide';box.dataset.poster=String(n+1);
@@ -43302,28 +43303,40 @@ refresh();
   const note=document.createElement('span');note.textContent='Poster '+String(n+1).padStart(2,'0')+' / 14 · menunggu gambar';
   placeholder.append(title,note);box.append(placeholder);
   const img=new Image(1200,590);img.alt='Poster Zusmo Old '+(n+1);img.draggable=false;img.decoding='async';
-  img.onload=()=>placeholder.remove();img.onerror=()=>img.remove();img.src=posters[n];box.append(img);return box;
+  // Decode once, then keep the same image node throughout every loop.
+  img.onload=async()=>{try{await img.decode();}catch(e){}placeholder.remove();};
+  img.onerror=()=>img.remove();img.loading='eager';img.src=posters[n];box.append(img);return box;
  }
- function draw(){
-  track.style.transition='none';track.replaceChildren(panel(wrap(current-1)),panel(current),panel(wrap(current+1)));
+ // Keep all 14 panels mounted. Only the offscreen end panel moves at a boundary.
+ const panels=Array.from({length:14},(_,i)=>panel(wrap(current-1+i)));
+ panels.forEach(el=>track.append(el));
+ function settle(direction){
+  track.style.transition='none';
+  if(direction===1)track.append(track.firstElementChild);
+  else if(direction===-1)track.prepend(track.lastElementChild);
+  current=wrap(current+direction);
   track.style.transform='translate3d(-100%,0,0)';root.dataset.current=String(current+1);
+  // Commit the no-transition reset before accepting another gesture/animation.
+  void track.offsetWidth;
  }
- function schedule(){clearTimeout(timer);if(document.hidden||!root.closest('.page').classList.contains('active'))return;timer=setTimeout(()=>move(1),3500);}
+ function schedule(){clearTimeout(timer);if(busy||gesture||document.hidden||!root.closest('.page').classList.contains('active'))return;timer=setTimeout(()=>move(1),GAP_MS);}
  function move(direction){
   if(busy||gesture)return;busy=true;clearTimeout(timer);
-  track.style.transition='transform 420ms cubic-bezier(.22,.61,.36,1)';
+  void track.offsetWidth;
+  track.style.transition='transform '+SLIDE_MS+'ms cubic-bezier(.22,.61,.36,1)';
   track.style.transform='translate3d('+(-100-direction*100)+'%,0,0)';
   let done=false;
-  function finish(e){if(e&&e.target!==track)return;if(done)return;done=true;clearTimeout(finishTimer);track.removeEventListener('transitionend',finish);current=wrap(current+direction);draw();busy=false;schedule();}
-  track.addEventListener('transitionend',finish);finishTimer=setTimeout(finish,480);
+  function finish(e){if(e&&(e.target!==track||e.propertyName!=='transform'))return;if(done)return;done=true;clearTimeout(finishTimer);track.removeEventListener('transitionend',finish);settle(direction);busy=false;schedule();}
+  track.addEventListener('transitionend',finish);finishTimer=setTimeout(finish,SLIDE_MS+80);
  }
  root.addEventListener('pointerdown',e=>{if(busy||!e.isPrimary||(e.pointerType==='mouse'&&e.button!==0))return;clearTimeout(timer);gesture={id:e.pointerId,x:e.clientX,y:e.clientY,dx:0,horizontal:false};root.setPointerCapture(e.pointerId);track.style.transition='none';});
  root.addEventListener('pointermove',e=>{if(!gesture||gesture.id!==e.pointerId)return;const dx=e.clientX-gesture.x,dy=e.clientY-gesture.y;if(!gesture.horizontal&&Math.abs(dx)>8&&Math.abs(dx)>Math.abs(dy))gesture.horizontal=true;if(gesture.horizontal){gesture.dx=Math.max(-root.clientWidth,Math.min(root.clientWidth,dx));track.style.transform='translate3d(calc(-100% + '+gesture.dx+'px),0,0)';}});
  function release(e,cancel){if(!gesture||gesture.id!==e.pointerId)return;const dx=gesture.dx;gesture=null;if(root.hasPointerCapture(e.pointerId))root.releasePointerCapture(e.pointerId);move(!cancel&&Math.abs(dx)>Math.min(55,root.clientWidth*.15)?(dx<0?1:-1):0);}
  root.addEventListener('pointerup',e=>release(e,false));root.addEventListener('pointercancel',e=>release(e,true));
+ root.addEventListener('lostpointercapture',e=>release(e,true));
  root.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();move(e.key==='ArrowRight'?1:-1);}});
  new MutationObserver(schedule).observe(root.closest('.page'),{attributes:true,attributeFilter:['class']});
- document.addEventListener('visibilitychange',schedule);draw();schedule();
+ document.addEventListener('visibilitychange',schedule);settle(0);schedule();
 })();
 /* Three eased passes over 3 seconds on first display in each document load; end on the third Old card. */
 (function(){
