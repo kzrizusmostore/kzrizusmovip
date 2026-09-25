@@ -11796,7 +11796,7 @@ font-family:'Inter',system-ui,sans-serif;letter-spacing:0;}
 <span class="zs-word-1" data-text="ZUSMO">ZUSMO</span> <span class="zs-word-2" data-text="OLD">OLD</span>
 </h1>
 
-<!-- Poster asli: zusmo-asset/old/Old1.png sampai Old14.png; masing-masing 1200x590. -->
+<!-- Poster asli: zusmo-asset/Old1.png sampai Old14.png; masing-masing 1200x590. -->
 <div class="old-banner-frame">
  <div id="oldPosterSlider" class="old-poster-slider" role="region" aria-label="Poster Zusmo Old" aria-roledescription="carousel" tabindex="0">
   <div class="old-poster-track"></div>
@@ -43291,7 +43291,7 @@ refresh();
 <script>
 /* Zusmo Old: independent poster carousel. Replace these 14 paths with final artwork. */
 (function(){
- const posters=Array.from({length:14},(_,i)=>'zusmo-asset/old/Old'+(i+1)+'.png');
+ const posters=Array.from({length:14},(_,i)=>'zusmo-asset/Old'+(i+1)+'.png');
  const root=document.getElementById('oldPosterSlider'),track=root.querySelector('.old-poster-track');
  let current=6,busy=false,gesture=null,timer,finishTimer;
  const wrap=n=>(n+14)%14;
