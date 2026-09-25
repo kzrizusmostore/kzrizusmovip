@@ -105,21 +105,21 @@ h1{text-align:center;font-size:2.2rem;}.subtitle{text-align:center;color:#ddd;ma
 .ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.35);transform:scale(0);animation:rip .6s linear;}@keyframes rip{to{transform:scale(4);opacity:0}}
 .transition{position:fixed;inset:0;background:#000;opacity:0;pointer-events:none;z-index:999;}.transition.show{animation:fadeScreen .8s ease forwards;}@keyframes fadeScreen{0%{opacity:0}50%{opacity:.9}100%{opacity:0}}
 
-#shadowmenu .grid{grid-template-columns:1fr;gap:14px;}
-#shadowmenu .card{
+:is(#shadowmenu,#oldmenu) .grid{grid-template-columns:1fr;gap:14px;}
+:is(#shadowmenu,#oldmenu) .card{
 padding:22px 18px;
 border-radius:24px;
 background:rgba(255,255,255,.06);}
-#shadowmenu .card:hover,
-#shadowmenu .card:active{
+:is(#shadowmenu,#oldmenu) .card:hover,
+:is(#shadowmenu,#oldmenu) .card:active{
 transform:translateY(-2px) !important;
 scale:1 !important;
 box-shadow:0 8px 20px rgba(255,0,0,.18);}
-#shadowmenu .long-btn{
+:is(#shadowmenu,#oldmenu) .long-btn{
 margin-top:16px;
 border-radius:24px;}
 
-#shadowmenu .zs-title{
+:is(#shadowmenu,#oldmenu) .zs-title{
   text-align:center;
   font-family:'Orbitron',sans-serif;
   font-size:1.9rem;
@@ -129,28 +129,28 @@ border-radius:24px;}
   transform:skewX(-7deg);
   margin:6px 0 4px;
   animation:zsTitleIn .7s cubic-bezier(.2,.8,.2,1) both;}
-#shadowmenu .zs-word-1,
-#shadowmenu .zs-word-2{position:relative;}
-#shadowmenu .zs-word-1{
+:is(#shadowmenu,#oldmenu) .zs-word-1,
+:is(#shadowmenu,#oldmenu) .zs-word-2{position:relative;}
+:is(#shadowmenu,#oldmenu) .zs-word-1{
   background:linear-gradient(180deg,#ffffff 0%,#ffffff 30%,#c7c7c7 60%,#6e6e6e 85%,#3a3a3a 100%);
   -webkit-background-clip:text;background-clip:text;
   color:transparent;-webkit-text-fill-color:transparent;
   -webkit-text-stroke:.3px rgba(255,255,255,.25);
   filter:drop-shadow(0 0 4px rgba(255,255,255,.45)) drop-shadow(0 1px 4px rgba(0,0,0,.7));
   animation:ffGlitchFlicker 2.2s infinite steps(1);}
-#shadowmenu .zs-word-2{
+:is(#shadowmenu,#oldmenu) .zs-word-2{
   background:linear-gradient(180deg,#ff9b6b 0%,#ff2b2b 40%,#7a0000 100%);
   -webkit-background-clip:text;background-clip:text;color:transparent;
   -webkit-text-stroke:.4px rgba(255,150,120,.35);
   animation:vlGlowPulse 2.4s ease-in-out infinite,ffGlitchFlicker 2.2s infinite steps(1);}
-#shadowmenu .zs-word-1::before,#shadowmenu .zs-word-1::after,
-#shadowmenu .zs-word-2::before,#shadowmenu .zs-word-2::after{
+:is(#shadowmenu,#oldmenu) .zs-word-1::before,:is(#shadowmenu,#oldmenu) .zs-word-1::after,
+:is(#shadowmenu,#oldmenu) .zs-word-2::before,:is(#shadowmenu,#oldmenu) .zs-word-2::after{
   content:attr(data-text);position:absolute;top:0;left:0;width:100%;height:100%;
   overflow:hidden;background:transparent;pointer-events:none;-webkit-text-stroke:0;}
-#shadowmenu .zs-word-1::before,#shadowmenu .zs-word-2::before{
+:is(#shadowmenu,#oldmenu) .zs-word-1::before,:is(#shadowmenu,#oldmenu) .zs-word-2::before{
   color:#00fff9;text-shadow:0 0 6px #00fff9;clip-path:inset(0 0 100% 0);
   animation:ffGlitchTop 2.2s infinite steps(1);}
-#shadowmenu .zs-word-1::after,#shadowmenu .zs-word-2::after{
+:is(#shadowmenu,#oldmenu) .zs-word-1::after,:is(#shadowmenu,#oldmenu) .zs-word-2::after{
   color:#ff00c1;text-shadow:0 0 6px #ff00c1;clip-path:inset(100% 0 0 0);
   animation:ffGlitchBottom 2.2s infinite steps(1);}
 @keyframes zsTitleIn{
@@ -306,7 +306,7 @@ letter-spacing:.6px;}
   box-shadow: 0 0 18px rgba(255,0,0,0.35), 0 0 40px rgba(255,0,0,0.15);
   border-color: rgba(255,0,0,0.8);}
 
-#shadowmenu .card[style*="255,215,0"]{
+:is(#shadowmenu,#oldmenu) .card[style*="255,215,0"]{
   border: 1px solid rgba(255,215,0,0.9) !important;
   box-shadow: 0 0 18px rgba(255,215,0,0.35), inset 0 0 25px rgba(255,215,0,0.25);}
 
@@ -10729,7 +10729,18 @@ font-family:'Inter',system-ui,sans-serif;letter-spacing:0;}
 #cekidff3D .ff3d-label{display:block;font-size:10px;letter-spacing:1px;font-weight:800;color:#c6b9bd;margin-bottom:8px}.ff3d-input-wrap{display:flex;align-items:center;gap:10px;border:1px solid #ffffff25;border-radius:10px;padding:0 12px;background:#080808}.ff3d-input-wrap i{color:#be7f86}.ff3d-input-wrap:focus-within{border-color:#ff6875}.ff3d-help{color:#999;font-size:11px;line-height:1.7;margin:8px 0 16px}#cekidff3D select{width:100%;min-height:44px;border:1px solid #ffffff25;border-radius:10px;background:#090909;color:#fff;padding:10px;font:inherit;font-size:12px}.ff3d-field-error{color:#ff8b95;font-size:12px;margin-top:12px;line-height:1.6}#cekidff3D .ff3d-btn:disabled{opacity:.6;cursor:wait}.ff3d-idle,.ff3d-progress,.ff3d-error{padding:35px 20px;border:1px solid #ffffff15;border-radius:17px;background:#121013;text-align:center}.ff3d-idle>i,.ff3d-error>i{font-size:32px;color:#c87a84;margin-bottom:16px}#cekidff3D h2{font-size:18px;line-height:1.5;margin:0 0 8px}.ff3d-idle p,.ff3d-progress p,.ff3d-error p{font-size:12px;color:#b4a9b0;line-height:1.8;max-width:420px;margin-inline:auto}.ff3d-spinner{display:block;margin:0 auto 20px;width:34px;height:34px;border-radius:50%;border:3px solid #ff697026;border-top-color:#ff6275;animation:ff3dSpin .8s linear infinite}@keyframes ff3dSpin{to{transform:rotate(360deg)}}.ff3d-secondary{background:#ffffff08;color:#f6d8df;border:1px solid #ffffff20;border-radius:9px;min-height:40px;padding:10px 16px;font:inherit;font-size:12px;font-weight:700;cursor:pointer;margin-top:18px}.ff3d-error-actions{display:flex;justify-content:center;gap:10px}.ff3d-account{padding:18px;border:1px solid #ffffff15;border-radius:16px 16px 0 0;background:#181116}.ff3d-account h2{margin-top:7px!important}.ff3d-account p{font-size:11px;color:#bdb0b8;line-height:1.7}.ff3d-model-note{font-size:11px;line-height:1.7;color:#b8a6af;padding:12px 8px}#cekidff3D .ff3d-viewer{border-radius:0 0 17px 17px}
 @media(prefers-reduced-motion:reduce){.ff3d-spinner{animation:none;border-color:#ff6275}}
 @media(max-width:360px){.nf-featured h2{font-size:23px}.nf-content{padding:16px}.nf-meta{padding:14px}.nf-header{padding:18px}.nf-filters button{padding:9px 12px}}
-</style></head><body><div id="vipAppRoot">
+</style><style>
+.old-banner-frame{margin:18px auto;max-width:1200px;width:100%;position:relative}
+.old-poster-slider{width:100%;aspect-ratio:1200/590;overflow:hidden;touch-action:pan-y;position:relative;background:#100d18;outline-offset:3px}
+.old-poster-track{display:flex;width:100%;height:100%;transform:translate3d(-100%,0,0);will-change:transform}
+.old-poster-slide{flex:0 0 100%;width:100%;height:100%;position:relative;overflow:hidden}
+.old-poster-slide img{display:block;width:100%;height:100%;object-fit:contain;user-select:none;-webkit-user-drag:none}
+.old-poster-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(ellipse at top right,#502334,transparent 70%),#100d18;color:#fff;font-family:Arial,sans-serif;gap:10px}
+.old-poster-placeholder strong{font-size:clamp(18px,5vw,42px);letter-spacing:3px}
+.old-poster-placeholder span{font-size:12px;opacity:.65}
+#hmSpotlightCarousel.is-intro{scroll-snap-type:none!important;scroll-behavior:auto!important;pointer-events:none}
+</style>
+</head><body><div id="vipAppRoot">
   <div class="noise" aria-hidden="true"></div>
 
   <main class="phone">
@@ -11453,6 +11464,7 @@ font-family:'Inter',system-ui,sans-serif;letter-spacing:0;}
   <div class="hm-spotlight-dots" id="hmSpotlightDots">
     <span class="hm-spotlight-dot active" data-idx="0"></span>
     <span class="hm-spotlight-dot" data-idx="1"></span>
+    <span class="hm-spotlight-dot" data-idx="2"></span>
   </div>
 </div>
 
@@ -11465,6 +11477,13 @@ font-family:'Inter',system-ui,sans-serif;letter-spacing:0;}
       <h3 data-i18n="home.apkTitle">ZUSMO SHADOW</h3>
       <p data-i18n="home.apkDesc">Download semua versi aplikasi</p>
     </div>
+    <div class="hm-spotlight-cta"><i class="fa-solid fa-chevron-right"></i><span data-i18n="home.open">Buka</span></div>
+  </div>
+  <div class="hm-spotlight" onclick="showPage('oldmenu')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('oldmenu');}">
+    <div class="hm-spotlight-glow"></div>
+    <span class="hm-spotlight-tag" style="display:flex;"><span class="hm-new-dot"></span>NEW</span>
+    <div class="hm-spotlight-icon"><i class="fa-solid fa-mobile-screen"></i></div>
+    <div class="hm-spotlight-body"><h3>ZUSMO OLD</h3><p>Download semua versi aplikasi</p></div>
     <div class="hm-spotlight-cta"><i class="fa-solid fa-chevron-right"></i><span data-i18n="home.open">Buka</span></div>
   </div>
   <div class="hm-spotlight" onclick="if(typeof dismissNewBadge==='function'){dismissNewBadge('zusmoemote');}window.open('https://emotesend-lnbmahnn.manus.space','_blank')">
@@ -11725,6 +11744,88 @@ font-family:'Inter',system-ui,sans-serif;letter-spacing:0;}
 <div class="vip-icon" style="border-color:rgba(255,215,0,.55);box-shadow:0 0 14px rgba(255,215,0,.3),inset 0 0 12px rgba(255,215,0,.12);"><i class="fa-solid fa-key" style="color:#ffd700;text-shadow:0 0 10px rgba(255,215,0,.9),0 0 20px rgba(255,215,0,.6);"></i></div>
 <div class="vip-content">
 <h4 style="font-size:15.5px;letter-spacing:.2px;"><span class="hm-new-dot" id="newBadge_buyvip" style="display:none;vertical-align:middle;margin-right:5px;"></span>BUY VIP ZUSMO SHADOW <span class="vip-badge-inline">POPULER</span></h4>
+<small>Dapatkan akses premium<br>ZUSMO SHADOW VIP</small>
+</div>
+<i class="fa-solid fa-chevron-right vip-arrow"></i>
+</div>
+<div class="vip-menu vip-menu-gold-dark" onclick="showPage('upgradevip')" style="margin-bottom:26px;">
+<div class="vip-icon" style="border-color:rgba(184,134,11,.55);box-shadow:0 0 14px rgba(184,134,11,.3),inset 0 0 12px rgba(184,134,11,.12);"><i class="fa-solid fa-angles-up" style="color:#b8860b;text-shadow:0 0 10px rgba(184,134,11,.9),0 0 20px rgba(184,134,11,.6);"></i></div>
+<div class="vip-content">
+<h4 style="font-size:15.5px;letter-spacing:.2px;">UPGRADE VIP ZUSMO SHADOW</h4>
+<small>Naikkan paket VIP kamu ke level lebih tinggi</small>
+</div>
+<i class="fa-solid fa-chevron-right vip-arrow"></i>
+</div>
+<div class="vip-menu" onclick="showPage('manfaatvip')">
+<div class="vip-icon"><i class="fa-solid fa-chart-simple"></i></div>
+<div class="vip-content">
+<h4>MANFAAT VIP</h4>
+<small>Lihat perbandingan paket</small>
+</div>
+<i class="fa-solid fa-chevron-right vip-arrow"></i>
+</div>
+<div class="vip-menu" onclick="showPage('vipKeyHistoryPage')">
+<div class="vip-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+<div class="vip-content">
+<h4>RIWAYAT KEY VIP</h4>
+<small>Riwayat Key VIP kamu</small>
+</div>
+<i class="fa-solid fa-chevron-right vip-arrow"></i>
+</div>
+<div class="vip-menu" onclick="showPage('vipverify')">
+<div class="vip-icon"><i class="fa-solid fa-users"></i></div>
+<div class="vip-content">
+<h4>JOIN CH VIP</h4>
+<small>Khusus Member VIP</small>
+</div>
+<i class="fa-solid fa-chevron-right vip-arrow"></i>
+</div>
+<div class="vip-menu" onclick="showPage('faqPage')">
+<div class="vip-icon"><i class="fa-solid fa-circle-question"></i></div>
+<div class="vip-content">
+<h4>PERTANYAAN UMUM</h4>
+<small>FAQ seputar Zusmo Shadow</small>
+</div>
+<i class="fa-solid fa-chevron-right vip-arrow"></i>
+</div>
+</div>
+</div>
+
+<div class="page" id="oldmenu">
+<h1 class="zs-title">
+<span class="zs-word-1" data-text="ZUSMO">ZUSMO</span> <span class="zs-word-2" data-text="OLD">OLD</span>
+</h1>
+
+<!-- Poster asli: zusmo-asset/old/poster-01.jpg sampai poster-14.jpg; masing-masing 1200x590. -->
+<div class="old-banner-frame">
+ <div id="oldPosterSlider" class="old-poster-slider" role="region" aria-label="Poster Zusmo Old" aria-roledescription="carousel" tabindex="0">
+  <div class="old-poster-track"></div>
+ </div>
+ <div class="zs-corner zs-corner-tl"></div><div class="zs-corner zs-corner-tr"></div>
+ <div class="zs-corner zs-corner-bl"></div><div class="zs-corner zs-corner-br"></div>
+</div>
+<div style="display:flex;gap:16px;margin-top:18px;">
+<div style="flex:1;">
+<div class="shine-card" onclick="showPage('downloadui')" style="cursor:pointer;">
+<img loading="lazy" decoding="async" src="zusmo-asset/kcxby8.png" style="width:100%;aspect-ratio:1280/900;object-fit:cover;display:block;border-radius:16px;"/>
+</div>
+<div class="zs-card-cap">Download<small>Versi tanpa VIP</small></div>
+</div>
+<div style="flex:1;">
+<div class="shine-card" onclick="if(typeof dismissNewBadge==='function'){dismissNewBadge('bukavip');}openVipShadowApp()" style="cursor:pointer;">
+<img loading="lazy" decoding="async" src="zusmo-asset/edczch.png" style="width:100%;aspect-ratio:1280/900;object-fit:cover;display:block;border-radius:16px;"/>
+</div>
+<div class="zs-card-cap">Buka VIP <span class="hm-new-dot" id="old_newBadge_bukavip" style="display:none;vertical-align:middle;margin-left:2px;"></span><small>Akses fitur premium</small></div>
+</div>
+</div>
+
+<div class="zs-section-label"><i class="fa-solid fa-bolt"></i>MENU UTAMA</div>
+
+<div>
+<div class="vip-menu vip-menu-gold" onclick="if(typeof dismissNewBadge==='function'){dismissNewBadge('buyvip');dismissNewBadge('viptier');}showPage('vippricelist')" style="margin-bottom:26px;">
+<div class="vip-icon" style="border-color:rgba(255,215,0,.55);box-shadow:0 0 14px rgba(255,215,0,.3),inset 0 0 12px rgba(255,215,0,.12);"><i class="fa-solid fa-key" style="color:#ffd700;text-shadow:0 0 10px rgba(255,215,0,.9),0 0 20px rgba(255,215,0,.6);"></i></div>
+<div class="vip-content">
+<h4 style="font-size:15.5px;letter-spacing:.2px;"><span class="hm-new-dot" id="old_newBadge_buyvip" style="display:none;vertical-align:middle;margin-right:5px;"></span>BUY VIP ZUSMO SHADOW <span class="vip-badge-inline">POPULER</span></h4>
 <small>Dapatkan akses premium<br>ZUSMO SHADOW VIP</small>
 </div>
 <i class="fa-solid fa-chevron-right vip-arrow"></i>
@@ -18123,7 +18224,7 @@ function closeVipShadowApp(){
   var dots=document.querySelectorAll('#hmSpotlightDots .hm-spotlight-dot');
   if(!car||!dots.length)return;
   car.addEventListener('scroll',function(){
-    var idx=Math.round(car.scrollLeft/car.clientWidth);
+    var idx=Math.round(car.scrollLeft/(car.clientWidth+14))%3;
     dots.forEach(function(d,i){d.classList.toggle('active',i===idx);});
   },{passive:true});
 })();
@@ -43186,5 +43287,62 @@ window.refreshNotifications=()=>refresh();
 window.addEventListener('storage',event=>{if(event.key!==key)return;try{const a=JSON.parse(event.newValue||'[]');read=new Set(Array.isArray(a)?a.filter(id=>known.has(id)):[]);refresh();}catch(e){}});
 refresh();
 })();
+</script>
+<script>
+/* Zusmo Old: independent poster carousel. Replace these 14 paths with final artwork. */
+(function(){
+ const posters=Array.from({length:14},(_,i)=>'zusmo-asset/old/poster-'+String(i+1).padStart(2,'0')+'.jpg');
+ const root=document.getElementById('oldPosterSlider'),track=root.querySelector('.old-poster-track');
+ let current=6,busy=false,gesture=null,timer,finishTimer;
+ const wrap=n=>(n+14)%14;
+ function panel(n){
+  const box=document.createElement('div');box.className='old-poster-slide';box.dataset.poster=String(n+1);
+  const placeholder=document.createElement('div');placeholder.className='old-poster-placeholder';
+  const title=document.createElement('strong');title.textContent='ZUSMO OLD';
+  const note=document.createElement('span');note.textContent='Poster '+String(n+1).padStart(2,'0')+' / 14 · menunggu gambar';
+  placeholder.append(title,note);box.append(placeholder);
+  const img=new Image(1200,590);img.alt='Poster Zusmo Old '+(n+1);img.draggable=false;img.decoding='async';
+  img.onload=()=>placeholder.remove();img.onerror=()=>img.remove();img.src=posters[n];box.append(img);return box;
+ }
+ function draw(){
+  track.style.transition='none';track.replaceChildren(panel(wrap(current-1)),panel(current),panel(wrap(current+1)));
+  track.style.transform='translate3d(-100%,0,0)';root.dataset.current=String(current+1);
+ }
+ function schedule(){clearTimeout(timer);if(document.hidden||!root.closest('.page').classList.contains('active'))return;timer=setTimeout(()=>move(1),3500);}
+ function move(direction){
+  if(busy||gesture)return;busy=true;clearTimeout(timer);
+  track.style.transition='transform 420ms cubic-bezier(.22,.61,.36,1)';
+  track.style.transform='translate3d('+(-100-direction*100)+'%,0,0)';
+  let done=false;
+  function finish(e){if(e&&e.target!==track)return;if(done)return;done=true;clearTimeout(finishTimer);track.removeEventListener('transitionend',finish);current=wrap(current+direction);draw();busy=false;schedule();}
+  track.addEventListener('transitionend',finish);finishTimer=setTimeout(finish,480);
+ }
+ root.addEventListener('pointerdown',e=>{if(busy||!e.isPrimary||(e.pointerType==='mouse'&&e.button!==0))return;clearTimeout(timer);gesture={id:e.pointerId,x:e.clientX,y:e.clientY,dx:0,horizontal:false};root.setPointerCapture(e.pointerId);track.style.transition='none';});
+ root.addEventListener('pointermove',e=>{if(!gesture||gesture.id!==e.pointerId)return;const dx=e.clientX-gesture.x,dy=e.clientY-gesture.y;if(!gesture.horizontal&&Math.abs(dx)>8&&Math.abs(dx)>Math.abs(dy))gesture.horizontal=true;if(gesture.horizontal){gesture.dx=Math.max(-root.clientWidth,Math.min(root.clientWidth,dx));track.style.transform='translate3d(calc(-100% + '+gesture.dx+'px),0,0)';}});
+ function release(e,cancel){if(!gesture||gesture.id!==e.pointerId)return;const dx=gesture.dx;gesture=null;if(root.hasPointerCapture(e.pointerId))root.releasePointerCapture(e.pointerId);move(!cancel&&Math.abs(dx)>Math.min(55,root.clientWidth*.15)?(dx<0?1:-1):0);}
+ root.addEventListener('pointerup',e=>release(e,false));root.addEventListener('pointercancel',e=>release(e,true));
+ root.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();move(e.key==='ArrowRight'?1:-1);}});
+ new MutationObserver(schedule).observe(root.closest('.page'),{attributes:true,attributeFilter:['class']});
+ document.addEventListener('visibilitychange',schedule);draw();schedule();
+})();
+/* Three fast passes on first display in each document load; end on the third Old card. */
+(function(){
+ const car=document.getElementById('hmSpotlightCarousel');let played=false;
+ function intro(){
+  if(played||!car.clientWidth||!car.closest('.page').classList.contains('active'))return;
+  played=true;observer.disconnect();const cards=Array.from(car.children);const clones=[];
+  for(let round=0;round<2;round++)cards.forEach(card=>{const copy=card.cloneNode(true);copy.removeAttribute('onclick');copy.removeAttribute('onkeydown');copy.removeAttribute('tabindex');copy.setAttribute('aria-hidden','true');copy.inert=true;copy.querySelectorAll('[id]').forEach(el=>el.removeAttribute('id'));car.append(copy);clones.push(copy);});
+  car.classList.add('is-intro');const step=cards[1].offsetLeft-cards[0].offsetLeft;let started;
+  function frame(now){
+   if(started===undefined)started=now;const progress=Math.min((now-started)/1000,1);car.scrollLeft=step*7*progress;
+   if(progress<1){requestAnimationFrame(frame);return;}
+   clones.forEach(c=>c.remove());car.scrollLeft=step;car.classList.remove('is-intro');
+   document.querySelectorAll('#hmSpotlightDots .hm-spotlight-dot').forEach((d,i)=>d.classList.toggle('active',i===1));
+  }
+  requestAnimationFrame(frame);
+ }
+ const observer=new MutationObserver(intro);observer.observe(car.closest('.page'),{attributes:true,attributeFilter:['class']});requestAnimationFrame(intro);
+})();
+
 </script>
 </body></html>
