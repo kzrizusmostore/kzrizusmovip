@@ -10731,13 +10731,9 @@ font-family:'Inter',system-ui,sans-serif;letter-spacing:0;}
 @media(max-width:360px){.nf-featured h2{font-size:23px}.nf-content{padding:16px}.nf-meta{padding:14px}.nf-header{padding:18px}.nf-filters button{padding:9px 12px}}
 </style><style>
 .old-banner-frame{margin:18px auto;max-width:1200px;width:100%;position:relative}
-.old-poster-slider{width:100%;aspect-ratio:1200/590;overflow:hidden;touch-action:pan-y;position:relative;background:#100d18;outline-offset:3px}
-.old-poster-track{display:flex;width:100%;height:100%;transform:translate3d(-100%,0,0);will-change:transform}
-.old-poster-slide{flex:0 0 100%;min-width:0;width:100%;height:100%;position:relative;overflow:hidden;background:#100d18;backface-visibility:hidden}
-.old-poster-slide img{display:block;width:100%;height:100%;object-fit:contain;user-select:none;-webkit-user-drag:none;pointer-events:none;opacity:1;transition:none;animation:none;background:#100d18}
-.old-poster-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(ellipse at top right,#502334,transparent 70%),#100d18;color:#fff;font-family:Arial,sans-serif;gap:10px}
-.old-poster-placeholder strong{font-size:clamp(18px,5vw,42px);letter-spacing:3px}
-.old-poster-placeholder span{font-size:12px;opacity:.65}
+#oldPosterSlider{width:100%;aspect-ratio:1200/590;overflow:hidden;touch-action:pan-y;position:relative;background:#100d18;outline-offset:3px;isolation:isolate;opacity:1!important;transition:none!important;animation:none!important}
+#oldPosterSlider .old-poster-track{display:block;position:absolute;inset:0;width:100%;height:100%;transform:none!important;transition:none!important;animation:none!important;opacity:1!important;background:#100d18}
+#oldPosterSlider canvas{display:block;width:100%;height:100%;background:#100d18;opacity:1!important;transition:none!important;animation:none!important;transform:none!important;filter:none!important;pointer-events:none}
 #hmSpotlightCarousel.is-intro{scroll-snap-type:none!important;scroll-behavior:auto!important;pointer-events:none}
 </style>
 </head><body><div id="vipAppRoot">
@@ -43289,56 +43285,100 @@ refresh();
 })();
 </script>
 <script>
-/* Zusmo Old: independent poster carousel. Replace these 14 paths with final artwork. */
+/* Zusmo Old: one opaque canvas; no DOM recycling, opacity animation or boundary reset. */
 (function(){
- const posters=Array.from({length:14},(_,i)=>'zusmo-asset/Old'+(i+1)+'.png');
  const root=document.getElementById('oldPosterSlider'),track=root.querySelector('.old-poster-track');
- let current=6,busy=false,gesture=null,timer,finishTimer;
- const GAP_MS=1500,SLIDE_MS=320;
- const wrap=n=>(n+14)%14;
- function panel(n){
-  const box=document.createElement('div');box.className='old-poster-slide';box.dataset.poster=String(n+1);
-  const placeholder=document.createElement('div');placeholder.className='old-poster-placeholder';
-  const title=document.createElement('strong');title.textContent='ZUSMO OLD';
-  const note=document.createElement('span');note.textContent='Poster '+String(n+1).padStart(2,'0')+' / 14 · menunggu gambar';
-  placeholder.append(title,note);box.append(placeholder);
-  const img=new Image(1200,590);img.alt='Poster Zusmo Old '+(n+1);img.draggable=false;img.decoding='async';
-  // Decode once, then keep the same image node throughout every loop.
-  img.onload=async()=>{try{await img.decode();}catch(e){}placeholder.remove();};
-  img.onerror=()=>img.remove();img.loading='eager';img.src=posters[n];box.append(img);return box;
+ const GAP_MS=600,SLIDE_MS=280,COUNT=14,W=1200,H=590;
+ const canvas=document.createElement('canvas');canvas.width=W;canvas.height=H;
+ canvas.setAttribute('aria-hidden','true');track.replaceChildren(canvas);
+ const ctx=canvas.getContext('2d',{alpha:false});
+ if(!ctx)return;
+ ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
+ const wrap=n=>((n%COUNT)+COUNT)%COUNT;
+ const images=Array(COUNT),ready=Array(COUNT).fill(false),failed=Array(COUNT).fill(false);
+ let current=6,position=6,gesture=null,animation=0,timer=0,animating=false;
+ const visible=()=>!document.hidden&&root.closest('.page').classList.contains('active');
+ function paintPanel(index,x){
+  ctx.fillStyle='#100d18';ctx.fillRect(x,0,W,H);
+  if(ready[index]){
+   const img=images[index],scale=Math.min(W/img.naturalWidth,H/img.naturalHeight);
+   const w=img.naturalWidth*scale,h=img.naturalHeight*scale;
+   ctx.drawImage(img,x+(W-w)/2,(H-h)/2,w,h);
+  }else{
+   ctx.fillStyle='#ffffff';ctx.textAlign='center';ctx.font='bold 64px Arial';ctx.fillText('ZUSMO OLD',x+W/2,H/2-20);
+   ctx.font='26px Arial';ctx.fillText('Poster '+(index+1)+' / 14'+(failed[index]?' · gambar belum tersedia':' · memuat gambar'),x+W/2,H/2+40);
+  }
  }
- // Keep all 14 panels mounted. Only the offscreen end panel moves at a boundary.
- const panels=Array.from({length:14},(_,i)=>panel(wrap(current-1+i)));
- panels.forEach(el=>track.append(el));
- function settle(direction){
-  track.style.transition='none';
-  if(direction===1)track.append(track.firstElementChild);
-  else if(direction===-1)track.prepend(track.lastElementChild);
-  current=wrap(current+direction);
-  track.style.transform='translate3d(-100%,0,0)';root.dataset.current=String(current+1);
-  // Commit the no-transition reset before accepting another gesture/animation.
-  void track.offsetWidth;
+ function draw(){
+  // Integer shared edges eliminate subpixel seams. Both panels are painted in one frame.
+  const left=Math.floor(position),offset=Math.round((position-left)*W);
+  ctx.fillStyle='#100d18';ctx.fillRect(0,0,W,H);
+  paintPanel(wrap(left),-offset);if(offset)paintPanel(wrap(left+1),W-offset);
  }
- function schedule(){clearTimeout(timer);if(busy||gesture||document.hidden||!root.closest('.page').classList.contains('active'))return;timer=setTimeout(()=>move(1),GAP_MS);}
+ function schedule(){clearTimeout(timer);if(!visible()||gesture||animating)return;timer=setTimeout(()=>move(1),GAP_MS);}
+ function stop(){cancelAnimationFrame(animation);animation=0;animating=false;clearTimeout(timer);}
+ function glide(target){
+  stop();const from=position,delta=target-from;
+  if(Math.abs(delta)<.00001){current=wrap(target);position=current;root.dataset.current=String(current+1);root.setAttribute('aria-label','Poster Zusmo Old '+(current+1)+' dari 14');draw();schedule();return;}
+  animating=true;let start;
+  function frame(now){
+   if(start===undefined)start=now;
+   const t=Math.min((now-start)/SLIDE_MS,1),eased=1-Math.pow(1-t,3);
+   position=from+delta*eased;draw();
+   if(t<1){animation=requestAnimationFrame(frame);return;}
+   current=wrap(target);position=current;animating=false;animation=0;
+   root.dataset.current=String(current+1);root.setAttribute('aria-label','Poster Zusmo Old '+(current+1)+' dari 14');
+   // Equivalent numeric position; no extra paint, no clearing or element replacement.
+   schedule();
+  }
+  animation=requestAnimationFrame(frame);
+ }
  function move(direction){
-  if(busy||gesture)return;busy=true;clearTimeout(timer);
-  void track.offsetWidth;
-  track.style.transition='transform '+SLIDE_MS+'ms cubic-bezier(.22,.61,.36,1)';
-  track.style.transform='translate3d('+(-100-direction*100)+'%,0,0)';
-  let done=false;
-  function finish(e){if(e&&(e.target!==track||e.propertyName!=='transform'))return;if(done)return;done=true;clearTimeout(finishTimer);track.removeEventListener('transitionend',finish);settle(direction);busy=false;schedule();}
-  track.addEventListener('transitionend',finish);finishTimer=setTimeout(finish,SLIDE_MS+80);
+  if(animating||gesture)return;
+  if(!ready[current]||!ready[wrap(current+direction)]){schedule();return;}
+  glide(current+direction);
  }
- root.addEventListener('pointerdown',e=>{if(busy||!e.isPrimary||(e.pointerType==='mouse'&&e.button!==0))return;clearTimeout(timer);gesture={id:e.pointerId,x:e.clientX,y:e.clientY,dx:0,horizontal:false};root.setPointerCapture(e.pointerId);track.style.transition='none';});
- root.addEventListener('pointermove',e=>{if(!gesture||gesture.id!==e.pointerId)return;const dx=e.clientX-gesture.x,dy=e.clientY-gesture.y;if(!gesture.horizontal&&Math.abs(dx)>8&&Math.abs(dx)>Math.abs(dy))gesture.horizontal=true;if(gesture.horizontal){gesture.dx=Math.max(-root.clientWidth,Math.min(root.clientWidth,dx));track.style.transform='translate3d(calc(-100% + '+gesture.dx+'px),0,0)';}});
- function release(e,cancel){if(!gesture||gesture.id!==e.pointerId)return;const dx=gesture.dx;gesture=null;if(root.hasPointerCapture(e.pointerId))root.releasePointerCapture(e.pointerId);move(!cancel&&Math.abs(dx)>Math.min(55,root.clientWidth*.15)?(dx<0?1:-1):0);}
+ root.addEventListener('pointerdown',e=>{
+  if(!e.isPrimary||(e.pointerType==='mouse'&&e.button!==0))return;
+  stop();gesture={id:e.pointerId,x:e.clientX,y:e.clientY,base:position,dx:0,horizontal:false};root.setPointerCapture(e.pointerId);
+ });
+ root.addEventListener('pointermove',e=>{
+  if(!gesture||gesture.id!==e.pointerId)return;
+  const dx=e.clientX-gesture.x,dy=e.clientY-gesture.y;
+  if(!gesture.horizontal&&Math.abs(dx)>6&&Math.abs(dx)>Math.abs(dy))gesture.horizontal=true;
+  if(!gesture.horizontal)return;
+  gesture.dx=dx;const proposed=gesture.base-Math.max(-1,Math.min(1,dx/root.clientWidth));
+  if(ready[wrap(Math.floor(proposed))]&&ready[wrap(Math.ceil(proposed))]){position=proposed;draw();}
+ });
+ function release(e,cancel){
+  if(!gesture||gesture.id!==e.pointerId)return;
+  const g=gesture;gesture=null;
+  if(root.hasPointerCapture(e.pointerId))root.releasePointerCapture(e.pointerId);
+  let target=Math.round(position);
+  if(!cancel&&Math.abs(g.dx)>Math.min(40,root.clientWidth*.12))target=g.dx<0?Math.ceil(position):Math.floor(position);
+  if(!ready[wrap(target)])target=current;
+  glide(target);
+ }
  root.addEventListener('pointerup',e=>release(e,false));root.addEventListener('pointercancel',e=>release(e,true));
  root.addEventListener('lostpointercapture',e=>release(e,true));
  root.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();move(e.key==='ArrowRight'?1:-1);}});
- new MutationObserver(schedule).observe(root.closest('.page'),{attributes:true,attributeFilter:['class']});
- document.addEventListener('visibilitychange',schedule);settle(0);schedule();
+ function onVisibility(){
+  if(!visible()){stop();gesture=null;current=wrap(Math.round(position));position=current;root.dataset.current=String(current+1);draw();}
+  else schedule();
+ }
+ new MutationObserver(onVisibility).observe(root.closest('.page'),{attributes:true,attributeFilter:['class']});
+ document.addEventListener('visibilitychange',onVisibility);
+ root.dataset.current='7';draw();
+ // Decode the initial image and its neighbors first; never slide into an undecoded image.
+ [6,7,5,...Array.from({length:COUNT},(_,i)=>i).filter(i=>![6,7,5].includes(i))].forEach(i=>{
+  const img=new Image();images[i]=img;img.decoding='async';
+  img.onload=async()=>{try{await img.decode();}catch(e){}if(!img.naturalWidth){failed[i]=true;return;}ready[i]=true;if(!animating&&!gesture)draw();};
+  img.onerror=()=>{failed[i]=true;if(!animating&&!gesture)draw();};
+  img.src='zusmo-asset/Old'+(i+1)+'.png';
+ });
+ schedule();
 })();
-/* Three eased passes over 3 seconds on first display in each document load; end on the third Old card. */
+/* Three eased passes over 2 seconds on first display in each document load; end on the third Old card. */
 (function(){
  const car=document.getElementById('hmSpotlightCarousel');let played=false;
  function intro(){
@@ -43347,7 +43387,7 @@ refresh();
   for(let round=0;round<2;round++)cards.forEach(card=>{const copy=card.cloneNode(true);copy.removeAttribute('onclick');copy.removeAttribute('onkeydown');copy.removeAttribute('tabindex');copy.setAttribute('aria-hidden','true');copy.inert=true;copy.querySelectorAll('[id]').forEach(el=>el.removeAttribute('id'));car.append(copy);clones.push(copy);});
   car.classList.add('is-intro');const step=cards[1].offsetLeft-cards[0].offsetLeft;let started;
   function frame(now){
-   if(started===undefined)started=now;const progress=Math.min((now-started)/3000,1);
+   if(started===undefined)started=now;const progress=Math.min((now-started)/2000,1);
    // Cubic ease-out: progressively decelerate to zero velocity at Zusmo Old.
    const eased=1-Math.pow(1-progress,3);car.scrollLeft=step*7*eased;
    if(progress<1){requestAnimationFrame(frame);return;}
