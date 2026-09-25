@@ -10749,7 +10749,51 @@ font-family:'Inter',system-ui,sans-serif;letter-spacing:0;}
 a.old-download-link{color:inherit;text-decoration:none}a.old-download-link:focus-visible{outline:2px solid #ffb347;outline-offset:3px}
 .old-coming-panel{text-align:center;margin:30px auto;padding:34px 20px;border:1px solid #55432c;border-radius:18px;background:#15100c}.old-coming-panel>i{font-size:38px;color:#ffb347}.old-coming-panel h2{color:#ffb347;font-size:22px;margin:18px 0 12px}.old-coming-panel p{font-size:13px;color:#ccc;line-height:1.7}
 </style>
-</head><body><div id="vipAppRoot">
+<style>
+#oldJastip{max-width:540px;margin-inline:auto}#oldJastip button{font-family:inherit}#oldJastip .oj-header{margin:6px 0 26px}#oldJastip .oj-eyebrow{font-size:10px;font-weight:800;letter-spacing:2px;color:#ff6464}#oldJastip h1{font-size:clamp(22px,6vw,29px);font-weight:900;line-height:1.3;letter-spacing:.4px;margin:9px 0}#oldJastip h1 span{color:#ff4545}#oldJastip .oj-header p,#oldJastip .oj-hint{font-size:12px;line-height:1.7;color:#aaa;margin:7px 0 16px}#oldJastip .oj-section{margin:0 0 26px}#oldJastip .oj-step{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:800;margin:0 0 14px}#oldJastip .oj-step>span{display:grid;place-items:center;width:25px;height:25px;border:1px solid #ff424238;border-radius:8px;color:#ff7474;background:#ff323210;font-size:10px}
+#oldJastip .oj-featured{width:100%;text-align:left;color:#fff}#oldJastip .vpl-inner{display:block;width:100%;box-sizing:border-box}#oldJastip .vpl-top{gap:10px}#oldJastip .vpl-name,#oldJastip .vpl-price,#oldJastip .vpl-price-order{display:block}#oldJastip .vpl-name{font-size:19px}#oldJastip .vpl-price{font-size:25px}#oldJastip .vpl-icon i{font-size:24px;color:#ff6868}#oldJastip .oj-featured[aria-pressed=true]{border-color:#ff4545;box-shadow:0 8px 24px #0006,0 0 0 1px #ff454550}#oldJastip .oj-benefits{display:flex;flex-wrap:wrap;gap:12px;margin:17px 0;color:#ccc;font-size:11px}#oldJastip .oj-benefits i{color:#ff6b6b}#oldJastip .oj-selected-label{display:block;padding-top:12px;border-top:1px solid #ffffff12;color:#ff8b8b;font-size:11px;font-weight:700}#oldJastip .oj-featured[aria-pressed=false] .oj-selected-label{visibility:hidden}
+#oldJastip .oj-more{margin-top:11px;border:1px solid #ffffff12;border-radius:12px;background:#151515}#oldJastip .oj-more summary{padding:13px 14px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#bbb;cursor:pointer;list-style:none}#oldJastip .oj-more summary::-webkit-details-marker{display:none}#oldJastip .oj-more[open] summary i{transform:rotate(180deg)}#oldJastip .oj-extras{padding:0 12px 12px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}#oldJastip .oj-extra{display:flex;flex-direction:column;align-items:center;gap:6px;padding:11px 4px;border:1px solid #ffffff17;border-radius:9px;background:#1c1c1c;color:#ddd;cursor:pointer}#oldJastip .oj-extra strong{font-size:12px}#oldJastip .oj-extra span{font-size:10px;color:#aaa}#oldJastip .oj-extra[aria-pressed=true]{border-color:#ff5555;background:#301919}
+#oldJastip fieldset{min-width:0;padding:16px;border:1px solid #ffffff14;border-radius:16px;background:linear-gradient(150deg,#1b1b1b,#101010);margin:12px 0}#oldJastip legend{padding:0 7px;color:#ccc;font-size:11px;font-weight:700}#oldJastip label{display:block;color:#bbb;font-size:12px;line-height:1.5;margin:0 0 14px}#oldJastip label:last-child{margin-bottom:0}#oldJastip input{display:block;box-sizing:border-box;width:100%;margin-top:7px;border:1px solid #ffffff18;border-radius:10px;padding:13px 12px;background:#0c0c0c;color:#fff;font:inherit;font-size:16px}#oldJastip input:focus{outline:1px solid #ff5454;border-color:#ff5454}#oldJastip .vpay-method{width:100%;text-align:left;font:inherit;box-sizing:border-box}#oldJastip .vpay-info,#oldJastip .vpay-number{display:block}#oldJastip .vpay-grid{gap:11px}#oldJastip .vpay-method{padding:13px 14px;gap:12px}#oldJastip .vpay-name{font-size:13px}#oldJastip .vpay-number{font-size:11px;line-height:1.5}#oldJastip .vpay-icon{width:43px;height:43px;border-radius:12px}
+#oldJastip .oj-summary{border:1px solid #ff454530;border-radius:18px;padding:18px;background:linear-gradient(145deg,#211717,#101010)}#oldJastip .oj-summary-head{font-size:10px;letter-spacing:1px;color:#ddd;font-weight:800;margin-bottom:18px}#oldJastip .oj-summary-head i{color:#ff6868;margin-right:7px}#oldJastip .oj-row{display:flex;justify-content:space-between;gap:12px;margin:12px 0;font-size:12px;color:#aaa}#oldJastip .oj-row strong{color:#eee;text-align:right}#oldJastip .oj-total{display:flex;align-items:center;justify-content:space-between;gap:10px;border-top:1px solid #ffffff12;margin-top:15px;padding:17px 0;color:#ccc;font-size:12px}#oldJastip .oj-total strong{font-size:23px;color:#fff}#oldJastip .oj-footnote{font-size:10px;line-height:1.6;text-align:center;color:#888;margin:11px 0 0}#oldJastip #ojStatus{font-size:12px;color:#ffb1b1;line-height:1.7;margin:18px 0}#oldJastip .oj-cancel{width:100%;margin-top:10px;padding:13px;border:1px solid #ffffff25;border-radius:12px;background:#171717;color:#ddd}#oldJastip a{text-decoration:none}#oldJastip [hidden]{display:none!important}#oldJastip :disabled{opacity:.55;cursor:not-allowed}#oldJastip button:focus-visible,#oldJastip summary:focus-visible{outline:2px solid #ff8c8c;outline-offset:3px}
+@media(max-width:350px){#oldJastip .vpl-price{font-size:21px}#oldJastip .vpl-icon{width:38px;height:38px}#oldJastip .vpl-name{font-size:17px}#oldJastip .vpay-method{padding:12px 10px}}
+</style><style>
+#oldJastip .oj-nextbar{padding:17px;border:1px solid #ff434328;border-radius:16px;background:#161111;margin-top:22px}.oj-nextbar>span{display:block;font-size:11px;color:#aaa;margin-bottom:12px}
+#oldJastip .oj-featured{--vpl-c:#e8c877;--vpl-c2:#a8863f}
+#oldJastip .oj-featured::before{background:linear-gradient(90deg,#a8863f,#e8c877,#fff1bc,#e8c877,#a8863f)}
+#oldJastip .oj-featured[aria-pressed=true]{border-color:#e8c877;box-shadow:0 8px 24px #0006,0 0 0 1px #e8c87750}
+#oldJastip .oj-featured .vpl-icon{background:linear-gradient(150deg,#e8c877,#a8863f);color:#241b08}
+#oldJastip .oj-featured .vpl-icon i{color:#241b08;font-size:23px;text-shadow:none}
+#oldJastip .oj-featured .vpl-tag{background:#e8c877;color:#241b08}
+#oldJastip .oj-selected-label,#oldJastip .oj-selected-label i,#oldJastip .oj-benefits i{color:#7cffa0}
+#oldJastip .oj-extra[aria-pressed=true]{border-color:#e8c877;background:#292317}
+#oldJastipPay [hidden]{display:none!important}#oldJastipPay #ojStatus{font-size:12px;line-height:1.7;color:#ccc;margin:16px 0}
+#oldJastipPay .oj-cancel{display:block;width:100%;padding:13px;margin:12px 0;border:1px solid #ffffff25;border-radius:15px;background:#151515;color:#ccc;font:inherit;font-size:12px}
+#oldJastipPay #ojWhatsapp{text-decoration:none}#oldJastipPay [role=button]:focus-visible{outline:2px solid #e8c877;outline-offset:3px}
+</style><style>
+#apPanelModalOverlay .ap-vip-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}#apPanelModalOverlay .ap-vip-label{display:block;font-size:11px;color:#ddd;font-weight:700}#apPanelModalOverlay .ap-vip-inputwrap{display:flex;align-items:center;gap:6px;margin-top:7px}#apPanelModalOverlay .ap-vip-inputwrap>span{font-size:12px;color:#e8c877}#apPanelModalOverlay .ap-vip-inputwrap input{min-width:0;width:100%;box-sizing:border-box}#apPanelModalOverlay .ap-vip-note{font-size:11px;line-height:1.6;color:#aaa;margin:9px 0}
+</style><style>
+.oj-result-card{margin:35px auto;max-width:420px;padding:32px 22px;border:1px solid #ffffff20;border-radius:22px;background:linear-gradient(150deg,#221616,#0e0e0e);text-align:center}.oj-result-card [hidden]{display:none!important}.oj-result-card h1{font-size:22px;line-height:1.4;margin:20px 0 12px}.oj-result-card p{font-size:13px;color:#bbb;line-height:1.8}.oj-result-spinner{width:55px;height:55px;border:4px solid #ffffff18;border-top-color:#ff5555;border-radius:50%;margin:auto;animation:ojSpin .8s linear infinite}@keyframes ojSpin{to{transform:rotate(360deg)}}.oj-result-failicon{display:grid;place-items:center;margin:auto;width:68px;height:68px;border-radius:50%;background:#ff45451c;color:#ff7070;font-size:30px;border:1px solid #ff454555}.oj-result-note{font-size:11px;color:#999;margin:18px 0}.oj-result-back{display:block;width:100%;margin-top:12px;padding:12px;background:transparent;color:#bbb;border:0;cursor:pointer}
+#apPanelModalOverlay,#apPassModalOverlay{position:fixed;inset:0;box-sizing:border-box;padding:16px!important;align-items:center!important;justify-content:center!important;touch-action:pan-y;overflow:hidden!important;animation:none!important}
+#apPanelModalOverlay .ap-panel-modal{width:100%;max-width:480px;max-height:100%;min-height:0;border-radius:22px;background:#111318;border:1px solid #343840;box-shadow:0 24px 80px #000b;animation:none;transform:none}
+#apPanelModalOverlay .ap-panel-header{padding:18px;gap:12px;background:#191c22}#apPanelModalOverlay .ap-panel-header::after{background:linear-gradient(90deg,#e8c877,#b08c42)}#apPanelModalOverlay .ap-panel-title{font-family:inherit;font-size:17px;font-weight:800}#apPanelModalOverlay .ap-panel-sub{font-size:11px;line-height:1.5}#apPanelModalOverlay .ap-panel-close{width:42px;height:42px;border-radius:12px}#apPanelModalOverlay .ap-panel-header-icon{color:#e8c877;background:#e8c87715;border-color:#e8c87744;box-shadow:none}
+#apPanelModalOverlay .ap-panel-body{flex:1;min-height:0;padding:16px;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;-webkit-overflow-scrolling:touch;scrollbar-width:thin}#apPanelModalOverlay .ap-panel-section{padding:16px;margin-bottom:14px;border:1px solid #ffffff12;border-radius:16px;background:#1a1d23}#apPanelModalOverlay .ap-panel-section-title{font-family:inherit;font-size:13px;font-weight:800;color:#eee;letter-spacing:0;text-shadow:none;margin-bottom:12px}#apPanelModalOverlay .ap-panel-section-title i{color:#e8c877}#apPanelModalOverlay .ap-vip-grid{grid-template-columns:1fr;gap:10px}#apPanelModalOverlay .ap-vip-label{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;background:#111318;border:1px solid #ffffff13;border-radius:12px;font-size:12px}#apPanelModalOverlay .ap-vip-inputwrap{margin:0;width:60%;max-width:210px}#apPanelModalOverlay .ap-vip-inputwrap input{font-size:16px;min-height:44px;border:1px solid #555;border-radius:8px;padding:9px;color:#fff;background:#20242d}#apPanelModalOverlay input:focus{outline:2px solid #e8c877;outline-offset:2px}#apPanelModalOverlay .ap-panel-btn{min-height:44px;font-size:12px;background:#242831;border-color:#ffffff19}#apPanelModalOverlay .ap-price-section .ap-panel-btn-grid{position:sticky;bottom:-16px;background:#1a1d23;padding:12px 0 2px;z-index:2}#apPanelModalOverlay .ap-price-section .ap-panel-btn:first-child{background:#e8c877;color:#241b08;font-weight:800;border-color:#e8c877}#apPanelModalOverlay #apVipPriceStatus{color:#7cffa0;min-height:18px}#apPassModalOverlay .ap-pass-modal{max-height:100%;overflow-y:auto;width:100%;box-sizing:border-box}
+</style><style>.oj-success-summary{padding:14px;border:1px solid #ffffff15;border-radius:12px;margin:22px 0;text-align:left}.oj-success-summary>div{display:flex;justify-content:space-between;gap:12px;font-size:12px;margin:12px 0}.oj-success-summary span{color:#999}.oj-success-summary strong{text-align:right;overflow-wrap:anywhere}</style><style>#oldmenu .old-key-service .vip-icon{border-color:#ffd85d88;background:linear-gradient(145deg,#382d12,#191509);box-shadow:0 0 12px #e8c87722,inset 0 0 12px #e8c87712}#oldmenu .old-key-service .vip-icon i{color:#ffd85d!important;text-shadow:0 0 12px #e8c87755}#ojSuccessEmail{font-size:12px;line-height:1.7;color:#ccc}</style><style>
+.old-ff-page{--off-red:#f52d43;--off-light:#ff7180;--off-line:#f52d4340;--off-bg:#111014;color:#f8f6f7}
+.old-ff-page .old-ff-hero{position:relative;padding:24px 22px 26px;margin:8px 0 25px;overflow:hidden;border:1px solid var(--off-line);border-left:4px solid var(--off-red);background:repeating-linear-gradient(125deg,transparent 0 44px,#ff304408 44px 46px),radial-gradient(ellipse at top right,#ad102c55,transparent 65%),#100d12;clip-path:polygon(0 0,calc(100% - 17px) 0,100% 17px,100% 100%,17px 100%,0 calc(100% - 17px))}
+.old-ff-page .old-ff-kicker{display:flex;align-items:center;gap:8px;font-size:9px;font-weight:800;letter-spacing:1.6px;color:var(--off-light)}.old-ff-page .old-ff-kicker>span:last-child{margin-left:auto;color:#c1b6ba;font-size:8px;border:1px solid #ffffff20;padding:4px 6px}.old-ff-page .old-ff-live{width:5px;height:5px;background:var(--off-red);box-shadow:0 0 10px #f52d4370}
+.old-ff-page .old-ff-hero h1{font-family:Impact,'Arial Black',sans-serif;font-size:clamp(38px,11vw,58px);font-style:italic;font-weight:900;letter-spacing:1px;line-height:.98;color:#fff;margin:20px 0 14px;text-shadow:3px 3px 0 #9e102c}.old-ff-page .old-ff-hero h1 span{display:block;color:var(--off-red);font-size:clamp(50px,14vw,72px);letter-spacing:4px;margin-top:4px;text-shadow:none}.old-ff-page .old-ff-hero p{font-size:12px;color:#cbbfc4;line-height:1.65;max-width:280px}.old-ff-page .old-ff-bars{position:absolute;bottom:0;right:20px;width:80px;height:7px;background:repeating-linear-gradient(110deg,var(--off-red) 0 8px,transparent 8px 13px)}
+.old-ff-page .old-ff-section{display:flex;justify-content:space-between;gap:10px;font-size:10px;font-weight:800;letter-spacing:1.1px;color:#bdaeb5;margin:23px 2px 12px}.old-ff-page .old-ff-section>span:first-child{color:var(--off-light)}.old-ff-page .old-ff-files{display:grid;gap:14px}
+.old-ff-page .old-ff-file{display:block;position:relative;text-decoration:none;color:inherit;border:1px solid #77313e;background:linear-gradient(130deg,#25131a,#101014);overflow:hidden;border-radius:3px;transition:border-color .16s,transform .16s}.old-ff-page .old-ff-file:hover{border-color:var(--off-red)}.old-ff-page .old-ff-file:active{transform:scale(.985)}.old-ff-page .old-ff-filetop{display:flex;align-items:center;justify-content:space-between;padding:12px 16px 0}.old-ff-page .old-ff-tag{color:var(--off-light);font-size:9px;letter-spacing:1.2px;font-weight:800}.old-ff-page .old-ff-format{font-size:9px;color:#cbc2c7;font-weight:800;letter-spacing:1px;background:#ffffff08;border:1px solid #ffffff16;padding:4px 7px}
+.old-ff-page .old-ff-filebody{display:flex;align-items:center;gap:14px;padding:16px}.old-ff-page .old-ff-fileicon{display:grid;place-items:center;flex:0 0 51px;height:57px;background:#f52d4318;border:1px solid #f52d4345;color:var(--off-red);font-size:28px;clip-path:polygon(0 0,80% 0,100% 20%,100% 100%,0 100%)}.old-ff-page .old-ff-fileinfo{min-width:0}.old-ff-page .old-ff-fileinfo h3{font-family:'Arial Black',Arial,sans-serif;font-size:24px;font-weight:900;font-style:italic;letter-spacing:.7px;margin:0 0 7px;color:#fff}.old-ff-page .old-ff-fileinfo p{font-size:10px;line-height:1.5;overflow-wrap:anywhere;color:#b8a9b2;margin:0}
+.old-ff-page .old-ff-download{display:flex;justify-content:space-between;align-items:center;padding:13px 16px;color:white;background:linear-gradient(100deg,#a90d29,#e5243d);font-size:11px;font-weight:900;letter-spacing:1.1px}.old-ff-page .old-ff-download span{display:flex;align-items:center;gap:9px}.old-ff-page .old-ff-account{display:flex;align-items:center;gap:12px;padding:17px 14px;background:#201016;border:1px solid #e02e474f;text-decoration:none;color:#eee}.old-ff-page .old-ff-accounticon{display:grid;place-items:center;width:38px;height:38px;flex-shrink:0;color:var(--off-red);background:#f52d4314;border:1px solid #f52d4333}.old-ff-page .old-ff-account>span:nth-child(2){flex:1;min-width:0}.old-ff-page .old-ff-account strong{display:block;font-size:11px;line-height:1.5}.old-ff-page .old-ff-account small{display:block;color:#ad9da6;font-size:10px;line-height:1.5;margin-top:5px}.old-ff-page .old-ff-account>i{font-size:11px;color:var(--off-light)}.old-ff-page .old-ff-note{display:flex;align-items:center;justify-content:center;gap:7px;font-size:10px;color:#a99da4;margin:20px 0;line-height:1.6}.old-ff-page a:focus-visible{outline:2px solid var(--off-light);outline-offset:4px}
+@media(min-width:650px){.old-ff-page .old-ff-files{grid-template-columns:1fr 1fr}.old-ff-page .old-ff-filebody{padding:20px 16px}}
+@media(prefers-reduced-motion:reduce){.old-ff-page .old-ff-file{transition:none}}
+</style><style>
+.old-ff-page .old-ff-size{display:inline-flex;align-items:center;gap:6px;margin-top:9px;font-size:10px;font-weight:700;color:var(--off-light);letter-spacing:.3px}.old-ff-page .old-ff-tutorial{width:100%;font:inherit;text-align:left;cursor:pointer;box-sizing:border-box}.old-ff-page .old-ff-tutorial:focus-visible{outline:2px solid var(--off-light);outline-offset:4px}.old-ff-page .old-ff-soon{text-align:center;padding:32px 20px;background:linear-gradient(145deg,#291019,#100d12);border:1px solid var(--off-line)}.old-ff-page .old-ff-soon>i{display:block;font-size:42px;color:var(--off-red);margin-bottom:20px}.old-ff-page .old-ff-soon>span{font-size:9px;letter-spacing:2px;color:var(--off-light)}.old-ff-page .old-ff-soon h2{font-family:Impact,'Arial Black',sans-serif;font-style:italic;font-size:32px;color:#fff;margin:12px 0}.old-ff-page .old-ff-soon p{font-size:12px;color:#bdabb3;line-height:1.8;margin:12px 0 24px}.old-ff-page .old-ff-soon button{width:100%;border:0;justify-content:center;cursor:pointer}
+</style><style>
+[data-old-release-content][hidden],[data-old-gate][hidden],[data-old-access][hidden]{display:none!important}
+.old-ff-page .old-release-gate{padding:24px 16px;border:1px solid #f52d4345;background:linear-gradient(145deg,#291019,#100d12);text-align:center}.old-release-lock{display:grid;place-items:center;width:48px;height:48px;margin:0 auto 16px;color:#ff5266;background:#f52d4315;border:1px solid #f52d4345}.old-release-eyebrow{font-size:9px;letter-spacing:2px;color:#ff7180}.old-ff-page .old-release-gate h2{font-size:25px;font-style:italic;color:#fff;margin:10px 0}.old-release-gate>p{font-size:11px;color:#c2adb6}.old-release-countdown{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:23px 0}.old-release-countdown>div{padding:12px 3px;background:#100d12;border:1px solid #f52d4335;overflow:hidden}.old-release-countdown strong{display:block;font:800 clamp(19px,6vw,29px) monospace;font-variant-numeric:tabular-nums;color:#ff5266}.old-release-countdown span{display:block;font-size:7px;letter-spacing:.6px;color:#bbabb2;margin-top:7px}.old-release-vip{text-align:left;padding-top:20px;border-top:1px solid #ffffff15}.old-release-vip h3{font-size:12px;color:#ff7180;line-height:1.6;margin:0 0 9px}.old-release-vip p{font-size:11px;color:#bba9b1;line-height:1.8}.old-release-form label{display:block;font-size:9px;font-weight:800;letter-spacing:.7px;color:#ddd;margin:16px 0 12px}.old-release-form input{box-sizing:border-box;display:block;width:100%;min-width:0;margin-top:8px;padding:14px 12px;border:1px solid #6c3040;background:#0c0a0e;border-radius:3px;color:white;font-size:16px}.old-release-form input:focus{outline:1px solid #ff5266}.old-release-form button{width:100%;border:0;justify-content:center;cursor:pointer;min-height:46px}.old-release-form .old-release-feedback{color:#ff95a3;margin:10px 0 0}.old-release-access{padding:11px 13px;background:#f52d4312;border:1px solid #f52d4335;color:#ff8997;font-size:11px;margin-bottom:16px}
+</style></head><body><div id="vipAppRoot">
   <div class="noise" aria-hidden="true"></div>
 
   <main class="phone">
@@ -11818,8 +11862,8 @@ a.old-download-link{color:inherit;text-decoration:none}a.old-download-link:focus
  <span class="shine-card old-release-image"><img loading="lazy" decoding="async" src="zusmo-asset/zusmoold2022.png" alt="Zusmo Old 2022"/></span>
  <span class="zs-card-cap">Download<small>Versi 2022</small></span>
 </button>
-<button class="old-release-card" type="button" onclick="showPage('oldDownload2019')" aria-label="Zusmo Old versi 2019, Coming Soon">
- <span class="shine-card old-release-image"><img loading="lazy" decoding="async" src="zusmo-asset/zusmoold2019.png" alt="Zusmo Old 2019"/><span class="old-coming-badge">COMING SOON</span></span>
+<button class="old-release-card" type="button" onclick="showPage('oldDownload2019')" aria-label="Download Zusmo Old versi 2019">
+ <span class="shine-card old-release-image"><img loading="lazy" decoding="async" src="zusmo-asset/zusmoold2019.png" alt="Zusmo Old 2019"/></span>
  <span class="zs-card-cap">Download<small>Versi 2019</small></span>
 </button>
 </div>
@@ -11827,22 +11871,10 @@ a.old-download-link{color:inherit;text-decoration:none}a.old-download-link:focus
 <div class="zs-section-label"><i class="fa-solid fa-bolt"></i>MENU UTAMA</div>
 
 <div>
-<div class="vip-menu vip-menu-gold" onclick="if(typeof dismissNewBadge==='function'){dismissNewBadge('buyvip');dismissNewBadge('viptier');}showPage('vippricelist')" style="margin-bottom:26px;">
-<div class="vip-icon" style="border-color:rgba(255,215,0,.55);box-shadow:0 0 14px rgba(255,215,0,.3),inset 0 0 12px rgba(255,215,0,.12);"><i class="fa-solid fa-key" style="color:#ffd700;text-shadow:0 0 10px rgba(255,215,0,.9),0 0 20px rgba(255,215,0,.6);"></i></div>
-<div class="vip-content">
-<h4 style="font-size:15.5px;letter-spacing:.2px;"><span class="hm-new-dot" id="old_newBadge_buyvip" style="display:none;vertical-align:middle;margin-right:5px;"></span>BUY VIP ZUSMO SHADOW <span class="vip-badge-inline">POPULER</span></h4>
-<small>Dapatkan akses premium<br>ZUSMO SHADOW VIP</small>
-</div>
-<i class="fa-solid fa-chevron-right vip-arrow"></i>
-</div>
-<div class="vip-menu vip-menu-gold-dark" onclick="showPage('upgradevip')" style="margin-bottom:26px;">
-<div class="vip-icon" style="border-color:rgba(184,134,11,.55);box-shadow:0 0 14px rgba(184,134,11,.3),inset 0 0 12px rgba(184,134,11,.12);"><i class="fa-solid fa-angles-up" style="color:#b8860b;text-shadow:0 0 10px rgba(184,134,11,.9),0 0 20px rgba(184,134,11,.6);"></i></div>
-<div class="vip-content">
-<h4 style="font-size:15.5px;letter-spacing:.2px;">UPGRADE VIP ZUSMO SHADOW</h4>
-<small>Naikkan paket VIP kamu ke level lebih tinggi</small>
-</div>
-<i class="fa-solid fa-chevron-right vip-arrow"></i>
-</div>
+<div class="vip-menu vip-menu-gold old-key-service" onclick="ojOpenJastip('2022')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();ojOpenJastip('2022');}" style="margin-bottom:26px;">
+<div class="vip-icon"><i class="fa-solid fa-key"></i></div><div class="vip-content"><h4>JASA AMBIL KEY / DAFTAR AKUN</h4><small>Versi 2022 · Rp5.000 per akun<br>Dibantu admin</small></div><i class="fa-solid fa-chevron-right vip-arrow"></i></div>
+<div class="vip-menu vip-menu-gold old-key-service" onclick="ojOpenJastip('2019')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();ojOpenJastip('2019');}" style="margin-bottom:26px;">
+<div class="vip-icon"><i class="fa-solid fa-key"></i></div><div class="vip-content"><h4>JASA AMBIL KEY / DAFTAR AKUN</h4><small>Versi 2019 · Rp5.000 per akun<br>Dibantu admin</small></div><i class="fa-solid fa-chevron-right vip-arrow"></i></div>
 <div class="vip-menu" onclick="showPage('manfaatvip')">
 <div class="vip-icon"><i class="fa-solid fa-chart-simple"></i></div>
 <div class="vip-content">
@@ -11878,30 +11910,141 @@ a.old-download-link{color:inherit;text-decoration:none}a.old-download-link:focus
 </div>
 </div>
 
-<div class="page" id="oldDownload2022">
- <h1 class="old-download-heading">ZUSMO OLD <span>2022</span></h1>
- <p class="old-download-subtitle">Pilih versi yang ingin kamu download.</p>
- <a class="vip-menu old-download-link" href="https://www.mediafire.com/file/yivnmt9u4glcwuc/com.dts.freefireth_v1.70.0.xapk/file" target="_blank" rel="noopener noreferrer">
-  <span class="vip-icon"><i class="fa-solid fa-download" aria-hidden="true"></i></span>
-  <span class="vip-content"><h4>64 BIT</h4><small>Download versi 2022 · 64 bit</small></span>
-  <i class="fa-solid fa-arrow-up-right-from-square vip-arrow" aria-hidden="true"></i>
- </a>
- <a class="vip-menu old-download-link" href="https://www.mediafire.com/file/q6z3roxbfm76grd/FreeFire2022Indian-server-32bit.xapk/file" target="_blank" rel="noopener noreferrer">
-  <span class="vip-icon"><i class="fa-solid fa-download" aria-hidden="true"></i></span>
-  <span class="vip-content"><h4>32 BIT</h4><small>Download versi 2022 · 32 bit</small></span>
-  <i class="fa-solid fa-arrow-up-right-from-square vip-arrow" aria-hidden="true"></i>
- </a>
- <a class="vip-menu old-download-link" href="https://register.samosasmobiles.dpdns.org/register" target="_blank" rel="noopener noreferrer">
-  <span class="vip-icon"><i class="fa-solid fa-key" aria-hidden="true"></i></span>
-  <span class="vip-content"><h4>AMBIL KEY / DAFTAR AKUN</h4><small>Buka halaman pendaftaran</small></span>
-  <i class="fa-solid fa-arrow-up-right-from-square vip-arrow" aria-hidden="true"></i>
- </a>
-</div>
-<div class="page" id="oldDownload2019">
- <h1 class="old-download-heading">ZUSMO OLD <span>2019</span></h1>
- <div class="old-coming-panel"><i class="fa-solid fa-clock" aria-hidden="true"></i><h2>COMING SOON</h2><p>Versi 2019 belum tersedia. Nantikan pembaruan berikutnya.</p></div>
+<div class="page" id="oldJastip">
+<header class="oj-header"><span class="oj-eyebrow" id="ojVersionLabel">ZUSMO OLD · 2022</span><h1>JASTIP <span>AKUN / KEY</span></h1><p>Biar admin yang urus. Kamu tinggal tentukan akun yang diinginkan.</p></header>
+<section class="oj-section" aria-labelledby="ojPackTitle"><h2 class="oj-step" id="ojPackTitle"><span>01</span>Pilih paket</h2>
+<button type="button" class="vpl-card tier-max oj-featured" data-oj-pack="1" aria-pressed="true" onclick="ojChoose(1)">
+<span class="vpl-inner"><span class="vpl-top"><span class="vpl-left"><span class="vpl-icon"><i class="fa-solid fa-key" aria-hidden="true"></i></span><span class="vpl-title-wrap"><span class="vpl-name">1 AKUN</span><span class="vpl-tag">PAKET UTAMA</span></span></span><span class="vpl-price-wrap"><span class="vpl-price">Rp5.000</span><span class="vpl-price-order">/ akun</span></span></span>
+<span class="oj-benefits"><span><i class="fa-solid fa-check"></i> Dibantu admin</span><span><i class="fa-solid fa-check"></i> Request akun</span></span><span class="oj-selected-label"><i class="fa-solid fa-circle-check"></i> Paket dipilih</span></span></button>
+<details class="oj-more"><summary>Butuh lebih dari 1 akun?<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><div class="oj-extras"><button type="button" class="oj-extra" data-oj-pack="2" aria-pressed="false" onclick="ojChoose(2)"><strong>2 akun</strong><span>Rp10.000</span></button><button type="button" class="oj-extra" data-oj-pack="3" aria-pressed="false" onclick="ojChoose(3)"><strong>3 akun</strong><span>Rp15.000</span></button><button type="button" class="oj-extra" data-oj-pack="4" aria-pressed="false" onclick="ojChoose(4)"><strong>4 akun</strong><span>Rp20.000</span></button><button type="button" class="oj-extra" data-oj-pack="5" aria-pressed="false" onclick="ojChoose(5)"><strong>5 akun</strong><span>Rp25.000</span></button><button type="button" class="oj-extra" data-oj-pack="10" aria-pressed="false" onclick="ojChoose(10)"><strong>10 akun</strong><span>Rp50.000</span></button></div></details></section>
+<form id="ojForm"><section class="oj-section" aria-labelledby="ojRequestTitle"><h2 class="oj-step" id="ojRequestTitle"><span>02</span>Request akun</h2><p class="oj-hint">Isi username dan password untuk akun baru yang akan dibuat admin.</p><div id="ojAccounts"></div></section>
+<div class="oj-nextbar"><span>1 akun mulai Rp5.000</span><button class="vpay-confirmbtn ready" type="submit">Pilih pembayaran <i class="fa-solid fa-arrow-right"></i></button></div></form></div>
+<div class="page page-with-copyright" id="oldJastipPay"><div id="ojMethodArea"><h1>Metode Pembayaran</h1>
+<p class="subtitle">Pilih cara pembayaran untuk melanjutkan pesanan</p>
+
+<div class="vpay-summary" style="flex-direction:column;align-items:stretch;gap:10px;">
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
+    <div>
+      <div class="vpay-summary-label">Paket dipilih</div>
+      <div class="vpay-summary-tier" id="ojSummaryPack">1 akun</div>
+    </div>
+    <div class="vpay-summary-price" id="ojTotal">Rp5.000</div>
+  </div>
+  <div style="display:flex;align-items:center;gap:7px;padding-top:9px;border-top:1px dashed rgba(255,255,255,.1);font-size:11px;color:rgba(255,255,255,.55);">
+    <i class="fa-solid fa-hashtag" style="color:#e8c877;font-size:10px;"></i>
+    <span id="ojPaymentUser">-</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:#7CFFA0;font-weight:700;">
+    <i class="fa-solid fa-circle-check" style="color:#2ecc71;font-size:10px;"></i>
+    <span id="ojSummaryMethod">-</span>
+  </div>
 </div>
 
+<div class="vpay-sectiontitle"><i class="fa-solid fa-wallet"></i>Pilih Metode Bayar</div>
+<div class="vpay-grid">
+
+  <div class="vpay-method m-qris" data-oj-method="qris" onclick="ojSelectMethod('qris')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
+    <div class="vpay-icon"><i class="fa-solid fa-qrcode"></i></div>
+    <div class="vpay-info">
+      <div class="vpay-name">QRIS</div>
+      <div class="vpay-number">Bayar pakai semua e-wallet &amp; m-banking</div>
+    </div>
+    <div class="vpay-check"><i class="fa-solid fa-check"></i></div>
+  </div>
+
+  <div class="vpay-method m-qris2" data-oj-method="qris2" onclick="ojSelectMethod('qris2')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
+    <div class="vpay-icon"><i class="fa-solid fa-qrcode"></i></div>
+    <div class="vpay-info">
+      <div class="vpay-name">QRIS 2 <span class="vpay-badge" style="background:rgba(255,255,255,.12);color:rgba(255,255,255,.75);">+ Biaya Admin</span></div>
+      <div class="vpay-number">Bayar pakai semua e-wallet &amp; m-banking juga</div>
+    </div>
+    <div class="vpay-check"><i class="fa-solid fa-check"></i></div>
+  </div>
+
+  <div class="vpay-method m-dana" data-oj-method="dana" onclick="ojSelectMethod('dana')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
+    <div class="vpay-icon"><img src="zusmo-asset/logodana.png" alt="DANA" onerror="this.style.display='none'"/></div>
+    <div class="vpay-info">
+      <div class="vpay-name">DANA</div>
+      <div class="vpay-number">Bayar langsung dari saldo DANA kamu</div>
+    </div>
+    <div class="vpay-check"><i class="fa-solid fa-check"></i></div>
+  </div>
+
+  <div class="vpay-method m-gopay" data-oj-method="gopay" onclick="ojSelectMethod('gopay')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
+    <div class="vpay-icon"><img src="zusmo-asset/logogopay.png" alt="GoPay" onerror="this.style.display='none'"/></div>
+    <div class="vpay-info">
+      <div class="vpay-name">GoPay</div>
+      <div class="vpay-number">Bayar langsung dari saldo GoPay kamu</div>
+    </div>
+    <div class="vpay-check"><i class="fa-solid fa-check"></i></div>
+  </div>
+
+  <div class="vpay-method m-shopee" data-oj-method="shopee" onclick="ojSelectMethod('shopee')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
+    <div class="vpay-icon"><img src="zusmo-asset/logospay.png" alt="ShopeePay" onerror="this.style.display='none'"/></div>
+    <div class="vpay-info">
+      <div class="vpay-name">ShopeePay</div>
+      <div class="vpay-number">Bayar langsung dari saldo ShopeePay kamu</div>
+    </div>
+    <div class="vpay-check"><i class="fa-solid fa-check"></i></div>
+  </div>
+
+  <div class="vpay-method m-ovo" data-oj-method="ovo" onclick="ojSelectMethod('ovo')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
+    <div class="vpay-icon"><img src="zusmo-asset/logoovo.png" alt="OVO" onerror="this.style.display='none'"/></div>
+    <div class="vpay-info">
+      <div class="vpay-name">OVO</div>
+      <div class="vpay-number">Bayar langsung dari saldo OVO kamu</div>
+    </div>
+    <div class="vpay-check"><i class="fa-solid fa-check"></i></div>
+  </div>
+
+  <div class="vpay-method m-wa" data-oj-method="wa" onclick="ojSelectMethod('wa')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
+    <div class="vpay-icon"><i class="fa-brands fa-whatsapp"></i></div>
+    <div class="vpay-info">
+      <div class="vpay-name">Order Manual</div>
+      <div class="vpay-number">Pesan langsung dibantu admin via WhatsApp</div>
+    </div>
+    <div class="vpay-check"><i class="fa-solid fa-check"></i></div>
+  </div>
+
+</div>
+
+<div class="vpay-confirmbar">
+  <button type="button" class="vpay-confirmbtn" id="ojSubmit" disabled onclick="ojStartPayment()">
+    <i class="fa-solid fa-arrow-right"></i> Lanjut ke Pembayaran
+  </button>
+</div>
+
+<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
+</div><section id="ojDetail" hidden><h1>Selesaikan Pembayaran</h1>
+<p class="subtitle">Bayar sebelum waktu habis, lalu konfirmasi ke admin</p>
+
+<div class="vpd-summary">
+  <div class="vpd-summary-tier" id="ojDetailPack">VIP -</div>
+  <div class="vpd-summary-price" id="ojPayAmount">Rp 0</div>
+</div>
+
+<div class="vpd-timerwrap" id="ojTimerWrap">
+  <div class="vpd-timer-label"><i class="fa-regular fa-clock"></i> Selesaikan dalam</div>
+  <div class="vpd-timer-text" id="ojClock">05:00</div>
+  <div class="vpd-timer-bartrack"><div class="vpd-timer-bar" id="ojTimeBar"></div></div>
+  <div class="vpd-timer-note">Segera lakukan pembayaran dalam 5 menit</div>
+</div>
+
+<div class="vpd-method-card">
+  <div class="vpd-icon" id="ojMethodIcon"><i class="fa-solid fa-wallet"></i></div>
+  <div>
+    <div class="vpd-method-name" id="ojPayName">-</div>
+    <div class="vpd-method-sub">Metode pembayaran dipilih</div>
+  </div>
+</div>
+
+<div id="ojPayBody"></div><p class="vpd-timer-note" id="ojConfirmHint"></p><div class="vpay-confirmbar"><button class="vpay-confirmbtn" id="ojConfirm" type="button" onclick="ojConfirmPayment()"><i class="fa-solid fa-check-double"></i> Saya sudah bayar</button></div><button type="button" id="ojCancel" class="oj-cancel" onclick="ojCancelPayment()">Batalkan</button></section><p id="ojStatus" role="status" aria-live="polite"></p><a id="ojWhatsapp" class="vpay-confirmbtn ready" hidden target="_blank" rel="noopener noreferrer">Buka WhatsApp admin</a></div>
+<div class="page" id="ojResultPage"><div class="oj-result-card" role="status" aria-live="polite"><div id="ojResultLoading"><div class="oj-result-spinner" aria-hidden="true"></div><h1>Memproses konfirmasi</h1><p>Tunggu sebentar…</p></div><div id="ojResultFailed" hidden><div class="oj-result-failicon"><i class="fa-solid fa-xmark"></i></div><h1>Konfirmasi pembayaran gagal</h1><p id="ojResultMessage"></p><div class="oj-result-note">Pesanan belum diteruskan ke admin.</div><button type="button" class="vpay-confirmbtn ready" onclick="showPage('oldJastipPay')">Coba pembayaran lagi</button><button type="button" class="oj-result-back" onclick="showPage('oldJastip')">Kembali ke pesanan</button></div></div></div>
+<div class="page" id="ojSuccessPage"><div class="oj-result-card"><div class="oj-result-failicon" style="background:#2ecc711c;border-color:#2ecc7155;color:#7cffa0"><i class="fa-solid fa-check"></i></div><h1 style="color:#7cffa0;font-size:30px">BERHASIL</h1><p>Konfirmasi pesanan diterima. Admin akan memeriksa pembayaran dan memproses request akunmu.</p><p id="ojSuccessEmail" role="status" hidden></p><div class="oj-success-summary"><div><span>No. pesanan</span><strong id="ojSuccessOrder"></strong></div><div><span>Paket</span><strong id="ojSuccessPack"></strong></div><div><span>Total</span><strong id="ojSuccessTotal"></strong></div><div><span>Metode</span><strong id="ojSuccessMethod"></strong></div></div><a id="ojSuccessWhatsapp" class="vpay-confirmbtn ready" target="_blank" rel="noopener noreferrer" style="text-decoration:none"><i class="fa-brands fa-whatsapp"></i> Lanjut ke WhatsApp admin</a><button type="button" class="oj-result-back" onclick="ojFinishSuccess()">Selesai</button></div></div>
+<div class="page old-ff-page" id="oldDownload2022"><header class="old-ff-hero"><div class="old-ff-kicker"><span class="old-ff-live"></span> ZUSMO OLD <span>ANDROID</span></div><h1>FREE FIRE<span>2022</span></h1><p>Pilih file sesuai arsitektur Android kamu.</p><div class="old-ff-bars" aria-hidden="true"></div></header><section class="old-release-gate" data-old-gate><div class="old-release-lock"><i class="fa-solid fa-lock" aria-hidden="true"></i></div><span class="old-release-eyebrow">AKSES PUBLIK</span><h2>RILIS 3 OKTOBER</h2><p>3 Oktober 2026 · 00.00 WIB</p><div class="old-release-countdown" role="timer" aria-label="Hitung mundur menuju rilis publik" aria-live="off"><div><strong data-old-hours>000</strong><span>JAM</span></div><div><strong data-old-minutes>00</strong><span>MENIT</span></div><div><strong data-old-seconds>00</strong><span>DETIK</span></div><div><strong data-old-ms>000</strong><span>MILIDETIK</span></div></div><div class="old-release-vip"><h3><i class="fa-solid fa-key"></i> VIP BISA AKSES SEKARANG</h3><p>Masukkan key VIP Zusmo Shadow. Basic, Elite, Ultimate, dan Max bisa membuka akses lebih awal.</p><form class="old-release-form"><label>KEY VIP ZUSMO SHADOW<input type="password" name="vipkey" autocomplete="off" spellcheck="false" placeholder="Masukkan key VIP" required maxlength="80"></label><button type="submit" class="old-ff-download"><span><i class="fa-solid fa-unlock-keyhole"></i> BUKA AKSES VIP</span></button><p class="old-release-feedback" role="status" aria-live="polite"></p></form></div></section><div class="old-release-access" data-old-access hidden></div><div data-old-release-content hidden><div class="old-ff-section"><span>01 / FILE GAME</span><span>2 PILIHAN</span></div><div class="old-ff-files"><a class="old-ff-file" data-old-release-href="https://www.mediafire.com/file/yivnmt9u4glcwuc/com.dts.freefireth_v1.70.0.xapk/file" target="_blank" rel="noopener noreferrer" aria-label="Download 64 BIT, XAPK"><div class="old-ff-filetop"><span class="old-ff-tag">VERSI 2022</span><span class="old-ff-format">XAPK</span></div><div class="old-ff-filebody"><span class="old-ff-fileicon"><i class="fa-brands fa-android" aria-hidden="true"></i></span><div class="old-ff-fileinfo"><h3>64 BIT</h3><p>com.dts.freefireth_v1.70.0.xapk</p><span class="old-ff-size"><i class="fa-solid fa-hard-drive" aria-hidden="true"></i> 616.21 MB</span></div></div><div class="old-ff-download"><span><i class="fa-solid fa-download" aria-hidden="true"></i> DOWNLOAD</span><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></div></a><a class="old-ff-file" data-old-release-href="https://www.mediafire.com/file/q6z3roxbfm76grd/FreeFire2022Indian-server-32bit.xapk/file" target="_blank" rel="noopener noreferrer" aria-label="Download 32 BIT, XAPK"><div class="old-ff-filetop"><span class="old-ff-tag">VERSI 2022</span><span class="old-ff-format">XAPK</span></div><div class="old-ff-filebody"><span class="old-ff-fileicon"><i class="fa-brands fa-android" aria-hidden="true"></i></span><div class="old-ff-fileinfo"><h3>32 BIT</h3><p>FreeFire2022Indian-server-32bit.xapk</p><span class="old-ff-size"><i class="fa-solid fa-hard-drive" aria-hidden="true"></i> 609 MB</span></div></div><div class="old-ff-download"><span><i class="fa-solid fa-download" aria-hidden="true"></i> DOWNLOAD</span><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></div></a></div><div class="old-ff-section"><span>02 / AKSES AKUN</span></div><a class="old-ff-account" data-old-release-href="https://register.samosasmobiles.dpdns.org/register" target="_blank" rel="noopener noreferrer"><span class="old-ff-accounticon"><i class="fa-solid fa-key" aria-hidden="true"></i></span><span><strong>AMBIL KEY / DAFTAR AKUN</strong><small>Buka halaman pendaftaran versi 2022</small></span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a><div class="old-ff-section"><span>03 / PANDUAN</span></div><button type="button" class="old-ff-account old-ff-tutorial" onclick="showPage('oldKeyTutorial2022')"><span class="old-ff-accounticon"><i class="fa-solid fa-circle-play" aria-hidden="true"></i></span><span><strong>TUTORIAL MENDAPATKAN KEY</strong><small>Panduan mengambil key untuk versi 2022</small></span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button><p class="old-ff-note"><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> File dibuka melalui MediaFire.</p></div></div>
+<div class="page old-ff-page" id="oldDownload2019"><header class="old-ff-hero"><div class="old-ff-kicker"><span class="old-ff-live"></span> ZUSMO OLD <span>ANDROID</span></div><h1>FREE FIRE<span>2019</span></h1><p>File versi 2019 sekarang tersedia untuk diunduh.</p><div class="old-ff-bars" aria-hidden="true"></div></header><section class="old-release-gate" data-old-gate><div class="old-release-lock"><i class="fa-solid fa-lock" aria-hidden="true"></i></div><span class="old-release-eyebrow">AKSES PUBLIK</span><h2>RILIS 3 OKTOBER</h2><p>3 Oktober 2026 · 00.00 WIB</p><div class="old-release-countdown" role="timer" aria-label="Hitung mundur menuju rilis publik" aria-live="off"><div><strong data-old-hours>000</strong><span>JAM</span></div><div><strong data-old-minutes>00</strong><span>MENIT</span></div><div><strong data-old-seconds>00</strong><span>DETIK</span></div><div><strong data-old-ms>000</strong><span>MILIDETIK</span></div></div><div class="old-release-vip"><h3><i class="fa-solid fa-key"></i> VIP BISA AKSES SEKARANG</h3><p>Masukkan key VIP Zusmo Shadow. Basic, Elite, Ultimate, dan Max bisa membuka akses lebih awal.</p><form class="old-release-form"><label>KEY VIP ZUSMO SHADOW<input type="password" name="vipkey" autocomplete="off" spellcheck="false" placeholder="Masukkan key VIP" required maxlength="80"></label><button type="submit" class="old-ff-download"><span><i class="fa-solid fa-unlock-keyhole"></i> BUKA AKSES VIP</span></button><p class="old-release-feedback" role="status" aria-live="polite"></p></form></div></section><div class="old-release-access" data-old-access hidden></div><div data-old-release-content hidden><div class="old-ff-section"><span>01 / FILE GAME</span><span>VERSI 2019</span></div><a class="old-ff-file" data-old-release-href="https://www.mediafire.com/file/aptkqwrf0zi0hwy/Rzim_Server_V2.apk/file" target="_blank" rel="noopener noreferrer" aria-label="Download RZIM SERVER V2, APK"><div class="old-ff-filetop"><span class="old-ff-tag">VERSI 2019</span><span class="old-ff-format">APK</span></div><div class="old-ff-filebody"><span class="old-ff-fileicon"><i class="fa-brands fa-android" aria-hidden="true"></i></span><div class="old-ff-fileinfo"><h3>RZIM SERVER V2</h3><p>Rzim_Server_V2.apk</p><span class="old-ff-size"><i class="fa-solid fa-hard-drive" aria-hidden="true"></i> 484.45 MB</span></div></div><div class="old-ff-download"><span><i class="fa-solid fa-download" aria-hidden="true"></i> DOWNLOAD</span><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></div></a><p class="old-ff-note"><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> File dibuka melalui MediaFire.</p></div></div>
+
+<div class="page old-ff-page" id="oldKeyTutorial2022"><header class="old-ff-hero"><div class="old-ff-kicker"><span class="old-ff-live"></span> ZUSMO OLD · 2022</div><h1>TUTORIAL<span>KEY</span></h1><p>Panduan mendapatkan key.</p><div class="old-ff-bars" aria-hidden="true"></div></header><div class="old-ff-soon"><i class="fa-solid fa-circle-play" aria-hidden="true"></i><span>SEGERA HADIR</span><h2>COMING SOON</h2><p>Tutorial mendapatkan key versi 2022 sedang disiapkan.</p><button type="button" class="old-ff-download" onclick="showPage('oldDownload2022')"><span><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> KEMBALI KE DOWNLOAD</span></button></div></div>
 <div class="page" id="upgradevip">
 
 <h1 style="color:#fff;font-weight:900;letter-spacing:1px;font-size:26px;">UPGRADE VIP</h1>
@@ -17384,17 +17527,17 @@ AccessTokenDua
 </div>
 
 <div class="ap-modal-overlay" id="apPanelModalOverlay">
-  <div class="ap-panel-modal">
+  <div class="ap-panel-modal" role="dialog" aria-modal="true" aria-label="Pengaturan admin" tabindex="-1">
     <div class="ap-panel-header">
       <div class="ap-panel-header-icon"><i class="fa-solid fa-user-shield"></i></div>
       <div>
-        <div class="ap-panel-title">ADMIN PANEL</div>
-        <div class="ap-panel-sub">Pengaturan khusus admin</div>
+        <div class="ap-panel-title">Pengaturan Admin</div>
+        <div class="ap-panel-sub">Harga VIP, saldo, dan akses item</div>
       </div>
       <button type="button" class="ap-panel-close" onclick="apClosePanelModal()" aria-label="Tutup"><i class="fa-solid fa-xmark"></i></button>
     </div>
 
-    <div class="ap-panel-body">
+    <div class="ap-panel-body"><div class="ap-panel-section ap-price-section"><div class="ap-panel-section-title"><i class="fa-solid fa-tags"></i> Harga VIP Zusmo Shadow</div><p class="ap-vip-note">Atur harga pembelian VIP baru. Tersimpan di browser/perangkat ini.</p><div class="ap-vip-grid"><label class="ap-vip-label">VIP BASIC<span class="ap-vip-inputwrap"><span>Rp</span><input class="ap-bebas-input" id="apVipPriceBASIC" type="number" inputmode="numeric" min="1" max="100000000" step="1" required value="3000"></span></label><label class="ap-vip-label">VIP ELITE<span class="ap-vip-inputwrap"><span>Rp</span><input class="ap-bebas-input" id="apVipPriceELITE" type="number" inputmode="numeric" min="1" max="100000000" step="1" required value="4000"></span></label><label class="ap-vip-label">VIP ULTIMATE<span class="ap-vip-inputwrap"><span>Rp</span><input class="ap-bebas-input" id="apVipPriceULTIMATE" type="number" inputmode="numeric" min="1" max="100000000" step="1" required value="7000"></span></label><label class="ap-vip-label">VIP MAX<span class="ap-vip-inputwrap"><span>Rp</span><input class="ap-bebas-input" id="apVipPriceMAX" type="number" inputmode="numeric" min="1" max="100000000" step="1" required value="10000"></span></label></div><div class="ap-panel-btn-grid" style="margin-top:12px"><button type="button" class="ap-panel-btn" onclick="apSaveVipPrices()"><i class="fa-solid fa-floppy-disk"></i> Simpan harga</button><button type="button" class="ap-panel-btn" onclick="apResetVipPrices()"><i class="fa-solid fa-rotate-left"></i> Harga awal</button></div><p class="ap-vip-note" id="apVipPriceStatus" role="status" aria-live="polite"></p></div>
       <div class="ap-panel-section">
         <div class="ap-panel-section-title"><i class="fa-solid fa-gem"></i> Diamond</div>
         <div class="ap-panel-btn-grid">
@@ -18412,6 +18555,7 @@ function sendProofToEmailJs(params){
 /* ===== End Upload Bukti Transfer ===== */
 
 function orderVipKey(tier,price){
+  if(typeof window.getShadowVipPrice==='function') price=window.getShadowVipPrice(tier);
   vplSelected.tier=tier;
   vplSelected.price=price;
   vplSelected.payment=null;
@@ -33618,6 +33762,7 @@ function hmUnlockScroll(){
 }
 
 function hmBlockScroll(e){
+  if(e.target instanceof Element && e.target.closest('#apPanelModalOverlay .ap-panel-body')) return;
   // Blokir semua scroll/drag selagi popup terbuka, termasuk yang dimulai
   // dari dalam popup itu sendiri (popup tidak butuh scroll internal).
   if(e.touches && e.touches.length>1) return; // biarkan pinch-zoom gesture browser
@@ -33761,6 +33906,7 @@ function apCheckPassword(){
 }
 
 function apOpenPanelModal(){
+  if(typeof window.apLoadVipPriceInputs==='function') window.apLoadVipPriceInputs();
   const overlay=document.getElementById('apPanelModalOverlay');
   const bar=document.querySelector('.app-bottombar');
   if(!overlay) return;
@@ -42401,6 +42547,13 @@ document.addEventListener('DOMContentLoaded',initNewBadges);
       return KEY_DATABASE[normalized] || null;
     }
 
+    window.validateOldEarlyVipKey=function(raw){
+      const clean=String(raw||'').toUpperCase().replace(/[\s-]/g,'');
+      const entry=Object.keys(KEY_DATABASE).find(key=>key.replace(/-/g,'').toUpperCase()===clean);
+      const data=entry?KEY_DATABASE[entry]:null;
+      return data&&['vip_basic','vip_elite','vip_ultimate','vip_max'].includes(data.tier)?data.label:null;
+    };
+
     function goDashboard() {
       showOnlyScreen('vpn');
       setTimeout(() => showToast(t('activationSuccess')), 230);
@@ -43432,5 +43585,130 @@ refresh();
  const observer=new MutationObserver(intro);observer.observe(car.closest('.page'),{attributes:true,attributeFilter:['class']});requestAnimationFrame(intro);
 })();
 
+</script>
+<script>
+/* Manual payment confirmation: 5-minute window; button is active immediately, attempts before 1 minute fail.
+   Elapsed time never verifies receipt of funds. Admin reviews the user's declaration. */
+(function(){
+ const $=id=>document.getElementById(id),money=n=>'Rp '+n.toLocaleString('id-ID');
+ const methodNames={qris:'QRIS',qris2:'QRIS 2',dana:'DANA',gopay:'GoPay',shopee:'ShopeePay',ovo:'OVO',wa:'Order Manual'};
+ let version='2022',quantity=1,method=null,order=null,creating=false,timer=0,accounts=[],sending=false;
+ function status(message){$('ojStatus').textContent=message;}
+ window.ojOpenJastip=function(year){if(!['2022','2019'].includes(year))return;if(order||sending){showPage('oldJastipPay');return;}if(version!==year){accounts=[];document.querySelectorAll('#ojAccounts input').forEach(i=>i.value='');}version=year;$('ojVersionLabel').textContent='ZUSMO OLD · '+version;$('ojSummaryPack').textContent=quantity+' akun · '+version;showPage('oldJastip');};
+ window.ojSelectMethod=function(value){if(order||!methodNames[value])return;method=value;document.querySelectorAll('[data-oj-method]').forEach(b=>{const selected=b.dataset.ojMethod===value;b.classList.toggle('selected',selected);b.setAttribute('aria-pressed',String(selected));});$('ojSummaryMethod').textContent=methodNames[value];$('ojSubmit').disabled=false;$('ojSubmit').classList.add('ready');status('');};
+ window.ojChoose=function(n){if(order||creating)return;quantity=n;$('ojSummaryPack').textContent=n+' akun · '+version;$('ojTotal').textContent=money(n*5000);document.querySelectorAll('[data-oj-pack]').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.ojPack)===n)));const previous=Array.from($('ojAccounts').querySelectorAll('fieldset')).map(f=>({u:f.querySelector('[name=username]').value,p:f.querySelector('[name=password]').value}));$('ojAccounts').replaceChildren();for(let i=0;i<n;i++){const f=document.createElement('fieldset'),l=document.createElement('legend');l.textContent='Akun '+(i+1);f.append(l);for(const [name,label,type]of [['username','Request username','text'],['password','Request password','password']]){const lab=document.createElement('label');lab.textContent=label;const input=document.createElement('input');input.name=name;input.type=type;input.required=true;input.maxLength=80;input.autocomplete=type==='password'?'new-password':'off';input.value=previous[i]?.[name==='username'?'u':'p']||'';lab.append(input);f.append(lab)}$('ojAccounts').append(f)}};
+
+ function lock(on){document.querySelectorAll('[data-oj-pack],[data-oj-method],#ojAccounts input').forEach(el=>el.disabled=on);}
+ $('ojForm').addEventListener('submit',function(e){e.preventDefault();try{sessionStorage.removeItem('oj_last_success');}catch(err){}if(order){showPage('oldJastipPay');return;}if(!$('ojForm').reportValidity())return;accounts=Array.from($('ojAccounts').querySelectorAll('fieldset')).map(f=>({username:f.querySelector('[name=username]').value.trim(),password:f.querySelector('[name=password]').value}));if(accounts.some(a=>!a.username||!a.password)){return;}if(new Set(accounts.map(a=>a.username.toLowerCase())).size!==accounts.length){const input=$('ojAccounts').querySelector('[name=username]');input.setCustomValidity('Gunakan username berbeda untuk setiap akun.');input.reportValidity();input.setCustomValidity('');return;}$('ojMethodArea').hidden=false;$('ojDetail').hidden=true;$('ojWhatsapp').hidden=true;$('ojPaymentUser').textContent=accounts.map(a=>a.username).join(', ');status('');showPage('oldJastipPay');});
+ function renderDetail(){
+  const body=$('ojPayBody');body.replaceChildren();const data=VPNBUY_DATA.payments[method];
+  if(method==='qris'){const img=new Image();img.src=data.value;img.style.cssText='width:100%;height:auto;display:block';img.alt='QRIS pembayaran';img.onerror=()=>{img.remove();const p=document.createElement('p');p.textContent='Gambar QRIS belum tersedia. Batalkan dan pilih metode lain.';body.append(p);};const box=document.createElement('div');box.className='vpd-qrisbox';const frame=document.createElement('div');frame.className='vpd-qris-frame';frame.append(img);box.append(frame);body.append(box);}
+  else if(data){const number=document.createElement('div');number.className='vpd-numberbox-val';number.textContent=data.value;const box=document.createElement('div');box.className='vpd-numberbox';const info=document.createElement('div'),label=document.createElement('div');label.className='vpd-numberbox-label';label.textContent='Nomor Tujuan';info.append(label,number);box.append(info);body.append(box);const copy=document.createElement('button');copy.type='button';copy.className='vpd-copybtn2';copy.textContent='Salin nomor';copy.onclick=async()=>{try{await navigator.clipboard.writeText(data.value);copy.textContent='Nomor disalin';}catch(e){copy.textContent='Salin nomor yang tampil di atas';}};box.append(copy);}
+  const text=document.createElement('p');text.className='vpd-timer-note';text.textContent=method==='wa'?'Pesanan manual akan diteruskan ke admin setelah kamu mengonfirmasi. Status pembayaran tetap diperiksa admin.':'Lakukan pembayaran sebesar '+money(order.amount)+' melalui '+methodNames[method]+'. Setelah selesai, tekan Saya sudah bayar.';body.append(text);
+  if(method==='qris2'){['dana','gopay','shopeepay','ovo'].forEach(name=>{const a=document.createElement('a');a.className='vpd-linkitem';a.style.cssText='color:inherit;text-decoration:none';a.href='https://www.hotelmurah.com/pulsa/top-up-'+name;a.target='_blank';a.rel='noopener noreferrer';a.textContent='Buka HotelMurah · '+name.toUpperCase();body.append(a);});}
+ }
+ function tick(){if(!order||sending)return;const elapsed=Date.now()-order.started,left=Math.max(0,300000-elapsed),sec=Math.ceil(left/1000);$('ojClock').textContent=String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0');$('ojTimeBar').style.width=(left/300000*100)+'%';const eligible=elapsed<300000;$('ojConfirm').disabled=!eligible;$('ojConfirm').classList.toggle('ready',eligible);$('ojConfirmHint').textContent='Konfirmasikan setelah membayar. Admin akan memeriksa pembayaranmu.';if(left===0)end('Waktu pembayaran habis. Tidak ada email atau pesan yang dikirim.');}
+ function end(message){clearInterval(timer);order=null;sending=false;lock(false);$('ojDetail').hidden=true;$('ojMethodArea').hidden=false;$('ojWhatsapp').hidden=true;$('ojWhatsapp').removeAttribute('href');status('');$('ojResultLoading').hidden=true;$('ojResultFailed').hidden=false;$('ojResultMessage').textContent=message;showPage('ojResultPage');}
+ function processing(){ $('ojResultLoading').hidden=false;$('ojResultFailed').hidden=true;showPage('ojResultPage');}
+
+ window.ojStartPayment=function(){if(!method||order||accounts.length!==quantity)return;order={id:'OLD'+Date.now().toString(36).toUpperCase(),amount:quantity*5000,started:Date.now(),version,accounts:accounts.map(a=>({...a})),method};lock(true);$('ojMethodArea').hidden=true;$('ojDetail').hidden=false;$('ojWhatsapp').hidden=true;$('ojPayName').textContent=methodNames[method];$('ojPayAmount').textContent=money(order.amount);$('ojDetailPack').textContent=quantity+' akun · Zusmo Old '+version;const chosen=document.querySelector('[data-oj-method="'+method+'"] .vpay-icon');$('ojMethodIcon').className='vpd-icon m-'+method;$('ojMethodIcon').innerHTML=chosen?chosen.innerHTML:'';$('ojCancel').disabled=false;$('ojConfirm').textContent='Saya sudah bayar';status('');renderDetail();window.scrollTo(0,0);tick();timer=setInterval(tick,250);};
+ window.ojCancelPayment=function(){if(sending)return;end('Pembayaran dibatalkan. Tidak ada email atau pengalihan WhatsApp.');};
+ window.ojConfirmPayment=async function(){if(!order||sending)return;const elapsed=Date.now()-order.started;sending=true;clearInterval(timer);processing();await new Promise(resolve=>setTimeout(resolve,1400));if(elapsed<60000){end('Pembayaran belum dapat dikonfirmasi. Silakan periksa pembayaranmu, lalu coba kembali.');return;}if(elapsed>=300000){end('Waktu pembayaran sudah habis. Silakan mulai pembayaran baru.');return;}$('ojConfirm').disabled=true;$('ojCancel').disabled=true;$('ojConfirm').textContent='Mengirim konfirmasi…';const paid=order;const details=paid.accounts.map((a,i)=>'Akun '+(i+1)+'\nUsername: '+a.username+'\nPassword: '+a.password).join('\n\n');
+ const summary='Halo Admin, saya mengonfirmasi pesanan jastip Zusmo Old '+paid.version+'.\nOrder: '+paid.id+'\nPaket: '+paid.accounts.length+' akun\nTotal: '+money(paid.amount)+'\nMetode: '+methodNames[paid.method]+'\n\nREQUEST AKUN\n'+details+'\n\nMohon periksa pembayaran saya.';
+ const receipt={id:paid.id,version:paid.version,quantity:paid.accounts.length,total:money(paid.amount),method:methodNames[paid.method],url:'https://wa.me/'+VPNBUY_DATA.waNumber+'?text='+encodeURIComponent(summary),emailStatus:''};
+ window.ojShowSuccess(receipt);
+ // Render success before awaiting the email provider; keep this screen visible on email errors.
+ const visibleDelay=new Promise(resolve=>setTimeout(resolve,2200));let emailSent=false,emailTimeout;
+ try{await Promise.race([sendProofToEmailJs({order_id:paid.id,produk:'Jastip Zusmo Old '+paid.version+' — '+paid.accounts.length+' akun [MENUNGGU CEK ADMIN]',metode:methodNames[paid.method],total:money(paid.amount),waktu:new Date().toLocaleString('id-ID'),uid:'Konfirmasi pengguna, belum diverifikasi admin.\nVersi: '+paid.version+'\n'+details,accounts:details,message:'Versi: '+paid.version+'\nMohon periksa pembayaran sebelum memproses akun.\n'+details}),new Promise((_,reject)=>{emailTimeout=setTimeout(()=>reject(Error('email timeout')),12000);})]);emailSent=true;}catch(e){}finally{clearTimeout(emailTimeout);}
+ receipt.emailStatus='';
+ receipt.url='https://wa.me/'+VPNBUY_DATA.waNumber+'?text='+encodeURIComponent(summary);
+ $('ojSuccessEmail').textContent=receipt.emailStatus;$('ojSuccessWhatsapp').href=receipt.url;
+ const stillHere=$('ojSuccessPage').classList.contains('active');if(stillHere){try{sessionStorage.setItem('oj_last_success',JSON.stringify(receipt));}catch(e){}}
+ paid.accounts.forEach(a=>a.password='');accounts=[];document.querySelectorAll('#ojAccounts input[type=password]').forEach(i=>i.value='');order=null;sending=false;lock(false);
+ await visibleDelay;if($('ojSuccessPage').classList.contains('active'))location.assign(receipt.url);
+
+ };
+ ojChoose(1);
+})();
+</script>
+<script>
+/* Shadow VIP prices — local admin settings, snapshotted when a new order starts. */
+(function(){
+ const KEY='zusmo_shadow_vip_prices_v1',DEFAULT={BASIC:3000,ELITE:4000,ULTIMATE:7000,MAX:10000};
+ const tiers=Object.keys(DEFAULT);let prices={...DEFAULT};
+ function valid(v){return Number.isSafeInteger(v)&&v>0&&v<=100000000;}
+ function load(){try{const saved=JSON.parse(localStorage.getItem(KEY)||'null');prices={...DEFAULT};if(saved)tiers.forEach(t=>{if(valid(saved[t]))prices[t]=saved[t];});}catch(e){prices={...DEFAULT};}}
+ function render(){tiers.forEach(t=>{document.querySelectorAll('#vippricelist .vpl-card[data-tier="'+t.toLowerCase()+'"] .vpl-price').forEach(el=>el.textContent='Rp '+prices[t].toLocaleString('id-ID'));});}
+ window.getShadowVipPrice=t=>prices[String(t).toUpperCase()]??DEFAULT.BASIC;
+ window.apLoadVipPriceInputs=function(){tiers.forEach(t=>{const el=document.getElementById('apVipPrice'+t);if(el)el.value=prices[t];});};
+ function permitted(){return document.getElementById('apPanelModalOverlay')?.classList.contains('show');}
+ function message(text){document.getElementById('apVipPriceStatus').textContent=text;}
+ window.apSaveVipPrices=function(){if(!permitted())return;const next={};for(const t of tiers){const input=document.getElementById('apVipPrice'+t),v=Number(input.value);if(!valid(v)){message('Masukkan harga VIP '+t+' berupa rupiah bulat, minimal Rp1.');input.focus();return;}next[t]=v;}try{localStorage.setItem(KEY,JSON.stringify(next));}catch(e){message('Harga belum tersimpan. Penyimpanan browser tidak tersedia.');return;}prices=next;render();message('Harga disimpan. Katalog dan pesanan baru memakai harga terbaru.');};
+ window.apResetVipPrices=function(){if(!permitted())return;try{localStorage.removeItem(KEY);}catch(e){message('Harga belum dapat direset.');return;}prices={...DEFAULT};render();apLoadVipPriceInputs();message('Harga awal dipulihkan.');};
+ window.addEventListener('storage',e=>{if(e.key===KEY){load();render();apLoadVipPriceInputs();}});
+ load();render();apLoadVipPriceInputs();
+})();
+
+</script>
+<script>(function(){
+ const overlays=['apPanelModalOverlay','apPassModalOverlay'].map(id=>document.getElementById(id));
+ // Body-level overlays avoid clipping/offsets from hidden or transformed page ancestors.
+ overlays.forEach(el=>{if(el)document.body.append(el);});
+ function sync(){const vv=window.visualViewport;overlays.forEach(el=>{if(!el||!el.classList.contains('show'))return;el.style.top=(vv?vv.offsetTop:0)+'px';el.style.height=(vv?vv.height:window.innerHeight)+'px';el.style.bottom='auto';});}
+ overlays.forEach(el=>{if(!el)return;new MutationObserver(()=>{sync();if(el.classList.contains('show')){const dialog=el.querySelector('[role=dialog]');if(dialog&&!el.contains(document.activeElement))dialog.focus({preventScroll:true});}}).observe(el,{attributes:true,attributeFilter:['class']});});
+ if(window.visualViewport){visualViewport.addEventListener('resize',sync);visualViewport.addEventListener('scroll',sync);}window.addEventListener('resize',sync);
+ document.addEventListener('keydown',e=>{const panel=document.getElementById('apPanelModalOverlay');if(!panel.classList.contains('show'))return;if(e.key==='Escape'){e.preventDefault();apClosePanelModal();return;}if(e.key==='Tab'){const nodes=[...panel.querySelectorAll('button,input,[tabindex="0"]')].filter(n=>!n.disabled&&n.getClientRects().length);if(!nodes.length)return;const first=nodes[0],last=nodes[nodes.length-1];if(e.shiftKey&&(document.activeElement===first||document.activeElement===panel.querySelector('[role=dialog]'))){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}});
+})();</script><script>(function(){
+ const KEY='oj_last_success';
+ window.ojShowSuccess=function(receipt){
+  document.getElementById('ojSuccessOrder').textContent=receipt.id;
+  document.getElementById('ojSuccessPack').textContent=receipt.quantity+' akun · '+(receipt.version||'2022');
+  document.getElementById('ojSuccessEmail').textContent=receipt.emailStatus||'';
+  document.getElementById('ojSuccessTotal').textContent=receipt.total;
+  document.getElementById('ojSuccessMethod').textContent=receipt.method;
+  document.getElementById('ojSuccessWhatsapp').href=receipt.url;
+  try{sessionStorage.setItem(KEY,JSON.stringify(receipt));}catch(e){}
+  if(typeof __pageBackStack!=='undefined')__pageBackStack=__pageBackStack.filter(p=>!['oldJastipPay','ojResultPage','ojSuccessPage'].includes(p));
+  showPage('ojSuccessPage',true);
+ };
+ window.ojFinishSuccess=function(){try{sessionStorage.removeItem(KEY);}catch(e){}showPage('oldmenu');};
+ function restore(){try{const r=JSON.parse(sessionStorage.getItem(KEY)||'null');if(r&&typeof r.id==='string'&&Number.isInteger(r.quantity)&&r.quantity>0&&typeof r.url==='string'&&r.url.startsWith('https://wa.me/6283800287738?text='))ojShowSuccess(r);}catch(e){}}
+ window.addEventListener('pageshow',restore);
+})();</script><script>
+/* Public release: 3 October 2026 at 00:00 Asia/Jakarta. Client-side UI access gate. */
+(function(){
+ const RELEASE_AT=Date.parse('2026-10-03T00:00:00+07:00'),SESSION_KEY='zusmo_old_early_vip_key';
+ const pages=['oldDownload2022','oldDownload2019'].map(id=>document.getElementById(id));let vipTier=null,frame=0,lastTick=0,lastOpen=null;
+ function verify(raw){
+  const normalized=String(raw||'').toUpperCase().replace(/[\s-]/g,'');if(!normalized)return null;
+  if(typeof window.validateOldEarlyVipKey==='function'){const tier=window.validateOldEarlyVipKey(normalized);if(tier)return tier;}
+  if(typeof validKeys!=='undefined'){const idx=validKeys.indexOf(normalized);if(idx>=0&&idx<400)return ['VIP Basic','VIP Elite','VIP Ultimate','VIP Max'][Math.floor(idx/100)];}
+  return null;
+ }
+ try{vipTier=verify(sessionStorage.getItem(SESSION_KEY));}catch(e){}
+ function allowed(){return Date.now()>=RELEASE_AT||!!vipTier;}
+ function sync(){
+  const publicOpen=Date.now()>=RELEASE_AT,open=publicOpen||!!vipTier;
+  if(open===lastOpen)return;lastOpen=open;
+  pages.forEach(page=>{
+   page.querySelector('[data-old-gate]').hidden=open;page.querySelector('[data-old-release-content]').hidden=!open;
+   const label=page.querySelector('[data-old-access]');label.hidden=!open;label.textContent=publicOpen?'AKSES PUBLIK SUDAH DIBUKA':'AKSES VIP AKTIF · '+vipTier;
+   page.querySelectorAll('[data-old-release-href]').forEach(a=>{if(open)a.setAttribute('href',a.dataset.oldReleaseHref);else a.removeAttribute('href');});
+  });
+ }
+ function tick(now){
+  frame=0;sync();if(!allowed()&&now-lastTick>=32){lastTick=now;const remaining=Math.max(0,RELEASE_AT-Date.now()),values=[Math.floor(remaining/3600000),Math.floor(remaining/60000)%60,Math.floor(remaining/1000)%60,remaining%1000];pages.forEach(page=>{if(!page.classList.contains('active'))return;['hours','minutes','seconds','ms'].forEach((key,i)=>page.querySelector('[data-old-'+key+']').textContent=String(values[i]).padStart(i===0||i===3?3:2,'0'));});}
+  if(!document.hidden&&pages.some(p=>p.classList.contains('active'))&&!allowed())frame=requestAnimationFrame(tick);
+ }
+ function refresh(){cancelAnimationFrame(frame);sync();if(!document.hidden)frame=requestAnimationFrame(tick);}
+ pages.forEach(page=>{
+  const form=page.querySelector('.old-release-form');form.addEventListener('submit',e=>{e.preventDefault();const input=form.elements.vipkey,tier=verify(input.value),feedback=form.querySelector('.old-release-feedback');if(!tier){feedback.textContent='Key VIP tidak valid. Periksa kembali key Zusmo Shadow kamu.';input.setAttribute('aria-invalid','true');return;}vipTier=tier;input.removeAttribute('aria-invalid');try{sessionStorage.setItem(SESSION_KEY,input.value.toUpperCase().replace(/[\s-]/g,''));}catch(err){}input.value='';refresh();});
+  new MutationObserver(refresh).observe(page,{attributes:true,attributeFilter:['class']});
+ });
+ const previousShow=window.showPage;
+ window.showPage=function(id,fromBack){if(id==='oldKeyTutorial2022'&&!allowed())id='oldDownload2022';return previousShow.call(this,id,fromBack);};
+ document.addEventListener('click',e=>{const target=e.target.closest('[data-old-release-content] a,[data-old-release-content] button');if(target&&!allowed()){e.preventDefault();e.stopImmediatePropagation();refresh();}},true);
+ document.addEventListener('visibilitychange',refresh);window.addEventListener('pageshow',refresh);sync();refresh();
+})();
 </script>
 </body></html>
