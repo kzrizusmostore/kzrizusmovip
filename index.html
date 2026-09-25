@@ -11796,7 +11796,7 @@ font-family:'Inter',system-ui,sans-serif;letter-spacing:0;}
 <span class="zs-word-1" data-text="ZUSMO">ZUSMO</span> <span class="zs-word-2" data-text="OLD">OLD</span>
 </h1>
 
-<!-- Poster asli: zusmo-asset/old/poster-01.jpg sampai poster-14.jpg; masing-masing 1200x590. -->
+<!-- Poster asli: zusmo-asset/old/Old1.png sampai Old14.png; masing-masing 1200x590. -->
 <div class="old-banner-frame">
  <div id="oldPosterSlider" class="old-poster-slider" role="region" aria-label="Poster Zusmo Old" aria-roledescription="carousel" tabindex="0">
   <div class="old-poster-track"></div>
@@ -43291,7 +43291,7 @@ refresh();
 <script>
 /* Zusmo Old: independent poster carousel. Replace these 14 paths with final artwork. */
 (function(){
- const posters=Array.from({length:14},(_,i)=>'zusmo-asset/old/poster-'+String(i+1).padStart(2,'0')+'.jpg');
+ const posters=Array.from({length:14},(_,i)=>'zusmo-asset/old/Old'+(i+1)+'.png');
  const root=document.getElementById('oldPosterSlider'),track=root.querySelector('.old-poster-track');
  let current=6,busy=false,gesture=null,timer,finishTimer;
  const wrap=n=>(n+14)%14;
@@ -43325,7 +43325,7 @@ refresh();
  new MutationObserver(schedule).observe(root.closest('.page'),{attributes:true,attributeFilter:['class']});
  document.addEventListener('visibilitychange',schedule);draw();schedule();
 })();
-/* Three fast passes on first display in each document load; end on the third Old card. */
+/* Three eased passes over 3 seconds on first display in each document load; end on the third Old card. */
 (function(){
  const car=document.getElementById('hmSpotlightCarousel');let played=false;
  function intro(){
@@ -43334,7 +43334,9 @@ refresh();
   for(let round=0;round<2;round++)cards.forEach(card=>{const copy=card.cloneNode(true);copy.removeAttribute('onclick');copy.removeAttribute('onkeydown');copy.removeAttribute('tabindex');copy.setAttribute('aria-hidden','true');copy.inert=true;copy.querySelectorAll('[id]').forEach(el=>el.removeAttribute('id'));car.append(copy);clones.push(copy);});
   car.classList.add('is-intro');const step=cards[1].offsetLeft-cards[0].offsetLeft;let started;
   function frame(now){
-   if(started===undefined)started=now;const progress=Math.min((now-started)/1000,1);car.scrollLeft=step*7*progress;
+   if(started===undefined)started=now;const progress=Math.min((now-started)/3000,1);
+   // Cubic ease-out: progressively decelerate to zero velocity at Zusmo Old.
+   const eased=1-Math.pow(1-progress,3);car.scrollLeft=step*7*eased;
    if(progress<1){requestAnimationFrame(frame);return;}
    clones.forEach(c=>c.remove());car.scrollLeft=step;car.classList.remove('is-intro');
    document.querySelectorAll('#hmSpotlightDots .hm-spotlight-dot').forEach((d,i)=>d.classList.toggle('active',i===1));
