@@ -1,0 +1,27 @@
+{
+  "id": "/",
+  "name": "KZRIZUSMO FF",
+  "short_name": "KZRIZUSMO FF",
+  "description": "Aplikasi web resmi KZRIZUSMO FF",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#000000",
+  "theme_color": "#0A0A0A",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "/zusmo-asset/icon-192-v9.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/zusmo-asset/icon-512-v9.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
