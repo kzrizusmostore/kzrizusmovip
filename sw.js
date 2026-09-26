@@ -1,12 +1,10 @@
-const CACHE_NAME='kzrizusmo-ff-pwa-v5';
-const STATIC_ASSETS=[
-  '/manifest.webmanifest',
-  '/kz-icon-192-v2.png',
-  '/kz-icon-512-v2.png'
-];
+const CACHE_NAME='kzrizusmo-ff-pwa-v6';
+const CORE=['/manifest.webmanifest','/icon-192.png','/icon-512.png'];
 self.addEventListener('install',event=>{
   self.skipWaiting();
-  event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(STATIC_ASSETS)).catch(()=>undefined));
+  event.waitUntil(caches.open(CACHE_NAME).then(async cache=>{
+    for(const url of CORE){ try{ await cache.add(url); }catch(e){} }
+  }));
 });
 self.addEventListener('activate',event=>{
   event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE_NAME).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));
@@ -17,5 +15,5 @@ self.addEventListener('fetch',event=>{
     event.respondWith(fetch(event.request,{cache:'no-store'}).catch(()=>caches.match('/')));
     return;
   }
-  event.respondWith(caches.match(event.request).then(cached=>cached||fetch(event.request)));
+  event.respondWith(fetch(event.request).catch(()=>caches.match(event.request)));
 });
