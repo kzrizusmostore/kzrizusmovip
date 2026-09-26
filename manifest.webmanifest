@@ -1,34 +1,18 @@
 {
-  "id": "/",
+  "id": "https://www.kzrizusmostore.com/",
   "name": "KZRIZUSMO FF",
   "short_name": "KZRIZUSMO FF",
   "description": "Aplikasi web resmi KZRIZUSMO FF",
-  "start_url": "/?source=pwa",
-  "scope": "/",
+  "start_url": "https://www.kzrizusmostore.com/",
+  "scope": "https://www.kzrizusmostore.com/",
   "display": "standalone",
-  "display_override": ["standalone", "minimal-ui"],
   "orientation": "portrait-primary",
   "background_color": "#000000",
   "theme_color": "#0A0A0A",
-  "categories": ["entertainment", "utilities"],
+  "prefer_related_applications": false,
   "icons": [
-    {
-      "src": "/kz-icon-192-v2.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/kz-icon-512-v2.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/kz-icon-512-v2.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
-    }
+    {"src":"/kz-icon-192-v2.png?v=5","sizes":"192x192","type":"image/png","purpose":"any"},
+    {"src":"/kz-icon-512-v2.png?v=5","sizes":"512x512","type":"image/png","purpose":"any"},
+    {"src":"/kz-icon-512-v2.png?v=5","sizes":"512x512","type":"image/png","purpose":"maskable"}
   ]
 }
