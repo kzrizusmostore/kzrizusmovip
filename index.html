@@ -22,10 +22,10 @@
 <meta property="og:title" content="KZRIZUSMO FF"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="application-name" content="KZRIZUSMO FF"/>
-<link rel="manifest" href="/manifest.webmanifest?v=6"/>
-<link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png?v=6"/>
-<link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png?v=6"/>
-<link rel="apple-touch-icon" href="/icon-192.png?v=6"/>
+<link rel="manifest" href="/manifest.webmanifest?v=8"/>
+<link rel="icon" type="image/png" sizes="192x192" href="zusmo-asset/icon-192.png?v=7"/>
+<link rel="icon" type="image/png" sizes="512x512" href="zusmo-asset/icon-512.png?v=7"/>
+<link rel="apple-touch-icon" href="zusmo-asset/icon-192.png?v=7"/>
 <meta name="mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-title" content="KZRIZUSMO FF"/>
 <script>window.KZRIZUSMO_OFFICIAL_SITE="https://www.kzrizusmostore.com";</script><script type="importmap">{"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js","three/addons/":"https://unpkg.com/three@0.160.0/examples/jsm/"}}</script><script>
@@ -189,6 +189,13 @@ border-radius:24px;}
 .download-icon{font-size:72px;color:#4da3ff;display:block;text-align:center;margin-bottom:12px;}
 .file-info{background:rgba(255,255,255,.05);padding:16px;border-radius:20px;margin:16px 0;line-height:1.8;}
 .download-btn{width:100%;padding:18px;border:none;border-radius:20px;background:#0a84ff;color:#fff;font-size:15px;font-weight:700;cursor:pointer;}
+.zs-free-link-box{margin-top:12px;padding:12px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.1);border-radius:14px;}
+.zs-free-link-label{font-size:10px;font-weight:800;letter-spacing:.8px;color:#8d8d93;margin-bottom:8px;}
+.zs-free-link-row{display:flex;gap:8px;align-items:stretch;}
+.zs-free-link-text{flex:1;min-width:0;padding:10px 11px;border-radius:10px;background:#080808;border:1px solid rgba(255,255,255,.08);color:#d6d6d9;font-size:10.5px;line-height:1.4;word-break:break-all;user-select:text;}
+.zs-free-copy-btn{flex:0 0 auto;border:1px solid rgba(255,55,55,.35);background:rgba(255,38,38,.1);color:#ff5252;border-radius:10px;padding:0 11px;font-size:10px;font-weight:800;display:flex;align-items:center;gap:6px;cursor:pointer;}
+.zs-free-copy-btn:active{transform:scale(.97);}
+@media(max-width:360px){.zs-free-link-row{flex-direction:column}.zs-free-copy-btn{min-height:38px;justify-content:center}}
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;z-index:10500;opacity:0;transition:opacity .25s ease;}
 .modal.show{display:flex;}
 .modal.show.in{opacity:1;}
@@ -9633,27 +9640,50 @@ img{
 input[data-ck-attached],textarea[data-ck-attached]{caret-color:transparent;}
 #ckBackdrop.open{display:block;}
 
+
+.kz-install-backdrop{
+  position:fixed;inset:0;z-index:99997;background:rgba(0,0,0,.68);
+  opacity:0;visibility:hidden;transition:opacity .28s ease,visibility .28s ease;
+  backdrop-filter:blur(1.5px);-webkit-backdrop-filter:blur(1.5px);
+}
+.kz-install-backdrop.show{opacity:1;visibility:visible;}
 .kz-install-banner{
-  position:fixed;left:12px;right:12px;bottom:12px;z-index:99999;
-  display:flex;align-items:center;gap:12px;
-  background:linear-gradient(135deg,#161616,#0c0c0c);
-  border:1px solid rgba(255,43,43,.45);
-  border-radius:16px;padding:12px 12px 12px 10px;
-  box-shadow:0 10px 30px rgba(0,0,0,.5);
-  transform:translateY(140%);opacity:0;
-  transition:transform .35s ease,opacity .35s ease;
-  font-family:'Inter','Outfit',system-ui,sans-serif;}
-.kz-install-banner.show{transform:translateY(0);opacity:1;}
-.kz-install-banner img{width:44px;height:44px;border-radius:12px;flex-shrink:0;object-fit:cover;}
+  position:fixed;left:0;right:0;bottom:0;z-index:99998;
+  display:block;width:100%;max-width:560px;margin:0 auto;
+  background:linear-gradient(180deg,#303036 0%,#242429 100%);
+  border:1px solid rgba(255,255,255,.08);border-bottom:0;
+  border-radius:28px 28px 0 0;padding:12px 20px calc(20px + env(safe-area-inset-bottom));
+  box-shadow:0 -16px 50px rgba(0,0,0,.48);
+  transform:translateY(110%);opacity:0;visibility:hidden;
+  transition:transform .34s cubic-bezier(.2,.8,.2,1),opacity .25s ease,visibility .25s ease;
+  font-family:'Inter','Outfit',system-ui,sans-serif;
+}
+.kz-install-banner.show{transform:translateY(0);opacity:1;visibility:visible;}
+.kz-install-handle{width:42px;height:4px;border-radius:99px;background:rgba(255,255,255,.22);margin:0 auto 15px;}
+.kz-install-heading{color:#fff;font-size:20px;font-weight:800;text-align:center;margin:0 36px 18px;line-height:1.25;}
+.kz-install-app{display:flex;align-items:center;gap:14px;padding:14px;border-radius:18px;background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.07);}
+.kz-install-icon-wrap{width:58px;height:58px;flex:0 0 58px;border-radius:15px;background:#050505;display:flex;align-items:center;justify-content:center;overflow:hidden;border:1px solid rgba(255,255,255,.14);}
+.kz-install-icon-wrap img{width:42px;height:42px;display:block;object-fit:contain;border-radius:10px;}
 .kz-install-banner .kz-ib-text{flex:1;min-width:0;}
-.kz-install-banner .kz-ib-title{color:#fff;font-weight:800;font-size:13px;line-height:1.3;}
-.kz-install-banner .kz-ib-sub{color:#9c9c9c;font-size:11px;margin-top:2px;line-height:1.35;}
+.kz-install-banner .kz-ib-title{color:#fff;font-weight:800;font-size:16px;line-height:1.3;}
+.kz-install-banner .kz-ib-sub{color:#c2c2c7;font-size:13px;margin-top:3px;line-height:1.4;}
 .kz-install-banner .kz-ib-btn{
-  flex-shrink:0;background:#ff2b2b;color:#fff;border:none;border-radius:10px;
-  padding:9px 14px;font-size:12.5px;font-weight:800;cursor:pointer;font-family:inherit;}
+  width:100%;min-height:50px;margin-top:16px;display:flex;align-items:center;justify-content:center;gap:9px;
+  background:#ff2b2b;color:#fff;border:none;border-radius:14px;padding:12px 18px;
+  font-size:15px;font-weight:900;cursor:pointer;font-family:inherit;box-shadow:0 8px 24px rgba(255,43,43,.22);
+}
+.kz-install-banner .kz-ib-btn:active{transform:scale(.985);}
 .kz-install-banner .kz-ib-close{
-  flex-shrink:0;background:transparent;border:none;color:#777;font-size:16px;
-  cursor:pointer;padding:4px;line-height:1;}
+  position:absolute;right:16px;top:13px;width:36px;height:36px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.08);color:#ddd;font-size:15px;cursor:pointer;padding:0;
+}
+@media(max-width:420px){
+  .kz-install-banner{border-radius:24px 24px 0 0;padding-left:16px;padding-right:16px;}
+  .kz-install-heading{font-size:18px;margin-bottom:15px;}
+  .kz-install-icon-wrap{width:54px;height:54px;flex-basis:54px;}
+  .kz-install-icon-wrap img{width:38px;height:38px;}
+}
 
 .kz-welcome-overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:100000;display:none;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .25s ease;}
 .kz-welcome-overlay.show{display:flex;}
@@ -9845,7 +9875,7 @@ html,body{
 #cekidffBanned .cbd-help p+p{margin-top:10px;}
 @media(max-width:360px){#cekidffBanned select{font-size:13px;}#cekidffBanned .cbd-form{padding:16px;}}
 
-</style><meta content="KZRIZUSMO FF - Aplikasi web resmi." name="description"/><meta content="#0A0A0A" name="theme-color"/><link href="/icon-192.png?v=6" rel="icon" type="image/png"/><link href="/icon-512.png?v=6" rel="icon" sizes="512x512" type="image/png"/><link href="/icon-192.png?v=6" rel="apple-touch-icon"/><meta content="yes" name="apple-mobile-web-app-capable"/><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&family=Rajdhani:wght@500;600;700&family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Fredoka+One&family=Righteous&family=Amiri:wght@400;700&family=Anton&family=JetBrains+Mono:wght@400;500;600;700;800&family=Cinzel:wght@600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/><script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</style><meta content="KZRIZUSMO FF - Aplikasi web resmi." name="description"/><meta content="#0A0A0A" name="theme-color"/><link href="zusmo-asset/icon-192.png?v=7" rel="icon" type="image/png"/><link href="zusmo-asset/icon-512.png?v=7" rel="icon" sizes="512x512" type="image/png"/><link href="zusmo-asset/icon-192.png?v=7" rel="apple-touch-icon"/><meta content="yes" name="apple-mobile-web-app-capable"/><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&family=Rajdhani:wght@500;600;700&family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Fredoka+One&family=Righteous&family=Amiri:wght@400;700&family=Anton&family=JetBrains+Mono:wght@400;500;600;700;800&family=Cinzel:wght@600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/><script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
 <style id="clbGuidedStyles">
 
@@ -12961,6 +12991,13 @@ Layanan API pihak ketiga yang dipakai sebagian fitur di sini punya beberapa grup
 📅 Upload: 26 Juni 2026<br/>⬇️ Download: 940.711 kali<br/>💾 Ukuran: 5.76MB
 </div>
 <button class="download-btn" onclick="showPasswordPopup();event.stopPropagation();">DOWNLOAD FREE</button>
+<div class="zs-free-link-box">
+  <div class="zs-free-link-label">LINK ZUSMO SHADOW FREE</div>
+  <div class="zs-free-link-row">
+    <div class="zs-free-link-text" id="zsFreeLinkText">https://www.mediafire.com/file/54yibjw5bdlrvaz/ZUSMO+SHADOW.apk/file</div>
+    <button type="button" class="zs-free-copy-btn" onclick="copyZusmoFreeLink(event)"><i class="fa-regular fa-copy"></i><span>Copy Link</span></button>
+  </div>
+</div>
 </div>
 </div>
 
@@ -16871,7 +16908,7 @@ AccessTokenDua
 
 <div class="zx-modal-overlay" id="buyMusicOverlay">
   <div class="zx-modal" id="buyMusicModal">
-    <div class="zx-modal-thumb music-buy-thumb"><img loading="lazy" decoding="async" src="/icon-192.png?v=6" alt="KZRIZUSMO"/></div>
+    <div class="zx-modal-thumb music-buy-thumb"><img loading="lazy" decoding="async" src="zusmo-asset/icon-192.png?v=7" alt="KZRIZUSMO"/></div>
     <h3 id="buyMusicName">Musik</h3>
     <p>Beli musik ini secara permanen menggunakan Diamond kamu.</p>
     <div class="zx-price-row"><img loading="lazy" decoding="async" src="zusmo-asset/onzrii.png" alt="diamond"/><span id="buyMusicPrice">500</span></div>
@@ -18064,14 +18101,19 @@ AccessTokenDua
   </div>
 </div>
 
-<div class="kz-install-banner" id="kzInstallBanner">
-  <img src="/icon-192.png?v=6" alt="KZRIZUSMO"/>
-  <div class="kz-ib-text">
-    <div class="kz-ib-title">Install KZRIZUSMO</div>
-    <div class="kz-ib-sub" id="kzInstallSub">Pasang ke layar utama, akses lebih cepat tanpa buka browser.</div>
-  </div>
-  <button class="kz-ib-btn" id="kzInstallBtn" onclick="kzInstallClick()">Install</button>
+<div class="kz-install-backdrop" id="kzInstallBackdrop" onclick="kzInstallDismiss()"></div>
+<div class="kz-install-banner" id="kzInstallBanner" role="dialog" aria-modal="true" aria-labelledby="kzInstallTitle">
+  <div class="kz-install-handle" aria-hidden="true"></div>
   <button class="kz-ib-close" onclick="kzInstallDismiss()" aria-label="Tutup"><i class="fa-solid fa-xmark"></i></button>
+  <div class="kz-install-heading" id="kzInstallTitle">Install KZRIZUSMO FF</div>
+  <div class="kz-install-app">
+    <div class="kz-install-icon-wrap"><img src="zusmo-asset/icon-192.png?v=8" alt="KZRIZUSMO"/></div>
+    <div class="kz-ib-text">
+      <div class="kz-ib-title">KZRIZUSMO FF</div>
+      <div class="kz-ib-sub" id="kzInstallSub">Pasang aplikasi untuk akses lebih cepat.</div>
+    </div>
+  </div>
+  <button class="kz-ib-btn" id="kzInstallBtn" onclick="kzInstallClick()"><i class="fa-solid fa-download"></i><span>Install</span></button>
 </div>
 
 <div class="kz-welcome-overlay" id="kzWelcomeOverlay">
@@ -18082,9 +18124,9 @@ AccessTokenDua
       <div class="kz-welcome-title">SELAMAT DATANG DI KZRIZUSMO!</div>
       <div class="kz-welcome-amount"><img src="zusmo-asset/onzrii.png" alt="diamond"/>9.999</div>
       <div class="kz-welcome-desc">Install KZRIZUSMO FF ke layar utama untuk akses lebih cepat dan pengalaman seperti aplikasi.</div>
-      <button class="kz-welcome-btn" id="kzWelcomeBtn" onclick="kzClaimWelcomeInstall()">Install &amp; Klaim 2.500 Diamond</button>
+      <button class="kz-welcome-btn" id="kzWelcomeBtn" onclick="kzClaimWelcomeInstall()">Install KZRIZUSMO FF</button>
       <button class="kz-welcome-later" onclick="kzWelcomeDismiss()">Nanti saja</button>
-      <div class="kz-welcome-note">Bonus otomatis masuk begitu instalasi selesai.</div>
+      <div class="kz-welcome-note">Install langsung dari browser untuk akses lebih cepat.</div>
     </div>
     <div class="kz-welcome-success" id="kzWelcomeSuccess">
       <i class="fa-solid fa-circle-check"></i>
@@ -34485,12 +34527,29 @@ function checkFreePassword(){
  else document.getElementById('pwErr').innerText='Password salah!';
 }
 
+const ZUSMO_FREE_URL='https://www.mediafire.com/file/54yibjw5bdlrvaz/ZUSMO+SHADOW.apk/file';
+async function copyZusmoFreeLink(event){
+  if(event) event.stopPropagation();
+  const value=ZUSMO_FREE_URL;
+  try{
+    if(navigator.clipboard&&window.isSecureContext) await navigator.clipboard.writeText(value);
+    else{
+      const ta=document.createElement('textarea'); ta.value=value; ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove();
+    }
+    if(typeof window.zxShowToast==='function') window.zxShowToast('Link Zusmo Shadow FREE berhasil disalin!','success');
+    else if(typeof showToast==='function') showToast('Link berhasil disalin!');
+  }catch(e){
+    if(typeof window.zxShowToast==='function') window.zxShowToast('Gagal menyalin link.','error');
+  }
+}
+window.copyZusmoFreeLink=copyZusmoFreeLink;
+
 let downloadUrl='';
 let storeDownloadUrl='https://www.mediafire.com/file/0w90p8u73s1stnn/kzrizusmo_store.apk/file';
 
 function showDownloadPopup(type){
  downloadUrl = type==='FREE'
- ? 'https://www.mediafire.com/file/54yibjw5bdlrvaz/ZUSMO+SHADOW.apk/file'
+ ? ZUSMO_FREE_URL
  : 'https://www.mediafire.com/file/tval0vki3ft1fne/ZUSMO_SHADOW_VIP-X20.apk/file';
 
  document.getElementById('modalText').innerText =
@@ -43064,7 +43123,7 @@ document.addEventListener('DOMContentLoaded',initNewBadges);
 (function(){
   if('serviceWorker' in navigator){
     window.addEventListener('load', function(){
-      navigator.serviceWorker.register('/sw.js?v=6',{scope:'/'}).catch(function(err){
+      navigator.serviceWorker.register('/sw.js?v=8',{scope:'/'}).catch(function(err){
         console.warn('[PWA] Service worker gagal didaftarkan:',err);
       });
     });
@@ -43073,9 +43132,10 @@ document.addEventListener('DOMContentLoaded',initNewBadges);
 
 (function(){
   var DISMISS_KEY='kzInstallDismissedAt';
-  var DISMISS_DAYS=7;
+  var DISMISS_DAYS=0;
   var deferredPrompt=null;
   var banner=document.getElementById('kzInstallBanner');
+  var backdrop=document.getElementById('kzInstallBackdrop');
   var forceInstall=(function(){try{return ['install','app'].indexOf(String(new URLSearchParams(location.search).get('goto')||'').toLowerCase())!==-1;}catch(e){return false;}})();
 
   function recentlyDismissed(){
@@ -43087,10 +43147,11 @@ document.addEventListener('DOMContentLoaded',initNewBadges);
     if(!banner||isStandalone()||(!forceInstall&&recentlyDismissed())) return;
     if(subText){ var sub=document.getElementById('kzInstallSub'); if(sub) sub.textContent=subText; }
     banner.classList.add('show');
+    if(backdrop) backdrop.classList.add('show');
   }
   window.kzInstallDismiss=function(){
-    localStorage.setItem(DISMISS_KEY,String(Date.now()));
     if(banner) banner.classList.remove('show');
+    if(backdrop) backdrop.classList.remove('show');
   };
   window.kzInstallClick=function(){
     if(deferredPrompt){
@@ -43099,7 +43160,7 @@ document.addEventListener('DOMContentLoaded',initNewBadges);
       window._kzDeferredPrompt=null;
       p.prompt();
       p.userChoice.then(function(result){
-        if(result && result.outcome==='accepted'){ if(banner) banner.classList.remove('show'); }
+        if(result && result.outcome==='accepted'){ if(banner) banner.classList.remove('show'); if(backdrop) backdrop.classList.remove('show'); }
         else{ showBanner('Install dibatalkan. Tekan Install untuk mencoba lagi.'); }
       }).catch(function(){ showBanner('Prompt install belum siap. Coba tekan Install lagi.'); });
       return;
@@ -43138,8 +43199,17 @@ document.addEventListener('DOMContentLoaded',initNewBadges);
   window.addEventListener('appinstalled', function(){
     deferredPrompt=null;
     if(banner) banner.classList.remove('show');
+    if(backdrop) backdrop.classList.remove('show');
     localStorage.removeItem(DISMISS_KEY);
   });
+
+  // AUTO BOTTOM-SHEET: tampil dari bawah saat website dibuka.
+  // Tombol Install akan memanggil prompt native Chrome segera setelah beforeinstallprompt tersedia.
+  if(!isStandalone()){
+    setTimeout(function(){
+      showBanner(deferredPrompt ? 'Aplikasi siap dipasang.' : 'Menyiapkan installer Chrome...');
+    },700);
+  }
 
   // iOS Safari: tidak ada event beforeinstallprompt, jadi banner ditampilkan manual
   // (dengan instruksi Add to Home Screen) kalau belum di-dismiss & belum standalone.
