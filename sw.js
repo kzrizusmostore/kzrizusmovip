@@ -1,5 +1,5 @@
-const CACHE_NAME = 'kzrizusmo-ff-pwa-v1';
-const APP_SHELL = ['/', '/manifest.webmanifest'];
+const CACHE_NAME = 'kzrizusmo-ff-pwa-v4';
+const APP_SHELL = ['/', '/manifest.webmanifest', '/kz-icon-192-v2.png', '/kz-icon-512-v2.png'];
 
 self.addEventListener('install', event => {
   self.skipWaiting();
