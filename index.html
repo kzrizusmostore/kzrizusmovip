@@ -9661,9 +9661,9 @@ input[data-ck-attached],textarea[data-ck-attached]{caret-color:transparent;}
 .kz-install-banner.show{transform:translateY(0);opacity:1;visibility:visible;}
 .kz-install-handle{width:42px;height:4px;border-radius:99px;background:rgba(255,255,255,.22);margin:0 auto 15px;}
 .kz-install-heading{color:#fff;font-size:20px;font-weight:800;text-align:center;margin:0 36px 18px;line-height:1.25;}
-.kz-install-app{display:flex;align-items:center;gap:14px;padding:14px;border-radius:18px;background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.07);}
-.kz-install-icon-wrap{width:58px;height:58px;flex:0 0 58px;border-radius:15px;background:#050505;display:flex;align-items:center;justify-content:center;overflow:hidden;border:1px solid rgba(255,255,255,.14);}
-.kz-install-icon-wrap img{width:42px;height:42px;display:block;object-fit:contain;border-radius:10px;}
+.kz-install-app{display:flex;align-items:center;gap:16px;padding:8px 4px 14px;background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;}
+.kz-install-icon-wrap{width:96px;height:96px;flex:0 0 96px;border-radius:0!important;background:transparent!important;display:flex;align-items:center;justify-content:center;overflow:visible;border:0!important;box-shadow:none!important;}
+.kz-install-icon-wrap img{width:96px;height:96px;display:block;object-fit:contain;background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;}
 .kz-install-banner .kz-ib-text{flex:1;min-width:0;}
 .kz-install-banner .kz-ib-title{color:#fff;font-weight:800;font-size:16px;line-height:1.3;}
 .kz-install-banner .kz-ib-sub{color:#c2c2c7;font-size:13px;margin-top:3px;line-height:1.4;}
@@ -11001,6 +11001,2076 @@ a.old-download-link{color:inherit;text-decoration:none}a.old-download-link:focus
 .gr-note{font-size:8.7px;color:#646464;line-height:1.55;margin-top:10px;}
 @media(max-width:380px){.gr-actions{grid-template-columns:1fr}.gr-title h2{font-size:16px}}
 
+
+.gr-subline{font-size:9px;color:#888;margin-top:3px;font-weight:700}.gr-section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:6px}.gr-section-head>i{width:36px;height:36px;border-radius:11px;background:rgba(255,60,60,.08);border:1px solid rgba(255,70,70,.14);display:flex;align-items:center;justify-content:center;color:#ff6767;font-size:13px}.gr-section-eyebrow{display:block;color:#ff5b5b;font-size:7.5px;font-weight:900;letter-spacing:1px;margin-bottom:2px}.gr-btn-wide{width:100%;min-height:47px}.gr-tip{display:flex;gap:8px;align-items:flex-start;margin-top:10px;padding:10px;border-radius:12px;background:rgba(74,144,226,.06);border:1px solid rgba(74,144,226,.12);color:#7d9fc7;font-size:8.8px;line-height:1.45}.gr-tip i{margin-top:1px;color:#69a8ef}.gr-id .gr-card{transition:border-color .2s ease,transform .2s ease}.gr-id .gr-card:active{transform:scale(.995)}
+.ff3d-account.profile-missing{border-color:rgba(255,160,60,.28);background:linear-gradient(135deg,rgba(255,135,40,.07),#181116)}.ff3d-account.profile-missing h2{color:#ffc07a}.ff3d-account.profile-missing p{color:#b89a78}
+
+/* ===== GUEST REGISTER MINIMAL V2 ===== */
+#guestRegister{padding-bottom:88px;}
+.grm-wrap{padding:14px 14px 90px;max-width:680px;margin:0 auto;}
+.gr-info-top{width:34px;height:34px;border:0;background:transparent;color:#aaa;font-size:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.grm-hero{display:flex;align-items:center;gap:14px;padding:16px;border-radius:20px;background:linear-gradient(145deg,rgba(255,54,54,.09),rgba(255,255,255,.025));border:1px solid rgba(255,255,255,.07);margin-bottom:10px;}
+.grm-icon{width:52px;height:52px;border-radius:17px;background:rgba(255,47,47,.12);border:1px solid rgba(255,71,71,.22);display:flex;align-items:center;justify-content:center;color:#ff6262;font-size:20px;flex:0 0 52px;}
+.grm-copy{min-width:0}.grm-eyebrow{font-size:7px;letter-spacing:1.4px;color:#ff5656;font-weight:900;margin-bottom:3px;}
+.grm-copy h2{margin:0;color:#f5f5f5;font-size:17px;line-height:1.1}.grm-copy p{margin:5px 0 0;color:#777;font-size:9.5px;line-height:1.4;}
+.grm-status{display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:15px;background:rgba(255,184,46,.055);border:1px solid rgba(255,184,46,.14);margin-bottom:10px;}
+.grm-status-icon{width:33px;height:33px;border-radius:11px;background:rgba(255,190,50,.08);display:flex;align-items:center;justify-content:center;color:#f3ba4c;font-size:13px;}
+.grm-status-copy{flex:1;min-width:0}.grm-status-copy strong{display:block;color:#d9b36b;font-size:9.6px;margin-bottom:2px}.grm-status-copy span{display:block;color:#806f50;font-size:8.5px}
+.grm-status-dot{width:7px;height:7px;border-radius:50%;background:#ffb83d;box-shadow:0 0 8px rgba(255,184,61,.5);}
+.grm-actions{display:grid;gap:8px;margin-bottom:10px;}
+.grm-primary,.grm-secondary{min-height:48px;border-radius:14px;border:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:10px;padding:0 14px;text-decoration:none;font-size:9.8px;font-weight:850;cursor:pointer;}
+.grm-primary{background:linear-gradient(135deg,#ff3434,#b91414);color:#fff;border-color:rgba(255,68,68,.35);box-shadow:0 8px 22px rgba(150,0,0,.15);}
+.grm-secondary{background:rgba(255,255,255,.03);color:#ddd}.grm-secondary .grm-chev{margin-left:auto;color:#555;font-size:9px;}
+.grm-primary:active,.grm-secondary:active{transform:scale(.985);}
+.grm-quick{border:1px solid rgba(255,255,255,.065);background:#090909;border-radius:15px;padding:11px 12px;margin-bottom:9px;}
+.grm-quick-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}.grm-quick-head span{color:#7d7d7d;font-size:8px;font-weight:800;letter-spacing:.5px}
+.grm-quick-head button{width:28px;height:28px;border:0;border-radius:9px;background:#141414;color:#777;cursor:pointer}.grm-quick code{font:8.6px/1.65 'Space Mono',monospace;color:#c3c3c3;}
+.grm-help{width:100%;display:flex;align-items:center;gap:8px;border:0;background:transparent;color:#666;padding:9px 3px;font-size:8.7px;cursor:pointer}.grm-help b{margin-left:auto;color:#aaa;font-weight:800;}
+
+.gr-info-overlay{position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.68);display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);}
+.gr-info-overlay.open{display:flex}.gr-info-sheet{width:100%;max-width:720px;max-height:88vh;background:#0c0c0c;border-radius:24px 24px 0 0;border:1px solid rgba(255,255,255,.08);border-bottom:0;overflow:hidden;animation:grSheetUp .22s ease-out;}
+.gr-sheet-handle{width:42px;height:4px;border-radius:10px;background:#353535;margin:9px auto 5px}.gr-info-header{display:flex;align-items:center;justify-content:space-between;padding:11px 16px 12px;border-bottom:1px solid rgba(255,255,255,.06);}
+.gr-info-kicker{font-size:6.8px;color:#ff5757;font-weight:900;letter-spacing:1.2px;margin-bottom:2px}.gr-info-header h3{margin:0;color:#f0f0f0;font-size:15px}.gr-info-close{width:34px;height:34px;border:0;border-radius:11px;background:#151515;color:#888;cursor:pointer;}
+.gr-info-scroll{max-height:calc(88vh - 72px);overflow-y:auto;padding:13px 14px 28px;overscroll-behavior:contain;}
+.gr-info-section{padding:13px;border-radius:15px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.055);margin-bottom:9px}.gr-info-section-title{display:flex;align-items:center;gap:8px;color:#ddd;font-size:9.5px;font-weight:850;margin-bottom:8px}.gr-info-section-title i{color:#ff5959;width:18px;text-align:center}.gr-info-section p{margin:0;color:#777;font-size:8.7px;line-height:1.55;}
+.gr-info-warning{display:flex;gap:10px;align-items:flex-start;padding:12px 13px;border-radius:15px;background:rgba(255,181,49,.055);border:1px solid rgba(255,181,49,.13);margin-bottom:9px}.gr-info-warning>i{color:#f1b84b;margin-top:2px}.gr-info-warning strong{display:block;color:#d9ae5c;font-size:9px;margin-bottom:2px}.gr-info-warning span{display:block;color:#7c6947;font-size:8.4px;line-height:1.4;}
+.gr-info-list{display:grid;gap:7px}.gr-info-list>div{display:flex;align-items:center;gap:8px;color:#8c8c8c;font-size:8.7px}.gr-info-list i{width:18px;height:18px;border-radius:6px;background:rgba(60,190,110,.08);color:#4cc47c;display:flex;align-items:center;justify-content:center;font-size:7px;}
+.gr-guide-step{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.045)}.gr-guide-step:last-child{border-bottom:0;padding-bottom:0}.gr-guide-num{width:23px;height:23px;border-radius:8px;background:rgba(255,60,60,.09);border:1px solid rgba(255,70,70,.13);color:#ff6262;font-size:8px;font-weight:900;display:flex;align-items:center;justify-content:center;flex:0 0 23px}.gr-guide-step>div{flex:1;min-width:0}.gr-guide-step b{display:block;color:#cfcfcf;font-size:9px;margin:2px 0 4px}.gr-guide-step p{margin:0;color:#6f6f6f;font-size:8.3px;line-height:1.45;}
+.gr-info-code{display:flex;align-items:center;gap:8px;background:#070707;border:1px solid rgba(255,255,255,.055);border-radius:10px;padding:8px 8px 8px 10px;margin-top:6px}.gr-info-code code{flex:1;min-width:0;font:7.9px/1.6 'Space Mono',monospace;color:#bdbdbd;word-break:break-word}.gr-info-code button{width:29px;height:29px;border:0;border-radius:8px;background:#131313;color:#6f6f6f;cursor:pointer;flex:0 0 29px;}
+.gr-info-path{margin-top:8px;padding:9px 10px;border-radius:10px;background:#070707;border:1px solid rgba(255,255,255,.05);font:7.7px/1.5 'Space Mono',monospace;color:#aaa;word-break:break-all}.gr-info-regions{display:flex;flex-wrap:wrap;gap:5px}.gr-info-regions span{padding:5px 7px;border-radius:7px;background:#101010;border:1px solid rgba(255,255,255,.055);font:7.6px 'Space Mono',monospace;color:#9a9a9a}.gr-info-muted{margin-top:8px!important;color:#585858!important;font-size:7.8px!important;}
+.gr-faq{border-bottom:1px solid rgba(255,255,255,.05);padding:7px 0}.gr-faq:last-child{border-bottom:0}.gr-faq summary{cursor:pointer;color:#aaa;font-size:8.8px;font-weight:750;list-style:none}.gr-faq summary::-webkit-details-marker{display:none}.gr-faq p{margin-top:7px!important;}
+.gr-info-note{display:flex;gap:10px;align-items:flex-start;padding:12px;border-radius:14px;background:rgba(255,75,75,.05);border:1px solid rgba(255,80,80,.11);margin-bottom:9px}.gr-info-note>i{color:#ff6767;margin-top:2px}.gr-info-note strong{display:block;color:#c88;font-size:8.8px;margin-bottom:2px}.gr-info-note span{display:block;color:#765d5d;font-size:8.2px;line-height:1.45}.gr-info-note-neutral{background:rgba(255,255,255,.02);border-color:rgba(255,255,255,.055)}.gr-info-note-neutral>i{color:#777}.gr-info-note-neutral strong{color:#aaa}.gr-info-note-neutral span{color:#666}
+@keyframes grSheetUp{from{transform:translateY(28px);opacity:.5}to{transform:translateY(0);opacity:1}}
+
+
+
+
+
+/* ===== ZUSMO OLD ACCOUNT FLOW V2 ===== */
+.old-account-flow{display:grid;gap:9px;margin:14px 0 12px;}
+.old-access-option{width:100%;min-height:68px;display:grid;grid-template-columns:24px 42px 1fr 20px;align-items:center;gap:10px;padding:11px 12px;border-radius:16px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.025);text-decoration:none;color:inherit;cursor:pointer;text-align:left;appearance:none;-webkit-appearance:none;}
+.old-access-option:active{transform:scale(.988);}
+.old-access-number{width:24px;height:24px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:#0e0e0e;border:1px solid rgba(255,255,255,.06);color:#626262;font-size:8px;font-weight:900;}
+.old-access-icon{width:42px;height:42px;border-radius:13px;display:flex;align-items:center;justify-content:center;background:rgba(255,60,60,.08);border:1px solid rgba(255,70,70,.13);color:#ff5c5c;font-size:14px;}
+.old-access-copy{min-width:0;}
+.old-access-copy strong{display:block;color:#ececec;font-size:10px;font-weight:900;letter-spacing:.25px;margin-bottom:3px;}
+.old-access-copy small{display:block;color:#6d6d6d;font-size:8.3px;line-height:1.38;}
+.old-access-arrow{color:#555;font-size:9px;justify-self:end;}
+.old-access-key{background:linear-gradient(145deg,rgba(255,181,46,.055),rgba(255,255,255,.02));border-color:rgba(255,181,46,.13);}
+.old-access-key .old-access-icon{background:rgba(255,181,46,.08);border-color:rgba(255,181,46,.14);color:#f2b94d;}
+.old-access-key .old-access-number{color:#9d7b3b;}
+.old-access-public{font:inherit;}
+
+.old-public-overlay{position:fixed;inset:0;z-index:100000;display:none;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.68);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);}
+.old-public-overlay.open{display:flex;}
+.old-public-sheet{width:100%;max-width:680px;background:#0d0d0d;border-radius:24px 24px 0 0;border:1px solid rgba(255,255,255,.08);border-bottom:0;padding:9px 14px 24px;animation:oldPublicUp .2s ease-out;}
+.old-public-handle{width:42px;height:4px;border-radius:9px;background:#343434;margin:0 auto 12px;}
+.old-public-sheet-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:13px;}
+.old-public-sheet-title small{display:block;color:#ffb84a;font-size:7px;font-weight:900;letter-spacing:1px;margin-bottom:3px;}
+.old-public-sheet-title h3{margin:0;color:#f0f0f0;font-size:15px;}
+.old-public-close{width:34px;height:34px;border:0;border-radius:11px;background:#171717;color:#777;cursor:pointer;}
+.old-public-info{display:flex;gap:9px;align-items:flex-start;padding:10px 11px;border-radius:13px;background:rgba(255,181,46,.05);border:1px solid rgba(255,181,46,.11);color:#8d744a;font-size:8.5px;line-height:1.45;margin-bottom:11px;}
+.old-public-info i{color:#e7ad48;margin-top:2px;}
+.old-public-cred{display:grid;grid-template-columns:76px 1fr 34px;align-items:center;gap:8px;min-height:48px;padding:0 9px 0 12px;border-radius:12px;background:#090909;border:1px solid rgba(255,255,255,.06);margin-top:8px;}
+.old-public-cred-label{color:#666;font-size:7px;font-weight:900;letter-spacing:.7px;}
+.old-public-cred code{font:9px 'Space Mono',monospace;color:#ddd;word-break:break-all;}
+.old-public-cred button{width:32px;height:32px;border:0;border-radius:9px;background:#151515;color:#777;cursor:pointer;}
+.old-public-footer{margin-top:11px;color:#555;font-size:7.8px;line-height:1.45;text-align:center;}
+@keyframes oldPublicUp{from{transform:translateY(24px);opacity:.6}to{transform:translateY(0);opacity:1}}
+
+
+
+/* ===== ZUSMO OLD ACCOUNT ACCESS PAGE ===== */
+.old-account-entry{margin:14px 0 12px!important;}
+.old-account-hero p{max-width:420px;}
+.old-account-page-wrap{padding:14px 14px 88px;max-width:680px;margin:0 auto;}
+.old-account-main-card{display:grid;grid-template-columns:48px 1fr 20px;align-items:center;gap:12px;min-height:82px;padding:14px;border-radius:19px;background:linear-gradient(145deg,rgba(255,55,55,.12),rgba(255,255,255,.025));border:1px solid rgba(255,72,72,.18);text-decoration:none;color:inherit;box-shadow:0 10px 26px rgba(120,0,0,.08);}
+.old-account-main-icon{width:48px;height:48px;border-radius:15px;display:flex;align-items:center;justify-content:center;background:rgba(255,55,55,.12);border:1px solid rgba(255,75,75,.2);color:#ff5f5f;font-size:17px;}
+.old-account-main-copy{min-width:0}.old-account-main-copy small{display:block;color:#ff5b5b;font-size:6.8px;font-weight:900;letter-spacing:1.1px;margin-bottom:3px}.old-account-main-copy strong{display:block;color:#f3f3f3;font-size:12px;font-weight:900;margin-bottom:3px}.old-account-main-copy span{display:block;color:#6f6f6f;font-size:8.5px;line-height:1.4}.old-account-main-arrow{color:#666;font-size:9px;justify-self:end;}
+.old-account-sub-card{display:grid;grid-template-columns:40px 1fr 20px;align-items:center;gap:10px;min-height:66px;padding:11px 12px;margin-top:9px;border-radius:16px;background:linear-gradient(145deg,rgba(255,183,48,.06),rgba(255,255,255,.02));border:1px solid rgba(255,183,48,.13);text-decoration:none;color:inherit;}
+.old-account-sub-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:rgba(255,183,48,.08);border:1px solid rgba(255,183,48,.15);color:#eeba50;font-size:13px;}.old-account-sub-copy strong{display:block;color:#e9e9e9;font-size:10px;font-weight:900;margin-bottom:3px}.old-account-sub-copy small{display:block;color:#776747;font-size:8.2px;line-height:1.4}.old-account-sub-arrow{color:#6c5c3b;font-size:8px;justify-self:end;}
+.old-account-divider{display:flex;align-items:center;gap:10px;margin:16px 2px 11px;color:#484848;font-size:7px;font-weight:900;letter-spacing:1px}.old-account-divider:before,.old-account-divider:after{content:'';height:1px;background:rgba(255,255,255,.055);flex:1;}
+.old-account-public-card{width:100%;display:grid;grid-template-columns:44px 1fr 20px;align-items:center;gap:11px;min-height:74px;padding:12px 13px;border-radius:17px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);text-align:left;color:inherit;cursor:pointer;appearance:none;-webkit-appearance:none;}.old-account-public-card:active{transform:scale(.988);}
+.old-account-public-icon{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.07);color:#bdbdbd;font-size:14px;}.old-account-public-copy small{display:block;color:#777;font-size:6.8px;font-weight:900;letter-spacing:.7px;margin-bottom:3px}.old-account-public-copy strong{display:block;color:#e9e9e9;font-size:10.5px;font-weight:900;margin-bottom:3px}.old-account-public-copy span{display:block;color:#686868;font-size:8.2px}.old-account-public-arrow{color:#555;font-size:8px;justify-self:end;}
+.old-account-public-hint{display:flex;align-items:flex-start;gap:7px;padding:9px 10px;margin-top:8px;border-radius:11px;background:rgba(255,176,44,.035);border:1px solid rgba(255,176,44,.08);color:#705f40;font-size:7.8px;line-height:1.45}.old-account-public-hint i{color:#c9963e;margin-top:1px;}
+
+
+/* ===== JOIN GUILD Z SHADOWS V2 ===== */
+#joinguild{padding-bottom:84px;--jg2-orange:#ff9d17;--jg2-gold:#ffc43d;--jg2-line:rgba(255,158,23,.28);}
+#joinguild:before{display:none!important;}
+.jg2-wrap{padding:12px 14px 90px;max-width:900px;margin:0 auto;}
+.jg2-hero{text-align:center;padding:8px 8px 16px;position:relative;overflow:hidden;}
+.jg2-hero:before{content:"";position:absolute;left:50%;top:-80px;width:280px;height:220px;transform:translateX(-50%);background:radial-gradient(circle,rgba(255,143,0,.20),transparent 70%);filter:blur(8px);pointer-events:none;}
+.jg2-badge{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--jg2-line);background:rgba(255,158,23,.07);border-radius:20px;padding:6px 11px;color:#e9a53d;font-size:8px;font-weight:900;letter-spacing:1px;position:relative;}
+.jg2-badge span{width:6px;height:6px;border-radius:50%;background:#21d67a;box-shadow:0 0 8px #21d67a;}
+.jg2-logo{width:104px;height:104px;object-fit:contain;display:block;margin:10px auto 4px;filter:drop-shadow(0 0 16px rgba(255,145,0,.28));position:relative;}
+.jg2-hero h1{margin:0;color:#f5f5f5;font-size:21px;font-weight:950;letter-spacing:.6px;position:relative;}.jg2-hero h1 em{font-style:normal;color:#ff9b15;}
+.jg2-hero p{margin:7px auto 0;max-width:520px;color:#747474;font-size:9.4px;line-height:1.55;position:relative;}
+.jg2-poster{display:block;border-radius:18px;overflow:hidden;border:1px solid rgba(255,158,23,.14);background:#080808;margin-bottom:11px;box-shadow:0 12px 30px rgba(0,0,0,.24);}
+.jg2-poster img{display:block;width:100%;height:auto;}
+.jg2-flow{display:grid;gap:8px;margin-bottom:11px;}
+.jg2-step-card{display:grid;grid-template-columns:34px 1fr 26px;gap:10px;align-items:center;padding:12px;border-radius:15px;background:linear-gradient(145deg,rgba(255,157,23,.045),rgba(255,255,255,.02));border:1px solid rgba(255,158,23,.12);}
+.jg2-step-num{width:34px;height:34px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:#111;border:1px solid rgba(255,158,23,.18);color:#ffad28;font-size:9px;font-weight:950;font-family:'Space Mono',monospace;}
+.jg2-step-copy strong{display:block;color:#eee;font-size:9.8px;margin-bottom:3px;letter-spacing:.2px;}.jg2-step-copy span{display:block;color:#6c6c6c;font-size:8.3px;line-height:1.4;}
+.jg2-step-card>i{color:#7a5d2d;font-size:10px;justify-self:end;}
+.jg2-info-card,.jg2-rule-card,.jg2-members{padding:14px;border-radius:17px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.065);margin-bottom:10px;}
+.jg2-info-card{background:linear-gradient(145deg,rgba(255,158,23,.065),rgba(255,255,255,.018));border-color:rgba(255,158,23,.15);}
+.jg2-card-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px;}.jg2-card-head small,.jg2-members-head small{display:block;color:#ff9e18;font-size:6.8px;font-weight:900;letter-spacing:1.15px;margin-bottom:2px;}.jg2-card-head h2,.jg2-members-head h2{margin:0;color:#e9e9e9;font-size:13px;}.jg2-card-head>i{color:#a46c21;font-size:16px;}
+.jg2-copy-row{display:grid;grid-template-columns:1fr 34px;gap:8px;align-items:center;min-height:50px;background:#090909;border:1px solid rgba(255,255,255,.055);border-radius:12px;padding:0 8px 0 12px;margin-top:7px;}
+.jg2-copy-row span{display:block;color:#626262;font-size:6.8px;font-weight:900;letter-spacing:.9px;margin-bottom:2px;}.jg2-copy-row strong{display:block;color:#e7e7e7;font-size:10px;font-family:'Space Mono',monospace;}.jg2-copy-row button{width:32px;height:32px;border:0;border-radius:9px;background:#151515;color:#767676;cursor:pointer;}.jg2-space-code{font-size:18px!important;line-height:1;}
+.jg2-rule-card ul{list-style:none;margin:0;padding:0;display:grid;gap:7px;}.jg2-rule-card li{position:relative;padding-left:16px;color:#858585;font-size:8.7px;line-height:1.45;}.jg2-rule-card li:before{content:"";position:absolute;left:1px;top:.52em;width:6px;height:6px;border-radius:50%;background:#ff9d17;box-shadow:0 0 6px rgba(255,157,23,.35);}.jg2-rule-card li b{color:#d9a33d;}
+.jg2-wa{display:grid;grid-template-columns:40px 1fr 20px;align-items:center;gap:10px;padding:12px;border-radius:16px;background:linear-gradient(145deg,rgba(37,211,102,.065),rgba(255,255,255,.018));border:1px solid rgba(37,211,102,.13);text-decoration:none;margin-bottom:11px;}.jg2-wa>i:first-child{width:40px;height:40px;border-radius:12px;background:rgba(37,211,102,.08);display:flex;align-items:center;justify-content:center;color:#32d56e;font-size:18px;}.jg2-wa small{display:block;color:#5e866d;font-size:6.8px;font-weight:900;letter-spacing:1px;}.jg2-wa strong{display:block;color:#e9e9e9;font-size:11px;margin:2px 0;}.jg2-wa span{display:block;color:#636363;font-size:7.8px;}.jg2-wa>i:last-child{color:#536359;font-size:9px;}
+.jg2-members-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px;}.jg2-members-head p{margin:4px 0 0;color:#666;font-size:8.2px;line-height:1.4;}.jg2-count{min-width:36px;height:36px;padding:0 8px;border-radius:12px;background:rgba(255,158,23,.08);border:1px solid rgba(255,158,23,.15);color:#ffad27;display:flex;align-items:center;justify-content:center;font:900 11px 'Space Mono',monospace;}
+.jg2-member-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;}.jg-member-card{display:flex;align-items:center;gap:8px;padding:9px;border-radius:12px;background:#090909;border:1px solid rgba(255,255,255,.05);}.jg-member-avatar{width:31px;height:31px;border-radius:10px;background:#121212;border:1px solid rgba(255,255,255,.055);display:flex;align-items:center;justify-content:center;color:#5f5f5f;font-size:11px;flex:0 0 31px;}.jg-member-info{min-width:0;}.jg-member-info strong{display:block;color:#aaa;font-size:7.8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}.jg-member-info span{display:flex;align-items:center;gap:4px;color:#4f775f;font-size:6.7px;margin-top:2px;}.jg-member-info span i{font-size:4px;color:#23c974;}
+@media(min-width:720px){.jg2-flow{grid-template-columns:repeat(3,1fr);}.jg2-step-card{grid-template-columns:34px 1fr;}.jg2-step-card>i{display:none;}.jg2-member-grid{grid-template-columns:repeat(4,minmax(0,1fr));}.jg2-wrap{padding-left:22px;padding-right:22px;}}
+
+
+
+/* ===== JOIN GUILD LIVE MEMBER API ===== */
+.jg-api-note{display:flex;align-items:center;gap:8px;margin:10px 0;padding:9px 11px;border-radius:12px;background:rgba(255,176,32,.05);border:1px solid rgba(255,176,32,.11);color:#917543;font-size:7.8px;line-height:1.35;}
+.jg-api-note i{color:#ffad28;}.jg-api-note.is-done{background:rgba(30,190,100,.045);border-color:rgba(30,190,100,.11);color:#5c8b6d}.jg-api-note.is-done i{color:#27c875}.jg-api-note.is-error{background:rgba(255,70,70,.04);border-color:rgba(255,70,70,.1);color:#956161}.jg-api-note.is-error i{color:#ff6565}
+.jg-live-member-grid{display:grid;grid-template-columns:1fr;gap:10px;margin:10px 0 12px;}
+.jg-live-card{overflow:hidden;border-radius:16px;background:#080808;border:1px solid rgba(255,255,255,.065);box-shadow:0 8px 24px rgba(0,0,0,.16);}
+.jg-live-card.is-ready{border-color:rgba(255,167,39,.16)}.jg-live-card.is-error{border-color:rgba(255,80,80,.12)}
+.jg-live-banner{position:relative;width:100%;aspect-ratio:200/43;overflow:hidden;background:linear-gradient(100deg,#101010,#181818,#101010);}
+.jg-live-banner>img{width:100%;height:100%;object-fit:cover;display:block;}
+.jg-live-banner-skeleton{position:absolute;inset:0;background:linear-gradient(90deg,#0d0d0d 20%,#191919 42%,#0d0d0d 64%);background-size:220% 100%;animation:jgApiShimmer 1.35s linear infinite;}
+.jg-live-main{display:flex;align-items:center;gap:10px;padding:10px 11px 11px;}
+.jg-live-avatar{width:44px;height:44px;flex:0 0 44px;border-radius:12px;background:#111;border:1px solid rgba(255,255,255,.07);overflow:hidden;display:flex;align-items:center;justify-content:center;color:#555;position:relative;}
+.jg-live-avatar>img{height:44px;width:auto;max-width:none;display:block;position:absolute;left:0;top:0;}
+.jg-live-copy{min-width:0;flex:1}.jg-live-copy strong{display:block;color:#ededed;font-size:10px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.jg-live-copy>span{display:block;color:#666;font:7.2px/1.4 'Space Mono',monospace;margin-top:2px}.jg-live-copy>small{display:flex;align-items:center;gap:5px;color:#4e8862;font-size:7.2px;margin-top:4px}.jg-live-copy>small i{font-size:4px;color:#23ca73}.jg-live-card.is-error .jg-live-copy>small,.jg-live-card.is-error .jg-live-copy>small i{color:#b55d5d}.jg-live-card.is-loading .jg-live-copy>small,.jg-live-card.is-loading .jg-live-copy>small i{color:#8f7548}
+.jg2-member-pending-grid{margin-top:6px}.jg2-member-pending-grid .jg-member-info span{color:#6a6250}.jg2-member-pending-grid .jg-member-info span i{color:#9b8654}
+@keyframes jgApiShimmer{0%{background-position:120% 0}100%{background-position:-120% 0}}
+@media(min-width:650px){.jg-live-member-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+
+
+
+/* ===== JOIN GUILD MEMBER GRID SIMPLE ===== */
+#joinguild .jg-members-grid,
+#joinguild .jg-member-grid,
+#joinguild .jg-active-members-grid{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:10px!important;
+}
+#joinguild .jg-member-card,
+#joinguild .jg-member-api-card,
+#joinguild .jg-active-member{
+  min-width:0!important;
+  padding:10px!important;
+  border-radius:16px!important;
+  background:rgba(255,255,255,.025)!important;
+  border:1px solid rgba(255,255,255,.07)!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:10px!important;
+}
+#joinguild .jg-member-banner,
+#joinguild .jg-member-cover,
+#joinguild .jg-member-meta,
+#joinguild .jg-member-status,
+#joinguild .jg-member-uid,
+#joinguild .jg-member-extra,
+#joinguild .jg-member-info small,
+#joinguild .jg-member-info .uid,
+#joinguild .jg-member-info .status{
+  display:none!important;
+}
+#joinguild .jg-member-avatar,
+#joinguild .jg-member-avatar-wrap,
+#joinguild .jg-member-profile{
+  width:54px!important;
+  height:54px!important;
+  flex:0 0 54px!important;
+  border-radius:50%!important;
+  overflow:hidden!important;
+  background:#0a0a0a!important;
+  border:1px solid rgba(255,255,255,.09)!important;
+}
+#joinguild .jg-member-avatar img,
+#joinguild .jg-member-avatar-wrap img,
+#joinguild .jg-member-profile img{
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover!important;
+  display:block!important;
+}
+#joinguild .jg-member-name,
+#joinguild .jg-member-info strong,
+#joinguild .jg-member-nickname{
+  font-size:9.5px!important;
+  line-height:1.25!important;
+  color:#eee!important;
+  font-weight:800!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+}
+@media(max-width:360px){
+  #joinguild .jg-members-grid,
+  #joinguild .jg-member-grid,
+  #joinguild .jg-active-members-grid{gap:8px!important;}
+  #joinguild .jg-member-card,
+  #joinguild .jg-member-api-card,
+  #joinguild .jg-active-member{padding:8px!important;}
+  #joinguild .jg-member-avatar,
+  #joinguild .jg-member-avatar-wrap,
+  #joinguild .jg-member-profile{width:48px!important;height:48px!important;flex-basis:48px!important;}
+}
+
+
+/* ===== JOIN GUILD UNIFIED 20 MEMBERS ===== */
+#joinguild .jg-unified-member-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important;}
+#joinguild .jg-unified-member-grid .jg-member-card{display:flex!important;align-items:center!important;gap:9px!important;min-height:62px!important;padding:8px 9px!important;border-radius:14px!important;background:#090909!important;border:1px solid rgba(255,255,255,.055)!important;min-width:0!important;}
+#joinguild .jg-unified-member-grid .jg-member-avatar{width:44px!important;height:44px!important;flex:0 0 44px!important;border-radius:50%!important;overflow:hidden!important;background:#121212!important;border:1px solid rgba(255,255,255,.08)!important;display:flex!important;align-items:center!important;justify-content:center!important;color:#555!important;}
+#joinguild .jg-unified-member-grid .jg-member-avatar img{height:100%!important;width:auto!important;max-width:none!important;display:block!important;object-fit:initial!important;object-position:left center!important;}
+#joinguild .jg-unified-member-grid .jg-member-info{min-width:0!important;flex:1!important;}
+#joinguild .jg-unified-member-grid .jg-member-info strong{display:block!important;color:#d8d8d8!important;font-size:8.7px!important;font-weight:850!important;line-height:1.25!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;}
+#joinguild .jg-unified-member-grid .jg-member-card.is-pending .jg-member-info strong{color:#666!important;}
+#joinguild .jg-unified-member-grid .jg-member-card.is-error .jg-member-info strong{color:#777!important;}
+#joinguild .jg-live-member-grid,#joinguild .jg2-member-pending-grid{display:none!important;}
+@media(min-width:720px){#joinguild .jg-unified-member-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important;}}
+
+
+
+/* ===== JOIN GUILD MEMBER CARDS FIX V3 ===== */
+#joinguild .jg-members-grid,
+#joinguild .jg-member-grid,
+#joinguild .jg-active-members-grid{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:10px!important;
+}
+
+#joinguild .jg-member-card,
+#joinguild .jg-member-api-card,
+#joinguild .jg-active-member{
+  min-width:0!important;
+  display:grid!important;
+  grid-template-columns:54px minmax(0,1fr)!important;
+  align-items:center!important;
+  gap:10px!important;
+  padding:10px!important;
+  border-radius:15px!important;
+  background:rgba(255,255,255,.025)!important;
+  border:1px solid rgba(255,255,255,.07)!important;
+  overflow:hidden!important;
+}
+
+/* Avatar is square rounded, NOT circle */
+#joinguild .jg-member-avatar,
+#joinguild .jg-member-avatar-wrap,
+#joinguild .jg-member-profile{
+  width:54px!important;
+  height:54px!important;
+  min-width:54px!important;
+  border-radius:12px!important;
+  overflow:hidden!important;
+  background:#090909!important;
+  border:1px solid rgba(255,255,255,.08)!important;
+  position:relative!important;
+  display:block!important;
+}
+
+/* When using the /banner/profile image, crop ONLY the left avatar area */
+#joinguild .jg-member-avatar img,
+#joinguild .jg-member-avatar-wrap img,
+#joinguild .jg-member-profile img{
+  width:251px!important;
+  height:54px!important;
+  max-width:none!important;
+  object-fit:fill!important;
+  object-position:left center!important;
+  display:block!important;
+  transform:none!important;
+  border-radius:0!important;
+}
+
+/* Show info stack: nickname + UID */
+#joinguild .jg-member-info,
+#joinguild .jg-member-text,
+#joinguild .jg-member-meta{
+  display:flex!important;
+  flex-direction:column!important;
+  min-width:0!important;
+  gap:3px!important;
+}
+
+#joinguild .jg-member-name,
+#joinguild .jg-member-nickname,
+#joinguild .jg-member-info strong{
+  display:block!important;
+  color:#f0f0f0!important;
+  font-size:9.5px!important;
+  line-height:1.25!important;
+  font-weight:900!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+
+#joinguild .jg-member-uid,
+#joinguild .jg-member-info .uid,
+#joinguild .jg-member-text small,
+#joinguild .jg-member-info small{
+  display:block!important;
+  color:#666!important;
+  font-size:7.6px!important;
+  line-height:1.25!important;
+  font-family:'Space Mono',monospace!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+
+/* Hide banner/status extras only */
+#joinguild .jg-member-banner,
+#joinguild .jg-member-cover,
+#joinguild .jg-member-status,
+#joinguild .jg-member-extra{
+  display:none!important;
+}
+
+@media(max-width:360px){
+  #joinguild .jg-member-card,
+  #joinguild .jg-member-api-card,
+  #joinguild .jg-active-member{
+    grid-template-columns:48px minmax(0,1fr)!important;
+    gap:8px!important;
+    padding:8px!important;
+  }
+  #joinguild .jg-member-avatar,
+  #joinguild .jg-member-avatar-wrap,
+  #joinguild .jg-member-profile{
+    width:48px!important;
+    height:48px!important;
+    min-width:48px!important;
+    border-radius:10px!important;
+  }
+  #joinguild .jg-member-avatar img,
+  #joinguild .jg-member-avatar-wrap img,
+  #joinguild .jg-member-profile img{
+    width:223px!important;
+    height:48px!important;
+  }
+}
+
+
+/* ===== JOIN GUILD MEMBER STYLE - RESTORED COMPACT ===== */
+#joinguild #jgMemberGrid{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:7px!important;
+}
+#joinguild #jgMemberGrid .jg-member-card{
+  display:flex!important;
+  align-items:center!important;
+  gap:8px!important;
+  min-height:0!important;
+  padding:9px!important;
+  border-radius:12px!important;
+  background:#090909!important;
+  border:1px solid rgba(255,255,255,.05)!important;
+  box-shadow:none!important;
+  overflow:hidden!important;
+  min-width:0!important;
+}
+#joinguild #jgMemberGrid .jg-member-avatar{
+  width:31px!important;
+  height:31px!important;
+  min-width:31px!important;
+  flex:0 0 31px!important;
+  border-radius:10px!important;
+  background:#121212!important;
+  border:1px solid rgba(255,255,255,.055)!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  color:#5f5f5f!important;
+  font-size:11px!important;
+  overflow:hidden!important;
+  position:relative!important;
+}
+/* /banner/profile = 200x43; crop hanya area avatar 43x43 di kiri */
+#joinguild #jgMemberGrid .jg-member-avatar img{
+  position:absolute!important;
+  left:0!important;
+  top:0!important;
+  width:auto!important;
+  max-width:none!important;
+  height:31px!important;
+  object-fit:initial!important;
+  transform:none!important;
+  border-radius:0!important;
+  display:block!important;
+}
+#joinguild #jgMemberGrid .jg-member-info{
+  min-width:0!important;
+  flex:1!important;
+  display:block!important;
+}
+#joinguild #jgMemberGrid .jg-member-info strong{
+  display:block!important;
+  color:#aaa!important;
+  font-size:7.8px!important;
+  line-height:1.25!important;
+  font-weight:800!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+#joinguild #jgMemberGrid .jg-member-uid{
+  display:block!important;
+  margin-top:2px!important;
+  color:#666!important;
+  font:6.7px/1.35 'Space Mono',monospace!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+#joinguild #jgMemberGrid .jg-member-status-mini{
+  display:flex!important;
+  align-items:center!important;
+  gap:4px!important;
+  margin-top:2px!important;
+  color:#4f775f!important;
+  font-size:6.3px!important;
+  line-height:1.2!important;
+}
+#joinguild #jgMemberGrid .jg-member-status-mini i{
+  font-size:3.5px!important;
+  color:#23c974!important;
+}
+#joinguild #jgMemberGrid .jg-member-card.is-pending .jg-member-info strong,
+#joinguild #jgMemberGrid .jg-member-card.is-pending .jg-member-uid{color:#5f5f5f!important;}
+#joinguild #jgMemberGrid .jg-member-card.is-pending .jg-member-status-mini,
+#joinguild #jgMemberGrid .jg-member-card.is-pending .jg-member-status-mini i{color:#8e7545!important;}
+#joinguild #jgMemberGrid .jg-member-card.is-error .jg-member-status-mini,
+#joinguild #jgMemberGrid .jg-member-card.is-error .jg-member-status-mini i{color:#a85b5b!important;}
+@media(min-width:720px){
+  #joinguild #jgMemberGrid{grid-template-columns:repeat(4,minmax(0,1fr))!important;}
+}
+
+
+
+/* ===== JOIN GUILD MEMBER BADGE + SQUARE AVATAR FIX ===== */
+#joinguild .jg-member-avatar,
+#joinguild .jg-member-avatar-wrap,
+#joinguild .jg-member-profile,
+#joinguild .jg-live-avatar{
+  border-radius:0!important;
+}
+
+#joinguild .jg-member-card,
+#joinguild .jg-member-api-card,
+#joinguild .jg-active-member,
+#joinguild .jg-live-card{
+  position:relative!important;
+}
+
+#joinguild .jg-member-info,
+#joinguild .jg-member-text,
+#joinguild .jg-live-copy{
+  padding-right:42px!important;
+}
+
+#joinguild .jg-member-status,
+#joinguild .jg-member-info span,
+#joinguild .jg-live-copy>small{
+  position:absolute!important;
+  right:8px!important;
+  top:50%!important;
+  transform:translateY(-50%)!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  gap:4px!important;
+  width:auto!important;
+  min-width:34px!important;
+  height:18px!important;
+  padding:0 8px!important;
+  margin:0!important;
+  border-radius:999px!important;
+  background:rgba(35,201,116,.08)!important;
+  border:1px solid rgba(35,201,116,.16)!important;
+  color:#67b584!important;
+  font-size:6.8px!important;
+  line-height:1!important;
+  white-space:nowrap!important;
+  justify-content:center!important;
+}
+
+#joinguild .jg-member-status i,
+#joinguild .jg-member-info span i,
+#joinguild .jg-live-copy>small i{
+  font-size:4px!important;
+  color:#23c974!important;
+}
+
+#joinguild .jg-member-pending .jg-member-info span,
+#joinguild .jg-live-card.is-loading .jg-live-copy>small{
+  background:rgba(255,176,32,.07)!important;
+  border-color:rgba(255,176,32,.14)!important;
+  color:#9c814d!important;
+}
+
+#joinguild .jg-member-pending .jg-member-info span i,
+#joinguild .jg-live-card.is-loading .jg-live-copy>small i{
+  color:#d6a64c!important;
+}
+
+#joinguild .jg-live-card.is-error .jg-live-copy>small{
+  background:rgba(255,80,80,.06)!important;
+  border-color:rgba(255,80,80,.12)!important;
+  color:#a76666!important;
+}
+
+#joinguild .jg-live-card.is-error .jg-live-copy>small i{
+  color:#d46b6b!important;
+}
+
+
+
+/* ===== FINAL MEMBER CARD CLEAN FIX ===== */
+
+/* grid */
+#joinguild .jg2-member-grid,
+#joinguild .jg-live-member-grid,
+#joinguild .jg-members-grid,
+#joinguild .jg-member-grid,
+#joinguild .jg-active-members-grid{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:8px!important;
+}
+
+/* card */
+#joinguild .jg-member-card,
+#joinguild .jg-live-card,
+#joinguild .jg-member-api-card,
+#joinguild .jg-active-member{
+  min-height:66px!important;
+  padding:9px 10px!important;
+  display:grid!important;
+  grid-template-columns:46px minmax(0,1fr)!important;
+  align-items:center!important;
+  gap:10px!important;
+  border-radius:14px!important;
+  background:#090909!important;
+  border:1px solid rgba(255,255,255,.07)!important;
+  position:relative!important;
+  overflow:hidden!important;
+}
+
+/* PERFECT SQUARE avatar */
+#joinguild .jg-member-avatar,
+#joinguild .jg-live-avatar,
+#joinguild .jg-member-avatar-wrap,
+#joinguild .jg-member-profile{
+  width:46px!important;
+  height:46px!important;
+  min-width:46px!important;
+  flex:0 0 46px!important;
+  border-radius:0!important;
+  overflow:hidden!important;
+  background:#101010!important;
+  border:1px solid rgba(255,255,255,.08)!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  position:relative!important;
+}
+
+/* crop avatar from 200x43 API banner: only the 43x43 left segment */
+#joinguild .jg-member-avatar>img,
+#joinguild .jg-live-avatar>img,
+#joinguild .jg-member-avatar-wrap>img,
+#joinguild .jg-member-profile>img{
+  position:absolute!important;
+  top:0!important;
+  left:0!important;
+  height:46px!important;
+  width:auto!important;
+  max-width:none!important;
+  min-width:214px!important; /* 46 * (200/43) */
+  object-fit:fill!important;
+  object-position:left center!important;
+  transform:none!important;
+  border-radius:0!important;
+  display:block!important;
+}
+
+/* info */
+#joinguild .jg-member-info,
+#joinguild .jg-live-copy,
+#joinguild .jg-member-text,
+#joinguild .jg-member-meta{
+  min-width:0!important;
+  width:100%!important;
+  padding:0!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:center!important;
+  gap:4px!important;
+}
+
+/* full nickname - never ellipsis */
+#joinguild .jg-member-info strong,
+#joinguild .jg-live-copy strong,
+#joinguild .jg-member-name,
+#joinguild .jg-member-nickname{
+  display:block!important;
+  width:100%!important;
+  color:#f0f0f0!important;
+  font-size:8.6px!important;
+  line-height:1.25!important;
+  font-weight:900!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+  word-break:break-word!important;
+  max-width:none!important;
+}
+
+/* UID directly below nickname */
+#joinguild .jg-member-uid,
+#joinguild .jg-member-info>span:not(.jg-member-status),
+#joinguild .jg-live-copy>span,
+#joinguild .jg-member-info .uid{
+  display:block!important;
+  position:static!important;
+  transform:none!important;
+  width:100%!important;
+  height:auto!important;
+  min-width:0!important;
+  padding:0!important;
+  margin:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  color:#666!important;
+  font:6.7px/1.25 'Space Mono',monospace!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+}
+
+/* REMOVE all status pills / green columns */
+#joinguild .jg-member-status,
+#joinguild .jg-live-copy>small,
+#joinguild .jg-member-info>span:has(i.fa-circle),
+#joinguild .jg-member-info span i.fa-circle,
+#joinguild .jg-api-status{
+  display:none!important;
+}
+
+/* pending cards should not be green */
+#joinguild .jg-member-pending,
+#joinguild .jg-live-card.is-loading,
+#joinguild .jg-live-card.is-error{
+  border-color:rgba(255,255,255,.07)!important;
+}
+
+/* prevent broken-image icon from stretching */
+#joinguild .jg-member-avatar img:not([src]),
+#joinguild .jg-live-avatar img:not([src]){
+  display:none!important;
+}
+
+@media(max-width:380px){
+  #joinguild .jg-member-card,
+  #joinguild .jg-live-card,
+  #joinguild .jg-member-api-card,
+  #joinguild .jg-active-member{
+    grid-template-columns:42px minmax(0,1fr)!important;
+    gap:8px!important;
+    padding:8px!important;
+    min-height:60px!important;
+  }
+  #joinguild .jg-member-avatar,
+  #joinguild .jg-live-avatar,
+  #joinguild .jg-member-avatar-wrap,
+  #joinguild .jg-member-profile{
+    width:42px!important;
+    height:42px!important;
+    min-width:42px!important;
+    flex-basis:42px!important;
+  }
+  #joinguild .jg-member-avatar>img,
+  #joinguild .jg-live-avatar>img,
+  #joinguild .jg-member-avatar-wrap>img,
+  #joinguild .jg-member-profile>img{
+    height:42px!important;
+    min-width:196px!important;
+  }
+  #joinguild .jg-member-info strong,
+  #joinguild .jg-live-copy strong{
+    font-size:8px!important;
+  }
+  #joinguild .jg-member-uid,
+  #joinguild .jg-member-info>span:not(.jg-member-status),
+  #joinguild .jg-live-copy>span{
+    font-size:6.2px!important;
+  }
+}
+
+
+
+/* ===== MEMBER CARD FINAL CLEAN V4 ===== */
+#joinguild .jg2-member-grid,
+#joinguild .jg-live-member-grid,
+#joinguild .jg-members-grid,
+#joinguild .jg-member-grid,
+#joinguild .jg-active-members-grid{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:8px!important;
+}
+
+#joinguild .jg-member-card,
+#joinguild .jg-live-card,
+#joinguild .jg-member-api-card,
+#joinguild .jg-active-member{
+  min-height:64px!important;
+  padding:9px 12px 9px 9px!important;
+  display:grid!important;
+  grid-template-columns:46px minmax(0,1fr) 10px!important;
+  align-items:center!important;
+  gap:9px!important;
+  border-radius:14px!important;
+  background:#090909!important;
+  border:1px solid rgba(255,255,255,.065)!important;
+  overflow:hidden!important;
+  position:relative!important;
+}
+
+/* square avatar frame */
+#joinguild .jg-member-avatar,
+#joinguild .jg-live-avatar,
+#joinguild .jg-member-avatar-wrap,
+#joinguild .jg-member-profile{
+  width:46px!important;
+  height:46px!important;
+  min-width:46px!important;
+  flex:0 0 46px!important;
+  border-radius:0!important;
+  overflow:hidden!important;
+  background:#101010!important;
+  border:1px solid rgba(255,255,255,.08)!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  position:relative!important;
+}
+
+/* API returns 200x43 banner; scale it down so left avatar is NOT zoomed */
+#joinguild .jg-member-avatar>img,
+#joinguild .jg-live-avatar>img,
+#joinguild .jg-member-avatar-wrap>img,
+#joinguild .jg-member-profile>img{
+  position:absolute!important;
+  top:4px!important;
+  left:4px!important;
+  height:38px!important;
+  width:auto!important;
+  min-width:177px!important; /* 38 * 200/43 */
+  max-width:none!important;
+  object-fit:fill!important;
+  object-position:left center!important;
+  transform:none!important;
+  border-radius:0!important;
+  display:block!important;
+}
+
+/* text stack */
+#joinguild .jg-member-info,
+#joinguild .jg-live-copy,
+#joinguild .jg-member-text,
+#joinguild .jg-member-meta{
+  min-width:0!important;
+  width:100%!important;
+  padding:0!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:center!important;
+  gap:3px!important;
+}
+
+/* full nickname */
+#joinguild .jg-member-info strong,
+#joinguild .jg-live-copy strong,
+#joinguild .jg-member-name,
+#joinguild .jg-member-nickname{
+  display:block!important;
+  width:100%!important;
+  max-width:none!important;
+  color:#efefef!important;
+  font-size:8.7px!important;
+  line-height:1.24!important;
+  font-weight:900!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+  word-break:break-word!important;
+}
+
+/* UID below nickname */
+#joinguild .jg-member-uid,
+#joinguild .jg-live-copy>span,
+#joinguild .jg-member-info>span:not(.jg-member-status),
+#joinguild .jg-member-info .uid{
+  display:block!important;
+  position:static!important;
+  width:100%!important;
+  height:auto!important;
+  min-width:0!important;
+  margin:0!important;
+  padding:0!important;
+  transform:none!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  color:#666!important;
+  font:6.6px/1.2 'Space Mono',monospace!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+}
+
+/* remove legacy status text/pills entirely */
+#joinguild .jg-member-status,
+#joinguild .jg-live-copy>small,
+#joinguild .jg-api-status,
+#joinguild .jg-member-info>span:has(i.fa-circle){
+  display:none!important;
+}
+
+/* right-side status dot only */
+#joinguild .jg-live-card::after,
+#joinguild .jg-member-card::after,
+#joinguild .jg-member-api-card::after,
+#joinguild .jg-active-member::after{
+  content:''!important;
+  width:6px!important;
+  height:6px!important;
+  border-radius:50%!important;
+  justify-self:end!important;
+  background:#4b4b4b!important;
+  box-shadow:none!important;
+}
+
+#joinguild .jg-live-card.is-ready::after,
+#joinguild .jg-member-card[data-uid]:not([data-uid=""])::after,
+#joinguild .jg-member-api-card[data-uid]:not([data-uid=""])::after,
+#joinguild .jg-active-member[data-uid]:not([data-uid=""])::after{
+  background:#24c978!important;
+  box-shadow:0 0 7px rgba(36,201,120,.7)!important;
+}
+
+#joinguild .jg-member-pending::after,
+#joinguild .jg-live-card.is-loading::after{
+  background:#8a7448!important;
+  box-shadow:0 0 6px rgba(170,135,70,.22)!important;
+}
+
+#joinguild .jg-live-card.is-error::after{
+  background:#b85f5f!important;
+  box-shadow:0 0 6px rgba(184,95,95,.22)!important;
+}
+
+@media(max-width:380px){
+  #joinguild .jg-member-card,
+  #joinguild .jg-live-card,
+  #joinguild .jg-member-api-card,
+  #joinguild .jg-active-member{
+    grid-template-columns:42px minmax(0,1fr) 8px!important;
+    min-height:60px!important;
+    gap:8px!important;
+    padding:8px 10px 8px 8px!important;
+  }
+
+  #joinguild .jg-member-avatar,
+  #joinguild .jg-live-avatar,
+  #joinguild .jg-member-avatar-wrap,
+  #joinguild .jg-member-profile{
+    width:42px!important;
+    height:42px!important;
+    min-width:42px!important;
+    flex-basis:42px!important;
+  }
+
+  #joinguild .jg-member-avatar>img,
+  #joinguild .jg-live-avatar>img,
+  #joinguild .jg-member-avatar-wrap>img,
+  #joinguild .jg-member-profile>img{
+    top:4px!important;
+    left:4px!important;
+    height:34px!important;
+    min-width:158px!important;
+  }
+}
+
+
+
+/* ===== JOIN GUILD MEMBER FINAL SIMPLE V5 ===== */
+#joinguild .jg2-member-grid,
+#joinguild .jg-live-member-grid,
+#joinguild .jg-members-grid,
+#joinguild .jg-member-grid,
+#joinguild .jg-active-members-grid{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:8px!important;
+}
+
+#joinguild .jg-member-card,
+#joinguild .jg-live-card,
+#joinguild .jg-member-api-card,
+#joinguild .jg-active-member{
+  min-height:66px!important;
+  padding:9px!important;
+  display:grid!important;
+  grid-template-columns:48px minmax(0,1fr)!important;
+  align-items:center!important;
+  gap:10px!important;
+  border-radius:14px!important;
+  background:#090909!important;
+  border:1px solid rgba(255,255,255,.065)!important;
+  overflow:hidden!important;
+  position:relative!important;
+}
+
+/* AVATAR 1:1 PERFECT SQUARE */
+#joinguild .jg-member-avatar,
+#joinguild .jg-live-avatar,
+#joinguild .jg-member-avatar-wrap,
+#joinguild .jg-member-profile{
+  width:48px!important;
+  height:48px!important;
+  min-width:48px!important;
+  min-height:48px!important;
+  max-width:48px!important;
+  max-height:48px!important;
+  aspect-ratio:1/1!important;
+  border-radius:0!important;
+  overflow:hidden!important;
+  background:#111!important;
+  border:1px solid rgba(255,255,255,.08)!important;
+  display:block!important;
+  position:relative!important;
+  flex:0 0 48px!important;
+}
+
+/*
+ API banner is 200x43 where the leftmost 43x43 is avatar.
+ Display the source at 48px height => total rendered width ~223px.
+ The wrapper clips exactly the first 48x48 px, so only avatar remains.
+*/
+#joinguild .jg-member-avatar>img,
+#joinguild .jg-live-avatar>img,
+#joinguild .jg-member-avatar-wrap>img,
+#joinguild .jg-member-profile>img{
+  position:absolute!important;
+  top:0!important;
+  left:0!important;
+  height:48px!important;
+  width:223px!important;
+  min-width:223px!important;
+  max-width:223px!important;
+  object-fit:fill!important;
+  object-position:left top!important;
+  transform:none!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  display:block!important;
+}
+
+/* text column */
+#joinguild .jg-member-info,
+#joinguild .jg-live-copy,
+#joinguild .jg-member-text,
+#joinguild .jg-member-meta{
+  min-width:0!important;
+  width:100%!important;
+  padding:0!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:center!important;
+  gap:4px!important;
+}
+
+/* NICKNAME = MAIN FOCUS */
+#joinguild .jg-member-info strong,
+#joinguild .jg-live-copy strong,
+#joinguild .jg-member-name,
+#joinguild .jg-member-nickname{
+  order:1!important;
+  display:block!important;
+  width:100%!important;
+  max-width:none!important;
+  margin:0!important;
+  color:#f4f4f4!important;
+  font-size:9.4px!important;
+  line-height:1.25!important;
+  font-weight:900!important;
+  letter-spacing:.15px!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+  word-break:break-word!important;
+}
+
+/* UID = secondary */
+#joinguild .jg-member-uid,
+#joinguild .jg-live-copy>span,
+#joinguild .jg-member-info>span:not(.jg-member-status),
+#joinguild .jg-member-info .uid{
+  order:2!important;
+  display:block!important;
+  position:static!important;
+  width:100%!important;
+  height:auto!important;
+  min-width:0!important;
+  margin:0!important;
+  padding:0!important;
+  transform:none!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  color:#5f5f5f!important;
+  font:6.4px/1.25 'Space Mono',monospace!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+}
+
+/* REMOVE ALL STATUS / DOTS / BADGES */
+#joinguild .jg-member-status,
+#joinguild .jg-live-copy>small,
+#joinguild .jg-api-status,
+#joinguild .jg-member-info>span:has(i.fa-circle){
+  display:none!important;
+}
+
+#joinguild .jg-live-card::after,
+#joinguild .jg-member-card::after,
+#joinguild .jg-member-api-card::after,
+#joinguild .jg-active-member::after{
+  content:none!important;
+  display:none!important;
+}
+
+@media(max-width:380px){
+  #joinguild .jg-member-card,
+  #joinguild .jg-live-card,
+  #joinguild .jg-member-api-card,
+  #joinguild .jg-active-member{
+    grid-template-columns:44px minmax(0,1fr)!important;
+    min-height:62px!important;
+    gap:8px!important;
+    padding:8px!important;
+  }
+
+  #joinguild .jg-member-avatar,
+  #joinguild .jg-live-avatar,
+  #joinguild .jg-member-avatar-wrap,
+  #joinguild .jg-member-profile{
+    width:44px!important;
+    height:44px!important;
+    min-width:44px!important;
+    min-height:44px!important;
+    max-width:44px!important;
+    max-height:44px!important;
+    flex-basis:44px!important;
+  }
+
+  #joinguild .jg-member-avatar>img,
+  #joinguild .jg-live-avatar>img,
+  #joinguild .jg-member-avatar-wrap>img,
+  #joinguild .jg-member-profile>img{
+    height:44px!important;
+    width:205px!important;
+    min-width:205px!important;
+    max-width:205px!important;
+  }
+
+  #joinguild .jg-member-info strong,
+  #joinguild .jg-live-copy strong{
+    font-size:8.8px!important;
+  }
+}
+
+
+
+/* ===== HARD FIX: MEMBER CARD AVATAR + NO STATUS ===== */
+#joinguild #jgMemberGrid{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:8px!important;
+}
+
+#joinguild #jgMemberGrid .jg-member-card{
+  min-height:66px!important;
+  height:auto!important;
+  padding:9px!important;
+  display:grid!important;
+  grid-template-columns:48px minmax(0,1fr)!important;
+  align-items:center!important;
+  gap:10px!important;
+  overflow:hidden!important;
+}
+
+/* TRUE 48 x 48 SQUARE - NEVER STRETCH */
+#joinguild #jgMemberGrid .jg-member-card .jg-member-avatar{
+  width:48px!important;
+  height:48px!important;
+  min-width:48px!important;
+  min-height:48px!important;
+  max-width:48px!important;
+  max-height:48px!important;
+  flex:0 0 48px!important;
+  aspect-ratio:1/1!important;
+  align-self:center!important;
+  justify-self:start!important;
+  border-radius:0!important;
+  overflow:hidden!important;
+  display:block!important;
+  position:relative!important;
+  padding:0!important;
+  margin:0!important;
+  line-height:0!important;
+  background:#101010!important;
+}
+
+/* Banner API 200x43: render proportionally so first 43x43 becomes exactly 48x48 */
+#joinguild #jgMemberGrid .jg-member-card .jg-member-avatar img{
+  display:block!important;
+  position:absolute!important;
+  left:0!important;
+  top:0!important;
+  width:223.2558px!important;
+  height:48px!important;
+  min-width:223.2558px!important;
+  max-width:none!important;
+  min-height:48px!important;
+  max-height:48px!important;
+  object-fit:fill!important;
+  object-position:left top!important;
+  border-radius:0!important;
+  transform:none!important;
+  margin:0!important;
+  padding:0!important;
+}
+
+/* hide fallback icon whenever real image is visible */
+#joinguild #jgMemberGrid .jg-member-avatar img:not([hidden]) + i,
+#joinguild #jgMemberGrid .jg-member-avatar:has(img:not([hidden])) i{
+  display:none!important;
+}
+
+/* TEXT ONLY: nickname then UID */
+#joinguild #jgMemberGrid .jg-member-info{
+  min-width:0!important;
+  width:100%!important;
+  padding:0!important;
+  margin:0!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:center!important;
+  gap:4px!important;
+}
+
+#joinguild #jgMemberGrid .jg-member-info strong{
+  display:block!important;
+  margin:0!important;
+  padding:0!important;
+  color:#f2f2f2!important;
+  font-size:9.5px!important;
+  line-height:1.25!important;
+  font-weight:900!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+  word-break:break-word!important;
+}
+
+#joinguild #jgMemberGrid .jg-member-info .jg-member-uid{
+  display:block!important;
+  position:static!important;
+  margin:0!important;
+  padding:0!important;
+  width:auto!important;
+  height:auto!important;
+  color:#646464!important;
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  font:6.5px/1.25 'Space Mono',monospace!important;
+  white-space:normal!important;
+}
+
+/* ABSOLUTELY REMOVE EVERY STATUS VARIANT */
+#joinguild #jgMemberGrid .jg-member-status,
+#joinguild #jgMemberGrid .jg-member-status-mini,
+#joinguild #jgMemberGrid .jg-api-status,
+#joinguild #jgMemberGrid small,
+#joinguild #jgMemberGrid .status,
+#joinguild #jgMemberGrid [class*="status"]{
+  display:none!important;
+}
+
+#joinguild #jgMemberGrid .jg-member-card::after,
+#joinguild #jgMemberGrid .jg-member-card::before{
+  content:none!important;
+  display:none!important;
+}
+
+@media(max-width:380px){
+  #joinguild #jgMemberGrid .jg-member-card{
+    grid-template-columns:44px minmax(0,1fr)!important;
+    min-height:62px!important;
+    gap:8px!important;
+    padding:8px!important;
+  }
+  #joinguild #jgMemberGrid .jg-member-card .jg-member-avatar{
+    width:44px!important;height:44px!important;
+    min-width:44px!important;min-height:44px!important;
+    max-width:44px!important;max-height:44px!important;
+    flex-basis:44px!important;
+  }
+  #joinguild #jgMemberGrid .jg-member-card .jg-member-avatar img{
+    width:204.6512px!important;
+    min-width:204.6512px!important;
+    height:44px!important;
+    min-height:44px!important;
+    max-height:44px!important;
+  }
+}
+
+
+
+/* ===== JOIN GUILD MEMBER POLISH V6 ===== */
+#joinguild #jgMemberGrid{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:8px!important;
+}
+
+/* More horizontal / elongated card */
+#joinguild #jgMemberGrid .jg-member-card{
+  min-height:58px!important;
+  height:auto!important;
+  padding:7px 12px!important;
+  display:grid!important;
+  grid-template-columns:38px minmax(0,1fr)!important;
+  align-items:center!important;
+  gap:10px!important;
+  border-radius:16px!important;
+  background:#090909!important;
+  border:1px solid rgba(255,255,255,.065)!important;
+  overflow:hidden!important;
+}
+
+/* Smaller true square avatar */
+#joinguild #jgMemberGrid .jg-member-card .jg-member-avatar{
+  width:38px!important;
+  height:38px!important;
+  min-width:38px!important;
+  min-height:38px!important;
+  max-width:38px!important;
+  max-height:38px!important;
+  aspect-ratio:1/1!important;
+  border-radius:0!important;
+  overflow:hidden!important;
+  position:relative!important;
+  display:block!important;
+  align-self:center!important;
+  justify-self:start!important;
+  margin:0!important;
+  padding:0!important;
+  background:#101010!important;
+  border:1px solid rgba(255,255,255,.08)!important;
+}
+
+/* Banner API is 200x43, left 43x43 is avatar */
+#joinguild #jgMemberGrid .jg-member-card .jg-member-avatar img{
+  position:absolute!important;
+  left:0!important;
+  top:0!important;
+  width:176.744px!important;   /* 38 * 200/43 */
+  min-width:176.744px!important;
+  max-width:none!important;
+  height:38px!important;
+  min-height:38px!important;
+  max-height:38px!important;
+  object-fit:fill!important;
+  object-position:left top!important;
+  display:block!important;
+  transform:none!important;
+  border-radius:0!important;
+  margin:0!important;
+  padding:0!important;
+}
+
+/* Nickname should dominate */
+#joinguild #jgMemberGrid .jg-member-info{
+  min-width:0!important;
+  width:100%!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:center!important;
+  gap:3px!important;
+  padding:0!important;
+  margin:0!important;
+}
+
+#joinguild #jgMemberGrid .jg-member-info strong{
+  display:block!important;
+  width:100%!important;
+  margin:0!important;
+  padding:0!important;
+  color:#f7f7f7!important;
+  font-size:10.4px!important;
+  line-height:1.22!important;
+  font-weight:900!important;
+  letter-spacing:.2px!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+  word-break:break-word!important;
+}
+
+/* UID secondary */
+#joinguild #jgMemberGrid .jg-member-info .jg-member-uid{
+  display:block!important;
+  width:100%!important;
+  margin:0!important;
+  padding:0!important;
+  color:#4f4f4f!important;
+  font:5.9px/1.15 'Space Mono',monospace!important;
+  letter-spacing:.15px!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+}
+
+/* no status, no dots */
+#joinguild #jgMemberGrid .jg-member-status,
+#joinguild #jgMemberGrid .jg-member-status-mini,
+#joinguild #jgMemberGrid .jg-api-status,
+#joinguild #jgMemberGrid small,
+#joinguild #jgMemberGrid [class*="status"]{
+  display:none!important;
+}
+
+#joinguild #jgMemberGrid .jg-member-card::after,
+#joinguild #jgMemberGrid .jg-member-card::before{
+  content:none!important;
+  display:none!important;
+}
+
+@media(max-width:380px){
+  #joinguild #jgMemberGrid .jg-member-card{
+    grid-template-columns:34px minmax(0,1fr)!important;
+    min-height:54px!important;
+    gap:8px!important;
+    padding:7px 10px!important;
+    border-radius:15px!important;
+  }
+  #joinguild #jgMemberGrid .jg-member-card .jg-member-avatar{
+    width:34px!important;
+    height:34px!important;
+    min-width:34px!important;
+    min-height:34px!important;
+    max-width:34px!important;
+    max-height:34px!important;
+  }
+  #joinguild #jgMemberGrid .jg-member-card .jg-member-avatar img{
+    width:158.14px!important;
+    min-width:158.14px!important;
+    height:34px!important;
+    min-height:34px!important;
+    max-height:34px!important;
+  }
+  #joinguild #jgMemberGrid .jg-member-info strong{
+    font-size:9.7px!important;
+  }
+  #joinguild #jgMemberGrid .jg-member-info .jg-member-uid{
+    font-size:5.5px!important;
+  }
+}
+
+
+
+/* ===== JOIN GUILD MEMBER POLISH V7 - NICKNAME FOCUS ===== */
+#joinguild #jgMemberGrid{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:8px!important;
+}
+
+/* More horizontal, more room for nickname */
+#joinguild #jgMemberGrid .jg-member-card{
+  min-height:54px!important;
+  height:auto!important;
+  padding:7px 11px!important;
+  display:grid!important;
+  grid-template-columns:32px minmax(0,1fr)!important;
+  align-items:center!important;
+  gap:10px!important;
+  border-radius:17px!important;
+  background:#090909!important;
+  border:1px solid rgba(255,255,255,.065)!important;
+  overflow:hidden!important;
+}
+
+/* Smaller true square avatar */
+#joinguild #jgMemberGrid .jg-member-card .jg-member-avatar{
+  width:32px!important;
+  height:32px!important;
+  min-width:32px!important;
+  min-height:32px!important;
+  max-width:32px!important;
+  max-height:32px!important;
+  aspect-ratio:1/1!important;
+  border-radius:0!important;
+  overflow:hidden!important;
+  position:relative!important;
+  display:block!important;
+  align-self:center!important;
+  justify-self:start!important;
+  margin:0!important;
+  padding:0!important;
+  background:#101010!important;
+  border:1px solid rgba(255,255,255,.08)!important;
+}
+
+/* API banner is 200x43; crop left 43x43 as 32x32 */
+#joinguild #jgMemberGrid .jg-member-card .jg-member-avatar img{
+  position:absolute!important;
+  left:0!important;
+  top:0!important;
+  width:148.84px!important;   /* 32 * 200/43 */
+  min-width:148.84px!important;
+  max-width:none!important;
+  height:32px!important;
+  min-height:32px!important;
+  max-height:32px!important;
+  object-fit:fill!important;
+  object-position:left top!important;
+  display:block!important;
+  transform:none!important;
+  border-radius:0!important;
+  margin:0!important;
+  padding:0!important;
+}
+
+/* Text column dominates */
+#joinguild #jgMemberGrid .jg-member-info{
+  min-width:0!important;
+  width:100%!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:center!important;
+  gap:3px!important;
+  padding:0!important;
+  margin:0!important;
+}
+
+/* Nickname is primary visual focus */
+#joinguild #jgMemberGrid .jg-member-info strong{
+  display:block!important;
+  width:100%!important;
+  margin:0!important;
+  padding:0!important;
+  color:#fafafa!important;
+  font-size:11.2px!important;
+  line-height:1.18!important;
+  font-weight:950!important;
+  letter-spacing:.15px!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+  word-break:normal!important;
+  overflow-wrap:anywhere!important;
+}
+
+/* UID much more secondary */
+#joinguild #jgMemberGrid .jg-member-info .jg-member-uid{
+  display:block!important;
+  width:100%!important;
+  margin:0!important;
+  padding:0!important;
+  color:#444!important;
+  font:5.3px/1.1 'Space Mono',monospace!important;
+  letter-spacing:.08px!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+}
+
+/* no statuses */
+#joinguild #jgMemberGrid .jg-member-status,
+#joinguild #jgMemberGrid .jg-member-status-mini,
+#joinguild #jgMemberGrid .jg-api-status,
+#joinguild #jgMemberGrid small,
+#joinguild #jgMemberGrid [class*="status"]{
+  display:none!important;
+}
+
+#joinguild #jgMemberGrid .jg-member-card::after,
+#joinguild #jgMemberGrid .jg-member-card::before{
+  content:none!important;
+  display:none!important;
+}
+
+@media(max-width:380px){
+  #joinguild #jgMemberGrid .jg-member-card{
+    grid-template-columns:30px minmax(0,1fr)!important;
+    min-height:52px!important;
+    gap:8px!important;
+    padding:7px 9px!important;
+    border-radius:16px!important;
+  }
+  #joinguild #jgMemberGrid .jg-member-card .jg-member-avatar{
+    width:30px!important;
+    height:30px!important;
+    min-width:30px!important;
+    min-height:30px!important;
+    max-width:30px!important;
+    max-height:30px!important;
+  }
+  #joinguild #jgMemberGrid .jg-member-card .jg-member-avatar img{
+    width:139.53px!important;
+    min-width:139.53px!important;
+    height:30px!important;
+    min-height:30px!important;
+    max-height:30px!important;
+  }
+  #joinguild #jgMemberGrid .jg-member-info strong{
+    font-size:10.6px!important;
+  }
+  #joinguild #jgMemberGrid .jg-member-info .jg-member-uid{
+    font-size:5.1px!important;
+  }
+}
+
+
+
+/* ===== JOIN GUILD MEMBER V8 - TRUE SMALL PROFILE ===== */
+#joinguild #jgMemberGrid .jg-member-card{
+  min-height:52px!important;
+  padding:7px 10px!important;
+  grid-template-columns:30px minmax(0,1fr)!important;
+  gap:9px!important;
+  border-radius:17px!important;
+}
+
+/* frame kecil, square */
+#joinguild #jgMemberGrid .jg-member-card .jg-member-avatar{
+  width:30px!important;
+  height:30px!important;
+  min-width:30px!important;
+  min-height:30px!important;
+  max-width:30px!important;
+  max-height:30px!important;
+  aspect-ratio:1/1!important;
+  border-radius:0!important;
+  overflow:hidden!important;
+  background:#0d0d0d!important;
+  border:1px solid rgba(255,255,255,.07)!important;
+  position:relative!important;
+  display:block!important;
+  margin:0!important;
+  padding:0!important;
+}
+
+/*
+ Avatar server = bagian kiri 43x43 dari gambar 200x43.
+ Sekarang avatar TIDAK memenuhi frame:
+ isi avatar hanya 22x22 dan dicenter di frame 30x30.
+*/
+#joinguild #jgMemberGrid .jg-member-card .jg-member-avatar img{
+  position:absolute!important;
+  left:4px!important;
+  top:4px!important;
+  width:102.3256px!important;   /* 22 * 200/43 */
+  min-width:102.3256px!important;
+  max-width:none!important;
+  height:22px!important;
+  min-height:22px!important;
+  max-height:22px!important;
+  object-fit:fill!important;
+  object-position:left top!important;
+  display:block!important;
+  transform:none!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+}
+
+/* nickname lebih dominan */
+#joinguild #jgMemberGrid .jg-member-info strong{
+  font-size:11.6px!important;
+  line-height:1.16!important;
+  font-weight:950!important;
+  color:#fff!important;
+  letter-spacing:.1px!important;
+}
+
+/* UID benar-benar sekunder */
+#joinguild #jgMemberGrid .jg-member-info .jg-member-uid{
+  font-size:5px!important;
+  line-height:1.1!important;
+  color:#3f3f3f!important;
+  letter-spacing:0!important;
+}
+
+@media(max-width:380px){
+  #joinguild #jgMemberGrid .jg-member-card{
+    grid-template-columns:28px minmax(0,1fr)!important;
+    min-height:50px!important;
+    gap:8px!important;
+    padding:6px 9px!important;
+  }
+
+  #joinguild #jgMemberGrid .jg-member-card .jg-member-avatar{
+    width:28px!important;
+    height:28px!important;
+    min-width:28px!important;
+    min-height:28px!important;
+    max-width:28px!important;
+    max-height:28px!important;
+  }
+
+  #joinguild #jgMemberGrid .jg-member-card .jg-member-avatar img{
+    left:4px!important;
+    top:4px!important;
+    width:93.0233px!important;  /* 20 * 200/43 */
+    min-width:93.0233px!important;
+    height:20px!important;
+    min-height:20px!important;
+    max-height:20px!important;
+  }
+
+  #joinguild #jgMemberGrid .jg-member-info strong{
+    font-size:11px!important;
+  }
+
+  #joinguild #jgMemberGrid .jg-member-info .jg-member-uid{
+    font-size:4.8px!important;
+  }
+}
+
+
+
+/* ===== RESET MEMBER STYLE TO ORIGINAL GOOD VERSION ===== */
+#joinguild #jgMemberGrid{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:7px!important;
+}
+
+/* Original compact card proportions */
+#joinguild #jgMemberGrid .jg-member-card{
+  display:flex!important;
+  align-items:center!important;
+  min-height:auto!important;
+  height:auto!important;
+  gap:8px!important;
+  padding:9px!important;
+  border-radius:12px!important;
+  background:#090909!important;
+  border:1px solid rgba(255,255,255,.05)!important;
+  overflow:hidden!important;
+}
+
+/* Original avatar size/proportion */
+#joinguild #jgMemberGrid .jg-member-card .jg-member-avatar{
+  width:31px!important;
+  height:31px!important;
+  min-width:31px!important;
+  min-height:31px!important;
+  max-width:31px!important;
+  max-height:31px!important;
+  flex:0 0 31px!important;
+  aspect-ratio:1/1!important;
+  border-radius:10px!important;
+  background:#121212!important;
+  border:1px solid rgba(255,255,255,.055)!important;
+  overflow:hidden!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  position:relative!important;
+  padding:0!important;
+  margin:0!important;
+}
+
+/* Banner API 200x43; original crop = left avatar only */
+#joinguild #jgMemberGrid .jg-member-card .jg-member-avatar img{
+  position:absolute!important;
+  left:0!important;
+  top:0!important;
+  height:31px!important;
+  width:144.186px!important; /* 31 * 200 / 43 */
+  min-width:144.186px!important;
+  max-width:none!important;
+  min-height:31px!important;
+  max-height:31px!important;
+  object-fit:fill!important;
+  object-position:left top!important;
+  transform:none!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  display:block!important;
+}
+
+/* Original text proportions, but nickname is the focus */
+#joinguild #jgMemberGrid .jg-member-info{
+  min-width:0!important;
+  flex:1!important;
+  display:block!important;
+  padding:0!important;
+  margin:0!important;
+}
+
+#joinguild #jgMemberGrid .jg-member-info strong{
+  display:block!important;
+  color:#e9e9e9!important;
+  font-size:8.6px!important;
+  line-height:1.22!important;
+  font-weight:900!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+  word-break:normal!important;
+  margin:0!important;
+  padding:0!important;
+}
+
+#joinguild #jgMemberGrid .jg-member-info .jg-member-uid{
+  display:block!important;
+  color:#575757!important;
+  font:6.1px/1.25 'Space Mono',monospace!important;
+  margin-top:3px!important;
+  padding:0!important;
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+}
+
+/* No status text/badges/dots */
+#joinguild #jgMemberGrid .jg-member-status,
+#joinguild #jgMemberGrid .jg-member-status-mini,
+#joinguild #jgMemberGrid .jg-api-status,
+#joinguild #jgMemberGrid small,
+#joinguild #jgMemberGrid [class*="status"]{
+  display:none!important;
+}
+
+#joinguild #jgMemberGrid .jg-member-card::before,
+#joinguild #jgMemberGrid .jg-member-card::after{
+  content:none!important;
+  display:none!important;
+}
+
+@media(min-width:720px){
+  #joinguild #jgMemberGrid{
+    grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  }
+}
+
+
+
+/* ===== AVATAR EXACT FIT FIX ===== */
+#joinguild #jgMemberGrid .jg-member-card{
+  display:flex!important;
+  align-items:center!important;
+  gap:8px!important;
+  padding:8px 9px!important;
+  min-height:50px!important;
+  border-radius:12px!important;
+}
+
+/* frame = avatar, exact same size */
+#joinguild #jgMemberGrid .jg-member-card .jg-member-avatar{
+  width:34px!important;
+  height:34px!important;
+  min-width:34px!important;
+  min-height:34px!important;
+  max-width:34px!important;
+  max-height:34px!important;
+  flex:0 0 34px!important;
+  aspect-ratio:1/1!important;
+  border-radius:0!important;
+  overflow:hidden!important;
+  padding:0!important;
+  margin:0!important;
+  border:0!important;
+  background:#111!important;
+  display:block!important;
+  position:relative!important;
+}
+
+/* no internal margin; avatar fills the square exactly */
+#joinguild #jgMemberGrid .jg-member-card .jg-member-avatar img{
+  position:absolute!important;
+  left:0!important;
+  top:0!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  height:34px!important;
+  width:158.1395px!important; /* 34 * 200 / 43 */
+  min-width:158.1395px!important;
+  max-width:none!important;
+  min-height:34px!important;
+  max-height:34px!important;
+  object-fit:fill!important;
+  object-position:left top!important;
+  transform:none!important;
+  display:block!important;
+}
+
+/* nickname remains primary */
+#joinguild #jgMemberGrid .jg-member-info{
+  min-width:0!important;
+  flex:1!important;
+  padding:0!important;
+  margin:0!important;
+}
+
+#joinguild #jgMemberGrid .jg-member-info strong{
+  font-size:9.4px!important;
+  line-height:1.2!important;
+  font-weight:900!important;
+  color:#f3f3f3!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+  margin:0!important;
+}
+
+#joinguild #jgMemberGrid .jg-member-info .jg-member-uid{
+  font-size:5.8px!important;
+  line-height:1.15!important;
+  color:#555!important;
+  margin-top:3px!important;
+}
+
+/* no status */
+#joinguild #jgMemberGrid .jg-member-status,
+#joinguild #jgMemberGrid .jg-member-status-mini,
+#joinguild #jgMemberGrid .jg-api-status,
+#joinguild #jgMemberGrid [class*="status"]{
+  display:none!important;
+}
+
+
+
+/* ===== AVATAR CROP RIGHT-EDGE FIX ===== */
+/*
+Source banner = 200x43.
+Sebelumnya wrapper 34px menampilkan tepat 43px source, jadi sisi kanan avatar terlalu mepet.
+Sekarang tampilkan sekitar 45px source di dalam kotak 34px agar edge/garis putih kanan ikut terlihat.
+*/
+#joinguild #jgMemberGrid .jg-member-card .jg-member-avatar{
+  width:34px!important;
+  height:34px!important;
+  min-width:34px!important;
+  min-height:34px!important;
+  max-width:34px!important;
+  max-height:34px!important;
+  aspect-ratio:1/1!important;
+  border-radius:0!important;
+  overflow:hidden!important;
+  padding:0!important;
+  margin:0!important;
+  border:0!important;
+  background:#111!important;
+  position:relative!important;
+  display:block!important;
+}
+
+#joinguild #jgMemberGrid .jg-member-card .jg-member-avatar img{
+  position:absolute!important;
+  left:0!important;
+  top:0!important;
+  height:34px!important;
+  min-height:34px!important;
+  max-height:34px!important;
+
+  /* show ~45 source px instead of exact 43 */
+  width:151.1111px!important; /* 34 * 200 / 45 */
+  min-width:151.1111px!important;
+  max-width:none!important;
+
+  object-fit:fill!important;
+  object-position:left top!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  transform:none!important;
+  display:block!important;
+}
+
+
+
+/* ===== AVATAR CROP VISIBLE RIGHT SIDE - STRONG FIX ===== */
+#joinguild #jgMemberGrid .jg-member-card .jg-member-avatar{
+  width:34px!important;
+  height:34px!important;
+  min-width:34px!important;
+  min-height:34px!important;
+  max-width:34px!important;
+  max-height:34px!important;
+  aspect-ratio:1/1!important;
+  border-radius:0!important;
+  overflow:hidden!important;
+  padding:0!important;
+  margin:0!important;
+  border:0!important;
+  position:relative!important;
+  display:block!important;
+}
+#joinguild #jgMemberGrid .jg-member-card .jg-member-avatar img{
+  position:absolute!important;
+  left:0!important;
+  top:0!important;
+  height:34px!important;
+  min-height:34px!important;
+  max-height:34px!important;
+  /* show about 52 source pixels inside the same 34px square */
+  width:130.77px!important;
+  min-width:130.77px!important;
+  max-width:130.77px!important;
+  object-fit:fill!important;
+  object-position:left top!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  transform:none!important;
+  display:block!important;
+}
+
+
+
+/* ===== JOIN GUILD UI/UX V9 ===== */
+#joinguild{--jg9-accent:#ff9d17;--jg9-gold:#ffc13d;--jg9-surface:#090909;--jg9-border:rgba(255,255,255,.065);}
+#joinguild .jg2-wrap{padding:10px 12px 92px;max-width:860px;margin:0 auto;}
+
+/* Compact hero */
+#joinguild .jg9-hero{padding:0!important;margin:0 0 10px!important;text-align:left!important;overflow:visible!important;}
+#joinguild .jg9-hero:before{display:none!important;}
+#joinguild .jg9-hero-main{display:grid;grid-template-columns:62px minmax(0,1fr);align-items:center;gap:12px;padding:13px;border-radius:19px;background:linear-gradient(135deg,rgba(255,157,23,.08),rgba(255,255,255,.018));border:1px solid rgba(255,157,23,.15);box-shadow:0 14px 34px rgba(0,0,0,.2);}
+#joinguild .jg9-logo{width:62px!important;height:62px!important;margin:0!important;filter:drop-shadow(0 0 12px rgba(255,157,23,.22))!important;}
+#joinguild .jg9-hero-copy{min-width:0;}
+#joinguild .jg9-badge{padding:4px 8px!important;font-size:6.6px!important;margin-bottom:5px!important;}
+#joinguild .jg9-hero h1{font-size:18px!important;line-height:1.05!important;letter-spacing:.4px!important;margin:0!important;}
+#joinguild .jg9-hero p{font-size:8.4px!important;line-height:1.45!important;color:#747474!important;margin:6px 0 0!important;max-width:none!important;}
+#joinguild .jg9-quick{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px;}
+#joinguild .jg9-quick button{min-width:0;display:grid;grid-template-columns:1fr 18px;align-items:center;gap:4px;padding:9px 10px;text-align:left;border-radius:13px;border:1px solid rgba(255,255,255,.06);background:#090909;color:#ddd;cursor:pointer;}
+#joinguild .jg9-quick button small{grid-column:1;color:#676767;font-size:5.8px;font-weight:900;letter-spacing:.8px;}
+#joinguild .jg9-quick button strong{grid-column:1;font:800 8.2px/1.2 'Space Mono',monospace;color:#eee;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+#joinguild .jg9-quick button i{grid-column:2;grid-row:1/3;justify-self:end;color:#7c673f;font-size:9px;}
+
+/* Poster becomes supporting visual, not dominant */
+#joinguild .jg2-poster{margin:0 0 9px!important;border-radius:16px!important;max-height:245px;overflow:hidden!important;border-color:rgba(255,157,23,.12)!important;}
+#joinguild .jg2-poster img{width:100%!important;height:100%!important;max-height:245px!important;object-fit:cover!important;object-position:center top!important;}
+
+/* Cleaner 3-step flow */
+#joinguild .jg2-flow{gap:7px!important;margin-bottom:9px!important;}
+#joinguild .jg2-step-card{grid-template-columns:29px 1fr!important;gap:9px!important;padding:10px 11px!important;border-radius:14px!important;background:#090909!important;border-color:rgba(255,157,23,.10)!important;}
+#joinguild .jg2-step-num{width:29px!important;height:29px!important;border-radius:9px!important;font-size:7.5px!important;}
+#joinguild .jg2-step-copy strong{font-size:8.8px!important;margin-bottom:2px!important;}
+#joinguild .jg2-step-copy span{font-size:7.4px!important;line-height:1.35!important;}
+#joinguild .jg2-step-card>i{display:none!important;}
+
+/* Data / rules */
+#joinguild .jg2-info-card,#joinguild .jg2-rule-card,#joinguild .jg2-members{border-radius:18px!important;background:#080808!important;border-color:var(--jg9-border)!important;margin-bottom:9px!important;box-shadow:0 10px 24px rgba(0,0,0,.14);}
+#joinguild .jg2-info-card{padding:12px!important;border-color:rgba(255,157,23,.12)!important;}
+#joinguild .jg2-rule-card{padding:12px!important;}
+#joinguild .jg2-card-head{margin-bottom:8px!important;}
+#joinguild .jg2-card-head h2,#joinguild .jg2-members-head h2{font-size:12px!important;}
+#joinguild .jg2-copy-row{min-height:43px!important;border-radius:11px!important;padding-left:10px!important;margin-top:6px!important;}
+#joinguild .jg2-copy-row span{font-size:5.8px!important;}
+#joinguild .jg2-copy-row strong{font-size:8.8px!important;}
+#joinguild .jg2-rule-card ul{gap:6px!important;}
+#joinguild .jg2-rule-card li{font-size:7.9px!important;line-height:1.4!important;}
+
+/* Admin CTA */
+#joinguild .jg2-wa{grid-template-columns:36px 1fr 16px!important;padding:10px 11px!important;border-radius:15px!important;margin-bottom:9px!important;}
+#joinguild .jg2-wa>i:first-child{width:36px!important;height:36px!important;border-radius:11px!important;font-size:16px!important;}
+#joinguild .jg2-wa strong{font-size:9.8px!important;}
+#joinguild .jg2-wa span{font-size:7px!important;}
+
+/* Member section */
+#joinguild .jg2-members{padding:12px!important;}
+#joinguild .jg2-members-head{margin-bottom:9px!important;align-items:center!important;}
+#joinguild .jg2-members-head p{font-size:7.2px!important;margin-top:3px!important;}
+#joinguild .jg2-count{min-width:32px!important;height:32px!important;border-radius:11px!important;font-size:9.5px!important;}
+#joinguild .jg-api-note{margin:7px 0 9px!important;padding:8px 10px!important;border-radius:11px!important;font-size:6.9px!important;}
+
+/* MORE ELONGATED MEMBER CARDS */
+#joinguild #jgMemberGrid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:7px!important;}
+#joinguild #jgMemberGrid .jg-member-card{display:flex!important;align-items:center!important;min-height:46px!important;height:46px!important;gap:8px!important;padding:6px 10px!important;border-radius:16px!important;background:#090909!important;border:1px solid rgba(255,255,255,.055)!important;overflow:hidden!important;}
+#joinguild #jgMemberGrid .jg-member-card .jg-member-avatar{width:30px!important;height:30px!important;min-width:30px!important;min-height:30px!important;max-width:30px!important;max-height:30px!important;flex:0 0 30px!important;aspect-ratio:1/1!important;border-radius:0!important;overflow:hidden!important;padding:0!important;margin:0!important;border:0!important;background:#111!important;position:relative!important;display:block!important;}
+#joinguild #jgMemberGrid .jg-member-card .jg-member-avatar img{position:absolute!important;left:0!important;top:0!important;height:30px!important;min-height:30px!important;max-height:30px!important;width:133.333px!important;min-width:133.333px!important;max-width:none!important;object-fit:fill!important;object-position:left top!important;margin:0!important;padding:0!important;border:0!important;border-radius:0!important;transform:none!important;display:block!important;}
+#joinguild #jgMemberGrid .jg-member-info{min-width:0!important;flex:1!important;padding:0!important;margin:0!important;display:flex!important;flex-direction:column!important;justify-content:center!important;gap:2px!important;}
+#joinguild #jgMemberGrid .jg-member-info strong{display:block!important;color:#f2f2f2!important;font-size:9.4px!important;line-height:1.15!important;font-weight:900!important;letter-spacing:.05px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;margin:0!important;}
+#joinguild #jgMemberGrid .jg-member-info .jg-member-uid{display:block!important;color:#494949!important;font:5.2px/1.1 'Space Mono',monospace!important;margin:0!important;padding:0!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;}
+#joinguild #jgMemberGrid .jg-member-status,#joinguild #jgMemberGrid .jg-member-status-mini,#joinguild #jgMemberGrid .jg-api-status,#joinguild #jgMemberGrid [class*="status"]{display:none!important;}
+#joinguild #jgMemberGrid .jg-member-card::before,#joinguild #jgMemberGrid .jg-member-card::after{content:none!important;display:none!important;}
+
+/* Desktop balance */
+@media(min-width:720px){
+  #joinguild .jg2-wrap{padding-left:20px!important;padding-right:20px!important;}
+  #joinguild .jg2-flow{grid-template-columns:repeat(3,1fr)!important;}
+  #joinguild .jg2-poster{max-height:310px!important;}
+  #joinguild .jg2-poster img{max-height:310px!important;}
+  #joinguild #jgMemberGrid{grid-template-columns:repeat(4,minmax(0,1fr))!important;}
+}
+
+
+
+/* ===== Z SHADOWS OPEN MEMBER BANNER =====
+   Member avatar styling is intentionally untouched/locked. */
+#joinguild .jg-open-member-banner{
+  width:100%;
+  margin:0 0 9px;
+  aspect-ratio:1080/472;
+  overflow:hidden;
+  border-radius:16px;
+  background:#050505;
+  border:1px solid rgba(255,157,23,.14);
+  box-shadow:0 10px 26px rgba(0,0,0,.22);
+}
+#joinguild .jg-open-member-banner img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  border:0;
+  border-radius:0;
+}
+@media(min-width:720px){
+  #joinguild .jg-open-member-banner{
+    max-height:none;
+  }
+}
+
 </style>
 </head><body><div id="vipAppRoot">
   <div class="noise" aria-hidden="true"></div>
@@ -12038,6 +14108,26 @@ a.old-download-link{color:inherit;text-decoration:none}a.old-download-link:focus
 </div>
 <i class="fa-solid fa-chevron-right vip-arrow"></i>
 </div>
+<div class="vip-menu" onclick="showPage('manfaatvip')" style="margin-bottom:26px;">
+<div class="vip-icon"><i class="fa-solid fa-gem"></i></div>
+<div class="vip-content"><h4>MANFAAT VIP</h4><small>Lihat perbandingan paket</small></div>
+<i class="fa-solid fa-chevron-right vip-arrow"></i>
+</div>
+<div class="vip-menu" onclick="showPage('vipKeyHistoryPage')" style="margin-bottom:26px;">
+<div class="vip-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+<div class="vip-content"><h4>RIWAYAT KEY VIP</h4><small>Riwayat Key VIP kamu</small></div>
+<i class="fa-solid fa-chevron-right vip-arrow"></i>
+</div>
+<div class="vip-menu" onclick="showPage('vipverify')" style="margin-bottom:26px;">
+<div class="vip-icon"><i class="fa-brands fa-whatsapp"></i></div>
+<div class="vip-content"><h4>JOIN CH VIP</h4><small>Khusus Member VIP</small></div>
+<i class="fa-solid fa-chevron-right vip-arrow"></i>
+</div>
+<div class="vip-menu" onclick="showPage('faqPage')" style="margin-bottom:26px;">
+<div class="vip-icon"><i class="fa-solid fa-circle-question"></i></div>
+<div class="vip-content"><h4>PERTANYAAN UMUM</h4><small>FAQ seputar Zusmo Shadow</small></div>
+<i class="fa-solid fa-chevron-right vip-arrow"></i>
+</div>
 
 </div>
 </div>
@@ -12207,7 +14297,60 @@ a.old-download-link{color:inherit;text-decoration:none}a.old-download-link:focus
 <div id="ojPayBody"></div><p class="vpd-timer-note" id="ojConfirmHint"></p><div class="vpay-confirmbar"><button class="vpay-confirmbtn" id="ojConfirm" type="button" onclick="ojConfirmPayment()"><i class="fa-solid fa-check-double"></i> Saya sudah bayar</button></div><button type="button" id="ojCancel" class="oj-cancel" onclick="ojCancelPayment()">Batalkan</button></section><p id="ojStatus" role="status" aria-live="polite"></p><a id="ojWhatsapp" class="vpay-confirmbtn ready" hidden target="_blank" rel="noopener noreferrer">Buka WhatsApp admin</a></div>
 <div class="page" id="ojResultPage"><div class="oj-result-card" role="status" aria-live="polite"><div id="ojResultLoading"><div class="oj-result-spinner" aria-hidden="true"></div><h1>Memproses konfirmasi</h1><p>Tunggu sebentar…</p></div><div id="ojResultFailed" hidden><div class="oj-result-failicon"><i class="fa-solid fa-xmark"></i></div><h1>Konfirmasi pembayaran gagal</h1><p id="ojResultMessage"></p><div class="oj-result-note">Pesanan belum diteruskan ke admin.</div><button type="button" class="vpay-confirmbtn ready" onclick="showPage('oldJastipPay')">Coba pembayaran lagi</button><button type="button" class="oj-result-back" onclick="showPage('oldJastip')">Kembali ke pesanan</button></div></div></div>
 <div class="page" id="ojSuccessPage"><div class="oj-result-card"><div class="oj-result-failicon" style="background:#2ecc711c;border-color:#2ecc7155;color:#7cffa0"><i class="fa-solid fa-check"></i></div><h1 style="color:#7cffa0;font-size:30px">BERHASIL</h1><p>Konfirmasi pesanan diterima. Admin akan memeriksa pembayaran dan memproses request akunmu.</p><p id="ojSuccessEmail" role="status" hidden></p><div class="oj-success-summary"><div><span>No. pesanan</span><strong id="ojSuccessOrder"></strong></div><div><span>Paket</span><strong id="ojSuccessPack"></strong></div><div><span>Total</span><strong id="ojSuccessTotal"></strong></div><div><span>Metode</span><strong id="ojSuccessMethod"></strong></div></div><a id="ojSuccessWhatsapp" class="vpay-confirmbtn ready" target="_blank" rel="noopener noreferrer" style="text-decoration:none"><i class="fa-brands fa-whatsapp"></i> Lanjut ke WhatsApp admin</a><button type="button" class="oj-result-back" onclick="ojFinishSuccess()">Selesai</button></div></div>
-<div class="page old-ff-page" id="oldDownload2022"><header class="old-ff-hero"><div class="old-ff-kicker"><span class="old-ff-live"></span> ZUSMO OLD <span>ANDROID</span></div><h1>FREE FIRE<span>2022</span></h1><p>Pilih file sesuai arsitektur Android kamu.</p><div class="old-ff-bars" aria-hidden="true"></div></header><dialog class="old-release-modal" aria-label="Akses download Zusmo Old"><section class="old-release-gate" data-old-gate><button type="button" class="old-release-close" aria-label="Tutup popup">&times;</button><div class="old-release-lock"><i class="fa-solid fa-lock" aria-hidden="true"></i></div><span class="old-release-eyebrow">AKSES PUBLIK</span><h2>RILIS 3 OKTOBER</h2><p>3 Oktober 2026 · 00.00 WIB</p><div class="old-release-countdown" role="timer" aria-label="Hitung mundur menuju rilis publik" aria-live="off"><div><strong data-old-days>00</strong><span>HARI</span></div><div><strong data-old-hours>00</strong><span>JAM</span></div><div><strong data-old-minutes>00</strong><span>MENIT</span></div><div><strong data-old-seconds>00</strong><span>DETIK</span></div></div><div class="old-release-vip"><h3><i class="fa-solid fa-key"></i> VIP BISA AKSES SEKARANG</h3><p>Masukkan key VIP Zusmo Shadow. Basic, Elite, Ultimate, dan Max bisa membuka akses lebih awal.</p><form class="old-release-form"><label>KEY VIP ZUSMO SHADOW<input type="password" name="vipkey" autocomplete="off" spellcheck="false" placeholder="Masukkan key VIP" required maxlength="80"></label><a class="old-release-buy" href="?goto=buyvip">Buy Key VIP Zusmo Shadow <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a><button type="submit" class="old-ff-download"><span><i class="fa-solid fa-unlock-keyhole"></i> BUKA AKSES VIP</span></button><p class="old-release-feedback" role="status" aria-live="polite"></p></form></div></section></dialog><div class="old-release-access" data-old-access hidden></div><div data-old-release-content><div class="old-ff-section"><span>01 / FILE GAME</span><span>2 PILIHAN</span></div><div class="old-ff-files"><a class="old-ff-file" data-old-release-href="https://www.mediafire.com/file/yivnmt9u4glcwuc/com.dts.freefireth_v1.70.0.xapk/file" target="_blank" rel="noopener noreferrer" aria-label="Download 64 BIT, XAPK"><div class="old-ff-filetop"><span class="old-ff-tag">VERSI 2022</span><span class="old-ff-format">XAPK</span></div><div class="old-ff-filebody"><span class="old-ff-fileicon"><i class="fa-brands fa-android" aria-hidden="true"></i></span><div class="old-ff-fileinfo"><h3>64 BIT</h3><p>com.dts.freefireth_v1.70.0.xapk</p><span class="old-ff-size"><i class="fa-solid fa-hard-drive" aria-hidden="true"></i> 616.21 MB</span></div></div><div class="old-ff-download"><span><i class="fa-solid fa-download" aria-hidden="true"></i> DOWNLOAD</span><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></div></a><a class="old-ff-file" data-old-release-href="https://www.mediafire.com/file/q6z3roxbfm76grd/FreeFire2022Indian-server-32bit.xapk/file" target="_blank" rel="noopener noreferrer" aria-label="Download 32 BIT, XAPK"><div class="old-ff-filetop"><span class="old-ff-tag">VERSI 2022</span><span class="old-ff-format">XAPK</span></div><div class="old-ff-filebody"><span class="old-ff-fileicon"><i class="fa-brands fa-android" aria-hidden="true"></i></span><div class="old-ff-fileinfo"><h3>32 BIT</h3><p>FreeFire2022Indian-server-32bit.xapk</p><span class="old-ff-size"><i class="fa-solid fa-hard-drive" aria-hidden="true"></i> 609 MB</span></div></div><div class="old-ff-download"><span><i class="fa-solid fa-download" aria-hidden="true"></i> DOWNLOAD</span><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></div></a></div><div class="old-ff-section"><span>02 / AKSES AKUN</span></div><a class="old-ff-account" data-old-release-href="https://register.samosasmobiles.dpdns.org/register" target="_blank" rel="noopener noreferrer"><span class="old-ff-accounticon"><i class="fa-solid fa-key" aria-hidden="true"></i></span><span><strong>AMBIL KEY / DAFTAR AKUN</strong><small>Buka halaman pendaftaran versi 2022</small></span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a><div class="old-ff-section"><span>03 / PANDUAN</span></div><button type="button" class="old-ff-account old-ff-tutorial" onclick="showPage('oldKeyTutorial2022')"><span class="old-ff-accounticon"><i class="fa-solid fa-circle-play" aria-hidden="true"></i></span><span><strong>TUTORIAL MENDAPATKAN KEY</strong><small>Panduan mengambil key untuk versi 2022</small></span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button><p class="old-ff-note"><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> File dibuka melalui MediaFire.</p></div></div>
+<div class="page old-ff-page" id="oldDownload2022"><header class="old-ff-hero"><div class="old-ff-kicker"><span class="old-ff-live"></span> ZUSMO OLD <span>ANDROID</span></div><h1>FREE FIRE<span>2022</span></h1><p>Pilih file sesuai arsitektur Android kamu.</p><div class="old-ff-bars" aria-hidden="true"></div></header><dialog class="old-release-modal" aria-label="Akses download Zusmo Old"><section class="old-release-gate" data-old-gate><button type="button" class="old-release-close" aria-label="Tutup popup">&times;</button><div class="old-release-lock"><i class="fa-solid fa-lock" aria-hidden="true"></i></div><span class="old-release-eyebrow">AKSES PUBLIK</span><h2>RILIS 3 OKTOBER</h2><p>3 Oktober 2026 · 00.00 WIB</p><div class="old-release-countdown" role="timer" aria-label="Hitung mundur menuju rilis publik" aria-live="off"><div><strong data-old-days>00</strong><span>HARI</span></div><div><strong data-old-hours>00</strong><span>JAM</span></div><div><strong data-old-minutes>00</strong><span>MENIT</span></div><div><strong data-old-seconds>00</strong><span>DETIK</span></div></div><div class="old-release-vip"><h3><i class="fa-solid fa-key"></i> VIP BISA AKSES SEKARANG</h3><p>Masukkan key VIP Zusmo Shadow. Basic, Elite, Ultimate, dan Max bisa membuka akses lebih awal.</p><form class="old-release-form"><label>KEY VIP ZUSMO SHADOW<input type="password" name="vipkey" autocomplete="off" spellcheck="false" placeholder="Masukkan key VIP" required maxlength="80"></label><a class="old-release-buy" href="?goto=buyvip">Buy Key VIP Zusmo Shadow <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a><button type="submit" class="old-ff-download"><span><i class="fa-solid fa-unlock-keyhole"></i> BUKA AKSES VIP</span></button><p class="old-release-feedback" role="status" aria-live="polite"></p></form></div></section></dialog><div class="old-release-access" data-old-access hidden></div><div data-old-release-content><div class="old-ff-files"><a class="old-ff-file" data-old-release-href="https://www.mediafire.com/file/yivnmt9u4glcwuc/com.dts.freefireth_v1.70.0.xapk/file" target="_blank" rel="noopener noreferrer" aria-label="Download 64 BIT, XAPK"><div class="old-ff-filetop"><span class="old-ff-tag">VERSI 2022</span><span class="old-ff-format">XAPK</span></div><div class="old-ff-filebody"><span class="old-ff-fileicon"><i class="fa-brands fa-android" aria-hidden="true"></i></span><div class="old-ff-fileinfo"><h3>64 BIT</h3><p>com.dts.freefireth_v1.70.0.xapk</p><span class="old-ff-size"><i class="fa-solid fa-hard-drive" aria-hidden="true"></i> 616.21 MB</span></div></div><div class="old-ff-download"><span><i class="fa-solid fa-download" aria-hidden="true"></i> DOWNLOAD</span><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></div></a><a class="old-ff-file" data-old-release-href="https://www.mediafire.com/file/q6z3roxbfm76grd/FreeFire2022Indian-server-32bit.xapk/file" target="_blank" rel="noopener noreferrer" aria-label="Download 32 BIT, XAPK"><div class="old-ff-filetop"><span class="old-ff-tag">VERSI 2022</span><span class="old-ff-format">XAPK</span></div><div class="old-ff-filebody"><span class="old-ff-fileicon"><i class="fa-brands fa-android" aria-hidden="true"></i></span><div class="old-ff-fileinfo"><h3>32 BIT</h3><p>FreeFire2022Indian-server-32bit.xapk</p><span class="old-ff-size"><i class="fa-solid fa-hard-drive" aria-hidden="true"></i> 609 MB</span></div></div><div class="old-ff-download"><span><i class="fa-solid fa-download" aria-hidden="true"></i> DOWNLOAD</span><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></div></a></div>
+<button type="button" class="old-ff-account old-account-entry" onclick="showPage('oldAccountAccess2022')">
+  <span class="old-ff-accounticon"><i class="fa-solid fa-user-plus" aria-hidden="true"></i></span>
+  <span><strong>DAFTAR AKUN</strong><small>Daftar akun, ambil key, atau gunakan akun publik</small></span>
+  <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+</button><button type="button" class="old-ff-account old-ff-tutorial" onclick="showPage('oldKeyTutorial2022')"><span class="old-ff-accounticon"><i class="fa-solid fa-circle-play" aria-hidden="true"></i></span><span><strong>TUTORIAL MENDAPATKAN KEY</strong><small>Panduan mengambil key untuk versi 2022</small></span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button><p class="old-ff-note"><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> File dibuka melalui MediaFire.</p></div></div>
+
+<div class="page old-ff-page" id="oldAccountAccess2022">
+  <header class="old-ff-hero old-account-hero">
+    <div class="old-ff-kicker"><span class="old-ff-live"></span> ZUSMO OLD · 2022</div>
+    <h1>DAFTAR<span>AKUN</span></h1>
+    <p>Pilih akses yang kamu butuhkan.</p>
+    <div class="old-ff-bars" aria-hidden="true"></div>
+  </header>
+
+  <div class="old-account-page-wrap">
+    <a class="old-account-main-card" href="https://register.samosasmobiles.dpdns.org/register" target="_blank" rel="noopener noreferrer">
+      <span class="old-account-main-icon"><i class="fa-solid fa-user-plus"></i></span>
+      <span class="old-account-main-copy">
+        <small>UTAMA</small>
+        <strong>DAFTAR AKUN</strong>
+        <span>Buat akun sendiri menggunakan key</span>
+      </span>
+      <i class="fa-solid fa-arrow-up-right-from-square old-account-main-arrow"></i>
+    </a>
+
+    <a class="old-account-sub-card" href="https://register.samosasmobiles.dpdns.org/get-key" target="_blank" rel="noopener noreferrer">
+      <span class="old-account-sub-icon"><i class="fa-solid fa-key"></i></span>
+      <span class="old-account-sub-copy">
+        <strong>GET KEY</strong>
+        <small>Ambil key terlebih dahulu untuk membuat akun</small>
+      </span>
+      <i class="fa-solid fa-arrow-up-right-from-square old-account-sub-arrow"></i>
+    </a>
+
+    <div class="old-account-divider"><span>ATAU</span></div>
+
+    <button type="button" class="old-account-public-card" onclick="oldOpenPublicAccount()">
+      <span class="old-account-public-icon"><i class="fa-solid fa-users"></i></span>
+      <span class="old-account-public-copy">
+        <small>GRATIS · DIPAKAI BERSAMA</small>
+        <strong>AKUN PUBLIK</strong>
+        <span>Tidak perlu membuat akun baru</span>
+      </span>
+      <i class="fa-solid fa-chevron-right old-account-public-arrow"></i>
+    </button>
+
+    <div class="old-account-public-hint">
+      <i class="fa-solid fa-triangle-exclamation"></i>
+      <span>Akun publik dipakai banyak pengguna sehingga sesi atau data bisa saling bertabrakan.</span>
+    </div>
+  </div>
+</div>
+
 <div class="page old-ff-page" id="oldDownload2019"><header class="old-ff-hero"><div class="old-ff-kicker"><span class="old-ff-live"></span> ZUSMO OLD <span>ANDROID</span></div><h1>FREE FIRE<span>2019</span></h1><p>Pilih file versi 2019 untuk melihat akses download.</p><div class="old-ff-bars" aria-hidden="true"></div></header><dialog class="old-release-modal" aria-label="Akses download Zusmo Old"><section class="old-release-gate" data-old-gate><button type="button" class="old-release-close" aria-label="Tutup popup">&times;</button><div class="old-release-lock"><i class="fa-solid fa-lock" aria-hidden="true"></i></div><span class="old-release-eyebrow">AKSES PUBLIK</span><h2>RILIS 3 OKTOBER</h2><p>3 Oktober 2026 · 00.00 WIB</p><div class="old-release-countdown" role="timer" aria-label="Hitung mundur menuju rilis publik" aria-live="off"><div><strong data-old-days>00</strong><span>HARI</span></div><div><strong data-old-hours>00</strong><span>JAM</span></div><div><strong data-old-minutes>00</strong><span>MENIT</span></div><div><strong data-old-seconds>00</strong><span>DETIK</span></div></div><div class="old-release-vip"><h3><i class="fa-solid fa-key"></i> VIP BISA AKSES SEKARANG</h3><p>Masukkan key VIP Zusmo Shadow. Basic, Elite, Ultimate, dan Max bisa membuka akses lebih awal.</p><form class="old-release-form"><label>KEY VIP ZUSMO SHADOW<input type="password" name="vipkey" autocomplete="off" spellcheck="false" placeholder="Masukkan key VIP" required maxlength="80"></label><a class="old-release-buy" href="?goto=buyvip">Buy Key VIP Zusmo Shadow <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a><button type="submit" class="old-ff-download"><span><i class="fa-solid fa-unlock-keyhole"></i> BUKA AKSES VIP</span></button><p class="old-release-feedback" role="status" aria-live="polite"></p></form></div></section></dialog><div class="old-release-access" data-old-access hidden></div><div data-old-release-content><div class="old-ff-section"><span>01 / FILE GAME</span><span>VERSI 2019</span></div><a class="old-ff-file" data-old-release-href="https://www.mediafire.com/file/aptkqwrf0zi0hwy/Rzim_Server_V2.apk/file" target="_blank" rel="noopener noreferrer" aria-label="Download RZIM SERVER V2, APK"><div class="old-ff-filetop"><span class="old-ff-tag">VERSI 2019</span><span class="old-ff-format">APK</span></div><div class="old-ff-filebody"><span class="old-ff-fileicon"><i class="fa-brands fa-android" aria-hidden="true"></i></span><div class="old-ff-fileinfo"><h3>RZIM SERVER V2</h3><p>Rzim_Server_V2.apk</p><span class="old-ff-size"><i class="fa-solid fa-hard-drive" aria-hidden="true"></i> 484.45 MB</span></div></div><div class="old-ff-download"><span><i class="fa-solid fa-download" aria-hidden="true"></i> DOWNLOAD</span><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></div></a><p class="old-ff-note"><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> File dibuka melalui MediaFire.</p></div></div>
 
 <div class="page old-ff-page" id="oldKeyTutorial2022"><header class="old-ff-hero"><div class="old-ff-kicker"><span class="old-ff-live"></span> ZUSMO OLD · 2022</div><h1>TUTORIAL<span>KEY</span></h1><p>Panduan mendapatkan key.</p><div class="old-ff-bars" aria-hidden="true"></div></header><div class="old-ff-soon"><i class="fa-solid fa-circle-play" aria-hidden="true"></i><span>SEGERA HADIR</span><h2>COMING SOON</h2><p>Tutorial mendapatkan key versi 2022 sedang disiapkan.</p><button type="button" class="old-ff-download" onclick="showPage('oldDownload2022')"><span><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> KEMBALI KE DOWNLOAD</span></button></div></div>
@@ -16218,262 +18361,181 @@ AccessTokenDua
 </div>
 
 <div class="page page-with-copyright" id="joinguild">
+  <div class="jg2-wrap">
+    <section class="jg2-hero jg9-hero">
+      <div class="jg9-hero-main">
+        <img class="jg2-logo jg9-logo" src="zusmo-asset/q7p90u.png" alt="Z Shadows">
+        <div class="jg9-hero-copy">
+          <div class="jg2-badge jg9-badge"><span></span> Z SHADOWS</div>
+          <h1>JOIN <em>GUILD</em></h1>
+          <p>Siapkan CN, salin ID Guild, lalu kirim request. Tidak ada formulir panjang.</p>
+        </div>
+      </div>
+      <div class="jg9-quick">
+        <button type="button" onclick="jg2Copy('3099889993','ID Guild disalin')"><small>ID GUILD</small><strong>3099889993</strong><i class="fa-regular fa-copy"></i></button>
+        <button type="button" onclick="jg2Copy('NICKㅤSDW','Format CN disalin')"><small>FORMAT CN</small><strong>NICKㅤSDW</strong><i class="fa-regular fa-copy"></i></button>
+      </div>
+    </section>
 
-<div class="jg-hero">
-  <div class="jg-hero-glow"></div>
-  <div class="jg-hero-badge"><span class="jg-dot"></span>Official Guild Recruitment</div>
-  <div class="jg-logo-wrap"><img loading="lazy" decoding="async" src="zusmo-asset/q7p90u.png" alt="Z Shadows Logo"></div>
-  <p class="pc-title" style="position:relative;z-index:1;"><span class="red">JOIN</span>&nbsp;<span class="wht">GUILD Z SHADOWS</span></p>
-  <div style="width:52px;height:3px;border-radius:3px;margin:2px auto 8px;background:linear-gradient(90deg,transparent,#ff2b2b,transparent);position:relative;z-index:1;"></div>
-  <p class="pc-sub" style="position:relative;z-index:1;">Pendaftaran Member Guild &bull; Free Fire</p>
+    <div class="jg-open-member-banner">
+      <img src="zusmo-asset/lv_0_20260924214005.jpg" width="1080" height="472" alt="Z Shadows Open Member Volt 2">
+    </div>
+
+    <picture class="jg2-poster">
+      <source media="(min-width:720px)" srcset="zusmo-asset/join-guild-wide.png">
+      <img src="zusmo-asset/join-guild-mobile.png" alt="Panduan Join Guild Z Shadows">
+    </picture>
+
+    <section class="jg2-flow">
+      <div class="jg2-step-card">
+        <div class="jg2-step-num">01</div>
+        <div class="jg2-step-copy"><strong>SIAP CN</strong><span>Ganti nickname sesuai format guild sebelum request masuk.</span></div>
+        <i class="fa-solid fa-check"></i>
+      </div>
+      <div class="jg2-step-card">
+        <div class="jg2-step-num">02</div>
+        <div class="jg2-step-copy"><strong>REQUEST GUILD</strong><span>Masukkan ID Guild di Free Fire lalu kirim request.</span></div>
+        <i class="fa-solid fa-arrow-right"></i>
+      </div>
+      <div class="jg2-step-card">
+        <div class="jg2-step-num">03</div>
+        <div class="jg2-step-copy"><strong>OTOMATIS MASUK</strong><span>Kalau CN sudah benar, request akan diproses tanpa formulir tambahan.</span></div>
+        <i class="fa-solid fa-bolt"></i>
+      </div>
+    </section>
+
+    <section class="jg2-info-card">
+      <div class="jg2-card-head"><div><small>DATA GUILD</small><h2>Siap Join?</h2></div><i class="fa-solid fa-users"></i></div>
+      <div class="jg2-copy-row"><div><span>ID GUILD</span><strong>3099889993</strong></div><button type="button" onclick="jg2Copy('3099889993','ID Guild disalin')"><i class="fa-regular fa-copy"></i></button></div>
+      <div class="jg2-copy-row"><div><span>KODE SPASI</span><strong class="jg2-space-code">ㅤ</strong></div><button type="button" onclick="jg2Copy('ㅤ','Kode spasi disalin')"><i class="fa-regular fa-copy"></i></button></div>
+      <div class="jg2-copy-row"><div><span>FORMAT CN</span><strong>NICKㅤSDW</strong></div><button type="button" onclick="jg2Copy('NICKㅤSDW','Format CN disalin')"><i class="fa-regular fa-copy"></i></button></div>
+    </section>
+
+    <section class="jg2-rule-card">
+      <div class="jg2-card-head"><div><small>ATURAN CN</small><h2>Nickname</h2></div><i class="fa-solid fa-pen"></i></div>
+      <ul>
+        <li>Format: <b>NICK [KODE SPASI] SDW</b></li>
+        <li>Akhiran wajib <b>SDW</b></li>
+        <li>Wajib huruf kapital</li>
+        <li>Hanya huruf dan angka</li>
+        <li>Font reguler / normal</li>
+        <li>Salah CN = wajib CN ulang sebelum masuk</li>
+      </ul>
+    </section>
+
+    <section class="jg2-rule-card">
+      <div class="jg2-card-head"><div><small>SYARAT PROFILE</small><h2>Banner</h2></div><i class="fa-solid fa-image"></i></div>
+      <ul>
+        <li>Banner / background profile wajib default</li>
+        <li>Avatar profile bebas</li>
+        <li>Tidak ada target push guild wars atau glory</li>
+        <li>Cukup aktif di guild</li>
+      </ul>
+    </section>
+
+    <a class="jg2-wa" href="https://wa.me/6283800287738" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp"></i><div><small>LEADER / ADMIN</small><strong>+62 838-0028-7738</strong><span>Hubungi untuk kode spasi & info join</span></div><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+
+    <section class="jg2-members jg2-members-live">
+      <div class="jg2-members-head">
+        <div>
+          <small>Z SHADOWS</small>
+          <h2>20 Member Aktif</h2>
+          <p>Member Z Shadows yang sudah terhubung ke sistem.</p>
+        </div>
+        <span class="jg2-count">20</span>
+      </div>
+
+      <div class="jg-api-note" id="jgApiNote">
+        <i class="fa-solid fa-satellite-dish"></i>
+        <span>5 member terhubung API · 15 slot menunggu UID.</span>
+      </div>
+
+      <div class="jg2-member-grid jg-unified-member-grid" id="jgMemberGrid">
+        <article class="jg-member-card is-loading" data-jg-slot="01" data-jg-uid="3620799647">
+          <div class="jg-member-avatar"><i class="fa-solid fa-user"></i><img alt="Avatar member 01" hidden></div>
+          <div class="jg-member-info"><strong>MEMBER 01</strong></div>
+        </article>
+        <article class="jg-member-card is-loading" data-jg-slot="02" data-jg-uid="3486556434">
+          <div class="jg-member-avatar"><i class="fa-solid fa-user"></i><img alt="Avatar member 02" hidden></div>
+          <div class="jg-member-info"><strong>MEMBER 02</strong></div>
+        </article>
+        <article class="jg-member-card is-loading" data-jg-slot="03" data-jg-uid="3237538063">
+          <div class="jg-member-avatar"><i class="fa-solid fa-user"></i><img alt="Avatar member 03" hidden></div>
+          <div class="jg-member-info"><strong>MEMBER 03</strong></div>
+        </article>
+        <article class="jg-member-card is-loading" data-jg-slot="04" data-jg-uid="2589304609">
+          <div class="jg-member-avatar"><i class="fa-solid fa-user"></i><img alt="Avatar member 04" hidden></div>
+          <div class="jg-member-info"><strong>MEMBER 04</strong></div>
+        </article>
+        <article class="jg-member-card is-loading" data-jg-slot="05" data-jg-uid="2155672799">
+          <div class="jg-member-avatar"><i class="fa-solid fa-user"></i><img alt="Avatar member 05" hidden></div>
+          <div class="jg-member-info"><strong>MEMBER 05</strong></div>
+        </article>
+        <article class="jg-member-card is-pending" data-jg-slot="06">
+          <div class="jg-member-avatar"><i class="fa-solid fa-user"></i><img alt="Avatar member 06" hidden></div>
+          <div class="jg-member-info"><strong>MEMBER 06</strong></div>
+        </article>
+        <article class="jg-member-card is-pending" data-jg-slot="07">
+          <div class="jg-member-avatar"><i class="fa-solid fa-user"></i><img alt="Avatar member 07" hidden></div>
+          <div class="jg-member-info"><strong>MEMBER 07</strong></div>
+        </article>
+        <article class="jg-member-card is-pending" data-jg-slot="08">
+          <div class="jg-member-avatar"><i class="fa-solid fa-user"></i><img alt="Avatar member 08" hidden></div>
+          <div class="jg-member-info"><strong>MEMBER 08</strong></div>
+        </article>
+        <article class="jg-member-card is-pending" data-jg-slot="09">
+          <div class="jg-member-avatar"><i class="fa-solid fa-user"></i><img alt="Avatar member 09" hidden></div>
+          <div class="jg-member-info"><strong>MEMBER 09</strong></div>
+        </article>
+        <article class="jg-member-card is-pending" data-jg-slot="10">
+          <div class="jg-member-avatar"><i class="fa-solid fa-user"></i><img alt="Avatar member 10" hidden></div>
+          <div class="jg-member-info"><strong>MEMBER 10</strong></div>
+        </article>
+        <article class="jg-member-card is-pending" data-jg-slot="11">
+          <div class="jg-member-avatar"><i class="fa-solid fa-user"></i><img alt="Avatar member 11" hidden></div>
+          <div class="jg-member-info"><strong>MEMBER 11</strong></div>
+        </article>
+        <article class="jg-member-card is-pending" data-jg-slot="12">
+          <div class="jg-member-avatar"><i class="fa-solid fa-user"></i><img alt="Avatar member 12" hidden></div>
+          <div class="jg-member-info"><strong>MEMBER 12</strong></div>
+        </article>
+        <article class="jg-member-card is-pending" data-jg-slot="13">
+          <div class="jg-member-avatar"><i class="fa-solid fa-user"></i><img alt="Avatar member 13" hidden></div>
+          <div class="jg-member-info"><strong>MEMBER 13</strong></div>
+        </article>
+        <article class="jg-member-card is-pending" data-jg-slot="14">
+          <div class="jg-member-avatar"><i class="fa-solid fa-user"></i><img alt="Avatar member 14" hidden></div>
+          <div class="jg-member-info"><strong>MEMBER 14</strong></div>
+        </article>
+        <article class="jg-member-card is-pending" data-jg-slot="15">
+          <div class="jg-member-avatar"><i class="fa-solid fa-user"></i><img alt="Avatar member 15" hidden></div>
+          <div class="jg-member-info"><strong>MEMBER 15</strong></div>
+        </article>
+        <article class="jg-member-card is-pending" data-jg-slot="16">
+          <div class="jg-member-avatar"><i class="fa-solid fa-user"></i><img alt="Avatar member 16" hidden></div>
+          <div class="jg-member-info"><strong>MEMBER 16</strong></div>
+        </article>
+        <article class="jg-member-card is-pending" data-jg-slot="17">
+          <div class="jg-member-avatar"><i class="fa-solid fa-user"></i><img alt="Avatar member 17" hidden></div>
+          <div class="jg-member-info"><strong>MEMBER 17</strong></div>
+        </article>
+        <article class="jg-member-card is-pending" data-jg-slot="18">
+          <div class="jg-member-avatar"><i class="fa-solid fa-user"></i><img alt="Avatar member 18" hidden></div>
+          <div class="jg-member-info"><strong>MEMBER 18</strong></div>
+        </article>
+        <article class="jg-member-card is-pending" data-jg-slot="19">
+          <div class="jg-member-avatar"><i class="fa-solid fa-user"></i><img alt="Avatar member 19" hidden></div>
+          <div class="jg-member-info"><strong>MEMBER 19</strong></div>
+        </article>
+        <article class="jg-member-card is-pending" data-jg-slot="20">
+          <div class="jg-member-avatar"><i class="fa-solid fa-user"></i><img alt="Avatar member 20" hidden></div>
+          <div class="jg-member-info"><strong>MEMBER 20</strong></div>
+        </article>
+      </div>
+    </section>
+  </div>
+  <div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
 </div>
-
-<div class="pc-banner jg-slider" style="aspect-ratio:13/6;">
-  <img loading="lazy" decoding="async" class="jg-slide-img active" src="zusmo-asset/rz4m87.jpg" alt="Z Shadows Guild">
-  <img loading="lazy" decoding="async" class="jg-slide-img" src="zusmo-asset/jn29br.jpg" alt="Z Shadows Guild">
-</div>
-
-<div class="jg-progress-wrap">
-  <span class="jg-progress-label"><i class="fa-solid fa-list-check"></i> Progress</span>
-  <div class="jg-progress-track"><div class="jg-progress-fill" id="jgProgressFill"></div></div>
-  <span class="jg-progress-pct" id="jgProgressPct">0%</span>
-</div>
-
-<div id="jgFormWrap">
-
-<div class="pc-card">
-  <div class="pc-head">
-    <span class="jg-step">01</span>
-    <div class="pc-head-icon"><i class="fa-solid fa-user-shield"></i></div>
-    <div class="pc-head-text">
-      <h3>DATA AKUN</h3>
-      <p>Pastikan data sesuai akun Free Fire kamu</p>
-    </div>
-  </div>
-
-  <div class="jg-group">
-    <div class="jg-label"><i class="fa-solid fa-user"></i>Nama Lengkap</div>
-    <div class="jg-field">
-      <input class="jg-input" id="jgName" type="text" placeholder="Masukkan nama lengkap">
-      <i class="fa-solid fa-user jg-field-icon"></i>
-    </div>
-  </div>
-
-  <div class="jg-group">
-    <div class="jg-label"><i class="fa-solid fa-hashtag"></i>UID Free Fire</div>
-    <div class="jg-field">
-      <input class="jg-input" id="jgUid" type="number" inputmode="numeric" maxlength="12" placeholder="Contoh: 1234567890">
-      <i class="fa-solid fa-hashtag jg-field-icon"></i>
-    </div>
-    <div class="jg-uid-nick-box" id="jgUidNickBox" style="display:none;"></div>
-  </div>
-
-  <div class="jg-group">
-    <div class="jg-label"><i class="fa-solid fa-chart-column"></i>Level Akun</div>
-    <div class="jg-field">
-    <select class="jg-select" id="jgLevel">
-      <option value="">-- Pilih Level --</option>
-      <optgroup label="Level 40-50">
-        <option value="40">Level 40</option><option value="41">Level 41</option><option value="42">Level 42</option><option value="43">Level 43</option><option value="44">Level 44</option><option value="45">Level 45</option><option value="46">Level 46</option><option value="47">Level 47</option><option value="48">Level 48</option><option value="49">Level 49</option><option value="50">Level 50</option>
-      </optgroup>
-      <optgroup label="Level 51-60">
-        <option value="51">Level 51</option><option value="52">Level 52</option><option value="53">Level 53</option><option value="54">Level 54</option><option value="55">Level 55</option><option value="56">Level 56</option><option value="57">Level 57</option><option value="58">Level 58</option><option value="59">Level 59</option><option value="60">Level 60</option>
-      </optgroup>
-      <optgroup label="Level 61-70">
-        <option value="61">Level 61</option><option value="62">Level 62</option><option value="63">Level 63</option><option value="64">Level 64</option><option value="65">Level 65</option><option value="66">Level 66</option><option value="67">Level 67</option><option value="68">Level 68</option><option value="69">Level 69</option><option value="70">Level 70</option>
-      </optgroup>
-      <optgroup label="Level 71-80">
-        <option value="71">Level 71</option><option value="72">Level 72</option><option value="73">Level 73</option><option value="74">Level 74</option><option value="75">Level 75</option><option value="76">Level 76</option><option value="77">Level 77</option><option value="78">Level 78</option><option value="79">Level 79</option><option value="80">Level 80</option>
-      </optgroup>
-      <optgroup label="Level 81-90">
-        <option value="81">Level 81</option><option value="82">Level 82</option><option value="83">Level 83</option><option value="84">Level 84</option><option value="85">Level 85</option><option value="86">Level 86</option><option value="87">Level 87</option><option value="88">Level 88</option><option value="89">Level 89</option><option value="90">Level 90</option>
-      </optgroup>
-      <optgroup label="Level 91-100">
-        <option value="91">Level 91</option><option value="92">Level 92</option><option value="93">Level 93</option><option value="94">Level 94</option><option value="95">Level 95</option><option value="96">Level 96</option><option value="97">Level 97</option><option value="98">Level 98</option><option value="99">Level 99</option><option value="100">Level 100</option>
-      </optgroup>
-    </select>
-    <i class="fa-solid fa-chart-column jg-field-icon"></i>
-    </div>
-  </div>
-
-  <div class="jg-group">
-    <div class="jg-label"><i class="fa-solid fa-trophy"></i>Rank BR (Saat Ini)</div>
-    <div class="jg-field">
-    <select class="jg-select" id="jgRankBR">
-      <option value="">-- Pilih Rank BR --</option>
-      <option value="Bronze">Bronze</option><option value="Silver">Silver</option><option value="Gold">Gold</option><option value="Platinum">Platinum</option><option value="Diamond">Diamond</option><option value="Heroic">Heroic</option><option value="Master">Master</option>
-    </select>
-    <i class="fa-solid fa-trophy jg-field-icon"></i>
-    </div>
-  </div>
-
-  <div class="jg-group">
-    <div class="jg-label"><i class="fa-solid fa-medal"></i>Rank CSR (Saat Ini)</div>
-    <div class="jg-field">
-    <select class="jg-select" id="jgRankCSR">
-      <option value="">-- Pilih Rank CSR --</option>
-      <option value="Bronze">Bronze</option><option value="Silver">Silver</option><option value="Gold">Gold</option><option value="Platinum">Platinum</option><option value="Diamond">Diamond</option><option value="Heroic">Heroic</option><option value="Master">Master</option>
-    </select>
-    <i class="fa-solid fa-medal jg-field-icon"></i>
-    </div>
-  </div>
-
-  <div class="jg-group">
-    <div class="jg-label"><i class="fa-solid fa-hourglass-half"></i>Akun FF Berumur</div>
-    <div class="jg-field">
-    <select class="jg-select" id="jgUmurAkun">
-      <option value="">-- Pilih Umur Akun --</option>
-      <option value="1">1 Tahun</option><option value="2">2 Tahun</option><option value="3">3 Tahun</option><option value="4">4 Tahun</option><option value="5">5 Tahun</option><option value="6">6 Tahun</option><option value="7">7 Tahun</option><option value="8">8 Tahun</option>
-    </select>
-    <i class="fa-solid fa-hourglass-half jg-field-icon"></i>
-    </div>
-  </div>
-
-  <div class="jg-group">
-    <div class="jg-label"><i class="fa-solid fa-gem"></i>Prime Tier</div>
-    <div class="pc-lvl-grid" id="jgPrimeGrid"></div>
-  </div>
-</div>
-
-<div class="pc-card acc-blue">
-  <div class="pc-head">
-    <span class="jg-step">02</span>
-    <div class="pc-head-icon"><i class="fa-solid fa-gamepad"></i></div>
-    <div class="pc-head-text">
-      <h3>INFO PRIBADI & ROLE</h3>
-      <p>Untuk penempatan role di guild</p>
-    </div>
-  </div>
-
-  <div class="jg-group">
-    <div class="jg-label"><i class="fa-solid fa-bullseye"></i>Role Favorit</div>
-    <div class="jg-pill-grid c3" id="jgRoleGroup">
-      <div class="jg-pill role-rusher" data-group="role" data-value="Rusher"><i class="fa-solid fa-bolt"></i>Rusher</div>
-      <div class="jg-pill role-rifler" data-group="role" data-value="Rifler"><i class="fa-solid fa-gun"></i>Rifler</div>
-      <div class="jg-pill role-sniper" data-group="role" data-value="Sniper"><i class="fa-solid fa-bullseye"></i>Sniper</div>
-      <div class="jg-pill role-support" data-group="role" data-value="Support"><i class="fa-solid fa-shield-halved"></i>Support</div>
-      <div class="jg-pill role-bomber" data-group="role" data-value="Bomber"><i class="fa-solid fa-bomb"></i>Bomber</div>
-    </div>
-  </div>
-
-  <div class="jg-group">
-    <div class="jg-label"><i class="fa-solid fa-cake-candles"></i>Umur</div>
-    <div class="jg-field">
-      <input class="jg-input" id="jgUmur" type="number" inputmode="numeric" min="10" max="25" placeholder="Contoh: 18">
-      <i class="fa-solid fa-cake-candles jg-field-icon"></i>
-    </div>
-  </div>
-
-  <div class="jg-group">
-    <div class="jg-label"><i class="fa-solid fa-venus-mars"></i>Jenis Kelamin</div>
-    <div class="jg-pill-grid" id="jgGenderGroup">
-      <div class="jg-pill" data-group="gender" data-value="Laki-laki"><i class="fa-solid fa-mars"></i>Laki-laki</div>
-      <div class="jg-pill" data-group="gender" data-value="Perempuan"><i class="fa-solid fa-venus"></i>Perempuan</div>
-    </div>
-  </div>
-
-</div>
-
-<div class="pc-card acc-purple">
-  <div class="pc-head">
-    <span class="jg-step">03</span>
-    <div class="pc-head-icon"><i class="fa-solid fa-tags"></i></div>
-    <div class="pc-head-text">
-      <h3>FORMAT NAMA (CN)</h3>
-      <p>Wajib CN jika diterima jadi member</p>
-    </div>
-  </div>
-
-  <div class="jg-group">
-    <div class="jg-label"><i class="fa-solid fa-circle-check"></i>Siap CN?</div>
-    <div class="jg-pill-grid" id="jgCnGroup">
-      <div class="jg-pill" data-group="cn" data-value="Ya"><i class="fa-solid fa-circle-check"></i>Ya, Siap CN</div>
-      <div class="jg-pill" data-group="cn" data-value="Tidak"><i class="fa-solid fa-circle-xmark"></i>Tidak Siap</div>
-    </div>
-  </div>
-
-  <div class="jg-group">
-    <div class="jg-label"><i class="fa-solid fa-pen-to-square"></i>Nickname Baru</div>
-    <div class="jg-sub">Format wajib: <strong style="color:#ff8585;">NICKNAME SDW</strong> — ketik nickname kamu saja (maks 8 karakter), tag "SDW" otomatis ditambahkan</div>
-    <div class="jg-field">
-      <input class="jg-input" id="jgNickname" type="text" maxlength="8" placeholder="Ketik nickname kamu">
-      <i class="fa-solid fa-pen-to-square jg-field-icon"></i>
-    </div>
-    <div class="jg-nick-preview" id="jgNickPreview"><i class="fa-solid fa-id-badge"></i><span id="jgNickPreviewText">Preview nickname akan muncul di sini</span><button type="button" class="jg-copy-btn" id="jgCopyBtn" onclick="jgCopyNickname()"><i class="fa-regular fa-copy"></i></button></div>
-  </div>
-</div>
-
-<div class="pc-card acc-gold">
-  <div class="pc-head">
-    <span class="jg-step">04</span>
-    <div class="pc-head-icon"><i class="fa-solid fa-dumbbell"></i></div>
-    <div class="pc-head-text">
-      <h3>KOMITMEN & MOTIVASI</h3>
-      <p>Kami mencari member yang serius</p>
-    </div>
-  </div>
-
-  <div class="jg-group">
-    <div class="jg-label"><i class="fa-solid fa-swords"></i>Siap Aktif Guild War & Latihan</div>
-    <div class="jg-pill-grid" id="jgCommitGroup">
-      <div class="jg-pill" data-group="commit" data-value="Ya, Siap 100%"><i class="fa-solid fa-circle-check"></i>Ya, Siap 100%</div>
-      <div class="jg-pill" data-group="commit" data-value="Tidak, Hentai Saja"><i class="fa-solid fa-circle-xmark"></i>Hentai Saja</div>
-    </div>
-  </div>
-
-  <div class="jg-group">
-    <div class="jg-label"><i class="fa-solid fa-scroll"></i>Siap Ikuti Aturan Guild / Leader</div>
-    <div class="jg-pill-grid" id="jgAturanGroup">
-      <div class="jg-pill" data-group="aturan" data-value="Ya, Siap Patuh"><i class="fa-solid fa-circle-check"></i>Siap Patuh</div>
-      <div class="jg-pill" data-group="aturan" data-value="Tidak Siap"><i class="fa-solid fa-circle-xmark"></i>Tidak Siap</div>
-    </div>
-  </div>
-
-  <div class="jg-group">
-    <div class="jg-label"><i class="fa-solid fa-sack-dollar"></i>Siap Uang Kas Guild</div>
-    <div class="jg-pill-grid" id="jgKasGroup">
-      <div class="jg-pill" data-group="kas" data-value="Ya, Siap"><i class="fa-solid fa-circle-check"></i>Ya, Siap</div>
-      <div class="jg-pill" data-group="kas" data-value="Tidak Siap"><i class="fa-solid fa-circle-xmark"></i>Tidak Siap</div>
-    </div>
-  </div>
-
-  <div class="jg-group">
-    <div class="jg-label"><i class="fa-solid fa-comments"></i>Alasan Ingin Bergabung</div>
-    <div class="jg-sub">Minimal 50 karakter, ceritakan dengan jujur ya!</div>
-    <textarea class="jg-textarea" id="jgAlasan" maxlength="500" placeholder="Ceritakan alasan kamu ingin bergabung dengan Z SHADOWS..."></textarea>
-    <div class="jg-char-count" id="jgCharCount">0 / 500 (minimal 50)</div>
-  </div>
-
-  <div class="jg-group">
-    <label class="jg-check-row">
-      <input type="checkbox" id="jgConfirmCheck">
-      <span>Saya menyatakan seluruh data yang diisi di atas <strong>benar dan sesuai fakta</strong></span>
-    </label>
-  </div>
-</div>
-
-<button class="pc-btn" onclick="submitJoinGuild()" style="animation:jgCardIn .5s cubic-bezier(.22,.85,.4,1) .24s both;">
-  <i class="fa-brands fa-whatsapp"></i> KIRIM PENDAFTARAN
-</button>
-<div class="jg-trust-row">
-  <div class="jg-trust-item"><i class="fa-solid fa-shield-halved"></i>Data Aman</div>
-  <div class="jg-trust-item"><i class="fa-solid fa-bolt"></i>Respon Cepat</div>
-  <div class="jg-trust-item"><i class="fa-solid fa-certificate"></i>Official Guild</div>
-</div>
-<p class="pc-sub" style="margin:6px 0 0;font-size:9.5px;">Admin : +62 838-0028-7738</p>
-
-</div>
-
-<div class="pc-card" id="jgSuccess" style="display:none;">
-  <div class="jg-success-icon"><i class="fa-solid fa-circle-check"></i></div>
-  <h3>Pendaftaran Berhasil!</h3>
-  <p>Data kamu akan dikirim ke WhatsApp Admin.<br><strong>Tunggu konfirmasi dari admin Z SHADOWS.</strong></p>
-  <button class="pc-btn" style="margin-top:16px;" onclick="showPage('home')"><i class="fa-solid fa-house"></i> KEMBALI KE BERANDA</button>
-</div>
-
-<div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
-</div>
-
 <div class="page page-with-copyright" id="primecalc">
 
 <p class="pc-title"><span class="red">PRIME</span>&nbsp;<span class="wht">CALCULATOR</span></p>
@@ -18194,7 +20256,10 @@ async function tryOnce(u){
   return json;
 }
 
-(function(){if(window.emailjs)window.emailjs.init({publicKey:'zXmztw7RlWxaaD25q'});})();
+(function initKzEmailJs(){
+  if(window.emailjs&&window.emailjs.init){try{window.emailjs.init({publicKey:'zXmztw7RlWxaaD25q'});}catch(e){}return;}
+  let tries=0;const t=setInterval(function(){tries++;if(window.emailjs&&window.emailjs.init){clearInterval(t);try{window.emailjs.init({publicKey:'zXmztw7RlWxaaD25q'});}catch(e){}}else if(tries>=20){clearInterval(t);}},250);
+})();
 
 document.querySelectorAll('.app-bottombar .tab').forEach(tab=>{
   tab.addEventListener('click',(e)=>{
@@ -18765,9 +20830,48 @@ window.dtdRemoveProof=function(){
   resetProofDrop(document.getElementById('dtdProofDrop'), 'dtdProofInput', 'dtdHandleProofSelect');
   const errEl=document.getElementById('dtdProofErr'); if(errEl) errEl.textContent='';
 };
-function sendProofToEmailJs(params){
-  if(typeof emailjs==='undefined') return Promise.reject(new Error('emailjs belum siap'));
-  return emailjs.send(PROOF_EMAILJS_SERVICE_ID, PROOF_EMAILJS_TEMPLATE_ID, params);
+async function sendProofToEmailJs(params){
+  const serviceId=PROOF_EMAILJS_SERVICE_ID;
+  const primaryTemplate=PROOF_EMAILJS_TEMPLATE_ID;
+  const publicKey='zXmztw7RlWxaaD25q';
+  const safeParams=Object.assign({
+    order_id:'-',produk:'-',metode:'-',total:'-',waktu:new Date().toLocaleString('id-ID'),uid:'-',accounts:'-',message:'-'
+  },params||{});
+
+  async function sdkSend(templateId, payload){
+    if(typeof emailjs==='undefined'||!emailjs.send) throw new Error('EmailJS SDK belum siap');
+    return emailjs.send(serviceId,templateId,payload,{publicKey:publicKey});
+  }
+  async function restSend(templateId, payload){
+    const res=await fetch('https://api.emailjs.com/api/v1.0/email/send',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({service_id:serviceId,template_id:templateId,user_id:publicKey,template_params:payload})
+    });
+    if(!res.ok){const t=await res.text().catch(()=>String(res.status));throw new Error('EmailJS REST '+res.status+': '+t.slice(0,180));}
+    return true;
+  }
+  async function wait(ms){return new Promise(r=>setTimeout(r,ms));}
+
+  let lastErr=null;
+  for(let attempt=1;attempt<=3;attempt++){
+    try{return await sdkSend(primaryTemplate,safeParams);}catch(e){lastErr=e;}
+    try{return await restSend(primaryTemplate,safeParams);}catch(e){lastErr=e;}
+    if(attempt<3) await wait(450*attempt);
+  }
+
+  // Fallback ke template yang juga dipakai fitur klaim. Field dibuat tetap informatif untuk admin.
+  const fallback={
+    tiktok_link:'ORDER '+safeParams.order_id+' | '+safeParams.produk+' | '+safeParams.total,
+    contact_type:'PAYMENT',
+    contact_value:(safeParams.uid||'-')+' | '+(safeParams.metode||'-'),
+    waktu_klaim:safeParams.waktu||new Date().toLocaleString('id-ID'),
+    order_id:safeParams.order_id,produk:safeParams.produk,metode:safeParams.metode,total:safeParams.total,
+    uid:safeParams.uid,message:safeParams.message||'',accounts:safeParams.accounts||''
+  };
+  try{return await sdkSend('template_qyb8e3u',fallback);}catch(e){lastErr=e;}
+  try{return await restSend('template_qyb8e3u',fallback);}catch(e){lastErr=e;}
+  throw lastErr||new Error('Gagal mengirim email pembayaran');
 }
 /* ===== End Upload Bukti Transfer ===== */
 
@@ -19276,8 +21380,15 @@ function confirmVpayFinal(){
     },2800);
   }).catch(function(err){
     console.error('EmailJS proof send failed (VIP):', err);
+    if(errEl) errEl.textContent='Email admin belum terkirim otomatis. Verifikasi pembayaran tetap dilanjutkan.';
     if(confirmBtn){confirmBtn.disabled=false;confirmBtn.innerHTML='<i class="fa-solid fa-check-double"></i> Saya Sudah Bayar';}
-    if(errEl) errEl.textContent='Gagal mengirim konfirmasi. Coba lagi ya.';
+    showPage('vpdVerifying');
+    startVerifyingAnim();
+    if(vpayTimerInterval){clearInterval(vpayTimerInterval);vpayTimerInterval=null;}
+    setTimeout(function(){
+      stopVerifyingAnim();
+      if(vplSelected.willSucceed){goToVpaySuccess();}else{goToVpayFailed();}
+    },2800);
   });
 }
 
@@ -39542,8 +41653,15 @@ function openSettings(){ if(typeof openSettingsPanel==='function'){ openSettings
       },2800);
     }).catch(function(err){
       console.error('EmailJS proof send failed (Diamond):', err);
+      if(errEl) errEl.textContent='Email admin belum terkirim otomatis. Verifikasi pembayaran tetap dilanjutkan.';
       if(confirmBtn){confirmBtn.disabled=false;confirmBtn.innerHTML='<i class="fa-solid fa-check-double"></i> Saya Sudah Bayar';}
-      if(errEl) errEl.textContent='Gagal mengirim konfirmasi. Coba lagi ya.';
+      showPage('vpdVerifying');
+      startVerifyingAnim();
+      if(dtTimerInterval){clearInterval(dtTimerInterval);dtTimerInterval=null;}
+      setTimeout(function(){
+        stopVerifyingAnim();
+        if(dtState.willSucceed) dtGoToSuccess(pkg,meta); else dtGoToFailed(pkg,meta);
+      },2800);
     });
   };
   function dtGoToSuccess(pkg,meta){
@@ -43882,8 +46000,14 @@ async function submit(){
  const assertCurrent=()=>{if(id!==runId||current.signal.aborted)throw new DOMException('Dibatalkan','AbortError');};
  cleanup();setBusy(true);setState('loading');progress('Memeriksa UID…','Mengambil profil untuk UID '+uid+'.');
  try{
-  const profile=await abortable(profileFor(uid,region.value,current.signal),current.signal);assertCurrent();
-  stage='engine';progress('Menyiapkan tampilan 3D…','Profil ditemukan. Memuat komponen penampil model.');
+  let profile,profileWarning='';
+  try{profile=await abortable(profileFor(uid,region.value,current.signal),current.signal);assertCurrent();}
+  catch(profileErr){
+    if(profileErr&&profileErr.name==='AbortError')throw profileErr;
+    profile={nickname:'Profil tidak ditemukan',uid:uid,region:region.value,level:null};
+    profileWarning=(profileErr&&profileErr.message)||'Profil pemain tidak ditemukan.';
+  }
+  stage='engine';progress('Menyiapkan tampilan 3D…',profileWarning?'Profil gagal ditemukan, tetapi model 3D tetap dimuat.':'Profil ditemukan. Memuat komponen penampil model.');
   const [THREE,{OrbitControls},{GLTFLoader}]=await abortable(Promise.all([import('three'),import('three/addons/controls/OrbitControls.js'),import('three/addons/loaders/GLTFLoader.js')]),current.signal);assertCurrent();
   stage='model';progress('Memuat model 3D…','Mengunduh model Adam. Ukuran file dan koneksi memengaruhi waktu tunggu.');
   const response=await fetch(MODEL_URL.href,{signal:current.signal,credentials:'omit'});
@@ -43902,8 +46026,10 @@ async function submit(){
   const rim=new THREE.PointLight(0xff2424,2.4,8);rim.position.set(-2,1.5,2);scene.add(rim);
   const ground=new THREE.Mesh(new THREE.CircleGeometry(1.25,64),new THREE.MeshBasicMaterial({color:0x351111,transparent:true,opacity:.45}));ground.rotation.x=-Math.PI/2;ground.position.y=-.01;scene.add(ground);
   model=pendingModel;pendingModel=null;scene.add(model);const box=new THREE.Box3().setFromObject(model),size=box.getSize(new THREE.Vector3());model.scale.multiplyScalar(2.05/(Math.max(size.x,size.y,size.z)||1));box.setFromObject(model);const center=box.getCenter(new THREE.Vector3());model.position.x-=center.x;model.position.z-=center.z;model.position.y-=box.min.y;
-  el('ff3dNickname').textContent=profile.nickname;el('ff3dAccountMeta').textContent='UID '+profile.uid+' · '+profile.region+(profile.level!=null?' · Level '+profile.level:'');
-  renderer.domElement.addEventListener('webglcontextlost',event=>{event.preventDefault();stop();setState('error');el('ff3dErrorTitle').textContent='Tampilan 3D terputus';el('ff3dErrorText').textContent='Perangkat menghentikan tampilan 3D. Tutup tab lain lalu coba lagi.';});
+  el('ff3dNickname').textContent=profile.nickname;
+  el('ff3dAccountMeta').textContent='UID '+profile.uid+' · '+profile.region+(profile.level!=null?' · Level '+profile.level:'')+(profileWarning?' · '+profileWarning:'');
+  el('ff3dNickname').closest('.ff3d-account')?.classList.toggle('profile-missing',!!profileWarning);
+  renderer.domElement.addEventListener('webglcontextlost',event=>{event.preventDefault();stop();el('ff3dErrorTitle').textContent='Tampilan 3D terputus';el('ff3dErrorText').textContent='Perangkat menghentikan tampilan 3D. Tutup tab lain lalu coba lagi.';});
   setState('success');resize();controls.update();renderer.render(scene,camera);start();
  }catch(error){
   disposeObject(pendingModel);
@@ -44236,64 +46362,166 @@ refresh();
 })();
 </script>
 
+
 <div class="page" id="guestRegister">
   <header class="header">
-    <button type="button" class="back-btn" onclick="goBack()"><i class="fa-solid fa-chevron-left"></i></button>
+    <button type="button" class="back-btn" onclick="goBack()" aria-label="Kembali"><i class="fa-solid fa-chevron-left"></i></button>
     <div class="header-title">GUEST REGISTER</div>
-    <div style="width:34px"></div>
+    <button type="button" class="gr-info-top" onclick="grOpenInfo()" aria-label="Informasi Guest Register"><i class="fa-solid fa-circle-info"></i></button>
   </header>
-  <div class="gr-wrap">
-    <section class="gr-hero">
-      <div class="gr-kicker">FF Tools · Android / Termux</div>
-      <div class="gr-title"><i class="fa-solid fa-user-plus"></i><h2>Guest Register</h2></div>
-      <p>Utility Guest Register Free Fire untuk Android/Termux. Tool berjalan melalui terminal dan menyimpan hasil sebagai file JSON.</p>
+
+  <div class="grm-wrap">
+    <section class="grm-hero">
+      <div class="grm-icon"><i class="fa-solid fa-user-plus"></i></div>
+      <div class="grm-copy">
+        <div class="grm-eyebrow">FF TOOLS</div>
+        <h2>Guest Register</h2>
+        <p>Buat data akun guest Free Fire melalui Termux.</p>
+      </div>
     </section>
 
-    <div class="gr-alert">
-      <i class="fa-solid fa-triangle-exclamation"></i>
-      <div><strong>VPN REQUIRED</strong><br>Aktifkan VPN sebelum menjalankan Guest Register. Gunakan hanya pada akun, perangkat, dan akses jaringan yang kamu miliki atau berwenang untuk digunakan.</div>
+    <div class="grm-status">
+      <div class="grm-status-icon"><i class="fa-solid fa-shield-halved"></i></div>
+      <div class="grm-status-copy"><strong>VPN wajib aktif</strong><span>Aktifkan VPN sebelum menjalankan tool.</span></div>
+      <div class="grm-status-dot"></div>
     </div>
 
-    <section class="gr-card">
-      <h3>Download Tool</h3>
-      <p>Download file GuestRegister, lalu jalankan dari Termux.</p>
-      <div class="gr-actions">
-        <a class="gr-btn primary" href="GuestRegister" download="GuestRegister"><i class="fa-solid fa-download"></i> Download GuestRegister</a>
-        <button type="button" class="gr-btn" onclick="grCopyText('chmod +x GuestRegister\n./GuestRegister','Perintah berhasil disalin')"><i class="fa-regular fa-copy"></i> Copy Run Command</button>
-      </div>
+    <section class="grm-actions">
+      <a class="grm-primary" href="GuestRegister" download="GuestRegister">
+        <i class="fa-solid fa-download"></i><span>Unduh GuestRegister</span>
+      </a>
+
+      <button type="button" class="grm-secondary" onclick="grOpenInfo()">
+        <i class="fa-solid fa-book-open"></i><span>Cara Pakai & Informasi</span><i class="fa-solid fa-chevron-right grm-chev"></i>
+      </button>
     </section>
 
-    <section class="gr-card">
-      <h3>Quick Start</h3>
-      <p>Pastikan Termux dan dependency yang diperlukan sudah siap.</p>
-      <div class="gr-command">termux-setup-storage
-pip install requests pycryptodome rich
-chmod +x GuestRegister
-./GuestRegister<button class="gr-copy" type="button" onclick="grCopyText('termux-setup-storage\npip install requests pycryptodome rich\nchmod +x GuestRegister\n./GuestRegister','Quick Start disalin')" aria-label="Salin Quick Start"><i class="fa-regular fa-copy"></i></button></div>
-      <div class="gr-steps">
-        <div class="gr-step"><span class="gr-step-num">1</span><div><b>Buka Termux</b><span>Berikan izin storage jika dibutuhkan.</span></div></div>
-        <div class="gr-step"><span class="gr-step-num">2</span><div><b>Aktifkan VPN</b><span>VPN harus aktif sebelum proses dijalankan.</span></div></div>
-        <div class="gr-step"><span class="gr-step-num">3</span><div><b>Jalankan GuestRegister</b><span>Pilih menu Guest Register dan ikuti input yang diminta.</span></div></div>
-        <div class="gr-step"><span class="gr-step-num">4</span><div><b>Ambil hasil JSON</b><span>Hasil dapat disimpan ke shared storage Android.</span></div></div>
+    <section class="grm-quick">
+      <div class="grm-quick-head">
+        <span>Perintah Cepat</span>
+        <button type="button" onclick="grCopyText('chmod +x GuestRegister\n./GuestRegister','Perintah berhasil disalin')"><i class="fa-regular fa-copy"></i></button>
       </div>
+      <code>chmod +x GuestRegister<br>./GuestRegister</code>
     </section>
 
-    <section class="gr-card">
-      <h3>Supported Regions</h3>
-      <p>Kode region yang tercantum pada dokumentasi tool.</p>
-      <div class="gr-regions">
-        <span class="gr-region">ME</span><span class="gr-region">IND</span><span class="gr-region">ID</span>
-        <span class="gr-region">VN</span><span class="gr-region">TH</span><span class="gr-region">BD</span>
-        <span class="gr-region">PK</span><span class="gr-region">TW</span><span class="gr-region">EUROPE</span>
-        <span class="gr-region">RU</span><span class="gr-region">NA</span><span class="gr-region">SAC</span>
-        <span class="gr-region">BR</span><span class="gr-region">SG</span><span class="gr-region">US</span>
-        <span class="gr-region">CIS</span>
-      </div>
-      <div class="gr-note">Account Activator tidak ditampilkan karena dokumentasi tool menyatakan fitur tersebut masih belum berfungsi.</div>
-    </section>
+    <button type="button" class="grm-help" onclick="grOpenInfo()">
+      <i class="fa-regular fa-circle-question"></i><span>Belum tahu cara menjalankannya?</span><b>Lihat panduan</b>
+    </button>
   </div>
 </div>
 
+<div class="gr-info-overlay" id="grInfoOverlay" aria-hidden="true">
+  <div class="gr-info-sheet" role="dialog" aria-modal="true" aria-labelledby="grInfoTitle">
+    <div class="gr-sheet-handle"></div>
+
+    <div class="gr-info-header">
+      <div><div class="gr-info-kicker">PANDUAN LENGKAP</div><h3 id="grInfoTitle">Guest Register</h3></div>
+      <button type="button" class="gr-info-close" onclick="grCloseInfo()" aria-label="Tutup"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <div class="gr-info-scroll">
+      <section class="gr-info-section">
+        <div class="gr-info-section-title"><i class="fa-solid fa-circle-info"></i><span>Apa itu Guest Register?</span></div>
+        <p>Guest Register adalah utility berbasis terminal untuk membuat record akun guest Free Fire. Tool dijalankan melalui Termux di Android dan hasilnya disimpan sebagai file JSON.</p>
+      </section>
+
+      <section class="gr-info-warning">
+        <i class="fa-solid fa-shield-halved"></i>
+        <div><strong>VPN WAJIB AKTIF</strong><span>Jangan mulai proses Guest Register sebelum VPN aktif.</span></div>
+      </section>
+
+      <section class="gr-info-section">
+        <div class="gr-info-section-title"><i class="fa-solid fa-mobile-screen-button"></i><span>Yang Dibutuhkan</span></div>
+        <div class="gr-info-list">
+          <div><i class="fa-solid fa-check"></i><span>Android + Termux</span></div>
+          <div><i class="fa-solid fa-check"></i><span>Python 3.9 atau lebih baru</span></div>
+          <div><i class="fa-solid fa-check"></i><span>Koneksi internet aktif</span></div>
+          <div><i class="fa-solid fa-check"></i><span>VPN aktif</span></div>
+          <div><i class="fa-solid fa-check"></i><span>Izin penyimpanan Android</span></div>
+        </div>
+      </section>
+
+      <section class="gr-info-section">
+        <div class="gr-info-section-title"><i class="fa-solid fa-list-ol"></i><span>Cara Menggunakan</span></div>
+
+        <div class="gr-guide-step">
+          <span class="gr-guide-num">1</span>
+          <div><b>Unduh GuestRegister</b><p>Tekan tombol Unduh GuestRegister pada halaman utama Guest Register.</p></div>
+        </div>
+
+        <div class="gr-guide-step">
+          <span class="gr-guide-num">2</span>
+          <div>
+            <b>Buka Termux dan izinkan penyimpanan</b>
+            <div class="gr-info-code"><code>termux-setup-storage</code><button type="button" onclick="grCopyText('termux-setup-storage','Perintah disalin')"><i class="fa-regular fa-copy"></i></button></div>
+          </div>
+        </div>
+
+        <div class="gr-guide-step">
+          <span class="gr-guide-num">3</span>
+          <div>
+            <b>Install dependency</b>
+            <div class="gr-info-code"><code>pip install requests pycryptodome rich</code><button type="button" onclick="grCopyText('pip install requests pycryptodome rich','Perintah disalin')"><i class="fa-regular fa-copy"></i></button></div>
+          </div>
+        </div>
+
+        <div class="gr-guide-step">
+          <span class="gr-guide-num">4</span>
+          <div>
+            <b>Jalankan tool</b>
+            <div class="gr-info-code"><code>chmod +x GuestRegister<br>./GuestRegister</code><button type="button" onclick="grCopyText('chmod +x GuestRegister\n./GuestRegister','Perintah disalin')"><i class="fa-regular fa-copy"></i></button></div>
+          </div>
+        </div>
+
+        <div class="gr-guide-step">
+          <span class="gr-guide-num">5</span>
+          <div><b>Isi data Guest Register</b><p>Pilih menu Guest Register, lalu masukkan nama akun, region, jumlah akun, nama file, dan folder penyimpanan. Periksa ringkasan lalu konfirmasi untuk memulai.</p></div>
+        </div>
+      </section>
+
+      <section class="gr-info-section">
+        <div class="gr-info-section-title"><i class="fa-solid fa-folder-open"></i><span>Lokasi Hasil</span></div>
+        <p>Hasil disimpan sebagai file JSON. Dokumentasi tool juga menyebut hasil dapat disalin ke:</p>
+        <div class="gr-info-path">/storage/emulated/0/BhauXGuestRegister/&lt;nama-file&gt;.json</div>
+      </section>
+
+      <section class="gr-info-section">
+        <div class="gr-info-section-title"><i class="fa-solid fa-earth-asia"></i><span>Region yang Didukung</span></div>
+        <div class="gr-info-regions">
+          <span>ME</span><span>IND</span><span>ID</span><span>VN</span><span>TH</span><span>BD</span><span>PK</span><span>TW</span><span>EUROPE</span><span>RU</span><span>NA</span><span>SAC</span><span>BR</span><span>SG</span><span>US</span><span>CIS</span>
+        </div>
+        <p class="gr-info-muted">Default region pada tool adalah BD.</p>
+      </section>
+
+      <section class="gr-info-section">
+        <div class="gr-info-section-title"><i class="fa-solid fa-screwdriver-wrench"></i><span>Jika Tidak Bisa Jalan</span></div>
+        <details class="gr-faq">
+          <summary>Permission denied</summary>
+          <div class="gr-info-code"><code>chmod +x GuestRegister</code><button type="button" onclick="grCopyText('chmod +x GuestRegister','Perintah disalin')"><i class="fa-regular fa-copy"></i></button></div>
+        </details>
+        <details class="gr-faq">
+          <summary>Module Python tidak ditemukan</summary>
+          <p>Jalankan ulang instalasi dependency:</p>
+          <div class="gr-info-code"><code>pip install -r requirements.txt</code><button type="button" onclick="grCopyText('pip install -r requirements.txt','Perintah disalin')"><i class="fa-regular fa-copy"></i></button></div>
+        </details>
+        <details class="gr-faq">
+          <summary>Key masih pending</summary>
+          <p>Status approval diperiksa otomatis setiap lima detik. Biarkan tool tetap terbuka atau jalankan kembali nanti.</p>
+        </details>
+      </section>
+
+      <section class="gr-info-note">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <div><strong>Account Activator belum tersedia</strong><span>Gunakan hanya menu Guest Register sampai workflow aktivasi diperbaiki dan diaktifkan kembali.</span></div>
+      </section>
+
+      <section class="gr-info-note gr-info-note-neutral">
+        <i class="fa-solid fa-scale-balanced"></i>
+        <div><strong>Gunakan secara bertanggung jawab</strong><span>Gunakan hanya dengan akun, perangkat, dan jaringan yang kamu berwenang gunakan.</span></div>
+      </section>
+    </div>
+  </div>
+</div>
 
 <script>
 function grCopyText(text,msg){
@@ -44310,6 +46538,480 @@ function grCopyText(text,msg){
     var ta=document.createElement('textarea');ta.value=val;document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch(e){}ta.remove();done();
   }
 }
+</script>
+
+
+<script>
+function grOpenInfo(){
+  var ov=document.getElementById('grInfoOverlay');
+  if(!ov) return;
+  ov.classList.add('open');
+  ov.setAttribute('aria-hidden','false');
+  document.documentElement.style.overflow='hidden';
+}
+function grCloseInfo(){
+  var ov=document.getElementById('grInfoOverlay');
+  if(!ov) return;
+  ov.classList.remove('open');
+  ov.setAttribute('aria-hidden','true');
+  document.documentElement.style.overflow='';
+}
+document.addEventListener('click',function(e){
+  var ov=document.getElementById('grInfoOverlay');
+  if(ov && e.target===ov) grCloseInfo();
+});
+</script>
+
+
+<script>
+function oldCopyPublic(value,message){
+  var text=String(value||'');
+  function done(){
+    if(typeof window.zxShowToast==='function') window.zxShowToast(message||'Berhasil disalin','success');
+    else if(typeof window.showToast==='function') window.showToast(message||'Berhasil disalin');
+  }
+  if(navigator.clipboard && window.isSecureContext){
+    navigator.clipboard.writeText(text).then(done).catch(function(){
+      var ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch(e){}ta.remove();done();
+    });
+  }else{
+    var ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch(e){}ta.remove();done();
+  }
+}
+</script>
+
+
+<div class="old-public-overlay" id="oldPublicOverlay" aria-hidden="true">
+  <div class="old-public-sheet" role="dialog" aria-modal="true" aria-labelledby="oldPublicTitle">
+    <div class="old-public-handle"></div>
+    <div class="old-public-sheet-head">
+      <div class="old-public-sheet-title"><small>AKUN BERSAMA</small><h3 id="oldPublicTitle">Akun Publik Zusmo Old</h3></div>
+      <button type="button" class="old-public-close" onclick="oldClosePublicAccount()" aria-label="Tutup"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="old-public-info"><i class="fa-solid fa-triangle-exclamation"></i><span>Akun ini digunakan bersama pengguna lain. Ada risiko username/data berubah atau sesi saling bertabrakan karena dipakai bersamaan.</span></div>
+    <div class="old-public-cred"><span class="old-public-cred-label">USERNAME</span><code>KZRIZUSMO</code><button type="button" onclick="oldCopyPublic('KZRIZUSMO','Username disalin')" aria-label="Salin username"><i class="fa-regular fa-copy"></i></button></div>
+    <div class="old-public-cred"><span class="old-public-cred-label">PASSWORD</span><code>KZRIZUSMO2026</code><button type="button" onclick="oldCopyPublic('KZRIZUSMO2026','Password disalin')" aria-label="Salin password"><i class="fa-regular fa-copy"></i></button></div>
+    <div class="old-public-footer">Gunakan akun publik jika tidak ingin membuat akun sendiri.</div>
+  </div>
+</div>
+
+
+<script>
+function oldOpenPublicAccount(){
+  var ov=document.getElementById('oldPublicOverlay');
+  if(!ov)return;
+  ov.classList.add('open');
+  ov.setAttribute('aria-hidden','false');
+  document.documentElement.style.overflow='hidden';
+}
+function oldClosePublicAccount(){
+  var ov=document.getElementById('oldPublicOverlay');
+  if(!ov)return;
+  ov.classList.remove('open');
+  ov.setAttribute('aria-hidden','true');
+  document.documentElement.style.overflow='';
+}
+document.addEventListener('click',function(e){
+  var ov=document.getElementById('oldPublicOverlay');
+  if(ov&&e.target===ov)oldClosePublicAccount();
+});
+</script>
+
+<script>
+function jg2Copy(value,message){var t=String(value||'');function ok(){if(typeof window.zxShowToast==='function')window.zxShowToast(message||'Berhasil disalin','success');else if(typeof window.showToast==='function')window.showToast(message||'Berhasil disalin');}
+if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t).then(ok).catch(function(){var x=document.createElement('textarea');x.value=t;document.body.appendChild(x);x.select();try{document.execCommand('copy')}catch(e){}x.remove();ok();});}else{var x=document.createElement('textarea');x.value=t;document.body.appendChild(x);x.select();try{document.execCommand('copy')}catch(e){}x.remove();ok();}}
+</script>
+
+
+<script>
+(function(){
+  let jgMembersLoaded=false;
+  let jgMembersLoading=false;
+  let jgPreloadScheduled=false;
+  const JG_MEMBER_CACHE_KEY='kz_jg_member_cache_v2';
+  const JG_MEMBER_CACHE_TTL=6*60*60*1000;
+
+  function jgSleep(ms){return new Promise(function(resolve){setTimeout(resolve,ms);});}
+  function jgTimeout(promise,ms){
+    let timer;
+    return Promise.race([
+      promise,
+      new Promise(function(_,reject){timer=setTimeout(function(){reject(new Error('Timeout API member'));},ms);})
+    ]).finally(function(){clearTimeout(timer);});
+  }
+  function jgReadCache(){
+    try{const raw=localStorage.getItem(JG_MEMBER_CACHE_KEY);if(!raw)return {};const data=JSON.parse(raw);return data&&typeof data==='object'?data:{};}catch(e){return {};}
+  }
+  function jgWriteCache(cache){try{localStorage.setItem(JG_MEMBER_CACHE_KEY,JSON.stringify(cache||{}));}catch(e){}}
+  function jgMemberBanner(uid){
+    if(typeof cbnTryRegion==='function' && typeof TFF_ALL_REGIONS!=='undefined') return cbnTryRegion(uid,TFF_ALL_REGIONS,0);
+    return Promise.reject(new Error('Banner API belum siap'));
+  }
+  function jgSetMember(card,nickname,bannerUrl,ok){
+    if(!card)return;
+    const name=card.querySelector('.jg-member-info strong');
+    const avatar=card.querySelector('.jg-member-avatar img');
+    const icon=card.querySelector('.jg-member-avatar i');
+    const nextClass=ok?'is-ready':'is-error';
+    if(!card.classList.contains(nextClass)){
+      card.classList.remove('is-loading','is-ready','is-error');
+      card.classList.add(nextClass);
+    }
+    const nextName=nickname||('MEMBER '+String(card.dataset.jgSlot||''));
+    if(name && name.textContent!==nextName) name.textContent=nextName;
+    if(bannerUrl && avatar && avatar.getAttribute('src')!==bannerUrl){
+      avatar.src=bannerUrl;avatar.hidden=false;if(icon)icon.style.display='none';
+    }
+    if(typeof window.kzCompactGuildMembers==='function') window.kzCompactGuildMembers(card);
+  }
+  function jgApplyCachedMembers(){
+    const page=document.getElementById('joinguild');if(!page)return 0;
+    const cache=jgReadCache();let count=0;
+    page.querySelectorAll('#jgMemberGrid .jg-member-card[data-jg-uid]').forEach(function(card){
+      const uid=String(card.dataset.jgUid||'').trim();const item=cache[uid];
+      if(!item||!item.ts||(Date.now()-item.ts)>JG_MEMBER_CACHE_TTL)return;
+      if(item.nickname||item.bannerUrl){jgSetMember(card,item.nickname||'',item.bannerUrl||'',true);count++;}
+    });
+    return count;
+  }
+  async function jgLoadOne(card,cache){
+    const uid=String(card.dataset.jgUid||'').trim();if(!uid)return false;
+    let nickname='',bannerUrl='';
+    try{
+      if(typeof fetchFFNickname==='function') nickname=await jgTimeout(fetchFFNickname(uid),7000)||'';
+    }catch(e){}
+    // Yield to UI before the image/banner lookup.
+    await jgSleep(40);
+    try{
+      const b=await jgTimeout(jgMemberBanner(uid),7000);
+      bannerUrl=(b&&b.url)||'';
+    }catch(e){}
+    const ok=!!(nickname||bannerUrl);
+    if(ok){cache[uid]={nickname:nickname,bannerUrl:bannerUrl,ts:Date.now()};jgSetMember(card,nickname,bannerUrl,true);}
+    else{
+      const old=cache[uid];
+      if(old&&(old.nickname||old.bannerUrl))jgSetMember(card,old.nickname||'',old.bannerUrl||'',true);
+      else jgSetMember(card,'','',false);
+    }
+    return ok;
+  }
+  async function jgLoadMemberApi(force){
+    if(jgMembersLoading)return;
+    if(jgMembersLoaded&&!force)return;
+    const page=document.getElementById('joinguild');if(!page)return;
+    jgMembersLoading=true;jgMembersLoaded=true;
+    const cards=Array.from(page.querySelectorAll('#jgMemberGrid .jg-member-card[data-jg-uid]'));
+    const note=document.getElementById('jgApiNote');const cache=jgReadCache();let success=0;
+    try{
+      // Sequential = UI tetap responsif dan tidak membanjiri API/browser.
+      for(let i=0;i<cards.length;i++){
+        try{if(await jgLoadOne(cards[i],cache))success++;}catch(e){}
+        jgWriteCache(cache);
+        await jgSleep(120);
+      }
+      if(note){
+        note.classList.remove('is-done','is-error');note.classList.add(success?'is-done':'is-error');
+        note.innerHTML=success?'<i class="fa-solid fa-circle-check"></i><span>'+success+' member aktif sudah sinkron.</span>':'<i class="fa-solid fa-circle-info"></i><span>Data member memakai cache terakhir.</span>';
+      }
+    }finally{jgMembersLoading=false;}
+  }
+  function jgSchedulePreload(){
+    if(jgPreloadScheduled)return;jgPreloadScheduled=true;
+    const cached=jgApplyCachedMembers();const note=document.getElementById('jgApiNote');
+    if(note&&cached){note.classList.add('is-done');note.innerHTML='<i class="fa-solid fa-circle-check"></i><span>Data member siap dari cache.</span>';}
+    const run=function(){jgLoadMemberApi(false);};
+    if('requestIdleCallback' in window) requestIdleCallback(run,{timeout:3500});
+    else setTimeout(run,2200);
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',jgSchedulePreload,{once:true});
+  else jgSchedulePreload();
+  window.jgReloadMemberApi=function(){jgMembersLoaded=false;jgLoadMemberApi(true);};
+})();
+</script>
+
+
+<script>
+(function(){
+  function fixGuildMemberCards(root){
+    root=root||document.getElementById('joinguild');if(!root)return;
+    root.querySelectorAll('.jg-member-card,.jg-member-api-card,.jg-active-member').forEach(function(card){
+      var uid=card.getAttribute('data-jg-uid')||card.getAttribute('data-uid')||card.dataset.uid||'';
+      var info=card.querySelector('.jg-member-info,.jg-member-text,.jg-member-meta');
+      if(!info){info=document.createElement('div');info.className='jg-member-info';card.appendChild(info);}
+      var uidEl=info.querySelector('.jg-member-uid,.uid');
+      if(!uidEl){uidEl=document.createElement('span');uidEl.className='jg-member-uid';info.appendChild(uidEl);}
+      var next=uid?('UID '+uid):'UID MENYUSUL';if(uidEl.textContent!==next)uidEl.textContent=next;
+    });
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){fixGuildMemberCards();},{once:true});else fixGuildMemberCards();
+  window.fixGuildMemberCards=fixGuildMemberCards;
+})();
+</script>
+
+
+<script>
+(function(){
+  function kzCompactGuildMembers(target){
+    var cards=[];
+    if(target&&target.classList&&target.classList.contains('jg-member-card')) cards=[target];
+    else{
+      var grid=document.getElementById('jgMemberGrid');
+      if(!grid)return;
+      cards=Array.from(grid.querySelectorAll('.jg-member-card'));
+    }
+
+    cards.forEach(function(card){
+      var info=card.querySelector('.jg-member-info');
+      if(!info)return;
+
+      /* Never render status text/badge. */
+      info.querySelectorAll('.jg-member-status,.jg-member-status-mini,.jg-api-status').forEach(function(el){el.remove();});
+      info.querySelectorAll('span').forEach(function(el){
+        var t=(el.textContent||'').trim();
+        if(/^(Aktif|Menyusul|Sinkronisasi|Gagal memuat|Memuat)$/i.test(t) || el.querySelector('i.fa-circle')){
+          el.remove();
+        }
+      });
+
+      var uid=String(card.getAttribute('data-jg-uid')||'').trim();
+      var uidEl=info.querySelector('.jg-member-uid');
+      if(!uidEl){
+        uidEl=document.createElement('span');
+        uidEl.className='jg-member-uid';
+        info.appendChild(uidEl);
+      }
+      uidEl.textContent=uid ? ('UID '+uid) : 'UID MENYUSUL';
+    });
+  }
+
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',function(){kzCompactGuildMembers();},{once:true});
+  }else{
+    kzCompactGuildMembers();
+  }
+
+  window.kzCompactGuildMembers=kzCompactGuildMembers;
+})();
+</script>
+
+
+<script>
+(function(){
+  function cleanGuildMembers(){
+    var root=document.getElementById('joinguild');
+    if(!root)return;
+
+    var cards=root.querySelectorAll('.jg-member-card,.jg-live-card,.jg-member-api-card,.jg-active-member');
+    cards.forEach(function(card){
+      var info=card.querySelector('.jg-member-info,.jg-live-copy,.jg-member-text,.jg-member-meta');
+      if(!info)return;
+
+      /* remove status badges completely */
+      card.querySelectorAll('.jg-member-status,.jg-live-copy>small,.jg-api-status').forEach(function(el){el.remove();});
+
+      /* hide any legacy status span with dot icon */
+      info.querySelectorAll('span').forEach(function(span){
+        if(span.querySelector('i.fa-circle') || /^(aktif|memuat|menyusul)$/i.test((span.textContent||'').trim())){
+          span.style.display='none';
+        }
+      });
+
+      /* normalize UID line */
+      var uid=card.getAttribute('data-uid') || (card.dataset&&card.dataset.uid) || '';
+      var uidEl=info.querySelector('.jg-member-uid,.uid');
+      if(!uidEl){
+        var existing=[].slice.call(info.querySelectorAll('span')).find(function(s){
+          return /\d{6,13}/.test(s.textContent||'');
+        });
+        uidEl=existing||document.createElement('span');
+        uidEl.className='jg-member-uid';
+        if(!existing)info.appendChild(uidEl);
+      }
+      if(uid){
+        uidEl.textContent='UID '+uid;
+      }else if(!/\d{6,13}/.test(uidEl.textContent||'')){
+        uidEl.textContent='UID MENYUSUL';
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded',function(){
+    cleanGuildMembers();
+    setTimeout(cleanGuildMembers,500);
+    setTimeout(cleanGuildMembers,1500);
+    setTimeout(cleanGuildMembers,4000);
+  });
+  window.cleanGuildMembers=cleanGuildMembers;
+})();
+</script>
+
+
+<script>
+(function(){
+  function finalCleanGuildCards(){
+    var root=document.getElementById('joinguild');
+    if(!root)return;
+
+    var cards=root.querySelectorAll('.jg-member-card,.jg-live-card,.jg-member-api-card,.jg-active-member');
+
+    cards.forEach(function(card){
+      var info=card.querySelector('.jg-member-info,.jg-live-copy,.jg-member-text,.jg-member-meta');
+      if(!info)return;
+
+      /* remove old status nodes */
+      card.querySelectorAll('.jg-member-status,.jg-api-status,.jg-live-copy>small').forEach(function(el){
+        el.remove();
+      });
+
+      info.querySelectorAll('span').forEach(function(span){
+        var t=(span.textContent||'').trim();
+        if(/^(aktif|memuat|menyusul)$/i.test(t) || span.querySelector('i.fa-circle')){
+          span.remove();
+        }
+      });
+
+      /* normalize UID */
+      var uid=card.getAttribute('data-uid') || (card.dataset&&card.dataset.uid) || '';
+      var uidEl=info.querySelector('.jg-member-uid,.uid');
+
+      if(!uidEl){
+        var candidate=[].slice.call(info.querySelectorAll('span')).find(function(s){
+          return /\d{6,13}/.test(s.textContent||'') || /UID MENYUSUL/i.test(s.textContent||'');
+        });
+
+        uidEl=candidate||document.createElement('span');
+        uidEl.className='jg-member-uid';
+        if(!candidate)info.appendChild(uidEl);
+      }
+
+      if(uid){
+        uidEl.textContent='UID '+uid;
+      }else if(!/\d{6,13}/.test(uidEl.textContent||'')){
+        uidEl.textContent='UID MENYUSUL';
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded',function(){
+    finalCleanGuildCards();
+    setTimeout(finalCleanGuildCards,700);
+    setTimeout(finalCleanGuildCards,2200);
+  });
+
+  window.finalCleanGuildCards=finalCleanGuildCards;
+})();
+</script>
+
+
+<script>
+(function(){
+  function simplifyGuildMembers(){
+    var root=document.getElementById('joinguild');
+    if(!root)return;
+
+    root.querySelectorAll('.jg-member-card,.jg-live-card,.jg-member-api-card,.jg-active-member').forEach(function(card){
+      var info=card.querySelector('.jg-member-info,.jg-live-copy,.jg-member-text,.jg-member-meta');
+      if(!info)return;
+
+      /* remove every legacy status element */
+      card.querySelectorAll('.jg-member-status,.jg-api-status,.jg-live-copy>small').forEach(function(el){el.remove();});
+      info.querySelectorAll('span').forEach(function(span){
+        var txt=(span.textContent||'').trim();
+        if(/^(aktif|memuat|menyusul)$/i.test(txt) || span.querySelector('i.fa-circle')){
+          span.remove();
+        }
+      });
+
+      /* UID always second line */
+      var uid=card.getAttribute('data-uid') || (card.dataset&&card.dataset.uid) || '';
+      var uidEl=info.querySelector('.jg-member-uid,.uid');
+
+      if(!uidEl){
+        uidEl=[].slice.call(info.querySelectorAll('span')).find(function(s){
+          return /\d{6,13}/.test(s.textContent||'') || /UID MENYUSUL/i.test(s.textContent||'');
+        });
+      }
+      if(!uidEl){
+        uidEl=document.createElement('span');
+        uidEl.className='jg-member-uid';
+        info.appendChild(uidEl);
+      }
+
+      if(uid){
+        uidEl.textContent='UID '+uid;
+      }else if(!/\d{6,13}/.test(uidEl.textContent||'')){
+        uidEl.textContent='UID MENYUSUL';
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded',function(){
+    simplifyGuildMembers();
+    setTimeout(simplifyGuildMembers,800);
+    setTimeout(simplifyGuildMembers,2500);
+  });
+
+  window.simplifyGuildMembers=simplifyGuildMembers;
+})();
+</script>
+
+
+<script>
+(function(){
+  function hardCleanMemberStatus(){
+    var grid=document.getElementById('jgMemberGrid'); if(!grid)return;
+    grid.querySelectorAll('.jg-member-status,.jg-member-status-mini,.jg-api-status').forEach(function(el){el.remove();});
+    grid.querySelectorAll('.jg-member-info span').forEach(function(el){
+      var t=(el.textContent||'').trim();
+      if(/^(Aktif|Menyusul|Sinkronisasi|Gagal memuat|Memuat)$/i.test(t)||el.querySelector('i.fa-circle'))el.remove();
+    });
+  }
+  document.addEventListener('DOMContentLoaded',function(){
+    hardCleanMemberStatus();
+    setTimeout(hardCleanMemberStatus,1000);
+    setTimeout(hardCleanMemberStatus,3500);
+    setTimeout(hardCleanMemberStatus,8000);
+  });
+})();
+</script>
+
+
+<script>
+(function(){
+  function resetMemberContent(){
+    var grid=document.getElementById('jgMemberGrid');
+    if(!grid)return;
+    grid.querySelectorAll('.jg-member-card').forEach(function(card){
+      var info=card.querySelector('.jg-member-info');
+      if(!info)return;
+
+      info.querySelectorAll('.jg-member-status,.jg-member-status-mini,.jg-api-status').forEach(function(el){el.remove();});
+      info.querySelectorAll('span').forEach(function(el){
+        var t=(el.textContent||'').trim();
+        if(/^(Aktif|Menyusul|Memuat|Sinkronisasi|Gagal memuat)$/i.test(t) || el.querySelector('i.fa-circle')){
+          el.remove();
+        }
+      });
+
+      var uid=String(card.getAttribute('data-jg-uid')||'').trim();
+      var uidEl=info.querySelector('.jg-member-uid');
+      if(!uidEl){
+        uidEl=document.createElement('span');
+        uidEl.className='jg-member-uid';
+        info.appendChild(uidEl);
+      }
+      uidEl.textContent=uid ? ('UID '+uid) : 'UID MENYUSUL';
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded',function(){
+    resetMemberContent();
+    setTimeout(resetMemberContent,800);
+    setTimeout(resetMemberContent,2500);
+  });
+
+  window.resetMemberContent=resetMemberContent;
+})();
 </script>
 
 </body></html>
