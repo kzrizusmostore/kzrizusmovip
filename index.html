@@ -13044,30 +13044,1452 @@ Sekarang tampilkan sekitar 45px source di dalam kotak 34px agar edge/garis putih
 
 
 
-/* ===== Z SHADOWS OPEN MEMBER BANNER =====
-   Member avatar styling is intentionally untouched/locked. */
+/* =========================================================
+   JOIN GUILD V10 — REVAMP + FINAL AVATAR CROP
+   ========================================================= */
+#joinguild{
+  --jg10-orange:#ff9d17;
+  --jg10-gold:#ffc94a;
+  --jg10-surface:#090909;
+  --jg10-surface-2:#0d0d0d;
+  --jg10-border:rgba(255,255,255,.065);
+  --jg10-muted:#717171;
+}
+#joinguild .jg2-wrap{
+  max-width:860px!important;
+  padding:10px 12px 96px!important;
+}
+
+/* Hero */
+#joinguild .jg9-hero{
+  margin:0 0 10px!important;
+}
+#joinguild .jg9-hero-main{
+  grid-template-columns:52px minmax(0,1fr)!important;
+  gap:11px!important;
+  padding:12px!important;
+  border-radius:17px!important;
+  background:
+    radial-gradient(circle at 8% 0%,rgba(255,157,23,.13),transparent 42%),
+    linear-gradient(145deg,#0d0d0d,#080808)!important;
+  border:1px solid rgba(255,157,23,.14)!important;
+  box-shadow:0 10px 30px rgba(0,0,0,.28)!important;
+}
+#joinguild .jg9-logo{
+  width:52px!important;height:52px!important;
+}
+#joinguild .jg9-badge{
+  background:rgba(255,157,23,.08)!important;
+  border-color:rgba(255,157,23,.18)!important;
+}
+#joinguild .jg9-hero h1{
+  font-size:17px!important;
+  letter-spacing:.7px!important;
+}
+#joinguild .jg9-hero p{
+  margin-top:4px!important;
+  font-size:8px!important;
+  color:#777!important;
+}
+
+/* Quick actions feel like primary controls */
+#joinguild .jg9-quick{
+  gap:7px!important;
+  margin-top:7px!important;
+}
+#joinguild .jg9-quick button{
+  min-height:48px!important;
+  padding:9px 10px!important;
+  border-radius:14px!important;
+  background:linear-gradient(145deg,#0c0c0c,#080808)!important;
+  border:1px solid rgba(255,157,23,.11)!important;
+}
+#joinguild .jg9-quick button:active{
+  transform:scale(.985);
+  border-color:rgba(255,157,23,.32)!important;
+}
+#joinguild .jg9-quick button strong{
+  font-size:8.7px!important;
+  color:#f2f2f2!important;
+}
+#joinguild .jg9-quick button i{
+  width:22px;height:22px;
+  display:grid;place-items:center;
+  border-radius:8px;
+  background:rgba(255,157,23,.075);
+  color:#d99a35!important;
+}
+
+/* Open-member banner */
 #joinguild .jg-open-member-banner{
   width:100%;
-  margin:0 0 9px;
   aspect-ratio:1080/472;
   overflow:hidden;
+  margin:0 0 9px;
   border-radius:16px;
   background:#050505;
-  border:1px solid rgba(255,157,23,.14);
-  box-shadow:0 10px 26px rgba(0,0,0,.22);
+  border:1px solid rgba(255,157,23,.13);
+  box-shadow:0 10px 28px rgba(0,0,0,.28);
 }
 #joinguild .jg-open-member-banner img{
+  width:100%;height:100%;display:block;
+  object-fit:cover;object-position:center;
+  border-radius:0!important;
+}
+
+/* Existing tutorial poster becomes secondary */
+#joinguild .jg2-poster{
+  margin:0 0 9px!important;
+  border-radius:15px!important;
+  border-color:rgba(255,255,255,.055)!important;
+  box-shadow:none!important;
+  opacity:.94;
+}
+
+/* Join steps */
+#joinguild .jg2-flow{
+  gap:7px!important;
+  margin-bottom:9px!important;
+}
+#joinguild .jg2-step-card{
+  min-height:54px;
+  grid-template-columns:30px 1fr!important;
+  gap:9px!important;
+  padding:10px 11px!important;
+  border-radius:15px!important;
+  background:linear-gradient(145deg,#0b0b0b,#080808)!important;
+  border:1px solid rgba(255,157,23,.095)!important;
+  box-shadow:none!important;
+}
+#joinguild .jg2-step-num{
+  width:30px!important;height:30px!important;
+  border-radius:9px!important;
+  background:rgba(255,157,23,.09)!important;
+  border-color:rgba(255,157,23,.18)!important;
+}
+#joinguild .jg2-step-copy strong{
+  font-size:8.9px!important;color:#eee!important;
+}
+#joinguild .jg2-step-copy span{
+  font-size:7.5px!important;color:#6d6d6d!important;
+}
+
+/* Generic information cards */
+#joinguild .jg2-box,
+#joinguild .jg2-wa,
+#joinguild .jg2-members{
+  border-radius:17px!important;
+  background:linear-gradient(145deg,#0a0a0a,#070707)!important;
+  border-color:rgba(255,255,255,.06)!important;
+  box-shadow:none!important;
+}
+
+/* WhatsApp/admin */
+#joinguild .jg2-wa{
+  padding:11px!important;
+  border-color:rgba(37,211,102,.12)!important;
+}
+#joinguild .jg2-wa>i:first-child{
+  border-radius:10px!important;
+}
+
+/* Members header */
+#joinguild .jg2-members-head{
+  align-items:center!important;
+  margin-bottom:10px!important;
+}
+#joinguild .jg2-members-head h2,
+#joinguild .jg2-members-head strong{
+  color:#f4f4f4!important;
+}
+#joinguild .jg2-members-head p{
+  color:#5f5f5f!important;
+}
+#joinguild .jg2-count{
+  min-width:34px!important;height:34px!important;
+  border-radius:11px!important;
+}
+
+/* Hide the green sync notice: data can load quietly */
+#joinguild .jg-api-note{
+  display:none!important;
+}
+
+/* Member grid: elongated, nickname-first */
+#joinguild #jgMemberGrid{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:7px!important;
+}
+#joinguild #jgMemberGrid .jg-member-card{
+  display:grid!important;
+  grid-template-columns:30px minmax(0,1fr)!important;
+  align-items:center!important;
+  gap:9px!important;
+  min-height:50px!important;
+  padding:7px 10px!important;
+  border-radius:18px!important;
+  background:linear-gradient(145deg,#0b0b0b,#080808)!important;
+  border:1px solid rgba(255,255,255,.058)!important;
+  box-shadow:none!important;
+  overflow:hidden!important;
+}
+
+/* FINAL AVATAR:
+   - frame is exact 30x30 square
+   - no radius / no padding / no margin
+   - source /banner/profile is 200x43
+   - show ~51px of the source into 30px so the RIGHT white edge is visible
+*/
+#joinguild #jgMemberGrid .jg-member-avatar{
+  width:30px!important;
+  height:30px!important;
+  min-width:30px!important;
+  min-height:30px!important;
+  max-width:30px!important;
+  max-height:30px!important;
+  flex:0 0 30px!important;
+  aspect-ratio:1/1!important;
+  border-radius:0!important;
+  overflow:hidden!important;
+  padding:0!important;
+  margin:0!important;
+  border:0!important;
+  background:#111!important;
+  position:relative!important;
+  display:block!important;
+}
+#joinguild #jgMemberGrid .jg-member-avatar img{
+  position:absolute!important;
+  left:0!important;
+  top:0!important;
+  height:30px!important;
+  min-height:30px!important;
+  max-height:30px!important;
+  width:117.6471px!important; /* 30 * 200 / 51 */
+  min-width:117.6471px!important;
+  max-width:none!important;
+  object-fit:fill!important;
+  object-position:left top!important;
+  transform:none!important;
+  padding:0!important;
+  margin:0!important;
+  border:0!important;
+  border-radius:0!important;
+  display:block!important;
+}
+#joinguild #jgMemberGrid .jg-member-avatar i{
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+}
+
+/* Nickname dominates */
+#joinguild #jgMemberGrid .jg-member-info{
+  min-width:0!important;
+  padding:0!important;
+  margin:0!important;
+}
+#joinguild #jgMemberGrid .jg-member-info strong{
+  display:block!important;
+  margin:0!important;
+  padding:0!important;
+  color:#f2f2f2!important;
+  font-size:9.6px!important;
+  line-height:1.15!important;
+  font-weight:900!important;
+  letter-spacing:.05px!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+  overflow-wrap:anywhere!important;
+}
+#joinguild #jgMemberGrid .jg-member-info .jg-member-uid{
+  display:block!important;
+  margin-top:3px!important;
+  padding:0!important;
+  color:#4c4c4c!important;
+  background:transparent!important;
+  border:0!important;
+  font:5.4px/1.1 'Space Mono',monospace!important;
+}
+
+/* Never show status labels/badges/dots */
+#joinguild #jgMemberGrid .jg-member-status,
+#joinguild #jgMemberGrid .jg-member-status-mini,
+#joinguild #jgMemberGrid .jg-api-status,
+#joinguild #jgMemberGrid small,
+#joinguild #jgMemberGrid [class*="status"]{
+  display:none!important;
+}
+#joinguild #jgMemberGrid .jg-member-card::before,
+#joinguild #jgMemberGrid .jg-member-card::after{
+  content:none!important;
+  display:none!important;
+}
+
+/* Desktop */
+@media(min-width:720px){
+  #joinguild .jg2-wrap{padding-left:20px!important;padding-right:20px!important;}
+  #joinguild #jgMemberGrid{grid-template-columns:repeat(4,minmax(0,1fr))!important;}
+}
+
+
+
+/* ===== AVATAR RIGHT-CROP HARD FIX V11 =====
+   Show a MUCH wider slice from the source so the right side is not cut.
+   Source image assumed 200x43; display about 60 source px inside 30px frame.
+*/
+#joinguild #jgMemberGrid .jg-member-avatar{
+  width:30px!important;
+  height:30px!important;
+  min-width:30px!important;
+  min-height:30px!important;
+  max-width:30px!important;
+  max-height:30px!important;
+  aspect-ratio:1/1!important;
+  border-radius:0!important;
+  overflow:hidden!important;
+  padding:0!important;
+  margin:0!important;
+  border:0!important;
+  background:#111!important;
+  position:relative!important;
+  display:block!important;
+}
+
+#joinguild #jgMemberGrid .jg-member-avatar img{
+  position:absolute!important;
+  left:0!important;
+  top:0!important;
+  height:30px!important;
+  min-height:30px!important;
+  max-height:30px!important;
+
+  /* 30 * 200 / 60 = 100px total rendered width */
+  width:100px!important;
+  min-width:100px!important;
+  max-width:none!important;
+
+  object-fit:fill!important;
+  object-position:left top!important;
+  transform:none!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  display:block!important;
+}
+
+
+
+/* ===== AVATAR WHITE RIGHT EDGE FIX V12 =====
+   Match the proven FF profile crop ratio (200/51),
+   then keep the right white edge visible inside the 30x30 frame.
+*/
+#joinguild #jgMemberGrid .jg-member-avatar{
+  width:30px!important;
+  height:30px!important;
+  min-width:30px!important;
+  min-height:30px!important;
+  max-width:30px!important;
+  max-height:30px!important;
+  aspect-ratio:1/1!important;
+  border-radius:0!important;
+  overflow:hidden!important;
+  padding:0!important;
+  margin:0!important;
+  border:0!important;
+  background:#111!important;
+  position:relative!important;
+  display:block!important;
+  box-sizing:border-box!important;
+}
+
+#joinguild #jgMemberGrid .jg-member-avatar img{
+  position:absolute!important;
+  left:0!important;
+  top:0!important;
+  height:30px!important;
+  min-height:30px!important;
+  max-height:30px!important;
+
+  /* same crop ratio used by .tff-banner-img */
+  width:117.6471px!important; /* 30 * 200 / 51 */
+  min-width:117.6471px!important;
+  max-width:none!important;
+
+  object-fit:fill!important;
+  object-position:left top!important;
+  transform:none!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  display:block!important;
+}
+
+/* Preserve the white right edge that was being clipped by overflow */
+#joinguild #jgMemberGrid .jg-member-avatar::after{
+  content:""!important;
+  display:block!important;
+  position:absolute!important;
+  top:0!important;
+  right:0!important;
+  bottom:0!important;
+  width:1px!important;
+  background:rgba(255,255,255,.92)!important;
+  z-index:4!important;
+  pointer-events:none!important;
+}
+
+
+
+/* ==========================================================
+   JOIN GUILD V13 COMPACT UX — MINIMAL SCROLL
+   ========================================================== */
+#joinguild .jg2-wrap{
+  max-width:780px!important;
+  padding:7px 10px 72px!important;
+}
+
+/* Compact hero */
+#joinguild .jg9-hero{
+  margin-bottom:7px!important;
+}
+#joinguild .jg9-hero-main{
+  min-height:0!important;
+  padding:9px 10px!important;
+  border-radius:14px!important;
+  grid-template-columns:40px minmax(0,1fr)!important;
+  gap:9px!important;
+}
+#joinguild .jg9-logo{
+  width:40px!important;height:40px!important;
+}
+#joinguild .jg9-badge{
+  font-size:5.8px!important;
+  margin-bottom:2px!important;
+}
+#joinguild .jg9-hero h1{
+  font-size:14px!important;
+  line-height:1.05!important;
+}
+#joinguild .jg9-hero p{
+  font-size:6.9px!important;
+  line-height:1.35!important;
+  margin-top:3px!important;
+}
+
+/* 3 quick actions in one row */
+#joinguild .jg13-quick{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:5px!important;
+  margin-top:5px!important;
+}
+#joinguild .jg13-quick button{
+  min-width:0!important;
+  min-height:40px!important;
+  padding:6px 7px!important;
+  border-radius:11px!important;
+}
+#joinguild .jg13-quick button small{
+  font-size:5.2px!important;
+  letter-spacing:.45px!important;
+}
+#joinguild .jg13-quick button strong{
+  font-size:7.2px!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+#joinguild .jg13-quick button i{
+  font-size:7px!important;
+}
+
+/* Main banner stays visible but compact */
+#joinguild .jg-open-member-banner{
+  margin-bottom:6px!important;
+  border-radius:13px!important;
+}
+
+/* Secondary controls */
+#joinguild .jg13-actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:6px;
+  margin:0 0 6px;
+}
+#joinguild .jg13-action{
+  border:1px solid rgba(255,255,255,.065);
+  background:#0b0b0b;
+  color:#8d8d8d;
+  min-height:36px;
+  border-radius:11px;
+  padding:0 9px;
+  display:grid;
+  grid-template-columns:18px 1fr 13px;
+  align-items:center;
+  gap:5px;
+  font:800 7px/1 'Inter',sans-serif;
+  cursor:pointer;
+}
+#joinguild .jg13-action>i:first-child{
+  color:#d48d2c;
+}
+#joinguild .jg13-action>i:last-child{
+  color:#4f4f4f;
+  font-size:6px;
+  transition:.18s transform;
+}
+#joinguild .jg13-action.is-open>i:last-child{
+  transform:rotate(180deg);
+}
+
+/* Guide collapsed by default */
+#joinguild .jg13-guide{
+  display:none!important;
+  margin-bottom:6px!important;
+  border-radius:12px!important;
+}
+#joinguild .jg13-guide.is-open{
+  display:block!important;
+}
+
+/* 3 join steps always one row */
+#joinguild .jg2-flow{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:5px!important;
+  margin:0 0 6px!important;
+}
+#joinguild .jg2-step-card{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:flex-start!important;
+  justify-content:flex-start!important;
+  min-height:58px!important;
+  gap:4px!important;
+  padding:7px!important;
+  border-radius:12px!important;
+}
+#joinguild .jg2-step-num{
+  width:21px!important;height:21px!important;
+  border-radius:7px!important;
+  font-size:6px!important;
+}
+#joinguild .jg2-step-copy strong{
+  font-size:6.9px!important;
+  line-height:1.15!important;
+}
+#joinguild .jg2-step-copy span{
+  display:none!important;
+}
+#joinguild .jg2-step-card>i{
+  display:none!important;
+}
+
+/* Duplicate data is already available in quick actions */
+#joinguild .jg13-duplicate-data{
+  display:none!important;
+}
+
+/* Rule panels collapsed by default */
+#joinguild .jg13-rules-wrap{
+  display:none;
+  grid-template-columns:1fr 1fr;
+  gap:6px;
+  margin-bottom:6px;
+}
+#joinguild .jg13-rules-wrap.is-open{
+  display:grid;
+}
+#joinguild .jg13-rules-wrap .jg2-rule-card{
+  margin:0!important;
+  padding:10px!important;
+  border-radius:12px!important;
+}
+#joinguild .jg13-rules-wrap .jg2-card-head{
+  margin-bottom:6px!important;
+}
+#joinguild .jg13-rules-wrap .jg2-card-head h2{
+  font-size:9px!important;
+}
+#joinguild .jg13-rules-wrap .jg2-card-head small{
+  font-size:5.5px!important;
+}
+#joinguild .jg13-rules-wrap .jg2-rule-card ul{
+  gap:4px!important;
+}
+#joinguild .jg13-rules-wrap .jg2-rule-card li{
+  font-size:6.5px!important;
+  line-height:1.35!important;
+  padding-left:11px!important;
+}
+#joinguild .jg13-rules-wrap .jg2-rule-card li:before{
+  width:4px!important;height:4px!important;
+}
+
+/* Compact admin */
+#joinguild .jg2-wa{
+  grid-template-columns:30px 1fr 14px!important;
+  gap:8px!important;
+  padding:8px 9px!important;
+  min-height:46px!important;
+  border-radius:12px!important;
+  margin-bottom:6px!important;
+}
+#joinguild .jg2-wa>i:first-child{
+  width:30px!important;height:30px!important;
+  border-radius:9px!important;
+  font-size:14px!important;
+}
+#joinguild .jg2-wa small{font-size:5.4px!important;}
+#joinguild .jg2-wa strong{font-size:8.5px!important;margin:1px 0!important;}
+#joinguild .jg2-wa span{font-size:6.2px!important;}
+
+/* Member box compact */
+#joinguild .jg2-members{
+  padding:10px!important;
+  margin-bottom:5px!important;
+  border-radius:14px!important;
+}
+#joinguild .jg2-members-head{
+  margin-bottom:7px!important;
+  align-items:center!important;
+}
+#joinguild .jg2-members-head small{font-size:5.6px!important;}
+#joinguild .jg2-members-head h2{font-size:10.5px!important;}
+#joinguild .jg2-members-head p{
+  font-size:6.4px!important;
+  margin-top:2px!important;
+}
+#joinguild .jg2-count{
+  min-width:30px!important;height:30px!important;
+  border-radius:9px!important;
+  font-size:8px!important;
+}
+#joinguild .jg-api-note{
+  display:none!important;
+}
+
+/* Show only 6 members initially */
+#joinguild #jgMemberGrid .jg-member-card:nth-child(n+7){
+  display:none!important;
+}
+#joinguild #jgMemberGrid.is-expanded .jg-member-card{
+  display:grid!important;
+}
+
+/* Keep elongated member cards */
+#joinguild #jgMemberGrid{
+  gap:5px!important;
+}
+#joinguild #jgMemberGrid .jg-member-card{
+  min-height:44px!important;
+  padding:6px 8px!important;
+  border-radius:14px!important;
+  grid-template-columns:30px minmax(0,1fr)!important;
+  gap:8px!important;
+}
+#joinguild #jgMemberGrid .jg-member-info strong{
+  font-size:8.7px!important;
+}
+#joinguild #jgMemberGrid .jg-member-info .jg-member-uid{
+  font-size:5px!important;
+  margin-top:2px!important;
+}
+
+/* Expand members button */
+#joinguild .jg13-members-toggle{
+  width:100%;
+  min-height:36px;
+  margin-top:7px;
+  border-radius:11px;
+  border:1px solid rgba(255,157,23,.11);
+  background:rgba(255,157,23,.045);
+  color:#b98945;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  font:850 7px/1 'Inter',sans-serif;
+  cursor:pointer;
+}
+#joinguild .jg13-members-toggle i{
+  font-size:6px;
+  transition:.18s transform;
+}
+#joinguild .jg13-members-toggle.is-open i{
+  transform:rotate(180deg);
+}
+
+/* Footer takes less space */
+#joinguild .footer{
+  margin-top:6px!important;
+  opacity:.45;
+  transform:scale(.9);
+  transform-origin:center top;
+}
+
+@media(max-width:380px){
+  #joinguild .jg2-wrap{padding-left:8px!important;padding-right:8px!important;}
+  #joinguild .jg13-quick button strong{font-size:6.7px!important;}
+  #joinguild .jg2-members-head p{display:none!important;}
+}
+
+
+
+/* ===== JOIN GUILD V14 DIRECT RULES ===== */
+#joinguild .jg13-actions,
+#joinguild .jg13-guide{
+  display:none!important;
+}
+
+#joinguild .jg13-rules-wrap,
+#joinguild .jg13-rules-wrap.is-open{
+  display:grid!important;
+  grid-template-columns:1fr 1fr!important;
+  gap:6px!important;
+  margin:0 0 6px!important;
+}
+
+/* Slightly tighten always-visible rules so page stays compact */
+#joinguild .jg13-rules-wrap .jg2-rule-card{
+  padding:9px!important;
+  border-radius:12px!important;
+}
+#joinguild .jg13-rules-wrap .jg2-card-head{
+  margin-bottom:5px!important;
+}
+#joinguild .jg13-rules-wrap .jg2-rule-card ul{
+  gap:3px!important;
+}
+#joinguild .jg13-rules-wrap .jg2-rule-card li{
+  font-size:6.2px!important;
+  line-height:1.3!important;
+}
+
+/* Keep vertical spacing tight after banner */
+#joinguild .jg-open-member-banner{
+  margin-bottom:6px!important;
+}
+
+@media(max-width:380px){
+  #joinguild .jg13-rules-wrap,
+  #joinguild .jg13-rules-wrap.is-open{
+    grid-template-columns:1fr!important;
+  }
+}
+
+
+
+/* ===== JOIN GUILD V15 POLISH ===== */
+
+/* Quick actions: ID | Kode Spasi | Format Nick */
+#joinguild .jg13-quick{
+  grid-template-columns:1fr .82fr 1.12fr!important;
+}
+#joinguild .jg13-quick button{
+  min-height:43px!important;
+  padding:7px 8px!important;
+}
+#joinguild .jg13-quick button:nth-child(2){
+  text-align:center!important;
+  background:linear-gradient(145deg,rgba(255,157,23,.08),#090909)!important;
+  border-color:rgba(255,157,23,.16)!important;
+}
+#joinguild .jg13-quick button:nth-child(2) strong{
+  font-size:13px!important;
+  line-height:.9!important;
+}
+#joinguild .jg13-quick button:nth-child(3){
+  text-align:right!important;
+}
+#joinguild .jg13-quick button:nth-child(3) i{
+  justify-self:end!important;
+}
+
+/* Cleaner join flow */
+#joinguild .jg15-flow{
+  gap:6px!important;
+}
+#joinguild .jg15-step{
+  position:relative!important;
+  display:grid!important;
+  grid-template-columns:24px minmax(0,1fr) 16px!important;
+  align-items:center!important;
+  min-height:58px!important;
+  padding:8px!important;
+  gap:7px!important;
+  border-radius:13px!important;
+  background:linear-gradient(145deg,#0b0b0b,#080808)!important;
+  border:1px solid rgba(255,157,23,.085)!important;
+}
+#joinguild .jg15-step .jg2-step-num{
+  width:24px!important;
+  height:24px!important;
+  border-radius:8px!important;
+  font-size:6.4px!important;
+  flex:none!important;
+}
+#joinguild .jg15-step .jg2-step-copy{
+  min-width:0!important;
+}
+#joinguild .jg15-step .jg2-step-copy strong{
+  display:block!important;
+  margin:0 0 3px!important;
+  font-size:7.4px!important;
+  line-height:1.05!important;
+  color:#f0f0f0!important;
+  letter-spacing:.25px!important;
+}
+#joinguild .jg15-step .jg2-step-copy span{
+  display:block!important;
+  font-size:6.15px!important;
+  line-height:1.3!important;
+  color:#666!important;
+}
+#joinguild .jg15-step .jg2-step-copy span b{
+  color:#b78945!important;
+  font-weight:800!important;
+}
+#joinguild .jg15-step>i{
+  display:block!important;
+  justify-self:end!important;
+  color:#8a672d!important;
+  font-size:8px!important;
+}
+
+/* Clickable profile example */
+#joinguild .jg15-profile-example{
+  width:100%;
+  min-height:42px;
+  margin-top:8px;
+  padding:7px 9px;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 13px;
+  align-items:center;
+  gap:2px 7px;
+  text-align:left;
+  border:1px solid rgba(255,157,23,.11);
+  border-radius:10px;
+  background:linear-gradient(145deg,rgba(255,157,23,.055),rgba(255,255,255,.018));
+  color:#aaa;
+  cursor:pointer;
+}
+#joinguild .jg15-profile-example>span{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  min-width:0;
+}
+#joinguild .jg15-profile-example>span i{
+  color:#d18d2d;
+  font-size:8px;
+}
+#joinguild .jg15-profile-example>span b{
+  color:#dedede;
+  font-size:7.3px;
+}
+#joinguild .jg15-profile-example small{
+  grid-column:1;
+  color:#696969;
+  font-size:5.8px;
+  line-height:1.25;
+}
+#joinguild .jg15-profile-example>i:last-child{
+  grid-column:2;
+  grid-row:1/3;
+  color:#725932;
+  font-size:7px;
+}
+
+/* Profile example popup */
+#joinguild .jg15-example-overlay{
+  position:fixed;
+  inset:0;
+  z-index:99999;
+  display:none;
+  align-items:flex-end;
+  justify-content:center;
+  padding:14px;
+  background:rgba(0,0,0,.76);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+}
+#joinguild .jg15-example-overlay.is-open{
+  display:flex;
+}
+#joinguild .jg15-example-modal{
+  width:min(100%,560px);
+  padding:12px;
+  border-radius:18px 18px 14px 14px;
+  background:linear-gradient(180deg,#111,#090909);
+  border:1px solid rgba(255,157,23,.14);
+  box-shadow:0 -18px 55px rgba(0,0,0,.45);
+}
+#joinguild .jg15-example-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:9px;
+}
+#joinguild .jg15-example-head small{
   display:block;
+  color:#a06e2a;
+  font-size:5.8px;
+  font-weight:900;
+  letter-spacing:.8px;
+  margin-bottom:2px;
+}
+#joinguild .jg15-example-head strong{
+  display:block;
+  color:#eee;
+  font-size:10px;
+}
+#joinguild .jg15-example-head button{
+  width:30px;height:30px;
+  border-radius:9px;
+  border:1px solid rgba(255,255,255,.07);
+  background:#161616;
+  color:#777;
+}
+#joinguild .jg15-example-image-wrap{
+  position:relative;
+  width:100%;
+  aspect-ratio:200/43;
+  overflow:hidden;
+  border-radius:10px;
+  background:#050505;
+  border:1px solid rgba(255,255,255,.06);
+}
+#joinguild .jg15-example-image-wrap img{
   width:100%;
   height:100%;
   object-fit:cover;
-  object-position:center;
-  border:0;
-  border-radius:0;
+  display:block;
 }
+#joinguild .jg15-example-loading{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  color:#777;
+  font-size:7px;
+  background:#090909;
+}
+#joinguild .jg15-example-loading.is-hidden{
+  display:none;
+}
+#joinguild .jg15-example-foot{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:8px;
+}
+#joinguild .jg15-example-foot span{
+  color:#666;
+  font:6.5px/1 'Space Mono',monospace;
+}
+#joinguild .jg15-example-foot button{
+  min-height:30px;
+  padding:0 10px;
+  border-radius:9px;
+  border:1px solid rgba(255,157,23,.1);
+  background:rgba(255,157,23,.05);
+  color:#9d7740;
+  font-size:6.4px;
+  font-weight:800;
+}
+
 @media(min-width:720px){
-  #joinguild .jg-open-member-banner{
-    max-height:none;
+  #joinguild .jg15-example-overlay{
+    align-items:center;
+  }
+}
+
+
+
+/* ===== JOIN GUILD V16 — FLOW + CENTER POPUP FIX ===== */
+
+/* 1-2-3 dibuat lebih bersih dan mudah dibaca */
+#joinguild .jg15-flow{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:7px!important;
+  margin:0 0 7px!important;
+}
+#joinguild .jg15-step{
+  position:relative!important;
+  min-height:72px!important;
+  padding:9px 9px 10px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:flex-start!important;
+  justify-content:flex-start!important;
+  gap:5px!important;
+  border-radius:13px!important;
+  background:linear-gradient(155deg,#0c0c0c,#080808)!important;
+  border:1px solid rgba(255,157,23,.09)!important;
+  overflow:hidden!important;
+}
+#joinguild .jg15-step::before{
+  content:""!important;
+  position:absolute!important;
+  left:0!important;
+  top:0!important;
+  bottom:0!important;
+  width:2px!important;
+  background:linear-gradient(180deg,#ff9d17,rgba(255,157,23,.08))!important;
+}
+#joinguild .jg15-step .jg2-step-num{
+  width:24px!important;
+  height:20px!important;
+  min-width:24px!important;
+  border-radius:7px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  background:rgba(255,157,23,.09)!important;
+  border:1px solid rgba(255,157,23,.15)!important;
+  color:#d89938!important;
+  font-size:6px!important;
+  font-weight:900!important;
+}
+#joinguild .jg15-step .jg2-step-copy{
+  min-width:0!important;
+  width:100%!important;
+}
+#joinguild .jg15-step .jg2-step-copy strong{
+  display:block!important;
+  color:#f1f1f1!important;
+  font-size:7.7px!important;
+  line-height:1.15!important;
+  font-weight:900!important;
+  letter-spacing:.2px!important;
+  margin:0 0 4px!important;
+}
+#joinguild .jg15-step .jg2-step-copy span{
+  display:block!important;
+  color:#666!important;
+  font-size:6.35px!important;
+  line-height:1.35!important;
+}
+#joinguild .jg15-step .jg2-step-copy span b{
+  color:#b88947!important;
+}
+#joinguild .jg15-step>i{
+  position:absolute!important;
+  right:9px!important;
+  top:9px!important;
+  display:block!important;
+  color:#5e4b2d!important;
+  font-size:7px!important;
+}
+
+/* Popup harus tepat di tengah viewport, bukan mengikuti halaman */
+#joinguild .jg15-example-overlay{
+  position:fixed!important;
+  inset:0!important;
+  width:100vw!important;
+  height:100dvh!important;
+  z-index:2147483000!important;
+  display:none!important;
+  align-items:center!important;
+  justify-content:center!important;
+  padding:14px!important;
+  margin:0!important;
+  overflow:hidden!important;
+  background:rgba(0,0,0,.82)!important;
+  backdrop-filter:blur(9px)!important;
+  -webkit-backdrop-filter:blur(9px)!important;
+}
+#joinguild .jg15-example-overlay.is-open{
+  display:flex!important;
+}
+#joinguild .jg15-example-modal{
+  position:relative!important;
+  width:min(92vw,560px)!important;
+  max-height:calc(100dvh - 28px)!important;
+  overflow:auto!important;
+  overscroll-behavior:contain!important;
+  margin:0!important;
+  padding:12px!important;
+  border-radius:17px!important;
+  background:linear-gradient(180deg,#111,#080808)!important;
+  border:1px solid rgba(255,157,23,.16)!important;
+  box-shadow:0 22px 70px rgba(0,0,0,.62)!important;
+}
+#joinguild .jg15-example-image-wrap{
+  width:100%!important;
+  aspect-ratio:200/43!important;
+  min-height:0!important;
+  overflow:hidden!important;
+  border-radius:9px!important;
+}
+#joinguild .jg15-example-image-wrap img{
+  width:100%!important;
+  height:100%!important;
+  object-fit:contain!important;
+  background:#050505!important;
+}
+
+/* kunci halaman saat popup terbuka */
+html.jg15-modal-open,
+body.jg15-modal-open{
+  overflow:hidden!important;
+  touch-action:none!important;
+}
+
+@media(max-width:430px){
+  #joinguild .jg15-flow{
+    gap:5px!important;
+  }
+  #joinguild .jg15-step{
+    min-height:76px!important;
+    padding:8px!important;
+  }
+  #joinguild .jg15-step .jg2-step-copy strong{
+    font-size:7px!important;
+  }
+  #joinguild .jg15-step .jg2-step-copy span{
+    font-size:5.9px!important;
+  }
+}
+
+
+
+/* ===== JOIN GUILD V17 — BALANCED COLOR SYSTEM ===== */
+#joinguild{
+  --jg-accent:#ff9d17;
+  --jg-blue:#4aa8ff;
+  --jg-cyan:#4dd7e8;
+  --jg-green:#39c878;
+  --jg-purple:#9b7cff;
+  --jg-text:#f2f2f2;
+  --jg-muted:#6f6f6f;
+  --jg-surface:#0a0b0d;
+  --jg-surface-2:#0e1013;
+  --jg-border:rgba(255,255,255,.065);
+}
+
+/* Hero: neutral dark + subtle blue/orange balance */
+#joinguild .jg9-hero-main{
+  background:
+    radial-gradient(circle at 8% 0%,rgba(74,168,255,.10),transparent 38%),
+    radial-gradient(circle at 88% 100%,rgba(255,157,23,.08),transparent 38%),
+    linear-gradient(145deg,#0e1013,#090a0c)!important;
+  border-color:rgba(255,255,255,.07)!important;
+}
+#joinguild .jg9-badge{
+  color:#bfcfff!important;
+  background:rgba(74,168,255,.07)!important;
+  border-color:rgba(74,168,255,.15)!important;
+}
+#joinguild .jg9-badge span{
+  background:var(--jg-green)!important;
+  box-shadow:0 0 7px rgba(57,200,120,.65)!important;
+}
+#joinguild .jg9-hero h1 em{
+  color:#ffad38!important;
+}
+
+/* Quick actions: each has its own restrained accent */
+#joinguild .jg13-quick button{
+  background:linear-gradient(145deg,#0d0f12,#090a0c)!important;
+  border-color:rgba(255,255,255,.065)!important;
+}
+#joinguild .jg13-quick button:nth-child(1){
+  border-color:rgba(74,168,255,.14)!important;
+}
+#joinguild .jg13-quick button:nth-child(1) i{
+  color:var(--jg-blue)!important;
+  background:rgba(74,168,255,.07)!important;
+}
+#joinguild .jg13-quick button:nth-child(2){
+  background:linear-gradient(145deg,rgba(155,124,255,.07),#090a0c)!important;
+  border-color:rgba(155,124,255,.14)!important;
+}
+#joinguild .jg13-quick button:nth-child(2) i{
+  color:var(--jg-purple)!important;
+  background:rgba(155,124,255,.07)!important;
+}
+#joinguild .jg13-quick button:nth-child(3){
+  border-color:rgba(77,215,232,.14)!important;
+}
+#joinguild .jg13-quick button:nth-child(3) i{
+  color:var(--jg-cyan)!important;
+  background:rgba(77,215,232,.07)!important;
+}
+
+/* Main banner border neutral */
+#joinguild .jg-open-member-banner{
+  border-color:rgba(255,255,255,.075)!important;
+  box-shadow:0 10px 28px rgba(0,0,0,.32)!important;
+}
+
+/* Steps: 1 blue, 2 purple, 3 green */
+#joinguild .jg15-step{
+  background:linear-gradient(155deg,#0d0f12,#090a0c)!important;
+  border-color:rgba(255,255,255,.06)!important;
+}
+#joinguild .jg15-step:nth-child(1)::before{
+  background:linear-gradient(180deg,var(--jg-blue),rgba(74,168,255,.08))!important;
+}
+#joinguild .jg15-step:nth-child(2)::before{
+  background:linear-gradient(180deg,var(--jg-purple),rgba(155,124,255,.08))!important;
+}
+#joinguild .jg15-step:nth-child(3)::before{
+  background:linear-gradient(180deg,var(--jg-green),rgba(57,200,120,.08))!important;
+}
+#joinguild .jg15-step:nth-child(1) .jg2-step-num{
+  color:#8dc9ff!important;
+  background:rgba(74,168,255,.08)!important;
+  border-color:rgba(74,168,255,.14)!important;
+}
+#joinguild .jg15-step:nth-child(2) .jg2-step-num{
+  color:#b7a5ff!important;
+  background:rgba(155,124,255,.08)!important;
+  border-color:rgba(155,124,255,.14)!important;
+}
+#joinguild .jg15-step:nth-child(3) .jg2-step-num{
+  color:#78dfa8!important;
+  background:rgba(57,200,120,.08)!important;
+  border-color:rgba(57,200,120,.14)!important;
+}
+#joinguild .jg15-step:nth-child(1)>i{color:#659bd0!important;}
+#joinguild .jg15-step:nth-child(2)>i{color:#8771d0!important;}
+#joinguild .jg15-step:nth-child(3)>i{color:#5a9e76!important;}
+#joinguild .jg15-step .jg2-step-copy span b{
+  color:#a7b9d6!important;
+}
+
+/* Rule cards: neutral surfaces, differentiated headers */
+#joinguild .jg13-rules-wrap .jg2-rule-card{
+  background:linear-gradient(145deg,#0d0f12,#090a0c)!important;
+  border-color:rgba(255,255,255,.06)!important;
+}
+#joinguild .jg13-rules-wrap .jg2-rule-card:first-child .jg2-card-head small,
+#joinguild .jg13-rules-wrap .jg2-rule-card:first-child .jg2-card-head>i{
+  color:var(--jg-cyan)!important;
+}
+#joinguild .jg13-rules-wrap .jg2-rule-card:last-child .jg2-card-head small,
+#joinguild .jg13-rules-wrap .jg2-rule-card:last-child .jg2-card-head>i{
+  color:var(--jg-purple)!important;
+}
+#joinguild .jg13-rules-wrap .jg2-rule-card li:before{
+  background:#6e829a!important;
+  box-shadow:none!important;
+}
+#joinguild .jg13-rules-wrap .jg2-rule-card li b{
+  color:#a8b6c7!important;
+}
+
+/* Profile example button: blue/purple */
+#joinguild .jg15-profile-example{
+  background:linear-gradient(145deg,rgba(74,168,255,.055),rgba(155,124,255,.035))!important;
+  border-color:rgba(74,168,255,.12)!important;
+}
+#joinguild .jg15-profile-example>span i{
+  color:var(--jg-blue)!important;
+}
+#joinguild .jg15-profile-example>i:last-child{
+  color:#7a6fb6!important;
+}
+
+/* Admin: green stays meaningful for WhatsApp */
+#joinguild .jg2-wa{
+  background:linear-gradient(145deg,rgba(57,200,120,.055),#090a0c)!important;
+  border-color:rgba(57,200,120,.12)!important;
+}
+#joinguild .jg2-wa small{
+  color:#6cab83!important;
+}
+#joinguild .jg2-wa>i:first-child{
+  color:#43d681!important;
+}
+
+/* Members: neutral, with blue count */
+#joinguild .jg2-members{
+  background:linear-gradient(145deg,#0d0f12,#090a0c)!important;
+  border-color:rgba(255,255,255,.06)!important;
+}
+#joinguild .jg2-members-head small{
+  color:#7db8ef!important;
+}
+#joinguild .jg2-count{
+  background:rgba(74,168,255,.07)!important;
+  border-color:rgba(74,168,255,.13)!important;
+  color:#86c4ff!important;
+}
+#joinguild #jgMemberGrid .jg-member-card{
+  background:linear-gradient(145deg,#0d0f12,#090a0c)!important;
+  border-color:rgba(255,255,255,.055)!important;
+}
+#joinguild #jgMemberGrid .jg-member-info strong{
+  color:#eeeeee!important;
+}
+#joinguild #jgMemberGrid .jg-member-info .jg-member-uid{
+  color:#4f5660!important;
+}
+#joinguild .jg13-members-toggle{
+  background:rgba(74,168,255,.045)!important;
+  border-color:rgba(74,168,255,.11)!important;
+  color:#729cc4!important;
+}
+
+/* Popup: neutral with blue accent */
+#joinguild .jg15-example-modal{
+  background:linear-gradient(180deg,#111318,#090a0d)!important;
+  border-color:rgba(74,168,255,.14)!important;
+}
+#joinguild .jg15-example-head small{
+  color:#7dafdf!important;
+}
+#joinguild .jg15-example-head button{
+  background:#15171b!important;
+}
+#joinguild .jg15-example-foot button{
+  background:rgba(74,168,255,.05)!important;
+  border-color:rgba(74,168,255,.11)!important;
+  color:#79a6d0!important;
+}
+
+
+
+/* ===== JOIN GUILD V18 — TOP QUICK COLUMNS CLEANUP ===== */
+#joinguild .jg13-quick{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:6px!important;
+  margin-top:6px!important;
+  align-items:stretch!important;
+}
+
+#joinguild .jg13-quick button{
+  min-width:0!important;
+  min-height:50px!important;
+  height:50px!important;
+  padding:7px 8px!important;
+  border-radius:12px!important;
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) 18px!important;
+  grid-template-rows:auto 1fr!important;
+  align-items:center!important;
+  column-gap:5px!important;
+  row-gap:2px!important;
+  text-align:left!important;
+  overflow:hidden!important;
+  box-sizing:border-box!important;
+}
+
+#joinguild .jg13-quick button small{
+  grid-column:1!important;
+  grid-row:1!important;
+  display:block!important;
+  width:100%!important;
+  margin:0!important;
+  color:#6c727b!important;
+  font-size:5.2px!important;
+  font-weight:900!important;
+  line-height:1!important;
+  letter-spacing:.55px!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+
+#joinguild .jg13-quick button strong{
+  grid-column:1!important;
+  grid-row:2!important;
+  display:block!important;
+  width:100%!important;
+  margin:0!important;
+  color:#f1f1f1!important;
+  font:850 7.5px/1.15 'Space Mono',monospace!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+
+#joinguild .jg13-quick button>i{
+  grid-column:2!important;
+  grid-row:1/3!important;
+  align-self:center!important;
+  justify-self:end!important;
+  width:18px!important;
+  height:18px!important;
+  display:grid!important;
+  place-items:center!important;
+  margin:0!important;
+  padding:0!important;
+  border-radius:6px!important;
+  font-size:6.8px!important;
+}
+
+/* Middle item centered cleanly */
+#joinguild .jg13-quick button:nth-child(2){
+  text-align:center!important;
+}
+#joinguild .jg13-quick button:nth-child(2) small,
+#joinguild .jg13-quick button:nth-child(2) strong{
+  text-align:center!important;
+}
+#joinguild .jg13-quick button:nth-child(2)>i{
+  justify-self:end!important;
+}
+
+/* Right item stays right-aligned */
+#joinguild .jg13-quick button:nth-child(3){
+  text-align:right!important;
+}
+#joinguild .jg13-quick button:nth-child(3) small,
+#joinguild .jg13-quick button:nth-child(3) strong{
+  text-align:right!important;
+}
+
+/* Prevent the visible blank-space character from making the center card look broken */
+#joinguild .jg13-quick button:nth-child(2) strong{
+  min-height:9px!important;
+  color:#c6b9ff!important;
+}
+#joinguild .jg13-quick button:nth-child(2) strong::before{
+  content:"SALIN"!important;
+  font:900 7.2px/1 'Inter',sans-serif!important;
+  letter-spacing:.45px!important;
+}
+#joinguild .jg13-quick button:nth-child(2) strong{
+  font-size:0!important;
+}
+
+/* Mobile safety */
+@media(max-width:380px){
+  #joinguild .jg13-quick{
+    gap:5px!important;
+  }
+  #joinguild .jg13-quick button{
+    min-height:48px!important;
+    height:48px!important;
+    padding:6px 7px!important;
+    grid-template-columns:minmax(0,1fr) 16px!important;
+  }
+  #joinguild .jg13-quick button small{
+    font-size:4.8px!important;
+    letter-spacing:.35px!important;
+  }
+  #joinguild .jg13-quick button strong{
+    font-size:6.8px!important;
+  }
+  #joinguild .jg13-quick button>i{
+    width:16px!important;
+    height:16px!important;
+    font-size:6px!important;
   }
 }
 
@@ -18371,46 +19793,51 @@ AccessTokenDua
           <p>Siapkan CN, salin ID Guild, lalu kirim request. Tidak ada formulir panjang.</p>
         </div>
       </div>
-      <div class="jg9-quick">
+      <div class="jg9-quick jg13-quick">
         <button type="button" onclick="jg2Copy('3099889993','ID Guild disalin')"><small>ID GUILD</small><strong>3099889993</strong><i class="fa-regular fa-copy"></i></button>
-        <button type="button" onclick="jg2Copy('NICKㅤSDW','Format CN disalin')"><small>FORMAT CN</small><strong>NICKㅤSDW</strong><i class="fa-regular fa-copy"></i></button>
+        <button type="button" onclick="jg2Copy('ㅤ','Kode spasi disalin')"><small>KODE SPASI</small><strong>ㅤ</strong><i class="fa-regular fa-copy"></i></button>
+        <button type="button" onclick="jg2Copy('NICKㅤSDW','Format CN disalin')"><small>FORMAT NICK</small><strong>NICKㅤSDW</strong><i class="fa-regular fa-copy"></i></button>
       </div>
     </section>
 
     <div class="jg-open-member-banner">
       <img src="zusmo-asset/lv_0_20260924214005.jpg" width="1080" height="472" alt="Z Shadows Open Member Volt 2">
     </div>
-
-    <picture class="jg2-poster">
-      <source media="(min-width:720px)" srcset="zusmo-asset/join-guild-wide.png">
-      <img src="zusmo-asset/join-guild-mobile.png" alt="Panduan Join Guild Z Shadows">
-    </picture>
-
-    <section class="jg2-flow">
-      <div class="jg2-step-card">
+<section class="jg2-flow jg15-flow">
+      <div class="jg2-step-card jg15-step">
         <div class="jg2-step-num">01</div>
-        <div class="jg2-step-copy"><strong>SIAP CN</strong><span>Ganti nickname sesuai format guild sebelum request masuk.</span></div>
-        <i class="fa-solid fa-check"></i>
+        <div class="jg2-step-copy">
+          <strong>SIAP CN</strong>
+          <span>Pakai format <b>NICKㅤSDW</b> sebelum request.</span>
+        </div>
+        <i class="fa-solid fa-user-pen"></i>
       </div>
-      <div class="jg2-step-card">
+      <div class="jg2-step-card jg15-step">
         <div class="jg2-step-num">02</div>
-        <div class="jg2-step-copy"><strong>REQUEST GUILD</strong><span>Masukkan ID Guild di Free Fire lalu kirim request.</span></div>
-        <i class="fa-solid fa-arrow-right"></i>
+        <div class="jg2-step-copy">
+          <strong>REQUEST GUILD</strong>
+          <span>Cari ID <b>3099889993</b>, lalu kirim request.</span>
+        </div>
+        <i class="fa-solid fa-paper-plane"></i>
       </div>
-      <div class="jg2-step-card">
+      <div class="jg2-step-card jg15-step">
         <div class="jg2-step-num">03</div>
-        <div class="jg2-step-copy"><strong>OTOMATIS MASUK</strong><span>Kalau CN sudah benar, request akan diproses tanpa formulir tambahan.</span></div>
-        <i class="fa-solid fa-bolt"></i>
+        <div class="jg2-step-copy">
+          <strong>OTOMATIS MASUK</strong>
+          <span>CN benar = request diproses tanpa formulir.</span>
+        </div>
+        <i class="fa-solid fa-circle-check"></i>
       </div>
     </section>
 
-    <section class="jg2-info-card">
+    <section class="jg2-info-card jg13-duplicate-data">
       <div class="jg2-card-head"><div><small>DATA GUILD</small><h2>Siap Join?</h2></div><i class="fa-solid fa-users"></i></div>
       <div class="jg2-copy-row"><div><span>ID GUILD</span><strong>3099889993</strong></div><button type="button" onclick="jg2Copy('3099889993','ID Guild disalin')"><i class="fa-regular fa-copy"></i></button></div>
       <div class="jg2-copy-row"><div><span>KODE SPASI</span><strong class="jg2-space-code">ㅤ</strong></div><button type="button" onclick="jg2Copy('ㅤ','Kode spasi disalin')"><i class="fa-regular fa-copy"></i></button></div>
       <div class="jg2-copy-row"><div><span>FORMAT CN</span><strong>NICKㅤSDW</strong></div><button type="button" onclick="jg2Copy('NICKㅤSDW','Format CN disalin')"><i class="fa-regular fa-copy"></i></button></div>
     </section>
 
+    <div class="jg13-rules-wrap is-open" id="jg13Rules">
     <section class="jg2-rule-card">
       <div class="jg2-card-head"><div><small>ATURAN CN</small><h2>Nickname</h2></div><i class="fa-solid fa-pen"></i></div>
       <ul>
@@ -18431,7 +19858,13 @@ AccessTokenDua
         <li>Tidak ada target push guild wars atau glory</li>
         <li>Cukup aktif di guild</li>
       </ul>
+      <button type="button" class="jg15-profile-example" onclick="jg15OpenProfileExample()">
+        <span><i class="fa-regular fa-image"></i><b>Lihat Contoh</b></span>
+        <small>Banner profile developer · UID 260190210</small>
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
     </section>
+    </div>
 
     <a class="jg2-wa" href="https://wa.me/6283800287738" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp"></i><div><small>LEADER / ADMIN</small><strong>+62 838-0028-7738</strong><span>Hubungi untuk kode spasi & info join</span></div><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
 
@@ -18532,8 +19965,32 @@ AccessTokenDua
           <div class="jg-member-info"><strong>MEMBER 20</strong></div>
         </article>
       </div>
+      <button type="button" class="jg13-members-toggle" id="jg13MembersBtn" onclick="jg13ToggleMembers()">
+        <span>Lihat Semua 20 Member</span><i class="fa-solid fa-chevron-down"></i>
+      </button>
     </section>
   </div>
+
+    <div class="jg15-example-overlay" id="jg15ExampleOverlay" aria-hidden="true" onclick="jg15CloseProfileExample(event)">
+      <div class="jg15-example-modal" role="dialog" aria-modal="true" aria-labelledby="jg15ExampleTitle" onclick="event.stopPropagation()">
+        <div class="jg15-example-head">
+          <div>
+            <small>CONTOH SYARAT PROFILE</small>
+            <strong id="jg15ExampleTitle">Banner Profile Developer</strong>
+          </div>
+          <button type="button" onclick="jg15CloseProfileExample()" aria-label="Tutup"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="jg15-example-image-wrap">
+          <img id="jg15ExampleImage" alt="Contoh banner profile UID 260190210">
+          <div class="jg15-example-loading" id="jg15ExampleLoading"><i class="fa-solid fa-spinner fa-spin"></i><span>Memuat banner profile...</span></div>
+        </div>
+        <div class="jg15-example-foot">
+          <span>UID 260190210</span>
+          <button type="button" onclick="jg2Copy('260190210','UID developer disalin')"><i class="fa-regular fa-copy"></i> Salin UID</button>
+        </div>
+      </div>
+    </div>
+
   <div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
 </div>
 <div class="page page-with-copyright" id="primecalc">
@@ -47011,6 +48468,172 @@ if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t)
   });
 
   window.resetMemberContent=resetMemberContent;
+})();
+</script>
+
+
+<script>
+(function(){
+  function q(id){return document.getElementById(id);}
+
+  window.jg13ToggleMembers=function(){
+    var grid=q('jgMemberGrid'),btn=q('jg13MembersBtn');
+    if(!grid)return;
+    var open=grid.classList.toggle('is-expanded');
+    if(btn)btn.classList.toggle('is-open',open);
+    if(btn){
+      var s=btn.querySelector('span');
+      if(s)s.textContent=open?'Tampilkan 6 Member':'Lihat Semua 20 Member';
+    }
+  };
+})();
+</script>
+
+
+<script>
+(function(){
+  var JG15_DEV_UID='260190210';
+
+  async function jg15ResolveDeveloperBanner(){
+    var regions=[];
+    try{
+      if(Array.isArray(TFF_ALL_REGIONS) && TFF_ALL_REGIONS.length){
+        regions=TFF_ALL_REGIONS.slice();
+      }
+    }catch(e){}
+    if(!regions.length) regions=['ID','SG','BR','US','SAC','NA','IND','RU','TH','VN','ME','EU','PK','BD','TW'];
+
+    var lastErr=null;
+
+    for(var i=0;i<regions.length;i++){
+      var region=regions[i];
+      try{
+        if(typeof xyureiRequest!=='function' || typeof TFF_BASE==='undefined' || typeof TFF_KEY==='undefined'){
+          throw new Error('API FF tidak tersedia.');
+        }
+
+        var queryBase='key='+encodeURIComponent(TFF_KEY)
+          +'&uid='+encodeURIComponent(JG15_DEV_UID)
+          +'&region='+encodeURIComponent(region);
+
+        var json=await xyureiRequest(function(){
+          return TFF_BASE+'/freefireinfo/bhau?'+queryBase;
+        },{
+          isDataOk:function(j){
+            return !!(j && (j.basicInfo||j.data||j.result) && !j.error);
+          }
+        });
+
+        var b=(json&&json.basicInfo)||{};
+        var accountId=String(
+          (typeof stkPick==='function'
+            ? (stkPick(b,['accountId','account_id'])||'')
+            : (b.accountId||b.account_id||''))
+        ).trim();
+
+        /* Wajib cocok UID. Ini yang mencegah profile orang lain muncul. */
+        if(accountId && accountId!==JG15_DEV_UID){
+          throw new Error('UID respons tidak cocok.');
+        }
+
+        var nickname='';
+        try{
+          nickname=typeof stkPick==='function' ? (stkPick(b,['nickname'])||'') : (b.nickname||'');
+        }catch(e){}
+
+        var bannerUrl='';
+        if(typeof tffBuildBannerUrl==='function'){
+          bannerUrl=tffBuildBannerUrl(JG15_DEV_UID,region);
+        }else{
+          bannerUrl=TFF_BASE+'/banner/profile?uid='+encodeURIComponent(JG15_DEV_UID)
+            +'&region='+encodeURIComponent(region)
+            +'&key='+encodeURIComponent(TFF_KEY);
+        }
+
+        return {
+          url:bannerUrl,
+          region:region,
+          nickname:nickname||'',
+          uid:JG15_DEV_UID
+        };
+      }catch(err){
+        lastErr=err;
+      }
+    }
+
+    throw lastErr || new Error('Profile UID '+JG15_DEV_UID+' tidak ditemukan.');
+  }
+
+  function jg15SetModalLock(open){
+    document.documentElement.classList.toggle('jg15-modal-open',!!open);
+    document.body.classList.toggle('jg15-modal-open',!!open);
+  }
+
+  window.jg15OpenProfileExample=async function(){
+    var ov=document.getElementById('jg15ExampleOverlay');
+    var img=document.getElementById('jg15ExampleImage');
+    var loading=document.getElementById('jg15ExampleLoading');
+    if(!ov||!img)return;
+
+    ov.classList.add('is-open');
+    ov.setAttribute('aria-hidden','false');
+    jg15SetModalLock(true);
+
+    img.removeAttribute('src');
+    img.style.display='none';
+
+    if(loading){
+      loading.classList.remove('is-hidden');
+      loading.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i><span>Mencari profile UID 260190210...</span>';
+    }
+
+    try{
+      var resolved=await jg15ResolveDeveloperBanner();
+
+      img.onload=function(){
+        img.style.display='block';
+        if(loading)loading.classList.add('is-hidden');
+
+        var title=document.getElementById('jg15ExampleTitle');
+        if(title){
+          title.textContent=(resolved.nickname ? resolved.nickname+' · ' : '')+'Banner Profile';
+        }
+      };
+
+      img.onerror=function(){
+        img.style.display='none';
+        if(loading){
+          loading.classList.remove('is-hidden');
+          loading.innerHTML='<i class="fa-solid fa-triangle-exclamation"></i><span>Banner profile UID 260190210 gagal dimuat.</span>';
+        }
+      };
+
+      img.referrerPolicy='no-referrer';
+      img.src=resolved.url;
+
+    }catch(e){
+      if(loading){
+        loading.classList.remove('is-hidden');
+        loading.innerHTML='<i class="fa-solid fa-triangle-exclamation"></i><span>Profile UID 260190210 tidak ditemukan pada region yang tersedia.</span>';
+      }
+    }
+  };
+
+  window.jg15CloseProfileExample=function(evt){
+    if(evt && evt.target && evt.target.id!=='jg15ExampleOverlay')return;
+    var ov=document.getElementById('jg15ExampleOverlay');
+    if(!ov)return;
+    ov.classList.remove('is-open');
+    ov.setAttribute('aria-hidden','true');
+    jg15SetModalLock(false);
+  };
+
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'){
+      var ov=document.getElementById('jg15ExampleOverlay');
+      if(ov&&ov.classList.contains('is-open')) window.jg15CloseProfileExample();
+    }
+  });
 })();
 </script>
 
