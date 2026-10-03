@@ -1743,4 +1743,70 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     if(bg && !bg.paused){ bgWasPlaying=true; bg.pause(); } else { bgWasPlaying=false; }
     audio.volume=volume();
     audio.currentTime=0;
-    audio.play().catch
+    audio.play().catch(function(){});
+  }
+  function stop(){
+    if(!active)return;
+    active=false;
+    audio.pause();
+    audio.currentTime=0;
+    if(bgWasPlaying && bg){ bg.play().catch(function(){}); }
+    bgWasPlaying=false;
+  }
+  function sync(){
+    var p=document.querySelector('.page.active');
+    var id=p?p.id:'';
+    if(OLD_PAGES.indexOf(id)>-1) start(); else stop();
+  }
+
+  var prev=window.showPage;
+  window.showPage=function(id,fromBack){
+    var r=prev.call(this,id,fromBack);
+    sync();
+    return r;
+  };
+
+  // pause saat tab/app disembunyikan, lanjut saat kembali (hanya jika masih di halaman Old 2022)
+  document.addEventListener('visibilitychange',function(){
+    if(!active)return;
+    if(document.hidden) audio.pause(); else audio.play().catch(function(){});
+  });
+  window.addEventListener('pagehide',function(){ if(active) audio.pause(); });
+  window.addEventListener('pageshow',function(){ if(active) audio.play().catch(function(){}); });
+
+  // ikut volume dari pengaturan musik
+  document.addEventListener('input',function(e){
+    if(active && e.target && e.target.classList && e.target.classList.contains('mp-volume-slider')){
+      audio.volume=volume();
+    }
+  },true);
+})();
+</script>
+
+<style id="cfglobby-style">
+#ffLogoPcPage .ff-modal-media.ff-nopreview{aspect-ratio:2340/1080;background:radial-gradient(120% 90% at 20% 20%,#5a0a14 0%,#240509 55%,#0b0304 100%)}
+#ffLogoPcPage .ff-modal-media.ff-nopreview .ff-modal-slider,
+#ffLogoPcPage .ff-modal-media.ff-nopreview .ff-modal-pclogo,
+#ffLogoPcPage .ff-modal-media.ff-nopreview .ff-modal-slide-nav{display:none}
+</style>
+<script id="cfglobby-script">
+(function(){
+  var orig=window.openFreeFileModal;
+  if(typeof orig!=='function')return;
+  var page=document.getElementById('ffLogoPcPage');
+  if(!page)return;
+  var descEl=page.querySelector('.ff-modal-desc span');
+  var defDesc=descEl?descEl.innerHTML:'';
+  window.openFreeFileModal=function(title,file,link,copyLink,opts){
+    var r=orig.call(this,title,file,link,copyLink);
+    opts=opts||{};
+    if(descEl) descEl.innerHTML=opts.desc?opts.desc:defDesc;
+    var media=page.querySelector('.ff-modal-media');
+    if(media) media.classList.toggle('ff-nopreview',!!opts.nopreview);
+    var sup=page.querySelector('.ff-support-wrap');
+    if(sup) sup.style.display=opts.nopreview?'none':'';
+    return r;
+  };
+})();
+</script>
+</body></html>
