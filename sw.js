@@ -1,4 +1,4 @@
-const CACHE_NAME='kzrizusmo-ff-pwa-v5';
+const CACHE_NAME='kzrizusmo-ff-pwa-v6';
 const STATIC_ASSETS=[
   '/manifest.webmanifest',
   '/kz-icon-192-v2.png',
