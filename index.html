@@ -1904,6 +1904,7 @@ function apResetVerification(){
 .ap-goto-btn{width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:10px;border:1px solid #ffffff1f;background:#1a1d23;color:#e8c877;font-size:13px;cursor:pointer;text-decoration:none;-webkit-tap-highlight-color:transparent;transition:background .15s ease,transform .15s ease;padding:0}
 .ap-goto-btn:active{transform:scale(.94);background:#e8c87722}
 .ap-goto-empty{padding:14px;text-align:center;font-size:11px;color:#8b93a0}
+.ap-goto-thumb-ph{display:grid;place-items:center;color:#7d8590;font-size:18px}
 .ap-goto-thumb{width:52px;height:52px;aspect-ratio:1/1;object-fit:cover;flex:none;border-radius:12px;border:1px solid #ffffff1f;background:#14161b;display:block}
 </style><script id="ap-goto-script">
 (function(){
@@ -1915,6 +1916,13 @@ function apResetVerification(){
 
   var IMG_SHADOW="zusmo-asset/zusmoshadowkhusus.png",IMG_OLD="zusmo-asset/zusmooldkhusus.png";
   function thumbFor(steps){var f=steps&&steps[0];return f==="shadowmenu"?IMG_SHADOW:f==="oldmenu"?IMG_OLD:""}
+  window.apThumbFallback=function(img){
+    var n=(img.getAttribute("data-n")||"").split("/").pop(),i=+(img.getAttribute("data-i")||0);
+    var bases=["zusmo-assets/","zusmo-asset/images/","images/","assets/",""];
+    if(n&&i<bases.length){img.setAttribute("data-i",i+1);img.src=bases[i]+n;return}
+    img.onerror=null;var d=document.createElement("div");d.className="ap-goto-thumb ap-goto-thumb-ph";
+    d.innerHTML='<i class="fa-solid fa-image"></i>';img.replaceWith(d);
+  };
 
   function allEntries(){
     var routes=window.ZUSMO_GOTO_ROUTES||{};
@@ -1948,7 +1956,7 @@ function apResetVerification(){
     var shown=all.filter(function(it){return!q||it.key.indexOf(q)>-1||it.url.toLowerCase().indexOf(q)>-1||it.dest.toLowerCase().indexOf(q)>-1});
     list.innerHTML=shown.length?shown.map(function(it){
       return'<div class="ap-goto-row" role="listitem">'
-        +(it.thumb?'<img class="ap-goto-thumb" src="'+it.thumb+'" alt="Preview '+esc(it.key)+'" width="52" height="52" loading="lazy" decoding="async" onerror="this.remove()">':'')
+        +(it.thumb?'<img class="ap-goto-thumb" src="'+it.thumb+'" data-n="'+it.thumb+'" alt="Preview '+esc(it.key)+'" width="52" height="52" decoding="async" onerror="apThumbFallback(this)">':'')
         +'<div class="ap-goto-info"><div class="ap-goto-name">'+esc(it.key)+'</div>'
         +'<div class="ap-goto-url">'+esc(it.url)+'</div>'
         +'<div class="ap-goto-dest">'+esc(it.dest)+'</div></div>'
@@ -1967,9 +1975,26 @@ function apResetVerification(){
   });
   window.apGotoRender("");
 
+  var RESELLER_CANDIDATES=[RESELLER_PAGE,"zusmo-asset/html/reseller.html","zusmo-asset/reseller.html","reseller.html","Html/reseller.html","zusmo-asset/Html/reseller.html","zusmo-assets/html/reseller.html","zusmo-assets/reseller.html"];
+  var resellerBusy=false;
+  function probe(u){
+    return fetch(u,{cache:"no-store"}).then(function(r){
+      if(!r.ok)return false;
+      return r.text().then(function(t){return t.indexOf('id="vipAppRoot"')<0&&t.length>50});
+    }).catch(function(){return false});
+  }
   window.openResellerPage=function(){
     try{window.ZUSMO&&window.ZUSMO.playClick&&window.ZUSMO.playClick()}catch(e){}
-    window.location.href=RESELLER_PAGE;
+    if(resellerBusy)return;resellerBusy=true;
+    var i=0;
+    function go(u){resellerBusy=false;window.location.href=u}
+    function next(){
+      if(i>=RESELLER_CANDIDATES.length){resellerBusy=false;typeof showToast==="function"&&showToast("reseller.html tidak ditemukan di server");go(RESELLER_PAGE);return}
+      var u=RESELLER_CANDIDATES[i++];
+      if(location.protocol==="file:")return go(u);
+      probe(u).then(function(ok){ok?go(u):next()});
+    }
+    next();
   };
 })();
 </script><style id="perf-lite">
@@ -2032,4 +2057,68 @@ function apResetVerification(){
 #vipAppRoot .auth-hint b{color:#ffc43d}
 #vipAppRoot .switch-key-btn{width:100%;margin:10px 0 0;padding:11px 14px;border-radius:14px;border:1px dashed rgba(255,196,61,.45);background:rgba(255,157,23,.07);color:#ffc43d;font-size:12px;font-weight:900;letter-spacing:.03em;cursor:pointer}
 #vipAppRoot .switch-key-btn:active{transform:scale(.97)}
-</style></body></html>
+</style><style id="zx-fix-20261011">
+/* 4. Bar atas: blur kembali (perf-lite mematikan semua backdrop-filter) */
+.topbar-pro{background:rgba(15,15,15,.55)!important;-webkit-backdrop-filter:blur(14px) saturate(150%)!important;backdrop-filter:blur(14px) saturate(150%)!important}
+#vipAppRoot .appbar{-webkit-backdrop-filter:blur(14px) saturate(150%)!important;backdrop-filter:blur(14px) saturate(150%)!important;background:rgba(5,5,5,.55)!important}
+
+/* 2. UI masuk VIP: susunan mengalir (tanpa posisi absolut) supaya tidak bertabrakan */
+#vipAppRoot #authScreen .auth-shell{display:flex!important;flex-direction:column;align-items:center;height:100%;min-height:0!important;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch}
+#vipAppRoot #authScreen .auth-shell>.appbar{flex:none;width:100%}
+#vipAppRoot #authScreen .version-mini{position:static!important;left:auto!important;top:auto!important;transform:none!important;display:flex!important;flex-direction:row!important;flex-wrap:wrap!important;justify-content:center!important;gap:6px!important;width:auto!important;max-width:calc(100% - 24px)!important;margin:14px 12px 12px!important;padding:0!important;background:none!important;border:0!important;flex:none;z-index:2}
+#vipAppRoot #authScreen .version-mini>div{width:auto!important;flex:none!important;display:flex!important;gap:4px!important;padding:5px 10px!important;border-radius:99px!important;background:rgba(255,255,255,.07)!important;border:1px solid rgba(255,255,255,.12)!important;font-size:10px!important;line-height:1!important;white-space:nowrap!important}
+#vipAppRoot #authScreen .auth-card{position:relative!important;top:auto!important;left:auto!important;transform:none!important;width:calc(100% - 28px)!important;max-width:374px!important;max-height:none!important;overflow:visible!important;margin:0 auto!important;flex:none;animation:zxAuthIn .45s ease-out both!important}
+#vipAppRoot #authScreen .auth-footer{position:static!important;left:auto!important;right:auto!important;bottom:auto!important;margin:22px 0 28px!important;flex:none}
+#vipAppRoot #authScreen .auth-card .error,#vipAppRoot #authScreen .auth-card .key-msg,#vipAppRoot #authScreen .auth-card .msg{margin-top:8px}
+/* tombol TEMPEL tertutup input (z-index 2 < 30) -> naikkan */
+#vipAppRoot #authScreen .key-paste{z-index:41!important}
+#vipAppRoot #authScreen .status-msg:empty{min-height:0!important;margin-top:0!important}
+@keyframes zxAuthIn{from{opacity:.2;transform:translateY(16px) scale(.98)}to{opacity:1;transform:none}}
+</style>
+<style id="zx-ui-refresh">
+/* ===== UI REFRESH 2026-10 (satu blok, mudah dicabut: hapus <style id="zx-ui-refresh">) ===== */
+:root{--zx-red:#ff2b2b;--zx-red-soft:rgba(255,43,43,.16);--zx-line:rgba(255,255,255,.08);--zx-glass:rgba(12,12,14,.58);--zx-ease:cubic-bezier(.2,.8,.2,1)}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;overscroll-behavior-y:none}
+*{-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:2px solid var(--zx-red);outline-offset:2px;border-radius:10px}
+input:focus-visible,textarea:focus-visible{outline-offset:0}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-thumb{background:rgba(255,43,43,.35);border-radius:9px}
+::-webkit-scrollbar-track{background:transparent}
+
+/* Bar atas: kaca + garis cahaya merah di bawah */
+.topbar-pro{background:linear-gradient(180deg,rgba(14,14,16,.72),rgba(14,14,16,.5))!important;-webkit-backdrop-filter:blur(16px) saturate(160%)!important;backdrop-filter:blur(16px) saturate(160%)!important;border-bottom:1px solid var(--zx-line)!important}
+.topbar-pro::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;background:linear-gradient(90deg,transparent,rgba(255,43,43,.75),rgba(255,212,90,.4),transparent);pointer-events:none}
+
+/* Bottom bar: melayang, kaca, label tidak bertabrakan */
+.app-bottombar{background:var(--zx-glass)!important;-webkit-backdrop-filter:blur(18px) saturate(160%)!important;backdrop-filter:blur(18px) saturate(160%)!important;border:1px solid rgba(255,255,255,.1)!important;border-top-color:rgba(255,43,43,.5)!important;box-shadow:0 12px 28px rgba(0,0,0,.55),0 0 22px rgba(255,43,43,.14)!important;bottom:calc(12px + env(safe-area-inset-bottom,0px))!important;padding:0 4px!important;gap:0}
+.app-bottombar .tab{min-width:0;padding:0 1px;font-size:8.5px!important;letter-spacing:.2px!important;white-space:nowrap;overflow:hidden;text-overflow:clip;font-weight:600}
+.app-bottombar .tab i{font-size:16px}
+.app-bottombar .tab:active{transform:scale(.94)}
+.app-bottombar .tab.active{background:linear-gradient(180deg,rgba(255,43,43,.2),rgba(255,43,43,.05))!important;box-shadow:inset 0 0 0 1px rgba(255,43,43,.28)}
+.app-bottombar .home-center{overflow:visible}
+
+@media (max-width:430px){.app-bottombar .tab{font-size:7.4px!important;letter-spacing:0!important}.app-bottombar{width:96%!important}.app-bottombar .home-center{width:50px!important;font-size:8px!important}}
+/* Kartu & tombol panjang: radius seragam, border merah halus + glow (bukan latar penuh) */
+.card,.long-btn{border-radius:18px!important;border:1px solid rgba(255,43,43,.5)!important;background:linear-gradient(160deg,rgba(255,255,255,.075),rgba(255,255,255,.025))!important;box-shadow:0 6px 18px rgba(0,0,0,.35),0 0 14px rgba(255,43,43,.12),inset 0 1px 0 rgba(255,255,255,.07)!important;transition:transform .25s var(--zx-ease),box-shadow .25s var(--zx-ease),border-color .25s!important}
+.long-btn{padding:14px 16px!important}
+.card:active,.long-btn:active{transform:scale(.985)!important;border-color:rgba(255,43,43,.85)!important}
+.card[style*="255,215,0"],.long-btn[style*="255,215,0"]{border-color:rgba(255,215,0,.75)!important;box-shadow:0 6px 18px rgba(0,0,0,.35),0 0 16px rgba(255,215,0,.16)!important}
+
+/* Tombol utama */
+.primary-btn,.o-b.o-p{background:linear-gradient(180deg,#ff4a4a,#d90f0f)!important;box-shadow:0 8px 20px rgba(255,43,43,.35),inset 0 1px 0 rgba(255,255,255,.28)!important;letter-spacing:.06em;transition:transform .15s var(--zx-ease),filter .2s!important}
+.primary-btn:active,.o-b:active{transform:scale(.97)!important;filter:brightness(.92)}
+.o-b.o-g{border-color:rgba(255,255,255,.2)!important}
+
+/* Sheet & modal: sudut atas lebih lembut */
+.zx-modal{border-radius:24px 24px 0 0;border:1px solid var(--zx-line)}
+.kz-install-banner{border-radius:24px 24px 0 0!important}
+
+/* Judul bagian */
+.hm-section-lbl{letter-spacing:1.6px;opacity:.9}
+
+/* Hormati preferensi kurangi gerak */
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+</style>
+</body></html>
