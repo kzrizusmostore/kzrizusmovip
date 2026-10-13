@@ -500,7 +500,7 @@ window.__zusmoRenderBanner = function(on){
 #logoDetailGrid .bd-owned,#musicDetailGrid .music-owned-badge{display:none!important}
 
 @media (prefers-reduced-motion:reduce){.kl-wave i{animation:none}.kl-card{transition:none}}
-</style></head><body><div id="kzSplash" class="kzs" aria-hidden="true">
+</style><meta name="build" content="jastip-v4"><script>(function(){var B='jastip-v4-20261014';try{if(localStorage.getItem('kz_build')===B)return;localStorage.setItem('kz_build',B);var p=[];if(navigator.serviceWorker&&navigator.serviceWorker.getRegistrations)p.push(navigator.serviceWorker.getRegistrations().then(function(r){return Promise.all(r.map(function(x){return x.unregister()}))}));if(window.caches)p.push(caches.keys().then(function(k){return Promise.all(k.map(function(x){return caches.delete(x)}))}));Promise.all(p).then(function(){location.reload()})}catch(e){}})();</script></head><body><div id="kzSplash" class="kzs" aria-hidden="true">
 <div class="kzs-glow"></div>
 <div class="kzs-stage">
 <div class="kzs-orb">
@@ -603,8 +603,8 @@ window.__zusmoRenderBanner = function(on){
 <div class="o-link"><code>••••••••••••••••••••••</code><button type="button" class="o-c" disabled aria-disabled="true"><i class="fa-regular fa-copy"></i><span>Salin</span></button></div>
 <div class="o-acc"><button type="button" class="o-b o-g" disabled aria-disabled="true" style="margin-top:12px"><i class="fa-solid fa-key"></i>Jasa ambil key / daftar akun — segera hadir</button></div></div></div>
 <button type="button" class="o-b o-g o-back" onclick="showPage('oldmenu')"><i class="fa-solid fa-arrow-left"></i>Kembali ke Zusmo Old</button>
-</div><div class="page" id="oldJastip"><header class="oj-header"><span class="oj-eyebrow" id="ojVersionLabel">ZUSMO OLD · 2022</span><h1>JASTIP <span>AKUN / KEY</span></h1><p>Biar admin yang urus. Kamu tinggal tentukan akun yang diinginkan.</p></header><form id="ojForm" novalidate><section class="oj-section" aria-labelledby="ojPackTitle"><h2 class="oj-step" id="ojPackTitle"><span>1</span>Paket</h2><div class="oj-cards" id="jtPaketGroup" role="radiogroup" aria-labelledby="ojPackTitle"></div></section><section class="oj-section" aria-labelledby="jtPaketQtyTitle"><h2 class="oj-step" id="jtPaketQtyTitle"><span>2</span>Jumlah</h2><div class="oj-chips" id="ojChips" role="radiogroup" aria-labelledby="jtPaketQtyTitle"></div><p class="oj-info" id="jtPaketInfo" aria-live="polite"></p></section><section class="oj-section" id="jtPaketRequest" aria-labelledby="ojRequestTitle" hidden><h2 class="oj-step" id="ojRequestTitle"><span>3</span>Detail akun</h2><div id="ojAccounts"></div></section><div class="oj-bar"><p class="oj-sum" id="jtFormSummary" role="status" aria-live="polite"></p><div class="oj-bar-row"><div class="oj-total" id="jtPaketTotal" aria-live="polite"></div><button class="oj-btn" id="jtSubmit" type="submit" aria-describedby="jtGateHint">Pesan Sekarang</button></div><p class="oj-gate" id="jtGateHint" aria-live="polite"></p></div></form></div><div id="jtPaketConfirm" hidden><div class="oj-sheet" role="dialog" aria-modal="true" aria-labelledby="jtPaketConfirmTitle"><h2 id="jtPaketConfirmTitle" tabindex="-1">Ringkasan pesanan</h2><div class="oj-row"><span>Paket</span><strong id="jtcPaket"></strong></div><div class="oj-row"><span>Jumlah</span><strong id="jtcJumlah"></strong></div><div class="oj-row"><span>Total</span><strong id="jtcTotal"></strong></div><div class="oj-row"><span>Estimasi proses</span><strong id="jtcEstimasi"></strong></div><div class="oj-rowv" id="jtcAkunRow"><span>Akun yang dipesan</span><div id="jtcAkun"></div></div><button type="button" class="oj-btn oj-block" id="jtcNext">Lanjut ke pembayaran</button><button type="button" class="oj-btn-2 oj-block" id="jtcBack">Ubah</button></div></div><div class="page page-with-copyright" id="oldJastipPay"><div id="ojMethodArea"><h1>Metode Pembayaran</h1><p class="subtitle">Pilih cara pembayaran untuk melanjutkan pesanan</p><div class="vpay-summary" style="flex-direction:column;align-items:stretch;gap:10px;"><div style="display:flex;align-items:center;justify-content:space-between;gap:10px;"><div><div class="vpay-summary-label">Paket dipilih</div><div class="vpay-summary-tier" id="ojSummaryPack">1 akun</div></div><div class="vpay-summary-price" id="ojTotal">Rp5.000</div></div><div style="display:flex;align-items:center;gap:7px;padding-top:9px;border-top:1px dashed rgba(255,255,255,.1);font-size:11px;color:rgba(255,255,255,.55);"><i class="fa-solid fa-hashtag" style="color:#e8c877;font-size:10px;"></i><span id="ojPaymentUser">-</span></div><div style="display:flex;align-items:center;gap:7px;font-size:11px;color:#7CFFA0;font-weight:700;"><i class="fa-solid fa-circle-check" style="color:#2ecc71;font-size:10px;"></i><span id="ojSummaryMethod">-</span></div></div><div class="vpay-sectiontitle"><i class="fa-solid fa-wallet"></i>Pilih Metode Bayar</div><div class="vpay-grid"><div class="vpay-method m-qris" data-oj-method="qris" onclick="ojSelectMethod('qris')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}"><div class="vpay-icon"><i class="fa-solid fa-qrcode"></i></div><div class="vpay-info"><div class="vpay-name">QRIS</div><div class="vpay-number">Bayar pakai semua e-wallet &amp; m-banking</div></div><div class="vpay-check"><i class="fa-solid fa-check"></i></div></div><div class="vpay-method m-qris2" data-oj-method="qris2" onclick="ojSelectMethod('qris2')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}"><div class="vpay-icon"><i class="fa-solid fa-qrcode"></i></div><div class="vpay-info"><div class="vpay-name">QRIS 2 <span class="vpay-badge" style="background:rgba(255,255,255,.12);color:rgba(255,255,255,.75);">+ Biaya Admin</span></div><div class="vpay-number">Bayar pakai semua e-wallet &amp; m-banking juga</div></div><div class="vpay-check"><i class="fa-solid fa-check"></i></div></div><div class="vpay-method m-dana" data-oj-method="dana" onclick="ojSelectMethod('dana')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}"><div class="vpay-icon"><img loading="lazy" decoding="async" src="zusmo-asset/logodana.png" alt="DANA" onerror="this.style.display='none'"/></div><div class="vpay-info"><div class="vpay-name">DANA</div><div class="vpay-number">Bayar langsung dari saldo DANA kamu</div></div><div class="vpay-check"><i class="fa-solid fa-check"></i></div></div><div class="vpay-method m-gopay" data-oj-method="gopay" onclick="ojSelectMethod('gopay')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}"><div class="vpay-icon"><img loading="lazy" decoding="async" src="zusmo-asset/logogopay.png" alt="GoPay" onerror="this.style.display='none'"/></div><div class="vpay-info"><div class="vpay-name">GoPay</div><div class="vpay-number">Bayar langsung dari saldo GoPay kamu</div></div><div class="vpay-check"><i class="fa-solid fa-check"></i></div></div><div class="vpay-method m-shopee" data-oj-method="shopee" onclick="ojSelectMethod('shopee')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}"><div class="vpay-icon"><img loading="lazy" decoding="async" src="zusmo-asset/logospay.png" alt="ShopeePay" onerror="this.style.display='none'"/></div><div class="vpay-info"><div class="vpay-name">ShopeePay</div><div class="vpay-number">Bayar langsung dari saldo ShopeePay kamu</div></div><div class="vpay-check"><i class="fa-solid fa-check"></i></div></div><div class="vpay-method m-ovo" data-oj-method="ovo" onclick="ojSelectMethod('ovo')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}"><div class="vpay-icon"><img loading="lazy" decoding="async" src="zusmo-asset/logoovo.png" alt="OVO" onerror="this.style.display='none'"/></div><div class="vpay-info"><div class="vpay-name">OVO</div><div class="vpay-number">Bayar langsung dari saldo OVO kamu</div></div><div class="vpay-check"><i class="fa-solid fa-check"></i></div></div><div class="vpay-method m-wa" data-oj-method="wa" onclick="ojSelectMethod('wa')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}"><div class="vpay-icon"><i class="fa-brands fa-whatsapp"></i></div><div class="vpay-info"><div class="vpay-name">Order Manual</div><div class="vpay-number">Pesan langsung dibantu admin via WhatsApp</div></div><div class="vpay-check"><i class="fa-solid fa-check"></i></div></div></div><div class="vpay-confirmbar"><button type="button" class="vpay-confirmbtn" id="ojSubmit" disabled onclick="ojStartPayment()"><i class="fa-solid fa-arrow-right"></i> Lanjut ke Pembayaran
-  </button></div><div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div></div><section id="ojDetail" hidden><h1>Selesaikan Pembayaran</h1><p class="subtitle">Bayar sebelum waktu habis, lalu konfirmasi ke admin</p><div class="vpd-summary"><div class="vpd-summary-tier" id="ojDetailPack">VIP -</div><div class="vpd-summary-price" id="ojPayAmount">Rp 0</div></div><div class="vpd-timerwrap" id="ojTimerWrap"><div class="vpd-timer-label"><i class="fa-regular fa-clock"></i> Selesaikan dalam</div><div class="vpd-timer-text" id="ojClock">05:00</div><div class="vpd-timer-bartrack"><div class="vpd-timer-bar" id="ojTimeBar"></div></div><div class="vpd-timer-note">Segera lakukan pembayaran dalam 5 menit</div></div><div class="vpd-method-card"><div class="vpd-icon" id="ojMethodIcon"><i class="fa-solid fa-wallet"></i></div><div><div class="vpd-method-name" id="ojPayName">-</div><div class="vpd-method-sub">Metode pembayaran dipilih</div></div></div><div id="ojPayBody"></div><p class="vpd-timer-note" id="ojConfirmHint"></p><div class="vpay-confirmbar"><button class="vpay-confirmbtn" id="ojConfirm" type="button" onclick="ojConfirmPayment()"><i class="fa-solid fa-check-double"></i> Saya sudah bayar</button></div><button type="button" id="ojCancel" class="oj-cancel" onclick="ojCancelPayment()">Batalkan</button></section><p id="ojStatus" role="status" aria-live="polite"></p><a id="ojWhatsapp" class="vpay-confirmbtn ready" hidden target="_blank" rel="noopener noreferrer">Buka WhatsApp admin</a></div><div class="page" id="ojResultPage"><div class="oj-result-card" role="status" aria-live="polite"><div id="ojResultLoading"><div class="oj-result-spinner" aria-hidden="true"></div><h1>Memproses konfirmasi</h1><p>Tunggu sebentar…</p></div><div id="ojResultFailed" hidden><div class="oj-result-failicon"><i class="fa-solid fa-xmark"></i></div><h1>Konfirmasi pembayaran gagal</h1><p id="ojResultMessage"></p><div class="oj-result-note">Pesanan belum diteruskan ke admin.</div><button type="button" class="vpay-confirmbtn ready" onclick="showPage('oldJastipPay')">Coba pembayaran lagi</button><button type="button" class="oj-result-back" onclick="showPage('oldJastip')">Kembali ke pesanan</button></div></div></div><div class="page" id="ojSuccessPage"><div class="oj-result-card"><div class="oj-result-failicon" style="background:#2ecc711c;border-color:#2ecc7155;color:#7cffa0"><i class="fa-solid fa-check"></i></div><h1 style="color:#7cffa0;font-size:30px">BERHASIL</h1><p>Konfirmasi pesanan diterima. Admin akan memeriksa pembayaran dan memproses request akunmu.</p><p id="ojSuccessEmail" role="status" hidden></p><div class="oj-success-summary"><div><span>No. pesanan</span><strong id="ojSuccessOrder"></strong></div><div><span>Paket</span><strong id="ojSuccessPack"></strong></div><div><span>Total</span><strong id="ojSuccessTotal"></strong></div><div><span>Metode</span><strong id="ojSuccessMethod"></strong></div></div><a id="ojSuccessWhatsapp" class="vpay-confirmbtn ready" target="_blank" rel="noopener noreferrer" style="text-decoration:none"><i class="fa-brands fa-whatsapp"></i> Lanjut ke WhatsApp admin</a><button type="button" class="oj-result-back" onclick="ojFinishSuccess()">Selesai</button></div></div><div class="page old-ff-page" id="oldDownload2022">
+</div><div class="page" id="oldJastip"><header class="oj-header"><span class="oj-eyebrow" id="ojVersionLabel">ZUSMO OLD · 2022</span><h1>Jastip <span>Akun</span></h1><p>Pilih paket dan jumlah akun. Admin yang memprosesnya.</p></header><form id="ojForm" novalidate><section class="oj-section" aria-labelledby="ojPackTitle"><h2 class="oj-step" id="ojPackTitle"><span>1</span>Paket</h2><div class="oj-cards" id="jtPaketGroup" role="radiogroup" aria-labelledby="ojPackTitle"></div></section><section class="oj-section" aria-labelledby="jtPaketQtyTitle"><h2 class="oj-step" id="jtPaketQtyTitle"><span>2</span>Jumlah akun</h2><div class="oj-chips" id="ojChips" role="radiogroup" aria-labelledby="jtPaketQtyTitle"></div><p class="oj-info" id="jtPaketInfo" aria-live="polite"></p></section><section class="oj-section" id="jtPaketRequest" aria-labelledby="ojRequestTitle" hidden><h2 class="oj-step" id="ojRequestTitle"><span>3</span>Username &amp; password</h2><div id="ojAccounts"></div></section><div class="oj-bar"><p class="oj-sum" id="jtFormSummary" role="status" aria-live="polite"></p><div class="oj-bar-row"><div class="oj-total" id="jtPaketTotal" aria-live="polite"></div><button class="oj-btn" id="jtSubmit" type="submit" aria-describedby="jtGateHint">Lanjut</button></div><p class="oj-gate" id="jtGateHint" aria-live="polite"></p></div></form></div><div id="jtPaketConfirm" hidden><div class="oj-sheet" role="dialog" aria-modal="true" aria-labelledby="jtPaketConfirmTitle"><h2 id="jtPaketConfirmTitle" tabindex="-1">Ringkasan pesanan</h2><div class="oj-row"><span>Paket</span><strong id="jtcPaket"></strong></div><div class="oj-row"><span>Jumlah</span><strong id="jtcJumlah"></strong></div><div class="oj-row"><span>Total</span><strong id="jtcTotal"></strong></div><div class="oj-row"><span>Estimasi proses</span><strong id="jtcEstimasi"></strong></div><div class="oj-rowv" id="jtcAkunRow"><span>Akun yang dipesan</span><div id="jtcAkun"></div></div><button type="button" class="oj-btn oj-block" id="jtcNext">Lanjut ke pembayaran</button><button type="button" class="oj-btn-2 oj-block" id="jtcBack">Ubah</button></div></div><div class="page page-with-copyright" id="oldJastipPay"><div id="ojMethodArea"><h1>Metode Pembayaran</h1><p class="subtitle">Pilih cara bayar untuk melanjutkan.</p><div class="vpay-summary" style="flex-direction:column;align-items:stretch;gap:10px;"><div style="display:flex;align-items:center;justify-content:space-between;gap:10px;"><div><div class="vpay-summary-label">Pesanan</div><div class="vpay-summary-tier" id="ojSummaryPack">1 akun</div></div><div class="vpay-summary-price" id="ojTotal">Rp5.000</div></div><div style="display:flex;align-items:center;gap:7px;padding-top:9px;border-top:1px dashed rgba(255,255,255,.1);font-size:11px;color:rgba(255,255,255,.55);"><i class="fa-solid fa-hashtag" style="color:#e8c877;font-size:10px;"></i><span id="ojPaymentUser">-</span></div><div style="display:flex;align-items:center;gap:7px;font-size:11px;color:#7CFFA0;font-weight:700;"><i class="fa-solid fa-circle-check" style="color:#2ecc71;font-size:10px;"></i><span id="ojSummaryMethod">Belum dipilih</span></div></div><div class="vpay-grid"><div class="vpay-method m-qris" data-oj-method="qris" onclick="ojSelectMethod('qris')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}"><div class="vpay-icon"><i class="fa-solid fa-qrcode"></i></div><div class="vpay-info"><div class="vpay-name">QRIS</div><div class="vpay-number">Semua e-wallet &amp; m-banking</div></div><div class="vpay-check"><i class="fa-solid fa-check"></i></div></div><div class="vpay-method m-qris2" data-oj-method="qris2" onclick="ojSelectMethod('qris2')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}"><div class="vpay-icon"><i class="fa-solid fa-qrcode"></i></div><div class="vpay-info"><div class="vpay-name">QRIS 2 <span class="vpay-badge" style="background:rgba(255,255,255,.12);color:rgba(255,255,255,.75);">+ Biaya Admin</span></div><div class="vpay-number">Semua e-wallet &amp; m-banking</div></div><div class="vpay-check"><i class="fa-solid fa-check"></i></div></div><div class="vpay-method m-dana" data-oj-method="dana" onclick="ojSelectMethod('dana')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}"><div class="vpay-icon"><img loading="lazy" decoding="async" src="zusmo-asset/logodana.png" alt="DANA" onerror="this.style.display='none'"/></div><div class="vpay-info"><div class="vpay-name">DANA</div><div class="vpay-number">Saldo DANA</div></div><div class="vpay-check"><i class="fa-solid fa-check"></i></div></div><div class="vpay-method m-gopay" data-oj-method="gopay" onclick="ojSelectMethod('gopay')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}"><div class="vpay-icon"><img loading="lazy" decoding="async" src="zusmo-asset/logogopay.png" alt="GoPay" onerror="this.style.display='none'"/></div><div class="vpay-info"><div class="vpay-name">GoPay</div><div class="vpay-number">Saldo GoPay</div></div><div class="vpay-check"><i class="fa-solid fa-check"></i></div></div><div class="vpay-method m-shopee" data-oj-method="shopee" onclick="ojSelectMethod('shopee')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}"><div class="vpay-icon"><img loading="lazy" decoding="async" src="zusmo-asset/logospay.png" alt="ShopeePay" onerror="this.style.display='none'"/></div><div class="vpay-info"><div class="vpay-name">ShopeePay</div><div class="vpay-number">Saldo ShopeePay</div></div><div class="vpay-check"><i class="fa-solid fa-check"></i></div></div><div class="vpay-method m-ovo" data-oj-method="ovo" onclick="ojSelectMethod('ovo')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}"><div class="vpay-icon"><img loading="lazy" decoding="async" src="zusmo-asset/logoovo.png" alt="OVO" onerror="this.style.display='none'"/></div><div class="vpay-info"><div class="vpay-name">OVO</div><div class="vpay-number">Saldo OVO</div></div><div class="vpay-check"><i class="fa-solid fa-check"></i></div></div><div class="vpay-method m-wa" data-oj-method="wa" onclick="ojSelectMethod('wa')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}"><div class="vpay-icon"><i class="fa-brands fa-whatsapp"></i></div><div class="vpay-info"><div class="vpay-name">Order Manual</div><div class="vpay-number">Dibantu admin lewat WhatsApp</div></div><div class="vpay-check"><i class="fa-solid fa-check"></i></div></div></div><div class="vpay-confirmbar"><button type="button" class="vpay-confirmbtn" id="ojSubmit" disabled onclick="ojStartPayment()"><i class="fa-solid fa-arrow-right"></i> Lanjut ke Pembayaran
+  </button></div><div class="footer" style="margin-top:14px;">© 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div></div><section id="ojDetail" hidden><h1>Selesaikan Pembayaran</h1><p class="subtitle">Bayar sebelum waktu habis, lalu konfirmasi ke admin</p><div class="vpd-summary"><div class="vpd-summary-tier" id="ojDetailPack">-</div><div class="vpd-summary-price" id="ojPayAmount">Rp 0</div></div><div class="vpd-timerwrap" id="ojTimerWrap"><div class="vpd-timer-label"><i class="fa-regular fa-clock"></i> Selesaikan dalam</div><div class="vpd-timer-text" id="ojClock">05:00</div><div class="vpd-timer-bartrack"><div class="vpd-timer-bar" id="ojTimeBar"></div></div></div><div class="vpd-method-card"><div class="vpd-icon" id="ojMethodIcon"><i class="fa-solid fa-wallet"></i></div><div><div class="vpd-method-name" id="ojPayName">-</div><div class="vpd-method-sub">Metode pembayaran</div></div></div><div id="ojPayBody"></div><p class="vpd-timer-note" id="ojConfirmHint"></p><div class="vpay-confirmbar"><button class="vpay-confirmbtn" id="ojConfirm" type="button" onclick="ojConfirmPayment()"><i class="fa-solid fa-check-double"></i> Saya sudah bayar</button></div><button type="button" id="ojCancel" class="oj-cancel" onclick="ojCancelPayment()">Batalkan</button></section><p id="ojStatus" role="status" aria-live="polite"></p><a id="ojWhatsapp" class="vpay-confirmbtn ready" hidden target="_blank" rel="noopener noreferrer">Buka WhatsApp admin</a></div><div class="page" id="ojResultPage"><div class="oj-result-card" role="status" aria-live="polite"><div id="ojResultLoading"><div class="oj-result-spinner" aria-hidden="true"></div><h1>Memproses konfirmasi</h1><p>Tunggu sebentar…</p></div><div id="ojResultFailed" hidden><div class="oj-result-failicon"><i class="fa-solid fa-xmark"></i></div><h1>Konfirmasi pembayaran gagal</h1><p id="ojResultMessage"></p><div class="oj-result-note">Pesanan belum diteruskan ke admin.</div><button type="button" class="vpay-confirmbtn ready" onclick="showPage('oldJastipPay')">Coba pembayaran lagi</button><button type="button" class="oj-result-back" onclick="showPage('oldJastip')">Kembali ke pesanan</button></div></div></div><div class="page" id="ojSuccessPage"><div class="oj-result-card"><div class="oj-result-failicon oj-ok-icon"><i class="fa-solid fa-check"></i></div><h1 class="oj-ok-title">Pesanan Diterima</h1><p>Admin akan memeriksa pembayaran, lalu memproses pesananmu.</p><p id="ojSuccessEmail" role="status" hidden></p><div class="oj-success-summary"><div><span>No. pesanan</span><strong id="ojSuccessOrder"></strong></div><div><span>Paket</span><strong id="ojSuccessPack"></strong></div><div><span>Total</span><strong id="ojSuccessTotal"></strong></div><div><span>Metode</span><strong id="ojSuccessMethod"></strong></div></div><a id="ojSuccessWhatsapp" class="vpay-confirmbtn ready" target="_blank" rel="noopener noreferrer" style="text-decoration:none"><i class="fa-brands fa-whatsapp"></i> Lanjut ke WhatsApp admin</a><button type="button" class="oj-result-back" onclick="ojFinishSuccess()">Selesai</button></div></div><div class="page old-ff-page" id="oldDownload2022">
 <section class="o-rail" aria-roledescription="carousel" aria-label="Poster Zusmo Old"><div class="o-track" aria-live="off"><figure class="o-slide"><img src="zusmo-asset/Old1.png" alt="Poster Zusmo Old 1 dari 14" width="1200" height="590" loading="lazy" decoding="async"></figure><figure class="o-slide"><img src="zusmo-asset/Old2.png" alt="Poster Zusmo Old 2 dari 14" width="1200" height="590" loading="lazy" decoding="async"></figure><figure class="o-slide"><img src="zusmo-asset/Old3.png" alt="Poster Zusmo Old 3 dari 14" width="1200" height="590" loading="lazy" decoding="async"></figure><figure class="o-slide"><img src="zusmo-asset/Old4.png" alt="Poster Zusmo Old 4 dari 14" width="1200" height="590" loading="lazy" decoding="async"></figure><figure class="o-slide"><img src="zusmo-asset/Old5.png" alt="Poster Zusmo Old 5 dari 14" width="1200" height="590" loading="lazy" decoding="async"></figure><figure class="o-slide"><img src="zusmo-asset/Old6.png" alt="Poster Zusmo Old 6 dari 14" width="1200" height="590" loading="lazy" decoding="async"></figure><figure class="o-slide"><img src="zusmo-asset/Old7.png" alt="Poster Zusmo Old 7 dari 14" width="1200" height="590" loading="lazy" decoding="async"></figure><figure class="o-slide"><img src="zusmo-asset/Old8.png" alt="Poster Zusmo Old 8 dari 14" width="1200" height="590" loading="lazy" decoding="async"></figure><figure class="o-slide"><img src="zusmo-asset/Old9.png" alt="Poster Zusmo Old 9 dari 14" width="1200" height="590" loading="lazy" decoding="async"></figure><figure class="o-slide"><img src="zusmo-asset/Old10.png" alt="Poster Zusmo Old 10 dari 14" width="1200" height="590" loading="lazy" decoding="async"></figure><figure class="o-slide"><img src="zusmo-asset/Old11.png" alt="Poster Zusmo Old 11 dari 14" width="1200" height="590" loading="lazy" decoding="async"></figure><figure class="o-slide"><img src="zusmo-asset/Old12.png" alt="Poster Zusmo Old 12 dari 14" width="1200" height="590" loading="lazy" decoding="async"></figure><figure class="o-slide"><img src="zusmo-asset/Old13.png" alt="Poster Zusmo Old 13 dari 14" width="1200" height="590" loading="lazy" decoding="async"></figure><figure class="o-slide"><img src="zusmo-asset/Old14.png" alt="Poster Zusmo Old 14 dari 14" width="1200" height="590" loading="lazy" decoding="async"></figure></div></section>
 <header class="o-hero"><img loading="lazy" class="o-logo" src="zusmo-asset/ffold2022.png" width="96" height="96" alt="Logo Free Fire Old 2022" decoding="async" onerror="this.hidden=true"><h1 class="o-h1"><span class="o-w2" data-text="BER">BER</span><span class="o-w1" data-text="NOSTALGIA">NOSTALGIA</span></h1><p class="o-promo"><span>Rasakan lagi serunya Free Fire versi 2022 —</span><span>suasana klasik, langsung di HP Android kamu. Gratis!</span></p></header>
 <dialog class="old-release-modal" aria-label="Akses download Zusmo Old"><section class="old-release-gate" data-old-gate><button type="button" class="old-release-close" aria-label="Tutup popup">&times;</button><div class="old-release-lock"><i class="fa-solid fa-lock" aria-hidden="true"></i></div><span class="old-release-eyebrow">AKSES PUBLIK</span><h2>RILIS 3 OKTOBER</h2><p>3 Oktober 2026 · 00.00 WIB</p><div class="old-release-countdown" role="timer" aria-label="Hitung mundur menuju rilis publik" aria-live="off"><div><strong data-old-days>00</strong><span>HARI</span></div><div><strong data-old-hours>00</strong><span>JAM</span></div><div><strong data-old-minutes>00</strong><span>MENIT</span></div><div><strong data-old-seconds>00</strong><span>DETIK</span></div></div><div class="old-release-vip"><h3><i class="fa-solid fa-key"></i> VIP BISA AKSES SEKARANG</h3><p>Masukkan key VIP Zusmo Shadow. Basic, Elite, Ultimate, dan Max bisa membuka akses lebih awal.</p><form class="old-release-form"><label>KEY VIP ZUSMO SHADOW<input type="password" name="vipkey" autocomplete="off" spellcheck="false" placeholder="Masukkan key VIP" required maxlength="80"></label><a class="old-release-buy" href="?goto=buyvip">Buy Key VIP Zusmo Shadow <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a><button type="submit" class="old-ff-download"><span><i class="fa-solid fa-unlock-keyhole"></i> BUKA AKSES VIP</span></button><p class="old-release-feedback" role="status" aria-live="polite"></p></form></div></section></dialog>
@@ -1073,13 +1073,13 @@ refresh();
  let pkg='instan';
  /* Semua harga jastip hanya dari objek ini. normal = harga coret, price = harga jual. */
  const JASTIP_CONFIG={
-  instan:{label:'Instan',nama:'Akun Instan',desc:'Akun dari admin',unit:5000,info:'Akun dari admin. Tanpa antri.',prices:{1:{normal:5000,price:5000},2:{normal:10000,price:8000},3:{normal:15000,price:12000},4:{normal:20000,price:15000},5:{normal:25000,price:20000},10:{normal:50000,price:40000}}},
-  request:{label:'Antri',nama:'Akun Request',desc:'Pilih username dan password sendiri',unit:6000,estimasi:{min:5,max:10},info:'Perlu antri. Estimasi 5-10 menit per akun.',prices:{1:{normal:6000,price:6000},2:{normal:12000,price:10000},3:{normal:18000,price:15000},4:{normal:24000,price:20000},5:{normal:30000,price:25000},10:{normal:60000,price:50000}}}
+  instan:{label:'Instan',nama:'Akun Instan',desc:'Dari admin, tanpa antre',unit:5000,info:'',prices:{1:{normal:5000,price:5000},2:{normal:10000,price:8000},3:{normal:15000,price:12000},4:{normal:20000,price:15000},5:{normal:25000,price:20000},10:{normal:50000,price:40000}}},
+  request:{label:'Antre',nama:'Akun Request',desc:'Pilih username dan password sendiri',unit:6000,estimasi:{min:5,max:10},info:'Perlu antre. Estimasi 5-10 menit per akun.',prices:{1:{normal:6000,price:6000},2:{normal:12000,price:10000},3:{normal:18000,price:15000},4:{normal:24000,price:20000},5:{normal:30000,price:25000},10:{normal:60000,price:50000}}}
  };
  const JT_USER={min:3,max:20},JT_PASS={min:10,max:32},JT_ILLEGAL=/[^a-zA-Z0-9]/g;
  function jtPrice(p,n){const c=JASTIP_CONFIG[p],e=c&&c.prices[n];return e?{normal:e.normal,price:e.price}:null;}
- function jtEstText(p,n){const c=JASTIP_CONFIG[p];return c&&c.estimasi?(n*c.estimasi.min)+'-'+(n*c.estimasi.max)+' menit':'Tanpa antri';}
- function packText(){return JASTIP_CONFIG[pkg].nama+' · '+quantity+' akun · '+version;}
+ function jtEstText(p,n){const c=JASTIP_CONFIG[p];return c&&c.estimasi?(n*c.estimasi.min)+'-'+(n*c.estimasi.max)+' menit':'Tanpa antre';}
+ function packText(){return JASTIP_CONFIG[pkg].nama+' · '+quantity+' akun';}
  function jtEl(tag,cls,text){const e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=text;return e;}
  function jtVisible(){return Array.from($('ojAccounts').children).filter(f=>!f.hidden);}
  function jtMsg(inp,el,msg,ok){el.textContent=msg||(ok?'Sudah sesuai':'');el.className='oj-msg'+(msg?' err':ok?' ok':'');if(msg)inp.setAttribute('aria-invalid','true');else inp.removeAttribute('aria-invalid');}
@@ -1088,7 +1088,7 @@ refresh();
  function jtShowUser(f){const m=jtUserMsg(f);jtMsg(f._u,f._ue,m,!m);return m;}
  function jtShowPass(f){const m=jtPassMsg(f);jtMsg(f._p,f._pe,m,!m);return m;}
  function jtValidateAll(){let first=null,n=0;jtVisible().forEach(f=>{const a=jtShowUser(f),b=jtShowPass(f);if(a||b)f._open(true);if(a){n++;first=first||f._u;}if(b){n++;first=first||f._p;}f._upd();});return first?{first,n}:null;}
- function jtSummary(n){$('jtFormSummary').textContent=n?n+' field perlu diperbaiki':'';}
+ function jtSummary(n){$('jtFormSummary').textContent=n?n+' isian perlu diperbaiki':'';}
  function jtGate(){let m='';if(pkg==='request'){const v=jtVisible();for(let i=0;i<v.length&&!m;i++){if(v[i]._u.value.length<JT_USER.min)m='Lengkapi username akun '+(i+1);else if(jtUserMsg(v[i]))m='Periksa username akun '+(i+1);else if(jtPassMsg(v[i]))m='Lengkapi password akun '+(i+1);}}const b=$('jtSubmit');b.setAttribute('aria-disabled',String(!!m));b.classList.toggle('oj-off',!!m);$('jtGateHint').textContent=m;jtSummary(0);return m;}
  function jtHint(el){const h=el._h;h.textContent='Hanya huruf dan angka.';h.classList.add('warn');clearTimeout(el._ht);el._ht=setTimeout(()=>{h.textContent=h._t;h.classList.remove('warn');},2000);}
  function jtClean(el,max){const raw=el.value,clean=raw.replace(JT_ILLEGAL,''),v=clean.slice(0,max);if(v===raw)return;const pos=el.selectionStart,left=pos==null?v.length:Math.min(raw.slice(0,pos).replace(JT_ILLEGAL,'').length,v.length);el.value=v;try{el.setSelectionRange(left,left);}catch(e){}if(clean!==raw)jtHint(el);}
@@ -1128,14 +1128,14 @@ refresh();
   if(p.normal>p.price)row.append(jtEl('s','oj-total-old',money(p.normal)));
   row.append(jtEl('strong','oj-total-now',money(p.price)));t.append(row);
   if(p.normal>p.price)t.append(jtEl('span','oj-total-save','Hemat '+money(p.normal-p.price)));
-  $('jtPaketInfo').textContent=c.estimasi?'Pesanan masuk antrian. Estimasi '+c.estimasi.min+'-'+c.estimasi.max+' menit per akun. Total estimasi: '+jtEstText(pkg,quantity)+'.':c.info;
+  $('jtPaketInfo').textContent=c.estimasi?'Masuk antrean. Estimasi '+jtEstText(pkg,quantity)+' untuk '+quantity+' akun.':c.info;
   $('jtPaketRequest').hidden=pkg!=='request';jtSync();jtGate();
  }
  function jtSelectPkg(key){if(order||creating||!JASTIP_CONFIG[key])return;pkg=key;jtRefresh();}
  function jtArrows(g,sel,set){g.addEventListener('keydown',e=>{const d={ArrowRight:1,ArrowDown:1,ArrowLeft:-1,ArrowUp:-1}[e.key];if(!d||order||creating)return;e.preventDefault();const bs=Array.from(g.querySelectorAll(sel)),i=bs.findIndex(b=>b.getAttribute('aria-checked')==='true'),nb=bs[(i+d+bs.length)%bs.length];set(nb);nb.focus();});}
  (function(){
   const g=$('jtPaketGroup'),cg=$('ojChips'),ic={instan:'fa-bolt',request:'fa-pen'};
-  Object.keys(JASTIP_CONFIG).forEach(key=>{const c=JASTIP_CONFIG[key],b=jtEl('button','oj-card'),ck=jtEl('span','oj-card-ck'),top=jtEl('span','oj-card-top'),lbl=c.estimasi?'Antri '+c.estimasi.min+'-'+c.estimasi.max+' menit/akun':c.label;b.type='button';b.setAttribute('role','radio');b.dataset.ojPkg=key;b.setAttribute('aria-checked','false');b.setAttribute('aria-label',c.nama+'. '+c.desc+'. '+money(c.unit)+' per akun');ck.innerHTML='<i class="fa-solid fa-check" aria-hidden="true"></i>';top.innerHTML='<img class="oj-card-logo" src="zusmo-asset/ffold2022.png" alt="" width="38" height="38" decoding="async" aria-hidden="true">';top.append(jtEl('span',null,c.nama));b.append(ck,top,jtEl('span','oj-card-price',money(c.unit)+'/akun'),jtEl('span','oj-card-desc',c.desc));b.onclick=()=>jtSelectPkg(key);g.append(b);});
+  Object.keys(JASTIP_CONFIG).forEach(key=>{const c=JASTIP_CONFIG[key],b=jtEl('button','oj-card'),ck=jtEl('span','oj-card-ck'),top=jtEl('span','oj-card-top'),lbl=c.estimasi?'Antre '+c.estimasi.min+'-'+c.estimasi.max+' menit/akun':c.label;b.type='button';b.setAttribute('role','radio');b.dataset.ojPkg=key;b.setAttribute('aria-checked','false');b.setAttribute('aria-label',c.nama+'. '+c.desc+'. '+money(c.unit)+' per akun');ck.innerHTML='<i class="fa-solid fa-check" aria-hidden="true"></i>';top.innerHTML='<img class="oj-card-logo" src="zusmo-asset/ffold2022.png" alt="" width="38" height="38" decoding="async" aria-hidden="true">';top.append(jtEl('span',null,c.nama));b.append(ck,top,jtEl('span','oj-card-price',money(c.unit)+'/akun'),jtEl('span','oj-card-desc',c.desc));b.onclick=()=>jtSelectPkg(key);g.append(b);});
   jtArrows(g,'[data-oj-pkg]',b=>jtSelectPkg(b.dataset.ojPkg));
   Object.keys(JASTIP_CONFIG.instan.prices).forEach(k=>{const n=Number(k),b=jtEl('button','oj-chip');b.type='button';b.setAttribute('role','radio');b.dataset.ojPack=String(n);b.setAttribute('aria-checked','false');b._t=jtEl('span','oj-tag');b._o=jtEl('s','oj-old');b._p=jtEl('strong','oj-chip-p');b._s=jtEl('span','oj-save');b.append(b._t,jtEl('b','oj-chip-n',n+' akun'),b._o,b._p,b._s);b.onclick=()=>window.ojChoose(n);cg.append(b);});
   jtArrows(cg,'[data-oj-pack]',b=>window.ojChoose(b.dataset.ojPack));
@@ -2444,48 +2444,6 @@ input:focus-visible,textarea:focus-visible{outline-offset:0}
 #oldJastip .oj-card[aria-checked=true],#oldJastip .oj-chip[aria-checked=true]{animation:ojPop .28s ease}
 #oldJastip .oj-acc{animation:ojRise .35s ease both}
 </style>
-<style id="oj-full">
-/* FULL UI: sistem desain global (hanya visual; layout & JS tidak diubah). Hapus blok ini untuk mencabut */
-:root{--u-a:#ff3b4a;--u-gold:#ffd88a;--u-s:#1a1a20;--u-s2:#121216;--u-b:rgba(255,255,255,.12);--u-m:#a9a2a8;--u-r:18px}
-html,body{background-color:#0a0a0d}
-body{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;-webkit-font-smoothing:antialiased}
-.page>h1,.page h1.zs-title{font-weight:900;letter-spacing:-.02em}
-.page .subtitle{color:var(--u-m)}
-/* tombol utama */
-.primary-btn,.o-b.o-p,.claim-btn-main,.okBtn,.kz-ib-btn,.kz-welcome-btn{border-radius:16px!important;font-weight:800!important;min-height:50px;background:linear-gradient(180deg,#ff4a58,#d90f22)!important;box-shadow:0 8px 20px rgba(255,59,74,.35)!important;transition:transform .15s,filter .15s}
-.primary-btn:active,.o-b.o-p:active,.claim-btn-main:active,.okBtn:active{transform:scale(.97);filter:brightness(.92)}
-/* kartu & daftar menu */
-.hm-profile,.hm-stat,.hm-tile,.hm-menu,.hm-social,.vip-menu,.shop-cat-item,.kl-card,.nf-card,.vpl-card,.egc,.crw-card,.cmty-item-card,.dv2-project,.dv2-contact-card,.dv2-faq,.testi-card,.o-fold,.old-ff-file{border:1px solid var(--u-b)!important;border-radius:var(--u-r)!important;box-shadow:0 8px 20px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.06)!important;transition:transform .18s,border-color .18s,box-shadow .18s}
-.hm-tile:active,.hm-menu:active,.vip-menu:active,.shop-cat-item:active,.kl-card:active,.egc:active,.crw-card:active,.hm-social:active{transform:scale(.97);border-color:var(--u-a)!important}
-.hm-tile-icon,.hm-menu-icon,.vip-icon,.shop-cat-icon{border-radius:14px!important}
-.hm-tile-label{font-weight:800;letter-spacing:.05em}
-.hm-menu-body small,.vip-content small,.shop-cat-body small{color:var(--u-m)}
-.hm-stat i,.hm-menu-arrow,.vip-arrow{color:var(--u-a)}
-.hm-badge{border-radius:99px;font-weight:700}
-.hm-spotlight,.old-release-image,.old-banner-frame,.shine-card{border-radius:20px!important}
-.hm-spotlight{border:1px solid var(--u-b);box-shadow:0 14px 28px rgba(0,0,0,.5);transition:transform .2s}
-.hm-spotlight:active{transform:scale(.98)}
-.hm-section-lbl,.zs-section-label,.kl-sec{letter-spacing:.14em;font-weight:800}
-/* notifikasi, filter */
-.nf-filters button{border-radius:99px;font-weight:700}
-.nf-cover{border-radius:14px}
-/* modal & sheet */
-.zx-modal,.modal-card,.hm-name-modal,.kz-install-banner,.kz-welcome-card{border-radius:26px 26px 0 0;border:1px solid var(--u-b)}
-.hm-name-modal,.kz-welcome-card{border-radius:26px}
-.zx-modal-overlay,.modal,.hm-name-modal-overlay,.kz-welcome-overlay{-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
-/* input */
-input[type=text],input[type=tel],input[type=email],input[type=url],input[type=number],input[type=password],textarea,select{border-radius:13px}
-input:focus,textarea:focus,select:focus{outline:none;border-color:var(--u-a)!important;box-shadow:0 0 0 3px rgba(255,59,74,.2)}
-/* bar bawah */
-.app-bottombar{background:rgba(14,14,18,.9)!important;-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-top:1px solid var(--u-b)!important;box-shadow:0 -10px 30px rgba(0,0,0,.5)}
-.app-bottombar .tab{transition:color .2s,transform .15s}
-.app-bottombar .tab.active{color:var(--u-a)}
-.app-bottombar .tab:active{transform:scale(.92)}
-/* footer */
-.hm-footer,.footer{color:var(--u-m)}
-::-webkit-scrollbar{width:0;height:0}
-@media(prefers-reduced-motion:reduce){*{transition:none!important}}
-</style>
 <style id="oj-redesign-v3">
 /* ZUSMO OLD 2022 - Jastip: versi ringkas (hanya yang penting) */
 #oldJastip,#jtPaketConfirm,#oldJastipPay,#ojResultPage,#ojSuccessPage{--oj-a:#ff3b4a;--oj-gold:#ffd88a;--oj-ok:#3ddc97;--oj-line:rgba(255,255,255,.12);--oj-m:#a79ea4}
@@ -2571,4 +2529,231 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:var(--u-a)!imp
 #jtPaketConfirm .oj-sheet{border-radius:26px 26px 0 0}
 #jtPaketConfirm .oj-btn{min-height:54px;font-size:16px;font-weight:800}
 </style>
+<style id="oj-ux-v5">
+/* Jastip ZUSMO OLD 2022 - UI/UX v5: ringkas, jelas, nyaman. Hapus blok ini untuk kembali ke tampilan sebelumnya. */
+#oldJastip,#jtPaketConfirm,#oldJastipPay,#ojResultPage,#ojSuccessPage{--j-a:#ff3b4a;--j-btn:#e11d2e;--j-bg:#141416;--j-bg2:#1b1b1f;--j-line:rgba(255,255,255,.12);--j-t:#f4f4f6;--j-m:#a3a3ad;--j-gold:#ffd88a;--j-ok:#4ade80;--j-warn:#ffcf70;--j-r:16px}
+
+/* Halaman & header */
+#oldJastip,#oldJastipPay{max-width:560px;margin-inline:auto}
+#oldJastip{padding-bottom:190px}
+#oldJastip::before{display:none}
+#oldJastip .oj-header{margin:0 0 22px;padding:0;border:0}
+#oldJastip .oj-eyebrow{display:inline-block;padding:0;border:0;background:none;font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--j-a)}
+#oldJastip h1{margin:6px 0;font:800 26px/1.15 'Inter',system-ui,sans-serif;letter-spacing:-.01em;color:var(--j-t);text-shadow:none}
+#oldJastip h1 span{display:inline;color:var(--j-a)}
+#oldJastip .oj-header p{margin:0;font-size:14px;line-height:1.55;color:var(--j-m)}
+
+/* Langkah */
+#oldJastip .oj-section{position:relative;margin:0 0 24px;padding:0;animation:none}
+#oldJastip .oj-section::before,#oldJastip .oj-step::after{display:none}
+#oldJastip .oj-step{display:flex;align-items:center;gap:10px;margin:0 0 12px;font:700 16px/1.2 'Inter',system-ui,sans-serif;color:var(--j-t)}
+#oldJastip .oj-step span{display:grid;place-items:center;flex:none;width:26px;height:26px;border-radius:50%;background:var(--j-a);color:#fff;font:800 13px/1 'Inter',system-ui,sans-serif;box-shadow:none}
+
+/* Paket: daftar satu kolom (logo | nama, harga, keterangan | centang) */
+#oldJastip .oj-cards{display:grid;grid-template-columns:1fr;gap:10px}
+#oldJastip .oj-card{position:relative;display:grid;grid-template-columns:44px minmax(0,1fr) 24px;grid-template-areas:"logo name ck" "logo price ck" "logo desc ck";column-gap:12px;row-gap:2px;align-items:center;width:100%;min-height:0;padding:14px;text-align:left;border:1.5px solid var(--j-line);border-radius:var(--j-r);background:var(--j-bg);box-shadow:none;color:var(--j-t);cursor:pointer;transition:border-color .15s,background .15s}
+#oldJastip .oj-card-top{display:contents}
+#oldJastip .oj-card-logo{grid-area:logo;align-self:center;width:44px;height:44px;border:0;border-radius:12px;box-shadow:none;object-fit:cover}
+#oldJastip .oj-card-top>span{grid-area:name;font-size:15px;font-weight:700;color:var(--j-t)}
+#oldJastip .oj-card-price{grid-area:price;font-size:15px;font-weight:800;color:var(--j-gold)}
+#oldJastip .oj-card-desc{grid-area:desc;padding:0;font-size:12.5px;line-height:1.45;color:var(--j-m)}
+#oldJastip .oj-card-lbl{display:none}
+#oldJastip .oj-card-ck{grid-area:ck;position:static;display:grid!important;place-items:center;width:24px;height:24px;margin:0;border:2px solid rgba(255,255,255,.28);border-radius:50%;background:transparent;box-shadow:none}
+#oldJastip .oj-card-ck i{font-size:11px;color:#fff;opacity:0}
+#oldJastip .oj-card[aria-checked=true] .oj-card-ck{border-color:var(--j-a);background:var(--j-a);box-shadow:none}
+#oldJastip .oj-card[aria-checked=true] .oj-card-ck i{opacity:1}
+#oldJastip .oj-card[aria-checked=true],#oldJastip .oj-chip[aria-checked=true]{border-color:var(--j-a);background:rgba(255,59,74,.09);box-shadow:none;animation:none}
+
+/* Jumlah: 3 kolom */
+#oldJastip .oj-chips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 10px}
+#oldJastip .oj-chip{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-width:0;min-height:78px;padding:12px 4px;border:1.5px solid var(--j-line);border-radius:14px;background:var(--j-bg);box-shadow:none;color:var(--j-t);cursor:pointer}
+#oldJastip .oj-chip[aria-checked=true]::after{display:none}
+#oldJastip .oj-chip-n{font-size:14px;font-weight:700;color:var(--j-t)}
+#oldJastip .oj-chip-p{font-size:15px;font-weight:800;color:var(--j-gold)}
+#oldJastip #ojChips .oj-old{display:none!important}
+#oldJastip #ojChips .oj-save{display:block;min-height:0;font-size:10px;font-weight:700;white-space:nowrap;color:var(--j-ok)}
+#oldJastip #ojChips .oj-save:empty{display:none}
+#oldJastip #ojChips .oj-tag{position:absolute;top:-9px;left:50%;display:block;min-height:0;padding:2px 8px;transform:translateX(-50%);border-radius:99px;background:var(--j-a);color:#fff;font-size:10px;font-weight:800;white-space:nowrap}
+#oldJastip #ojChips .oj-tag:empty{display:none}
+#oldJastip .oj-info{margin:12px 0 0;padding:0 0 0 12px;border:0;border-left:3px solid var(--j-a);border-radius:0;background:none;box-shadow:none;font-size:13px;line-height:1.55;color:var(--j-m)}
+#oldJastip .oj-info:empty{display:none}
+
+/* Isi akun */
+#oldJastip .oj-acc{margin:0 0 10px;border:1.5px solid var(--j-line);border-radius:var(--j-r);background:var(--j-bg);box-shadow:none;overflow:hidden;animation:none}
+#oldJastip .oj-acc-head{display:flex;align-items:center;gap:8px;width:100%;min-height:54px;padding:0 14px;font-size:15px;font-weight:700;color:var(--j-t)}
+#oldJastip .oj-acc-head i{color:var(--j-m)}
+#oldJastip .oj-acc-state{margin-left:auto;padding:3px 10px;border:1px solid rgba(255,207,112,.3);border-radius:99px;background:rgba(255,207,112,.1);font-size:11.5px;font-weight:600;color:var(--j-warn)}
+#oldJastip .oj-acc-state.ok{border-color:rgba(74,222,128,.3);background:rgba(74,222,128,.1);color:var(--j-ok)}
+#oldJastip .oj-acc-body{padding:0 14px 6px}
+#oldJastip .oj-label{margin:0 0 6px;font-size:13px;font-weight:600;letter-spacing:0;color:var(--j-t)}
+#oldJastip .oj-input,#oldJastip .oj-input[name=username],#oldJastip .oj-input[name=password]{display:block;width:100%;min-height:52px;padding:0 14px;border:1.5px solid var(--j-line);border-radius:12px;background:#0b0b0d;background-image:none;color:var(--j-t);font-size:16px}
+#oldJastip .oj-pw .oj-input[name=password]{padding:0 52px 0 14px}
+#oldJastip .oj-input:focus{outline:none;border-color:var(--j-a);box-shadow:0 0 0 3px rgba(255,59,74,.2)}
+#oldJastip .oj-input[aria-invalid=true]{border-color:#ff7b7b}
+#oldJastip .oj-help{margin:6px 0 0;font-size:12.5px;line-height:1.5;color:var(--j-m)}
+#oldJastip .oj-help.warn{color:var(--j-warn)}
+#oldJastip .oj-msg,#oldJastip .oj-count{font-size:12.5px}
+
+/* Bar total */
+#oldJastip .oj-bar{position:sticky;bottom:calc(76px + env(safe-area-inset-bottom,0px));z-index:5;margin:8px 0 0;padding:12px 14px;border:1.5px solid var(--j-line);border-radius:18px;background:#101012;box-shadow:0 10px 24px rgba(0,0,0,.55)}
+#oldJastip .oj-bar::before{display:none}
+#oldJastip .oj-bar-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:nowrap;gap:12px}
+#oldJastip .oj-total-lbl{font-size:12px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--j-m)}
+#oldJastip .oj-total-old{display:none}
+#oldJastip .oj-total-now{font-size:22px;font-weight:800;line-height:1.1;color:var(--j-gold)}
+#oldJastip .oj-total-save{font-size:12px;font-weight:700;color:var(--j-ok)}
+#oldJastip .oj-sum{margin:0 0 8px;font-size:12.5px;font-weight:600;color:#ff8b8b}
+#oldJastip .oj-gate{min-height:0;margin:8px 0 0;font-size:12.5px;font-weight:600;color:var(--j-warn)}
+#oldJastip .oj-sum:empty,#oldJastip .oj-gate:empty{display:none;margin:0}
+
+/* Tombol */
+:is(#oldJastip,#jtPaketConfirm) .oj-btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 24px;border:0;border-radius:14px;background:var(--j-btn);box-shadow:none;color:#fff;font:800 16px 'Inter',system-ui,sans-serif;letter-spacing:0}
+:is(#oldJastip,#jtPaketConfirm) .oj-btn:active{background:#c4121f;transform:scale(.98)}
+:is(#oldJastip,#jtPaketConfirm) .oj-btn.oj-off{background:#2a2a30;color:#8b8b95}
+#oldJastip .oj-btn{flex:0 0 auto;min-width:132px;max-width:none}
+
+/* Ringkasan pesanan (sheet) */
+#jtPaketConfirm{background:rgba(0,0,0,.7)}
+#jtPaketConfirm .oj-sheet{padding:22px 18px calc(18px + env(safe-area-inset-bottom,0px));border:0;border-top:1px solid var(--j-line);border-radius:22px 22px 0 0;background:#141416;box-shadow:none}
+#jtPaketConfirm .oj-sheet::before{content:"";display:block;width:40px;height:4px;margin:-8px auto 14px;border-radius:4px;background:rgba(255,255,255,.2)}
+#jtPaketConfirm h2{margin:0 0 6px;font:800 19px/1.2 'Inter',system-ui,sans-serif;color:var(--j-t)}
+#jtPaketConfirm .oj-row{align-items:baseline;padding:12px 0;border-bottom:1px solid var(--j-line);font-size:14px;color:var(--j-m)}
+#jtPaketConfirm .oj-row strong{font-weight:700;color:var(--j-t)}
+#jtPaketConfirm #jtcTotal{font-size:18px;color:var(--j-gold)}
+#jtPaketConfirm .oj-rowv{font-size:14px}
+#jtPaketConfirm .oj-link{color:var(--j-a)}
+#jtPaketConfirm .oj-btn.oj-block{width:100%;margin-top:16px;min-height:54px}
+#jtPaketConfirm .oj-btn-2{width:100%;min-height:50px;margin-top:8px;border:1.5px solid var(--j-line);border-radius:14px;background:none;color:#e6e6ec;font-size:15px;font-weight:600}
+
+/* Metode pembayaran */
+#oldJastipPay h1{margin:6px 0;font:800 26px/1.15 'Inter',system-ui,sans-serif;letter-spacing:-.01em;text-align:left;color:var(--j-t)}
+#oldJastipPay .subtitle{margin:0 0 16px;font-size:14px;line-height:1.55;text-align:left;color:var(--j-m)}
+#oldJastipPay .vpay-summary,#oldJastipPay .vpd-summary{margin:0 0 20px;padding:14px 16px;border:1.5px solid var(--j-line);border-radius:var(--j-r);background:var(--j-bg);box-shadow:none}
+#oldJastipPay .vpay-summary-label{margin:0 0 2px;font-size:12px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--j-m)}
+#oldJastipPay .vpay-summary-tier,#oldJastipPay .vpd-summary-tier{font-size:16px;font-weight:700;text-shadow:none;color:var(--j-t)}
+#oldJastipPay .vpay-summary-price,#oldJastipPay .vpd-summary-price{background:none;font-size:20px;font-weight:800;-webkit-text-fill-color:var(--j-gold);color:var(--j-gold)}
+#oldJastipPay .vpay-summary>div+div{font-size:13px!important}
+#oldJastipPay .vpay-summary>div+div i{font-size:12px!important}
+#oldJastipPay .vpay-grid{display:grid;gap:10px}
+#oldJastipPay .vpay-method{display:flex;align-items:center;gap:12px;min-height:64px;padding:12px 14px;border:1.5px solid var(--j-line);border-radius:var(--j-r);background:var(--j-bg);box-shadow:none}
+#oldJastipPay .vpay-method.selected{border-color:var(--vp-c,var(--j-a));background:color-mix(in srgb,var(--vp-c,#ff3b4a) 10%,#141416);box-shadow:none}
+#oldJastipPay .vpay-icon{width:44px;height:44px;border:0;border-radius:12px;box-shadow:none}
+#oldJastipPay .vpay-name{font-size:15px;font-weight:700;text-shadow:none;color:var(--j-t)}
+#oldJastipPay .vpay-number{margin-top:2px;font-size:12.5px;line-height:1.4;letter-spacing:0;color:var(--j-m)}
+#oldJastipPay .vpay-confirmbar{position:sticky;bottom:calc(76px + env(safe-area-inset-bottom,0px));z-index:4;padding:14px 0 0;background:linear-gradient(180deg,transparent,#000 35%)}
+#oldJastipPay .vpay-confirmbtn{min-height:54px;border-radius:14px;font-size:15px;font-weight:800;letter-spacing:0;text-transform:none}
+#oldJastipPay .vpay-confirmbtn.ready{border-color:transparent;background:var(--j-btn);box-shadow:none;color:#fff}
+
+/* Selesaikan pembayaran */
+#oldJastipPay .vpd-timerwrap{margin:0 0 16px;padding:16px;border:1.5px solid var(--j-line);border-radius:var(--j-r);background:var(--j-bg);box-shadow:none;text-align:center}
+#oldJastipPay .vpd-timer-label{font-size:13px;color:var(--j-m)}
+#oldJastipPay .vpd-timer-text{margin:4px 0 10px;font-size:38px;font-weight:800;text-shadow:none}
+#oldJastipPay .vpd-timer-bartrack{height:4px;border-radius:4px;background:rgba(255,255,255,.1);overflow:hidden}
+#oldJastipPay .vpd-method-card{margin:0 0 16px;padding:12px 14px;border:1.5px solid var(--j-line);border-radius:var(--j-r);background:var(--j-bg);box-shadow:none}
+#oldJastipPay .vpd-method-name{font-size:15px;font-weight:700;color:var(--j-t)}
+#oldJastipPay .vpd-method-sub,#oldJastipPay .vpd-timer-note{font-size:12.5px;color:var(--j-m)}
+#oldJastipPay #ojStatus:empty{display:none}
+#oldJastipPay .oj-cancel{min-height:50px;border:1.5px solid var(--j-line);border-radius:14px;background:none;box-shadow:none;font-size:15px;font-weight:600;color:#e6e6ec}
+
+/* Hasil & sukses */
+#ojResultPage .oj-result-card,#ojSuccessPage .oj-result-card{max-width:420px;margin:32px auto;padding:30px 20px;border:1.5px solid var(--j-line);border-radius:20px;background:var(--j-bg);text-align:center}
+#ojResultPage h1,#ojSuccessPage h1{margin:16px 0 8px;font:800 22px/1.25 'Inter',system-ui,sans-serif;color:var(--j-t)}
+#ojResultPage p,#ojSuccessPage p{margin:0;font-size:14px;line-height:1.6;color:var(--j-m)}
+#ojSuccessPage .oj-ok-icon{border-color:rgba(74,222,128,.4);background:rgba(74,222,128,.12);color:var(--j-ok)}
+#ojSuccessPage .oj-ok-title{color:var(--j-ok)}
+#ojSuccessPage .oj-success-summary{margin:20px 0;padding:2px 14px;border:1.5px solid var(--j-line);border-radius:14px;text-align:left}
+#ojSuccessPage .oj-success-summary>div{display:flex;justify-content:space-between;gap:12px;margin:0;padding:12px 0;border-bottom:1px solid var(--j-line);font-size:14px}
+#ojSuccessPage .oj-success-summary>div:last-child{border-bottom:0}
+#ojSuccessPage .oj-success-summary span{color:var(--j-m)}
+#ojSuccessPage .oj-success-summary strong{min-width:0;text-align:right;overflow-wrap:anywhere;color:var(--j-t)}
+#ojSuccessPage .vpay-confirmbtn{margin-top:4px}
+#ojResultPage .oj-result-back,#ojSuccessPage .oj-result-back{min-height:48px;font-size:15px;color:#cfcfd6}
+
+/* Perapian akhir */
+#oldJastip .oj-field{margin:0 0 6px}
+#jtPaketConfirm h2:focus,#jtPaketConfirm h2:focus-visible{outline:none}
+#oldJastipPay .vpay-summary::before,#oldJastipPay .vpd-summary::before,#oldJastipPay .vpd-timerwrap::before{display:none}
+#oldJastipPay .vpay-confirmbtn,#ojSuccessPage .vpay-confirmbtn{min-height:54px;border-radius:14px;font-size:15px;font-weight:800;letter-spacing:0;text-transform:none}
+#ojSuccessPage .vpay-confirmbtn.ready,#oldJastipPay a.vpay-confirmbtn.ready{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:0;background:var(--j-btn);box-shadow:none;color:#fff;text-decoration:none}
+#ojResultPage .vpay-confirmbtn.ready{border:0;border-radius:14px;background:var(--j-btn);box-shadow:none;text-transform:none;letter-spacing:0}
+
+/* Revisi: tanpa nomor langkah, isian akun kiri-kanan, tanpa label hemat di daftar harga */
+#oldJastip .oj-step span{display:none}
+#oldJastip .oj-acc-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:10px;align-items:start}
+#oldJastip .oj-acc-body .oj-field{min-width:0}
+#oldJastip .oj-acc-body .oj-input,#oldJastip .oj-acc-body .oj-input[name=username]{padding:0 12px}
+#oldJastip .oj-pw .oj-input[name=password]{padding:0 46px 0 12px}
+#oldJastip .oj-eye{width:44px}
+#oldJastip #ojChips .oj-save,#oldJastip #ojChips .oj-tag{display:none!important}
+#oldJastip .oj-chip{min-height:68px}
+
+/* Revisi: isian akun request dibuat simpel */
+#oldJastip .oj-acc .oj-help,#oldJastip .oj-acc .oj-help.warn,#oldJastip .oj-count,#oldJastip .oj-msg.ok{display:none!important}
+#oldJastip .oj-acc .oj-meta{min-height:0;margin:0}
+#oldJastip .oj-acc .oj-msg:empty{display:none}
+#oldJastip .oj-acc .oj-msg.err{margin:6px 0 0;font-size:12px;line-height:1.4}
+#oldJastip #ojAccounts:not(.oj-fold) .oj-acc-state{display:none}
+#oldJastip #ojAccounts:not(.oj-fold) .oj-acc-head{min-height:44px}
+#oldJastip .oj-acc-body{padding:0 14px 14px}
+#oldJastip .oj-acc-body .oj-field{margin:0}
+
+/* Revisi: akun request jadi geser ke samping, satu akun per layar */
+#oldJastip #ojAccounts{display:flex;align-items:flex-start;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain;border-radius:16px}
+#oldJastip #ojAccounts::-webkit-scrollbar{display:none}
+#oldJastip #ojAccounts .oj-acc{flex:0 0 100%;min-width:0;margin:0;box-sizing:border-box;scroll-snap-align:start;scroll-snap-stop:always}
+#oldJastip #ojAccounts .oj-acc[hidden]{display:none!important}
+#oldJastip #ojAccounts .oj-acc[inert]{visibility:hidden}
+#oldJastip #ojAccounts .oj-acc-head{display:none!important}
+#oldJastip #ojAccounts .oj-acc .oj-acc-body{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:10px;padding:14px}
+#oldJastip #ojAccNav{display:flex;align-items:center;justify-content:space-between;margin:0 0 10px}
+#oldJastip #ojAccNav[hidden]{display:none}
+#oldJastip .ojn-t{font-size:14px;font-weight:700;color:var(--j-t)}
+#oldJastip .ojn-d{display:flex;align-items:center;gap:6px}
+#oldJastip .ojn-d button{width:10px;height:10px;min-width:0;padding:0;border:0;border-radius:50%;background:rgba(255,255,255,.22);cursor:pointer}
+#oldJastip .ojn-d button.done{background:var(--j-ok)}
+#oldJastip .ojn-d button.cur{width:22px;border-radius:6px;background:var(--j-a)}
+#oldJastip .ojn-d button:disabled{opacity:.5;cursor:default}
+
+/* Fokus & layar kecil */
+:is(#oldJastip,#jtPaketConfirm,#oldJastipPay,#ojResultPage,#ojSuccessPage) :focus-visible{outline:2px solid #fff;outline-offset:2px}
+@media(max-width:359px){#oldJastip h1,#oldJastipPay h1{font-size:23px}#oldJastip .oj-chips{gap:14px 8px}#oldJastip .oj-total-now{font-size:20px}#oldJastip .oj-btn{min-width:112px;padding:0 16px}}
+@media(prefers-reduced-motion:reduce){:is(#oldJastip,#jtPaketConfirm,#oldJastipPay) *{transition:none!important;animation:none!important}}
+</style>
+<script id="oj-acc-carousel">
+(function(){
+ var box=document.getElementById('ojAccounts');if(!box)return;
+ var nav=document.createElement('div');nav.id='ojAccNav';nav.hidden=true;box.parentNode.insertBefore(nav,box);
+ function vis(){return Array.prototype.filter.call(box.children,function(f){return !f.hidden;});}
+ function done(f){var t=f.querySelector('.oj-acc-state');return !!(t&&t.classList.contains('ok'));}
+ function cur(v){var w=box.clientWidth||1;return Math.max(0,Math.min(v.length-1,Math.round(box.scrollLeft/w)));}
+ function go(i,smooth){box.scrollTo({left:i*box.clientWidth,behavior:smooth?'smooth':'auto'});}
+ function refresh(){
+  var v=vis();if(!v.length||!box.offsetParent)return;
+  var a=v.length-1,i;for(i=0;i<v.length;i++){if(!done(v[i])){a=i;break;}}
+  v.forEach(function(f,k){f.inert=k>a;});
+  box.style.overflowX=a===0?'hidden':'auto';
+  var c=cur(v);if(c>a){go(a,true);c=a;}
+  if(v.length<2){nav.hidden=true;return;}
+  nav.hidden=false;
+  var key=v.length+':'+c+':'+a+':'+v.map(function(f){return done(f)?1:0;}).join('');
+  if(nav.dataset.k===key)return;nav.dataset.k=key;
+  var d='';v.forEach(function(f,k){d+='<button type="button" data-i="'+k+'" class="'+(k===c?'cur':done(f)?'done':'')+'"'+(k>a?' disabled':'')+' aria-label="Akun '+(k+1)+'"></button>';});
+  nav.innerHTML='<span class="ojn-t">Akun '+(c+1)+' dari '+v.length+'</span><span class="ojn-d">'+d+'</span>';
+ }
+ function advance(f){
+  var v=vis(),i=v.indexOf(f);if(i<0||i>=v.length-1||!done(f))return;
+  refresh();var n=v[i+1];n.inert=false;box.style.overflowX='auto';go(i+1,true);
+  setTimeout(function(){var u=n.querySelector('input[name=username]');if(u&&!u.value)u.focus({preventScroll:true});refresh();},380);
+ }
+ nav.addEventListener('click',function(e){var b=e.target.closest('button');if(!b||b.disabled)return;box.style.overflowX='auto';go(+b.dataset.i,true);});
+ box.addEventListener('focusout',function(e){var t=e.target;if(t&&t.name==='password'){var f=t.closest('.oj-acc');setTimeout(function(){advance(f);},60);}});
+ box.addEventListener('keydown',function(e){
+  var t=e.target;if(e.key!=='Enter'||!t||t.name!=='password')return;
+  e.preventDefault();e.stopPropagation();var f=t.closest('.oj-acc');
+  if(done(f)){var v=vis();if(v.indexOf(f)===v.length-1)t.blur();else advance(f);}
+ },true);
+ var tm;box.addEventListener('scroll',function(){clearTimeout(tm);tm=setTimeout(refresh,70);});
+ setInterval(refresh,300);
+})();
+</script>
 </body></html>
