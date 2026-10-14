@@ -2844,9 +2844,8 @@ body:has(#oldDownload2022.active) #zxOldWall,body:has(#oldJastip.active) #zxOldW
 body:has(#oldDownload2022.active)::before,body:has(#oldJastip.active)::before{background:none}
 
 /* Download 2022: karakter di tengah, lebih gelap dan sedikit blur */
-body:has(#oldDownload2022.active) #zxOldWall{--zw-pos:57% 30%;--zw-blur:5px;--zw-br:.58;
- --zw-ov:radial-gradient(ellipse 120% 55% at 50% 100%,rgba(255,43,43,.18),transparent 70%),
- linear-gradient(to bottom,rgba(0,0,0,.58) 0,rgba(0,0,0,.52) 14%,rgba(0,0,0,.78) 42%,rgba(0,0,0,.93) 72%,rgba(0,0,0,.97) 100%)}
+body:has(#oldDownload2022.active) #zxOldWall{--zw-pos:57% 30%;--zw-blur:1.5px;--zw-sat:1;--zw-br:.9;
+ --zw-ov:linear-gradient(to bottom,rgba(0,0,0,.12) 0,rgba(0,0,0,.18) 18%,rgba(0,0,0,.4) 45%,rgba(0,0,0,.62) 75%,rgba(0,0,0,.78) 100%)}
 #oldDownload2022 .o-hero{padding:0 4px;margin-top:0}
 #oldDownload2022 .o-hero::before{content:none}
 #oldDownload2022 .o-hero .o-promo{color:#d9d1d6;text-shadow:0 1px 6px rgba(0,0,0,.9),0 0 14px rgba(0,0,0,.7)}
@@ -2854,10 +2853,8 @@ body:has(#oldDownload2022.active) #zxOldWall{--zw-pos:57% 30%;--zw-blur:5px;--zw
 #oldDownload2022 .o-h2{text-shadow:0 1px 8px rgba(0,0,0,.8)}
 
 /* Order (Jastip): versi lain, fokus menara di kiri, nuansa merah, blur lebih kuat */
-body:has(#oldJastip.active) #zxOldWall{--zw-pos:14% 40%;--zw-blur:2px;--zw-sat:.7;--zw-br:.6;
- --zw-ov:linear-gradient(135deg,rgba(120,0,10,.5) 0,rgba(0,0,0,.35) 45%,rgba(0,0,0,.6) 100%),
- radial-gradient(ellipse 110% 50% at 50% 0,transparent 0,rgba(0,0,0,.35) 100%),
- linear-gradient(to bottom,rgba(0,0,0,.2) 0,rgba(0,0,0,.65) 55%,rgba(0,0,0,.92) 100%)}
+body:has(#oldJastip.active) #zxOldWall{--zw-pos:14% 40%;--zw-blur:1.5px;--zw-sat:.95;--zw-br:.88;
+ --zw-ov:linear-gradient(to bottom,rgba(0,0,0,.1) 0,rgba(0,0,0,.2) 25%,rgba(0,0,0,.45) 55%,rgba(0,0,0,.72) 100%)}
 #oldJastip .oj-banner{display:none}
 #oldJastip .oj-header{position:relative;z-index:1;margin-top:8px}
 #oldJastip .oj-header h1,#oldJastip .oj-header p{text-shadow:0 2px 12px rgba(0,0,0,.9),0 0 22px rgba(0,0,0,.65)}
