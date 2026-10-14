@@ -6461,6 +6461,8 @@ function ulThumbName(n){return UL_THUMB_CUSTOM[n]||('Ulangg'+n+'.png');}
 function ulThumbCands(n){var a=[],f=UL_THUMB_CUSTOM[n];for(var d=0;d<UL_DIRS.length;d++){if(f)a.push(UL_DIRS[d]+f);else for(var k=0;k<UL_THUMB_NAMES.length;k++)a.push(UL_DIRS[d]+UL_THUMB_NAMES[k]+n+'.png');}return a;}
 function ulBindThumb(img,n,onFail){
   var c=ulThumbCands(n);
+  /* CSS .fd-gi img = opacity:0 sampai diberi class fd-on → tanpa ini thumbnail termuat tapi tidak terlihat */
+  img.addEventListener('load',function(){img.classList.add('fd-on');});
   img.addEventListener('error',function(){
     if((ulThDir[n]||0)<c.length-1){ulThDir[n]=(ulThDir[n]||0)+1;img.src=c[ulThDir[n]];}
     else if(onFail)onFail();
@@ -6482,7 +6484,7 @@ function renderUlang(host){
     ulBindThumb(v,n,function(){b.classList.add('fd-miss');b.appendChild(h('span','fd-ul-miss',esc(ulThumbName(n))+'<br>tidak ditemukan'));});
     b.addEventListener('click',function(){openUlang(n);});
     g.appendChild(b);
-  })(n);
+  })(i);
   host.appendChild(g);
 }
 
@@ -6585,6 +6587,8 @@ function openUlang(start){
     v.addEventListener('waiting',function(){spin.classList.add('fd-show');});
     v.addEventListener('playing',function(){spin.classList.remove('fd-show');pp.classList.remove('fd-show');});
     v.addEventListener('canplay',function(){spin.classList.remove('fd-show');});
+    /* src bisa berganti saat mencari folder/nama lain → putar lagi begitu file yang benar siap */
+    v.addEventListener('loadeddata',function(){if(items[cur]===S&&!S.userPaused&&!S.failed&&v.paused)playV(S);});
     ui();
     return S;
   }
@@ -6607,7 +6611,8 @@ function openUlang(start){
     if(S.failed)return;
     var v=S.v;v.muted=ulMuted;
     var pr;try{pr=v.play();}catch(e){}
-    if(pr&&pr.then)pr.then(null,function(){
+    if(pr&&pr.then)pr.then(null,function(err){
+      if(err&&err.name&&err.name!=='NotAllowedError')return; /* src diganti/belum siap saat mencari file: bukan blokir autoplay */
       /* browser menolak suara otomatis → coba senyap */
       if(!ulMuted){setMuted(true,true);try{var q=v.play();if(q&&q.then)q.then(null,function(){S.pp.innerHTML=ic('play',34);S.pp.classList.add('fd-show');});}catch(e){}}
       else{S.pp.innerHTML=ic('play',34);S.pp.classList.add('fd-show');}
