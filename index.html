@@ -5291,8 +5291,9 @@ var CSS=[
 '.fd-ul-lk{position:absolute;right:6px;bottom:6px;display:flex;align-items:center;gap:3px;font-size:11px;font-weight:700;color:#fff;filter:drop-shadow(0 1px 3px rgba(0,0,0,.8))}',
 '.fd-ul-lk .fd-i{fill:var(--fd-red);stroke:var(--fd-red)}',
 '.fd-ul-miss{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);padding:0 8px;text-align:center;font-size:11px;line-height:1.4;color:var(--fd-mu);word-break:break-all}',
-'.fd-ulv{background:#000;touch-action:pan-y}',
-'.fd-ul-scroll{position:absolute;left:0;top:0;right:0;bottom:0;overflow-y:auto;overflow-x:hidden;scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;overscroll-behavior:contain}',
+'.fd-ulv{background:#000;touch-action:none}',
+'.fd-ul-scroll{position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;overscroll-behavior:contain;touch-action:none}',
+'.fd-ul-track{position:absolute;left:0;top:0;width:100%;height:100%;will-change:transform}',
 '.fd-ul-scroll::-webkit-scrollbar{display:none}',
 '.fd-ul-item{position:relative;width:100%;height:100%;scroll-snap-align:start;scroll-snap-stop:always;overflow:hidden;background:#000}',
 '.fd-ul-vid{position:absolute;left:0;top:0;width:100%;height:100%;object-fit:contain;background:#000;display:block}',
@@ -6493,7 +6494,7 @@ function openUlang(start){
   ulState();
   var ov=h('div','fd-layer fd-view fd-ulv');
   ov.setAttribute('role','dialog');ov.setAttribute('aria-modal','true');ov.setAttribute('aria-label','Ulangan');
-  var sc=h('div','fd-ul-scroll');
+  var sc=h('div','fd-ul-scroll'),track=h('div','fd-ul-track');sc.appendChild(track);
   var bar=h('div','fd-ul-bar');
   var back=h('button','fd-ib',ic('left',24));back.type='button';back.setAttribute('aria-label','Kembali');
   bar.appendChild(back);bar.appendChild(h('span','fd-ul-ttl','Ulangan'));bar.appendChild(h('span','',''));
@@ -6641,30 +6642,86 @@ function openUlang(start){
     }
   }
 
-  for(var n=1;n<=UL_COUNT;n++){var S=mk(n);items.push(S);sc.appendChild(S.it);}
+  for(var n=1;n<=UL_COUNT;n++){var S=mk(n);items.push(S);track.appendChild(S.it);}
 
   L=openLayer(ov,{onClose:function(){
     ulOpen=false;cancelAnimationFrame(rafId);
     try{io&&io.disconnect();}catch(e){}
     items.forEach(function(S){ulKill(S.v);});
     document.removeEventListener('keydown',onKey,true);
+    window.removeEventListener('resize',onResize);
     try{ulRefreshGrid();}catch(e){}
   }});
   back.addEventListener('click',function(){L.tryClose();});
 
-  /* video aktif = item yang paling terlihat */
-  var io=null;
-  try{
-    io=new IntersectionObserver(function(es){
-      es.forEach(function(e){if(e.isIntersecting&&e.intersectionRatio>=0.6){var k=items.indexOf(e.target._S);if(k>=0)activate(k);}});
-    },{root:sc,threshold:[0.6]});
-    items.forEach(function(S){S.it._S=S;io.observe(S.it);});
-  }catch(e){}
-
+  /* ---------- geser atas/bawah untuk ganti video (gaya TikTok) ---------- */
+  var io=null,pos=0,H=0;
+  function size(){H=sc.clientHeight||window.innerHeight||600;}
+  function setY(px,ms){
+    track.style.transition=ms?('transform '+ms+'ms cubic-bezier(.22,.8,.25,1)'):'none';
+    track.style.transform='translate3d(0,'+px+'px,0)';
+  }
+  function curY(){
+    try{var M=window.DOMMatrix||window.WebKitCSSMatrix;return new M(getComputedStyle(track).transform).m42;}
+    catch(e){return -pos*H;}
+  }
   function goTo(i,smooth){
     i=Math.max(0,Math.min(items.length-1,i));
-    try{sc.scrollTo({top:i*sc.clientHeight,behavior:smooth?'smooth':'auto'});}catch(e){sc.scrollTop=i*sc.clientHeight;}
+    size();pos=i;
+    setY(-i*H,smooth?340:0);
+    activate(i);
   }
+  function onResize(){size();setY(-pos*H,0);}
+  window.addEventListener('resize',onResize);
+
+  var tr={on:false,dir:'',x0:0,y0:0,y:0,py:0,pt:0,v:0,base:0};
+  sc.addEventListener('touchstart',function(e){
+    tr.on=false;
+    if(e.touches.length!==1)return;
+    var t=e.target;
+    if(t&&t.closest&&t.closest('.fd-ul-seekw,input'))return;   /* seekbar punya gesturenya sendiri */
+    size();
+    var cy=curY();setY(cy,0);                  /* bila masih meluncur, lanjut dari posisi saat ini */
+    var c=e.touches[0];
+    tr.on=true;tr.dir='';tr.base=cy;tr.x0=c.clientX;tr.y0=tr.y=tr.py=c.clientY;tr.pt=Date.now();tr.v=0;
+  },{passive:true});
+  sc.addEventListener('touchmove',function(e){
+    if(!tr.on)return;
+    var c=e.touches[0],dx=c.clientX-tr.x0,dy=c.clientY-tr.y0;
+    if(!tr.dir){
+      if(Math.abs(dx)<6&&Math.abs(dy)<6)return;
+      tr.dir=Math.abs(dy)>=Math.abs(dx)?'v':'h';
+    }
+    if(tr.dir!=='v')return;
+    if(e.cancelable)e.preventDefault();
+    var now=Date.now(),dt=now-tr.pt;
+    if(dt>0){tr.v=(c.clientY-tr.py)/dt;tr.pt=now;tr.py=c.clientY;}
+    tr.y=c.clientY;
+    var off=dy;
+    if((pos===0&&dy>0)||(pos===items.length-1&&dy<0))off=dy*.3;   /* ujung: terasa menahan */
+    setY(tr.base+off,0);                       /* video mengikuti jari */
+  },{passive:false});
+  function endDrag(cancel){
+    if(!tr.on)return;tr.on=false;
+    if(tr.dir!=='v')return;
+    var dy=tr.y-tr.y0,v=(Date.now()-tr.pt>120)?0:tr.v,dir=0;
+    if(!cancel){
+      if(Math.abs(dy)>(H||1)*.16)dir=dy<0?1:-1;
+      else if(Math.abs(v)>.45)dir=v<0?1:-1;
+    }
+    goTo(pos+dir,true);                        /* menempel ke video berikut/sebelumnya (atau kembali) */
+  }
+  sc.addEventListener('touchend',function(){endDrag(false);},{passive:true});
+  sc.addEventListener('touchcancel',function(){endDrag(true);},{passive:true});
+
+  /* roda mouse / trackpad */
+  var wLock=0;
+  sc.addEventListener('wheel',function(e){
+    e.preventDefault();
+    var now=Date.now();
+    if(now-wLock<500||Math.abs(e.deltaY)<6)return;
+    wLock=now;goTo(pos+(e.deltaY>0?1:-1),true);
+  },{passive:false});
   function onKey(e){
     if(layers.length&&layers[layers.length-1]!==L)return;
     if(e.key==='ArrowDown'||e.key==='PageDown'){e.preventDefault();goTo(cur+1,true);}
@@ -6823,5 +6880,207 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 .fd-grid.fd-ulg{margin-top:0;align-items:start;}
 .fd-ul-gi{margin-bottom:0;}
 .fd-tools{display:none!important;}
+/* Feed / Postingan / Ulangan: mentok kiri-kanan seperti banner (menghapus sisi hitam) */
+#developerTab #fdWrap{margin-left:calc(-1 * var(--dp-bleed,20px));margin-right:calc(-1 * var(--dp-bleed,20px));width:auto;max-width:none;}
+#fdWrap .fd-grid{margin-left:0;margin-right:0;gap:2px;}
+#fdWrap .fd-mf{border-radius:0;}
+/* media penuh lebar; teks (nama, aksi, caption) tetap diberi jarak 14px dari tepi layar */
+#fdWrap .fd-card>*:not(.fd-mf):not(.fd-dots){padding-left:14px;padding-right:14px;}
+#fdWrap .fd-msg{margin-left:14px;margin-right:14px;}
 </style>
 </body></html>
+<script id="fd-swipe-tabs">
+/* Geser kiri/kanan + tap tab yang mulus: isi tab mengikuti jari lalu meluncur ke Postingan - Feed - Ulangan.
+   Garis merah di bawah nama tab ikut meluncur (mengikuti jari saat digeser). */
+(function(){
+  var st=document.createElement('style');
+  st.textContent=
+    '#fdWrap{overflow-x:clip}#fdWrap #fdBody{touch-action:pan-y}'+
+    '#fdWrap .fd-tabs{position:relative}'+
+    '#fdWrap .fd-tab[aria-selected=true]{border-bottom-color:transparent}'+
+    '#fdWrap .fd-tab-ind{position:absolute;left:0;bottom:-1px;height:2px;width:calc(100% / var(--fd-n,3));background:var(--fd-red);border-radius:2px 2px 0 0;transform:translate3d(calc(var(--fd-pos,0) * 100%),0,0);transition:transform .32s cubic-bezier(.22,.8,.3,1);pointer-events:none;will-change:transform}'+
+    '#fdWrap .fd-tab-ind.fd-drag{transition:none}'+
+    '@media (prefers-reduced-motion:reduce){#fdWrap .fd-tab-ind{transition:none}}';
+  document.head.appendChild(st);
+
+  var reduce=false;try{reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches;}catch(e){}
+  var sx=0,sy=0,t0=0,lock='',on=false,busy=false,body=null,W=360,lastSwipe=0,prog=false,indEl=null;
+
+  function tabsInfo(){
+    var w=document.getElementById('fdWrap');if(!w)return null;
+    var tabs=[].slice.call(w.querySelectorAll('.fd-tab'));if(!tabs.length)return null;
+    var cur=0;tabs.forEach(function(b,i){if(b.getAttribute('aria-selected')==='true')cur=i;});
+    return {tabs:tabs,cur:cur};
+  }
+
+  /* ---- garis merah penanda tab ---- */
+  function ensureInd(){
+    var w=document.getElementById('fdWrap');if(!w)return null;
+    var tabs=w.querySelector('.fd-tabs');if(!tabs)return null;
+    var el=tabs.querySelector('.fd-tab-ind');
+    if(!el){
+      el=document.createElement('span');el.className='fd-tab-ind';el.setAttribute('aria-hidden','true');
+      tabs.style.setProperty('--fd-n',String(tabs.querySelectorAll('.fd-tab').length||3));
+      tabs.appendChild(el);
+      try{ /* aria-selected berubah (klik tab / render ulang) -> garis ikut pindah */
+        new MutationObserver(function(){syncInd(false);}).observe(tabs,{attributes:true,attributeFilter:['aria-selected'],subtree:true});
+      }catch(e){}
+      syncInd(true);
+    }
+    indEl=el;return el;
+  }
+  function setPos(p,drag){
+    var el=indEl||ensureInd();if(!el)return;
+    if(drag){el.classList.add('fd-drag');}
+    else if(el.classList.contains('fd-drag')){el.classList.remove('fd-drag');}
+    el.style.setProperty('--fd-pos',String(p));
+  }
+  function syncInd(noAnim){
+    var info=tabsInfo();if(!info)return;
+    var el=indEl||ensureInd();if(!el)return;
+    if(noAnim){
+      el.classList.add('fd-drag');el.style.setProperty('--fd-pos',String(info.cur));
+      void el.offsetWidth;el.classList.remove('fd-drag');
+    }else{
+      el.classList.remove('fd-drag');el.style.setProperty('--fd-pos',String(info.cur));
+    }
+  }
+  (function boot(){
+    if(ensureInd())return;
+    var tries=0,iv=setInterval(function(){if(ensureInd()||++tries>100)clearInterval(iv);},100);
+  })();
+
+  /* ---- animasi isi tab ---- */
+  function setT(x,anim){
+    if(!body)return;
+    body.style.transition=anim?('transform '+anim+'ms cubic-bezier(.25,.8,.25,1)'):'none';
+    body.style.transform=x?('translate3d('+x+'px,0,0)'):'';
+    body.style.opacity='';                              /* opasitas selalu 100%, hanya bergeser */
+  }
+  function clean(){
+    if(!body)return;
+    body.style.transition='';body.style.transform='';body.style.opacity='';body.style.willChange='';
+  }
+  function reset(){on=false;lock='';}
+
+  /* klik tab "programatik": harus lolos dari penjaga klik-hantu di bawah */
+  function tabClick(btn){prog=true;try{btn.click();}finally{prog=false;}}
+
+  function goTo(info,nx){
+    var dir=nx>info.cur?1:-1;
+    body=document.getElementById('fdBody')||body;if(!body)return;
+    W=Math.max(240,body.getBoundingClientRect().width||window.innerWidth);
+    busy=true;body.style.willChange='transform';
+    setPos(nx,false);                                   /* garis merah meluncur ke tab tujuan */
+    setT(-dir*W,190);                                   /* isi lama meluncur keluar layar (tanpa pudar) */
+    setTimeout(function(){
+      tabClick(info.tabs[nx]);                          /* ganti tab saat isi sudah di luar layar */
+      body=document.getElementById('fdBody')||body;
+      setT(dir*W,0);                                    /* isi baru mulai dari sisi seberang */
+      void body.offsetWidth;
+      setT(0,300);                                      /* lalu meluncur masuk ke tengah */
+      setTimeout(function(){clean();busy=false;},320);
+    },195);
+  }
+
+  document.addEventListener('touchstart',function(e){
+    reset();
+    if(busy||!e.touches||e.touches.length!==1)return;
+    var t=e.target;
+    if(!t.closest||!t.closest('#fdWrap'))return;
+    var tr=t.closest('.fd-track');
+    if(tr&&!tr.classList.contains('fd-one'))return;   /* carousel banyak slide dibiarkan */
+    if(t.closest('input,textarea,select'))return;
+    body=document.getElementById('fdBody');if(!body)return;
+    W=Math.max(240,body.getBoundingClientRect().width||window.innerWidth);
+    sx=e.touches[0].clientX;sy=e.touches[0].clientY;t0=Date.now();on=true;lock='';
+  },{passive:true});
+
+  document.addEventListener('touchmove',function(e){
+    if(!on||busy)return;
+    var c=e.touches[0],dx=c.clientX-sx,dy=c.clientY-sy;
+    if(!lock){
+      if(Math.abs(dx)<8&&Math.abs(dy)<8)return;
+      lock=(Math.abs(dx)>Math.abs(dy)*1.2)?'h':'v';
+      if(lock==='h')body.style.willChange='transform';
+    }
+    if(lock!=='h')return;
+    var info=tabsInfo();if(!info)return;
+    var last=info.tabs.length-1,hasNext=info.cur<last,hasPrev=info.cur>0;
+    var x=dx;
+    if((dx<0&&!hasNext)||(dx>0&&!hasPrev))x=dx*.25;   /* ujung: terasa menahan */
+    if(!reduce){
+      setT(x,0);
+      setPos(Math.max(0,Math.min(last,info.cur-x/W)),true);  /* garis merah mengikuti jari */
+    }
+  },{passive:true});
+
+  function finish(e){
+    if(!on)return;
+    var was=lock;on=false;lock='';
+    if(was!=='h'){return;}
+    var c=(e.changedTouches&&e.changedTouches[0])||null;
+    var dx=c?c.clientX-sx:0,dt=Math.max(1,Date.now()-t0),v=dx/dt;
+    var info=tabsInfo();
+    lastSwipe=Date.now();
+    if(!info){clean();return;}
+    var dir=dx<0?1:-1,nx=info.cur+dir;
+    var go=nx>=0&&nx<info.tabs.length&&(Math.abs(dx)>W*.22||Math.abs(v)>.45);
+    if(!go){
+      setPos(info.cur,false);
+      if(reduce){clean();}else{setT(0,220);setTimeout(clean,240);}
+      return;
+    }
+    if(reduce){clean();tabClick(info.tabs[nx]);return;}
+    goTo(info,nx);
+  }
+  document.addEventListener('touchend',finish,{passive:true});
+  document.addEventListener('touchcancel',function(){
+    if(lock==='h'){setPos(((tabsInfo()||{}).cur)||0,false);setT(0,200);setTimeout(clean,220);}
+    reset();
+  },{passive:true});
+
+  /* tap tab: animasi slide yang sama; plus cegah "klik hantu" tepat setelah geseran */
+  document.addEventListener('click',function(e){
+    if(prog)return;
+    var t=e.target;if(!t||!t.closest||!t.closest('#fdWrap'))return;
+    if(Date.now()-lastSwipe<350){e.stopPropagation();e.preventDefault();lastSwipe=0;return;}
+    var btn=t.closest('.fd-tab');if(!btn||reduce)return;
+    if(busy){e.stopPropagation();e.preventDefault();return;}
+    var info=tabsInfo();if(!info)return;
+    var nx=info.tabs.indexOf(btn);if(nx<0||nx===info.cur)return;
+    e.stopPropagation();e.preventDefault();
+    goTo(info,nx);
+  },true);
+})();
+</script>
+<script id="dp-no-click-sound">
+/* Halaman developer (tab Developer + Pribadi): tanpa suara klik sama sekali.
+   Semua bunyi klik aplikasi dibuat lewat WebAudio (pointerdown, click, playClick), jadi
+   keluaran ke speaker dimatikan selama #developerTab aktif. Halaman lain tidak terpengaruh. */
+(function(){
+  function devOn(){var r=document.getElementById('developerTab');return !!(r&&r.classList.contains('active'));}
+  window.__dpNoClickSound=devOn;
+  try{
+    var AN=window.AudioNode&&window.AudioNode.prototype,ADN=window.AudioDestinationNode;
+    if(AN&&ADN&&!AN.__dpMuted){
+      var oc=AN.connect;
+      AN.connect=function(t){
+        if(t instanceof ADN&&devOn())return t;   /* putus ke speaker = tidak ada bunyi */
+        return oc.apply(this,arguments);
+      };
+      AN.__dpMuted=true;
+    }
+  }catch(e){}
+  /* lapis kedua: ZUSMO.playClick langsung diam di halaman developer */
+  function wrap(){
+    var z=window.ZUSMO;if(!z||typeof z.playClick!=='function'||z.playClick.__dpMute)return false;
+    var o=z.playClick;
+    var f=function(){if(devOn())return;return o.apply(this,arguments);};
+    f.__dpMute=true;z.playClick=f;return true;
+  }
+  wrap();
+  document.addEventListener('DOMContentLoaded',wrap);
+  window.addEventListener('load',wrap);
+})();
+</script>
