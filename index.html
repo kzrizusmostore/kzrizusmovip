@@ -2886,7 +2886,7 @@ input:focus-visible,textarea:focus-visible{outline-offset:0}
 <style id="zx-hero-style">
 :root{--zx-hero-img:url("zusmo-asset/background2022.jpg?v=20261014")}
 /* ===== Wallpaper Zusmo Old (satu elemen, dua tampilan) ===== */
-#zxOldWall{position:fixed;inset:-14px;z-index:-2;pointer-events:none;opacity:0;visibility:hidden;transition:opacity .5s ease,visibility 0s linear .5s;
+#zxOldWall{position:fixed;inset:-14px;z-index:-1;pointer-events:none;opacity:0;visibility:hidden;transition:opacity .5s ease,visibility 0s linear .5s;
  background:var(--zx-hero-img) var(--zw-pos,57% 30%)/cover no-repeat;filter:blur(var(--zw-blur,5px)) saturate(var(--zw-sat,.9)) brightness(var(--zw-br,.72))}
 #zxOldWall::after{content:'';position:absolute;inset:0;background:var(--zw-ov)}
 body:has(#oldDownload2022.active) #zxOldWall,body:has(#oldJastip.active) #zxOldWall{opacity:1;visibility:visible;transition:opacity .5s ease,visibility 0s}
@@ -2904,6 +2904,8 @@ body:has(#oldDownload2022.active) #zxOldWall{--zw-pos:57% 30%;--zw-blur:1.5px;--
 /* Order (Jastip): versi lain, fokus menara di kiri, nuansa merah, blur lebih kuat */
 body:has(#oldJastip.active) #zxOldWall{--zw-pos:14% 40%;--zw-blur:1.5px;--zw-sat:.95;--zw-br:.88;
  --zw-ov:linear-gradient(to bottom,rgba(0,0,0,.1) 0,rgba(0,0,0,.2) 25%,rgba(0,0,0,.45) 55%,rgba(0,0,0,.72) 100%)}
+/* Sembunyikan video wallpaper bawaan saat wallpaper Zusmo Old aktif */
+body.zx-wall-dl #zusmoWallpaperBg,body.zx-wall-oj #zusmoWallpaperBg{visibility:hidden!important}
 /* Fallback tanpa :has() (WebView/browser lama): class di-toggle oleh script zx-wall-loader */
 body.zx-wall-dl #zxOldWall,body.zx-wall-oj #zxOldWall{opacity:1;visibility:visible;transition:opacity .5s ease,visibility 0s}
 body.zx-wall-dl::before,body.zx-wall-oj::before{background:none}
