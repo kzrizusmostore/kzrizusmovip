@@ -500,21 +500,36 @@ window.__zusmoRenderBanner = function(on){
 #logoDetailGrid .bd-owned,#musicDetailGrid .music-owned-badge{display:none!important}
 
 @media (prefers-reduced-motion:reduce){.kl-wave i{animation:none}.kl-card{transition:none}}
-</style><meta name="build" content="jastip-v4"><script>(function(){var B='jastip-v4-20261014';try{if(localStorage.getItem('kz_build')===B)return;localStorage.setItem('kz_build',B);var p=[];if(navigator.serviceWorker&&navigator.serviceWorker.getRegistrations)p.push(navigator.serviceWorker.getRegistrations().then(function(r){return Promise.all(r.map(function(x){return x.unregister()}))}));if(window.caches)p.push(caches.keys().then(function(k){return Promise.all(k.map(function(x){return caches.delete(x)}))}));Promise.all(p).then(function(){location.reload()})}catch(e){}})();</script><style id="dev-profile-style">
-#developerTab{--dp-red:#ff2b2b;--dp-red-glow:rgba(255,43,43,.5);--dp-bg:rgba(6,6,8,.9);--dp-glass:rgba(10,10,12,.55);--dp-line:rgba(255,255,255,.14);--dp-text:#fff;--dp-muted:rgba(255,255,255,.55);--dp-ring:rgba(255,255,255,.6);--dp-plus:#5ac8fa;--dp-bleed:20px;--dp-banner-h:200px;--dp-av:clamp(92px,28vw,110px);}
+</style><meta name="build" content="jastip-v4"><script>(function(){var B='jastip-v4-20261014-wall';try{if(localStorage.getItem('kz_build')===B)return;localStorage.setItem('kz_build',B);var p=[];if(navigator.serviceWorker&&navigator.serviceWorker.getRegistrations)p.push(navigator.serviceWorker.getRegistrations().then(function(r){return Promise.all(r.map(function(x){return x.unregister()}))}));if(window.caches)p.push(caches.keys().then(function(k){return Promise.all(k.map(function(x){return caches.delete(x)}))}));Promise.all(p).then(function(){location.reload()})}catch(e){}})();</script><style id="dev-profile-style">
+#developerTab{--dp-red:#ff2b2b;--dp-red-glow:rgba(255,43,43,.5);--dp-bg:rgba(6,6,8,.9);--dp-glass:rgba(10,10,12,.55);--dp-line:rgba(255,255,255,.14);--dp-text:#fff;--dp-muted:rgba(255,255,255,.55);--dp-ring:rgba(255,255,255,.6);--dp-plus:#5ac8fa;--dp-bleed:20px;--dp-banner-h:calc(min(100vw,900px)*.375);--dp-av:clamp(92px,28vw,110px);}
+#developerTab{position:relative}
 #developerTab .dp-off{display:none!important}
-#developerTab .dp-seg{position:relative;display:grid;grid-template-columns:1fr 1fr;margin:2px 0 14px;padding:4px;border-radius:999px;background:var(--dp-glass);border:1px solid var(--dp-line);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);isolation:isolate}
-#developerTab .dp-seg-thumb{position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:999px;background:var(--dp-red);box-shadow:0 0 14px var(--dp-red-glow),0 0 2px var(--dp-red);transition:transform .2s ease;z-index:0}
+#developerTab .dp-seg{position:relative;display:grid;grid-template-columns:1fr 1fr;width:100%;max-width:340px;margin:6px auto 8px;padding:4px;border-radius:999px;background:rgba(10,10,12,.55);border:1px solid var(--dp-line);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);isolation:isolate}
+#developerTab .dp-seg-thumb{position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:999px;background:var(--dp-red);box-shadow:0 0 14px var(--dp-red-glow),0 0 2px var(--dp-red);transition:transform .28s cubic-bezier(.4,0,.2,1);z-index:0}
 #developerTab .dp-seg[data-active="developer"] .dp-seg-thumb{transform:translateX(100%)}
-#developerTab .dp-seg-btn{position:relative;z-index:1;border:0;background:transparent;color:var(--dp-muted);font:600 13px/1 'Outfit',system-ui,sans-serif;letter-spacing:.4px;padding:11px 0;border-radius:999px;cursor:pointer;transition:color .2s ease}
+#developerTab .dp-seg-btn{position:relative;z-index:1;border:0;background:transparent;color:var(--dp-muted);font:700 13px/1 'Outfit',system-ui,sans-serif;letter-spacing:.4px;padding:11px 16px;border-radius:999px;cursor:pointer;transition:color .2s ease;touch-action:manipulation}
 #developerTab .dp-seg-btn[aria-selected="true"]{color:var(--dp-text)}
+#developerTab .dp-panel{animation:dpPanelIn .24s ease both}
+@keyframes dpPanelIn{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){#developerTab .dp-panel{animation:none}#developerTab .dp-seg-thumb{transition:none}}
 #developerTab .dp-lock{font-size:10px;margin-right:5px}
+#developerTab .dp-seg{display:none!important}
+#dpTabMenu{position:fixed;z-index:1000001;display:none;flex-direction:column;gap:4px;min-width:168px;padding:6px;border-radius:18px;background:rgba(14,14,16,.94);border:1px solid rgba(255,255,255,.14);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);box-shadow:0 12px 32px rgba(0,0,0,.55);opacity:0;transform:translateY(8px) scale(.96);transform-origin:bottom right;transition:opacity .16s ease,transform .16s ease}
+#dpTabMenu.show{display:flex}
+#dpTabMenu.in{opacity:1;transform:none}
+#dpTabMenu::after{content:"";position:absolute;bottom:-6px;right:var(--arrow,34px);width:12px;height:12px;background:rgba(14,14,16,.94);border-right:1px solid rgba(255,255,255,.14);border-bottom:1px solid rgba(255,255,255,.14);transform:rotate(45deg)}
+#dpTabMenu button{position:relative;display:flex;align-items:center;gap:10px;width:100%;padding:12px 14px;border:0;border-radius:13px;background:transparent;color:rgba(255,255,255,.75);font:700 14px/1 'Outfit',system-ui,sans-serif;text-align:left;cursor:pointer;touch-action:manipulation}
+#dpTabMenu button i{width:18px;text-align:center;font-size:14px}
+#dpTabMenu button.on{background:#ff2b2b;color:#fff;box-shadow:0 0 14px rgba(255,43,43,.45)}
+#dpTabMenu button:active{transform:scale(.97)}
+#dpTabMenu .dpm-lock{margin-left:auto;font-size:11px;opacity:.7}
+@media (prefers-reduced-motion:reduce){#dpTabMenu{transition:none}}
 #developerTab .dp-hero{position:relative;margin:0 calc(-1 * var(--dp-bleed))}
-#developerTab .dp-banner{position:relative;height:var(--dp-banner-h);overflow:hidden;background:linear-gradient(135deg,#4a0000,#0a0a0a);-webkit-mask-image:linear-gradient(#000 55%,transparent);mask-image:linear-gradient(#000 55%,transparent)}
-#developerTab .dp-banner img{width:100%;height:100%;object-fit:cover;display:block}
+#developerTab .dp-banner{position:relative;height:var(--dp-banner-h);overflow:hidden;background:linear-gradient(135deg,#4a0000,#0a0a0a);-webkit-mask-image:linear-gradient(#000 70%,transparent);mask-image:linear-gradient(#000 70%,transparent)}
+#developerTab .dp-banner img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 #developerTab .dp-banner.is-fallback img{display:none}
-#developerTab .dp-banner::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,transparent 35%,var(--dp-bg) 100%),linear-gradient(to top,rgba(255,43,43,.22),transparent 45%)}
-#developerTab .dp-id{position:relative;margin-top:-62px;padding:6px calc(var(--dp-av) + 34px) 0 var(--dp-bleed);min-height:calc(var(--dp-av)/2 + 76px)}
+#developerTab .dp-banner::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,transparent 55%,var(--dp-bg) 100%),linear-gradient(to top,rgba(255,43,43,.18),transparent 35%)}
+#developerTab .dp-id{position:relative;margin-top:8px;padding:6px calc(var(--dp-av) + 34px) 0 var(--dp-bleed);min-height:calc(var(--dp-av)/2 + 76px)}
 #developerTab .dp-name-row{display:flex;align-items:center;gap:6px;min-width:0}
 #developerTab .dp-name{font:800 clamp(22px,7vw,28px)/1.15 'Outfit',system-ui,sans-serif;color:var(--dp-text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:0 2px 10px rgba(0,0,0,.6)}
 #developerTab .dp-caret{font-size:14px;color:var(--dp-text);flex:none}
@@ -563,6 +578,40 @@ window.__zusmoRenderBanner = function(on){
 #developerTab .dp-sk-lbl{display:block;width:70%;height:9px;border-radius:5px}
 @keyframes dpSk{to{background-position:-200% 0}}
 @media (prefers-reduced-motion:reduce){#developerTab .dp-sk{animation:none}#developerTab .dp-hl-ring,#developerTab .dp-hl-arc{transition:none}}
+</style>
+<style id="dp-pribadi-tidy">
+/* ===== PRIBADI: background hitam solid (tanpa wallpaper) + tata letak lebih rapi ===== */
+body.dp-solid{background:#000!important}
+body.dp-solid:before{background:#000!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+body.dp-solid #zusmoWallpaperBg{display:none!important}
+body #developerTab #dpPanelPribadi{--dp-bg:#000;--dp-av-bg:#000;--dp-glass:#0b0b0d;--dp-line:rgba(255,255,255,.12);padding-bottom:calc(env(safe-area-inset-bottom,0px) + 28px)}
+
+/* identitas (nama, handle, role) */
+body #developerTab .dp-id{padding:10px calc(var(--dp-av) + 30px) 0 var(--dp-bleed);min-height:calc(var(--dp-av)/2 + 60px)}
+body #developerTab .dp-name-row{gap:8px}
+body #developerTab .dp-name{font-size:clamp(22px,6.6vw,27px);line-height:1.15}
+body #developerTab .dp-handle{gap:8px;margin-top:8px;row-gap:6px}
+body #developerTab .dp-handle>span[aria-hidden="true"]{opacity:.45}
+
+/* statistik: polos tanpa kotak, sejajar kiri, angka tebal + label redup (gaya profil TikTok) */
+body #developerTab .dp-stats{display:flex;flex-wrap:wrap;align-items:flex-start;gap:0 30px;margin:6px 0 18px;padding:0;border:0;border-radius:0;background:none}
+body #developerTab .dp-stats>div{display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-width:0;padding:0;border:0;text-align:left}
+body #developerTab .dp-stat-val{max-width:100%;font-size:clamp(22px,6.8vw,27px);font-weight:800}
+body #developerTab .dp-stat-lbl{margin-top:0;font-size:14px;letter-spacing:0}
+
+/* bio & tautan */
+body #developerTab .dp-card{margin:0}
+body #developerTab .dp-card:has(.dp-bio:not(.is-empty)),body #developerTab .dp-card:has(.dp-link:not([hidden])){margin-bottom:16px}
+body #developerTab .dp-bio{font-size:15px;line-height:1.55}
+body #developerTab .dp-link{margin-top:8px}
+
+/* tombol aksi: pil kecil di kiri, seperti "Pesanan Anda" */
+body #developerTab .dp-action{display:inline-flex;align-items:center;justify-content:flex-start;width:auto;margin:0 0 22px;padding:10px 18px;border-radius:999px;background:transparent;font-size:14px}
+
+/* sorotan / story */
+body #developerTab .dp-hl-head{margin:0 0 14px}
+body #developerTab .dp-stories{gap:16px 10px;padding-bottom:12px}
+body #developerTab .dp-story{gap:7px}
 </style></head><body><div id="kzSplash" class="kzs" aria-hidden="true">
 <div class="kzs-glow"></div>
 <div class="kzs-stage">
@@ -2835,7 +2884,7 @@ input:focus-visible,textarea:focus-visible{outline-offset:0}
 @media(prefers-reduced-motion:reduce){#oldJastipPay .oj-addon-chev,#oldJastipPay .oj-addon-box{transition:none}}
 </style>
 <style id="zx-hero-style">
-:root{--zx-hero-img:url("zusmo-asset/background2022.jpg")}
+:root{--zx-hero-img:url("zusmo-asset/background2022.jpg?v=20261014")}
 /* ===== Wallpaper Zusmo Old (satu elemen, dua tampilan) ===== */
 #zxOldWall{position:fixed;inset:-14px;z-index:-2;pointer-events:none;opacity:0;visibility:hidden;transition:opacity .5s ease,visibility 0s linear .5s;
  background:var(--zx-hero-img) var(--zw-pos,57% 30%)/cover no-repeat;filter:blur(var(--zw-blur,5px)) saturate(var(--zw-sat,.9)) brightness(var(--zw-br,.72))}
@@ -2855,6 +2904,13 @@ body:has(#oldDownload2022.active) #zxOldWall{--zw-pos:57% 30%;--zw-blur:1.5px;--
 /* Order (Jastip): versi lain, fokus menara di kiri, nuansa merah, blur lebih kuat */
 body:has(#oldJastip.active) #zxOldWall{--zw-pos:14% 40%;--zw-blur:1.5px;--zw-sat:.95;--zw-br:.88;
  --zw-ov:linear-gradient(to bottom,rgba(0,0,0,.1) 0,rgba(0,0,0,.2) 25%,rgba(0,0,0,.45) 55%,rgba(0,0,0,.72) 100%)}
+/* Fallback tanpa :has() (WebView/browser lama): class di-toggle oleh script zx-wall-loader */
+body.zx-wall-dl #zxOldWall,body.zx-wall-oj #zxOldWall{opacity:1;visibility:visible;transition:opacity .5s ease,visibility 0s}
+body.zx-wall-dl::before,body.zx-wall-oj::before{background:none}
+body.zx-wall-dl #zxOldWall{--zw-pos:57% 30%;--zw-blur:1.5px;--zw-sat:1;--zw-br:.9;
+ --zw-ov:linear-gradient(to bottom,rgba(0,0,0,.12) 0,rgba(0,0,0,.18) 18%,rgba(0,0,0,.4) 45%,rgba(0,0,0,.62) 75%,rgba(0,0,0,.78) 100%)}
+body.zx-wall-oj #zxOldWall{--zw-pos:14% 40%;--zw-blur:1.5px;--zw-sat:.95;--zw-br:.88;
+ --zw-ov:linear-gradient(to bottom,rgba(0,0,0,.1) 0,rgba(0,0,0,.2) 25%,rgba(0,0,0,.45) 55%,rgba(0,0,0,.72) 100%)}
 #oldJastip .oj-banner{display:none}
 #oldJastip .oj-header{position:relative;z-index:1;margin-top:8px}
 #oldJastip .oj-header h1,#oldJastip .oj-header p{text-shadow:0 2px 12px rgba(0,0,0,.9),0 0 22px rgba(0,0,0,.65)}
@@ -2872,20 +2928,32 @@ body:has(#oldJastip.active) #zxOldWall{--zw-pos:14% 40%;--zw-blur:1.5px;--zw-sat
 #oldJastip .oj-eyebrow{background:rgba(255,43,43,.18);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
 </style>
 <script id="zx-wall-loader">
-/* Cari background2022.jpg di beberapa folder umum; pakai yang pertama berhasil dimuat. */
+/* Wallpaper Zusmo Old: coba beberapa lokasi background2022.jpg, pakai yang pertama berhasil dimuat. */
 (function(){
- var F='background2022.jpg',V='?v=2';
- var dirs=['zusmo-asset/','zusmo-assets/','','images/','assets/','zusmo-asset/images/'];
- var i=0;
+ var F='background2022.jpg',V='?v=20261014';
+ var dirs=['zusmo-asset/','/zusmo-asset/','zusmo-assets/','','/','images/','assets/','zusmo-asset/images/'];
+ var i=0,tried=[];
  function set(u){document.documentElement.style.setProperty('--zx-hero-img','url("'+u+'")')}
  function next(){
-  if(i>=dirs.length){try{console.warn('[Zusmo Old] '+F+' tidak ditemukan di folder: '+dirs.join(', '))}catch(e){}return}
-  var u=dirs[i++]+F+V,im=new Image();
+  if(i>=dirs.length){try{console.warn('[Zusmo Old] '+F+' tidak bisa dimuat. Sudah dicoba: '+tried.join(' | '))}catch(e){}return}
+  var u=dirs[i++]+F+V,im=new Image();tried.push(u);
   im.onload=function(){set(u)};
   im.onerror=next;
   im.src=u;
  }
  next();
+ /* Toggle class tanpa bergantung pada :has() */
+ function bind(){
+  var dl=document.getElementById('oldDownload2022'),oj=document.getElementById('oldJastip');
+  if(!dl&&!oj)return;
+  function sync(){
+   document.body.classList.toggle('zx-wall-dl',!!dl&&dl.classList.contains('active'));
+   document.body.classList.toggle('zx-wall-oj',!!oj&&oj.classList.contains('active'));
+  }
+  try{var mo=new MutationObserver(sync);[dl,oj].forEach(function(el){if(el)mo.observe(el,{attributes:true,attributeFilter:['class']})})}catch(e){}
+  sync();
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind);else bind();
 })();
 </script>
 <script id="oj-acc-carousel">
@@ -2964,10 +3032,10 @@ body:has(#oldJastip.active) #zxOldWall{--zw-pos:14% 40%;--zw-blur:1.5px;--zw-sat
 
   /* ===== switch tab ===== */
   var seg=$('dpSeg'),panels={developer:$('dpPanelDev'),pribadi:$('dpPanelPribadi')};
-  var current='developer',scrollMem={developer:0,pribadi:0};
+  var current='developer';
   function setTab(name,initial){
     if(!panels[name]) name='developer';
-    if(!initial&&name!==current){scrollMem[current]=window.scrollY||window.pageYOffset||0;}
+    var changed=name!==current;
     current=name;
     seg.setAttribute('data-active',name);
     Array.prototype.forEach.call(seg.querySelectorAll('.dp-seg-btn'),function(b){
@@ -2976,7 +3044,7 @@ body:has(#oldJastip.active) #zxOldWall{--zw-pos:14% 40%;--zw-blur:1.5px;--zw-sat
     Object.keys(panels).forEach(function(k){panels[k].classList.toggle('dp-off',k!==name);});
     lsSet(CONFIG.keys.tab,name);
     if(name==='pribadi') refresh();
-    if(!initial) window.scrollTo(0,scrollMem[name]||0);
+    if(!initial&&changed) window.scrollTo(0,0);
   }
   seg.addEventListener('click',function(e){
     var b=e.target.closest?e.target.closest('.dp-seg-btn'):null;
@@ -4369,8 +4437,8 @@ body:has(#oldJastip.active) #zxOldWall{--zw-pos:14% 40%;--zw-blur:1.5px;--zw-sat
 .dpe-save:active,.dpe-back:active{transform:scale(.95)}
 .dpe-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:calc(env(safe-area-inset-bottom,0px) + 45vh)}
 .dpe-media{position:relative;margin-bottom:54px}
-.dpe-banner{display:block;position:relative;width:100%;height:190px;border:0;padding:0;overflow:hidden;background:linear-gradient(135deg,#4a0000,#0a0a0a);cursor:pointer}
-.dpe-banner img{width:100%;height:100%;object-fit:cover;display:block}
+.dpe-banner{display:block;position:relative;width:100%;aspect-ratio:8/3;height:auto;border:0;padding:0;overflow:hidden;background:linear-gradient(135deg,#4a0000,#0a0a0a);cursor:pointer}
+.dpe-banner img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 .dpe-avatar{position:absolute;left:18px;bottom:-44px;width:92px;height:92px;border-radius:50%;border:3px solid #0a0a0c;padding:0;overflow:hidden;background:#161618;cursor:pointer}
 .dpe-avatar img{width:100%;height:100%;object-fit:cover;display:block}
 .dpe-cam{position:absolute;display:flex;align-items:center;justify-content:center;gap:7px;background:rgba(0,0,0,.45);color:#fff;font-weight:700;font-size:13px}
@@ -4467,6 +4535,131 @@ body:has(#oldJastip.active) #zxOldWall{--zw-pos:14% 40%;--zw-blur:1.5px;--zw-sat
     f.click();
   }
 
+  /* ===== PANGKAS BANNER: rasio lebar 8:3 (kira-kira 2,67:1), hasil = area terang di bingkai ===== */
+  var BN_W=1200,BN_H=450,BN_RATIO=BN_W/BN_H;
+  function cropStyle(){
+    if(document.getElementById('dpCropStyle')) return;
+    var st=document.createElement('style');st.id='dpCropStyle';
+    st.textContent="#dpCropOv{position:fixed;top:0;left:0;right:0;bottom:0;z-index:1000300;display:flex;flex-direction:column;background:#000;color:#fff;font-family:'Outfit',system-ui,sans-serif;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}"
+    +".dpc-title{text-align:center;font-weight:800;font-size:22px;letter-spacing:.3px;padding:18px 16px 8px}"
+    +".dpc-stage{position:relative;flex:1;min-height:0;overflow:hidden;touch-action:none;cursor:grab}"
+    +".dpc-stage:active{cursor:grabbing}"
+    +".dpc-img{position:absolute;left:0;top:0;max-width:none;max-height:none;pointer-events:none;-webkit-user-drag:none;will-change:transform}"
+    +".dpc-frame{position:absolute;box-sizing:border-box;border:1.5px solid rgba(255,255,255,.6);box-shadow:0 0 0 100vmax rgba(0,0,0,.7);pointer-events:none}"
+    +".dpc-hint{text-align:center;font-size:12px;color:rgba(255,255,255,.6);padding:10px 16px 2px}"
+    +".dpc-zoom{display:flex;align-items:center;gap:12px;padding:10px 28px 6px;color:rgba(255,255,255,.65);font-size:14px}"
+    +".dpc-zoom input{flex:1;accent-color:#ff2b2b}"
+    +".dpc-actions{display:flex;gap:12px;padding:12px 20px 18px}"
+    +".dpc-btn{flex:1;height:54px;border:0;border-radius:999px;font:800 17px/1 'Outfit',system-ui,sans-serif;cursor:pointer}"
+    +".dpc-btn:active{transform:scale(.97)}"
+    +".dpc-cancel{background:#1f1f1f;color:#c9c9c9}"
+    +".dpc-save{background:#ff2b2b;color:#fff;box-shadow:0 0 16px rgba(255,43,43,.45)}";
+    document.head.appendChild(st);
+  }
+  function openCrop(file,done){
+    cropStyle();
+    var url=URL.createObjectURL(file),im=new Image();
+    im.onerror=function(){URL.revokeObjectURL(url);setErr('Gambar tidak bisa dibaca. Coba format JPG atau PNG.');};
+    im.onload=function(){buildCrop(im,url,done);};
+    im.src=url;
+  }
+  function buildCrop(im,url,done){
+    var iw=im.naturalWidth||im.width,ih=im.naturalHeight||im.height;
+    if(!iw||!ih){URL.revokeObjectURL(url);setErr('Gambar tidak valid.');return;}
+    var ov=document.createElement('div');ov.id='dpCropOv';ov.setAttribute('role','dialog');ov.setAttribute('aria-modal','true');ov.setAttribute('aria-label','Pangkas banner');
+    ov.innerHTML='<div class="dpc-title">Pangkas</div>'
+      +'<div class="dpc-stage" id="dpcStage"><img class="dpc-img" id="dpcImg" alt="" draggable="false"><div class="dpc-frame" id="dpcFrame"></div></div>'
+      +'<div class="dpc-hint">Geser dan cubit untuk mengatur banner &middot; rasio lebar 8:3</div>'
+      +'<div class="dpc-zoom"><i class="fa-solid fa-magnifying-glass-minus" aria-hidden="true"></i><input type="range" id="dpcZoom" min="1" max="4" step="0.01" value="1" aria-label="Zoom banner"><i class="fa-solid fa-magnifying-glass-plus" aria-hidden="true"></i></div>'
+      +'<div class="dpc-actions"><button type="button" class="dpc-btn dpc-cancel" id="dpcCancel">Batal</button><button type="button" class="dpc-btn dpc-save" id="dpcSave">Simpan</button></div>';
+    document.body.appendChild(ov);
+    var stage=ov.querySelector('#dpcStage'),img=ov.querySelector('#dpcImg'),frame=ov.querySelector('#dpcFrame'),zoom=ov.querySelector('#dpcZoom');
+    img.src=url;
+    var S={fx:0,fy:0,fw:0,fh:0,smin:1,z:1,ox:0,oy:0,ready:false};
+    function limit(){var s=S.smin*S.z;S.ox=clamp(S.ox,S.fx+S.fw-iw*s,S.fx);S.oy=clamp(S.oy,S.fy+S.fh-ih*s,S.fy);}
+    function apply(){
+      limit();var s=S.smin*S.z;
+      img.style.width=(iw*s)+'px';img.style.height=(ih*s)+'px';
+      img.style.transform='translate('+S.ox+'px,'+S.oy+'px)';
+    }
+    function layout(){
+      var r=stage.getBoundingClientRect(),sw=r.width,sh=r.height;
+      if(!sw||!sh) return;
+      var fw=Math.min(sw-32,720),fh=fw/BN_RATIO;
+      if(fh>sh-24){fh=Math.max(40,sh-24);fw=fh*BN_RATIO;}
+      var cx=0,cy=0;
+      if(S.ready){var s0=S.smin*S.z;cx=(S.fx+S.fw/2-S.ox)/s0;cy=(S.fy+S.fh/2-S.oy)/s0;}
+      S.fx=(sw-fw)/2;S.fy=(sh-fh)/2;S.fw=fw;S.fh=fh;
+      S.smin=Math.max(fw/iw,fh/ih);
+      var s=S.smin*S.z;
+      if(!S.ready){S.ox=S.fx+(fw-iw*s)/2;S.oy=S.fy+(fh-ih*s)/2;S.ready=true;}
+      else{S.ox=S.fx+fw/2-cx*s;S.oy=S.fy+fh/2-cy*s;}
+      frame.style.left=S.fx+'px';frame.style.top=S.fy+'px';frame.style.width=fw+'px';frame.style.height=fh+'px';
+      apply();
+    }
+    function setZoom(nz){
+      nz=clamp(nz,1,4);
+      var s0=S.smin*S.z,cx=(S.fx+S.fw/2-S.ox)/s0,cy=(S.fy+S.fh/2-S.oy)/s0;
+      S.z=nz;var s=S.smin*S.z;
+      S.ox=S.fx+S.fw/2-cx*s;S.oy=S.fy+S.fh/2-cy*s;
+      zoom.value=String(nz);apply();
+    }
+    var P={},pin=null;
+    function pd(){var k=Object.keys(P),a=P[k[0]],b=P[k[1]];return Math.hypot(a.x-b.x,a.y-b.y)||1;}
+    stage.addEventListener('pointerdown',function(e){
+      P[e.pointerId]={x:e.clientX,y:e.clientY};
+      try{stage.setPointerCapture(e.pointerId);}catch(_){}
+      if(Object.keys(P).length===2) pin={d:pd(),z:S.z};
+      e.preventDefault();
+    });
+    stage.addEventListener('pointermove',function(e){
+      var p=P[e.pointerId];if(!p) return;
+      var n=Object.keys(P).length;
+      if(n===1){S.ox+=e.clientX-p.x;S.oy+=e.clientY-p.y;p.x=e.clientX;p.y=e.clientY;apply();}
+      else{p.x=e.clientX;p.y=e.clientY;if(n===2&&pin) setZoom(pin.z*pd()/pin.d);}
+    });
+    function up(e){delete P[e.pointerId];if(Object.keys(P).length<2) pin=null;}
+    stage.addEventListener('pointerup',up);
+    stage.addEventListener('pointercancel',up);
+    stage.addEventListener('wheel',function(e){e.preventDefault();setZoom(S.z*(e.deltaY<0?1.08:.92));},{passive:false});
+    zoom.addEventListener('input',function(){setZoom(parseFloat(zoom.value)||1);});
+    function onResize(){layout();}
+    function onKey(e){if(e.key==='Escape'){e.stopPropagation();close();}}
+    function close(){
+      window.removeEventListener('resize',onResize);
+      document.removeEventListener('keydown',onKey,true);
+      try{URL.revokeObjectURL(url);}catch(_){}
+      if(ov.parentNode) ov.parentNode.removeChild(ov);
+    }
+    window.addEventListener('resize',onResize);
+    document.addEventListener('keydown',onKey,true);
+    ov.querySelector('#dpcCancel').addEventListener('click',close);
+    ov.querySelector('#dpcSave').addEventListener('click',function(){
+      try{
+        var s=S.smin*S.z;
+        var sw=Math.min(iw,S.fw/s),sh=Math.min(ih,S.fh/s);
+        var sx=clamp((S.fx-S.ox)/s,0,Math.max(0,iw-sw)),sy=clamp((S.fy-S.oy)/s,0,Math.max(0,ih-sh));
+        var c=document.createElement('canvas');c.width=BN_W;c.height=BN_H;
+        var x=c.getContext('2d');x.fillStyle='#000';x.fillRect(0,0,BN_W,BN_H);
+        x.imageSmoothingEnabled=true;try{x.imageSmoothingQuality='high';}catch(_){}
+        x.drawImage(im,sx,sy,sw,sh,0,0,BN_W,BN_H);
+        var out=c.toDataURL('image/jpeg',0.86);
+        close();setErr('');done(out);
+      }catch(err){setErr('Gagal memproses gambar.');close();}
+    });
+    layout();
+    requestAnimationFrame(layout);
+  }
+  function pickBanner(done){
+    var f=document.createElement('input');f.type='file';f.accept='image/*';
+    f.addEventListener('change',function(){
+      var file=f.files&&f.files[0];if(!file) return;
+      if(file.type.indexOf('image/')!==0){setErr('File harus berupa gambar.');return;}
+      openCrop(file,done);
+    });
+    f.click();
+  }
+
   var D={bn:'',av:''};
   function buildEditor(){
     if(ed) return;
@@ -4475,7 +4668,7 @@ body:has(#oldJastip.active) #zxOldWall{--zw-pos:14% 40%;--zw-blur:1.5px;--zw-sat
     $('dpeBack').addEventListener('click',closeEditor);
     $('dpeSave').addEventListener('click',saveEditor);
     $('dpeBannerBtn').addEventListener('click',function(){
-      pickImage(1000,500,0.82,function(u){D.bn=u;setPrev($('dpeBannerImg'),u);});
+      pickBanner(function(u){D.bn=u;setPrev($('dpeBannerImg'),u);});
     });
     $('dpeAvatarBtn').addEventListener('click',function(){
       pickImage(400,400,0.85,function(u){D.av=u;setPrev($('dpeAvatarImg'),u);});
@@ -4544,7 +4737,7 @@ body:has(#oldJastip.active) #zxOldWall{--zw-pos:14% 40%;--zw-blur:1.5px;--zw-sat
   }
   $('dpEditBtn').addEventListener('click',openEditor);
 
-  /* ===== banner profil mentok ke atas (sampai bar atas) ===== */
+  /* ===== banner Pribadi menempel tepat di bawah bar atas; pensil di kiri ===== */
   function alignHero(){
     var hero=document.querySelector('#dpPanelPribadi .dp-hero');if(!hero) return;
     var btn=$('dpEditBtn');
@@ -4552,19 +4745,72 @@ body:has(#oldJastip.active) #zxOldWall{--zw-pos:14% 40%;--zw-blur:1.5px;--zw-sat
     if(current!=='pribadi'||!root.classList.contains('active')||!hero.offsetParent) return;
     var tb=document.querySelector('.topbar-pro'),tbBottom=tb?tb.getBoundingClientRect().bottom:0;
     var sy=window.scrollY||window.pageYOffset||0;
-    var delta=Math.round(hero.getBoundingClientRect().top+sy-tbBottom);
-    if(delta<=0) return;
-    var base=parseFloat(getComputedStyle(root).getPropertyValue('--dp-banner-h'))||200;
-    hero.style.marginTop=(-delta)+'px';
-    hero.style.setProperty('--dp-banner-h',(base+delta)+'px');
-    if(btn){
-      var sg=seg.getBoundingClientRect(),hr=hero.getBoundingClientRect();
-      btn.style.top=Math.max(12,Math.round(sg.bottom-hr.top+10))+'px';
-    }
+    var hr=hero.getBoundingClientRect();
+    var delta=Math.round(hr.top+sy);
+    var base=Math.round(hr.width*3/8)||200;
+    var shift=Math.round(tbBottom)-delta; /* ujung atas banner = tepat di bawah bar atas (diamond, notifikasi, pengaturan) */
+    if(shift!==0) hero.style.marginTop=shift+'px';
+    hero.style.setProperty('--dp-banner-h',base+'px');
   }
   try{new MutationObserver(function(){setTimeout(alignHero,0);}).observe(seg,{attributes:true,attributeFilter:['data-active']});}catch(e){}
   window.addEventListener('resize',function(){setTimeout(alignHero,60);});
   window.addEventListener('load',function(){setTimeout(alignHero,60);});
+
+  /* ===== pop-up kecil di atas bar bawah: pilih Developer / Pribadi ===== */
+  (function(){
+    var tab=document.querySelector('.app-bottombar .tab[onclick*="developerTab"]');
+    if(!tab) return;
+    var menu=document.createElement('div');menu.id='dpTabMenu';menu.setAttribute('role','menu');
+    menu.innerHTML='<button type="button" role="menuitem" data-t="developer"><i class="fa-solid fa-code"></i><span>Developer</span></button>'+
+      '<button type="button" role="menuitem" data-t="pribadi"><i class="fa-solid fa-user"></i><span>Pribadi</span><i class="fa-solid fa-lock dpm-lock"></i></button>';
+    document.body.appendChild(menu);
+    var open=false,hideT=null,openedAt=0;
+    function place(){
+      var bar=document.querySelector('.app-bottombar');if(!bar) return;
+      var br=bar.getBoundingClientRect(),tr=tab.getBoundingClientRect();
+      var w=menu.offsetWidth||168;
+      var cx=tr.left+tr.width/2;
+      var right=Math.max(10,window.innerWidth-(cx+w/2));
+      var left=window.innerWidth-right-w;
+      if(left<10){right=window.innerWidth-10-w;left=10;}
+      menu.style.right=right+'px';menu.style.left='auto';
+      menu.style.bottom=Math.round(window.innerHeight-br.top+12)+'px';
+      menu.style.setProperty('--arrow',Math.round(Math.max(14,Math.min(w-26,window.innerWidth-right-cx-6)))+'px');
+    }
+    function sync(){
+      Array.prototype.forEach.call(menu.querySelectorAll('button'),function(b){
+        b.classList.toggle('on',b.getAttribute('data-t')===current);
+      });
+      var lk=menu.querySelector('.dpm-lock');if(lk) lk.style.display=isUnlocked()?'none':'';
+    }
+    function show(){
+      clearTimeout(hideT);sync();menu.classList.add('show');place();
+      requestAnimationFrame(function(){menu.classList.add('in');});open=true;openedAt=Date.now();
+    }
+    function hide(){
+      if(!open) return;open=false;menu.classList.remove('in');
+      clearTimeout(hideT);hideT=setTimeout(function(){menu.classList.remove('show');},170);
+    }
+    tab.addEventListener('click',function(){
+      /* klik Developer: halaman terbuka (onclick bawaan), lalu muncul pilihan */
+      if(open) hide();else show();
+    });
+    menu.addEventListener('click',function(e){
+      var b=e.target.closest?e.target.closest('button'):null;if(!b) return;
+      var t=b.getAttribute('data-t');hide();
+      if(!root.classList.contains('active')) go('developerTab');
+      if(t==='pribadi'&&current!=='pribadi'&&!isUnlocked()){askCode(function(){setTab('pribadi');});return;}
+      if(t!==current) setTab(t);
+    });
+    document.addEventListener('click',function(e){
+      if(!open) return;
+      if(menu.contains(e.target)||tab.contains(e.target)) return;
+      hide();
+    },true);
+    document.addEventListener('keydown',function(e){if(e.key==='Escape') hide();});
+    window.addEventListener('resize',function(){if(open) place();});
+    window.addEventListener('scroll',function(){if(open&&Date.now()-openedAt>600) hide();},{passive:true});
+  })();
 
   /* ===== segarkan data saat halaman Developer dibuka (tanpa menyentuh showPage) ===== */
   try{
@@ -5966,4 +6212,29 @@ window.ZusmoFeed={
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',safe(init));else safe(init)();
 })();
 
-</script></body></html>
+</script>
+<script id="dp-pribadi-solid-script">
+(function(){
+  var root=document.getElementById('developerTab'),seg=document.getElementById('dpSeg');
+  if(!root||!seg) return;
+  var vid=null;
+  function apply(){
+    var on=root.classList.contains('active')&&seg.getAttribute('data-active')==='pribadi';
+    if(on===document.body.classList.contains('dp-solid')) return;
+    document.body.classList.toggle('dp-solid',on);
+    vid=vid||document.getElementById('zusmoWallpaperBg');
+    if(!vid) return;
+    try{
+      if(on) vid.pause();
+      else if(getComputedStyle(vid).display!=='none'){var p=vid.play();if(p&&p.catch) p.catch(function(){});}
+    }catch(e){}
+  }
+  try{
+    var mo=new MutationObserver(apply);
+    mo.observe(root,{attributes:true,attributeFilter:['class']});
+    mo.observe(seg,{attributes:true,attributeFilter:['data-active']});
+  }catch(e){}
+  apply();
+})();
+</script>
+</body></html>
