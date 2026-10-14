@@ -6425,8 +6425,8 @@ function renderFeed(host,keep){
 /* perbarui satu post di tampilan tanpa render ulang */
 function uiPost(p){cards.forEach(function(C){if(C.p===p&&C.ui)C.ui();});}
 
-/* ---------- ULANGAN: video vertikal ala TikTok (Ulang1.mp4 … Ulang6.mp4) ---------- */
-var UL_COUNT=6,UL_DIRS=['','zusmo-asset/','zusmo-assets/'],UL_KEY='zusmoUlangState',ulDir={},ulMuted=false,ulSt=null,ulOpen=false;
+/* ---------- ULANGAN: video vertikal ala TikTok (Ulang1.mp4 … Ulang27.mp4) ---------- */
+var UL_COUNT=27,UL_DIRS=['','zusmo-asset/','zusmo-assets/'],UL_KEY='zusmoUlangState',ulDir={},ulMuted=false,ulSt=null,ulOpen=false;
 function ulState(){
   if(ulSt)return ulSt;
   try{ulSt=JSON.parse(localStorage.getItem(UL_KEY)||'null');}catch(e){ulSt=null;}
@@ -6456,7 +6456,8 @@ function ulKill(v){v._ulDead=true;try{v.pause();}catch(e){}v.removeAttribute('sr
 
 function renderUlang(host){
   var g=h('div','fd-grid fd-ulg');g.setAttribute('role','list');
-  for(var n=1;n<=UL_COUNT;n++)(function(n){
+  /* urutan tampilan: Ulang27 paling atas, Ulang1 paling bawah */
+  for(var i=UL_COUNT;i>=1;i--)(function(n){
     var b=h('button','fd-gi fd-ul-gi');b.type='button';b.setAttribute('role','listitem');b.setAttribute('aria-label','Putar Ulangan '+n);
     var v=document.createElement('video');
     v.muted=true;v.defaultMuted=true;v.playsInline=true;v.preload='metadata';
@@ -6719,7 +6720,7 @@ function renderBody(){
   var keepG=gridPos,keepF=feedPos;
   teardown();bodyEl.innerHTML='';gridPos=feedPos=0;
   each(tabBtns,function(b){b.setAttribute('aria-selected',b.getAttribute('data-t')===curTab?'true':'false');});
-  var addB=wrap.querySelector('[data-a=add]');if(addB)addB.hidden=(curTab==='ulang');
+  var addB=wrap.querySelector('[data-a=add]');if(addB)addB.hidden=true;
   if(curTab==='ulang'){renderUlang(bodyEl);return;}
   if(dbErr){
     bodyEl.appendChild(h('div','fd-msg',esc(errMsg(dbErr))));return;
@@ -6741,8 +6742,7 @@ function buildWrap(){
     '<button type="button" class="fd-tab" role="tab" data-t="grid" aria-selected="true">'+ic('grid',18)+'<span>Postingan</span></button>'+
     '<button type="button" class="fd-tab" role="tab" data-t="feed" aria-selected="false">'+ic('feed',18)+'<span>Feed</span></button>'+
     '<button type="button" class="fd-tab" role="tab" data-t="ulang" aria-selected="false">'+ic('ulang',18)+'<span>Ulangan</span></button></div>'+
-    '<div class="fd-tools">'+
-    '<button type="button" class="fd-ib fd-add" data-a="add" aria-label="Buat postingan baru">'+ic('plus',22)+'</button></div></div>'+
+    '<div class="fd-tools"></div></div>'+
     '<div class="fd-body" id="fdBody"></div>';
   var st=$('dpStories');
   if(st&&st.parentNode)st.parentNode.insertBefore(w,st.nextSibling);else panel.appendChild(w);
@@ -6750,7 +6750,8 @@ function buildWrap(){
   tabBtns.forEach(function(b){b.addEventListener('click',function(){
     var t=b.getAttribute('data-t');if(t===curTab)return;curTab=t;gridPos=feedPos=0;renderBody();
   });});
-  w.querySelector('[data-a=add]').addEventListener('click',openCreate);
+  var addBtn=w.querySelector('[data-a=add]');
+  if(addBtn)addBtn.addEventListener('click',openCreate);
   return w;
 }
 
@@ -6798,4 +6799,14 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   apply();
 })();
 </script>
+<style>
+/* Penyesuaian posisi Feed dan Ulangan Pribadi */
+.fd-wrap .fd-head{margin-bottom:12px;}
+.fd-wrap .fd-tabs{display:flex;align-items:center;justify-content:space-around;gap:8px;width:100%;}
+.fd-wrap .fd-tab{flex:1;min-height:42px;display:flex;align-items:center;justify-content:center;gap:7px;}
+.fd-wrap .fd-body{padding-top:0;}
+.fd-grid.fd-ulg{margin-top:0;align-items:start;}
+.fd-ul-gi{margin-bottom:0;}
+.fd-tools{display:none!important;}
+</style>
 </body></html>
