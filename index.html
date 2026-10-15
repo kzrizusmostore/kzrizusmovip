@@ -5389,6 +5389,35 @@ var CSS=[
 '.fd-ul-cm .fd-cmi small{display:block;font-size:12px;color:var(--fd-mu)}',
 '.fd-ul-cm .fd-cmi.fd-me{}',
 '.fd-ul-cm .fd-none{padding:26px 8px;text-align:center;color:var(--fd-mu);font-size:13.5px}',
+'.fd-pl-wrap{position:relative;margin-top:-8px;width:100%;min-width:0;flex:none}',
+'.fd-ul-prof{position:absolute;left:0;top:0;right:0;bottom:0;z-index:9;background:#000;transform:translate3d(100%,0,0);visibility:hidden;will-change:transform;touch-action:none}',
+'.fd-ul-prof.fd-open{visibility:visible}',
+'.fd-ul-prof img{position:absolute;left:0;top:0;width:100%;height:100%;object-fit:contain;display:block;pointer-events:none;-webkit-user-select:none;user-select:none}',
+'.fd-ul-prof .fd-ul-err{color:#fff}',
+'.fd-pl-row{width:100%}',
+'.fd-pl-row{display:flex;gap:8px;overflow-x:auto;padding:0 12px 10px;-webkit-overflow-scrolling:touch;scrollbar-width:none}',
+'.fd-pl-row::-webkit-scrollbar{display:none}',
+'.fd-pl-chip{flex:0 0 auto;display:flex;align-items:center;gap:7px;height:34px;padding:0 13px;border-radius:9px;border:0;background:var(--fd-sf);font-size:13.5px;font-weight:800;letter-spacing:.2px;white-space:nowrap}',
+'.fd-pl-chip:active{opacity:.7}',
+'.fd-pl-sheet{height:76vh;max-height:76vh;display:flex;flex-direction:column}',
+'.fd-pl-head{position:relative;text-align:center;padding:2px 44px 10px;border-bottom:1px solid var(--fd-ln)}',
+'.fd-pl-head b{display:block;font-size:16px;font-weight:800}',
+'.fd-pl-head small{display:block;margin-top:2px;font-size:13px;color:var(--fd-mu)}',
+'.fd-pl-x{position:absolute;left:0;top:0;width:36px;height:36px;display:grid;place-items:center;border:0;background:none}',
+'.fd-pl-lw{position:relative;flex:1;min-height:0}',
+'.fd-pl-list{position:absolute;left:0;right:0;top:0;bottom:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:6px 10px 4px 0;scrollbar-width:none;overscroll-behavior:contain}',
+'.fd-pl-list::-webkit-scrollbar{display:none}',
+'.fd-pl-row2{display:flex;gap:12px;align-items:center;width:100%;padding:9px 6px;border:0;background:none;text-align:left;border-radius:12px}',
+'.fd-pl-row2.fd-cur{background:var(--fd-sf)}',
+'.fd-pl-th{position:relative;flex:0 0 auto;width:60px;height:80px;border-radius:8px;overflow:hidden;background:#15151a}',
+'.fd-pl-th img{position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover;display:block}',
+'.fd-pl-tx{min-width:0;flex:1}',
+'.fd-pl-tt{font-size:14.5px;font-weight:600;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}',
+'.fd-pl-mt{margin-top:5px;font-size:12.5px;color:var(--fd-mu);font-variant-numeric:tabular-nums}',
+'.fd-ul-pl{position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 36px);height:38px;z-index:5;display:flex;align-items:center;gap:9px;padding:0 14px;border:0;background:rgba(255,255,255,.14);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);font-size:14px;font-weight:800;text-align:left;color:#fff}',
+'.fd-ul-pl span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}',
+'.fd-ul-item.fd-hpl .fd-ul-info{bottom:calc(env(safe-area-inset-bottom,0px) + 92px)}',
+'.fd-ul-item.fd-hpl .fd-ul-rail{bottom:calc(env(safe-area-inset-bottom,0px) + 92px)}',
 '.fd-ul-cf{display:flex;gap:8px;align-items:center;padding:8px 4px 0;border-top:1px solid var(--fd-ln)}',
 '.fd-ul-cf input{flex:1;min-width:0;height:44px;padding:0 14px;border-radius:999px;border:1px solid var(--fd-ln);background:var(--fd-sf);color:#fff;font:400 15px Outfit,system-ui,sans-serif;outline:0;-webkit-user-select:text!important;user-select:text!important}',
 '.fd-ul-cf input:focus{border-color:var(--fd-red)}',
@@ -6485,7 +6514,7 @@ function renderFeed(host,keep){
 function uiPost(p){cards.forEach(function(C){if(C.p===p&&C.ui)C.ui();});}
 
 /* ---------- ULANGAN: video vertikal ala TikTok (Ulang1.mp4 … Ulang27.mp4) ---------- */
-var UL_COUNT=27,UL_DIRS=['','zusmo-asset/','zusmo-assets/'],UL_NAMES=['Ulang','ulang','Ulangan'],UL_KEY='zusmoUlangState',ulDir={},ulMuted=false,ulSt=null,ulOpen=false;
+var UL_COUNT=27,UL_DIRS=['','zusmo-asset/','zusmo-assets/'],UL_NAMES=['Ulang','ulang','Ulangan'],UL_KEY='zusmoUlangState',ulDir={},ulMuted=false,ulSt=null,ulOpen=false,ulCtl=null,ulProf=null,UL_TT='https://www.tiktok.com/@kzrizusmo_store',UL_PROF_IMG=['profilekzrizusmo.jpg','zusmo-asset/profilekzrizusmo.jpg','zusmo-assets/profilekzrizusmo.jpg'];
 function ulState(){
   if(ulSt)return ulSt;
   try{ulSt=JSON.parse(localStorage.getItem(UL_KEY)||'null');}catch(e){ulSt=null;}
@@ -6502,9 +6531,45 @@ function ulViews(n){return UL_VIEWS[n]||0;}
 function ulViewsFmt(n){return n>=1e6?(n/1e6).toFixed(1).replace('.',',').replace(/,0$/,'')+' jt':n>=1e3?(n/1e3).toFixed(1).replace('.',',').replace(/,0$/,'')+' rb':String(n);}
 /* data per video (isi bertahap; nomor yang belum ada datanya tampil dengan nilai bawaan) */
 var UL_DATA={
-  27:{likes:4032,comments:2090,saves:1261,shares:379,caption:'FF OLD 2022 - ZUSMO OLD #ffold #zusmoold #zusmo #kzrizusmo #zusmoshadow'}
+  27:{likes:4032,comments:2090,saves:1261,shares:379,caption:'FF OLD 2022 - ZUSMO OLD #ffold #zusmoold #zusmo #kzrizusmo #zusmoshadow'},
+  26:{likes:5122,comments:358,saves:2285,shares:979,caption:'Postingan 8 | https://www.mediafire.com/file/54yibjw5bdlrvaz/ZUSMO+SHADOW.apk/file GAS UPDATE \u{1F60E} versi vip bisa ke saluran gasken tuan #zusmoshadow #zusmoshadowapk #zusmoshadowff #kzrizusmostore #kzrizusmo'},
+  25:{likes:288,comments:29,saves:54,shares:20,caption:'Bikin tabel gini di : https://kzrizusmoff.vercel.app #zusmo #zusmoshadowapk #kzrizusmo #kzrizusmostore #zusmoshadow'},
+  24:{likes:5719,comments:341,saves:2617,shares:996,caption:'Logo PC - Local Config https://www.mediafire.com/file/q1dwc622hhn84si/KZRIZUSMO+X20.apk/file #zusmo #zusmoshadowapk #zusmoshadow #kzrizusmo #kzrizusmostore'},
+  23:{likes:9167,comments:3353,saves:3416,shares:5297,caption:'Postingan 7 | https://www.mediafire.com/file/q1dwc622hhn84si/KZRIZUSMO_X20.apk/file #zusmo #zusmoshadowapk #zusmoshadow #kzrizusmo #kzrizusmostore'},
+  22:{likes:400,comments:63,saves:54,shares:188,caption:'GAS JOIN https://whatsapp.com/channel/0029VbDOVUJIHphDqJoiNH1L'},
+  21:{likes:744,comments:160,saves:158,shares:25,caption:'FREE / VIP? Postingan 1 | Perbandingan Tampilan aplikasi Zusmo Shadow Free & Vip #zusmoshadow'},
+  20:{likes:13900,comments:832,saves:5832,shares:3204,caption:'Postingan 2 | https://www.mediafire.com/file/pxnbkakj4hwf6zk/ZusmoShadow2.1.apk/file #zusmoshadow #zusmo #kzrizusmo #kzrizusmostore #zusmoshadowapk'},
+  19:{likes:688,comments:106,saves:128,shares:50,caption:'UPDATE ZUSMO SHADOW V2.1 😱 Postingan 3 | Join info update Zusmo Shadow di saluran yang ada di bio'},
+  18:{likes:2714,comments:573,saves:825,shares:2304,caption:'Zusmo Shadow V2 Postingan 4 | https://www.mediafire.com/file/oa4pzfrj0ky725z/ZusmoShadowV2.apk/file #zusmoshadow'},
+  17:{likes:2352,comments:324,saves:763,shares:738,caption:'Zusmo Emote V3 Postingan 2 | https://www.mediafire.com/file/duh43by04tbydgk/ZusmoEmoteV3.apk/file'},
+  16:{likes:2590,comments:530,saves:890,shares:947,caption:'Postingan 1 | Diamond unlimited cuyy. download zusmo beta: https://www.mediafire.com/file/wk2i6d3xufbbv4o/Zusmo_Beta.apk/file #zusmobeta #zusmoshadow #zusmo #kzrizusmo #kzrizusmostore'},
+  15:{likes:2598,comments:172,saves:782,shares:240,caption:'Postingan 2 | Cara mengatasi gagal install aplikasi zusmo beta pada android #zusmo #zusmobeta #zusmoshadow #kzrizusmostore #kzrizusmo'},
+  14:{likes:700,comments:131,saves:138,shares:310,caption:'ZUSMO EMOTE V2 UPDATE Postingan 3 | Link ketik sendiri: https://www.mediafire.com/file/u6nncpvat6dv1p1/ZusmoEmote-V2.apk/file'},
+  13:{likes:3776,comments:974,saves:1459,shares:839,caption:'Postingan 2 | CARA PEMASANGAN ZUSMO BETA🔥🔥 Link download aku upload disini tuan: https://whatsapp.com/channel/0029VbDOVUJIHphDqJoiNH1L #zusmobeta #zusmoshadow #zusmo #kzrizusmo #kzrizusmostore'},
+  12:{likes:4732,comments:1372,saves:1542,shares:1652,caption:'Postingan 3 | ZUSMO BETA AKHIRNYA RILIS 🔥🔥 Link Download Aku Upload Disini: https://whatsapp.com/channel/0029VbDOVUJIHphDqJoiNH1L #zusmobeta #zusmoshadow #zusmo #kzrizusmo #kzrizusmostore store'},
+  11:{likes:1454,comments:438,saves:362,shares:616,caption:'APK ZUSMO TERBARU? 🥶😱 Postingan 4 | Rilis 15 Maret. Aplikasi diUpload disini: https://whatsapp.com/channel/0029VbDOVUJIHphDqJoiNH1L'},
+  10:{likes:1567,comments:322,saves:354,shares:243,caption:'Postingan 5 | ZUSMO NEXT UPDATE ❓ bukan kipas/astute tapi... pantau update di saluran: https://whatsapp.com/channel/0029VbDOVUJIHphDqJoiNH1L #zusmoshadow #zusmo #kzrizusmo #kzrizusmostore #ffemote'},
+  9:{likes:6679,comments:721,saves:2115,shares:819,caption:'Postingan 5 | ZUSMO SHADOW PENJELASAN COMMAND Join Saluran → https://whatsapp.com/channel/0029VbDOVUJIHphDqJoiNH1L #zusmoshadow #zusmo #zusmoff #kzrizusmo #kzrizusmostore'},
+  8:{likes:1291,comments:263,saves:298,shares:420,caption:'Postingan 6 | Zusmo Shadow BotFF https://www.mediafire.com/file/54yibjw5bdlrvaz/Zusmo_Shadow.apk/file #shadowbot #ghostff #ffemote #freefire #ff'},
+  7:{likes:28800,comments:3383,saves:12600,shares:9553,caption:'Postingan 1 | APK BOT ZUSMO SHADOW https://www.mediafire.com/file/54yibjw5bdlrvaz/Zusmo_Shadow.apk/file #ffemote #ghostff #shadowbot #botff #freefire'},
+  6:{likes:463,comments:58,saves:259,shares:103,caption:'Apk ZusmoFF tembus 120rb download ❓❗ https://www.mediafire.com/file/z3f3azehf6756lr/ZusmoBotFF.apk/file #ffemot #ffemote #freefire #freefireindo #freefiregame'},
+  5:{likes:7759,comments:212,saves:2002,shares:533,caption:'Postingan 1 | Membalas kzrizusmo_store Tutor Mode Mengambang Untuk ZuskoFF Pada Device Yang Belum Support #ffemot #ffemote #ff #freefireindo #freefire'},
+  4:{likes:1951,comments:169,saves:540,shares:828,caption:'Postingan 4 | FFEMOTE UPDATE TERBARU V5 https://www.mediafire.com/file/z3f3azehf6756lr/ZusmoBotFF.apk/file #ffemote #ffemot #freefire #freefireindo #ff'},
+  3:{likes:1583,comments:160,saves:608,shares:136,caption:'Postingan 5 | TUTOR CARA PAKAI ZUSMO BOT EMOTE FF VERSI UPDATE TERBARU V5 #ffemo #freefiregame #freefire #ff #freefireindo'},
+  2:{likes:17400,comments:645,saves:2844,shares:2155,caption:'Postingan 1 | FF EMOTE ZUSMOBOTFF UPDATE TERBARU V5 🤪 https://www.mediafire.com/file/z3f3azehf6756lr/ZusmoBotFF.apk/file #ffemote #ff #ffbot #freefire #freefireindonesia #freefirebooyah'},
+  1:{likes:4225,comments:284,saves:1157,shares:924,caption:'Postingan 6 | FF EMOTE UPDATE V5 😜 https://www.mediafire.com/file/z3f3azehf6756lr/ZusmoBotFF.apk/file #ffemote #ff #ffbot #foryou #freefirebooyah'}
 };
 function ulBase(n,k){var d=UL_DATA[n];return(d&&d[k])||0;}
+/* ---------- DAFTAR PUTAR (playlist) ala TikTok: [nomor Ulangan, durasi]; foto = tanpa durasi ---------- */
+var UL_PL=[
+  {name:'MENGATASI',items:[[5,'01:17'],[15,'00:47']]},
+  {name:'BETA',items:[[16,'00:20'],[13,'02:18'],[12,'05:26'],[11,''],[10,'00:16']]},
+  {name:'VIP SHADOW',items:[[21,'']]},
+  {name:'EMOTE',items:[[2,'01:04'],[17,''],[14,''],[4,'00:22'],[3,'01:22'],[1,'00:13']]},
+  {name:'SHADOW',items:[[7,'02:54'],[20,'04:28'],[19,''],[18,''],[9,'03:50'],[8,'00:17'],[23,'05:53'],[26,'05:20']]}
+];
+function ulPlOf(n){for(var i=0;i<UL_PL.length;i++)for(var k=0;k<UL_PL[i].items.length;k++)if(UL_PL[i].items[k][0]===n)return UL_PL[i];return null;}
+function ulPlTitle(n){var c=(UL_DATA[n]&&UL_DATA[n].caption)||'';var k=c.indexOf('Postingan ');return(k>=0?c.slice(k):c)||('Ulangan #'+n);}
 function ulNum(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.');}
 function ulLikeTotal(n){return ulBase(n,'likes')+(ulState().liked[n]?1:0);}
 function ulSaveTotal(n){return ulBase(n,'saves')+(ulState().saved[n]?1:0);}
@@ -6612,7 +6677,10 @@ function ulBuildPhoto(n,P){
       if(dt>0){t.v=(c.clientX-t.px)/dt;t.pt=now;t.px=c.clientX;}
       t.dx=dx;
       var off=dx;
-      if((i===0&&dx>0)||(i===N-1&&dx<0))off=dx*.3;   /* ujung: terasa menahan */
+      var edge=(i===0&&dx>0)||(i===N-1&&dx<0);
+      if(edge&&ulProf){off=0;ulProf.drag(dx);}
+      else{if(t.edge&&ulProf)ulProf.drag(0);if(edge)off=dx*.3;}   /* ujung: panel profil / terasa menahan */
+      t.edge=edge;
       tk.style.transform='translate3d('+(-i*t.w+off)+'px,0,0)';
     },{passive:false});
     function end(cancel){
@@ -6623,6 +6691,7 @@ function ulBuildPhoto(n,P){
         if(Math.abs(t.dx)>t.w*.18)dir=t.dx<0?1:-1;
         else if(Math.abs(v)>.4)dir=v<0?1:-1;
       }
+      if(t.edge&&ulProf){t.edge=false;ulProf.end(!cancel&&dir!==0&&((i===0&&dir<0)||(i===N-1&&dir>0)));return;}
       go(i+dir,true);
     }
     vp.addEventListener('touchend',function(){end(false);},{passive:true});
@@ -6645,7 +6714,46 @@ function ulBindThumb(img,n,onFail){
   img.src=c[ulThDir[n]||0];
 }
 
+function openUlPlaylist(pl,curN){
+  var o=h('div','fd-layer fd-ov'),box=h('div','fd-sheet fd-pl-sheet');
+  box.setAttribute('role','dialog');box.setAttribute('aria-label','Daftar putar '+pl.name);
+  var head=h('div','fd-pl-head','<b>'+esc(pl.name)+'</b><small>'+pl.items.length+' postingan'+'</small>');
+  var x=h('button','fd-pl-x',ic('close',22));x.type='button';x.setAttribute('aria-label','Tutup');head.appendChild(x);
+  var list=h('div','fd-pl-list'),lw=h('div','fd-pl-lw')
+  lw.appendChild(list);
+  box.appendChild(h('div','fd-grab'));box.appendChild(head);box.appendChild(lw);o.appendChild(box);
+  var L=openLayer(o);
+  requestAnimationFrame(function(){o.classList.add('fd-in');});
+  o.addEventListener('click',function(e){if(e.target===o)L.close();});
+  x.addEventListener('click',function(){L.close();});
+  pl.items.forEach(function(it){
+    var n=it[0];
+    var r=h('button','fd-pl-row2'+(n===curN?' fd-cur':''));r.type='button';
+    var th=h('div','fd-pl-th'),im=document.createElement('img');
+    im.alt='';im.decoding='async';im.draggable=false;th.appendChild(im);ulBindThumb(im,n);
+    var tx=h('div','fd-pl-tx');
+    tx.appendChild(h('div','fd-pl-tt',esc(ulPlTitle(n))));
+    tx.appendChild(h('div','fd-pl-mt',(it[1]?it[1]+' \u00b7 ':'')+ulViewsFmt(ulViews(n))+' penayangan'));
+    r.appendChild(th);r.appendChild(tx);
+    r.addEventListener('click',function(){
+      L.close();
+      if(ulCtl)ulCtl.go(n);else setTimeout(function(){openUlang(n);},120);
+    });
+    list.appendChild(r);
+  });
+  setTimeout(function(){var c=list.querySelector('.fd-cur');if(c&&c.scrollIntoView){try{list.scrollTop=Math.max(0,c.offsetTop-list.clientHeight/3);}catch(e){}}},0);
+}
+
 function renderUlang(host){
+  var pr=h('div','fd-pl-row');pr.setAttribute('role','list');pr.setAttribute('data-noswipe','1');
+  UL_PL.forEach(function(pl){
+    var c=h('button','fd-pl-chip',ic('layers',16)+'<span>'+esc(pl.name)+'</span>');c.type='button';c.setAttribute('role','listitem');
+    c.setAttribute('aria-label','Daftar putar '+pl.name+', '+pl.items.length+' postingan');
+    c.addEventListener('click',function(){openUlPlaylist(pl,0);});
+    pr.appendChild(c);
+  });
+  var pw=h('div','fd-pl-wrap');
+  pw.appendChild(pr);host.appendChild(pw);
   var g=h('div','fd-grid fd-ulg');g.setAttribute('role','list');
   /* urutan tampilan: Ulang27 paling atas, Ulang1 paling bawah */
   for(var i=UL_COUNT;i>=1;i--)(function(n){
@@ -6678,6 +6786,45 @@ function openUlang(start){
   bar.appendChild(back);bar.appendChild(h('span','fd-ul-ttl','Ulangan'));bar.appendChild(mb);
   ov.appendChild(sc);ov.appendChild(bar);
 
+  /* ---------- geser ke samping → panel foto profil, lalu otomatis buka TikTok ---------- */
+  var pf=h('div','fd-ul-prof'),pfImg=document.createElement('img'),pfDir=1,pfOpen=false,pfT=0,pfK=0;
+  pfImg.alt='Profil KZRIZUSMO STORE';pfImg.draggable=false;
+  pfImg.addEventListener('error',function(){
+    if(pfK<UL_PROF_IMG.length-1){pfK++;pfImg.src=UL_PROF_IMG[pfK];}
+    else pf.appendChild(h('div','fd-ul-err','Gambar <b>profilekzrizusmo.jpg</b> tidak ditemukan.<br>Taruh satu folder dengan index.html.'));
+  });
+  pfImg.src=UL_PROF_IMG[0];
+  pf.appendChild(pfImg);ov.appendChild(pf);
+  function pfW(){return sc.clientWidth||window.innerWidth||360;}
+  function profDrag(dx){
+    if(!dx){pf.style.transition='none';pf.classList.remove('fd-open');return;}
+    pfDir=dx<0?1:-1;
+    pf.classList.add('fd-open');pf.style.transition='none';
+    pf.style.transform='translate3d('+(pfDir*pfW()+dx)+'px,0,0)';
+  }
+  function profClose(){
+    pfOpen=false;clearTimeout(pfT);
+    pf.style.transition='transform 260ms cubic-bezier(.22,.8,.25,1)';
+    pf.style.transform='translate3d('+(pfDir*pfW())+'px,0,0)';
+    setTimeout(function(){if(!pfOpen)pf.classList.remove('fd-open');},280);
+  }
+  function openTT(){
+    var w=null;
+    try{w=window.open(UL_TT,'_blank');}catch(e){}
+    if(!w){try{location.href=UL_TT;}catch(e){}}
+    else{try{w.opener=null;}catch(e){}}
+    pfT=setTimeout(profClose,900);
+  }
+  function profEnd(ok){
+    if(!ok){profClose();return;}
+    pf.classList.add('fd-open');
+    pf.style.transition='transform 260ms cubic-bezier(.22,.8,.25,1)';
+    pf.style.transform='translate3d(0,0,0)';
+    pfOpen=true;clearTimeout(pfT);pfT=setTimeout(openTT,700);
+  }
+  pf.addEventListener('click',function(){if(pfOpen)profClose();});
+  ulProf={drag:profDrag,end:profEnd};
+
   var items=[],cur=-1,L=null,rafId=0;
   var uname=nameText(),av=avatarSrc();
 
@@ -6690,6 +6837,8 @@ function openUlang(start){
     var big=h('div','',ic('heart',96,'fd-bh'));
     var bh=big.firstChild;big.style.cssText='position:absolute;left:0;top:0;width:0;height:0';
     var grad=h('div','fd-ul-grad');
+    var plb=null,plx=ulPlOf(n);
+    if(plx){plb=h('button','fd-ul-pl',ic('layers',18)+'<span>Daftar putar \u2022 '+esc(plx.name)+'</span>'+ic('right',18));plb.type='button';plb.setAttribute('aria-label','Buka daftar putar '+plx.name);plb.addEventListener('click',function(e){e.stopPropagation();openUlPlaylist(plx,n);});}
     var info=h('div','fd-ul-info','<b>KZRIZUSMO STORE</b><p>'+(UL_DATA[n]&&UL_DATA[n].caption?capHtml(UL_DATA[n].caption):'Ulangan #'+n+' · '+ulViewsFmt(ulViews(n))+' tayangan')+'</p><div class="fd-ul-mus"><span>&#9835;</span><span>suara asli - KZRIZUSMO STORE</span></div>');
     var rail=h('div','fd-ul-rail');
     var avb=h('div','fd-ul-av','<img alt="KZRIZUSMO" src="zusmo-asset/icon-192.png" onerror="this.onerror=null;this.src=\'zusmo-asset/icon-512.png\'">');
@@ -6704,7 +6853,7 @@ function openUlang(start){
     var rg=document.createElement('input');rg.type='range';rg.className='fd-range';rg.min='0';rg.max='1000';rg.step='1';rg.value='0';
     rg.setAttribute('aria-label','Posisi video');sw.appendChild(rg);
     var ph=UL_PHOTO[n]?ulBuildPhoto(n,UL_PHOTO[n]):null;
-    it.appendChild(ph?ph.el:v);it.appendChild(grad);if(!ph){it.appendChild(spin);it.appendChild(pp);}it.appendChild(big);it.appendChild(info);it.appendChild(rail);if(!ph)it.appendChild(sw);
+    it.appendChild(ph?ph.el:v);it.appendChild(grad);if(!ph){it.appendChild(spin);it.appendChild(pp);}it.appendChild(big);it.appendChild(info);it.appendChild(rail);if(plb){it.classList.add('fd-hpl');it.appendChild(plb);}if(!ph)it.appendChild(sw);
 
     var S={ph:ph,photo:!!ph,n:n,it:it,v:v,spin:spin,pp:pp,bh:bh,lk:lk,cm:cm,sv:sv,rg:rg,bound:false,failed:false,seeking:false,userPaused:false};
 
@@ -6844,7 +6993,7 @@ function openUlang(start){
   for(var n=UL_COUNT;n>=1;n--){var S=mk(n);items.push(S);track.appendChild(S.it);}
 
   L=openLayer(ov,{onClose:function(){
-    ulOpen=false;cancelAnimationFrame(rafId);
+    ulOpen=false;ulCtl=null;ulProf=null;clearTimeout(pfT);cancelAnimationFrame(rafId);
     try{io&&io.disconnect();}catch(e){}
     items.forEach(function(S){ulKill(S.v);});
     document.removeEventListener('keydown',onKey,true);
@@ -6892,6 +7041,7 @@ function openUlang(start){
       if(Math.abs(dx)<6&&Math.abs(dy)<6)return;
       tr.dir=Math.abs(dy)>=Math.abs(dx)?'v':'h';
     }
+    if(tr.dir==='h'){var SH=items[cur];if(SH&&!(SH.photo&&SH.ph.n>1)){tr.hx=dx;profDrag(dx);}return;}
     if(tr.dir!=='v')return;
     if(e.cancelable)e.preventDefault();
     var now=Date.now(),dt=now-tr.pt;
@@ -6903,6 +7053,7 @@ function openUlang(start){
   },{passive:false});
   function endDrag(cancel){
     if(!tr.on)return;tr.on=false;
+    if(tr.dir==='h'){var hx=tr.hx||0;tr.hx=0;if(hx)profEnd(!cancel&&Math.abs(hx)>pfW()*.22);return;}
     if(tr.dir!=='v')return;
     var dy=tr.y-tr.y0,v=(Date.now()-tr.pt>120)?0:tr.v,dir=0;
     if(!cancel){
@@ -6936,6 +7087,7 @@ function openUlang(start){
   var i0=Math.max(0,Math.min(items.length-1,UL_COUNT-(start||UL_COUNT)));
   goTo(i0,false);
   activate(i0);
+  ulCtl={go:function(n){goTo(UL_COUNT-n,true);}};
   rafId=requestAnimationFrame(tick);
   /* beberapa browser baru tahu tinggi setelah dipasang */
   setTimeout(function(){if(!L.closed){goTo(cur<0?i0:cur,false);}},60);
@@ -7191,7 +7343,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     if(!t.closest||!t.closest('#fdWrap'))return;
     var tr=t.closest('.fd-track');
     if(tr&&!tr.classList.contains('fd-one'))return;   /* carousel banyak slide dibiarkan */
-    if(t.closest('input,textarea,select'))return;
+    if(t.closest('input,textarea,select,[data-noswipe]'))return;
     body=document.getElementById('fdBody');if(!body)return;
     W=Math.max(240,body.getBoundingClientRect().width||window.innerWidth);
     sx=e.touches[0].clientX;sy=e.touches[0].clientY;t0=Date.now();on=true;lock='';
