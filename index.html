@@ -3071,10 +3071,12 @@ body.zx-wall-oj #zxOldWall{--zw-pos:14% 40%;--zw-blur:1.5px;--zw-sat:.9;--zw-br:
   var unlockedMem=false;
   function isUnlocked(){
     if(unlockedMem) return true;
+    try{if(localStorage.getItem('dpUnlock')==='1') return true;}catch(e){}
     try{return sessionStorage.getItem('dpUnlock')==='1';}catch(e){return false;}
   }
   function setUnlocked(){
     unlockedMem=true;
+    try{localStorage.setItem('dpUnlock','1');}catch(e){}
     try{sessionStorage.setItem('dpUnlock','1');}catch(e){}
     updateLock();
   }
@@ -5019,7 +5021,9 @@ body.zx-wall-oj #zxOldWall{--zw-pos:14% 40%;--zw-blur:1.5px;--zw-sat:.9;--zw-br:
       clearTimeout(hideT);hideT=setTimeout(function(){menu.classList.remove('show');},170);
     }
     tab.addEventListener('click',function(){
-      /* klik Developer: halaman terbuka (onclick bawaan), lalu muncul pilihan */
+      /* sudah memasukkan PIN: langsung ke Pribadi, tanpa menu pilihan dan tanpa PIN ulang */
+      if(isUnlocked()){hide();if(current!=='pribadi') setTab('pribadi');return;}
+      /* belum: halaman terbuka (onclick bawaan), lalu muncul pilihan */
       if(open) hide();else show();
     });
     menu.addEventListener('click',function(e){
@@ -5041,8 +5045,12 @@ body.zx-wall-oj #zxOldWall{--zw-pos:14% 40%;--zw-blur:1.5px;--zw-sat:.9;--zw-br:
 
   /* ===== segarkan data saat halaman Developer dibuka (tanpa menyentuh showPage) ===== */
   try{
+    var wasActive=root.classList.contains('active');
     new MutationObserver(function(){
-      if(root.classList.contains('active')&&current==='pribadi') refresh();
+      var act=root.classList.contains('active');
+      if(act&&!wasActive&&isUnlocked()&&current!=='pribadi') setTab('pribadi');
+      wasActive=act;
+      if(act&&current==='pribadi') refresh();
     }).observe(root,{attributes:true,attributeFilter:['class']});
   }catch(e){}
 
@@ -5195,7 +5203,7 @@ var CSS=[
 '.fd-capt .fd-ct{display:inline}',
 '.fd-capt.fd-clamp .fd-ct{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}',
 '.fd-more{background:none;border:0;padding:6px 0;min-height:32px;color:var(--fd-mu);font-size:13px}',
-'.fd-tag{color:var(--fd-blue)}',
+'.fd-tag{color:var(--fd-red)}',
 /* layer umum */
 '.fd-layer{position:fixed;left:0;top:0;right:0;bottom:0;background:var(--fd-bg);overflow:hidden;overscroll-behavior:contain}',
 '.fd-top{display:flex;align-items:center;gap:6px;padding:calc(env(safe-area-inset-top,0px) + 8px) 8px 8px;border-bottom:1px solid var(--fd-ln);background:rgba(11,11,14,.96)}',
@@ -5360,6 +5368,17 @@ var CSS=[
 '@media (hover:hover) and (pointer:fine){.fd-ph-nav{display:flex}.fd-ph-nav[disabled]{opacity:.3;cursor:default}}',
 '.fd-ul-ph{position:absolute;right:6px;top:6px;color:#fff;filter:drop-shadow(0 1px 3px rgba(0,0,0,.8))}',
 '.fd-ul-ph .fd-i{fill:none;stroke:#fff}',
+'.fd-ul-rail{right:10px;gap:14px}',
+'.fd-ul-av{background:none;border:0;box-shadow:none;border-radius:0;overflow:visible}',
+'.fd-ul-av img{border-radius:0;object-fit:contain;background:none}',
+'.fd-ul-disc{background:none;border:0;box-shadow:none;border-radius:0;overflow:visible}',
+'.fd-ul-disc img{border-radius:0;object-fit:contain;background:none}',
+'.fd-ul-av{width:64px;height:64px;margin-bottom:4px}',
+'.fd-ul-rb .fd-ic{width:40px;height:40px}',
+'.fd-ul-rb .fd-i{width:34px;height:34px}',
+'.fd-ul-rb .fd-n{font-size:13px}',
+'.fd-ul-disc{width:56px;height:56px;margin-top:4px;animation:none}',
+'.fd-ul-info{right:88px}',
 '.fd-ul-seekw{position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 2px);height:34px;z-index:5;display:flex;align-items:center;padding:0 10px}',
 '.fd-ul-seekw .fd-range{height:34px}',
 '.fd-ul-seekw .fd-range::-webkit-slider-thumb{width:12px;height:12px;margin-top:-4px}',
@@ -6671,7 +6690,7 @@ function openUlang(start){
     var big=h('div','',ic('heart',96,'fd-bh'));
     var bh=big.firstChild;big.style.cssText='position:absolute;left:0;top:0;width:0;height:0';
     var grad=h('div','fd-ul-grad');
-    var info=h('div','fd-ul-info','<b>KZRIZUSMO STORE</b><p>'+(UL_DATA[n]&&UL_DATA[n].caption?capHtml(UL_DATA[n].caption):'Ulangan #'+n+' · '+ulViewsFmt(ulViews(n))+' tayangan')+'</p><div class="fd-ul-mus"><span>&#9835;</span><span>suara asli - KZRIZUSMO</span></div>');
+    var info=h('div','fd-ul-info','<b>KZRIZUSMO STORE</b><p>'+(UL_DATA[n]&&UL_DATA[n].caption?capHtml(UL_DATA[n].caption):'Ulangan #'+n+' · '+ulViewsFmt(ulViews(n))+' tayangan')+'</p><div class="fd-ul-mus"><span>&#9835;</span><span>suara asli - KZRIZUSMO STORE</span></div>');
     var rail=h('div','fd-ul-rail');
     var avb=h('div','fd-ul-av','<img alt="KZRIZUSMO" src="zusmo-asset/icon-192.png" onerror="this.onerror=null;this.src=\'zusmo-asset/icon-512.png\'">');
     var lk=h('button','fd-ul-rb','<span class="fd-ic">'+ic('heart',28)+'</span><span class="fd-n"></span>');lk.type='button';
