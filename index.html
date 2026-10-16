@@ -974,8 +974,9 @@ AccessTokenDua
   <div class="zc-body">
     <div class="zc-view active" id="zcConvView">
       <div class="zc-head">
+        <button type="button" class="zc-home-back" id="zcHomeBack" aria-label="Kembali ke halaman utama" title="Kembali"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i></button>
         <div class="zc-head-t">
-          <div class="zc-title">ZUSMO Chat</div>
+          <div class="zc-title">Live Chat</div>
           <div class="zc-conn" id="zcConn" data-s="wait"><i aria-hidden="true"></i><span id="zcConnTxt">Menghubungkan…</span></div>
         </div>
         <span id="zcOnline" hidden></span>
@@ -1008,10 +1009,10 @@ AccessTokenDua
     </div>
 
     <div class="zc-view" id="zcGroupView">
-      <div class="zc-thread-head" id="zcGroupHeadInfo">
+      <div class="zc-thread-head">
         <button type="button" class="zc-back" id="zcGroupBack" aria-label="Kembali ke daftar chat"><i class="fa-solid fa-arrow-left"></i></button>
         <img class="zc-gimg" src="zusmo-asset/677288085_miwamikadono.jpg" alt="" loading="lazy" decoding="async">
-        <button type="button" class="zc-group-head-open" id="zcGroupAboutTrigger" aria-label="Info grup dan aturan" title="Info grup"><span class="zc-thread-title"><b>𝗭𝗨𝗦𝗠𝗢 𝗖𝗢𝗠𝗠𝗨𝗡𝗜𝗧𝗬</b><small id="zcGroupSub">Ketuk untuk info grup</small></span><i class="fa-regular fa-circle-question" aria-hidden="true"></i></button>
+        <div class="zc-thread-title zc-group-title-tap" id="zcGroupInfoOpen" role="button" tabindex="0" aria-label="Buka info grup"><b>𝗭𝗨𝗦𝗠𝗢 𝗖𝗢𝗠𝗠𝗨𝗡𝗜𝗧𝗬</b><small id="zcGroupSub">Grup komunitas</small></div><button type="button" class="zc-group-info-btn" id="zcGroupInfoBtn" aria-label="Info dan aturan grup" title="Info grup"><i class="fa-solid fa-circle-question" aria-hidden="true"></i></button>
       </div>
       <div class="zc-list" id="zcGlobalList" aria-live="polite"></div>
       <button type="button" class="zc-pill" id="zcGlobalPill" hidden>↓ Pesan baru</button>
@@ -1023,18 +1024,6 @@ AccessTokenDua
       <div class="zc-compose">
         <textarea id="zcGlobalIn" rows="1" maxlength="500" placeholder="Ketik pesan" disabled></textarea>
         <button type="button" class="zc-send" id="zcGlobalSend" aria-label="Kirim" disabled><i class="fa-solid fa-paper-plane"></i></button>
-      </div>
-    </div>
-
-    <div class="zc-group-info-screen" id="zcGroupInfoScreen" aria-hidden="true">
-      <div class="zc-group-info-head"><button type="button" id="zcGroupInfoBack" aria-label="Kembali"><i class="fa-solid fa-arrow-left"></i></button><b>Info grup</b><span></span></div>
-      <div class="zc-group-info-scroll">
-        <div class="zc-group-info-hero"><img src="zusmo-asset/677288085_miwamikadono.jpg" alt=""><h2>𝗭𝗨𝗦𝗠𝗢 𝗖𝗢𝗠𝗠𝗨𝗡𝗜𝗧𝗬</h2><p>Komunitas resmi ZUSMO / KZRIZUSMO</p><small>Grup komunitas · Global Chat</small></div>
-        <section class="zc-info-section"><h3><i class="fa-solid fa-align-left"></i> Deskripsi</h3><p>Selamat datang di ZUSMO COMMUNITY, ruang komunitas pengguna ZUSMO / KZRIZUSMO untuk berbincang, bertanya, berbagi informasi, memberi masukan, dan saling membantu terkait fitur serta layanan ZUSMO. Jaga kenyamanan bersama dan gunakan chat sesuai tujuan komunitas. Jaga kenyamanan bersama, berkomunikasilah dengan sopan, dan gunakan grup sesuai tujuan komunitas. Global Chat bukan tempat untuk berjualan, memasang iklan, menawarkan jasa, atau mengarahkan anggota ke platform lain.</p></section>
-        <section class="zc-info-section"><h3><i class="fa-solid fa-circle-check"></i> Yang diperbolehkan</h3><ul><li>Tanya jawab dan diskusi seputar ZUSMO / KZRIZUSMO serta fitur yang tersedia.</li><li>Melaporkan error, kendala, atau fitur yang tidak berjalan semestinya.</li><li>Berbagi tips dan informasi yang relevan serta membantu anggota lain.</li><li>Memberikan saran, masukan, dan laporan secara sopan, jelas, dan bertanggung jawab.</li></ul></section>
-        <section class="zc-info-section danger"><h3><i class="fa-solid fa-ban"></i> Dilarang di Global Chat dan Private Chat</h3><ul><li>Kata kasar, makian, hinaan, pelecehan, ancaman, ujaran kebencian, perundungan, atau serangan kepada pengguna lain.</li><li>Menuduh atau mengejek pengguna dengan kata-kata yang masuk daftar filter, termasuk variasi ejaan, angka, simbol, spasi, dan typo.</li><li>Jual-beli apa pun, promosi produk atau jasa, open order, ready stock, reseller, dropship, ajakan transaksi, serta menyebut harga atau diskon.</li><li>Mengirim nomor HP/WhatsApp/telepon, alamat, email, rekening, identitas, data pribadi, atau meminta anggota membagikan kontak.</li><li>Mengirim tautan, URL, domain, short link, undangan grup/channel, atau ajakan pindah ke WhatsApp, Telegram, Instagram, TikTok, dan platform lain.</li><li>Scam, penipuan, ripper, phishing, carding, peretasan, pencurian akun, pembajakan akun, pemerasan, doxxing, atau menawarkan aktivitas tersebut.</li><li>Spam, flood pesan, iklan berulang, promosi APK/brand/merk lain, rekrutmen, judi, crypto, dan konten yang tidak relevan.</li><li>Mengirim source code, script, payload, command, snippet pemrograman, atau code block ke Global Chat.</li><li>Mengakali filter dengan menyisipkan spasi, memisahkan huruf, mengganti huruf dengan angka, menambahkan simbol, typo disengaja, atau variasi ejaan.</li><li>Menggunakan chat pribadi untuk menghindari aturan, mengirim promosi, spam, penipuan, atau menyebarkan kontak/data pribadi tetap dianggap pelanggaran.</li></ul></section>
-        <section class="zc-info-section"><h3><i class="fa-solid fa-gavel"></i> Sistem peringatan dan sanksi</h3><ol><li><b>Pelanggaran 1/3:</b> pesan disensor dan tidak diteruskan, akun dibisukan selama 30 menit.</li><li><b>Pelanggaran 2/3:</b> pesan disensor dan tidak diteruskan, akun dibisukan selama 24 jam.</li><li><b>Pelanggaran 3/3:</b> pesan disensor dan tidak diteruskan, akun dibisukan selama 72 jam. Pelanggaran berulang dapat ditinjau admin untuk tindakan tambahan.</li></ol><p>Filter dapat mendeteksi kata maupun variasi bypass. Jangan menguji atau mengakali sistem moderasi. Gunakan fitur laporan/admin bila perlu menyampaikan bukti pelanggaran secara bertanggung jawab.</p></section>
-        <div class="zc-group-info-footer">Dengan menggunakan chat, anggota dianggap telah membaca dan menyetujui aturan komunitas.</div>
       </div>
     </div>
 
@@ -8973,7 +8962,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 #zcChat .zc-role-free{color:#aaa;border-color:#666}
 #zcChat .zc-role-basic{color:#f2f2f2;border-color:#aaa;background:rgba(255,255,255,.07)}
 #zcChat .zc-role-elite{color:#5ac8fa;border-color:rgba(90,200,250,.65);background:rgba(90,200,250,.08)}
-#zcChat .zc-role-ultimate{color:#ff555f;border-color:rgba(192,132,252,.65);background:rgba(168,85,247,.09)}
+#zcChat .zc-role-ultimate{color:#c084fc;border-color:rgba(192,132,252,.65);background:rgba(168,85,247,.09)}
 #zcChat .zc-role-max{color:#ff5b65;border-color:rgba(255,59,72,.7);background:rgba(163,0,21,.18);text-shadow:0 0 7px rgba(255,59,72,.15)}
 #zcChat .zc-tx{overflow-wrap:anywhere}.zc-profile-target{cursor:pointer}
 #zcChat .zc-modal{position:fixed;inset:0;z-index:100001;background:rgba(0,0,0,.68);display:flex;align-items:flex-end;justify-content:center;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .18s ease,visibility .18s ease}
@@ -9107,17 +9096,65 @@ html.zc-on #zcChat .zc-shell{height:100%!important;max-height:100%!important;pad
 @media(max-width:380px){#zcGroupView .zc-bub,#zcThreadView .zc-bub{max-width:86%;padding:6px 8px 4px}#zcGroupView .zc-tx,#zcThreadView .zc-tx{font-size:14px}}
 @media(prefers-reduced-motion:reduce){#zcChat .zc-reply-action{transition:none}}
 
-#zcChat .zc-group-rules{flex:0 0 auto;margin:0;padding:10px 13px 9px;background:rgba(28,12,14,.96);border-bottom:1px solid rgba(255,43,43,.22);color:#c8c8ce;font-size:11px;line-height:1.45;max-height:138px;overflow:auto}
-#zcChat .zc-group-rules>b{display:block;color:#ff737d;font-size:12px;margin-bottom:4px}
-#zcChat .zc-group-rules p{margin:0 0 5px}
-#zcChat .zc-group-rules ul{margin:0;padding-left:16px}
-#zcChat .zc-group-rules li{margin:2px 0}
-</style>
-<style>
-#zcChat .zc-group-about-trigger{display:flex;align-items:center;gap:10px;flex:1;min-width:0;text-align:left;border:0;background:transparent;color:#f3f3f3;padding:0 0 0 2px;cursor:pointer}#zcChat .zc-group-about-trigger .zc-thread-title{display:flex;flex:1;min-width:0;flex-direction:column;gap:2px}#zcChat .zc-group-about-trigger .zc-thread-title b{font-size:14px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#zcChat .zc-group-about-trigger .zc-thread-title small{font-size:11px;color:#aaa;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#zcChat .zc-group-about-trigger>i{flex:0 0 auto;color:#ff424d;font-size:19px;padding:8px}
-#zcChat .zc-group-info-screen{position:absolute;inset:0;z-index:35;display:none;flex-direction:column;background:#09090c;color:#f3f3f6}#zcChat .zc-group-info-screen.on{display:flex}#zcChat .zc-group-info-head{height:54px;flex:0 0 54px;display:flex;align-items:center;gap:16px;padding:0 15px;border-bottom:1px solid rgba(255,255,255,.08);background:#101014}#zcChat .zc-group-info-head button{border:0;background:none;color:#eee;font-size:18px;padding:8px}#zcChat .zc-group-info-head b{font-size:16px}#zcChat .zc-group-info-scroll{overflow:auto;overscroll-behavior:contain;padding-bottom:24px}#zcChat .zc-group-info-hero{text-align:center;padding:25px 18px 22px;border-bottom:8px solid #111116}#zcChat .zc-group-info-hero img{width:94px;height:94px;object-fit:cover;border-radius:50%;border:2px solid #ff343f}#zcChat .zc-group-info-hero h2{font-size:19px;margin:13px 0 5px}#zcChat .zc-group-info-hero p{font-size:13px;color:#b7b7c0;margin:0 0 5px}#zcChat .zc-group-info-hero small{font-size:11px;color:#8f8f9b}#zcChat .zc-info-section{padding:17px 18px;border-bottom:1px solid rgba(255,255,255,.08)}#zcChat .zc-info-section h3{font-size:14px;color:#ff555f;margin:0 0 12px;display:flex;align-items:center;gap:9px}#zcChat .zc-info-section p,#zcChat .zc-info-section li{font-size:12px;line-height:1.65;color:#c7c7d0}#zcChat .zc-info-section p{margin:0 0 8px}#zcChat .zc-info-section ul,#zcChat .zc-info-section ol{padding-left:20px;margin:0}#zcChat .zc-info-section li{padding:0 0 8px}#zcChat .zc-info-section.danger h3{color:#ff6b75}#zcChat .zc-group-info-footer{padding:18px;text-align:center;color:#888894;font-size:11px;line-height:1.5}
-#zcChat .zc-censored{background:rgba(255,75,85,.09)!important;border:1px solid rgba(255,75,85,.35)!important;color:#ff9ca3!important;font-size:11px!important;font-style:italic}
-#zcChat .zc-censored .zc-meta{color:#ff9ca3}
+/* UX fixes: return navigation, accessible group info, reliable modal scrolling, role badges */
+#zcChat .zc-head{gap:9px}
+#zcChat .zc-home-back{flex:0 0 42px;width:42px;height:42px;display:inline-flex;align-items:center;justify-content:center;border:1px solid #333;border-radius:50%;background:#171717;color:#fff;font-size:18px;cursor:pointer;touch-action:manipulation}
+#zcChat .zc-home-back:active{background:#351014;border-color:#ff2b2b;transform:scale(.96)}
+#zcChat .zc-group-title-tap{cursor:pointer;min-width:0}
+#zcChat .zc-group-info-btn{flex:0 0 44px;width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;border:1px solid rgba(255,43,43,.38);border-radius:50%;background:#1b0b0d;color:#ff555f;font-size:22px;box-shadow:0 0 10px rgba(255,43,43,.12);cursor:pointer;touch-action:manipulation}
+#zcChat .zc-group-info-btn:active{transform:scale(.94);background:#351014}
+#zcGroupInfoModal{position:fixed;inset:0;z-index:100010;display:none;align-items:stretch;justify-content:center;padding:env(safe-area-inset-top,10px) 0 env(safe-area-inset-bottom,10px);background:rgba(0,0,0,.82);overscroll-behavior:contain}
+#zcGroupInfoModal.on{display:flex}
+#zcGroupInfoModal .zc-info-card{display:flex;flex-direction:column;width:min(100%,560px);height:100%;min-height:0;overflow:hidden;background:#0c0c0e;border:1px solid #292929;border-radius:22px 22px 0 0;color:#f5f5f5}
+#zcGroupInfoModal .zc-info-top{flex:0 0 auto;display:flex;align-items:center;gap:12px;padding:15px;border-bottom:1px solid #292929;background:#111}
+#zcGroupInfoModal .zc-info-close{width:44px;height:44px;flex:0 0 44px;border:0;border-radius:50%;background:#202020;color:#fff;font-size:20px}
+#zcGroupInfoModal .zc-info-logo{width:48px;height:48px;object-fit:cover;border-radius:50%;border:1px solid #444}
+#zcGroupInfoModal .zc-info-headtext{flex:1;min-width:0}
+#zcGroupInfoModal .zc-info-headtext b{display:block;font-size:17px}
+#zcGroupInfoModal .zc-info-headtext small{color:#aaa;font-size:12px}
+#zcGroupInfoModal .zc-info-scroll{flex:1 1 auto;min-height:0;overflow-y:scroll;overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y;padding:16px 16px calc(24px + env(safe-area-inset-bottom,0px));}
+#zcGroupInfoModal .zc-info-scroll h3{font-size:14px;margin:18px 0 8px;color:#ff5b65}
+#zcGroupInfoModal .zc-info-scroll p,#zcGroupInfoModal .zc-info-scroll li{font-size:13px;line-height:1.65;color:#d0d0d0}
+#zcGroupInfoModal .zc-info-scroll ul{padding-left:20px}
+#zcGroupInfoModal .zc-info-callout{padding:13px;border:1px solid #382125;border-radius:14px;background:#160d0f}
+#zcGroupInfoModal .zc-info-sanction{display:grid;grid-template-columns:1fr;gap:7px;margin-top:8px}
+#zcGroupInfoModal .zc-info-sanction div{padding:10px 12px;border-radius:10px;background:#171717;border:1px solid #303030;font-size:13px}
+#zcChat .zc-role-basic{color:#f1f1f1;border-color:#a3a3a3;background:linear-gradient(135deg,#333,#171717)}
+#zcChat .zc-role-elite{color:#8fe4ff;border-color:#39bce8;background:linear-gradient(135deg,#073746,#101820)}
+#zcChat .zc-role-ultimate{color:#ffd1d8;border-color:#ff7589;background:linear-gradient(135deg,#641126,#210b12)}
+#zcChat .zc-role-max{color:#fff0b0;border-color:#ffcf45;background:linear-gradient(135deg,#8d111b,#281014);box-shadow:0 0 8px rgba(255,207,69,.15);text-shadow:0 0 6px rgba(255,207,69,.2)}
+@media(max-width:420px){#zcGroupInfoModal .zc-info-card{border-radius:18px 18px 0 0}#zcGroupInfoModal .zc-info-scroll{padding:14px 14px calc(28px + env(safe-area-inset-bottom,0px))}}
+/* Latest Live Chat polish: minimal controls and cleaner Group Info layout */
+#zcChat .zc-home-back{flex:0 0 36px;width:36px;height:42px;padding:0;border:0;border-radius:0;background:transparent;color:#bdbdbd;font-size:19px;box-shadow:none}
+#zcChat .zc-home-back:hover{color:#fff;background:transparent}
+#zcChat .zc-home-back:active{color:#fff;background:transparent;border:0;transform:translateX(-2px)}
+#zcChat .zc-title{letter-spacing:.1px;font-weight:700}
+#zcChat .zc-group-info-btn{flex:0 0 40px;width:40px;height:40px;padding:0;border:0;border-radius:8px;background:transparent;color:#a7a7a7;font-size:19px;box-shadow:none;outline-offset:2px}
+#zcChat .zc-group-info-btn:hover{background:#1b1b1b;color:#e5e5e5}
+#zcChat .zc-group-info-btn:active{transform:scale(.96);background:#222;color:#fff}
+#zcChat .zc-thread-head{gap:10px}
+#zcChat .zc-group-title-tap{flex:1;min-width:0}
+#zcGroupInfoModal{padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px);background:rgba(0,0,0,.72);backdrop-filter:blur(4px)}
+#zcGroupInfoModal .zc-info-card{width:min(100%,560px);height:100%;border:0;border-radius:0;background:#0b0b0c;box-shadow:0 12px 40px rgba(0,0,0,.35)}
+#zcGroupInfoModal .zc-info-top{gap:12px;padding:calc(14px + env(safe-area-inset-top,0px)) 16px 14px;background:#101010;border-bottom:1px solid #252525}
+#zcGroupInfoModal .zc-info-close{width:38px;height:38px;flex:0 0 38px;border-radius:10px;background:transparent;color:#bcbcbc;font-size:19px;cursor:pointer}
+#zcGroupInfoModal .zc-info-close:hover{background:#1c1c1c;color:#fff}
+#zcGroupInfoModal .zc-info-logo{width:46px;height:46px;flex:0 0 46px;border:1px solid #333}
+#zcGroupInfoModal .zc-info-headtext b{font-size:16px;letter-spacing:.1px}
+#zcGroupInfoModal .zc-info-headtext small{display:block;margin-top:3px;color:#999;font-size:11px}
+#zcGroupInfoModal .zc-info-scroll{padding:16px 16px calc(32px + env(safe-area-inset-bottom,0px));scrollbar-width:thin;scrollbar-color:#444 transparent;overscroll-behavior:contain;touch-action:pan-y;}
+#zcGroupInfoModal .zc-info-callout{padding:15px;border:1px solid #292929;border-radius:14px;background:linear-gradient(145deg,#171717,#101010)}
+#zcGroupInfoModal .zc-info-callout p{margin:0;line-height:1.7}
+#zcGroupInfoModal .zc-info-scroll h3{display:flex;align-items:center;gap:8px;margin:23px 0 10px;padding-bottom:8px;border-bottom:1px solid #262626;color:#e5e5e5;font-size:13px;font-weight:700;letter-spacing:.2px}
+#zcGroupInfoModal .zc-info-scroll h3:first-of-type{margin-top:20px}
+#zcGroupInfoModal .zc-info-scroll ul{padding-left:20px;margin:0}
+#zcGroupInfoModal .zc-info-scroll li{padding-left:2px;margin:0 0 8px;line-height:1.65}
+#zcGroupInfoModal .zc-info-scroll li::marker{color:#777}
+#zcGroupInfoModal .zc-info-sanction{gap:8px}
+#zcGroupInfoModal .zc-info-sanction div{display:flex;align-items:center;gap:8px;padding:12px 13px;border:1px solid #2b2b2b;border-radius:12px;background:#141414;color:#d8d8d8;line-height:1.5}
+#zcGroupInfoModal .zc-info-sanction div b{min-width:112px;color:#f1f1f1}
+@media(min-width:560px){#zcGroupInfoModal{align-items:center;padding:18px}#zcGroupInfoModal .zc-info-card{height:min(90dvh,820px);border:1px solid #2b2b2b;border-radius:18px}#zcGroupInfoModal .zc-info-top{padding-top:15px}}
+@media(max-width:420px){#zcGroupInfoModal .zc-info-card{border-radius:0}#zcGroupInfoModal .zc-info-scroll{padding:14px 14px calc(30px + env(safe-area-inset-bottom,0px))}#zcGroupInfoModal .zc-info-sanction div b{min-width:102px}}
 </style>
 <script id="zc-chat-script">
 /* ===== ZUSMO LIVE CHAT — Supabase Publishable/Anon key only. Secret key is NEVER shipped to client. ===== */
@@ -9128,12 +9165,32 @@ if(window.__zcChatLoaded)return;window.__zcChatLoaded=true;
 var SUPABASE_URL='https://siqqdpnglqctyyaornmo.supabase.co';
 var SUPABASE_KEY='sb_publishable_lJ74c2lguDQRmCv5KJqmYA_crUTqEU6';
 var SDK_URLS=['https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.js','https://unpkg.com/@supabase/supabase-js@2.58.0/dist/umd/supabase.js'];
-var ZC_BANNED_WORDS=["anjing", "anjink", "anjir", "anjrit", "asu", "kirik", "bangsat", "bajingan", "brengsek", "kampret", "keparat", "kontol", "memek", "ngentot", "jancok", "jancuk", "pantek", "pukimak", "kimak", "goblok", "tolol", "idiot", "bodoh", "dungu", "bego", "tai", "taik", "tahi", "lonte", "jablay", "jalang", "perek", "bispak", "pelacur", "pecundang", "sinting", "fuck", "fucking", "fucker", "motherfucker", "shit", "bullshit", "bitch", "bastard", "asshole", "dickhead", "dick", "pussy", "slut", "whore", "penipu", "penipuan", "pen1pu", "p3nipu", "p3n1pu", "an jing", "4njing", "4nj1ng", "anj1ng", "anj!ng", "4nj!ng", "anj*ng", "anj-ing", "anj_ing", "anjingg", "anjinkk", "4njink", "anj1nk", "b4ngs4t", "b4ngsat", "bangs4t", "b@ngsat", "bngsat", "b4j1ng4n", "baj1ngan", "br3ngs3k", "brengs3k", "k4mpr3t", "kampr3t", "k3p4r4t", "kep4rat", "k0nt0l", "kont0l", "k0ntol", "kntol", "m3m3k", "m3mek", "mem3k", "m*m*k", "ng3nt0t", "ngent0t", "ng3ntot", "j4nc0k", "janc0k", "j4ncok", "j4ncuk", "p4nt3k", "pant3k", "puk1m4k", "k1m4k", "g0bl0k", "gobl0k", "t0l0l", "tol0l", "1d10t", "id10t", "b0d0h", "b3g0", "t4i", "ta1", "t@i", "t41k", "t4h1", "l0nt3", "p3l4cur", "j4bl4y", "j4l4ng", "p3r3k", "b1sp4k", "f*ck", "f4ck", "sh1t", "sh!t", "b1tch", "b!tch", "b4st4rd", "4ssh0le", "scam", "scammer", "scamming", "scamer", "skam", "sc4m", "5cam", "sc@m", "sc am", "sca m", "tukang scam", "tukang tipu", "tukang nipu", "tukang ngibul", "tukang bohong", "modus scam", "modus nipu", "akun scam", "akun nipu", "akun penipu", "seller penipu", "toko penipu", "jasa penipu", "dasar penipu", "lu penipu", "lo penipu", "elu penipu", "elo penipu", "kau penipu", "kamu penipu", "dasar scammer", "scam lu", "ripper", "r1pper", "ripp3r", "r!pper", "ripp er", "ri pper", "rip-per", "rip_per", "r.i.p.p.e.r", "ripperr", "ripper akun", "ripper penipu", "ripper scam", "r1p", "r!p", "r.i.p", "rip akun", "musang", "mus4ng", "mu5ang", "mus4n9", "mvsang", "musan9", "mu sang", "musa ng", "musangg", "lapar", "l4p4r", "l4par", "lap4r", "l@par", "la par", "lapa r", "laparr", "vpn", "v.p.n", "v-p-n", "v_p_n", "v p n", "vp n", "v pn", "vpnn", "vppn", "vpn gratis", "vpn bypass", "bypass vpn", "bypass", "bypas", "byp4ss", "byp@ss", "bypass filter", "bypass ban", "bypass blokir", "bypass chat", "bypass moderasi", "proxy", "proksi", "fake ip", "ganti ip", "anti ban", "anti-ban", "jual beli", "jual akun", "jual murah", "jual saldo", "jual pulsa", "jual nomor", "jual data", "jual voucher", "jual diamond", "jual item", "jual skin", "jual jasa", "jual produk", "jual barang", "jual tiket", "jual crypto", "jual kripto", "beli akun", "beli saldo", "beli pulsa", "beli nomor", "beli data", "beli voucher", "beli diamond", "open po", "open preorder", "open pre-order", "ready stock", "ready stok", "fast respon", "dm me", "pm me", "hubungi wa", "chat wa", "wa only", "whatsapp only", "order sekarang", "harga nego", "promo murah", "diskon besar", "flash sale", "stok terbatas", "cek bio", "link bio", "link wa", "link grup", "join grup", "join channel", "join telegram", "join wa", "kode referral", "kode referal", "affiliate link", "referral link", "reseller", "dropship", "supplier", "paid promote", "jasa joki", "joki akun", "top up", "topup", "isi saldo", "deposit", "withdraw", "wd cepat", "profit harian", "cuan cepat", "investasi pasti", "investasi bodong", "slot gacor", "judi online", "judol", "casino online", "betting online", "taruhan bola", "pinjol ilegal", "pinjaman online", "dana cepat", "modal kecil", "gandakan uang", "uang gratis", "saldo gratis", "giveaway palsu", "hadiah gratis", "klaim hadiah", "bonus gratis", "voucher gratis", "akun gratis", "premium gratis", "unlock premium", "jual database", "jual kontak", "jual followers", "jual likes", "jual views", "jual subscribers", "jual bot", "jual script", "jual cheat", "jual hack", "jasa hack", "jasa retas", "jasa sadap", "jasa phishing", "jasa spam", "jasa blast", "jasa doxxing", "nomor hp", "nomor wa", "nomor whatsapp", "nomor telepon", "nomor telp", "no hp", "no wa", "no whatsapp", "no telepon", "no telp", "nomer hp", "nomer wa", "nomer telepon", "nomer telp", "nomor pribadi", "nomor kontak", "nomor rekening", "nomor kartu", "nomor ktp", "nomor nik", "kontak pribadi", "data pribadi", "data orang", "data bocor", "bocor data", "sebar data", "sebar nomor", "sebar kontak", "share nomor", "share kontak", "share data", "spill nomor", "spill wa", "spill kontak", "spill data", "doxxing", "doxing", "dox", "doxx", "alamat rumah", "alamat pribadi", "alamat lengkap", "lokasi rumah", "share location", "kirim lokasi", "sebar alamat", "sebar ktp", "sebar nik", "sebar rekening", "sebar identitas", "bocorin nomor", "bocorin data", "bocorin alamat", "bocorin wa", "nomor bocor", "data leak", "phone number", "private number", "personal data", "home address", "email pribadi", "alamat email", "email bocor", "password bocor", "kode otp", "otp", "kode verifikasi", "token login", "password", "kata sandi", "akun curian", "akun dibajak", "akun hack", "hack akun", "phishing", "phising", "carding", "keylogger", "spyware", "malware", "stealer", "session hijack", "account takeover", "credential theft", "identity theft", "bunuh lu", "gue bunuh", "gua bunuh", "mati aja", "mampus lu", "modar lu", "ancam bunuh", "bunuh diri", "pemerkosaan", "perkosa", "pelecehan seksual", "bokep", "porno", "pornografi", "bugil", "telanjang", "coli", "masturbasi", "sange", "mesum", "ngewe", "sodomi", "cabul", "pedofil", "open bo", "openbo", "narkoba", "sabu", "ganja", "kokain", "heroin", "ekstasi", "obat terlarang", "rasisme", "hate speech", "bullying", "perundungan", "harassment", "pelecehan", "intimidasi", "pemerasan", "blackmail", "sextortion", "extortion"]; /* Client-side filter; server-side enforcement tetap diperlukan. */
+var ZC_BANNED_WORDS=['[KATA 1]','[KATA 2]','[KATA 3]']; /* tambah di sini untuk UX; server tetap menjadi sumber enforcement */
 var PAGE=50,SEND_GAP=700,TOUCH_MS=300000,UUID_RE=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 var NAME_RE=/^[A-Za-z0-9._]{3,24}$/;
 function $(id){return document.getElementById(id);}
-/* Helper avatar harus berada di scope Live Chat, bukan hanya di script profil utama. */
-function profileAvatarSrc(){try{var saved=localStorage.getItem('dpCustomAvatar');if(saved&&String(saved).trim())return String(saved).trim();var img=document.getElementById('dpAvatarImg');return img&&img.getAttribute('src')?img.src:'';}catch(e){var img2=document.getElementById('dpAvatarImg');return img2&&img2.getAttribute('src')?img2.src:'';}}
+/* Helper untuk mengambil avatar profil pengguna */
+function profileAvatarSrc(){
+try {
+var saved = localStorage.getItem('dpCustomAvatar');
+
+if (saved && String(saved).trim()) {
+  return String(saved).trim();
+}
+
+var img = document.getElementById('dpAvatarImg');
+
+return img && img.getAttribute('src')
+  ? img.src
+  : '';
+
+} catch (e) {
+var fallback = document.getElementById('dpAvatarImg');
+return fallback && fallback.getAttribute('src')
+? fallback.src
+: '';
+}
+}
 function qsa(sel){return Array.prototype.slice.call(document.querySelectorAll(sel));}
 function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e;}
 var S={sb:null,me:null,starting:null,ready:false,tab:'list',filter:'all',gSeen:null,peer:null,profiles:{},online:{},convs:{},statuses:{},seen:{},resyncAt:0,lastSend:0,touchTimer:null,usersQ:'',usersTimer:null,usersSeq:0,pres:null,wasOn:false,profileTimer:null,profileName:'' ,adminTarget:null,replyTo:null,typingChannel:null,typingState:{},typingTimers:{},typingLast:{},typingIdle:{}};
@@ -9247,29 +9304,14 @@ function setComposerState(){
  var m1=$('zcModerationNote'),m2=$('zcModerationNoteT');if(m1&&m2){m2.hidden=m1.hidden;m2.textContent=m1.textContent;}
 }
 function normalizeForCheck(v){
- v=String(v||'').toLowerCase().normalize('NFKC');
- v=v.replace(/0/g,'o').replace(/1/g,'i').replace(/!/g,'i').replace(/3/g,'e').replace(/4/g,'a').replace(/5/g,'s').replace(/\$/g,'s').replace(/7/g,'t').replace(/@/g,'a');
- v=v.replace(/[\u200B-\u200D\uFEFF]/g,'').replace(/[^a-z0-9]/g,'');
- return v.replace(/(.)\1{1,}/g,'$1');
+ v=String(v||'').toLowerCase().normalize('NFKC').replace(/[ \t\r\n_\-.,!?;:'"`~@#$%^&*()[\]{}<>\\/|+=:;]+/g,'');
+ v=v.replace(/4/g,'a').replace(/3/g,'e').replace(/1/g,'i').replace(/0/g,'o').replace(/5/g,'s');
+ v=v.replace(/(.)\1+/g,'$1');
+ return v;
 }
-function clientBanned(v){var n=normalizeForCheck(v);return ZC_BANNED_WORDS.some(function(w){var x=normalizeForCheck(w);return x&&n.indexOf(x)!==-1;});}
-function moderationStrike(){
- var key='zc_moderation_strikes_v2',now=Date.now(),d={count:0,mutedUntil:0};try{d=JSON.parse(localStorage.getItem(key)||'{}')||d;}catch(e){}
- if(d.mutedUntil&&now<d.mutedUntil)return 'Chat dibisukan sampai '+new Date(d.mutedUntil).toLocaleString()+'. Pesan ini disensor dan tidak diteruskan.';
- d.count=(Number(d.count)||0)+1;d.lastAt=now;var msg='';
- if(d.count===1){d.mutedUntil=now+30*60*1000;msg='Pelanggaran 1/3 — pesan disensor, tidak dikirim. Mute 30 menit.';}
- else if(d.count===2){d.mutedUntil=now+24*60*60*1000;msg='Pelanggaran 2/3 — pesan disensor, tidak dikirim. Mute 24 jam.';}
- else{d.count=3;d.mutedUntil=now+72*60*60*1000;msg='Pelanggaran 3/3 — pesan disensor, tidak dikirim. Mute 72 jam.';}
- try{localStorage.setItem(key,JSON.stringify(d));}catch(e){}return msg;
+function clientBanned(v){
+ var n=normalizeForCheck(v);return ZC_BANNED_WORDS.some(function(w){var x=normalizeForCheck(w);return x&&n.indexOf(x)!==-1;});
 }
-function showCensoredMessage(scope,reason){
- var m={id:'local-censored-'+Date.now()+'-'+Math.random().toString(36).slice(2,7),user_id:S.me&&S.me.id, sender_id:S.me&&S.me.id, username:S.me&&S.me.username||'Anda',content:'🚫 '+reason, message:'🚫 '+reason,created_at:new Date().toISOString(),is_admin:false,moderation_censored:true};
- if(scope==='group'&&typeof gList!=='undefined'&&gList){gList.add(m,true);}
- else if(scope==='private'&&typeof pList!=='undefined'&&pList){pList.add(m,true);}
- flash(reason);
-}
-
-function moderationMuted(){try{var d=JSON.parse(localStorage.getItem('zc_moderation_strikes_v1')||'{}');return !!(d.mutedUntil&&Date.now()<d.mutedUntil);}catch(e){return false;}}
 
 function MsgList(box,pill,opts){
  var self=this;this.box=box;this.pill=pill;this.opts=opts;this.items=[];this.ids={};this.more=false;this.loading=false;
@@ -9287,7 +9329,7 @@ MsgList.prototype.buildInto=function(parent,m,prev){
  if(newDay)parent.appendChild(el('div','zc-day',dayLabel(d)));
  var row=el('div','zc-row '+(mine?'zc-mine':'zc-other')+(first?' zc-first':''));row.dataset.messageId=m.id;row.dataset.senderId=sender;
  var a=null;if(o.showAvatar){a=avatar(sender,m.username,true);if(!first)a.style.visibility='hidden';row.appendChild(a);if(first)a.classList.add('zc-profile-target');if(first)a.addEventListener('click',this.profileClick(sender,m.username));}
- var bub=el('div','zc-bub'+(m.moderation_censored?' zc-censored':''));if(!mine&&o.showName&&first){var nameLine=el('div','zc-name-line');var nm=el('button','zc-nm','@'+(m.username||'Pengguna'));nm.type='button';nm.style.color='hsl('+hue(sender)+',80%,72%)';nm.addEventListener('click',this.profileClick(sender,m.username));nameLine.appendChild(nm);var role=chatRoleLabel(m.role_label||m.role||'');if(role){var roleBadge=el('span','zc-role-badge zc-role-'+role.toLowerCase(),role.toLowerCase());roleBadge.title='Role '+role;nameLine.appendChild(roleBadge);}if(m.is_admin)nameLine.appendChild(el('span','zc-dev-badge','DEV'));bub.appendChild(nameLine);}
+ var bub=el('div','zc-bub');if(!mine&&o.showName&&first){var nameLine=el('div','zc-name-line');var nm=el('button','zc-nm','@'+(m.username||'Pengguna'));nm.type='button';nm.style.color='hsl('+hue(sender)+',80%,72%)';nm.addEventListener('click',this.profileClick(sender,m.username));nameLine.appendChild(nm);var role=chatRoleLabel(m.role_label||m.role||'');if(role){var roleBadge=el('span','zc-role-badge zc-role-'+role.toLowerCase(),role.toLowerCase());roleBadge.title='Role '+role;nameLine.appendChild(roleBadge);}if(m.is_admin)nameLine.appendChild(el('span','zc-dev-badge','DEV'));bub.appendChild(nameLine);}
  if(mine&&m.is_admin){var own=el('span','zc-dev-badge','DEV');bub.appendChild(own);}
  var quoted=replyOf(m);if(quoted){var q=el('div','zc-quoted');q.appendChild(el('b','',quoted.username||'Pengguna'));q.appendChild(el('span','',quoted.text||'Pesan'));bub.appendChild(q);}
  bub.appendChild(el('div','zc-tx',txtOf(m)));
@@ -9351,14 +9393,27 @@ async function insertVariants(table,variants){
  return last;
 }
 function chatRoleLabel(value){var v=String(value||'').trim().toUpperCase();return ['FREE','BASIC','ELITE','ULTIMATE','MAX'].indexOf(v)>=0?v:'';}
+function roleRank(value){return {FREE:0,BASIC:1,ELITE:2,ULTIMATE:3,MAX:4}[chatRoleLabel(value)||'FREE']||0;}
 function currentChatRole(){
  var v='';try{var e=document.getElementById('dpRoleText');if(e)v=e.textContent||'';}catch(e){}
- if(!v){try{v=localStorage.getItem('dpRoleLabel')||localStorage.getItem('dpRoleUnlocked')||localStorage.getItem('role')||'FREE';}catch(e){v='FREE';}}
- return chatRoleLabel(v)||'FREE';
+ if(!v){try{v=localStorage.getItem('dpRoleLabel')||localStorage.getItem('dpRoleUnlocked')||localStorage.getItem('role')||'';}catch(e){}}
+ /* Jangan menganggap ketiadaan data lokal sebagai FREE jika profil chat sudah memiliki role premium. */
+ var local=chatRoleLabel(v),server=chatRoleLabel(S.me&&S.me.role_label);
+ if(server&&roleRank(server)>roleRank(local||'FREE'))return server;
+ return local||server||'FREE';
 }
 async function syncChatRole(){
  if(!S.sb||!S.me||!S.me.id)return;
- var role=currentChatRole();S.me.role_label=role;var av=profileAvatarSrc();if(av&&av.length<200000)S.me.avatar_url=av;
+ var uname=profileUsername(),role=currentChatRole();
+ /* Perangkat lain dapat memiliki sesi anonim berbeda. Coba temukan role tersimpan untuk username yang sama.
+    Jangan pernah menurunkan role premium yang ditemukan menjadi FREE hanya karena perangkat ini tidak menyimpan data VIP lokal. */
+ try{
+   if(uname&&NAME_RE.test(uname)){
+     var remote=await S.sb.from('chat_profiles').select('role_label,username').eq('username',uname).limit(10);
+     if(!remote.error&&Array.isArray(remote.data))remote.data.forEach(function(p){var rr=chatRoleLabel(p.role_label);if(rr&&roleRank(rr)>roleRank(role))role=rr;});
+   }
+ }catch(e){console.warn('[zc-chat] read shared role:',e);}
+ S.me.role_label=role;var av=profileAvatarSrc();if(av&&av.length<200000)S.me.avatar_url=av;
  S.profiles[S.me.id]=Object.assign(S.profiles[S.me.id]||{},S.me,{role_label:role});
  try{var payload={role_label:role};if(S.me.avatar_url)payload.avatar_url=S.me.avatar_url;var r=await S.sb.from('chat_profiles').update(payload).eq('user_id',S.me.id);if(r.error&&!isColErr(r.error))console.warn('[zc-chat] sync role label:',r.error);}
  catch(e){console.warn('[zc-chat] sync role label:',e);}
@@ -9672,7 +9727,7 @@ async function sendGlobal(){
  if(!S.ready||!S.me||!S.me.username||S.me.blacklisted||!txt||S.sending||Date.now()-S.lastSend<SEND_GAP)return;
  var uid=String(S.me.id||'');
  if(!UUID_RE.test(uid)){flash('ID pengguna tidak valid. Silakan muat ulang halaman.');return;}
- if(moderationMuted()){ta.value='';autosize(ta);showCensoredMessage('group','Pesan disensor — akun sedang mute.');return;}if(clientBanned(txt)){var why=moderationStrike();ta.value='';autosize(ta);showCensoredMessage('group',why);return;}
+ if(clientBanned(txt)){flash('Kata terlarang tidak diizinkan.');return;}
  S.sending=true;S.lastSend=Date.now();
  try{
    var pu=profileUsername();
@@ -9714,7 +9769,7 @@ async function sendThread(){
  var uid=String(S.me.id||'');
  if(!UUID_RE.test(uid)||!UUID_RE.test(peer)){flash('ID pengguna tidak valid untuk Live Chat.');return;}
  var pp=S.profiles[peer];if(pp&&pp.blacklisted){flash('Pengguna ini sedang diblacklist dan tidak dapat diajak chat.');return;}
- if(moderationMuted()){ta.value='';autosize(ta);showCensoredMessage('private','Pesan disensor — akun sedang mute.');return;}if(clientBanned(txt)){var why=moderationStrike();ta.value='';autosize(ta);showCensoredMessage('private',why);return;}
+ if(clientBanned(txt)){flash('Kata terlarang tidak diizinkan.');return;}
  S.sending=true;S.lastSend=Date.now();
  try{
    var row=null,storedContent=encodeReply(txt,S.replyTo&&S.replyTo.scope==='thread'?S.replyTo:null),rp=await S.sb.rpc('zc_send_private',{p_receiver:peer,p_content:storedContent});
@@ -9882,13 +9937,25 @@ function setTab(t,quiet){
 }
 function setVh(){var vv=window.visualViewport,h=vv?vv.height:window.innerHeight;document.documentElement.style.setProperty('--zc-vh',Math.round(h)+'px');}
 
+/* Group Info: modal terpisah dengan area scroll yang dapat digeser ke dua arah. */
+function ensureGroupInfoModal(){
+ if($('zcGroupInfoModal'))return;
+ var modal=document.createElement('div');modal.id='zcGroupInfoModal';modal.setAttribute('aria-hidden','true');
+ modal.innerHTML='<section class="zc-info-card" role="dialog" aria-modal="true" aria-labelledby="zcInfoTitle"><header class="zc-info-top"><button type="button" class="zc-info-close" id="zcInfoClose" aria-label="Tutup info grup"><i class="fa-solid fa-arrow-left"></i></button><img class="zc-info-logo" src="zusmo-asset/677288085_miwamikadono.jpg" alt="Logo ZUSMO COMMUNITY"><div class="zc-info-headtext"><b id="zcInfoTitle">ZUSMO COMMUNITY</b><small>Info grup · Komunitas resmi ZUSMO</small></div></header><div class="zc-info-scroll" id="zcInfoScroll"><div class="zc-info-callout"><p><b>ZUSMO COMMUNITY</b> adalah ruang diskusi komunitas pengguna KZRIZUSMO. Gunakan grup untuk bertanya, berbagi informasi, meminta bantuan, dan membahas fitur atau layanan yang relevan. Grup ini bukan tempat jual-beli, promosi, atau menyebarkan kontak pribadi.</p></div><h3>Yang diperbolehkan</h3><ul><li>Tanya jawab mengenai website, fitur, akun, layanan, dan penggunaan ZUSMO.</li><li>Berbagi pengalaman, saran, laporan kendala, dan informasi yang relevan.</li><li>Berkomunikasi dengan sopan dan menghargai anggota lain.</li></ul><h3>Larangan di Global Chat</h3><ul><li>Jual beli, open order, promosi, iklan, harga, tawaran jasa, atau ajakan transaksi.</li><li>Membagikan nomor telepon/WhatsApp, email, kontak pribadi, data pribadi, atau ajakan pindah platform.</li><li>Link, URL, domain, shortlink, undangan grup, dan tautan tersamarkan.</li><li>Kata kasar, hinaan, pelecehan, ancaman, spam, flood, dan pesan berulang.</li><li>Scam, penipuan, impersonasi, ripper, atau tuduhan yang dipakai untuk menyerang anggota.</li><li>VPN atau cara lain untuk menghindari pembatasan dan moderasi chat.</li><li>Source code, script, payload, command, token, password, OTP, atau kredensial rahasia.</li></ul><h3>Aturan Private Chat</h3><ul><li>Private Chat bukan jalur untuk menghindari aturan Global Chat.</li><li>Dilarang spam, melecehkan, mengancam, menipu, melakukan promosi/jual-beli, atau mengirim kontak/link terlarang.</li><li>Jangan membagikan password, OTP, token, atau data pribadi milik siapa pun.</li><li>Hormati batasan pengguna lain dan hentikan percakapan jika diminta.</li></ul><h3>Filter dan bypass</h3><p>Filter dapat mengenali variasi ejaan, angka, simbol, spasi, dan karakter sisipan. Pesan yang terdeteksi melanggar akan disensor dan pesan aslinya tidak boleh dikirim. Hindari mencoba mengakali filter.</p><h3>Sistem peringatan dan sanksi</h3><div class="zc-info-sanction"><div><b>Pelanggaran 1</b> · Mute 30 menit</div><div><b>Pelanggaran 2</b> · Mute 24 jam</div><div><b>Pelanggaran 3</b> · Mute 72 jam</div></div><h3>Privasi dan keamanan</h3><ul><li>Jangan membagikan informasi sensitif, identitas pribadi, atau isi percakapan orang lain tanpa izin.</li><li>Admin tidak membutuhkan password atau OTP untuk membantu pengguna.</li><li>Gunakan fitur lapor/bantuan yang tersedia jika menemukan penyalahgunaan.</li></ul><p style="margin-top:18px;color:#888">Dengan menggunakan ZUSMO COMMUNITY, anggota diharapkan mematuhi aturan ini agar ruang diskusi tetap nyaman dan aman.</p></div></section>';
+ document.getElementById('zcChat').appendChild(modal);
+ function close(){modal.classList.remove('on');modal.setAttribute('aria-hidden','true');}
+ $('zcInfoClose').addEventListener('click',close);
+ modal.addEventListener('click',function(e){if(e.target===modal)close();});
+ var op=function(){modal.classList.add('on');modal.setAttribute('aria-hidden','false');$('zcInfoScroll').scrollTop=0;};
+ $('zcGroupInfoBtn').addEventListener('click',function(e){e.stopPropagation();op();});
+ $('zcGroupInfoOpen').addEventListener('click',op);
+ $('zcGroupInfoOpen').addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();op();}});
+ document.addEventListener('keydown',function(e){if(e.key==='Escape'&&modal.classList.contains('on'))close();});
+}
+ensureGroupInfoModal();
+$('zcHomeBack').addEventListener('click',function(){if(typeof showPage==='function')showPage('home');else{var chat=$('zcChat');if(chat)chat.classList.remove('active');}});
 qsa('#zcChat .zc-chip').forEach(function(b){b.addEventListener('click',function(){S.filter=b.dataset.f;qsa('#zcChat .zc-chip').forEach(function(x){var on=x===b;x.classList.toggle('active',on);x.setAttribute('aria-pressed',on?'true':'false');});renderConvs();});});
 $('zcGroupItem').addEventListener('click',function(){setTab('global');});
-function openGroupInfo(){$('zcGroupInfoScreen').classList.add('on');$('zcGroupInfoScreen').setAttribute('aria-hidden','false');}
-$('zcGroupAboutTrigger').addEventListener('click',openGroupInfo);
-$('zcGroupHeadInfo').addEventListener('click',function(e){if(e.target.closest('#zcGroupBack'))return;openGroupInfo();});
-$('zcGroupHeadInfo').addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();openGroupInfo();}});
-$('zcGroupInfoBack').addEventListener('click',function(){$('zcGroupInfoScreen').classList.remove('on');$('zcGroupInfoScreen').setAttribute('aria-hidden','true');});
 $('zcGroupBack').addEventListener('click',function(){setTab('list');});
 $('zcFab').addEventListener('click',function(){var i=$('zcUserQ');if(i){i.focus();}});
 $('zcProfileGo').addEventListener('click',goProfile);
@@ -10433,15 +10500,3 @@ window.apResetRole=function(){
   window.addEventListener('load',wrap);
 })();
 </script>
-
-<style id="zc-brand-ux-refresh">
-#zcChat .zc-group-rules{display:none!important}
-#zcChat .zc-group-head-open{display:flex;align-items:center;justify-content:space-between;flex:1;min-width:0;gap:8px;border:0;background:transparent;color:#fff;padding:0;cursor:pointer;text-align:left}
-#zcChat #zcGroupHeadInfo{cursor:default;gap:10px}
-#zcChat .zc-group-info-screen{background:#080808;color:#f5f5f5}
-#zcChat .zc-group-info-head{background:#101010}
-#zcChat .zc-info-section h3{color:#ff555f}
-#zcChat .zc-group-info-hero{border-bottom-color:#171717}
-#zcChat .zc-group-about-trigger:focus-visible{outline:2px solid #ff555f;outline-offset:2px;border-radius:8px}
-@media(max-width:420px){#zcChat .zc-group-about-trigger .zc-thread-title b{font-size:13px}#zcChat .zc-group-about-trigger>i{font-size:18px;padding:6px}}
-</style>
