@@ -9088,7 +9088,8 @@ function fillName(m){
  return m;
 }
 async function ensureMe(){
- var r=await S.sb.rpc('chat_ensure_profile');
+ var _pu=profileUsername();
+ var r=await S.sb.rpc('chat_ensure_profile',{p_username:NAME_RE.test(_pu)?_pu:null});
  var d=!r.error&&one(r.data);
  if(d&&(d.id||d.user_id)){d.id=d.id||d.user_id;return d;}
  console.warn('[zc-chat] chat_ensure_profile gagal, pakai chat_profiles langsung:',r.error);
@@ -9123,6 +9124,13 @@ async function refreshProfileFromDeveloper(force){
     Sebelumnya error upsert diabaikan sehingga server tetap menyimpan nama "AnonXXXX"
     dan pengguna lain melihat nama itu. */
  var up=await (async function(){
+   /* Jalur utama: RPC server zc_set_username (SECURITY DEFINER, tidak bergantung RLS). */
+   try{
+     var rr=await S.sb.rpc('zc_set_username',{p_username:uname});
+     var rd=!rr.error&&one(rr.data);
+     if(rd&&rd.username===uname)return {error:null};
+     if(rr.error&&/sudah dipakai|tidak valid/i.test(rr.error.message||''))return {error:rr.error};
+   }catch(x){}
    var e1=null;
    try{
      var u=await S.sb.from('chat_profiles').update({username:uname}).eq('user_id',uid).select('user_id,username');
