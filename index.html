@@ -8962,8 +8962,8 @@ function friendly(err){
  if(/username.*(taken|reserved|unique|sudah|dipakai|bentrok)/i.test(m))return 'Username sudah dipakai atau dicadangkan. Ganti username di profil.';
  if(c==='42501'||/row-level security|permission denied/i.test(m))return 'Akses ditolak oleh aturan keamanan database.';
  if(c==='23505')return 'Username sudah dipakai. Ganti username di profil.';
- if(c==='PGRST202'||c==='PGRST204'||c==='PGRST205'||c==='42P01'||/does not exist|schema cache/i.test(m))return 'Struktur database belum lengkap. Jalankan SQL migrasi Live Chat.';
- if(/invalid input syntax for type uuid/i.test(m))return 'Ada data ID pengguna lama yang bukan UUID. Live Chat otomatis melewati data lama tersebut.';
+ if(c==='PGRST202'||c==='PGRST204'||c==='PGRST205'||c==='42P01'||/does not exist|schema cache/i.test(m))return m||'Terjadi kesalahan pada Live Chat.';
+ if(/invalid input syntax for type uuid/i.test(m))return 'Sebagian data lama dilewati karena ID-nya bukan UUID.';
  if(/failed to fetch|networkerror|load failed|network request failed/i.test(m))return 'Tidak bisa terhubung ke server.';
  return m||'Terjadi kesalahan.';
 }
@@ -9090,59 +9090,115 @@ async function ensureProfiles(ids){
  });
 }
 async function loadConvs(){
- var r=await S.sb.rpc('chat_conversations');
- if(!r.error){
-   var next={};
-   (r.data||[]).forEach(function(x){
-     if(!x||!UUID_RE.test(String(x.peer_id||''))||x.peer_id===S.me.id)return;
-     next[x.peer_id]={peer_id:x.peer_id,last_content:x.last_content,last_at:x.last_at,last_sender:x.last_sender,unread:Number(x.unread)||0};
-   });
-   S.convs=next;
-   await ensureProfiles(Object.keys(next));
-   renderConvs();renderBadges();
-   return;
- }
- /* Fallback: jangan biarkan fungsi RPC yang rusak memblokir Live Chat.
-    Ambil private_messages langsung dengan UID auth yang valid. */
- var uid=S.me&&S.me.id;
- if(!UUID_RE.test(String(uid||'')))throw r.error;
+ /* FIX: jangan panggil RPC chat_conversations di client.
+    RPC lama dapat melakukan cast ID lama seperti "8" ke UUID.
+    Ambil private_messages langsung, lalu validasi ID di JavaScript. */
+ var uid=String(S.me&&S.me.id||'');
+ if(!UUID_RE.test(uid))throw new Error('Sesi pengguna tidak valid.');
+
  var q=await S.sb.from('private_messages')
-   .select('id,content,message,created_at,sender_id,receiver_id,read_at,deleted_at')
-   .or('sender_id.eq.'+uid+',receiver_id.eq.'+uid)
+   .select('*')
    .order('created_at',{ascending:false})
-   .limit(500);
- if(q.error)throw r.error;
- var next2={};
+   .limit(1000);
+
+ if(q.error)throw q.error;
+
+ var next={};
  (q.data||[]).forEach(function(m){
-   var peer=m.sender_id===uid?m.receiver_id:m.sender_id;
-   if(!UUID_RE.test(String(peer||''))||peer===uid)return;
-   var c=next2[peer];
+   var sender=String(m.sender_id||'');
+   var receiver=String(m.receiver_id||'');
+
+   /* Abaikan record legacy/non-UUID sebelum dipakai sebagai UUID. */
+   if(!UUID_RE.test(sender)||!UUID_RE.test(receiver))return;
+   if(sender!==uid&&receiver!==uid)return;
+
+   var peer=sender===uid?receiver:sender;
+   if(peer===uid||!UUID_RE.test(peer))return;
+
+   var content=m.deleted_at?'Pesan dihapus admin':
+     (m.content!=null?m.content:(m.message!=null?m.message:''));
+   var c=next[peer];
+
    if(!c||Date.parse(m.created_at||0)>Date.parse(c.last_at||0)){
-     next2[peer]={peer_id:peer,last_content:m.deleted_at?'Pesan dihapus admin':(m.content!=null?m.content:m.message),last_at:m.created_at,last_sender:m.sender_id,unread:0};
+     next[peer]={
+       peer_id:peer,
+       last_content:content,
+       last_at:m.created_at,
+       last_sender:sender,
+       unread:0
+     };
    }
-   if(m.receiver_id===uid&&m.read_at==null)next2[peer].unread=(next2[peer].unread||0)+1;
+
+   if(receiver===uid&&m.read_at==null){
+     next[peer].unread=(next[peer].unread||0)+1;
+   }
  });
- S.convs=next2;
- await ensureProfiles(Object.keys(next2));
- renderConvs();renderBadges();
+
+ S.convs=next;
+ await ensureProfiles(Object.keys(next));
+ renderConvs();
+ renderBadges();
 }
-async function fetchGlobal(before){var r=await S.sb.rpc('zc_fetch_global',{p_before:before||null,p_limit:PAGE});if(r.error)throw r.error;return {rows:r.data||[],more:(r.data||[]).length>=PAGE};}
-async function fetchThread(peer,before){
- if(!UUID_RE.test(String(peer||'')))throw new Error('ID pengguna tidak valid untuk Live Chat.');
- var r=await S.sb.rpc('zc_fetch_thread',{p_peer:peer,p_before:before||null,p_limit:PAGE});
+
+async function fetchGlobal(before){
+ var r=await S.sb.rpc('zc_fetch_global',{p_before:before||null,p_limit:PAGE});
  if(!r.error)return {rows:r.data||[],more:(r.data||[]).length>=PAGE};
- var uid=S.me&&S.me.id;
- if(!UUID_RE.test(String(uid||'')))throw r.error;
- var q=S.sb.from('private_messages')
-   .select('id,content,message,created_at,sender_id,receiver_id,read_at,deleted_at')
-   .or('and(sender_id.eq.'+uid+',receiver_id.eq.'+peer+'),and(sender_id.eq.'+peer+',receiver_id.eq.'+uid+')')
-   .order('created_at',{ascending:true})
+
+ /* Fallback langsung ke chat_messages jika RPC lama bermasalah. */
+ var q=await S.sb.from('chat_messages')
+   .select('*')
+   .order('created_at',{ascending:false})
    .limit(PAGE);
  if(before)q=q.lt('created_at',before);
  var rr=await q;
  if(rr.error)throw r.error;
- return {rows:(rr.data||[]),more:(rr.data||[]).length>=PAGE};
+
+ var uid=String(S.me&&S.me.id||'');
+ var rows=(rr.data||[]).filter(function(m){
+   var id=String(m.user_id||m.sender_id||'');
+   return UUID_RE.test(id);
+ }).map(function(m){
+   return {
+     id:m.id,
+     user_id:m.user_id||m.sender_id,
+     content:m.content!=null?m.content:(m.message||''),
+     created_at:m.created_at,
+     deleted_at:m.deleted_at||null
+   };
+ });
+ return {rows:rows,more:rows.length>=PAGE};
 }
+
+async function fetchThread(peer,before){
+ peer=String(peer||'');
+ if(!UUID_RE.test(peer))throw new Error('ID pengguna tidak valid untuk Live Chat.');
+
+ var r=await S.sb.rpc('zc_fetch_thread',{p_peer:peer,p_before:before||null,p_limit:PAGE});
+ if(!r.error)return {rows:r.data||[],more:(r.data||[]).length>=PAGE};
+
+ /* Fallback tanpa .or() supaya ID legacy tidak pernah dicast menjadi UUID. */
+ var uid=String(S.me&&S.me.id||'');
+ if(!UUID_RE.test(uid))throw new Error('Sesi pengguna tidak valid.');
+
+ var q=await S.sb.from('private_messages')
+   .select('*')
+   .order('created_at',{ascending:true})
+   .limit(1000);
+ if(before)q=q.lt('created_at',before);
+
+ var rr=await q;
+ if(rr.error)throw rr.error;
+
+ var rows=(rr.data||[]).filter(function(m){
+   var sender=String(m.sender_id||'');
+   var receiver=String(m.receiver_id||'');
+   if(!UUID_RE.test(sender)||!UUID_RE.test(receiver))return false;
+   return (sender===uid&&receiver===peer)||(sender===peer&&receiver===uid);
+ });
+ if(rows.length>PAGE)rows=rows.slice(rows.length-PAGE);
+ return {rows:rows,more:rows.length>=PAGE};
+}
+
 async function loadOlderGlobal(){if(!gList.items.length||gList.loading)return;gList.loading=true;try{var g=await fetchGlobal(gList.items[0].created_at);gList.merge(g.rows);gList.more=g.more;gList.render(false,true);}catch(e){flash(friendly(e));}gList.loading=false;}
 async function loadOlderThread(){if(!S.peer||!pList.items.length||pList.loading)return;pList.loading=true;var peer=S.peer;try{var t=await fetchThread(peer,pList.items[0].created_at);if(S.peer===peer){pList.merge(t.rows);pList.more=t.more;pList.render(false,true);}}catch(e){flash(friendly(e));}pList.loading=false;}
 async function resync(){if(!S.ready||Date.now()-S.resyncAt<3000)return;S.resyncAt=Date.now();try{var g=await fetchGlobal(null);if(gList.merge(g.rows))gList.render(false);await loadConvs();if(S.peer){var peer=S.peer,t=await fetchThread(peer,null);if(S.peer===peer&&pList.merge(t.rows))pList.render(false);}}catch(e){console.warn('[zc-chat] resync',e);}}
