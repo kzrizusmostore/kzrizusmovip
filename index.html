@@ -3458,7 +3458,7 @@ body.zx-wall-oj #zxOldWall{--zw-pos:14% 40%;--zw-blur:1.5px;--zw-sat:.9;--zw-br:
   /* ===== GELAR: lencana dekoratif di profil Pribadi =====
      HANYA tampilan: <span>, bukan tombol, tanpa navigasi/aksi. Pilihan disimpan di localStorage
      'dpTitles' (JSON). Sengaja TIDAK menyentuh 'role'/'roleColor'/'dpRoleLabel'. */
-  var TT_KEY='dpTitles',TT_MAX=5,TT_TEXT_MAX=20,TT_DEF_STYLE='sultan';
+  var TT_DEFAULT='fans-zusmo',TT_KEY='dpTitles',TT_MAX=5,TT_TEXT_MAX=20,TT_DEF_STYLE='sultan';
   /* slot gelar menurut role tertinggi yang terbuka: FREE 1, BASIC 2, ELITE 3, ULTIMATE 4, MAX 5; gelar tulis sendiri (custom) ikut dihitung di slot itu: FREE 0, BASIC 1, ELITE/ULTIMATE 1, hanya MAX maks 2 */
   function ttMax(){var n=1;try{n=roleUnlockedIdx()+1;}catch(e){}return Math.max(1,Math.min(TT_MAX,n));}
   /* panjang gelar tulis sendiri: BASIC 8, ELITE 10, ULTIMATE 12, MAX 15 (FREE terkunci; angka 8 hanya untuk tampilan) */
@@ -3499,8 +3499,8 @@ body.zx-wall-oj #zxOldWall{--zw-pos:14% 40%;--zw-blur:1.5px;--zw-sat:.9;--zw-br:
     {id:'pawang-hujan',t:'Pawang Hujan',ic:'cloud-showers-heavy',m:'soft',a:'#38bdf8'},
     {id:'es-batu',t:'Es Batu',ic:'snowflake',m:'outline',a:'#7dd3fc',g:1},
     {id:'bang-jago',t:'Bang Jago',ic:'hand-fist',m:'solid',a:'#f97316',b:'#dc2626',fg:'#ffffff'},
-    {id:'bocil-epep',t:'Bocil EPEP',img:'zusmo-asset/bqp2jv.png',m:'outline',a:'#ffffff',g:1},
-    {id:'fans-zusmo',t:'Fans Zusmo',img:'zusmo-asset/icon-192.png',ro:1,lg:1,m:'solid',a:'#0a0a0a',b:'#ff2b2b',fg:'#ffffff'}
+    {id:'bocil-epep',t:'Bocil Epep',img:'zusmo-asset/bqp2jv.png',mc:'#F4BB36',m:'solid',a:'#ffffff',b:'#ffffff',fg:'#1a1a1a'},
+    {id:'fans-zusmo',t:'User Zusmo',img:'zusmo-asset/icon-192.png',ro:1,lg:1,m:'solid',a:'#0a0a0a',b:'#ff2b2b',fg:'#ffffff'}
   ];
   var TT_BY=Object.create(null);
   TT_LIST.forEach(function(d){TT_BY[d.id]=d;});
@@ -3521,7 +3521,7 @@ body.zx-wall-oj #zxOldWall{--zw-pos:14% 40%;--zw-blur:1.5px;--zw-sat:.9;--zw-br:
   /* baca + validasi: ID harus ada di daftar, teks custom dipotong 20, maksimal 3 item */
   function ttRead(){
     var raw;
-    try{raw=JSON.parse(lsGet(TT_KEY,'[]'));}catch(e){raw=[];}
+    try{var rs=lsGet(TT_KEY,'');raw=rs===''?[{id:TT_DEFAULT}]:JSON.parse(rs);}catch(e){raw=[];}
     if(!Array.isArray(raw))return [];
     var out=[],seen={};
     for(var i=0;i<raw.length&&out.length<ttMax();i++){
@@ -3553,7 +3553,8 @@ body.zx-wall-oj #zxOldWall{--zw-pos:14% 40%;--zw-blur:1.5px;--zw-sat:.9;--zw-br:
     if(def.m==='soft'){s.style.setProperty('--bg',ttRgba(def.a,.16));s.style.setProperty('--bd',ttRgba(def.a,.45));}
     if(def.g)s.style.setProperty('--gl',ttRgba(def.a,.5));
     var i;
-    if(def.img){i=document.createElement('img');i.className='dpt-img'+(def.ro?' dpt-img-r':'')+(def.lg?' dpt-img-l':'');i.src=def.img;i.alt='';i.draggable=false;i.setAttribute('aria-hidden','true');i.onerror=function(){this.style.display='none';};}
+    if(def.img&&def.mc){i=document.createElement('span');i.className='dpt-img dpt-mask';i.style.setProperty('--mc',def.mc);i.style.webkitMaskImage=i.style.maskImage='url('+def.img+')';i.setAttribute('aria-hidden','true');}
+    else if(def.img){i=document.createElement('img');i.className='dpt-img'+(def.ro?' dpt-img-r':'')+(def.lg?' dpt-img-l':'');i.src=def.img;i.alt='';i.draggable=false;i.setAttribute('aria-hidden','true');i.onerror=function(){this.style.display='none';};}
     else{i=document.createElement('i');i.className='fa-solid fa-'+def.ic;i.setAttribute('aria-hidden','true');}
     var t=document.createElement('span');t.className='dpt-tx';t.textContent=text;
     s.appendChild(i);s.appendChild(t);
@@ -3586,7 +3587,7 @@ body.zx-wall-oj #zxOldWall{--zw-pos:14% 40%;--zw-blur:1.5px;--zw-sat:.9;--zw-br:
 .dpt i{flex:none;font-size:11px}
 .dpt-tx{min-width:0;overflow:hidden;text-overflow:ellipsis}
 .dpt-tx:empty{display:none}
-.dpt-solid{background:linear-gradient(135deg,var(--a),var(--b));color:var(--fg);border-color:rgba(255,255,255,.2)}
+.dpt-solid{background:linear-gradient(135deg,var(--a),var(--b)) border-box;color:var(--fg);border-color:rgba(255,255,255,.2)}
 .dpt-outline{background:transparent;color:var(--a);border-color:var(--a)}
 .dpt-gline{color:var(--a);background:linear-gradient(#0c0c0f,#0c0c0f) padding-box,linear-gradient(135deg,var(--a),var(--b)) border-box}
 .dpt-gline i{color:var(--b)}
@@ -3596,6 +3597,7 @@ body.zx-wall-oj #zxOldWall{--zw-pos:14% 40%;--zw-blur:1.5px;--zw-sat:.9;--zw-br:
 .dpt-mini i{font-size:10px}
 .dpt-img{flex:none;width:15px;height:15px;object-fit:contain;display:block}
 .dpt-img-r{border-radius:50%}
+.dpt-mask{background-color:var(--mc,#fff);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center}
 .dpt-mini .dpt-img{width:13px;height:13px}
 .dpt .dpt-img-l{width:22px;height:22px;margin:-4px 0}
 .dpt-mini .dpt-img-l{width:18px;height:18px;margin:-3px 0}
@@ -3625,11 +3627,12 @@ body.zx-wall-oj #zxOldWall{--zw-pos:14% 40%;--zw-blur:1.5px;--zw-sat:.9;--zw-br:
 #dpeTitleSub .dpt-row.on{opacity:1}
 #dpeTitleSub .dpt-row.dim{opacity:.3}
 #dpeTitleSub .dpt-row:active{transform:scale(.97)}
-#dpeTitleSub .dpt-lock{display:flex;align-items:center;gap:12px;margin:4px 16px 28px;padding:14px;border:1px solid var(--line);border-radius:16px;color:var(--mut)}
+#dpeTitleSub .dpt-lock{display:flex;align-items:center;gap:12px;margin:4px 16px 10px;padding:14px;border:1px solid var(--line);border-radius:16px;color:var(--mut)}
 #dpeTitleSub .dpt-lock i{font-size:16px}
 #dpeTitleSub .dpt-lock b{display:block;font-size:14px;font-weight:700;color:#fff}
 #dpeTitleSub .dpt-lock span{font-size:12.5px}
 #dpeTitleSub .dpt-cust{margin:4px 16px 28px;padding:14px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.03)}
+#dpeTitleSub .dpt-cust.locked{opacity:.45;pointer-events:none;user-select:none}
 #dpeTitleSub .dpt-inpwrap{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.05)}
 #dpeTitleSub .dpt-inpwrap:focus-within{border-color:var(--r)}
 #dpeTitleSub .dpt-inp{flex:1;min-width:0;width:100%;border:0;outline:0;background:transparent;color:#fff;font:600 16px/1.3 'Outfit',system-ui,sans-serif;padding:0}
@@ -3700,8 +3703,7 @@ body.zx-wall-oj #zxOldWall{--zw-pos:14% 40%;--zw-blur:1.5px;--zw-sat:.9;--zw-br:
   function ttRenderCust(){
     var ok=ttCustomOk(),lock=$('dptLock'),form=$('dptForm');
     if(lock)lock.style.display=ok?'none':'flex';
-    if(form)form.style.display=ok?'block':'none';
-    if(!ok)return;
+    if(form){form.style.display='block';form.classList.toggle('locked',!ok);form.inert=!ok;form.setAttribute('aria-disabled',ok?'false':'true');}
     var sl=$('dptSlots');
     if(sl){
       sl.style.display=ttCustMax()>1?'flex':'none';
@@ -3721,8 +3723,8 @@ body.zx-wall-oj #zxOldWall{--zw-pos:14% 40%;--zw-blur:1.5px;--zw-sat:.9;--zw-br:
     var on2=TD.sel.indexOf(TT_CIDS[TD.ci])>=0,u=$('dptUse');
     u.textContent=(on2?'Lepas gelar custom':'Pakai gelar custom')+(ttCustMax()>1?' '+(TD.ci+1):'');
     u.classList.toggle('on',on2);
-    u.disabled=!on2&&ttFull();
-    var ci=$('dptInp');if(ci){ci.maxLength=ttTextMax();ci.placeholder='Tulis gelar custom';}
+    u.disabled=!ok||(!on2&&ttFull());
+    var ci=$('dptInp');if(ci){ci.maxLength=ttTextMax();ci.placeholder=ok?'Tulis gelar custom':'Terkunci';ci.disabled=!ok;}
     $('dptInpCnt').textContent=Array.from(ci.value).length+'/'+ttTextMax();
   }
   function ttRenderList(){
@@ -3788,7 +3790,7 @@ body.zx-wall-oj #zxOldWall{--zw-pos:14% 40%;--zw-blur:1.5px;--zw-sat:.9;--zw-br:
       list.appendChild(row);
       var b=document.createElement('button');b.type='button';b.className='dpt-swb';b.setAttribute('data-id',d.id);b.setAttribute('aria-label','Gaya '+d.t);b.setAttribute('aria-pressed','false');
       b.appendChild(ttBadge(d,'',true));
-      b.addEventListener('click',function(){TD.c[TD.ci].s=d.id;ttErr('');ttSubRender();});
+      b.addEventListener('click',function(){if(!ttCustomOk())return;TD.c[TD.ci].s=d.id;ttErr('');ttSubRender();});
       sw.appendChild(b);
     });
     var slots=$('dptSlots');
