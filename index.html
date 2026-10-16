@@ -1,4 +1,15 @@
-<!DOCTYPE html><html lang="id"><head><script id="kz-initial-state-v4">
+<!DOCTYPE html><html lang="id"><head><script id="kz-reset-epoch">
+/* RESET MASSAL: ubah nilai KZ_RESET_EPOCH setiap kali ingin mereset nama & username semua pengguna lagi.
+   Tiap perangkat menjalankan reset sekali saja saat nilai epoch berbeda dari yang tersimpan. */
+(function(){
+  var KZ_RESET_EPOCH='2026-10-16-r1';
+  try{
+    if(localStorage.getItem('kz_reset_epoch')===KZ_RESET_EPOCH)return;
+    ['hmDisplayName','dpUsername','dpNameChangedAt','dpUserChangedAt'].forEach(function(k){localStorage.removeItem(k);});
+    localStorage.setItem('kz_reset_epoch',KZ_RESET_EPOCH);
+  }catch(e){}
+})();
+</script><script id="kz-initial-state-v4">
 (function(){
   try{
     var key='zusmo_diamond_balance';
@@ -9038,7 +9049,7 @@ MsgList.prototype.buildInto=function(parent,m,prev){
  var a=null;if(o.showAvatar){a=avatar(sender,m.username,true);if(!first)a.style.visibility='hidden';row.appendChild(a);if(first)a.classList.add('zc-profile-target');if(first)a.addEventListener('click',this.profileClick(sender,m.username));}
  var bub=el('div','zc-bub');if(!mine&&o.showName&&first){var nm=el('button','zc-nm',m.username||'Anon');nm.type='button';nm.style.color='hsl('+hue(sender)+',80%,72%)';nm.addEventListener('click',this.profileClick(sender,m.username));if(m.is_admin)nm.appendChild(el('span','zc-dev-badge','DEV'));bub.appendChild(nm);}
  if(mine&&m.is_admin){var own=el('span','zc-dev-badge','DEV');bub.appendChild(own);}
- bub.appendChild(el('div','zc-tx',m.deleted_at?'Pesan dihapus admin':m.content));
+ bub.appendChild(el('div','zc-tx',txtOf(m)));
  var meta=el('div','zc-meta');meta.appendChild(el('span','',hhmm(d)));if(mine&&o.receipts)meta.appendChild(el('i','fa-solid '+(m.read_at?'fa-check-double zc-read':'fa-check')));bub.appendChild(meta);row.appendChild(bub);
  if(S.me&&S.me.is_admin&&!m.deleted_at){attachAdminGesture(row,m);}
  parent.appendChild(row);
@@ -9057,6 +9068,37 @@ function attachAdminGesture(row,m){
  row.addEventListener('contextmenu',function(e){e.preventDefault();openAdmin(m);});
 }
 
+
+/* ===== FIX LOGIC v6: helper umum ===== */
+function txtOf(m){return m.deleted_at?'Pesan dihapus admin':(m.content!=null?m.content:(m.message!=null?m.message:''));}
+function isColErr(e){var c=(e&&e.code)||'',m=(e&&e.message)||'';return c==='PGRST204'||c==='42703'||(/column/i.test(m)&&/(schema cache|does not exist)/i.test(m));}
+function one(d){return Array.isArray(d)?d[0]:d;}
+async function insertVariants(table,variants){
+ var last=null;
+ for(var i=0;i<variants.length;i++){
+   var r=await S.sb.from(table).insert(variants[i]).select('*').single();
+   if(!r.error)return r;
+   last=r;if(!isColErr(r.error))return r;
+ }
+ return last;
+}
+function fillName(m){
+ var uid=m&&(m.user_id||m.sender_id),p=uid&&S.profiles[uid];
+ if(p){if(!m.username&&p.username)m.username=p.username;if(m.is_admin===undefined&&p.is_admin!==undefined)m.is_admin=!!p.is_admin;}
+ return m;
+}
+async function ensureMe(){
+ var r=await S.sb.rpc('chat_ensure_profile');
+ var d=!r.error&&one(r.data);
+ if(d&&(d.id||d.user_id)){d.id=d.id||d.user_id;return d;}
+ console.warn('[zc-chat] chat_ensure_profile gagal, pakai chat_profiles langsung:',r.error);
+ var ses=await S.sb.auth.getSession(),uid=ses.data&&ses.data.session&&ses.data.session.user&&ses.data.session.user.id;
+ if(!uid||!UUID_RE.test(uid))throw (r.error||new Error('Sesi pengguna tidak valid.'));
+ var sel=await S.sb.from('chat_profiles').select('*').eq('user_id',uid).maybeSingle();
+ var row=(sel&&sel.data)||{};
+ if(!sel.data){var un=profileUsername();if(NAME_RE.test(un)){var up=await S.sb.from('chat_profiles').upsert({user_id:uid,username:un},{onConflict:'user_id'});if(!up.error)row={user_id:uid,username:un};}}
+ return Object.assign({},row,{id:uid,user_id:uid,username:row.username||null,blacklisted:!!(row.blacklisted||row.is_blacklisted),is_admin:!!row.is_admin});
+}
 function loadScript(src){return new Promise(function(res,rej){var s=document.createElement('script');s.src=src;s.async=true;s.onload=res;s.onerror=function(){s.remove();rej(new Error('Gagal memuat Supabase SDK'));};document.head.appendChild(s);});}
 function loadSdk(){if(window.supabase&&window.supabase.createClient)return Promise.resolve();var i=0;function next(){if(i>=SDK_URLS.length)return Promise.reject(new Error('Library Supabase gagal dimuat.'));return loadScript(SDK_URLS[i++]).then(function(){if(!(window.supabase&&window.supabase.createClient))return next();},next);}return next();}
 function renderConn(){var vals=Object.keys(S.statuses).map(function(k){return S.statuses[k];}),st='wait',t='Menghubungkan…';if(S.ready&&vals.length){var bad=vals.some(function(v){return v==='CHANNEL_ERROR'||v==='TIMED_OUT'||v==='CLOSED';}),ok=vals.every(function(v){return v==='SUBSCRIBED';});if(bad){st='off';t='Terputus, mencoba lagi…';}else if(ok){st='on';t='Terhubung';}}if(navigator.onLine===false){st='off';t='Offline';}var n=Math.max(0,Object.keys(S.online).length);var c=$('zcConn');c.dataset.s=st;$('zcConnTxt').textContent=t+(st==='on'&&n?' · '+n+' online':'');$('zcOnline').textContent=n?'('+n+')':'';}
@@ -9068,7 +9110,7 @@ async function refreshProfileFromDeveloper(force){
    renderMe();setComposerState();return;
  }
  if(!NAME_RE.test(uname))return;
- if(!S.ready||!S.me||(!force&&uname===S.profileName))return;
+ if(!S.sb||!S.me||(!force&&uname===S.profileName))return;
 
  /* Jangan panggil zc_sync_username lama karena fungsi lama dapat
     masih mengacu ke public.profiles yang sudah tidak ada.
@@ -9113,8 +9155,23 @@ function renderProfileSearchResult(arr){
 }
 async function searchUsers(){
  var seq=++S.usersSeq,q=S.usersQ;if(!S.ready||q.length<3){renderProfileSearchResult([]);return;}
- var r=await S.sb.rpc('zc_search_users',{p_query:q});if(seq!==S.usersSeq)return;if(r.error){flash(friendly(r.error));return;}
- (r.data||[]).slice(0,10).forEach(function(p){S.profiles[p.id]=Object.assign(S.profiles[p.id]||{},p);});renderProfileSearchResult(r.data||[]);
+ var rows=null,r=await S.sb.rpc('zc_search_users',{p_query:q});
+ if(seq!==S.usersSeq)return;
+ if(!r.error)rows=r.data||[];
+ else{
+   console.warn('[zc-chat] zc_search_users gagal, fallback chat_profiles:',r.error);
+   var esc=q.replace(/[\\%_]/g,function(c){return '\\'+c;});
+   var f=await S.sb.from('chat_profiles').select('*').ilike('username','%'+esc+'%').neq('user_id',S.me.id).limit(10);
+   if(seq!==S.usersSeq)return;
+   if(f.error){flash(friendly(f.error));return;}
+   rows=(f.data||[]).filter(function(p){return UUID_RE.test(String(p.user_id||''));}).map(function(p){
+     var bl=(p.blacklisted!==undefined)?p.blacklisted:p.is_blacklisted;
+     return {id:p.user_id,user_id:p.user_id,username:p.username,last_seen:p.last_seen,blacklisted:!!bl,is_admin:!!p.is_admin};
+   });
+ }
+ rows=rows.filter(function(p){return p.id&&p.id!==S.me.id;});
+ rows.slice(0,10).forEach(function(p){S.profiles[p.id]=Object.assign(S.profiles[p.id]||{},p);});
+ renderProfileSearchResult(rows);
 }
 function renderConvs(){
  var box=$('zcConvList');box.textContent='';var arr=Object.keys(S.convs).map(function(k){return S.convs[k];}).sort(function(a,b){return Date.parse(b.last_at||0)-Date.parse(a.last_at||0);});
@@ -9124,125 +9181,90 @@ function renderConvs(){
 function renderBadges(){var total=0;Object.keys(S.convs).forEach(function(k){total+=S.convs[k].unread||0;});var a=$('zcUnread');a.textContent=total>99?'99+':String(total);a.hidden=!total;}
 async function ensureProfiles(ids){
  ids=(ids||[]).filter(function(id){return UUID_RE.test(id);});
+ /* hanya ambil yang belum ada di cache supaya tidak query berulang */
+ ids=ids.filter(function(id,i){return ids.indexOf(id)===i&&!(S.profiles[id]&&S.profiles[id].username&&S.profiles[id]._full);});
  if(!ids.length)return;
- var r=await S.sb.from('chat_profiles')
-   .select('user_id,username,last_seen')
-   .in('user_id',ids);
+ var r=await S.sb.from('chat_profiles').select('*').in('user_id',ids);
  if(r.error){console.warn('[zc-chat] ensureProfiles:',r.error);return;}
  (r.data||[]).forEach(function(p){
-   S.profiles[p.user_id]=Object.assign(S.profiles[p.user_id]||{},{
-     id:p.user_id,user_id:p.user_id,username:p.username,last_seen:p.last_seen
-   });
+   var o={id:p.user_id,user_id:p.user_id,username:p.username,last_seen:p.last_seen,_full:true};
+   if(p.is_admin!==undefined)o.is_admin=!!p.is_admin;
+   var bl=(p.blacklisted!==undefined)?p.blacklisted:p.is_blacklisted;if(bl!==undefined)o.blacklisted=!!bl;
+   S.profiles[p.user_id]=Object.assign(S.profiles[p.user_id]||{},o);
  });
 }
 async function loadConvs(){
- /* FIX: jangan panggil RPC chat_conversations di client.
-    RPC lama dapat melakukan cast ID lama seperti "8" ke UUID.
-    Ambil private_messages langsung, lalu validasi ID di JavaScript. */
+ /* Ambil pesan privat milik saya lewat 2 query eq() terpisah (aman dari cast UUID legacy
+    dan tidak menarik pesan orang lain). */
  var uid=String(S.me&&S.me.id||'');
  if(!UUID_RE.test(uid))throw new Error('Sesi pengguna tidak valid.');
-
- var q=await S.sb.from('private_messages')
-   .select('*')
-   .order('created_at',{ascending:false})
-   .limit(1000);
-
- if(q.error)throw q.error;
-
- var next={};
- (q.data||[]).forEach(function(m){
-   var sender=String(m.sender_id||'');
-   var receiver=String(m.receiver_id||'');
-
-   /* Abaikan record legacy/non-UUID sebelum dipakai sebagai UUID. */
+ var qs=await Promise.all([
+   S.sb.from('private_messages').select('*').eq('sender_id',uid).order('created_at',{ascending:false}).limit(500),
+   S.sb.from('private_messages').select('*').eq('receiver_id',uid).order('created_at',{ascending:false}).limit(500)
+ ]);
+ if(qs[0].error&&qs[1].error)throw qs[0].error;
+ var all=(qs[0].data||[]).concat(qs[1].data||[]),seenId={},next={};
+ all.forEach(function(m){
+   if(seenId[m.id])return;seenId[m.id]=1;
+   var sender=String(m.sender_id||''),receiver=String(m.receiver_id||'');
    if(!UUID_RE.test(sender)||!UUID_RE.test(receiver))return;
    if(sender!==uid&&receiver!==uid)return;
-
    var peer=sender===uid?receiver:sender;
-   if(peer===uid||!UUID_RE.test(peer))return;
-
-   var content=m.deleted_at?'Pesan dihapus admin':
-     (m.content!=null?m.content:(m.message!=null?m.message:''));
+   if(peer===uid)return;
    var c=next[peer];
-
-   if(!c||Date.parse(m.created_at||0)>Date.parse(c.last_at||0)){
-     next[peer]={
-       peer_id:peer,
-       last_content:content,
-       last_at:m.created_at,
-       last_sender:sender,
-       unread:0
-     };
+   if(!c)c=next[peer]={peer_id:peer,last_content:'',last_at:null,last_sender:null,unread:0};
+   if(!c.last_at||Date.parse(m.created_at||0)>Date.parse(c.last_at||0)){
+     c.last_content=txtOf(m);c.last_at=m.created_at;c.last_sender=sender;
    }
-
-   if(receiver===uid&&m.read_at==null){
-     next[peer].unread=(next[peer].unread||0)+1;
-   }
+   if(receiver===uid&&m.read_at==null&&!m.deleted_at)c.unread++;
  });
-
  S.convs=next;
  await ensureProfiles(Object.keys(next));
- renderConvs();
- renderBadges();
+ renderConvs();renderBadges();
 }
 
 async function fetchGlobal(before){
  var r=await S.sb.rpc('zc_fetch_global',{p_before:before||null,p_limit:PAGE});
- if(!r.error)return {rows:r.data||[],more:(r.data||[]).length>=PAGE};
-
- /* Fallback langsung ke chat_messages jika RPC lama bermasalah. */
- var q=await S.sb.from('chat_messages')
-   .select('*')
-   .order('created_at',{ascending:false})
-   .limit(PAGE);
+ if(!r.error){
+   var rows0=(r.data||[]);
+   await ensureProfiles(rows0.map(function(m){return m.user_id;}));
+   rows0.forEach(fillName);
+   return {rows:rows0,more:rows0.length>=PAGE};
+ }
+ console.warn('[zc-chat] zc_fetch_global gagal, fallback tabel:',r.error);
+ var q=S.sb.from('chat_messages').select('*');
  if(before)q=q.lt('created_at',before);
- var rr=await q;
- if(rr.error)throw r.error;
-
- var uid=String(S.me&&S.me.id||'');
- var rows=(rr.data||[]).filter(function(m){
-   var id=String(m.user_id||m.sender_id||'');
-   return UUID_RE.test(id);
- }).map(function(m){
-   return {
-     id:m.id,
-     user_id:m.user_id||m.sender_id,
-     content:m.content!=null?m.content:(m.message||''),
-     created_at:m.created_at,
-     deleted_at:m.deleted_at||null
-   };
+ var rr=await q.order('created_at',{ascending:false}).limit(PAGE);
+ if(rr.error)throw rr.error;
+ var rows=(rr.data||[]).filter(function(m){return UUID_RE.test(String(m.user_id||m.sender_id||''));}).map(function(m){
+   return {id:m.id,user_id:m.user_id||m.sender_id,username:m.username||null,content:m.content!=null?m.content:(m.message||''),
+           created_at:m.created_at,deleted_at:m.deleted_at||null};
  });
- return {rows:rows,more:rows.length>=PAGE};
+ await ensureProfiles(rows.map(function(m){return m.user_id;}));
+ rows.forEach(fillName);
+ return {rows:rows,more:(rr.data||[]).length>=PAGE};
 }
 
 async function fetchThread(peer,before){
  peer=String(peer||'');
  if(!UUID_RE.test(peer))throw new Error('ID pengguna tidak valid untuk Live Chat.');
-
  var r=await S.sb.rpc('zc_fetch_thread',{p_peer:peer,p_before:before||null,p_limit:PAGE});
  if(!r.error)return {rows:r.data||[],more:(r.data||[]).length>=PAGE};
-
- /* Fallback tanpa .or() supaya ID legacy tidak pernah dicast menjadi UUID. */
+ console.warn('[zc-chat] zc_fetch_thread gagal, fallback tabel:',r.error);
  var uid=String(S.me&&S.me.id||'');
  if(!UUID_RE.test(uid))throw new Error('Sesi pengguna tidak valid.');
-
- var q=await S.sb.from('private_messages')
-   .select('*')
-   .order('created_at',{ascending:true})
-   .limit(1000);
- if(before)q=q.lt('created_at',before);
-
- var rr=await q;
- if(rr.error)throw rr.error;
-
- var rows=(rr.data||[]).filter(function(m){
-   var sender=String(m.sender_id||'');
-   var receiver=String(m.receiver_id||'');
-   if(!UUID_RE.test(sender)||!UUID_RE.test(receiver))return false;
-   return (sender===uid&&receiver===peer)||(sender===peer&&receiver===uid);
- });
- if(rows.length>PAGE)rows=rows.slice(rows.length-PAGE);
- return {rows:rows,more:rows.length>=PAGE};
+ function side(a,b){
+   var q=S.sb.from('private_messages').select('*').eq('sender_id',a).eq('receiver_id',b);
+   if(before)q=q.lt('created_at',before);
+   return q.order('created_at',{ascending:false}).limit(PAGE);
+ }
+ var qs=await Promise.all([side(uid,peer),side(peer,uid)]);
+ if(qs[0].error&&qs[1].error)throw qs[0].error;
+ var rows=(qs[0].data||[]).concat(qs[1].data||[]);
+ rows.sort(function(a,b){return Date.parse(b.created_at)-Date.parse(a.created_at);});
+ var more=rows.length>=PAGE;
+ rows=rows.slice(0,PAGE).reverse();
+ return {rows:rows,more:more};
 }
 
 async function loadOlderGlobal(){if(!gList.items.length||gList.loading)return;gList.loading=true;try{var g=await fetchGlobal(gList.items[0].created_at);gList.merge(g.rows);gList.more=g.more;gList.render(false,true);}catch(e){flash(friendly(e));}gList.loading=false;}
@@ -9250,6 +9272,7 @@ async function loadOlderThread(){if(!S.peer||!pList.items.length||pList.loading)
 async function resync(){if(!S.ready||Date.now()-S.resyncAt<3000)return;S.resyncAt=Date.now();try{var g=await fetchGlobal(null);if(gList.merge(g.rows))gList.render(false);await loadConvs();if(S.peer){var peer=S.peer,t=await fetchThread(peer,null);if(S.peer===peer&&pList.merge(t.rows))pList.render(false);}}catch(e){console.warn('[zc-chat] resync',e);}}
 
 function subscribeAll(){
+ if(S.subscribed)return;S.subscribed=true;
  var sb=S.sb,uid=S.me.id;
  sb.channel('zc-global').on('postgres_changes',{event:'*',schema:'public',table:'chat_messages'},function(p){if(p.eventType==='INSERT')onGlobalInsert(p.new);else if(p.eventType==='UPDATE')onGlobalUpdate(p.new);}).subscribe(trackStatus('global'));
  sb.channel('zc-private-'+uid).on('postgres_changes',{event:'INSERT',schema:'public',table:'private_messages'},function(p){if(p.new.sender_id===uid||p.new.receiver_id===uid)onPmInsert(p.new);}).on('postgres_changes',{event:'UPDATE',schema:'public',table:'private_messages'},function(p){if(p.new.sender_id===uid||p.new.receiver_id===uid)onPmUpdate(p.new);}).subscribe(trackStatus('private'));
@@ -9264,66 +9287,99 @@ function renderOnlineUsers(){
  box.appendChild(frag);
 }
 function onPresence(){var st=S.pres.presenceState(),on={};Object.keys(st).forEach(function(k){var meta=st[k]&&st[k][0]||{};on[k]=meta.username||true;if(!S.profiles[k]&&meta.username)S.profiles[k]={id:k,username:meta.username,last_seen:new Date().toISOString()};});S.online=on;renderConn();renderOnlineUsers();if(S.peer)renderPeerHead();renderConvs();if(S.usersQ.length>=3)searchUsers();}
-function onGlobalInsert(m){if(m&&m.id)ensureProfiles([m.user_id]).then(function(){gList.add(m,m.user_id===S.me.id);});}
+function onGlobalInsert(m){if(!m||!m.id||gList.ids[m.id])return;if(m.content==null&&m.message!=null)m.content=m.message;var done=function(){fillName(m);gList.add(m,m.user_id===S.me.id);};ensureProfiles([m.user_id]).then(done,done);}
 function onGlobalUpdate(m){if(!m||!m.id)return;gList.patch(m);}
-function onPmInsert(m){if(!m||!m.id)return;var mine=m.sender_id===S.me.id,peer=mine?m.receiver_id:m.sender_id;if(S.peer===peer&&pList.ids[m.id])return;var c=S.convs[peer]||(S.convs[peer]={peer_id:peer,unread:0});if(!c.last_at||Date.parse(m.created_at)>=Date.parse(c.last_at)){c.last_content=m.deleted_at?'Pesan dihapus admin':m.content;c.last_at=m.created_at;c.last_sender=m.sender_id;}if(S.peer===peer)pList.add(m,mine);if(!mine){var viewing=S.peer===peer&&S.tab==='private'&&pageActive()&&!document.hidden;if(viewing)markRead(peer);else c.unread=(c.unread||0)+1;}ensureProfiles([peer]).then(function(){renderConvs();if(S.peer===peer)renderPeerHead();});renderConvs();renderBadges();}
+function onPmInsert(m){if(!m||!m.id)return;var mine=m.sender_id===S.me.id,peer=mine?m.receiver_id:m.sender_id;if(S.peer===peer&&pList.ids[m.id])return;var c=S.convs[peer]||(S.convs[peer]={peer_id:peer,unread:0});if(!c.last_at||Date.parse(m.created_at)>=Date.parse(c.last_at)){c.last_content=txtOf(m);c.last_at=m.created_at;c.last_sender=m.sender_id;}if(S.peer===peer)pList.add(m,mine);if(!mine){var viewing=S.peer===peer&&S.tab==='private'&&pageActive()&&!document.hidden;if(viewing)markRead(peer);else c.unread=(c.unread||0)+1;}ensureProfiles([peer]).then(function(){renderConvs();if(S.peer===peer)renderPeerHead();});renderConvs();renderBadges();}
 function onPmUpdate(m){if(m&&m.id&&S.peer&&(m.sender_id===S.me.id||m.receiver_id===S.me.id))pList.patch(m);}
 function touch(){if(!S.sb||!S.ready)return;try{S.sb.rpc('zc_touch').then(function(){},function(){});}catch(e){}}
-function markRead(peer){var c=S.convs[peer];if(c)c.unread=0;renderBadges();return S.sb.rpc('zc_mark_read',{p_peer:peer}).catch(function(){});}
+async function markRead(peer){
+ var c=S.convs[peer];if(c)c.unread=0;renderBadges();
+ if(!S.sb||!S.me||!UUID_RE.test(peer))return;
+ try{
+   var r=await S.sb.rpc('zc_mark_read',{p_peer:peer});
+   if(!r.error)return;
+   var u=await S.sb.from('private_messages').update({read_at:new Date().toISOString()}).eq('receiver_id',S.me.id).eq('sender_id',peer).is('read_at',null);
+   if(u.error)console.warn('[zc-chat] markRead:',u.error);
+ }catch(e){console.warn('[zc-chat] markRead',e);}
+}
 function renderPeerHead(){var p=S.profiles[S.peer]||{id:S.peer,username:'Pengguna'};setAv($('zcPeerAv'),p.id,p.username);$('zcPeerName').textContent=p.username;$('zcPeerSub').textContent=S.online[S.peer]?'Online':(p.last_seen?'Terakhir aktif '+ago(p.last_seen):'');}
-async function openThread(peer){if(!S.ready||!UUID_RE.test(peer)||peer===S.me.id)return;var p=S.profiles[peer];if(p&&p.blacklisted){flash('Pengguna ini sedang diblacklist dan tidak dapat diajak chat.');return;}S.peer=peer;pList.reset();showThreadView(true);renderPeerHead();try{await ensureProfiles([peer]);if(S.peer!==peer)return;if(S.profiles[peer]&&S.profiles[peer].blacklisted){S.peer=null;showThreadView(false);flash('Pengguna ini sedang diblacklist dan tidak dapat diajak chat.');return;}renderPeerHead();var t=await fetchThread(peer,null);if(S.peer!==peer)return;pList.merge(t.rows);pList.more=t.more;pList.render(true);markRead(peer);setComposerState();}catch(e){flash(friendly(e));}}
+async function openThread(peer){if(!S.ready||!UUID_RE.test(peer)||peer===S.me.id)return;var p=S.profiles[peer];if(p&&p.blacklisted){flash('Pengguna ini sedang diblacklist dan tidak dapat diajak chat.');return;}S.peer=peer;if(S.tab!=='private')setTab('private',true);pList.reset();showThreadView(true);renderPeerHead();try{await ensureProfiles([peer]);if(S.peer!==peer)return;if(S.profiles[peer]&&S.profiles[peer].blacklisted){S.peer=null;showThreadView(false);flash('Pengguna ini sedang diblacklist dan tidak dapat diajak chat.');return;}renderPeerHead();var t=await fetchThread(peer,null);if(S.peer!==peer)return;pList.merge(t.rows);pList.more=t.more;pList.render(true);markRead(peer);setComposerState();}catch(e){flash(friendly(e));}}
 function closeThread(){S.peer=null;showThreadView(false);pList.reset();loadConvs().catch(function(){});}
 function showThreadView(on){$('zcConvView').classList.toggle('active',!on);$('zcThreadView').classList.toggle('active',on);}
 function normalizeSend(v){return String(v||'').replace(/\r\n?/g,'\n').replace(/[ \t]+\n/g,'\n').replace(/\n{3,}/g,'\n\n').trim();}
 async function sendGlobal(){
  var ta=$('zcGlobalIn'),txt=normalizeSend(ta.value);
- if(!S.ready||!S.me||!S.me.username||S.me.blacklisted||!txt||Date.now()-S.lastSend<SEND_GAP)return;
-
+ if(!S.ready||!S.me||!S.me.username||S.me.blacklisted||!txt||S.sending||Date.now()-S.lastSend<SEND_GAP)return;
  var uid=String(S.me.id||'');
- if(!UUID_RE.test(uid)){
-   flash('ID pengguna tidak valid. Silakan login ulang.');
-   return;
- }
-
- S.lastSend=Date.now();
-
- /* FIX GLOBAL CHAT:
-    Jangan panggil RPC zc_send_global lama karena fungsi tersebut
-    masih bisa memproses ID data lama yang bukan UUID.
-    Kirim langsung ke tabel chat_messages dengan auth user UUID. */
- var payload={
-   user_id:uid,
-   username:String(S.me.username),
-   content:txt
- };
-
- var r=await S.sb.from('chat_messages').insert(payload).select('*').single();
-
- if(r.error){
-   console.error('[zc-chat] global insert:',r.error);
-   flash(friendly(r.error));
-   S.lastSend=0;
-   return;
- }
-
- ta.value='';
- autosize(ta);
-
- if(r.data){
-   var row={
-     id:r.data.id,
-     user_id:r.data.user_id,
-     username:r.data.username||S.me.username,
-     content:r.data.content!=null?r.data.content:(r.data.message||txt),
-     created_at:r.data.created_at||new Date().toISOString(),
-     deleted_at:r.data.deleted_at||null
-   };
-   gList.add(row,true);
- }
+ if(!UUID_RE.test(uid)){flash('ID pengguna tidak valid. Silakan muat ulang halaman.');return;}
+ if(clientBanned(txt)){flash('Kata terlarang tidak diizinkan.');return;}
+ S.sending=true;S.lastSend=Date.now();
+ try{
+   var uname=String(S.me.username);
+   var r=await insertVariants('chat_messages',[
+     {user_id:uid,username:uname,content:txt},
+     {user_id:uid,content:txt},
+     {user_id:uid,username:uname,message:txt},
+     {user_id:uid,message:txt}
+   ]);
+   var row=null;
+   if(r&&!r.error)row=r.data;
+   else{
+     /* fallback terakhir: RPC server (membawa moderasi server) */
+     console.warn('[zc-chat] global insert langsung gagal:',r&&r.error);
+     var rp=await S.sb.rpc('zc_send_global',{p_content:txt});
+     if(rp.error){flash(friendly(r&&r.error?r.error:rp.error));S.lastSend=0;return;}
+     var d=one(rp.data);
+     if(d&&d.blocked){var md=d.moderation||{};flash(md.warning||'Kata terlarang tidak diizinkan.');if(md.blacklisted){S.me.blacklisted=true;setComposerState();}return;}
+     row=(d&&d.id)?d:null;
+   }
+   ta.value='';autosize(ta);
+   if(row){
+     gList.add(fillName({
+       id:row.id,user_id:row.user_id||uid,username:row.username||uname,
+       content:row.content!=null?row.content:(row.message!=null?row.message:txt),
+       created_at:row.created_at||new Date().toISOString(),deleted_at:row.deleted_at||null,
+       is_admin:row.is_admin!==undefined?row.is_admin:!!S.me.is_admin
+     }),true);
+   }else{S.resyncAt=0;resync();}
+ }catch(e){
+   console.error('[zc-chat] sendGlobal:',e);flash(friendly(e));S.lastSend=0;
+ }finally{S.sending=false;}
 }
 async function sendThread(){
- var ta=$('zcThreadIn'),txt=normalizeSend(ta.value),peer=S.peer;if(!S.ready||!S.me||!S.me.username||S.me.blacklisted||!peer||!txt||Date.now()-S.lastSend<SEND_GAP)return;
- S.lastSend=Date.now();var r=await S.sb.rpc('zc_send_private',{p_receiver:peer,p_content:txt});if(r.error){flash(friendly(r.error));return;}if(r.data&&r.data.blocked){var md=r.data.moderation||{};flash(md.warning||'Kata terlarang tidak diizinkan.');if(md.blacklisted){S.me.blacklisted=true;setComposerState();}return;}ta.value='';autosize(ta);if(r.data)onPmInsert(r.data);
+ var ta=$('zcThreadIn'),txt=normalizeSend(ta.value),peer=S.peer;
+ if(!S.ready||!S.me||!S.me.username||S.me.blacklisted||!peer||!txt||S.sending||Date.now()-S.lastSend<SEND_GAP)return;
+ var uid=String(S.me.id||'');
+ if(!UUID_RE.test(uid)||!UUID_RE.test(peer)){flash('ID pengguna tidak valid untuk Live Chat.');return;}
+ var pp=S.profiles[peer];if(pp&&pp.blacklisted){flash('Pengguna ini sedang diblacklist dan tidak dapat diajak chat.');return;}
+ if(clientBanned(txt)){flash('Kata terlarang tidak diizinkan.');return;}
+ S.sending=true;S.lastSend=Date.now();
+ try{
+   var row=null,rp=await S.sb.rpc('zc_send_private',{p_receiver:peer,p_content:txt});
+   if(!rp.error){
+     var d=one(rp.data);
+     if(d&&d.blocked){var md=d.moderation||{};flash(md.warning||'Kata terlarang tidak diizinkan.');if(md.blacklisted){S.me.blacklisted=true;setComposerState();}return;}
+     row=(d&&d.id)?d:null;
+   }else{
+     /* RPC lama bermasalah -> kirim langsung ke tabel dengan UUID auth */
+     console.warn('[zc-chat] zc_send_private gagal, insert langsung:',rp.error);
+     var r=await insertVariants('private_messages',[
+       {sender_id:uid,receiver_id:peer,content:txt},
+       {sender_id:uid,receiver_id:peer,message:txt}
+     ]);
+     if(r.error){flash(friendly(r.error));S.lastSend=0;return;}
+     row=r.data;
+   }
+   ta.value='';autosize(ta);
+   if(row){
+     if(row.content==null&&row.message!=null)row.content=row.message;
+     if(!row.sender_id)row.sender_id=uid;if(!row.receiver_id)row.receiver_id=peer;
+     if(!row.created_at)row.created_at=new Date().toISOString();
+     onPmInsert(row);
+   }else{S.resyncAt=0;resync();}
+ }catch(e){
+   console.error('[zc-chat] sendThread:',e);flash(friendly(e));S.lastSend=0;
+ }finally{S.sending=false;}
 }
 function autosize(ta){ta.style.height='auto';ta.style.height=Math.min(ta.scrollHeight,110)+'px';}
 function bindComposer(ta,btn,fn){ta.addEventListener('input',function(){autosize(ta);});ta.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey&&!e.isComposing){e.preventDefault();fn();}});btn.addEventListener('click',fn);}
@@ -9337,6 +9393,79 @@ function openAdminUser(uid,name){
  $('zcAdminTarget').textContent=(name||'Pengguna')+' · profil pengguna';
  $('zcAdminDelete').hidden=true;$('zcAdminBlock').disabled=uid===S.me.id;$('zcAdminUnblock').disabled=false;openSheet('zcAdminSheet');
 }
+
+function ensureAdminUsernamePanel(){
+ var head=document.querySelector('#zcChat .zc-head');
+ if(!head||document.getElementById('zcAdminNameBtn'))return;
+ var btn=document.createElement('button');
+ btn.type='button';btn.id='zcAdminNameBtn';btn.className='zc-admin-name-btn';
+ btn.setAttribute('aria-label','Admin: ubah username');btn.title='Admin: ubah username';
+ btn.innerHTML='<i class="fa-solid fa-user-pen"></i>';
+ head.appendChild(btn);
+
+ var modal=document.createElement('div');
+ modal.className='zc-modal';modal.id='zcAdminNameSheet';modal.setAttribute('aria-hidden','true');
+ modal.innerHTML='<div class="zc-sheet zc-admin-name-sheet" role="dialog" aria-modal="true" aria-labelledby="zcAdminNameTitle">'+
+ '<div class="zc-sheet-handle"></div><h4 id="zcAdminNameTitle">Admin · Ubah Username</h4>'+
+ '<p class="zc-admin-name-info">Perubahan berlaku langsung. Tidak menunggu tanggal/periode username di halaman profil.</p>'+
+ '<label for="zcAdminNameInput">Username baru</label>'+
+ '<input id="zcAdminNameInput" maxlength="24" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="contoh: kzrizusmo_store">'+
+ '<button type="button" class="zc-admin-name-save" id="zcAdminNameSave">Simpan sekarang</button>'+
+ '<div class="zc-admin-name-status" id="zcAdminNameStatus"></div>'+
+ '<button type="button" class="zc-sheet-close" id="zcAdminNameClose">Tutup</button>'+
+ '</div>';
+ document.getElementById('zcChat').appendChild(modal);
+
+ btn.addEventListener('click',function(){
+   if(!S.me||!S.me.is_admin)return;
+   var inp=$('zcAdminNameInput'),st=$('zcAdminNameStatus');
+   inp.value=String(S.me.username||profileUsername()||'').replace(/^@+/,'');
+   st.textContent='';
+   openSheet('zcAdminNameSheet');
+   setTimeout(function(){inp.focus();inp.select();},80);
+ });
+ $('zcAdminNameClose').addEventListener('click',function(){closeSheet('zcAdminNameSheet');});
+
+ $('zcAdminNameSave').addEventListener('click',async function(){
+   if(!S.me||!S.me.is_admin)return;
+   var inp=$('zcAdminNameInput'),st=$('zcAdminNameStatus'),save=$('zcAdminNameSave');
+   var uname=String(inp.value||'').trim().replace(/^@+/,'');
+   if(!NAME_RE.test(uname)){st.textContent='Username tidak valid. Gunakan 3–24 karakter.';return;}
+   var uid=String(S.me.id||'');
+   if(!UUID_RE.test(uid)){st.textContent='ID akun tidak valid.';return;}
+   save.disabled=true;st.textContent='Menyimpan…';
+   try{
+     var r=await S.sb.from('chat_profiles').upsert({user_id:uid,username:uname},{onConflict:'user_id'});
+     if(r.error)throw r.error;
+
+     /* Simpan juga ke sumber username profil agar pembatasan tanggal tidak menghalangi admin. */
+     try{localStorage.setItem('dpUsername',uname);}catch(e){}
+     try{
+       var du=$('dpUser');if(du)du.textContent='@'+uname;
+     }catch(e){}
+     S.me.username=uname;
+     S.profileName=uname;
+     S.profiles[uid]=Object.assign(S.profiles[uid]||{},S.me,{id:uid,user_id:uid,username:uname});
+     renderMe();setComposerState();
+
+     if(S.pres){
+       var pp=S.pres.track({username:uname,t:Date.now()});
+       if(pp&&pp.catch)pp.catch(function(){});
+     }
+     st.textContent='Berhasil. Username sekarang: '+uname;
+     flash('Username admin berhasil diubah.');
+     setTimeout(function(){closeSheet('zcAdminNameSheet');},500);
+   }catch(e){
+     console.error('[zc-chat] admin username:',e);
+     st.textContent=friendly(e);
+   }finally{save.disabled=false;}
+ });
+}
+function updateAdminUsernamePanel(){
+ var b=$('zcAdminNameBtn');
+ if(!b)return;
+ b.hidden=!(S.me&&S.me.is_admin);
+}
 function openAdmin(m){
  if(!S.me||!S.me.is_admin)return;S.adminTarget=m;$('zcAdminTarget').textContent=(m.username||'Pengguna')+' · '+(m.deleted_at?'Pesan dihapus admin':String(m.content||'').slice(0,80));$('zcAdminDelete').hidden=!!m.deleted_at;$('zcAdminBlock').disabled=m.user_id===S.me.id||m.sender_id===S.me.id;$('zcAdminUnblock').disabled=false;openSheet('zcAdminSheet');
 }
@@ -9346,20 +9475,38 @@ async function adminBlock(){
  var m=S.adminTarget;if(!m)return;var uid=m.user_id||m.sender_id||m.receiver_id;if(!UUID_RE.test(uid)||uid===S.me.id)return;var r=await S.sb.rpc('zc_admin_blacklist',{p_user_id:uid,p_reason:'Pelanggaran aturan chat'});if(r.error){flash(friendly(r.error));return;}closeSheet('zcAdminSheet');flash('Pengguna masuk blacklist.');if(uid===S.peer){setComposerState();}ensureProfiles([uid]);resync();}
 async function adminUnblock(){
  var m=S.adminTarget;if(!m)return;var uid=m.user_id||m.sender_id||m.receiver_id;if(!UUID_RE.test(uid))return;var r=await S.sb.rpc('zc_admin_unblacklist',{p_user_id:uid,p_reason:'Dicabut admin'});if(r.error){flash(friendly(r.error));return;}closeSheet('zcAdminSheet');flash('Blacklist dicabut.');ensureProfiles([uid]);resync();}
+var pollN=0;
+function pollTick(){
+ if(!S.ready||document.hidden||!pageActive())return;
+ pollN++;
+ var bad=Object.keys(S.statuses).some(function(k){return S.statuses[k]!=='SUBSCRIBED';});
+ /* Realtime putus -> polling cepat (6 dtk). Normal -> jaring pengaman tiap 30 dtk. */
+ if(bad||pollN%5===0)resync();
+}
 async function start(){
  if(S.starting)return S.starting;showErr('');S.starting=(async function(){
-  await loadSdk();if(!S.sb)S.sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false},realtime:{params:{eventsPerSecond:10}}});
-  var ses=await S.sb.auth.getSession();if(!ses.data||!ses.data.session){var si=await S.sb.auth.signInAnonymously();if(si.error)throw si.error;}
-  var pr=await S.sb.rpc('chat_ensure_profile');if(pr.error)throw pr.error;
- S.me=pr.data;
- S.profiles[S.me.id]=S.me;
- S.profileName='';
- renderMe();
- await refreshProfileFromDeveloper(true);
-  var g=await fetchGlobal(null);gList.merge(g.rows);gList.more=g.more;gList.render(true);await loadConvs();subscribeAll();S.ready=true;setComposerState();renderConn();S.touchTimer=setInterval(touch,TOUCH_MS);setTab(S.tab);
+  await loadSdk();
+  if(!S.sb)S.sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false},realtime:{params:{eventsPerSecond:10}}});
+  var ses=await S.sb.auth.getSession();
+  if(!ses.data||!ses.data.session){var si=await S.sb.auth.signInAnonymously();if(si.error)throw si.error;}
+  S.me=await ensureMe();
+  S.profiles[S.me.id]=S.me;
+  ensureAdminUsernamePanel();updateAdminUsernamePanel();
+  S.profileName='';renderMe();
+  try{await refreshProfileFromDeveloper(true);}catch(e){console.warn('[zc-chat] sync username',e);}
+  updateAdminUsernamePanel();
+  /* Global & privat dimuat terpisah: kalau salah satu gagal, yang lain tetap jalan. */
+  try{var g=await fetchGlobal(null);gList.merge(g.rows);gList.more=g.more;gList.render(true);}
+  catch(e){console.warn('[zc-chat] load global',e);flash(friendly(e));}
+  try{await loadConvs();}catch(e){console.warn('[zc-chat] load convs',e);}
+  subscribeAll();
+  S.ready=true;setComposerState();renderConn();renderMe();
+  if(!S.touchTimer)S.touchTimer=setInterval(touch,TOUCH_MS);
+  if(!S.pollTimer)S.pollTimer=setInterval(pollTick,6000);
+  setTab(S.tab);touch();
  })().catch(function(e){S.starting=null;showErr(friendly(e));console.warn('[zc-chat]',e);});return S.starting;
 }
-function setTab(t){S.tab=t;qsa('#zcChat .zc-tab').forEach(function(b){var on=b.dataset.t===t;b.classList.toggle('active',on);b.setAttribute('aria-selected',on?'true':'false');});qsa('#zcChat .zc-pane').forEach(function(p){p.classList.toggle('active',p.dataset.p===t);});if(!S.ready)return;if(t==='global'){$('zcGlobalList').scrollTop=$('zcGlobalList').scrollHeight;}if(t==='private'){if(S.peer){$('zcThreadList').scrollTop=$('zcThreadList').scrollHeight;markRead(S.peer);}else loadConvs().catch(function(){});}}
+function setTab(t,quiet){S.tab=t;qsa('#zcChat .zc-tab').forEach(function(b){var on=b.dataset.t===t;b.classList.toggle('active',on);b.setAttribute('aria-selected',on?'true':'false');});qsa('#zcChat .zc-pane').forEach(function(p){p.classList.toggle('active',p.dataset.p===t);});if(!S.ready||quiet)return;if(t==='global'){$('zcGlobalList').scrollTop=$('zcGlobalList').scrollHeight;}if(t==='private'){if(S.peer){$('zcThreadList').scrollTop=$('zcThreadList').scrollHeight;markRead(S.peer);}else loadConvs().catch(function(){});}}
 function setVh(){var vv=window.visualViewport,h=vv?vv.height:window.innerHeight;document.documentElement.style.setProperty('--zc-vh',Math.round(h)+'px');}
 
 qsa('#zcChat .zc-tab').forEach(function(b){b.addEventListener('click',function(){setTab(b.dataset.t);});});
@@ -9599,6 +9746,18 @@ window.apResetRole=function(){
   try{if(typeof apPrimeToast==='function')apPrimeToast(m);}catch(e){}
 };
 </script>
+
+<style id="zc-admin-username-style">
+.zc-admin-name-btn{margin-left:8px;width:36px;height:36px;border-radius:12px;border:1px solid rgba(255,43,43,.38);background:rgba(230,0,35,.10);color:#ff5968;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex:0 0 auto}
+.zc-admin-name-btn:active{transform:scale(.94)}
+.zc-admin-name-sheet .zc-admin-name-info{font-size:12px;color:#999;line-height:1.5;margin:0 0 12px}
+.zc-admin-name-sheet label{display:block;font-size:11px;color:#aaa;font-weight:700;margin:0 0 7px}
+.zc-admin-name-sheet input{box-sizing:border-box;width:100%;height:48px;border-radius:13px;border:1px solid rgba(255,255,255,.12);background:#0d0d0f;color:#fff;padding:0 13px;font-size:15px;outline:none}
+.zc-admin-name-sheet input:focus{border-color:rgba(255,43,43,.65)}
+.zc-admin-name-save{width:100%;height:46px;margin-top:10px;border:0;border-radius:13px;background:#e60023;color:#fff;font-weight:800;font-size:14px;cursor:pointer}
+.zc-admin-name-save:disabled{opacity:.55;cursor:default}
+.zc-admin-name-status{min-height:18px;margin-top:9px;text-align:center;font-size:11px;color:#aaa}
+</style>
 </body></html>
 <script id="fd-swipe-tabs">
 /* Geser kiri/kanan ala pager: halaman tetangga (Postingan - Feed - Ulangan) ikut terlihat dan bergeser bersama
