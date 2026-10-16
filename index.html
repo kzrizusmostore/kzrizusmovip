@@ -9108,6 +9108,28 @@ var ZC_BANNED_WORDS=['[KATA 1]','[KATA 2]','[KATA 3]']; /* tambah di sini untuk 
 var PAGE=50,SEND_GAP=700,TOUCH_MS=300000,UUID_RE=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 var NAME_RE=/^[A-Za-z0-9._]{3,24}$/;
 function $(id){return document.getElementById(id);}
+/* Helper untuk mengambil avatar profil pengguna */
+function profileAvatarSrc(){
+try {
+var saved = localStorage.getItem('dpCustomAvatar');
+
+if (saved && String(saved).trim()) {
+  return String(saved).trim();
+}
+
+var img = document.getElementById('dpAvatarImg');
+
+return img && img.getAttribute('src')
+  ? img.src
+  : '';
+
+} catch (e) {
+var fallback = document.getElementById('dpAvatarImg');
+return fallback && fallback.getAttribute('src')
+? fallback.src
+: '';
+}
+}
 function qsa(sel){return Array.prototype.slice.call(document.querySelectorAll(sel));}
 function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e;}
 var S={sb:null,me:null,starting:null,ready:false,tab:'list',filter:'all',gSeen:null,peer:null,profiles:{},online:{},convs:{},statuses:{},seen:{},resyncAt:0,lastSend:0,touchTimer:null,usersQ:'',usersTimer:null,usersSeq:0,pres:null,wasOn:false,profileTimer:null,profileName:'' ,adminTarget:null,replyTo:null,typingChannel:null,typingState:{},typingTimers:{},typingLast:{},typingIdle:{}};
