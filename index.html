@@ -9276,8 +9276,50 @@ function closeThread(){S.peer=null;showThreadView(false);pList.reset();loadConvs
 function showThreadView(on){$('zcConvView').classList.toggle('active',!on);$('zcThreadView').classList.toggle('active',on);}
 function normalizeSend(v){return String(v||'').replace(/\r\n?/g,'\n').replace(/[ \t]+\n/g,'\n').replace(/\n{3,}/g,'\n\n').trim();}
 async function sendGlobal(){
- var ta=$('zcGlobalIn'),txt=normalizeSend(ta.value);if(!S.ready||!S.me||!S.me.username||S.me.blacklisted||!txt||Date.now()-S.lastSend<SEND_GAP)return;
- S.lastSend=Date.now();var r=await S.sb.rpc('zc_send_global',{p_content:txt});if(r.error){flash(friendly(r.error));return;}if(r.data&&r.data.blocked){var md=r.data.moderation||{};flash(md.warning||'Kata terlarang tidak diizinkan.');if(md.blacklisted){S.me.blacklisted=true;setComposerState();}return;}ta.value='';autosize(ta);if(r.data)gList.add(r.data,true);
+ var ta=$('zcGlobalIn'),txt=normalizeSend(ta.value);
+ if(!S.ready||!S.me||!S.me.username||S.me.blacklisted||!txt||Date.now()-S.lastSend<SEND_GAP)return;
+
+ var uid=String(S.me.id||'');
+ if(!UUID_RE.test(uid)){
+   flash('ID pengguna tidak valid. Silakan login ulang.');
+   return;
+ }
+
+ S.lastSend=Date.now();
+
+ /* FIX GLOBAL CHAT:
+    Jangan panggil RPC zc_send_global lama karena fungsi tersebut
+    masih bisa memproses ID data lama yang bukan UUID.
+    Kirim langsung ke tabel chat_messages dengan auth user UUID. */
+ var payload={
+   user_id:uid,
+   username:String(S.me.username),
+   content:txt
+ };
+
+ var r=await S.sb.from('chat_messages').insert(payload).select('*').single();
+
+ if(r.error){
+   console.error('[zc-chat] global insert:',r.error);
+   flash(friendly(r.error));
+   S.lastSend=0;
+   return;
+ }
+
+ ta.value='';
+ autosize(ta);
+
+ if(r.data){
+   var row={
+     id:r.data.id,
+     user_id:r.data.user_id,
+     username:r.data.username||S.me.username,
+     content:r.data.content!=null?r.data.content:(r.data.message||txt),
+     created_at:r.data.created_at||new Date().toISOString(),
+     deleted_at:r.data.deleted_at||null
+   };
+   gList.add(row,true);
+ }
 }
 async function sendThread(){
  var ta=$('zcThreadIn'),txt=normalizeSend(ta.value),peer=S.peer;if(!S.ready||!S.me||!S.me.username||S.me.blacklisted||!peer||!txt||Date.now()-S.lastSend<SEND_GAP)return;
