@@ -8970,8 +8970,19 @@ function friendly(err){
 function showErr(msg){var b=$('zcErr');if(!b)return;if(msg){$('zcErrTxt').textContent=msg;b.classList.add('on');}else b.classList.remove('on');}
 
 function profileUsername(){
- var v='';try{v=String(localStorage.getItem('dpUsername')||'').trim().replace(/^@+/,'');}catch(e){}
- if(!v){var n=$('dpUser');if(n){v=String(n.textContent||'').trim().replace(/^@+/,'');if(v==='user'||v==='Guest')v='';}}
+ /* Live Chat wajib mengikuti username yang sedang tampil di Profil.
+    Jangan mendahulukan localStorage karena bisa berisi username lama. */
+ var v='';
+ try{
+   var n=$('dpUser');
+   if(n){
+     v=String(n.textContent||'').trim().replace(/^@+/,'');
+     if(v==='user'||v==='Guest')v='';
+   }
+ }catch(e){}
+ if(!v){
+   try{v=String(localStorage.getItem('dpUsername')||'').trim().replace(/^@+/,'');}catch(e){}
+ }
  return v;
 }
 function goProfile(){
@@ -9052,13 +9063,48 @@ function renderConn(){var vals=Object.keys(S.statuses).map(function(k){return S.
 function trackStatus(name){return function(status){S.statuses[name]=status;if(status==='SUBSCRIBED'){if(S.seen[name])resync();S.seen[name]=true;}renderConn();};}
 async function refreshProfileFromDeveloper(force){
  var uname=profileUsername();
- if(!uname){if(S.me&&S.me.username){S.me.username=null;S.me.blacklisted=!!S.me.blacklisted;}renderMe();setComposerState();return;}
+ if(!uname){
+   if(S.me&&S.me.username){S.me.username=null;S.me.blacklisted=!!S.me.blacklisted;}
+   renderMe();setComposerState();return;
+ }
  if(!NAME_RE.test(uname))return;
  if(!S.ready||!S.me||(!force&&uname===S.profileName))return;
- var r=await S.sb.rpc('zc_sync_username',{p_name:uname});
- if(r.error){flash(friendly(r.error));return;}
- S.me=r.data;S.profiles[S.me.id]=S.me;S.profileName=S.me.username||uname;renderMe();setComposerState();
- if(S.pres){var p=S.pres.track({username:S.me.username,t:Date.now()});if(p&&p.catch)p.catch(function(){});}
+
+ /* Jangan panggil zc_sync_username lama karena fungsi lama dapat
+    masih mengacu ke public.profiles yang sudah tidak ada.
+    Sinkronkan langsung ke tabel chat_profiles. */
+ var uid=String(S.me.id||'');
+ if(!UUID_RE.test(uid))return;
+
+ var up=await S.sb.from('chat_profiles').upsert({
+   user_id:uid,
+   username:uname
+ },{onConflict:'user_id'});
+
+ if(up.error){
+   console.warn('[zc-chat] chat_profiles sync:',up.error);
+   /* Tetap tampilkan username Profil agar UI tidak kembali ke username lama. */
+   S.me.username=uname;
+   S.profiles[uid]=Object.assign(S.profiles[uid]||{},S.me,{id:uid,user_id:uid,username:uname});
+   S.profileName=uname;
+   renderMe();setComposerState();
+   if(S.pres){
+     var pp=S.pres.track({username:uname,t:Date.now()});
+     if(pp&&pp.catch)pp.catch(function(){});
+   }
+   return;
+ }
+
+ S.me.username=uname;
+ S.profiles[uid]=Object.assign(S.profiles[uid]||{},S.me,{
+   id:uid,user_id:uid,username:uname
+ });
+ S.profileName=uname;
+ renderMe();setComposerState();
+ if(S.pres){
+   var p=S.pres.track({username:uname,t:Date.now()});
+   if(p&&p.catch)p.catch(function(){});
+ }
 }
 function renderProfileSearchResult(arr){
  var box=$('zcUserList');box.textContent='';if(!S.usersQ||S.usersQ.length<3){$('zcSearchHint').textContent='Ketik minimal 3 karakter untuk mencari.';return;}
@@ -9262,7 +9308,12 @@ async function start(){
  if(S.starting)return S.starting;showErr('');S.starting=(async function(){
   await loadSdk();if(!S.sb)S.sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false},realtime:{params:{eventsPerSecond:10}}});
   var ses=await S.sb.auth.getSession();if(!ses.data||!ses.data.session){var si=await S.sb.auth.signInAnonymously();if(si.error)throw si.error;}
-  var pr=await S.sb.rpc('chat_ensure_profile');if(pr.error)throw pr.error;S.me=pr.data;S.profiles[S.me.id]=S.me;S.profileName=S.me.username||'';renderMe();await refreshProfileFromDeveloper(true);
+  var pr=await S.sb.rpc('chat_ensure_profile');if(pr.error)throw pr.error;
+ S.me=pr.data;
+ S.profiles[S.me.id]=S.me;
+ S.profileName='';
+ renderMe();
+ await refreshProfileFromDeveloper(true);
   var g=await fetchGlobal(null);gList.merge(g.rows);gList.more=g.more;gList.render(true);await loadConvs();subscribeAll();S.ready=true;setComposerState();renderConn();S.touchTimer=setInterval(touch,TOUCH_MS);setTab(S.tab);
  })().catch(function(e){S.starting=null;showErr(friendly(e));console.warn('[zc-chat]',e);});return S.starting;
 }
