@@ -9047,7 +9047,7 @@ MsgList.prototype.buildInto=function(parent,m,prev){
  if(newDay)parent.appendChild(el('div','zc-day',dayLabel(d)));
  var row=el('div','zc-row '+(mine?'zc-mine':'zc-other'));row.dataset.messageId=m.id;row.dataset.senderId=sender;
  var a=null;if(o.showAvatar){a=avatar(sender,m.username,true);if(!first)a.style.visibility='hidden';row.appendChild(a);if(first)a.classList.add('zc-profile-target');if(first)a.addEventListener('click',this.profileClick(sender,m.username));}
- var bub=el('div','zc-bub');if(!mine&&o.showName&&first){var nm=el('button','zc-nm',m.username||'Anon');nm.type='button';nm.style.color='hsl('+hue(sender)+',80%,72%)';nm.addEventListener('click',this.profileClick(sender,m.username));if(m.is_admin)nm.appendChild(el('span','zc-dev-badge','DEV'));bub.appendChild(nm);}
+ var bub=el('div','zc-bub');if(!mine&&o.showName&&first){var nm=el('button','zc-nm',m.username||'Pengguna');nm.type='button';nm.style.color='hsl('+hue(sender)+',80%,72%)';nm.addEventListener('click',this.profileClick(sender,m.username));if(m.is_admin)nm.appendChild(el('span','zc-dev-badge','DEV'));bub.appendChild(nm);}
  if(mine&&m.is_admin){var own=el('span','zc-dev-badge','DEV');bub.appendChild(own);}
  bub.appendChild(el('div','zc-tx',txtOf(m)));
  var meta=el('div','zc-meta');meta.appendChild(el('span','',hhmm(d)));if(mine&&o.receipts)meta.appendChild(el('i','fa-solid '+(m.read_at?'fa-check-double zc-read':'fa-check')));bub.appendChild(meta);row.appendChild(bub);
@@ -9111,6 +9111,7 @@ async function refreshProfileFromDeveloper(force){
  }
  if(!NAME_RE.test(uname))return;
  if(!S.sb||!S.me||(!force&&uname===S.profileName))return;
+ if(!force&&S._syncFailAt&&Date.now()-S._syncFailAt<15000)return;
 
  /* Jangan panggil zc_sync_username lama karena fungsi lama dapat
     masih mengacu ke public.profiles yang sudah tidak ada.
@@ -9118,22 +9119,34 @@ async function refreshProfileFromDeveloper(force){
  var uid=String(S.me.id||'');
  if(!UUID_RE.test(uid))return;
 
- var up=await S.sb.from('chat_profiles').upsert({
-   user_id:uid,
-   username:uname
- },{onConflict:'user_id'});
+ /* Simpan username ke server dengan beberapa jalur, lalu VERIFIKASI hasilnya.
+    Sebelumnya error upsert diabaikan sehingga server tetap menyimpan nama "AnonXXXX"
+    dan pengguna lain melihat nama itu. */
+ var up=await (async function(){
+   var e1=null;
+   try{
+     var u=await S.sb.from('chat_profiles').update({username:uname}).eq('user_id',uid).select('user_id,username');
+     if(!u.error&&u.data&&u.data.length&&u.data[0].username===uname)return {error:null};
+     e1=u.error||null;
+   }catch(x){e1=x;}
+   var i=await S.sb.from('chat_profiles').upsert({user_id:uid,username:uname},{onConflict:'user_id'}).select('user_id,username');
+   if(!i.error&&i.data&&i.data.length&&i.data[0].username===uname)return {error:null};
+   if(!i.error){
+     var c=await S.sb.from('chat_profiles').select('username').eq('user_id',uid).maybeSingle();
+     if(c&&c.data&&c.data.username===uname)return {error:null};
+     return {error:{message:'Username tidak tersimpan di server (kemungkinan diblokir RLS/policy).'}};
+   }
+   return {error:i.error||e1};
+ })();
 
  if(up.error){
-   console.warn('[zc-chat] chat_profiles sync:',up.error);
-   /* Tetap tampilkan username Profil agar UI tidak kembali ke username lama. */
+   console.warn('[zc-chat] chat_profiles sync GAGAL:',up.error);
+   S._syncFailAt=Date.now();
+   if(S._syncErrFor!==uname){S._syncErrFor=uname;flash('Username gagal disimpan ke server: '+((up.error&&up.error.message)||'tidak diketahui'));}
+   /* Tampilan lokal tetap pakai username Profil, tapi jangan tandai sudah tersinkron agar dicoba lagi. */
    S.me.username=uname;
    S.profiles[uid]=Object.assign(S.profiles[uid]||{},S.me,{id:uid,user_id:uid,username:uname});
-   S.profileName=uname;
    renderMe();setComposerState();
-   if(S.pres){
-     var pp=S.pres.track({username:uname,t:Date.now()});
-     if(pp&&pp.catch)pp.catch(function(){});
-   }
    return;
  }
 
@@ -9315,7 +9328,8 @@ async function sendGlobal(){
  if(clientBanned(txt)){flash('Kata terlarang tidak diizinkan.');return;}
  S.sending=true;S.lastSend=Date.now();
  try{
-   var uname=String(S.me.username);
+   var pu=profileUsername();
+   var uname=NAME_RE.test(pu)?pu:String(S.me.username);
    var r=await insertVariants('chat_messages',[
      {user_id:uid,username:uname,content:txt},
      {user_id:uid,content:txt},
@@ -9490,6 +9504,8 @@ async function start(){
   var ses=await S.sb.auth.getSession();
   if(!ses.data||!ses.data.session){var si=await S.sb.auth.signInAnonymously();if(si.error)throw si.error;}
   S.me=await ensureMe();
+  /* Sumber kebenaran username = Profil-Developer, BUKAN nama dari server (mis. "AnonXXXX"). */
+  (function(){var pu=profileUsername();S.me.username=NAME_RE.test(pu)?pu:null;})();
   S.profiles[S.me.id]=S.me;
   ensureAdminUsernamePanel();updateAdminUsernamePanel();
   S.profileName='';renderMe();
