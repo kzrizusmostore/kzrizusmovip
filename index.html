@@ -9562,6 +9562,31 @@ html.zc-on #zcChat .zc-shell{height:100%!important;max-height:100%!important;pad
 #zcChat .zc-av.zc-av-hasimg img{transform:scale(1.1)}
 #zcChat #zcModerationNoteT[data-gate]{text-decoration:underline;text-underline-offset:2px}
 </style>
+<style id="zc-pinbar-modern">
+/* Pesan tersemat: panel kaca (transparan + blur) di bawah nama grup, garis tipis di atas, tanpa username */
+#zcChat .zc-pinbar{position:relative;z-index:3;gap:4px;align-items:center;margin:0 0 -52px;padding:8px 4px 8px 12px;border-top:1px solid rgba(255,255,255,.14);border-bottom:1px solid rgba(255,255,255,.05);background:rgba(17,27,33,.52);-webkit-backdrop-filter:blur(14px) saturate(140%);backdrop-filter:blur(14px) saturate(140%)}
+#zcChat .zc-pinbar:not([hidden])+.zc-list{padding-top:60px}
+#zcChat .zc-pinbar .zc-pin-main{gap:12px;padding:0;border:0;border-radius:0;background:transparent}
+#zcChat .zc-pinbar .zc-pin-main:active{background:transparent;opacity:.7}
+#zcChat .zc-pinbar .zc-pin-main>i{flex:0 0 auto;display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.08);font-size:14px;color:var(--wa-sub);transform:none}
+#zcChat .zc-pinbar .zc-pin-main>i::before{display:inline-block;transform:rotate(45deg)}
+#zcChat .zc-pinbar .zc-pin-body{padding-left:0;border-left:0;border-radius:0;justify-content:center}
+#zcChat .zc-pinbar .zc-pin-body b{display:none}
+#zcChat .zc-pinbar .zc-pin-body span{font-size:14px;font-weight:500;color:var(--wa-text)}
+#zcChat .zc-pinbar .zc-pin-x{flex:0 0 36px;width:36px;height:36px;border-radius:0;background:transparent;font-size:13px}
+#zcChat .zc-pinbar .zc-pin-x:active{background:transparent;opacity:.65}
+#zcChat .zc-thread-head+.zc-pinbar{margin-top:0}
+/* Pilih durasi sematan */
+.zc-pindur{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(0,0,0,.6);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.zc-pindur[hidden]{display:none}
+.zc-pindur-card{width:100%;max-width:320px;padding:16px;border-radius:18px;background:#1f2c34;border:1px solid rgba(255,255,255,.08);color:#e9edef;font-family:inherit}
+.zc-pindur-card h4{margin:0 0 4px;font-size:15px;font-weight:700}
+.zc-pindur-card p{margin:0 0 12px;font-size:12px;color:#8696a0}
+.zc-pindur-opts{display:flex;flex-direction:column;gap:8px}
+.zc-pindur-opts button{padding:12px 14px;border:1px solid rgba(255,255,255,.1);border-radius:12px;background:rgba(255,255,255,.05);color:#e9edef;font-size:14px;font-weight:600;text-align:left;cursor:pointer}
+.zc-pindur-opts button:active{background:rgba(255,255,255,.12)}
+.zc-pindur-cancel{width:100%;margin-top:10px;padding:10px;border:0;background:transparent;color:#8696a0;font-size:13px;cursor:pointer}
+</style>
 <style id="zc-admin-center">
 /* ===== Moderasi admin: dialog di tengah layar ===== */
 #zcChat #zcAdminSheet{align-items:center;padding:18px 14px;background:rgba(0,0,0,.74);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
@@ -9601,7 +9626,8 @@ html.zc-on #zcChat .zc-shell{height:100%!important;max-height:100%!important;pad
 #zcChat .zc-adm .zc-admin-grid:not(:first-child){margin-top:8px}
 #zcChat .zc-adm .zc-adm-slow{grid-template-columns:repeat(4,1fr);margin-top:0}
 #zcChat .zc-adm-hint{margin:9px 2px 0;font-size:11px;line-height:1.4;color:#8f8484}
-#zcChat .zc-slow-note{display:flex;align-items:center;gap:8px;margin:6px 10px 0;padding:8px 12px;border-radius:12px;font-size:11.5px;font-weight:700;line-height:1.35;color:#ffcf6b;background:rgba(255,184,0,.09);border:1px solid rgba(255,184,0,.24)}
+#zcChat .zc-slow-note,#zcChat .zc-slow-note[hidden]{display:none!important}
+#zcChat .zc-slow-note.__old{display:flex;align-items:center;gap:8px;margin:6px 10px 0;padding:8px 12px;border-radius:12px;font-size:11.5px;font-weight:700;line-height:1.35;color:#ffcf6b;background:rgba(255,184,0,.09);border:1px solid rgba(255,184,0,.24)}
 #zcChat .zc-slow-note.wait{color:#ff9b9b;background:rgba(255,43,43,.1);border-color:rgba(255,80,80,.3)}
 @media(max-width:360px){#zcChat .zc-adm .zc-adm-slow{grid-template-columns:repeat(2,1fr)}}
 </style>
@@ -9910,7 +9936,7 @@ function markGroupSeen(){
 function renderGroupRow(){
  var row=$('zcGroupItem');if(!row)return;
  var items=(typeof gList!=='undefined'&&gList&&gList.items)||[];
- var last=items.length?items[items.length-1]:null;
+ var last=null,_li;for(_li=items.length-1;_li>=0;_li--){if(rawContent(items[_li]).indexOf(ZC_SLOW_PREFIX)!==0){last=items[_li];break;}}
  var viewing=S.tab==='global'&&pageActive()&&!document.hidden;
  if(viewing&&S.ready&&last&&(!S.gSeen||Date.parse(last.created_at)>Date.parse(S.gSeen)))markGroupSeen();
  var un=groupUnread(),q=(S.usersQ||'').toLowerCase(),show=true;
@@ -10134,8 +10160,10 @@ MsgList.prototype.buildPinNote=function(parent,m){
  if(m.deleted_at)return;
  var uid=this.opts.senderOf(m);if(!pinAdminUid(uid))return;
  var x=unpackPin(rawContent(m))||{},p=S.profiles[uid]||{},who=m.username||p.username||'Admin';
- var rawN=rawContent(m);if(rawN.indexOf(ZC_SLOW_PREFIX)===0){var sx=unpackSlow(rawN)||{},ss=parseInt(sx.s,10)||0;parent.appendChild(el('div','zc-day zc-sys','@'+who+(ss>0?' mengaktifkan mode lambat ('+ss+' dtk)':' mematikan mode lambat')));return;}
- parent.appendChild(el('div','zc-day zc-sys','@'+who+(x.off?' melepas sematan pesan':' menyematkan sebuah pesan')));
+ var rawN=rawContent(m);if(rawN.indexOf(ZC_SLOW_PREFIX)===0)return;
+ var note=el('div','zc-day zc-sys','@'+who+(x.off?' melepas sematan pesan':' menyematkan sebuah pesan'));
+ if(S.me&&S.me.is_admin){note.style.pointerEvents='auto';note.style.cursor='pointer';attachAdminGesture(note,m);}
+ parent.appendChild(note);
 };
 MsgList.prototype.findQuoted=function(q,m){
  if(!q)return null;
@@ -10221,16 +10249,18 @@ function computePin(){
  for(var i=0;i<c.length;i++){
    var x=unpackPin(rawContent(c[i]));if(!x)continue;
    if(x.off)return null;
-   if(x.id!=null&&typeof x.t==='string')return {mid:String(x.id),username:String(x.u||'Pengguna'),text:x.t,by:c[i].user_id};
+   if(x.x&&Date.now()>+x.x)return null;
+   if(x.id!=null&&typeof x.t==='string')return {mid:String(x.id),username:String(x.u||'Pengguna'),text:x.t,by:c[i].user_id,exp:+x.x||0};
  }
  return null;
 }
 function renderPin(){
  try{renderSlow();}catch(e){}
  var bar=$('zcPinBar');if(!bar)return;
- var p=computePin();S.pin=p;
+ var p=computePin();S.pin=p;clearTimeout(S._pinExpT);
  if(!p){bar.hidden=true;return;}
- $('zcPinWho').textContent='Disematkan · '+p.username;
+ if(p.exp){S._pinExpT=setTimeout(renderPin,Math.min(Math.max(p.exp-Date.now()+500,1000),86400000));}
+ $('zcPinWho').textContent=p.username;
  $('zcPinText').textContent=p.text||'Pesan';
  var off=$('zcPinOff');if(off)off.hidden=!(S.me&&S.me.is_admin);
  bar.hidden=false;
@@ -10268,12 +10298,26 @@ async function pinPost(payload,okMsg){
    renderPin();flash(okMsg);return true;
  }catch(e){flash(friendly(e));return false;}
 }
+function pickPinDuration(cb){
+ var ov=document.getElementById('zcPinDur');
+ if(!ov){
+   ov=document.createElement('div');ov.id='zcPinDur';ov.className='zc-pindur';ov.hidden=true;
+   ov.innerHTML='<div class="zc-pindur-card" role="dialog" aria-modal="true" aria-label="Durasi sematan"><h4>Sematkan pesan</h4><p>Berapa lama pesan ini disematkan?</p><div class="zc-pindur-opts"><button type="button" data-h="24">24 jam</button><button type="button" data-h="168">7 hari</button><button type="button" data-h="720">30 hari</button></div><button type="button" class="zc-pindur-cancel">Batal</button></div>';
+   document.body.appendChild(ov);
+   ov.addEventListener('click',function(e){
+     var b=e.target.closest?e.target.closest('[data-h]'):null;
+     if(b){var h=parseInt(b.getAttribute('data-h'),10)||24,f=ov._cb;ov.hidden=true;ov._cb=null;if(f)f(h*3600000);return;}
+     if(e.target===ov||(e.target.closest&&e.target.closest('.zc-pindur-cancel'))){ov.hidden=true;ov._cb=null;}
+   });
+ }
+ ov._cb=cb;ov.hidden=false;
+}
 async function adminPin(){
  var m=S.adminTarget;
  if(!m||!m.id||!m.user_id||m.deleted_at||isPinMarker(m)){flash('Pilih pesan grup untuk disematkan.');return;}
- var t=txtOf(m).slice(0,180);
+ var t=txtOf(m).slice(0,180),mid=m.id,mu=m.username||'Pengguna';
  closeSheet('zcAdminSheet');
- await pinPost({v:1,id:m.id,u:m.username||'Pengguna',t:t},'Pesan disematkan.');
+ pickPinDuration(function(ms){pinPost({v:1,id:mid,u:mu,t:t,x:Date.now()+ms},'Pesan disematkan.');});
 }
 async function unpinCurrent(){if(!S.pin)return;await pinPost({v:1,off:1},'Sematan dilepas.');}
 
@@ -10298,13 +10342,9 @@ function slowWait(){
  return w>0?Math.min(w,S.slow*1000):0;
 }
 function slowTick(){
- var n=$('zcSlowNote'),t=$('zcSlowTxt');clearTimeout(S._slowT);
- if(!n||!t)return;
- if(!S.slow){n.hidden=true;return;}
- var w=slowWait();n.hidden=false;n.classList.toggle('wait',w>0);
- if(S.me&&S.me.is_admin)t.textContent='Mode lambat '+S.slow+' dtk aktif (admin bebas)';
- else if(w>0){t.textContent='Mode lambat: tunggu '+Math.ceil(w/1000)+' dtk';S._slowT=setTimeout(slowTick,250);}
- else t.textContent='Mode lambat aktif: jeda '+S.slow+' dtk per pesan';
+ var n=$('zcSlowNote');clearTimeout(S._slowT);
+ /* Mode lambat tanpa banner: cukup menahan kirim (lihat slowWait di fungsi kirim). */
+ if(n)n.hidden=true;
 }
 function renderSlow(){S.slow=computeSlow();slowTick();}
 async function loadSlow(){
@@ -10821,7 +10861,7 @@ async function sendGlobal(){
  if(!S.ready||!S.me||!S.me.username||S.me.blacklisted||!txt||S.sending||Date.now()-S.lastSend<SEND_GAP)return;
  var uid=String(S.me.id||'');
  if(!UUID_RE.test(uid)){flash('ID pengguna tidak valid. Silakan muat ulang halaman.');return;}
- var _sw=slowWait();if(_sw>0){flash('Mode lambat aktif. Tunggu '+Math.ceil(_sw/1000)+' dtk lagi.');slowTick();return;}
+ var _sw=slowWait();if(_sw>0){flash('Tunggu '+Math.ceil(_sw/1000)+' dtk lagi.');return;}
  if(clientBanned(txt)){flash(banMsg());return;}
  S.sending=true;S.lastSend=Date.now();
  try{
@@ -10942,8 +10982,7 @@ async function loadCard(uid){
  var c=Array.isArray(r.data)?r.data[0]:r.data;
  if(!c||typeof c!=='object')return null;
  S.social.ok=true;
- if(isOwnerName(c.username)||isOwnerUid(uid))c.following=0;
- S.rel[uid]={i_follow:!!c.i_follow,follows_me:!!c.follows_me};
+  S.rel[uid]={i_follow:!!c.i_follow,follows_me:!!c.follows_me};
  S.cnt[uid]={following:+c.following||0,followers:+c.followers||0,likes:+c.likes||0,i_liked:!!c.i_liked};
  var o={id:uid,user_id:uid};
  if(c.username)o.username=c.username;
@@ -10975,7 +11014,6 @@ window.__zcFollowList=async function(kind){
  try{
    if(!S.ready)await start();
    if(!S.ready||!S.sb||!S.me)return {err:'net'};
-   if(kind==='following'&&iAmOwner())return {rows:[]};
    var r=await S.sb.rpc('zc_follow_list',{p_kind:kind,p_limit:200});
    if(r.error){return {err:missingBackend(r.error)?'backend':'net'};}
    var ids=[];(r.data||[]).forEach(function(x){var id=typeof x==='string'?x:(x&&(x.user_id||x.id||x.zc_follow_list));if(id&&UUID_RE.test(String(id))&&ids.indexOf(id)<0)ids.push(id);});
@@ -10985,7 +11023,7 @@ window.__zcFollowList=async function(kind){
 };
 window.__zcOpenUser=function(uid){if(typeof showPage==='function')showPage('zcChat');setTimeout(function(){try{openProfile(uid);}catch(e){}},260);};
 window.__zcRefreshSocial=function(){return S.ready?refreshMySocial():start().then(function(){return refreshMySocial();});};
-/* ===== AUTO IKUTI + SUKA akun admin/developer (kzrizusmo_store) ===== */
+/* ===== Cari akun admin/developer (kzrizusmo_store). Admin mengikuti pengguna lain HANYA manual lewat tombol Ikuti di profil. ===== */
 async function findOwnerUid(){
  if(S.owner.uid)return S.owner.uid;
  var r=await S.sb.from('chat_profiles').select('user_id,username').eq('username',ZC_OWNER_USERNAME).limit(1);
@@ -10996,49 +11034,6 @@ async function findOwnerUid(){
  var row=r.data&&r.data[0];
  if(row&&UUID_RE.test(String(row.user_id||'')))S.owner.uid=row.user_id;
  return S.owner.uid;
-}
-var _fb={busy:false,at:0};
-var _fz={busy:false,at:0,clean:false};
-/* Reset sekali jalan: berhenti mengikuti semua akun yang dulu otomatis diikuti developer, lalu jaga tetap 0 */
-async function ownerFreezeFollowing(){
- if(_fz.busy||!S.ready||!S.sb||!S.me||S.social.ok===false||!iAmOwner())return;
- if(Date.now()-_fz.at<(_fz.clean?60000:8000))return;
- _fz.at=Date.now();_fz.busy=true;
- try{
-   var prev=-1,changed=false;
-   for(var round=0;round<6;round++){
-     var b=await S.sb.rpc('zc_follow_list',{p_kind:'following',p_limit:200});
-     if(b.error)break;
-     var ids=[];(b.data||[]).forEach(function(x){var id=typeof x==='string'?x:(x&&(x.user_id||x.id||x.zc_follow_list));if(id&&UUID_RE.test(String(id))&&id!==S.me.id&&ids.indexOf(id)<0)ids.push(id);});
-     if(!ids.length){if(round===0)_fz.clean=true;break;}
-     if(prev>=0&&ids.length>=prev){console.warn('[zc-chat] unfollow developer tidak berkurang, hentikan.');break;}
-     prev=ids.length;_fz.clean=false;changed=true;
-     for(var i=0;i<ids.length;i+=10){
-       await Promise.all(ids.slice(i,i+10).map(function(id){
-         return S.sb.rpc('zc_unfollow',{p_target:id}).then(function(r){if(r&&r.error)console.warn('[zc-chat] unfollow developer:',r.error);return r;}).catch(function(e){console.warn('[zc-chat] unfollow developer:',e);});
-       }));
-     }
-   }
-   if(changed)refreshMySocial();
- }catch(e){console.warn('[zc-chat] bekukan following developer:',e);}
- finally{_fz.busy=false;}
-}
-async function adminFollowBack(){
- if(_fb.busy||!S.ready||!S.sb||!S.me||S.social.ok===false)return;
- if(iAmOwner()){ownerFreezeFollowing();return;}
- if(!(S.me.is_admin||String(S.me.username||'').toLowerCase()===ZC_OWNER_USERNAME))return;
- if(Date.now()-_fb.at<20000)return;
- _fb.at=Date.now();_fb.busy=true;
- try{
-   var a=await S.sb.rpc('zc_follow_list',{p_kind:'followers',p_limit:200}),b=await S.sb.rpc('zc_follow_list',{p_kind:'following',p_limit:200});
-   if(a.error||b.error)return;
-   var pick=function(r){var o=[];(r.data||[]).forEach(function(x){var id=typeof x==='string'?x:(x&&(x.user_id||x.id||x.zc_follow_list));if(id&&UUID_RE.test(String(id))&&o.indexOf(id)<0)o.push(id);});return o;};
-   var have={};pick(b).forEach(function(id){have[id]=1;});
-   var todo=pick(a).filter(function(id){return !have[id]&&id!==S.me.id;}).slice(0,60);
-   for(var i=0;i<todo.length;i++){var f=await S.sb.rpc('zc_follow',{p_target:todo[i]});if(f.error){console.warn('[zc-chat] ikuti balik:',f.error);break;}}
-   if(todo.length)refreshMySocial();
- }catch(e){console.warn('[zc-chat] admin ikuti balik:',e);}
- finally{_fb.busy=false;}
 }
 async function autoFollowOwner(){
  var O=S.owner;
@@ -11294,13 +11289,13 @@ function paintProfile(uid,loading){
  if(loading||!rel){f.disabled=true;ch.disabled=true;lk.disabled=true;hint.textContent='Memuat…';return;}
  if(rel.error){f.disabled=true;ch.disabled=true;lk.disabled=true;hint.textContent='Gagal memuat profil. Tutup lalu buka lagi.';return;}
  var mutual=!!(rel.i_follow&&rel.follows_me);
- f.disabled=iAmOwner();lk.disabled=!!cn.i_liked;
+ f.disabled=false;lk.disabled=!!cn.i_liked;
  if(rel.i_follow){f.dataset.state='following';f.innerHTML='<i class="fa-solid fa-check"></i> Mengikuti';}
  else if(rel.follows_me){f.dataset.state='followback';f.innerHTML='<i class="fa-solid fa-user-plus"></i> Ikuti Balik';}
  var adm=isAdminPeer(uid);if(rel.i_follow&&adm)f.disabled=true;
  ch.disabled=!(mutual||adm);
  if(mutual||adm)ch.innerHTML='<i class="fa-solid fa-message"></i> Chat Pribadi';
- hint.textContent=isOwnerUid(uid)?'Akun developer tidak mengikuti siapa pun. Chat pribadi tetap terbuka.':mutual?'Kalian saling mengikuti, chat pribadi terbuka.':(rel.i_follow?'Menunggu @'+uname+' mengikuti kamu balik.':(rel.follows_me?'@'+uname+' mengikutimu. Ikuti balik untuk chat pribadi.':'Saling ikuti untuk membuka chat pribadi.'));
+ hint.textContent=mutual?'Kalian saling mengikuti, chat pribadi terbuka.':(rel.i_follow?'Menunggu @'+uname+' mengikuti kamu balik.':(rel.follows_me?'@'+uname+' mengikutimu. Ikuti balik untuk chat pribadi.':'Saling ikuti untuk membuka chat pribadi.'));
 }
 async function openProfile(uid){
  if(!UUID_RE.test(uid)||!S.sb)return;
@@ -11316,8 +11311,7 @@ async function openProfile(uid){
 async function togglePfFollow(){
  var uid=pfUid;if(!uid||!S.me||uid===S.me.id||S.social.ok!==true||S.social.busy[uid])return;
  var rel=S.rel[uid],cn=S.cnt[uid],f=$('zcSheetFollow');if(!rel||!cn||rel.error)return;
- if(iAmOwner()){flash('Akun developer tidak mengikuti pengguna lain.');return;}
- if(rel.i_follow&&isAdminPeer(uid)){flash('Admin tidak bisa di-unfollow.');return;}
+  if(rel.i_follow&&isAdminPeer(uid)){flash('Admin tidak bisa di-unfollow.');return;}
  if(rel.i_follow&&f.dataset.state!=='confirm'){
    /* tap pertama pada "Mengikuti": minta konfirmasi supaya tidak berhenti mengikuti tanpa sengaja */
    f.dataset.state='confirm';f.textContent='Tap lagi untuk berhenti mengikuti';
@@ -11567,7 +11561,7 @@ async function adminDelete(){
 var pollN=0;
 function pollTick(){
  if(!S.ready||document.hidden||!pageActive())return;
- pollN++;vipRoleCheck();adminFollowBack();if(pollN%5===0){syncBio();refreshMyMod();}if(pollN%10===0){loadPin();loadSlow();}
+ pollN++;vipRoleCheck();if(pollN%5===0){syncBio();refreshMyMod();}if(pollN%10===0){loadPin();loadSlow();}
  var bad=Object.keys(S.statuses).some(function(k){return S.statuses[k]!=='SUBSCRIBED';});
  /* Realtime putus -> polling cepat (6 dtk). Normal -> jaring pengaman tiap 30 dtk. */
  if(bad||pollN%5===0)resync();
@@ -11595,7 +11589,7 @@ async function start(){
   if(!S.gSeen)markGroupSeen();renderGroupRow();
   try{await loadConvs();}catch(e){console.warn('[zc-chat] load convs',e);}
   subscribeAll();
-  S.ready=true;setComposerState();renderConn();renderMe();refreshMyMod();refreshMySocial();syncProfileExtras();syncNameColor();autoFollowOwner();adminFollowBack();
+  S.ready=true;setComposerState();renderConn();renderMe();refreshMyMod();refreshMySocial();syncProfileExtras();syncNameColor();autoFollowOwner();
   loadPin();loadSlow();
   if(!S.touchTimer)S.touchTimer=setInterval(touch,TOUCH_MS);
   if(!S.pollTimer)S.pollTimer=setInterval(pollTick,6000);
@@ -12784,7 +12778,7 @@ window.apResetRole=function(){
 <script id="kz-fixes-v2">
 (function(){
   /* ===== 1) Banner video 9:16 (nomor 2 dan 7) diputar agar pas di bingkai banner landscape ===== */
-  var ROT_NUMS=[2,7],ROT_DEG=90; /* ganti ROT_DEG ke -90 kalau arah putarnya terbalik */
+  var ROT_NUMS=[2,7],ROT_DEG=-90; /* ganti ROT_DEG ke -90 kalau arah putarnya terbalik */
   var blobRot={},ro=null,roMap=typeof WeakMap==='function'?new WeakMap():null;
   try{
     var cu=URL.createObjectURL;
