@@ -1044,17 +1044,36 @@ AccessTokenDua
     <div class="zc-flash" id="zcFlash" role="status" aria-live="polite"></div>
   </div>
   <div class="zc-modal" id="zcProfileSheet" aria-hidden="true">
-    <div class="zc-sheet" role="dialog" aria-modal="true" aria-labelledby="zcProfileTitle">
-      <div class="zc-sheet-handle"></div><h4 id="zcProfileTitle">Profil</h4>
-      <div class="zc-sheet-user"><span class="zc-av" id="zcSheetAv">?</span><div><b id="zcSheetName">…</b><small id="zcSheetStatus">…</small></div></div>
-      <button type="button" class="zc-sheet-chat" id="zcSheetChat"><i class="fa-solid fa-message"></i> Chat Pribadi</button>
-      <button type="button" class="zc-sheet-close" id="zcSheetClose">Tutup</button>
+    <div class="zc-sheet zc-psheet" role="dialog" aria-modal="true" aria-labelledby="zcSheetName">
+      <div class="zc-pf-cover" aria-hidden="true"></div>
+      <button type="button" class="zc-pf-x" id="zcSheetClose" aria-label="Tutup"><i class="fa-solid fa-xmark"></i></button>
+      <div class="zc-pf-avwrap">
+        <span class="zc-av zc-pf-av" id="zcSheetAv">?</span>
+        <span class="zc-pf-dot" id="zcSheetDot" data-on="0" aria-hidden="true"></span>
+      </div>
+      <b class="zc-pf-name" id="zcSheetName">…</b>
+      <span class="zc-pf-user" id="zcSheetUser"></span>
+      <div class="zc-pf-role" id="zcSheetRole"></div>
+      <div class="zc-pf-titles" id="zcSheetTitles"></div>
+      <small class="zc-pf-status" id="zcSheetStatus">…</small>
+      <div class="zc-pf-stats" id="zcPfStats">
+        <div><b id="zcPfFollowing">0</b><span>Mengikuti</span></div>
+        <div><b id="zcPfFollowers">0</b><span>Pengikut</span></div>
+        <button type="button" class="zc-pf-like" id="zcPfLike" aria-pressed="false" aria-label="Beri suka"><b id="zcPfLikes"><i class="fa-regular fa-heart" aria-hidden="true"></i> 0</b><span>Suka</span></button>
+      </div>
+      <div class="zc-pf-join" id="zcPfJoinRow" hidden><span><i class="fa-regular fa-calendar" aria-hidden="true"></i>Gabung Sejak</span><b id="zcPfJoin"></b></div>
+      <div class="zc-pf-actions" id="zcPfActions">
+        <button type="button" class="zc-pf-follow" id="zcSheetFollow" data-state="follow"><i class="fa-solid fa-user-plus"></i> Ikuti</button>
+        <button type="button" class="zc-sheet-chat" id="zcSheetChat"><i class="fa-solid fa-message"></i> Chat Pribadi</button>
+      </div>
+      <div class="zc-pf-hint" id="zcSheetHint" role="status" aria-live="polite"></div>
     </div>
   </div>
   <div class="zc-modal" id="zcAdminSheet" aria-hidden="true">
     <div class="zc-sheet" role="dialog" aria-modal="true" aria-labelledby="zcAdminTitle">
       <div class="zc-sheet-handle"></div><h4 id="zcAdminTitle">Moderasi</h4>
       <div class="zc-admin-target" id="zcAdminTarget"></div>
+      <button type="button" class="zc-admin-act" id="zcAdminProfile"><i class="fa-solid fa-user"></i> Lihat profil</button>
       <button type="button" class="zc-admin-act" id="zcAdminDelete"><i class="fa-solid fa-trash"></i> Hapus pesan</button>
       <button type="button" class="zc-admin-act danger" id="zcAdminBlock"><i class="fa-solid fa-ban"></i> Blacklist pengguna</button>
       <button type="button" class="zc-admin-act" id="zcAdminUnblock"><i class="fa-solid fa-user-check"></i> Cabut blacklist</button>
@@ -3275,9 +3294,9 @@ body.zx-wall-oj #zxOldWall{--zw-pos:14% 40%;--zw-blur:1.5px;--zw-sat:.9;--zw-br:
     // PLACEHOLDER: belum ada data username di aplikasi, jadi dibuat dari nama tampilan.
     username:function(name){return '@'+(String(name).toLowerCase().replace(/[^a-z0-9_]/g,'')||'user');},
     stats:[
-      {label:'Diamond',get:function(){return num(lsGet('zusmo_diamond_balance','0'));}},
-      {label:'Prime',get:function(){var el=document.getElementById('hmPrimePoint');return el?num(el.textContent):0;}},
-      {label:'Key',get:function(){try{return typeof getVipKeyHistory==='function'?(getVipKeyHistory()||[]).length:0;}catch(e){return 0;}}}
+      {label:'Mengikuti',get:function(){return socialStat('following');}},
+      {label:'Pengikut',get:function(){return socialStat('followers');}},
+      {label:'Suka',get:function(){return socialStat('likes');}}
     ],
     highlightMax:12,   // batas jumlah sorotan
     titleMax:15,       // batas karakter judul sorotan (sama seperti Instagram)
@@ -3294,6 +3313,8 @@ body.zx-wall-oj #zxOldWall{--zw-pos:14% 40%;--zw-blur:1.5px;--zw-sat:.9;--zw-br:
     return String(n);
   }
   function $(id){return document.getElementById(id);}
+  function socialStat(k){try{var o=JSON.parse(lsGet('zusmo_social_stats','{}'))||{};return num(o[k]||0);}catch(e){return 0;}}
+  window.addEventListener('zusmo:social-stats',function(){try{renderStats();}catch(e){}});
   function go(page){if(typeof showPage==='function') showPage(page);}
 
   /* ===== switch tab ===== */
@@ -3309,7 +3330,7 @@ body.zx-wall-oj #zxOldWall{--zw-pos:14% 40%;--zw-blur:1.5px;--zw-sat:.9;--zw-br:
     });
     Object.keys(panels).forEach(function(k){panels[k].classList.toggle('dp-off',k!==name);});
     lsSet(CONFIG.keys.tab,name);
-    if(name==='pribadi') refresh();
+    if(name==='pribadi'){refresh();try{if(window.__zcRefreshSocial)window.__zcRefreshSocial();}catch(e){}}
     if(!initial&&changed) window.scrollTo(0,0);
   }
   seg.addEventListener('click',function(e){
@@ -3531,6 +3552,8 @@ body.zx-wall-oj #zxOldWall{--zw-pos:14% 40%;--zw-blur:1.5px;--zw-sat:.9;--zw-br:
       var n=roleTierIdx(t),cur=ROLE_ORDER.indexOf((lsGet('dpRoleUnlocked','')||'').trim().toUpperCase());
       if(n>0&&n>cur)lsSet('dpRoleUnlocked',ROLE_ORDER[n]);
     }catch(e){}
+    /* Beri tahu Live Chat agar membaca ulang tier setelah VIP/key atau role developer berubah. */
+    try{window.dispatchEvent(new CustomEvent('zusmo:role-change',{detail:{role:String(t||'').toUpperCase()}}));}catch(e){}
   };
   function roleUnlockedIdx(){
     var i=ROLE_ORDER.indexOf((lsGet('dpRoleUnlocked','')||'').trim().toUpperCase());
@@ -3682,6 +3705,33 @@ body.zx-wall-oj #zxOldWall{--zw-pos:14% 40%;--zw-blur:1.5px;--zw-sat:.9;--zw-br:
     s.appendChild(i);s.appendChild(t);
     return s;
   }
+  /* dipakai Live Chat: snapshot gelar sendiri + render lencana gelar orang lain (data dari server disanitasi) */
+  window.__zusmoTitles={
+    snapshot:function(){
+      var out=[];
+      ttRead().forEach(function(it){
+        var v=ttItemView(it);if(!v||!v.def)return;
+        var d=v.def,o={};
+        ['m','a','b','fg','g','img','mc','ic','ro','lg','wd'].forEach(function(k){if(d[k]!==undefined)o[k]=d[k];});
+        out.push({text:v.text,def:o});
+      });
+      return out;
+    },
+    badge:function(item,mini){
+      if(!item||typeof item!=='object'||!item.def||typeof item.def!=='object')return null;
+      var d=item.def,hex=/^#[0-9a-f]{3,8}$/i,okm={solid:1,outline:1,gline:1,soft:1};
+      var txt=String(item.text==null?'':item.text).replace(/[\u0000-\u001f]/g,'').slice(0,20);
+      if(!txt||!okm[d.m]||!hex.test(String(d.a)))return null;
+      var s={m:d.m,a:d.a,b:hex.test(String(d.b))?d.b:d.a,fg:hex.test(String(d.fg))?d.fg:'#ffffff'};
+      if(d.g)s.g=1;
+      if(typeof d.img==='string'&&/^zusmo-asset\/[A-Za-z0-9._-]+$/.test(d.img)){
+        s.img=d.img;if(d.ro)s.ro=1;if(d.lg)s.lg=1;if(d.wd)s.wd=1;
+        if(typeof d.mc==='string'&&hex.test(d.mc))s.mc=d.mc;
+      }else if(typeof d.ic==='string'&&/^[a-z0-9-]{1,32}$/.test(d.ic))s.ic=d.ic;
+      else s.ic='star';
+      return ttBadge(s,txt,!!mini);
+    }
+  };
   function renderTitles(){
     var box=$('dpTitles');if(!box)return;
     box.textContent='';
@@ -3975,6 +4025,7 @@ body.zx-wall-oj #zxOldWall{--zw-pos:14% 40%;--zw-blur:1.5px;--zw-sat:.9;--zw-br:
       else if(ttDef(id))items.push({id:id});
     });
     lsSet(TT_KEY,JSON.stringify(items));
+    try{window.dispatchEvent(new Event('zusmo:titles-change'));}catch(e){}
     renderTitles();setTitlesRow();closeTitleSub();
   }
 
@@ -5880,6 +5931,7 @@ body #developerTab .dp-card:has(.dp-bio:not(.is-empty)),body #developerTab .dp-c
     if(roleAllowed(RD.label)){lsSet('dpRoleLabel',RD.label);lsSet('dpRoleVariant',String(RD.v||0));}
     lsSet('dpRoleIcon',RD.i==='user'?'user':'crown');
     renderIdentity();setRoleRow();closeRoleSub();
+    try{window.dispatchEvent(new CustomEvent('zusmo:role-change',{detail:{role:String(RD.label||'').toUpperCase()}}));}catch(e){}
   }
   /* ===== halaman khusus untuk ubah nama, nama pengguna, bio, tautan ===== */
   var sub=null,subKey='';
@@ -9155,6 +9207,59 @@ html.zc-on #zcChat .zc-shell{height:100%!important;max-height:100%!important;pad
 #zcGroupInfoModal .zc-info-sanction div b{min-width:112px;color:#f1f1f1}
 @media(min-width:560px){#zcGroupInfoModal{align-items:center;padding:18px}#zcGroupInfoModal .zc-info-card{height:min(90dvh,820px);border:1px solid #2b2b2b;border-radius:18px}#zcGroupInfoModal .zc-info-top{padding-top:15px}}
 @media(max-width:420px){#zcGroupInfoModal .zc-info-card{border-radius:0}#zcGroupInfoModal .zc-info-scroll{padding:14px 14px calc(30px + env(safe-area-inset-bottom,0px))}#zcGroupInfoModal .zc-info-sanction div b{min-width:102px}}
+
+/* ===== Profil orang lain: kartu modern ===== */
+#zcChat #zcProfileSheet{align-items:flex-start;overflow-y:auto;overscroll-behavior:contain;padding:92px 20px 28px;background:rgba(4,4,6,.74);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+#zcChat .zc-psheet{--pf-h:0;position:relative;width:min(100%,372px);margin:auto;overflow:visible;display:flex;flex-direction:column;align-items:center;padding:0 20px 20px;border:1px solid rgba(255,255,255,.07);border-radius:30px;background:#111114;box-shadow:0 30px 80px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.05);opacity:0;transform:translateY(14px) scale(.96);transition:transform .28s cubic-bezier(.2,.8,.2,1),opacity .2s ease}
+#zcChat #zcProfileSheet::-webkit-scrollbar{display:none}
+#zcChat .zc-modal.on .zc-psheet{opacity:1;transform:none}
+#zcChat .zc-pf-cover{position:absolute;top:0;left:0;right:0;height:128px;border-radius:30px 30px 0 0;pointer-events:none;background:radial-gradient(120% 140% at 15% 0%,hsla(var(--pf-h),60%,46%,.55),transparent 62%),radial-gradient(100% 130% at 100% 0%,hsla(calc(var(--pf-h) + 45),60%,42%,.32),transparent 66%),linear-gradient(180deg,rgba(255,255,255,.05),transparent);-webkit-mask-image:linear-gradient(#000 35%,transparent);mask-image:linear-gradient(#000 35%,transparent)}
+#zcChat .zc-pf-x{position:absolute;top:12px;right:12px;z-index:3;width:34px;height:34px;padding:0;border:0;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.08);color:rgba(255,255,255,.82);font-size:.95rem;cursor:pointer;transition:background .15s,transform .12s;-webkit-tap-highlight-color:transparent}
+#zcChat .zc-pf-x:active{transform:scale(.92);background:rgba(255,255,255,.16)}
+#zcChat .zc-pf-avwrap{position:relative;z-index:1;flex:0 0 auto;margin-top:-68px}
+#zcChat .zc-psheet .zc-pf-avwrap .zc-pf-av{flex:0 0 136px;width:136px;height:136px;margin:0;font-size:3.4rem;box-shadow:0 0 0 7px #111114,0 0 0 8px rgba(255,255,255,.1),0 16px 36px rgba(0,0,0,.55)}
+#zcChat .zc-pf-avwrap .zc-pf-av img{width:100%;height:100%;object-fit:cover;display:block}
+#zcChat .zc-pf-dot{position:absolute;right:8px;bottom:8px;width:26px;height:26px;box-sizing:border-box;border-radius:50%;border:5px solid #111114;background:#585860}
+#zcChat .zc-pf-dot[data-on="1"]{background:#34d399;animation:zcPfPulse 2.4s ease-out infinite}
+@keyframes zcPfPulse{0%{box-shadow:0 0 0 0 rgba(52,211,153,.5)}70%,100%{box-shadow:0 0 0 9px rgba(52,211,153,0)}}
+#zcChat .zc-pf-name{max-width:100%;margin-top:18px;font-size:1.5rem;font-weight:800;letter-spacing:-.015em;line-height:1.2;text-align:center;overflow-wrap:anywhere;color:#fff}
+#zcChat .zc-pf-user{margin-top:4px;font-size:.88rem;color:rgba(255,255,255,.5);overflow-wrap:anywhere;text-align:center}
+#zcChat .zc-pf-role{display:flex;justify-content:center;gap:6px;margin-top:14px}
+#zcChat .zc-pf-role .zc-role-badge{padding:5px 14px;font-size:.78rem;letter-spacing:1.2px;border-radius:999px}
+#zcChat .zc-pf-role .zc-dev-badge{padding:5px 11px;font-size:.72rem}
+#zcChat .zc-pf-titles{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:10px}
+#zcChat .zc-pf-titles .dpt{max-width:100%}
+#zcChat .zc-pf-empty{padding:4px 12px;border:1px dashed rgba(255,255,255,.14);border-radius:999px;font-size:.72rem;color:rgba(255,255,255,.4)}
+#zcChat .zc-pf-status{margin-top:12px;font-size:.74rem;color:rgba(255,255,255,.45)}
+#zcChat .zc-pf-stats{width:100%;display:grid;grid-template-columns:repeat(3,1fr);margin-top:20px;border:1px solid rgba(255,255,255,.07);border-radius:18px;background:rgba(255,255,255,.035)}
+#zcChat .zc-pf-stats>div,#zcChat .zc-pf-like{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;padding:14px 4px 12px;border:0;border-radius:16px;background:none;color:#fff;font:inherit}
+#zcChat .zc-pf-stats>*+*::before{content:"";position:absolute;left:0;top:24%;bottom:24%;width:1px;background:rgba(255,255,255,.08)}
+#zcChat .zc-pf-stats b{display:inline-flex;align-items:center;gap:5px;font-size:1.15rem;font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums}
+#zcChat .zc-pf-stats span{font-size:.7rem;color:rgba(255,255,255,.46)}
+#zcChat .zc-pf-like{cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background .15s}
+#zcChat .zc-pf-like:active:not(:disabled){background:rgba(255,255,255,.06)}
+#zcChat .zc-pf-like:disabled{cursor:default;opacity:.6}
+#zcChat .zc-pf-like b i{font-size:.95rem}
+#zcChat .zc-pf-like.on b{color:#ff5a6a}
+#zcChat .zc-pf-join{width:100%;display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding:0 6px;font-size:.82rem}
+#zcChat .zc-pf-join[hidden]{display:none}
+#zcChat .zc-pf-join span{display:inline-flex;align-items:center;gap:8px;color:rgba(255,255,255,.48);font-weight:600}
+#zcChat .zc-pf-join span i{font-size:.8rem;opacity:.8}
+#zcChat .zc-pf-join b{font-weight:700;color:rgba(255,255,255,.9);font-variant-numeric:tabular-nums}
+#zcChat .zc-pf-actions{width:100%;display:grid;grid-template-columns:1.15fr 1fr;gap:10px;margin-top:18px}
+#zcChat .zc-pf-actions[hidden]{display:none}
+#zcChat .zc-psheet .zc-pf-actions>button{width:100%;min-height:48px;margin:0;padding:0 10px;display:flex;align-items:center;justify-content:center;gap:8px;border-radius:15px;font:inherit;font-size:.92rem;font-weight:700;white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .12s,background .15s,opacity .15s,box-shadow .15s}
+#zcChat .zc-psheet .zc-pf-actions>button[hidden]{display:none}
+#zcChat .zc-psheet .zc-pf-actions>button:active:not(:disabled){transform:scale(.97)}
+#zcChat .zc-psheet .zc-pf-follow{border:0;background:linear-gradient(180deg,#ee3d3d,#c32323);color:#fff;box-shadow:0 10px 22px -10px rgba(238,61,61,.75),inset 0 1px 0 rgba(255,255,255,.22)}
+#zcChat .zc-psheet .zc-pf-follow[data-state="following"]{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);box-shadow:none;color:#fff}
+#zcChat .zc-psheet .zc-pf-follow[data-state="confirm"]{background:rgba(238,61,61,.14);border:1px solid rgba(238,61,61,.55);box-shadow:none;color:#ff8f8f}
+#zcChat .zc-psheet .zc-pf-follow:disabled{opacity:.5;cursor:default}
+#zcChat .zc-psheet .zc-sheet-chat{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#fff}
+#zcChat .zc-psheet .zc-sheet-chat:disabled{opacity:.45;filter:none;cursor:not-allowed}
+#zcChat .zc-pf-hint{min-height:16px;margin-top:12px;font-size:.72rem;line-height:1.45;color:rgba(255,255,255,.46);text-align:center;overflow-wrap:anywhere}
+@media(prefers-reduced-motion:reduce){#zcChat .zc-psheet,#zcChat .zc-pf-dot{transition:none;animation:none}}
+#zcChat #zcModerationNoteT[data-gate]{text-decoration:underline;text-underline-offset:2px}
 </style>
 <script id="zc-chat-script">
 /* ===== ZUSMO LIVE CHAT — Supabase Publishable/Anon key only. Secret key is NEVER shipped to client. ===== */
@@ -9302,6 +9407,9 @@ function setComposerState(){
  if(S.me&&S.me.blacklisted){$('zcGlobalIn').placeholder='Kamu diblacklist dan tidak bisa mengirim pesan.';$('zcThreadIn').placeholder='Kamu diblacklist dan tidak bisa mengirim pesan.';}
  else{$('zcGlobalIn').placeholder='Ketik pesan';$('zcThreadIn').placeholder='Ketik pesan';}
  var m1=$('zcModerationNote'),m2=$('zcModerationNoteT');if(m1&&m2){m2.hidden=m1.hidden;m2.textContent=m1.textContent;}
+ var g=ok?threadGate():null;
+ if(g){var ti=$('zcThreadIn'),ts=$('zcThreadSend');ti.disabled=true;ts.disabled=true;ti.placeholder=g.ph;if(m2&&g.msg){m2.hidden=false;m2.textContent=g.msg;m2.dataset.gate='1';m2.style.cursor='pointer';}}
+ else if(m2&&m2.dataset.gate){delete m2.dataset.gate;m2.style.cursor='';}
 }
 function normalizeForCheck(v){
  v=String(v||'').toLowerCase().normalize('NFKC').replace(/[ \t\r\n_\-.,!?;:'"`~@#$%^&*()[\]{}<>\\/|+=:;]+/g,'');
@@ -9395,12 +9503,14 @@ async function insertVariants(table,variants){
 function chatRoleLabel(value){var v=String(value||'').trim().toUpperCase();return ['FREE','BASIC','ELITE','ULTIMATE','MAX'].indexOf(v)>=0?v:'';}
 function roleRank(value){return {FREE:0,BASIC:1,ELITE:2,ULTIMATE:3,MAX:4}[chatRoleLabel(value)||'FREE']||0;}
 function currentChatRole(){
- var v='';try{var e=document.getElementById('dpRoleText');if(e)v=e.textContent||'';}catch(e){}
- if(!v){try{v=localStorage.getItem('dpRoleLabel')||localStorage.getItem('dpRoleUnlocked')||localStorage.getItem('role')||'';}catch(e){}}
- /* Jangan menganggap ketiadaan data lokal sebagai FREE jika profil chat sudah memiliki role premium. */
- var local=chatRoleLabel(v),server=chatRoleLabel(S.me&&S.me.role_label);
- if(server&&roleRank(server)>roleRank(local||'FREE'))return server;
- return local||server||'FREE';
+ /* Ambil tier tertinggi dari semua sumber lokal; dpRoleText bisa masih menampilkan FREE
+    sesaat meskipun VIP/key sudah mengisi localStorage dengan MAX. */
+ var candidates=[];
+ try{var e=document.getElementById('dpRoleText');if(e)candidates.push(e.textContent||'');}catch(e){}
+ try{candidates.push(localStorage.getItem('dpRoleLabel')||'');candidates.push(localStorage.getItem('dpRoleUnlocked')||'');candidates.push(localStorage.getItem('role')||'');}catch(e){}
+ candidates.push(S.me&&S.me.role_label||'');
+ var best='FREE';candidates.forEach(function(v){var r=chatRoleLabel(v);if(r&&roleRank(r)>roleRank(best))best=r;});
+ return best;
 }
 async function syncChatRole(){
  if(!S.sb||!S.me||!S.me.id)return;
@@ -9409,8 +9519,18 @@ async function syncChatRole(){
     Jangan pernah menurunkan role premium yang ditemukan menjadi FREE hanya karena perangkat ini tidak menyimpan data VIP lokal. */
  try{
    if(uname&&NAME_RE.test(uname)){
-     var remote=await S.sb.from('chat_profiles').select('role_label,username').eq('username',uname).limit(10);
-     if(!remote.error&&Array.isArray(remote.data))remote.data.forEach(function(p){var rr=chatRoleLabel(p.role_label);if(rr&&roleRank(rr)>roleRank(role))role=rr;});
+     /* Username dicocokkan tanpa membedakan huruf besar/kecil agar akun yang sama
+        tidak gagal ditemukan hanya karena variasi kapitalisasi. NAME_RE membatasi
+        username ke karakter aman sehingga nilai ini tidak berisi wildcard ilike. */
+     var remote=await S.sb.from('chat_profiles').select('role_label,username').ilike('username',uname).limit(10);
+     if(!remote.error&&Array.isArray(remote.data)){
+       remote.data.forEach(function(p){
+         if(String(p.username||'').trim().toLowerCase()!==String(uname).trim().toLowerCase())return;
+         var rr=chatRoleLabel(p.role_label);
+         if(rr&&roleRank(rr)>roleRank(role))role=rr;
+       });
+     }else if(remote&&remote.error){console.warn('[zc-chat] shared role lookup ditolak/gagal:',remote.error);}
+
    }
  }catch(e){console.warn('[zc-chat] read shared role:',e);}
  S.me.role_label=role;var av=profileAvatarSrc();if(av&&av.length<200000)S.me.avatar_url=av;
@@ -9418,6 +9538,10 @@ async function syncChatRole(){
  try{var payload={role_label:role};if(S.me.avatar_url)payload.avatar_url=S.me.avatar_url;var r=await S.sb.from('chat_profiles').update(payload).eq('user_id',S.me.id);if(r.error&&!isColErr(r.error))console.warn('[zc-chat] sync role label:',r.error);}
  catch(e){console.warn('[zc-chat] sync role label:',e);}
 }
+/* Role bisa berubah setelah key VIP diaktifkan atau role profil developer diperbarui. */
+window.addEventListener('zusmo:role-change',function(){
+ try{if(S.sb&&S.me&&S.me.id)Promise.resolve().then(syncChatRole);}catch(e){console.warn('[zc-chat] role-change sync:',e);}
+});
 function fillName(m){
  var uid=m&&(m.user_id||m.sender_id),p=uid&&S.profiles[uid];
  if(p){if(!m.username&&p.username)m.username=p.username;if(m.is_admin===undefined&&p.is_admin!==undefined)m.is_admin=!!p.is_admin;if(!m.role_label&&p.role_label)m.role_label=p.role_label;if(!m.avatar_url&&p.avatar_url)m.avatar_url=p.avatar_url;}
@@ -9508,7 +9632,7 @@ async function refreshProfileFromDeveloper(force){
 function renderProfileSearchResult(arr){
  var box=$('zcUserList');box.textContent='';if(!S.usersQ||S.usersQ.length<3){$('zcSearchHint').textContent=S.usersQ?'Ketik minimal 3 karakter untuk mencari pengguna.':'';return;}
  $('zcSearchHint').textContent=arr.length?'Pengguna lain':'Tidak ada username yang cocok.';
- arr.slice(0,10).forEach(function(p){var row=el('button','zc-item');row.type='button';row.appendChild(avatar(p.id,p.username));var body=el('div','zc-item-body');body.appendChild(el('div','zc-item-name',p.username));body.appendChild(el('div','zc-item-sub',S.online[p.id]?'Online':'Offline'));row.appendChild(body);row.addEventListener('click',function(){openThread(p.id);});box.appendChild(row);});
+ arr.slice(0,10).forEach(function(p){var row=el('button','zc-item');row.type='button';row.appendChild(avatar(p.id,p.username));var body=el('div','zc-item-body');body.appendChild(el('div','zc-item-name',p.username));body.appendChild(el('div','zc-item-sub',S.online[p.id]?'Online':'Offline'));row.appendChild(body);row.addEventListener('click',function(){openProfile(p.id);});box.appendChild(row);});
 }
 async function searchUsers(){
  var seq=++S.usersSeq,q=S.usersQ;if(!S.ready||q.length<3){renderProfileSearchResult([]);return;}
@@ -9542,7 +9666,7 @@ function renderConvs(){
    var gHidden=$('zcGroupItem').hidden;
    if(q){if(gHidden)box.appendChild(el('div','zc-empty','Tidak ada chat yang cocok.'));}
    else if(S.filter==='unread'){if(gHidden)box.appendChild(el('div','zc-empty','Tidak ada pesan yang belum dibaca.'));}
-   else box.appendChild(el('div','zc-empty','Belum ada chat pribadi.\nCari username temanmu di kolom pencarian untuk mulai ngobrol.'));
+   else box.appendChild(el('div','zc-empty','Belum ada chat pribadi.\nCari username temanmu, ikuti, lalu saling mengikuti untuk mulai ngobrol.'));
    return;
  }
  arr.forEach(function(c){
@@ -9577,7 +9701,7 @@ async function ensureProfiles(ids){
  var r=await S.sb.from('chat_profiles').select('*').in('user_id',ids);
  if(r.error){console.warn('[zc-chat] ensureProfiles:',r.error);return;}
  (r.data||[]).forEach(function(p){
-   var o={id:p.user_id,user_id:p.user_id,username:p.username,last_seen:p.last_seen,role_label:chatRoleLabel(p.role_label),avatar_url:p.avatar_url||p.avatar||null,_full:true};
+   var o={id:p.user_id,user_id:p.user_id,username:p.username,last_seen:p.last_seen,role_label:chatRoleLabel(p.role_label),avatar_url:p.avatar_url||p.avatar||null,display_name:p.display_name||null,titles:Array.isArray(p.titles)?p.titles:[],_full:true};
    if(p.is_admin!==undefined)o.is_admin=!!p.is_admin;
    var bl=(p.blacklisted!==undefined)?p.blacklisted:p.is_blacklisted;if(bl!==undefined)o.blacklisted=!!bl;
    S.profiles[p.user_id]=Object.assign(S.profiles[p.user_id]||{},o);
@@ -9718,7 +9842,7 @@ async function markRead(peer){
  }catch(e){console.warn('[zc-chat] markRead',e);}
 }
 function renderPeerHead(){var p=S.profiles[S.peer]||{id:S.peer,username:'Pengguna'};setAv($('zcPeerAv'),p.id,p.username);$('zcPeerName').textContent=p.username;$('zcPeerSub').textContent=typingLabel('private',S.peer)||(S.online[S.peer]?'Online':(p.last_seen?'Terakhir aktif '+ago(p.last_seen):''));}
-async function openThread(peer){if(!S.ready||!UUID_RE.test(peer)||peer===S.me.id)return;var p=S.profiles[peer];if(p&&p.blacklisted){flash('Pengguna ini sedang diblacklist dan tidak dapat diajak chat.');return;}S.peer=peer;if(S.tab!=='private')setTab('private',true);pList.reset();showThreadView(true);renderPeerHead();try{await ensureProfiles([peer]);if(S.peer!==peer)return;if(S.profiles[peer]&&S.profiles[peer].blacklisted){S.peer=null;showThreadView(false);flash('Pengguna ini sedang diblacklist dan tidak dapat diajak chat.');return;}renderPeerHead();var t=await fetchThread(peer,null);if(S.peer!==peer)return;pList.merge(t.rows);pList.more=t.more;pList.render(true);markRead(peer);setComposerState();}catch(e){flash(friendly(e));}}
+async function openThread(peer){if(!S.ready||!UUID_RE.test(peer)||peer===S.me.id)return;var p=S.profiles[peer];if(p&&p.blacklisted){flash('Pengguna ini sedang diblacklist dan tidak dapat diajak chat.');return;}S.peer=peer;if(S.tab!=='private')setTab('private',true);pList.reset();showThreadView(true);renderPeerHead();setComposerState();loadRelation(peer).then(function(){if(S.peer===peer)setComposerState();});try{await ensureProfiles([peer]);if(S.peer!==peer)return;if(S.profiles[peer]&&S.profiles[peer].blacklisted){S.peer=null;showThreadView(false);flash('Pengguna ini sedang diblacklist dan tidak dapat diajak chat.');return;}renderPeerHead();var t=await fetchThread(peer,null);if(S.peer!==peer)return;pList.merge(t.rows);pList.more=t.more;pList.render(true);markRead(peer);setComposerState();}catch(e){flash(friendly(e));}}
 function closeThread(){S.peer=null;showThreadView(false);pList.reset();loadConvs().catch(function(){});}
 function showThreadView(on){if(on){S.tab='private';showView('thread');}else{S.tab='list';showView('list');}}
 function normalizeSend(v){return String(v||'').replace(/\r\n?/g,'\n').replace(/[ \t]+\n/g,'\n').replace(/\n{3,}/g,'\n\n').trim();}
@@ -9769,6 +9893,7 @@ async function sendThread(){
  var uid=String(S.me.id||'');
  if(!UUID_RE.test(uid)||!UUID_RE.test(peer)){flash('ID pengguna tidak valid untuk Live Chat.');return;}
  var pp=S.profiles[peer];if(pp&&pp.blacklisted){flash('Pengguna ini sedang diblacklist dan tidak dapat diajak chat.');return;}
+ if(threadGate()){flash('Saling ikuti dulu untuk chat pribadi.');return;}
  if(clientBanned(txt)){flash('Kata terlarang tidak diizinkan.');return;}
  S.sending=true;S.lastSend=Date.now();
  try{
@@ -9800,8 +9925,165 @@ async function sendThread(){
 }
 function autosize(ta){ta.style.height='auto';ta.style.height=Math.min(ta.scrollHeight,110)+'px';}
 function bindComposer(ta,btn,fn){ta.addEventListener('input',function(){autosize(ta);});ta.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey&&!e.isComposing){e.preventDefault();fn();}});btn.addEventListener('click',fn);}
-function openProfile(uid){
- if(!UUID_RE.test(uid))return;ensureProfiles([uid]).then(function(){var p=S.profiles[uid]||{id:uid,username:'Pengguna'};$('zcSheetName').textContent=p.username||'Pengguna';setAv($('zcSheetAv'),p.id,p.username);$('zcSheetStatus').textContent=S.online[uid]?'Online':(p.last_seen?'Terakhir aktif '+ago(p.last_seen):'Offline');$('zcSheetChat').hidden=uid===S.me.id;$('zcSheetChat').onclick=function(){closeSheet('zcProfileSheet');openThread(uid);};openSheet('zcProfileSheet');});}
+/* ===== IKUTI / TEMAN: profil orang lain; chat pribadi hanya jika saling mengikuti ===== */
+S.social={ok:null,busy:{}};S.rel={};S.cnt={};S.extraSig='';
+var pfUid=null,pfTimer=null;
+function missingBackend(e){var c=(e&&e.code)||'',m=(e&&e.message)||'';return c==='PGRST202'||c==='PGRST205'||c==='42883'||c==='42P01'||/could not find the function|could not find the table/i.test(m);}
+function fmtN(n){n=+n||0;if(n>=1e6)return (n/1e6).toFixed(1).replace(/\.0$/,'')+' jt';if(n>=1e3)return (n/1e3).toFixed(1).replace(/\.0$/,'')+' rb';return String(n);}
+async function loadCard(uid){
+ var r=await S.sb.rpc('zc_profile_card',{p_user:uid});
+ if(r.error){if(missingBackend(r.error)){S.social.ok=false;return null;}throw r.error;}
+ var c=Array.isArray(r.data)?r.data[0]:r.data;
+ if(!c||typeof c!=='object')return null;
+ S.social.ok=true;
+ S.rel[uid]={i_follow:!!c.i_follow,follows_me:!!c.follows_me};
+ S.cnt[uid]={following:+c.following||0,followers:+c.followers||0,likes:+c.likes||0,i_liked:!!c.i_liked};
+ var o={id:uid,user_id:uid};
+ if(c.username)o.username=c.username;
+ if(c.display_name!==undefined)o.display_name=c.display_name;
+ if(c.role_label)o.role_label=chatRoleLabel(c.role_label);
+ if(Array.isArray(c.titles))o.titles=c.titles;
+ if(c.avatar_url)o.avatar_url=c.avatar_url;
+ if(c.last_seen)o.last_seen=c.last_seen;
+ if(c.joined_at)o.joined_at=c.joined_at;
+ S.profiles[uid]=Object.assign(S.profiles[uid]||{},o);
+ return c;
+}
+async function loadRelation(uid){
+ if(S.social.ok===false||!S.sb||!UUID_RE.test(uid))return;
+ try{await loadCard(uid);}catch(e){console.warn('[zc-chat] relation:',e);S.rel[uid]={error:true};}
+}
+/* Statistik akun sendiri -> dibaca tab Pribadi (Mengikuti / Pengikut / Suka) */
+async function refreshMySocial(){
+ if(!S.ready||!S.me||S.social.ok===false)return;
+ try{
+   var c=await loadCard(S.me.id);if(!c)return;
+   var st={following:+c.following||0,followers:+c.followers||0,likes:+c.likes||0};
+   try{localStorage.setItem('zusmo_social_stats',JSON.stringify(st));}catch(e){}
+   window.dispatchEvent(new CustomEvent('zusmo:social-stats',{detail:st}));
+ }catch(e){console.warn('[zc-chat] social stats:',e);}
+}
+window.__zcRefreshSocial=function(){return S.ready?refreshMySocial():start().then(function(){return refreshMySocial();});};
+/* Nama tampilan & gelar ikut disinkron supaya bisa dilihat orang lain di profil */
+async function syncProfileExtras(){
+ if(!S.sb||!S.me||!S.me.id||S.social.ok===false)return;
+ var dn='';
+ try{var n=$('dpName');dn=String((n&&n.textContent)||'').trim();if(!dn||dn==='Guest')dn=String(localStorage.getItem('hmDisplayName')||'').trim();}catch(e){}
+ if(dn==='Guest')dn='';dn=dn.slice(0,24);
+ var ti=[];try{ti=window.__zusmoTitles?window.__zusmoTitles.snapshot():[];}catch(e){}
+ var sig=dn+'|'+JSON.stringify(ti);
+ if(sig===S.extraSig)return;
+ try{
+   var r=await S.sb.from('chat_profiles').update({display_name:dn||null,titles:ti}).eq('user_id',S.me.id);
+   if(r.error){if(!isColErr(r.error))console.warn('[zc-chat] sync profil tambahan:',r.error);return;}
+   S.extraSig=sig;
+   S.profiles[S.me.id]=Object.assign(S.profiles[S.me.id]||{},{display_name:dn||null,titles:ti});
+ }catch(e){console.warn('[zc-chat] sync profil tambahan:',e);}
+}
+function renderTitlesInto(box,list){
+ box.textContent='';var n=0;
+ (Array.isArray(list)?list:[]).slice(0,5).forEach(function(it){
+   try{var b=window.__zusmoTitles&&window.__zusmoTitles.badge(it,true);if(b){box.appendChild(b);n++;}}catch(e){}
+ });
+ if(!n)box.appendChild(el('span','zc-pf-empty','Belum ada gelar'));
+}
+function renderRoleInto(box,p){
+ box.textContent='';var r=chatRoleLabel(p&&p.role_label)||'FREE';
+ var b=el('span','zc-role-badge zc-role-'+r.toLowerCase(),r.toLowerCase());b.title='Role '+r;box.appendChild(b);
+ if(p&&p.is_admin)box.appendChild(el('span','zc-dev-badge','DEV'));
+}
+function paintProfile(uid,loading){
+ var p=S.profiles[uid]||{id:uid,username:'Pengguna'},mine=!!(S.me&&uid===S.me.id),uname=p.username||'Pengguna';
+ var dn=p.display_name&&String(p.display_name).trim();
+ if(!dn&&mine){try{var _n=$('dpName'),_t=String((_n&&_n.textContent)||'').trim();if(_t&&_t!=='Guest')dn=_t;}catch(e){}}
+ $('zcSheetName').textContent=dn||uname;
+ $('zcSheetUser').textContent='@'+uname;
+ setAv($('zcSheetAv'),p.id||uid,dn||uname);
+ var ps=$('zcSheetAv').closest('.zc-psheet');if(ps)ps.style.setProperty('--pf-h',hue(p.id||uid));
+ var isOn=!mine&&!!S.online[uid];$('zcSheetDot').dataset.on=isOn?'1':'0';
+ $('zcSheetStatus').textContent=mine?'Profil kamu':(S.online[uid]?'Online':(p.last_seen?'Terakhir aktif '+ago(p.last_seen):'Offline'));
+ renderRoleInto($('zcSheetRole'),p);renderTitlesInto($('zcSheetTitles'),p.titles);
+ var jd=p.joined_at?new Date(p.joined_at):null,jr=$('zcPfJoinRow');
+ if(jr){if(jd&&!isNaN(jd.getTime())){jr.hidden=false;$('zcPfJoin').textContent=('0'+jd.getDate()).slice(-2)+'-'+('0'+(jd.getMonth()+1)).slice(-2)+'-'+jd.getFullYear();}else jr.hidden=true;}
+ var cn=S.cnt[uid]||{following:0,followers:0,likes:0,i_liked:false};
+ $('zcPfFollowing').textContent=fmtN(cn.following);$('zcPfFollowers').textContent=fmtN(cn.followers);
+ var lk=$('zcPfLike');lk.classList.toggle('on',!!cn.i_liked);lk.setAttribute('aria-pressed',cn.i_liked?'true':'false');
+ $('zcPfLikes').innerHTML='<i class="fa-'+(cn.i_liked?'solid':'regular')+' fa-heart" aria-hidden="true"></i> '+fmtN(cn.likes);
+ var f=$('zcSheetFollow'),ch=$('zcSheetChat'),hint=$('zcSheetHint');
+ f.hidden=mine;ch.hidden=mine;$('zcPfActions').hidden=mine;
+ if(mine){lk.disabled=true;hint.textContent='';return;}
+ var off=S.social.ok===false,rel=S.rel[uid],FOLLOW='<i class="fa-solid fa-user-plus"></i> Ikuti';
+ f.dataset.state='follow';f.innerHTML=FOLLOW;ch.innerHTML='<i class="fa-solid fa-lock"></i> Chat Pribadi';
+ if(off){f.disabled=true;lk.disabled=true;ch.disabled=false;ch.innerHTML='<i class="fa-solid fa-message"></i> Chat Pribadi';hint.textContent='Fitur ikuti belum aktif di server.';return;}
+ if(loading||!rel){f.disabled=true;ch.disabled=true;lk.disabled=true;hint.textContent='Memuat…';return;}
+ if(rel.error){f.disabled=true;ch.disabled=true;lk.disabled=true;hint.textContent='Gagal memuat profil. Tutup lalu buka lagi.';return;}
+ var mutual=!!(rel.i_follow&&rel.follows_me);
+ f.disabled=false;lk.disabled=false;
+ if(rel.i_follow){f.dataset.state='following';f.innerHTML='<i class="fa-solid fa-check"></i> Mengikuti';}
+ else if(rel.follows_me){f.dataset.state='followback';f.innerHTML='<i class="fa-solid fa-user-plus"></i> Ikuti Balik';}
+ ch.disabled=!mutual;
+ if(mutual)ch.innerHTML='<i class="fa-solid fa-message"></i> Chat Pribadi';
+ hint.textContent=mutual?'Kalian saling mengikuti, chat pribadi terbuka.':(rel.i_follow?'Menunggu @'+uname+' mengikuti kamu balik.':(rel.follows_me?'@'+uname+' mengikutimu. Ikuti balik untuk chat pribadi.':'Saling ikuti untuk membuka chat pribadi.'));
+}
+async function openProfile(uid){
+ if(!UUID_RE.test(uid)||!S.sb)return;
+ pfUid=uid;clearTimeout(pfTimer);
+ paintProfile(uid,true);openSheet('zcProfileSheet');
+ try{await ensureProfiles([uid]);}catch(e){}
+ if(pfUid!==uid)return;
+ paintProfile(uid,true);
+ try{await loadCard(uid);}catch(e){console.warn('[zc-chat] kartu profil:',e);S.rel[uid]={error:true};}
+ if(pfUid===uid)paintProfile(uid);
+}
+async function togglePfFollow(){
+ var uid=pfUid;if(!uid||!S.me||uid===S.me.id||S.social.ok!==true||S.social.busy[uid])return;
+ var rel=S.rel[uid],cn=S.cnt[uid],f=$('zcSheetFollow');if(!rel||!cn||rel.error)return;
+ if(rel.i_follow&&f.dataset.state!=='confirm'){
+   /* tap pertama pada "Mengikuti": minta konfirmasi supaya tidak berhenti mengikuti tanpa sengaja */
+   f.dataset.state='confirm';f.textContent='Tap lagi untuk berhenti mengikuti';
+   clearTimeout(pfTimer);pfTimer=setTimeout(function(){if(pfUid===uid)paintProfile(uid);},3200);return;
+ }
+ clearTimeout(pfTimer);
+ var want=!rel.i_follow,prev={f:rel.i_follow,n:cn.followers};
+ S.social.busy[uid]=1;
+ rel.i_follow=want;cn.followers=Math.max(0,cn.followers+(want?1:-1));paintProfile(uid);
+ try{
+   var r=await S.sb.rpc(want?'zc_follow':'zc_unfollow',{p_target:uid});
+   if(r.error)throw r.error;
+   await loadCard(uid);
+ }catch(e){rel.i_follow=prev.f;cn.followers=prev.n;flash(friendly(e));}
+ finally{delete S.social.busy[uid];}
+ if(pfUid===uid)paintProfile(uid);
+ if(S.peer===uid)setComposerState();
+ refreshMySocial();
+}
+async function togglePfLike(){
+ var uid=pfUid;if(!uid||!S.me||uid===S.me.id||S.social.ok!==true||S.social.busy['l'+uid])return;
+ var cn=S.cnt[uid];if(!cn)return;
+ var prev={l:cn.i_liked,n:cn.likes};
+ S.social.busy['l'+uid]=1;
+ cn.i_liked=!cn.i_liked;cn.likes=Math.max(0,cn.likes+(cn.i_liked?1:-1));paintProfile(uid);
+ try{
+   var r=await S.sb.rpc('zc_toggle_like',{p_target:uid});
+   if(r.error)throw r.error;
+   var d=Array.isArray(r.data)?r.data[0]:r.data;
+   if(d&&typeof d==='object'){if(d.liked!==undefined)cn.i_liked=!!d.liked;if(d.likes!==undefined)cn.likes=+d.likes||0;}
+ }catch(e){cn.i_liked=prev.l;cn.likes=prev.n;flash(friendly(e));}
+ finally{delete S.social.busy['l'+uid];}
+ if(pfUid===uid)paintProfile(uid);
+}
+/* Chat pribadi terkunci sampai kedua pihak saling mengikuti (server juga menegakkan lewat trigger). */
+function threadGate(){
+ var peer=S.peer;if(!peer||!S.me||S.social.ok===false)return null;
+ var r=S.rel[peer];
+ if(r&&r.error)return null;
+ if(!r)return {ph:'Memeriksa pertemanan…',msg:''};
+ if(r.i_follow&&r.follows_me)return null;
+ var p=S.profiles[peer]||{},u='@'+(p.username||'pengguna');
+ if(r.follows_me)return {ph:'Ikuti balik untuk chat',msg:u+' sudah mengikutimu. Ikuti balik untuk membuka chat pribadi. Ketuk untuk lihat profil.'};
+ if(r.i_follow)return {ph:'Menunggu '+u+' mengikuti balik',msg:'Menunggu '+u+' mengikutimu balik. Chat pribadi terbuka setelah kalian saling mengikuti.'};
+ return {ph:'Saling ikuti dulu untuk chat',msg:'Kalian belum saling mengikuti. Ketuk untuk buka profil lalu ikuti '+u+'.'};
+}
 function openSheet(id){var x=$(id);x.classList.add('on');x.setAttribute('aria-hidden','false');}
 function closeSheet(id){var x=$(id);x.classList.remove('on');x.setAttribute('aria-hidden','true');}
 function openAdminUser(uid,name){
@@ -9899,6 +10181,7 @@ function pollTick(){
  var bad=Object.keys(S.statuses).some(function(k){return S.statuses[k]!=='SUBSCRIBED';});
  /* Realtime putus -> polling cepat (6 dtk). Normal -> jaring pengaman tiap 30 dtk. */
  if(bad||pollN%5===0)resync();
+ if(S.peer&&S.tab==='private'&&S.social.ok!==false&&threadGate()&&pollN%2===0)loadRelation(S.peer).then(function(){setComposerState();});
 }
 async function start(){
  if(S.starting)return S.starting;showErr('');S.starting=(async function(){
@@ -9921,7 +10204,7 @@ async function start(){
   if(!S.gSeen)markGroupSeen();renderGroupRow();
   try{await loadConvs();}catch(e){console.warn('[zc-chat] load convs',e);}
   subscribeAll();
-  S.ready=true;setComposerState();renderConn();renderMe();
+  S.ready=true;setComposerState();renderConn();renderMe();refreshMySocial();syncProfileExtras();
   if(!S.touchTimer)S.touchTimer=setInterval(touch,TOUCH_MS);
   if(!S.pollTimer)S.pollTimer=setInterval(pollTick,6000);
   setTab(S.tab);touch();
@@ -9962,6 +10245,17 @@ $('zcProfileGo').addEventListener('click',goProfile);
 $('zcRetry').addEventListener('click',function(){S.starting=null;start();});
 $('zcBack').addEventListener('click',closeThread);
 $('zcSheetClose').addEventListener('click',function(){closeSheet('zcProfileSheet');});
+$('zcSheetFollow').addEventListener('click',togglePfFollow);
+$('zcPfLike').addEventListener('click',togglePfLike);
+$('zcSheetChat').addEventListener('click',function(){var uid=pfUid;if(!uid||this.disabled)return;closeSheet('zcProfileSheet');openThread(uid);});
+var apBtn=$('zcAdminProfile');if(apBtn)apBtn.addEventListener('click',function(){var m=S.adminTarget;if(!m)return;var uid=m.user_id||m.sender_id||m.receiver_id;if(!UUID_RE.test(uid))return;closeSheet('zcAdminSheet');openProfile(uid);});
+$('zcModerationNoteT').addEventListener('click',function(){if(this.dataset.gate&&S.peer)openProfile(S.peer);});
+window.addEventListener('zusmo:titles-change',function(){S.extraSig='';syncProfileExtras();});
+window.addEventListener('zusmo:role-change',function(){S.extraSig='';syncProfileExtras();});
+/* Nama tampilan diperbarui otomatis tiap kali nama di profil berubah (tanpa perlu buka ulang chat) */
+(function(){var t=null;function kick(){clearTimeout(t);t=setTimeout(function(){S.extraSig='';syncProfileExtras();},700);}
+ function hook(){var n=document.getElementById('dpName');if(!n)return;try{new MutationObserver(kick).observe(n,{childList:true,characterData:true,subtree:true});}catch(e){}}
+ hook();setTimeout(kick,2500);setTimeout(kick,8000);})();
 $('zcAdminClose').addEventListener('click',function(){closeSheet('zcAdminSheet');});
 $('zcAdminDelete').addEventListener('click',adminDelete);$('zcAdminBlock').addEventListener('click',adminBlock);$('zcAdminUnblock').addEventListener('click',adminUnblock);
 qsa('#zcChat .zc-modal').forEach(function(x){x.addEventListener('click',function(e){if(e.target===x)closeSheet(x.id);});});
@@ -9978,7 +10272,7 @@ function watchDeveloperProfile(){
  dpObserver=new MutationObserver(sync);dpObserver.observe(node,{childList:true,characterData:true,subtree:true});
  clearInterval(S.profileTimer);S.profileTimer=setInterval(sync,1000);
 }
-function onPageToggle(){var on=pageActive();document.documentElement.classList.toggle('zc-on',on);if(on&&!S.wasOn){setVh();window.scrollTo(0,0);watchDeveloperProfile();if(!S.ready)start();else{resync();refreshProfileFromDeveloper(false);setTab(S.tab);}}S.wasOn=on;}
+function onPageToggle(){var on=pageActive();document.documentElement.classList.toggle('zc-on',on);if(on&&!S.wasOn){setVh();window.scrollTo(0,0);watchDeveloperProfile();if(!S.ready)start();else{resync();refreshProfileFromDeveloper(false);setTab(S.tab);syncProfileExtras();}}S.wasOn=on;}
 new MutationObserver(onPageToggle).observe($('zcChat'),{attributes:true,attributeFilter:['class']});
 (function(){var ct=document.getElementById('communityTab');if(!ct)return;function warm(){if(!ct.classList.contains('active')||S.ready||S.starting)return;start();}new MutationObserver(warm).observe(ct,{attributes:true,attributeFilter:['class']});warm();})();
 renderConvs();renderBadges();renderConn();onPageToggle();
