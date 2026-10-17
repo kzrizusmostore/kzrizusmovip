@@ -1072,12 +1072,12 @@ AccessTokenDua
         <div class="zc-reply-preview-bar"></div><div class="zc-reply-preview-body"><b id="zcGroupReplyName">Membalas pesan</b><span id="zcGroupReplyText"></span></div>
         <button type="button" class="zc-reply-cancel" id="zcGroupReplyCancel" aria-label="Batalkan balasan"><i class="fa-solid fa-xmark"></i></button>
       </div>
-      <div class="zc-stk-panel" id="zcStkPanelG" hidden role="dialog" aria-label="Pilih stiker"></div>
       <div class="zc-compose">
         <button type="button" class="zc-stk-btn" id="zcStkBtnG" aria-label="Stiker" aria-expanded="false" title="Stiker" disabled><i class="fa-regular fa-face-smile" aria-hidden="true"></i></button>
         <textarea id="zcGlobalIn" rows="1" maxlength="500" placeholder="Ketik pesan" disabled></textarea>
         <button type="button" class="zc-send" id="zcGlobalSend" aria-label="Kirim" disabled><i class="fa-solid fa-paper-plane"></i></button>
       </div>
+      <div class="zc-stk-panel" id="zcStkPanelG" hidden role="dialog" aria-label="Pilih stiker"></div>
     </div>
 
     <div class="zc-view" id="zcThreadView">
@@ -1089,12 +1089,12 @@ AccessTokenDua
       <div class="zc-list" id="zcThreadList" aria-live="polite"></div>
       <button type="button" class="zc-pill" id="zcThreadPill" hidden>↓ Pesan baru</button>
       <div class="zc-moderation-note" id="zcModerationNoteT" hidden></div>
-      <div class="zc-stk-panel" id="zcStkPanelT" hidden role="dialog" aria-label="Pilih stiker"></div>
       <div class="zc-compose">
         <button type="button" class="zc-stk-btn" id="zcStkBtnT" aria-label="Stiker" aria-expanded="false" title="Stiker" disabled><i class="fa-regular fa-face-smile" aria-hidden="true"></i></button>
         <textarea id="zcThreadIn" rows="1" maxlength="500" placeholder="Ketik pesan" disabled></textarea>
         <button type="button" class="zc-send" id="zcThreadSend" aria-label="Kirim" disabled><i class="fa-solid fa-paper-plane"></i></button>
       </div>
+      <div class="zc-stk-panel" id="zcStkPanelT" hidden role="dialog" aria-label="Pilih stiker"></div>
     </div>
     <div class="zc-flash" id="zcFlash" role="status" aria-live="polite"></div>
   </div>
@@ -12267,7 +12267,7 @@ window.apResetRole=function(){
 #zcChat .zc-stk-btn[aria-expanded="true"]{color:#ff2b2b}
 #zcChat .zc-stk-btn:disabled{opacity:.5;cursor:default}
 #zcChat .zc-stk-btn:active{transform:scale(.94)}
-#zcChat .zc-stk-panel{flex:0 0 auto;display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding:10px 10px 6px;max-height:34vh;overflow-y:auto;background:var(--wa-bg);border-top:1px solid rgba(255,255,255,.1);-webkit-overflow-scrolling:touch}
+#zcChat .zc-stk-panel{flex:0 0 auto;display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding:10px 10px 6px;max-height:34vh;overflow-y:auto;background:var(--wa-bg);border-top:1px solid rgba(255,255,255,.1);padding-bottom:calc(10px + env(safe-area-inset-bottom,0px));-webkit-overflow-scrolling:touch}
 #zcChat .zc-stk-panel[hidden]{display:none}
 #zcChat .zc-stk-item{aspect-ratio:1/1;padding:4px;border:0;border-radius:12px;background:rgba(255,255,255,.05);cursor:pointer;display:flex;align-items:center;justify-content:center}
 #zcChat .zc-stk-item:active{background:rgba(255,43,43,.18);transform:scale(.94)}
