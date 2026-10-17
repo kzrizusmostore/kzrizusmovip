@@ -788,6 +788,47 @@ html.zc-on body{padding-bottom:0!important;overflow:hidden!important}
 .zc-modal-act button.pri{border:0;background:linear-gradient(135deg,#ff2b2b,#b30000)}
 .zc-modal-act button:disabled{opacity:.5}
 </style>
+<script id="dp-coll-logo-core">
+/* Logo KOLEKSI profil (wajib). Tampil di profil + Live Chat. Foto GALERI (opsional) hanya di profil, tidak pernah ke Live Chat. */
+(function(){
+'use strict';
+if(window.zsCollLogo)return;
+var K='dpCollLogo',DEF='zusmo-asset/677288085_miwamikadono.jpg',RE=/^(?:default|lg\d{1,4})$/;
+function lg(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+function list(){return window.__zusmoLogos||[];}
+function find(id){var l=list();for(var i=0;i<l.length;i++){if(l[i]&&l[i].id===id)return l[i];}return null;}
+function findSrc(src){var l=list();for(var i=0;i<l.length;i++){if(l[i]&&l[i].img===src)return l[i];}return null;}
+var api={
+ valid:function(id){return RE.test(String(id||''));},
+ get:function(){var v=String(lg(K)||'').trim();return RE.test(v)?v:'';},
+ src:function(id){id=String(id||'');if(!RE.test(id))return '';if(id==='default')return DEF;var o=find(id);return o&&o.img?o.img:'';},
+ mySrc:function(){var id=api.get();return id?api.src(id):'';},
+ idOfSrc:function(src){src=String(src||'').trim();if(!src)return '';if(src===DEF)return 'default';var o=findSrc(src);return o?o.id:'';},
+ notify:function(){try{window.dispatchEvent(new CustomEvent('zusmo:coll-logo',{detail:{id:api.get()}}));}catch(e){}},
+ set:function(id){
+  id=String(id||'');if(!RE.test(id))return false;
+  var changed=api.get()!==id;
+  try{localStorage.setItem(K,id);}catch(e){return false;}
+  if(changed)api.notify();
+  return true;
+ },
+ /* data lama: logo koleksi dulu tersimpan di dpCustomAvatar (jalur "galeri"). Pindahkan ke slot koleksi. */
+ migrate:function(){
+  try{
+   if(api.get())return;
+   var cav=String(lg('dpCustomAvatar')||'').trim();
+   if(!cav||/^data:/i.test(cav))return;
+   var id=api.idOfSrc(cav);
+   if(!id)return;
+   localStorage.setItem(K,id);localStorage.removeItem('dpCustomAvatar');
+  }catch(e){}
+ }
+};
+window.zsCollLogo=api;
+document.addEventListener('DOMContentLoaded',function(){api.migrate();});
+window.addEventListener('load',function(){api.migrate();});
+})();
+</script>
 </head><body><div id="kzSplash" class="kzs" aria-hidden="true">
 <div class="kzs-glow"></div>
 <div class="kzs-stage">
@@ -3474,7 +3515,7 @@ body.zx-wall-oj #zxOldWall{--zw-pos:14% 40%;--zw-blur:1.5px;--zw-sat:.9;--zw-br:
   function renderAvatar(){
     var box=$('dpAvatar'),img=$('dpAvatarImg');if(!box||!img) return;
     var h=document.querySelector('img.hm-avatar'),src=h?h.getAttribute('src'):'';
-    var cav=lsGet('dpCustomAvatar','');if(cav) src=cav;
+    var cav=lsGet('dpCustomAvatar','');if(cav) src=cav;else{try{var _cl=window.zsCollLogo&&window.zsCollLogo.mySrc();if(_cl) src=_cl;}catch(e){}}
     if(!src){box.classList.add('is-fallback');return;}
     if(img.getAttribute('src')===src) return;
     img.onload=function(){box.classList.remove('is-fallback');};
@@ -5413,7 +5454,8 @@ body #developerTab .dp-card:has(.dp-bio:not(.is-empty)),body #developerTab .dp-c
     <button type="button" class="dpe-avatar" id="dpeAvatarBtn" aria-label="Ganti foto profil"><img id="dpeAvatarImg" alt=""></button>
   </div>
   <button type="button" class="dpe-photo" id="dpePhotoBtn">Ubah foto</button>
-  <div class="dpe-reset"><button type="button" id="dpeResetBn">Kembalikan banner</button><button type="button" id="dpeResetAv">Kembalikan foto</button></div>
+  <button type="button" class="dpe-live need" id="dpeLive" aria-live="polite"></button>
+  <div class="dpe-reset"><button type="button" id="dpeResetBn">Kembalikan banner</button><button type="button" id="dpeResetAv" hidden>Hapus foto galeri</button></div>
   <div class="dpe-sec">Info dasar</div>
   <button type="button" class="dpe-row dpe-go" data-f="name"><span class="dpe-lbl">Nama</span><span class="dpe-val" id="dpvName"></span><i class="fa-solid fa-chevron-right dpe-chev" aria-hidden="true"></i></button>
   <button type="button" class="dpe-row dpe-go" data-f="user"><span class="dpe-lbl">Nama pengguna</span><span class="dpe-val" id="dpvUser"></span><i class="fa-solid fa-chevron-right dpe-chev" aria-hidden="true"></i></button>
@@ -5615,7 +5657,7 @@ body #developerTab .dp-card:has(.dp-bio:not(.is-empty)),body #developerTab .dp-c
     f.click();
   }
 
-  var D={bn:'',av:'',bnBlob:null};
+  var D={bn:'',av:'',coll:'',bnBlob:null};
   var bnURL='',bnTok=0;
   function bnRevoke(){if(bnURL){try{URL.revokeObjectURL(bnURL);}catch(e){}bnURL='';}}
   function defBannerData(){
@@ -5656,16 +5698,28 @@ body #developerTab .dp-card:has(.dp-bio:not(.is-empty)),body #developerTab .dp-c
     $('dpeBannerBtn').addEventListener('click',function(){
       pickBanner(function(u){D.bn=u;D.bnBlob=null;showBnPrev();},function(file){D.bn='idb:video';D.bnBlob=file;showBnPrev();});
     });
-    function pickAv(){pickImage(400,400,0.85,function(u){D.av=u;setPrev($('dpeAvatarImg'),u);});}
+    function logoSrc(id){return window.zsCollLogo?window.zsCollLogo.src(id):'';}
+    function paintAv(){
+      var img=$('dpeAvatarImg');if(img) setPrev(img,D.av||logoSrc(D.coll)||defAvatar());
+      var chip=$('dpeLive');
+      if(chip){
+        var ok=!!D.coll,ls=ok?logoSrc(D.coll):'';
+        chip.className='dpe-live '+(ok?'ok':'need');
+        chip.innerHTML=(ok&&ls?'<img alt="" src="'+ls+'">':'<i class="fa-solid '+(ok?'fa-circle-check':'fa-shapes')+'" aria-hidden="true"></i>')+'<span>'+(ok?'Tampil di Live Chat':'Pasang koleksi dulu')+'</span><i class="fa-solid fa-chevron-right dpe-live-go" aria-hidden="true"></i>';
+      }
+      var rm=$('dpeResetAv');if(rm) rm.hidden=!D.av;
+    }
+    window.__dpPaintAv=paintAv;
+    function pickAv(){pickImage(400,400,0.85,function(u){D.av=u;paintAv();setErr('');});}
     function pickCollection(){
       if(typeof window.openLogoDetail!=='function'){setErr('Koleksi logo belum siap, coba lagi.');return;}
       if(!window.__dpLogoHook){
         window.__dpLogoHook=true;
         var oUse=window.useLogoOwnedDetail,oClose=window.closeLogoDetail,oSel=window.onSelectLogoDetail;
         window.useLogoOwnedDetail=function(){
-          var cb=window.__dpLogoPick,im=document.getElementById('logoOwnedDetailImg'),src=im?im.getAttribute('src'):'';
+          var cb=window.__dpLogoPick,im=document.getElementById('logoOwnedDetailImg'),src=im?im.getAttribute('src'):'',id=window.__dpLogoPickId||'';
           if(typeof cb==='function'&&src){
-            window.__dpLogoPick=null;cb(src);
+            window.__dpLogoPick=null;window.__dpLogoPickId='';cb(src,id);
             if(typeof window.closeLogoOwnedDetail==='function') window.closeLogoOwnedDetail();
             if(typeof window.closeLogoDetail==='function') window.closeLogoDetail();
             return;
@@ -5673,44 +5727,61 @@ body #developerTab .dp-card:has(.dp-bio:not(.is-empty)),body #developerTab .dp-c
           return oUse.apply(this,arguments);
         };
         window.closeLogoDetail=function(){
-          window.__dpLogoPick=null;document.body.classList.remove('dp-logo-picking');
+          window.__dpLogoPick=null;window.__dpLogoPickId='';document.body.classList.remove('dp-logo-picking');
           return oClose.apply(this,arguments);
         };
         window.onSelectLogoDetail=function(){
           var r=oSel.apply(this,arguments);
           if(typeof window.__dpLogoPick==='function'){
+            window.__dpLogoPickId=String(arguments[0]||'');
             var bt=document.getElementById('logoOwnedDetailUseBtn'),ds=document.getElementById('logoOwnedDetailDesc');
-            if(bt){bt.disabled=false;bt.classList.remove('insufficient');bt.textContent='Pakai untuk profil';}
-            if(ds) ds.textContent='Logo ini akan dipasang di profil Pribadi kamu.';
+            if(bt){bt.disabled=false;bt.classList.remove('insufficient');bt.textContent='Pasang';}
+            if(ds) ds.textContent='Tampil di profil & Live Chat.';
           }
           return r;
         };
       }
-      window.__dpLogoPick=function(src){D.av=src;setPrev($('dpeAvatarImg'),src);setErr('');};
+      window.__dpLogoPickId='';
+      window.__dpLogoPick=function(src,id){
+        var c=window.zsCollLogo;
+        if(!c||!c.valid(id)) id=c?c.idOfSrc(src):'';
+        if(!id){setErr('Logo tidak dikenali. Coba logo lain.');return;}
+        D.coll=id;paintAv();setErr('');
+      };
       document.body.classList.add('dp-logo-picking');
       window.openLogoDetail();
     }
+    function shake(n){if(!n) return;n.classList.remove('shake');void n.offsetWidth;n.classList.add('shake');try{navigator.vibrate&&navigator.vibrate(28);}catch(x){}}
     function pickSource(){
       if($('dpeSrc')) return;
+      var has=!!D.coll,ls=has?logoSrc(D.coll):'';
       var o=document.createElement('div');o.className='dpe-src';o.id='dpeSrc';
-      o.innerHTML='<div class="dpe-src-card"><button type="button" data-s="gal"><i class="fa-solid fa-images" aria-hidden="true"></i>Pilih dari galeri</button><button type="button" data-s="kol"><i class="fa-solid fa-shapes" aria-hidden="true"></i>Pilih dari koleksi</button><button type="button" class="dpe-src-cancel" data-s="x">Batal</button></div>';
+      o.innerHTML='<div class="dpe-src-card" role="dialog" aria-label="Foto profil"><span class="dpe-src-grab" aria-hidden="true"></span>'
+        +'<button type="button" class="dpe-opt dpe-opt-main" data-s="kol"><span class="dpe-opt-ic">'+(ls?'<img alt="" src="'+ls+'">':'<i class="fa-solid fa-shapes" aria-hidden="true"></i>')+'</span><span class="dpe-opt-tx"><b>Koleksi<em class="dpe-tag req">Wajib</em></b><small>Tampil di Live Chat</small></span><i class="fa-solid '+(has?'fa-circle-check dpe-opt-ok':'fa-chevron-right')+' dpe-opt-end" aria-hidden="true"></i></button>'
+        +'<button type="button" class="dpe-opt'+(has?'':' locked')+'" data-s="gal"'+(has?'':' aria-disabled="true"')+'><span class="dpe-opt-ic"><i class="fa-solid fa-images" aria-hidden="true"></i></span><span class="dpe-opt-tx"><b>Galeri<em class="dpe-tag opt">Opsional</em></b><small>'+(has?'Hanya di profil':'Pasang koleksi dulu')+'</small></span><i class="fa-solid '+(has?'fa-chevron-right':'fa-lock')+' dpe-opt-end" aria-hidden="true"></i></button>'
+        +'<button type="button" class="dpe-src-cancel" data-s="x">Batal</button></div>';
       o.addEventListener('click',function(e){
         var b=e.target.closest?e.target.closest('button'):null;
-        if(b&&b.getAttribute('data-s')==='gal'){o.remove();pickAv();return;}
+        if(b&&b.getAttribute('data-s')==='gal'){
+          if(!D.coll){shake(o.querySelector('.dpe-opt-main'));return;}
+          o.remove();pickAv();return;
+        }
         if(b&&b.getAttribute('data-s')==='kol'){o.remove();pickCollection();return;}
         if(b||e.target===o) o.remove();
       });
       ed.appendChild(o);
     }
+    window.__dpPickSource=pickSource;
     $('dpeAvatarBtn').addEventListener('click',pickSource);
     $('dpePhotoBtn').addEventListener('click',pickSource);
+    $('dpeLive').addEventListener('click',function(){if(D.coll) pickSource();else pickCollection();});
     Array.prototype.forEach.call(ed.querySelectorAll('.dpe-go'),function(b){b.addEventListener('click',function(){openSub(b.getAttribute('data-f'));});});
     $('dpeRoleBtn').addEventListener('click',openRoleSub);
     $('dpeTitlesBtn').addEventListener('click',openTitleSub);
     $('dpeNoteBtn').addEventListener('click',function(){openNote(true);});
     $('dpeLookBtn').addEventListener('click',function(){openLook();});
     $('dpeResetBn').addEventListener('click',function(){D.bn='';D.bnBlob=null;showBnPrev();setErr('');});
-    $('dpeResetAv').addEventListener('click',function(){D.av='';setPrev($('dpeAvatarImg'),defAvatar());setErr('');});
+    $('dpeResetAv').addEventListener('click',function(){D.av='';paintAv();setErr('');});
     ed.addEventListener('focusin',function(e){
       var t=e.target;if(!t||!t.scrollIntoView) return;
       setTimeout(function(){try{t.scrollIntoView({block:'center',behavior:'smooth'});}catch(x){}},320);
@@ -6013,9 +6084,10 @@ body #developerTab .dp-card:has(.dp-bio:not(.is-empty)),body #developerTab .dp-c
   }
   function openEditor(){
     buildEditor();
-    D.bn=lsGet(K_BN,'');D.av=lsGet(K_AV,'');
+    try{window.zsCollLogo&&window.zsCollLogo.migrate();}catch(e){}
+    D.bn=lsGet(K_BN,'');D.av=lsGet(K_AV,'');D.coll=(window.zsCollLogo&&window.zsCollLogo.get())||'';
     D.bnBlob=null;showBnPrev();
-    setPrev($('dpeAvatarImg'),D.av||defAvatar());
+    if(window.__dpPaintAv) window.__dpPaintAv();
     var nm=(($('dpName').textContent)||'').trim().slice(0,NAME_MAX);
     D2.name=nm;D2.un=cleanUser(lsGet(K_UN,''))||autoUser(nm);
     D2.bio=(lsGet(CONFIG.keys.bio,'')||'').slice(0,CONFIG.bioMax);
@@ -6025,6 +6097,7 @@ body #developerTab .dp-card:has(.dp-bio:not(.is-empty)),body #developerTab .dp-c
     ed.classList.add('show');$('dpeBody').scrollTop=0;
     if(typeof hmLockScroll==='function') hmLockScroll();
     barHide();
+    if(window.__dpWantColl){window.__dpWantColl=false;if(!D.coll) setTimeout(function(){try{window.__dpPickSource();}catch(e){}},260);}
   }
   function closeEditor(){
     if(!ed) return;
@@ -6040,6 +6113,11 @@ body #developerTab .dp-card:has(.dp-bio:not(.is-empty)),body #developerTab .dp-c
   function saveEditor(){
     var name=D2.name,un=D2.un||autoUser(D2.name),bio=D2.bio,link=D2.link;
     if(!name){setErr('Nama tidak boleh kosong.');return;}
+    if(!D.coll){
+      setErr('Pasang logo koleksi dulu.');
+      try{var lv=$('dpeLive');if(lv){lv.classList.remove('flash');void lv.offsetWidth;lv.classList.add('flash');}$('dpeBody').scrollTo({top:0,behavior:'smooth'});navigator.vibrate&&navigator.vibrate(28);}catch(e){}
+      return;
+    }
     var oldName=curName(),oldUn=curUser();
     var nameChanged=name!==oldName,userChanged=un!==oldUn;
     if(nameChanged){var ln=lockLeft(K_NC,NAME_COOLDOWN);if(ln){setErr('Nama hanya dapat diubah satu kali setiap 7 hari. Coba lagi dalam '+ln+' hari.');return;}}
@@ -6063,6 +6141,7 @@ body #developerTab .dp-card:has(.dp-bio:not(.is-empty)),body #developerTab .dp-c
       return;
     }
     if(D.bn!=='idb:video') idbDel('banner');
+    try{if(window.zsCollLogo&&D.coll) window.zsCollLogo.set(D.coll);}catch(e){}
     lsSet('hmDisplayName',name);
     if(nameChanged) lsSet(K_NC,String(Date.now()));
     if(userChanged) lsSet(K_UC,String(Date.now()));
@@ -9315,28 +9394,11 @@ var ZC_BANNED_WORDS=['[KATA 1]','[KATA 2]','[KATA 3]']; /* tambah di sini untuk 
 var PAGE=50,SEND_GAP=700,TOUCH_MS=300000,UUID_RE=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 var NAME_RE=/^[A-Za-z0-9._]{3,24}$/;
 function $(id){return document.getElementById(id);}
-/* Helper untuk mengambil avatar profil pengguna */
-function profileAvatarSrc(){
-try {
-var saved = localStorage.getItem('dpCustomAvatar');
-
-if (saved && String(saved).trim()) {
-  return String(saved).trim();
-}
-
-var img = document.getElementById('dpAvatarImg');
-
-return img && img.getAttribute('src')
-  ? img.src
-  : '';
-
-} catch (e) {
-var fallback = document.getElementById('dpAvatarImg');
-return fallback && fallback.getAttribute('src')
-? fallback.src
-: '';
-}
-}
+/* Avatar Live Chat = LOGO KOLEKSI dari Edit profil. Foto galeri TIDAK pernah dipakai di Live Chat. */
+function zsc(){return window.zsCollLogo||null;}
+function hasLogo(){try{var c=zsc();return !!(c&&c.get());}catch(e){return false;}}
+function profileAvatarSrc(){try{var c=zsc();return c?c.mySrc():'';}catch(e){return '';}}
+try{var _c0=zsc();if(_c0)_c0.migrate();}catch(e){}
 function qsa(sel){return Array.prototype.slice.call(document.querySelectorAll(sel));}
 function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e;}
 var S={sb:null,me:null,starting:null,ready:false,tab:'list',filter:'all',gSeen:null,peer:null,profiles:{},online:{},convs:{},statuses:{},seen:{},resyncAt:0,lastSend:0,touchTimer:null,usersQ:'',usersTimer:null,usersSeq:0,pres:null,wasOn:false,profileTimer:null,profileName:'' ,adminTarget:null,replyTo:null,typingChannel:null,typingState:{},typingTimers:{},typingLast:{},typingIdle:{}};
@@ -9344,8 +9406,6 @@ var S={sb:null,me:null,starting:null,ready:false,tab:'list',filter:'all',gSeen:n
 function hue(id){var h=0,s=String(id);for(var i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))>>>0;return h%360;}
 /* Banner & foto profil dipilih acak dari koleksi aplikasi (stabil per pengguna). Koleksi bertambah = pilihan ikut bertambah. */
 function collPick(list,uid,salt){if(!list||!list.length)return null;var h=0,t=String(uid)+(salt||'');for(var q=0;q<t.length;q++)h=(h*31+t.charCodeAt(q))>>>0;return list[h%list.length];}
-/* Foto galeri milik sendiri (hanya terlihat di perangkat sendiri; pengguna lain melihat foto dari koleksi). */
-function ownGalleryAvatar(){try{var v=String(localStorage.getItem('dpCustomAvatar')||'').trim();return /^data:image\//i.test(v)||/^https:\/\//i.test(v)?v:'';}catch(e){return '';}}
 function collBanner(uid){try{var b=collPick((window.__zusmoBanners||[]).filter(function(x){return x&&x.video;}),uid,'bn');return b?b.video:'';}catch(e){return '';}}
 /* Banner live chat = VIDEO (bukan gambar). Milik sendiri disinkron dari banner video di profil Pribadi; pengguna lain dari koleksi video aplikasi. */
 function ownBannerVideo(){
@@ -9354,8 +9414,74 @@ function ownBannerVideo(){
 }
 function bannerVideoFor(uid){return (S.me&&uid===S.me.id)?ownBannerVideo():collBanner(uid);}
 function collAvatar(uid){try{var l=collPick((window.__zusmoLogos||[]).filter(function(x){return x&&x.img&&x.id!=='lg0';}),uid,'av');return l?l.img:'';}catch(e){return '';}}
-function avatar(id,name,small){var a=el('span','zc-av'+(small?' sm':''),(name||'?').charAt(0));a.style.background='hsl('+hue(id)+',58%,40%)';var p=S.profiles&&S.profiles[id],src=((S.me&&id===S.me.id)?ownGalleryAvatar():'')||collAvatar(id)||(p&&(p.avatar_url||p.avatar||p.profile_avatar));if(src&&/^https?:|^data:image\/|^zusmo-asset\//i.test(src)){var im=document.createElement('img');im.src=src;im.alt='';im.loading='lazy';im.onerror=function(){im.remove();};a.textContent='';a.appendChild(im);a.classList.add('zc-av-hasimg');}return a;}
-function setAv(node,id,name){node.textContent=(name||'?').charAt(0);node.style.background='hsl('+hue(id)+',58%,40%)';var p=S.profiles&&S.profiles[id],src=((S.me&&id===S.me.id)?ownGalleryAvatar():'')||collAvatar(id)||(p&&(p.avatar_url||p.avatar||p.profile_avatar));if(src&&/^https?:|^data:image\/|^zusmo-asset\//i.test(src)){var im=document.createElement('img');im.src=src;im.alt='';im.onerror=function(){im.remove();};node.textContent='';node.appendChild(im);node.classList.add('zc-av-hasimg');}else node.classList.remove('zc-av-hasimg');}
+/* Logo koleksi per pengguna: milik sendiri dari perangkat, pengguna lain dari chat_profiles.avatar_logo (zusmo-chat-avatar.sql). */
+var LOGO_RE=/^(?:default|lg\d{1,4})$/,LOGO_CACHE={},LOGO_Q={},LOGO_TMR=null,LOGO_OFF=false,LOGO_FAIL=0,LOGO_SENT='',LOGO_WARNED=false;
+function logoIdOf(uid){
+ try{
+  if(S.me&&uid===S.me.id){var m=hasLogo()?zsc().get():'';if(m)return m;}
+  var p=S.profiles&&S.profiles[uid];if(p&&LOGO_RE.test(String(p.avatar_logo||'')))return p.avatar_logo;
+  var c=LOGO_CACHE[uid];if(c&&c.id)return c.id;
+ }catch(e){}
+ return '';
+}
+function logoSrcFor(uid){
+ var id=logoIdOf(uid),c=zsc(),s=(id&&c)?c.src(id):'';
+ return s||collAvatar(uid); /* belum pasang koleksi -> pilihan acak lama (stabil per pengguna) */
+}
+function logoNote(t){if(LOGO_WARNED)return;LOGO_WARNED=true;if(S.me&&S.me.is_admin)zcSyncNote(t);else console.warn('[zc-chat] '+t);}
+function wantLogo(uid){
+ if(LOGO_OFF||!S.sb||!UUID_RE.test(String(uid||''))||(S.me&&uid===S.me.id))return;
+ if(LOGO_FAIL&&Date.now()-LOGO_FAIL<30000)return;
+ var c=LOGO_CACHE[uid];if(c&&Date.now()-c.t<300000)return;
+ LOGO_Q[uid]=1;clearTimeout(LOGO_TMR);LOGO_TMR=setTimeout(flushLogos,180);
+}
+async function flushLogos(){
+ var ids=Object.keys(LOGO_Q);LOGO_Q={};if(!ids.length||!S.sb)return;
+ var got=false;
+ for(var i=0;i<ids.length;i+=80){
+  var chunk=ids.slice(i,i+80);
+  try{
+   var r=await S.sb.from('chat_profiles').select('user_id,avatar_logo').in('user_id',chunk);
+   if(r.error){
+    if(isColErr(r.error)||missingBackend(r.error)){LOGO_OFF=true;logoNote('Kolom avatar_logo belum ada. Jalankan zusmo-chat-avatar.sql di Supabase.');}
+    else{LOGO_FAIL=Date.now();console.warn('[zc-chat] baca logo:',r.error);}
+    break;
+   }
+   var seen={};
+   (r.data||[]).forEach(function(p){seen[p.user_id]=1;LOGO_CACHE[p.user_id]={id:LOGO_RE.test(String(p.avatar_logo||''))?p.avatar_logo:'',t:Date.now()};});
+   chunk.forEach(function(u){if(!seen[u])LOGO_CACHE[u]={id:'',t:Date.now()};});
+   got=true;
+  }catch(e){LOGO_FAIL=Date.now();break;}
+ }
+ if(got)repaintAvatars();
+}
+function repaintAvatars(){
+ try{Array.prototype.forEach.call(document.querySelectorAll('[data-zc-uid]'),function(n){setAv(n,n.getAttribute('data-zc-uid'),n.getAttribute('data-zc-name')||'?');});}catch(e){}
+}
+async function syncAvatarLogo(force){
+ if(!S.sb||!S.me||!S.me.id||!hasLogo())return;
+ var id=zsc().get();
+ if(!force&&id===LOGO_SENT)return;
+ try{
+  var r=await S.sb.rpc('zc_set_avatar_logo',{p_logo:id});
+  if(r.error){
+   if(missingBackend(r.error)||isColErr(r.error))logoNote('Logo koleksi belum tersimpan di server. Jalankan zusmo-chat-avatar.sql di Supabase.');
+   else console.warn('[zc-chat] sinkron logo:',r.error);
+   return;
+  }
+  if(r.data&&typeof r.data==='object'&&r.data.updated===0){console.warn('[zc-chat] sinkron logo: baris profil tidak ditemukan.');return;}
+  LOGO_SENT=id;LOGO_CACHE[S.me.id]={id:id,t:Date.now()};
+  S.profiles[S.me.id]=Object.assign(S.profiles[S.me.id]||{},{avatar_logo:id});
+ }catch(e){console.warn('[zc-chat] sinkron logo:',e);}
+}
+window.addEventListener('zusmo:coll-logo',function(){
+ try{
+  if(S.me&&S.me.id)S.profiles[S.me.id]=Object.assign(S.profiles[S.me.id]||{},{avatar_logo:hasLogo()?zsc().get():''});
+  repaintAvatars();renderMe();setComposerState();syncAvatarLogo(true);
+ }catch(e){}
+});
+function avatar(id,name,small){var a=el('span','zc-av'+(small?' sm':''),(name||'?').charAt(0));a.style.background='hsl('+hue(id)+',58%,40%)';a.setAttribute('data-zc-uid',id);a.setAttribute('data-zc-name',name||'?');var src=logoSrcFor(id);if(src&&/^https?:|^data:image\/|^zusmo-asset\//i.test(src)){var im=document.createElement('img');im.src=src;im.alt='';im.loading='lazy';im.onerror=function(){im.remove();a.textContent=(name||'?').charAt(0);a.classList.remove('zc-av-hasimg');};a.textContent='';a.appendChild(im);a.classList.add('zc-av-hasimg');}wantLogo(id);return a;}
+function setAv(node,id,name){node.textContent=(name||'?').charAt(0);node.style.background='hsl('+hue(id)+',58%,40%)';node.setAttribute('data-zc-uid',id);node.setAttribute('data-zc-name',name||'?');var src=logoSrcFor(id);if(src&&/^https?:|^data:image\/|^zusmo-asset\//i.test(src)){var im=document.createElement('img');im.src=src;im.alt='';im.onerror=function(){im.remove();node.textContent=(name||'?').charAt(0);node.classList.remove('zc-av-hasimg');};node.textContent='';node.appendChild(im);node.classList.add('zc-av-hasimg');}else node.classList.remove('zc-av-hasimg');wantLogo(id);}
 
 /* ===== Tampilan ala WhatsApp: grup tersemat + chat pribadi ===== */
 var ZC_GROUP_KEYS='zusmo community komunitas grup global chat',ZC_SEEN_KEY='zc_group_seen_v1';
@@ -9436,6 +9562,7 @@ function profileUsername(){
  return v;
 }
 function goProfile(){
+ if(!hasLogo())window.__dpWantColl=true;
  if(typeof showPage==='function')showPage('developerTab');
  setTimeout(function(){
    var b=document.getElementById('dpEditBtn');if(b&&b.click)b.click();
@@ -9443,18 +9570,21 @@ function goProfile(){
 }
 function renderMe(){
  if(!S.me)return;
- var n=S.me.username||profileUsername();
- if(n){$('zcMeName').textContent=n;setAv($('zcMeAv'),S.me.id,n);}
+ var n=S.me.username||profileUsername(),noLogo=!hasLogo(),idn=$('zcIdentity'),go=$('zcProfileGo'),lbl=idn&&idn.querySelector('small'),ic=go&&go.querySelector('i');
+ if(n){$('zcMeName').textContent=noLogo?'Pasang koleksi dulu':n;setAv($('zcMeAv'),S.me.id,n);}
  else{$('zcMeName').textContent='Atur username di profil dulu';setAv($('zcMeAv'),S.me.id,'?');}
- $('zcProfileGo').hidden=!!n;var idn=$('zcIdentity');if(idn)idn.hidden=!!n;
+ if(lbl)lbl.textContent=(n&&noLogo)?'LOGO KOLEKSI':'USERNAME PROFIL';
+ if(ic)ic.className=(n&&noLogo)?'fa-solid fa-shapes':'fa-solid fa-user-pen';
+ var need=!n||noLogo;if(go)go.hidden=!need;if(idn)idn.hidden=!need;
 }
 function setComposerState(){
- var ok=!!(S.ready&&S.me&&S.me.username&&!S.me.blacklisted);
+ var ok=!!(S.ready&&S.me&&S.me.username&&!S.me.blacklisted&&hasLogo());
  ['zcGlobalIn','zcGlobalSend','zcThreadIn','zcThreadSend'].forEach(function(id){var x=$(id);if(x)x.disabled=!ok;});
  var msg=$('zcModerationNote');
  if(msg){
   if(S.me&&S.me.blacklisted){msg.hidden=false;msg.textContent='Kamu diblacklist dan tidak bisa mengirim pesan.';}
   else if(S.me&&!S.me.username){msg.hidden=false;msg.textContent='Atur username di profil dulu.';}
+  else if(S.me&&!hasLogo()){msg.hidden=false;msg.textContent='Pasang logo koleksi dulu.';}
   else msg.hidden=true;
  }
  if(S.me&&S.me.blacklisted){$('zcGlobalIn').placeholder='Kamu diblacklist dan tidak bisa mengirim pesan.';$('zcThreadIn').placeholder='Kamu diblacklist dan tidak bisa mengirim pesan.';}
@@ -9776,6 +9906,7 @@ async function ensureProfiles(ids){
  if(r.error){console.warn('[zc-chat] ensureProfiles:',r.error);return;}
  (r.data||[]).forEach(function(p){
    var o={id:p.user_id,user_id:p.user_id,username:p.username,last_seen:p.last_seen,role_label:chatRoleLabel(p.role_label),avatar_url:p.avatar_url||p.avatar||null,display_name:p.display_name||null,titles:Array.isArray(p.titles)?p.titles:[],bio:p.bio||null,link_url:p.link_url||null,_full:true};
+   if(p.avatar_logo!==undefined){o.avatar_logo=LOGO_RE.test(String(p.avatar_logo||''))?p.avatar_logo:null;LOGO_CACHE[p.user_id]={id:o.avatar_logo||'',t:Date.now()};}
    if(p.is_admin!==undefined)o.is_admin=!!p.is_admin;
    var bl=(p.blacklisted!==undefined)?p.blacklisted:p.is_blacklisted;if(bl!==undefined)o.blacklisted=!!bl;
    S.profiles[p.user_id]=Object.assign(S.profiles[p.user_id]||{},o);
@@ -10090,7 +10221,7 @@ async function syncProfileMedia(force){
  var run=(async function(){
    var cav='',bio='',lnk='';
    try{cav=String(localStorage.getItem('dpCustomAvatar')||'');bio=String(localStorage.getItem('dpBio')||'').trim().slice(0,160);lnk=cleanLink(localStorage.getItem('dpLink'));}catch(e){}
-   var isAv=/^data:image\//i.test(cav);
+   var isAv=false; /* foto galeri tidak pernah dikirim ke Live Chat */
    var sig=['v2',hashStr(isAv?cav:'-'),hashStr(bio),hashStr(lnk)].join('|'),key=ZC_MEDIA_KEY+S.me.id;
    if(!force&&sig===S.media.sig)return S.media;
    if(!force&&S.media.failAt&&Date.now()-S.media.failAt<30000)return S.media;
@@ -10393,6 +10524,7 @@ async function start(){
   (function(){var pu=profileUsername();S.me.username=NAME_RE.test(pu)?pu:null;})();
   S.me.avatar_url=profileAvatarSrc()||S.me.avatar_url||null;S.profiles[S.me.id]=S.me;
   await syncChatRole();
+  try{syncAvatarLogo();}catch(e){}
   ensureAdminUsernamePanel();updateAdminUsernamePanel();
   S.profileName='';renderMe();
   try{await refreshProfileFromDeveloper(true);}catch(e){console.warn('[zc-chat] sync username',e);}
@@ -10686,6 +10818,41 @@ body.dp-logo-picking #logoOwnedDetailOverlay{z-index:1000310}
 #dpEdOv .dpe-src-card button:active{background:rgba(255,255,255,.08)}
 #dpEdOv .dpe-src-card button i{width:22px;text-align:center;color:#ff6b6b}
 #dpEdOv .dpe-src-card .dpe-src-cancel{justify-content:center;margin-top:4px;color:rgba(255,255,255,.6)}
+/* Foto profil: Koleksi (wajib, tampil di Live Chat) + Galeri (opsional, hanya profil) */
+@keyframes dpeFade{from{opacity:0}to{opacity:1}}
+@keyframes dpeUp{from{transform:translateY(28px);opacity:.4}to{transform:none;opacity:1}}
+@keyframes dpeShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+@keyframes dpePulse{0%,100%{box-shadow:0 0 0 0 rgba(255,180,84,.38)}50%{box-shadow:0 0 0 7px rgba(255,180,84,0)}}
+#dpEdOv .dpe-src{animation:dpeFade .18s ease both;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+#dpEdOv .dpe-src-card{animation:dpeUp .26s cubic-bezier(.2,.8,.2,1) both;padding-top:8px}
+#dpEdOv .dpe-src-grab{display:block;width:38px;height:4px;margin:2px auto 12px;border-radius:4px;background:rgba(255,255,255,.18)}
+#dpEdOv .dpe-src-card .dpe-opt{position:relative;gap:13px;margin:0 0 9px;padding:12px 14px;border:1px solid rgba(255,255,255,.1);border-radius:16px;background:rgba(255,255,255,.04);transition:transform .12s,background .15s,border-color .15s}
+#dpEdOv .dpe-src-card .dpe-opt:active{transform:scale(.98);background:rgba(255,255,255,.09)}
+#dpEdOv .dpe-src-card .dpe-opt-main{border-color:rgba(255,43,43,.55);background:linear-gradient(135deg,rgba(255,43,43,.2),rgba(255,43,43,.05))}
+#dpEdOv .dpe-src-card .dpe-opt-main.shake{animation:dpeShake .4s}
+#dpEdOv .dpe-opt-ic{flex:none;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;overflow:hidden;background:rgba(255,255,255,.08)}
+#dpEdOv .dpe-src-card .dpe-opt-ic i{width:auto;font-size:18px;color:#fff}
+#dpEdOv .dpe-opt-ic img{display:block;width:100%;height:100%;object-fit:cover}
+#dpEdOv .dpe-opt-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+#dpEdOv .dpe-opt-tx b{display:flex;align-items:center;gap:8px;font-size:15.5px;font-weight:800}
+#dpEdOv .dpe-opt-tx small{font-size:12.5px;font-weight:500;color:rgba(255,255,255,.55)}
+#dpEdOv .dpe-tag{font-style:normal;font-size:10px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;padding:3px 7px;border-radius:999px}
+#dpEdOv .dpe-tag.req{background:#ff2b2b;color:#fff}
+#dpEdOv .dpe-tag.opt{background:rgba(255,255,255,.12);color:rgba(255,255,255,.7)}
+#dpEdOv .dpe-src-card .dpe-opt-end{flex:none;width:auto;font-size:14px;color:rgba(255,255,255,.4)}
+#dpEdOv .dpe-src-card .dpe-opt-end.dpe-opt-ok{font-size:19px;color:#34c759}
+#dpEdOv .dpe-src-card .dpe-opt.locked{opacity:.55}
+#dpEdOv .dpe-src-card .dpe-opt.locked .dpe-opt-end{color:#ffb454}
+#dpEdOv .dpe-live{display:flex;align-items:center;gap:8px;width:max-content;max-width:calc(100% - 32px);margin:2px auto 10px;padding:6px 12px 6px 7px;border:1px solid;border-radius:999px;font-size:12.5px;font-weight:700;cursor:pointer;transition:transform .12s}
+#dpEdOv .dpe-live:active{transform:scale(.96)}
+#dpEdOv .dpe-live.ok{background:rgba(52,199,89,.12);border-color:rgba(52,199,89,.42);color:#7ee09a}
+#dpEdOv .dpe-live.need{background:rgba(255,180,84,.12);border-color:rgba(255,180,84,.55);color:#ffb454;animation:dpePulse 1.8s ease-in-out infinite}
+#dpEdOv .dpe-live.flash{animation:dpeShake .4s}
+#dpEdOv .dpe-live img{display:block;width:22px;height:22px;border-radius:50%;object-fit:cover}
+#dpEdOv .dpe-live>i:first-child{width:22px;height:22px;display:grid;place-items:center;font-size:14px}
+#dpEdOv .dpe-live-go{font-size:10px;opacity:.7}
+#dpEdOv .dpe-reset button[hidden]{display:none}
+@media (prefers-reduced-motion:reduce){#dpEdOv .dpe-src,#dpEdOv .dpe-src-card,#dpEdOv .dpe-live.need{animation:none}}
 </style>
 <script id="dp-role-reset-script">
 /* Admin Panel: reset label role profil (label, variasi, simbol, dan label yang dibuka lewat key).
