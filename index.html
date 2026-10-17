@@ -9009,6 +9009,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 #zcChat .zc-nm{display:inline-flex;align-items:center;gap:5px;padding:0;border:0;background:none;font:inherit;font-weight:800;cursor:pointer;min-height:30px}
 #zcChat .zc-dev-badge{display:inline-flex;align-items:center;justify-content:center;padding:2px 5px;border-radius:999px;background:#ff2b2b;color:#fff;font:800 7px/1 Rajdhani,system-ui;letter-spacing:.5px;vertical-align:middle}
 #zcChat .zc-name-line{display:flex;align-items:center;gap:5px;flex-wrap:wrap;max-width:100%;margin:0 0 4px;min-width:0}
+#zcChat .zc-name-line .zc-nm-un{flex:0 1 auto;min-width:0;font-size:10.5px;font-weight:600;line-height:1.25;color:rgba(255,255,255,.42);overflow-wrap:anywhere;cursor:pointer}
 #zcChat .zc-name-line .zc-nm{display:inline;max-width:100%;min-width:0;min-height:0;margin:0;font-size:12px;line-height:1.25;white-space:normal;overflow-wrap:anywhere;text-align:left}
 #zcChat .zc-role-badge{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;padding:2px 6px;border-radius:5px;font:800 8px/1.25 'Rajdhani',system-ui,sans-serif;letter-spacing:.55px;text-transform:uppercase;vertical-align:middle;white-space:nowrap;border:1px solid currentColor;background:rgba(255,255,255,.035)}
 #zcChat .zc-role-free{color:#aaa;border-color:#666}
@@ -9437,7 +9438,7 @@ MsgList.prototype.buildInto=function(parent,m,prev){
  if(newDay)parent.appendChild(el('div','zc-day',dayLabel(d)));
  var row=el('div','zc-row '+(mine?'zc-mine':'zc-other')+(first?' zc-first':''));row.dataset.messageId=m.id;row.dataset.senderId=sender;
  var a=null;if(o.showAvatar){a=avatar(sender,m.username,true);if(!first)a.style.visibility='hidden';row.appendChild(a);if(first)a.classList.add('zc-profile-target');if(first)a.addEventListener('click',this.profileClick(sender,m.username));}
- var bub=el('div','zc-bub');if(!mine&&o.showName&&first){var nameLine=el('div','zc-name-line');var nm=el('button','zc-nm','@'+(m.username||'Pengguna'));nm.type='button';nm.style.color='hsl('+hue(sender)+',80%,72%)';nm.addEventListener('click',this.profileClick(sender,m.username));nameLine.appendChild(nm);var role=chatRoleLabel(m.role_label||m.role||'');if(role){var roleBadge=el('span','zc-role-badge zc-role-'+role.toLowerCase(),role.toLowerCase());roleBadge.title='Role '+role;nameLine.appendChild(roleBadge);}if(m.is_admin)nameLine.appendChild(el('span','zc-dev-badge','DEV'));bub.appendChild(nameLine);}
+ var bub=el('div','zc-bub');if(!mine&&o.showName&&first){var nameLine=el('div','zc-name-line');var spf=S.profiles[sender]||{},sdn=spf.display_name&&String(spf.display_name).trim(),suser='@'+(m.username||'Pengguna');var nm=el('button','zc-nm',sdn||suser);nm.type='button';nm.style.color='hsl('+hue(sender)+',80%,72%)';nm.addEventListener('click',this.profileClick(sender,m.username));nameLine.appendChild(nm);if(sdn&&sdn.toLowerCase()!==suser.slice(1).toLowerCase()){var snu=el('span','zc-nm-un',suser);snu.addEventListener('click',this.profileClick(sender,m.username));nameLine.appendChild(snu);}var role=chatRoleLabel(m.role_label||m.role||'');if(role){var roleBadge=el('span','zc-role-badge zc-role-'+role.toLowerCase(),role.toLowerCase());roleBadge.title='Role '+role;nameLine.appendChild(roleBadge);}if(m.is_admin)nameLine.appendChild(el('span','zc-dev-badge','DEV'));bub.appendChild(nameLine);}
  if(mine&&m.is_admin){var own=el('span','zc-dev-badge','DEV');bub.appendChild(own);}
  var quoted=replyOf(m);if(quoted){var q=el('div','zc-quoted');q.appendChild(el('b','',quoted.username||'Pengguna'));q.appendChild(el('span','',quoted.text||'Pesan'));bub.appendChild(q);}
  bub.appendChild(el('div','zc-tx',txtOf(m)));
@@ -9535,7 +9536,7 @@ async function syncChatRole(){
  }catch(e){console.warn('[zc-chat] read shared role:',e);}
  S.me.role_label=role;var av=profileAvatarSrc();if(av&&av.length<200000)S.me.avatar_url=av;
  S.profiles[S.me.id]=Object.assign(S.profiles[S.me.id]||{},S.me,{role_label:role});
- try{var payload={role_label:role};if(S.me.avatar_url)payload.avatar_url=S.me.avatar_url;var r=await S.sb.from('chat_profiles').update(payload).eq('user_id',S.me.id);if(r.error&&!isColErr(r.error))console.warn('[zc-chat] sync role label:',r.error);}
+ try{var payload={role_label:role};if(S.me.avatar_url)payload.avatar_url=S.me.avatar_url;var r=await S.sb.rpc('zc_sync_profile',{p_role_label:role,p_avatar_url:S.me.avatar_url||null});if(r.error&&missingBackend(r.error))r=await S.sb.from('chat_profiles').update(payload).eq('user_id',S.me.id);if(r.error&&!isColErr(r.error))console.warn('[zc-chat] sync role label:',r.error);}
  catch(e){console.warn('[zc-chat] sync role label:',e);}
 }
 /* Role bisa berubah setelah key VIP diaktifkan atau role profil developer diperbarui. */
@@ -9966,7 +9967,7 @@ async function refreshMySocial(){
 window.__zcRefreshSocial=function(){return S.ready?refreshMySocial():start().then(function(){return refreshMySocial();});};
 /* Nama tampilan & gelar ikut disinkron supaya bisa dilihat orang lain di profil */
 async function syncProfileExtras(){
- if(!S.sb||!S.me||!S.me.id||S.social.ok===false)return;
+ if(!S.sb||!S.me||!S.me.id)return;
  var dn='';
  try{var n=$('dpName');dn=String((n&&n.textContent)||'').trim();if(!dn||dn==='Guest')dn=String(localStorage.getItem('hmDisplayName')||'').trim();}catch(e){}
  if(dn==='Guest')dn='';dn=dn.slice(0,24);
@@ -9974,8 +9975,9 @@ async function syncProfileExtras(){
  var sig=dn+'|'+JSON.stringify(ti);
  if(sig===S.extraSig)return;
  try{
-   var r=await S.sb.from('chat_profiles').update({display_name:dn||null,titles:ti}).eq('user_id',S.me.id);
-   if(r.error){if(!isColErr(r.error))console.warn('[zc-chat] sync profil tambahan:',r.error);return;}
+   var r=await S.sb.rpc('zc_sync_profile',{p_display_name:dn,p_titles:ti});
+   if(r.error&&missingBackend(r.error))r=await S.sb.from('chat_profiles').update({display_name:dn||null,titles:ti}).eq('user_id',S.me.id);
+   if(r.error){if(!isColErr(r.error))console.warn('[zc-chat] sync profil tambahan:',r.error);else if(S.me.is_admin&&!S.dnWarned){S.dnWarned=1;try{flash('Kolom display_name/titles belum ada di database. Jalankan SQL setup.');}catch(e){}}return;}
    S.extraSig=sig;
    S.profiles[S.me.id]=Object.assign(S.profiles[S.me.id]||{},{display_name:dn||null,titles:ti});
  }catch(e){console.warn('[zc-chat] sync profil tambahan:',e);}
