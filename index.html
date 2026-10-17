@@ -1058,7 +1058,7 @@ AccessTokenDua
       <div class="zc-thread-head">
         <button type="button" class="zc-back" id="zcGroupBack" aria-label="Kembali ke daftar chat"><i class="fa-solid fa-arrow-left"></i></button>
         <img class="zc-gimg" src="zusmo-asset/677288085_miwamikadono.jpg" alt="" loading="lazy" decoding="async">
-        <div class="zc-thread-title zc-group-title-tap" id="zcGroupInfoOpen" role="button" tabindex="0" aria-label="Buka info grup"><b>𝗭𝗨𝗦𝗠𝗢 𝗖𝗢𝗠𝗠𝗨𝗡𝗜𝗧𝗬</b><small id="zcGroupSub">Grup komunitas</small></div><button type="button" class="zc-group-info-btn" id="zcGroupInfoBtn" aria-label="Info dan aturan grup" title="Info grup"><i class="fa-solid fa-circle-question" aria-hidden="true"></i></button>
+        <div class="zc-thread-title zc-group-title-tap" id="zcGroupInfoOpen" role="button" tabindex="0" aria-label="Buka info dan daftar anggota grup"><b>𝗭𝗨𝗦𝗠𝗢 𝗖𝗢𝗠𝗠𝗨𝗡𝗜𝗧𝗬</b><small id="zcGroupSub">Grup komunitas</small></div><button type="button" class="zc-group-info-btn" id="zcGroupInfoBtn" aria-label="Info dan aturan grup" title="Info grup"><i class="fa-solid fa-circle-question" aria-hidden="true"></i></button>
       </div>
       <div class="zc-pinbar" id="zcPinBar" hidden>
         <button type="button" class="zc-pin-main" id="zcPinMain" aria-label="Lompat ke pesan yang disematkan"><i class="fa-solid fa-thumbtack" aria-hidden="true"></i><span class="zc-pin-body"><b id="zcPinWho">Pesan disematkan</b><span id="zcPinText"></span></span></button>
@@ -9416,6 +9416,77 @@ html.zc-on #zcChat .zc-shell{height:100%!important;max-height:100%!important;pad
 #zcChat .zc-role-ultimate{color:#ffd1d8;border-color:#ff7589;background:linear-gradient(135deg,#641126,#210b12)}
 #zcChat .zc-role-max{color:#fff0b0;border-color:#ffcf45;background:linear-gradient(135deg,#8d111b,#281014);box-shadow:0 0 8px rgba(255,207,69,.15);text-shadow:0 0 6px rgba(255,207,69,.2)}
 @media(max-width:420px){#zcGroupInfoModal .zc-info-card{border-radius:18px 18px 0 0}#zcGroupInfoModal .zc-info-scroll{padding:14px 14px calc(28px + env(safe-area-inset-bottom,0px))}}
+
+/* ===== Info grup ala WhatsApp: daftar semua anggota ===== */
+#zcGroupMembersModal{position:fixed;inset:0;z-index:100000;display:none;align-items:stretch;justify-content:center;background:rgba(0,0,0,.62);overscroll-behavior:contain}
+#zcGroupMembersModal.on{display:flex}
+#zcGroupMembersModal .zc-gm-card{display:flex;flex-direction:column;width:min(100%,560px);height:100%;min-height:0;background:#000;color:var(--wa-text,#e9edef);animation:zcGmIn .22s ease both}
+@keyframes zcGmIn{from{transform:translateY(22px);opacity:0}to{transform:none;opacity:1}}
+#zcGroupMembersModal .zc-gm-top{flex:none;display:flex;align-items:center;gap:6px;padding:calc(env(safe-area-inset-top,0px) + 6px) 8px 6px;background:var(--wa-bar,#1b1011);border-bottom:1px solid #2a1c1e}
+#zcGroupMembersModal .zc-gm-back{flex:0 0 44px;width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:50%;background:transparent;color:var(--wa-text,#e9edef);font-size:19px;touch-action:manipulation}
+#zcGroupMembersModal .zc-gm-back:active{background:rgba(255,255,255,.1)}
+#zcGroupMembersModal .zc-gm-top b{font-size:19px;font-weight:600;letter-spacing:.1px}
+#zcGroupMembersModal .zc-gm-scroll{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y;padding-bottom:calc(28px + env(safe-area-inset-bottom,0px))}
+#zcGroupMembersModal .zc-gm-hero{display:flex;flex-direction:column;align-items:center;padding:26px 20px 16px;background:var(--wa-panel,#141010);text-align:center}
+#zcGroupMembersModal .zc-gm-logo{width:116px;height:116px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.08);box-shadow:0 10px 30px rgba(0,0,0,.55)}
+#zcGroupMembersModal .zc-gm-hero h2{margin:15px 0 4px;font-size:23px;font-weight:600;line-height:1.25;word-break:break-word}
+#zcGroupMembersModal .zc-gm-hero p{margin:0;font-size:15px;color:var(--wa-sub,#8696a0)}
+#zcGroupMembersModal .zc-gm-actions{display:flex;gap:10px;width:100%;margin-top:20px}
+#zcGroupMembersModal .zc-gm-act{flex:1 1 0;display:flex;flex-direction:column;align-items:center;gap:7px;padding:13px 6px 11px;border:1px solid #2c2022;border-radius:14px;background:#1a1213;color:var(--wa-text,#e9edef);font-size:13.5px;touch-action:manipulation}
+#zcGroupMembersModal .zc-gm-act i{font-size:19px;color:var(--wa-green,#ff2b2b)}
+#zcGroupMembersModal .zc-gm-act:active{background:#241719;transform:scale(.98)}
+#zcGroupMembersModal .zc-gm-desc{margin-top:8px;padding:14px 20px 16px;background:var(--wa-panel,#141010)}
+#zcGroupMembersModal .zc-gm-desc p{margin:0;font-size:15px;line-height:1.5;color:var(--wa-text,#e9edef)}
+#zcGroupMembersModal .zc-gm-desc small{display:block;margin-top:8px;font-size:13px;color:var(--wa-sub,#8696a0)}
+#zcGroupMembersModal .zc-gm-sec{margin-top:8px;background:var(--wa-panel,#141010)}
+#zcGroupMembersModal .zc-gm-sticky{position:sticky;top:0;z-index:3;padding:14px 18px 10px;background:var(--wa-panel,#141010);border-bottom:1px solid #261a1c}
+#zcGroupMembersModal .zc-gm-sechead{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:10px;font-size:15px;color:var(--wa-sub,#8696a0)}
+#zcGroupMembersModal .zc-gm-sechead b{font-weight:500;color:var(--wa-text,#e9edef)}
+#zcGroupMembersModal .zc-gm-sechead span{font-size:13.5px;color:#4ade80}
+#zcGroupMembersModal .zc-gm-search{display:flex;align-items:center;gap:10px;height:42px;padding:0 14px;border-radius:21px;background:var(--wa-in,#1c1c1e)}
+#zcGroupMembersModal .zc-gm-search i{font-size:14px;color:var(--wa-sub,#8696a0)}
+#zcGroupMembersModal .zc-gm-search input{flex:1;min-width:0;height:100%;border:0;outline:0;background:transparent;color:var(--wa-text,#e9edef);font-size:15.5px}
+#zcGroupMembersModal .zc-gm-search input::placeholder{color:var(--wa-sub,#8696a0)}
+#zcGroupMembersModal .zc-gm-row{display:flex;align-items:center;gap:14px;width:100%;padding:9px 18px;border:0;background:transparent;color:inherit;text-align:left;cursor:pointer;touch-action:manipulation}
+#zcGroupMembersModal .zc-gm-row:active{background:rgba(255,255,255,.06)}
+#zcGroupMembersModal .zc-gm-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+#zcGroupMembersModal .zc-gm-name{display:flex;align-items:center;gap:6px;min-width:0;font-size:16.5px;font-weight:500;line-height:1.3}
+#zcGroupMembersModal .zc-gm-nm{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#zcGroupMembersModal .zc-gm-me{flex:none;font-style:normal;font-size:12.5px;font-weight:400;color:var(--wa-sub,#8696a0)}
+#zcGroupMembersModal .zc-gm-sub{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13.5px;color:var(--wa-sub,#8696a0)}
+#zcGroupMembersModal .zc-gm-tag{flex:none;padding:2px 8px;border:1px solid rgba(255,43,43,.5);border-radius:6px;font-size:12px;color:var(--wa-green,#ff2b2b)}
+#zcGroupMembersModal .zc-gm-skel{display:flex;align-items:center;gap:14px;padding:10px 18px}
+#zcGroupMembersModal .zc-gm-skel .a{flex:0 0 46px;height:46px;border-radius:50%;background:#1f1517}
+#zcGroupMembersModal .zc-gm-skel .b{flex:1;display:flex;flex-direction:column;gap:8px}
+#zcGroupMembersModal .zc-gm-skel .b i{display:block;height:11px;border-radius:6px;background:#1f1517}
+#zcGroupMembersModal .zc-gm-skel .b i:first-child{width:46%}
+#zcGroupMembersModal .zc-gm-skel .b i:last-child{width:28%}
+#zcGroupMembersModal .zc-gm-skel .a,#zcGroupMembersModal .zc-gm-skel .b i{animation:zcGmPulse 1.2s ease-in-out infinite}
+@keyframes zcGmPulse{50%{opacity:.45}}
+#zcGroupMembersModal .zc-gm-msg{padding:30px 22px;text-align:center}
+#zcGroupMembersModal .zc-gm-msg p{margin:0 0 14px;font-size:14.5px;line-height:1.5;color:var(--wa-sub,#8696a0)}
+#zcGroupMembersModal .zc-gm-retry{padding:10px 22px;border:0;border-radius:20px;background:var(--wa-btn,#b30000);color:#fff;font-size:14.5px;font-weight:600}
+#zcGroupMembersModal .zc-gm-row{gap:15px;padding:10px 18px;min-height:68px}
+#zcGroupMembersModal .zc-gm-row .zc-av-wrap{position:relative;flex:0 0 50px;width:50px;height:50px;display:block}
+#zcGroupMembersModal .zc-gm-row .zc-av{width:50px;height:50px;font-size:20px}
+#zcGroupMembersModal .zc-gm-row .zc-av-on{position:absolute;left:auto;top:auto;right:-1px;bottom:-1px;width:14px;height:14px;border-radius:50%;background:#25d366;border:2.5px solid var(--wa-panel,#141010);box-shadow:none}
+#zcGroupMembersModal .zc-gm-name{font-size:16px}
+#zcGroupMembersModal .zc-gm-sub{font-size:13px}
+#zcGroupMembersModal .zc-gm-row+.zc-gm-row{background-image:linear-gradient(rgba(255,255,255,.055),rgba(255,255,255,.055));background-size:calc(100% - 83px) 1px;background-position:right top;background-repeat:no-repeat}
+#zcGroupMembersModal .zc-gm-row:active{background-color:rgba(255,255,255,.06)}
+#zcGroupMembersModal .zc-gm-tag{background:rgba(255,43,43,.1);font-weight:500}
+#zcGroupMembersModal .zc-gm-sechead b{font-size:15.5px}
+#zcGroupMembersModal .zc-gm-sechead span::before{content:"";display:inline-block;width:8px;height:8px;margin-right:6px;border-radius:50%;background:#25d366}
+#zcGroupMembersModal .zc-gm-end{flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+#zcGroupMembersModal .zc-gm-end{justify-content:center}
+#zcGroupMembersModal .zc-gm-name .zc-role-badge{flex:none;margin:0;padding:1px 7px 1px 6px;font-size:10.5px;line-height:1.5;gap:3px}
+#zcGroupMembersModal .zc-gm-name .zc-role-badge i{font-size:9.5px}
+#zcGroupMembersModal .zc-gm-sub{display:flex;align-items:center;gap:7px}
+#zcGroupMembersModal .zc-gm-un{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#zcGroupMembersModal .zc-gm-sub .zc-role-badge{flex:none;display:inline-flex;align-items:center;height:auto;min-height:0;margin:0;padding:1px 6px 1px 5px;gap:3px;border-width:1px;font-size:9.5px;line-height:1.55}
+#zcGroupMembersModal .zc-gm-sub .zc-role-badge i{font-size:8.5px}
+#zcGroupMembersModal .zc-gm-end .zc-gm-me{padding:2px 9px;border:1px solid #3a2b2d;border-radius:6px;font-size:12px;color:var(--wa-sub,#8696a0)}
+@media(prefers-reduced-motion:reduce){#zcGroupMembersModal .zc-gm-card,#zcGroupMembersModal .zc-gm-skel .a,#zcGroupMembersModal .zc-gm-skel .b i{animation:none}}
 /* Latest Live Chat polish: minimal controls and cleaner Group Info layout */
 #zcChat .zc-home-back{flex:0 0 36px;width:36px;height:42px;padding:0;border:0;border-radius:0;background:transparent;color:#bdbdbd;font-size:19px;box-shadow:none}
 #zcChat .zc-home-back:hover{color:#fff;background:transparent}
@@ -9708,6 +9779,27 @@ var ZC_BAN_CATS=[
   "down payment","downpayment","rekber*","rekening*","norek","no rek","nomor rekening","tf","trf","transferan","gopay","shopeepay","qris","paypal",
   "testimoni","testi","vouch*","bukti transaksi","buktitransaksi","bukti tf","buktitf","trusted seller","trustedseller","katalog","sub4sub","s4s","f4f",
   "l4l","fol4fol","follow4follow","like4like","subscribe*","subs","barter","bayar dulu","bayardulu"
+ ]],
+ ['jualbeli',"Jual-beli akun, key VIP, diamond, dan jasa dilarang di chat.",[
+ "beli","belikan","belikah","belilah","beliin","belian","dibeli","dibelikan","membeli","membelikan","ngebeli","mbeli","kebeli","terbeli","kubeli",
+ "njual*","ngejual*","kejual*","kujual*","bejual*","berjualan","peminat","minat beli","mau beli","pengen beli","pingin beli","ingin beli",
+ "yang minat","siapa minat","minat dm","minat chat","minat hubungi","berminat dm","berminat hubungi","berminat chat","nego tipis","tuker","tukeran",
+ "tukerin","tukar key","tukar vip","tukar skin","tuker key","tuker vip","tuker skin","tt akun","swap akun","trade akun","akun sultan",
+ "akun sultan ff","akun ff murah","akun ff ready","akun bundle","akun fullset","akun fullbundle","akun full evo","akun evo max","akun mulus",
+ "akun langka","akun rare","akun limited","akun garansi","akun bergaransi","akun fresh","akun bekas","akun sharing","sharing akun","share akun",
+ "sultan ff","id sultan","id ff sultan","id langka","id cantik","uid cantik","patungan*","akun patungan","key zusmo","key shadow","key vip murah",
+ "key ready","readykey","key stok","stok key","key bocor","key crack","key hack","keygen*","crack zusmo","zusmo crack","zusmo mod","zusmo murah",
+ "vip murah","vip termurah","vip ready","bagi key","bagi vip","share key","sharing key","sharing vip","kasih key","pinjam key","pinjem key",
+ "agen vip","agen zusmo","diamond ff murah","dm ff murah","dm murah","diamond termurah","diamond ready","isi diamond","recharge*","membership murah",
+ "member murah","weekly murah","evo murah","skin murah","bundle murah","jasa rank","jasa push rank","push rank","jasa unban","jasa buka blokir",
+ "jasa pemulihan","jasa recovery","jasa balikin akun","jasa hack akun","jasa hack","jasa followers","jasa follower","jasa suntik","suntik followers",
+ "suntik like","followers murah","follower murah","sold","slot ready","sisa slot","stok habis","masih ready","ready kak","ready gan","ready bos",
+ "ready bang","bisa cod","codan","sistem cod","no php","no ghosting","garansi akun","garansi key","garansi vip","bergaransi","via dana","pake dana",
+ "bayar dana","saldo dana","dana aja","ovo","linkaja","bca","bni","seabank","ewallet","bayar via","metode pembayaran","transfer dulu","ceban",
+ "goceng","gocap","itemku","lapakgaming","olx","carousell","z2u","g2g","akun glory","akun heroic","akun grandmaster","akun hoki","id ff murah",
+ "id ff ready","id ff bundle","akun full set","akun second","akun seken","zusmo vip murah","zusmo shadow murah","member vip murah","key vip ready",
+ "bagi bagi key","sebar key","kasi key","agen key","diamond bergaransi","diamond bonus","jasa like","jasa view","slot kosong","stok kosong",
+ "sisa stok","cod area","cod ketemuan"
  ]],
  ['kontak',"Dilarang membagikan kontak atau mengajak pindah platform.",[
   "whatsapp*","whatsap*","watsap*","wasap*","wa","chat wa","chatwa","no wa","nowa","nomor wa","nomorwa","nomer wa","nomerwa","nmr wa","nmrwa","nomorku",
@@ -10090,6 +10182,19 @@ var ZC_RE_URL=new RegExp('(?:https?:\\/\\/|ftp:\\/\\/|www\\.)\\S+|(?:^|[^a-z0-9@
 var ZC_RE_URL2=new RegExp('[a-z0-9-]{2,}\\s*(?:\\(\\s*dot\\s*\\)|\\[\\s*dot\\s*\\]|\\(\\.\\)|\\[\\.\\]|\\bdot\\b|\\btitik\\b)\\s*(?:com|net|org|id|io|me|xyz|link|site|shop|store|app|gg|ly)(?![a-z0-9])','i');
 var ZC_RE_MAIL=/[a-z0-9._%+-]{2,}\s*(?:@|\(\s*at\s*\)|\[\s*at\s*\])\s*[a-z0-9-]+(?:\s*(?:\.|\(\s*dot\s*\)|\[\s*dot\s*\]|\bdot\b|\btitik\b)\s*[a-z0-9-]+)+/i;
 var ZC_RE_CODE=/```|<\s*\/?\s*(?:script|iframe|html|body|div|img|svg|style|link|meta|form|input|button)\b[^>]*>|\bfunction\s*\w*\s*\([^)]*\)\s*\{|=>\s*[{(]|\bconsole\.\w+\(|\bdocument\.(?:get|query|create|write|cookie|body|location)\w*|\bwindow\.(?:location|open|onload|addEventListener|localStorage)\b|\brequire\s*\(|#include\s*<|\bdef\s+\w+\s*\([^)]*\)\s*:|\bdrop\s+table\b|\binsert\s+into\b|\bcurl\s+-|\bwget\s+https?|\bsudo\s+\w|\bchmod\s+[0-7+rwx]|\bpip3?\s+install\b|\bnpm\s+(?:i|install)\s|\bgit\s+clone\b|\brm\s+-rf\b|\bpython3?\s+\S+\.py|\bnode\s+\S+\.js|\bexec\s*\(|\beval\s*\(|\bfetch\s*\(|\bimport\s+[\w{*][^\n]{0,40}\bfrom\s+['"]|\bSystem\.out\.|\bprintf\s*\(/i;
+var ZC_TRD_MSG='Jual-beli akun, key VIP, diamond, dan jasa dilarang di chat.';
+var ZC_TRD_ASSET={akun:1,akn:1,ac:1,acount:1,diamond:1,diamon:1,skin:1,bundle:1,bundel:1,key:1,keys:1,vip:1,joki:1,sultan:1,evo:1,fullset:1,voucher:1,item:1,items:1,apk:1};
+var ZC_TRD_INTENT={murah:1,murmer:1,termurah:1,ready:1,stok:1,stock:1,nego:1,garansi:1,bergaransi:1,rekber:1,sold:1,laku:1,laris:1,lelang:1,order:1,orderan:1,ongkir:1,transaksi:1,bertransaksi:1,minat:1,berminat:1,peminat:1};
+var ZC_RE_PRICE=/(?:^|[^a-z0-9])(?:rp\.?\s*\d|\d{1,3}(?:[.,]\d{3})+(?!\d)|\d{1,3}\s?(?:k|rb|ribu|rebu|jt|juta)(?![a-z0-9]))/;
+function zcTradeCombo(raw){
+ var tk=zcTokens(raw),a=0,n=0,i,w,s,h=Object.prototype.hasOwnProperty;
+ for(i=0;i<tk.length;i++){
+   w=tk[i];s=w.replace(/(?:nya|mu|ku|ny)$/,'');
+   if(h.call(ZC_TRD_ASSET,w)||h.call(ZC_TRD_ASSET,s))a=1;
+   if(h.call(ZC_TRD_INTENT,w)||h.call(ZC_TRD_INTENT,s))n=1;
+ }
+ return !!(a&&(n||ZC_RE_PRICE.test(zcFold(raw))));
+}
 function zcPatternBan(raw){
  var t=zcFold(raw),d=t,i,m;
  if(ZC_RE_URL.test(t)||ZC_RE_URL2.test(t))return 'Link/URL tidak diizinkan di chat.';
@@ -10099,6 +10204,7 @@ function zcPatternBan(raw){
  var run=0,wd=t.split(/[^a-z0-9]+/);
  for(i=0;i<wd.length;i++){if(ZC_DIGITW[wd[i]]!==undefined||/^\d$/.test(wd[i]))run++;else if(wd[i])run=0;if(run>=9)return 'Nomor telepon/WhatsApp tidak boleh dibagikan di chat.';}
  if(/\beyj[a-z0-9_-]{8,}\.[a-z0-9_-]{8,}/.test(t)||/[a-f0-9]{32,}/.test(t)||/[a-z0-9_-]{40,}/.test(t)||/\d{6,12}\s*[|:]\s*[a-f0-9]{16,}/.test(t)||/\b(?:pass(?:word)?|pwd|sandi|otp|token|pin)\s*[:=]\s*\S{3,}/.test(t))return 'Dilarang membagikan password, OTP, token, atau kredensial.';
+ if(zcTradeCombo(raw))return ZC_TRD_MSG;
  if(ZC_RE_CODE.test(String(raw)))return 'Source code, script, dan command tidak diizinkan di chat.';
  if(/(.)\1{11,}/.test(raw))return 'Pesan spam/berulang tidak diizinkan.';
  m=/(.{2,12}?)\1{7,}/.exec(raw);
@@ -10826,7 +10932,7 @@ function subscribeAll(){
 function renderOnlineUsers(){
  var sub=$('zcGroupSub');if(!sub)return;
  var ids=Object.keys(S.online).filter(function(id){return UUID_RE.test(id);});
- if(!ids.length){sub.textContent='Grup komunitas';return;}
+ if(!ids.length){sub.textContent=S.memberCount?S.memberCount+' anggota':'Grup komunitas';return;}
  var names=[];
  ids.forEach(function(id){
    if(S.me&&id===S.me.id){names.unshift('Anda');return;}
@@ -10834,7 +10940,7 @@ function renderOnlineUsers(){
  });
  sub.textContent=typingLabel('group')||names.slice(0,4).join(', ')+(names.length>4?' +'+(names.length-4):'');
 }
-function onPresence(){var st=S.pres.presenceState(),on={};Object.keys(st).forEach(function(k){var meta=st[k]&&st[k][0]||{};on[k]=meta.username||true;if(!S.profiles[k]&&meta.username)S.profiles[k]={id:k,username:meta.username,last_seen:new Date().toISOString()};});S.online=on;renderConn();renderOnlineUsers();if(S.peer)renderPeerHead();renderConvs();if(S.usersQ.length>=3)searchUsers();}
+function onPresence(){var st=S.pres.presenceState(),on={};Object.keys(st).forEach(function(k){var meta=st[k]&&st[k][0]||{};on[k]=meta.username||true;if(!S.profiles[k]&&meta.username)S.profiles[k]={id:k,username:meta.username,last_seen:new Date().toISOString()};});S.online=on;renderConn();renderOnlineUsers();try{gmCount();gmOnPresence();}catch(e){}if(S.peer)renderPeerHead();renderConvs();if(S.usersQ.length>=3)searchUsers();}
 function onGlobalInsert(m){if(!m||!m.id||gList.ids[m.id])return;if(m.content==null&&m.message!=null)m.content=m.message;var done=function(){fillName(m);gList.add(m,m.user_id===S.me.id);};ensureProfiles([m.user_id]).then(done,done);}
 function onGlobalUpdate(m){if(!m||!m.id)return;gList.patch(m);}
 function onGlobalDelete(m){if(!m||m.id==null)return;gList.remove(m.id);}
@@ -11618,11 +11724,156 @@ function ensureGroupInfoModal(){
  modal.addEventListener('click',function(e){if(e.target===modal)close();});
  var op=function(){modal.classList.add('on');modal.setAttribute('aria-hidden','false');$('zcInfoScroll').scrollTop=0;};
  $('zcGroupInfoBtn').addEventListener('click',function(e){e.stopPropagation();op();});
- $('zcGroupInfoOpen').addEventListener('click',op);
- $('zcGroupInfoOpen').addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();op();}});
+ S.openGroupRules=op;
  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&modal.classList.contains('on'))close();});
 }
 ensureGroupInfoModal();
+/* ===== Info grup ala WhatsApp: ketuk nama/bar grup -> daftar SEMUA anggota =====
+   Anggota = semua akun terdaftar (chat_profiles). Semua akun otomatis mengikuti kzrizusmo_store,
+   jadi jumlah anggota grup sama dengan pengikut akun owner dan ikut bertambah otomatis. */
+var GM={rows:[],view:[],shown:0,q:'',busy:false,err:false,at:0,seq:0,open:false,cntAt:0,cntBusy:false,paintT:null},GM_STEP=60;
+function gmName(p){var d=p&&p.display_name&&String(p.display_name).trim();return d||(p&&p.username)||'Pengguna';}
+function gmOwner(p,id){return zcIsOwnerUser(p&&p.username)||!!(S.owner&&S.owner.uid&&String(id)===String(S.owner.uid));}
+function gmAdmin(p,id){return gmOwner(p,id)||!!(p&&p.is_admin);}
+function gmCache(p){
+ var o={id:p.user_id,user_id:p.user_id,username:p.username,last_seen:p.last_seen,role_label:chatRoleLabel(p.role_label),avatar_url:p.avatar_url||p.avatar||null,display_name:p.display_name||null,titles:Array.isArray(p.titles)?p.titles:[],bio:p.bio||null,link_url:p.link_url||null,name_color:nameColorId(p.name_color),_full:true};
+ if(p.avatar_logo!==undefined){o.avatar_logo=LOGO_RE.test(String(p.avatar_logo||''))?p.avatar_logo:null;LOGO_CACHE[p.user_id]={id:o.avatar_logo||'',t:Date.now()};}
+ if(p.is_admin!==undefined)o.is_admin=!!p.is_admin;
+ var bl=(p.blacklisted!==undefined)?p.blacklisted:p.is_blacklisted;if(bl!==undefined)o.blacklisted=!!bl;
+ S.profiles[p.user_id]=Object.assign(S.profiles[p.user_id]||{},o);
+}
+async function gmFetch(){
+ var out=[],from=0,step=1000;
+ for(var i=0;i<10;i++){
+   var r=await S.sb.from('chat_profiles').select('*').order('username',{ascending:true}).range(from,from+step-1);
+   if(r.error)throw r.error;
+   var d=r.data||[];out=out.concat(d);
+   if(d.length<step)break;from+=step;
+ }
+ return out.filter(function(p){return p&&UUID_RE.test(String(p.user_id||''))&&p.username;});
+}
+/* Jumlah anggota untuk subjudul header grup (ringan: hanya hitung baris). */
+async function gmCount(){
+ if(!S.ready||!S.sb||GM.cntBusy||Date.now()-GM.cntAt<120000)return;
+ GM.cntBusy=true;
+ try{var r=await S.sb.from('chat_profiles').select('user_id',{count:'exact',head:true});if(!r.error&&typeof r.count==='number'){S.memberCount=r.count;GM.cntAt=Date.now();renderOnlineUsers();}}
+ catch(e){}
+ finally{GM.cntBusy=false;}
+}
+function gmOnPresence(){if(!GM.open||!GM.rows.length)return;clearTimeout(GM.paintT);GM.paintT=setTimeout(gmPaint,350);}
+function gmSorted(){
+ var q=GM.q.trim().toLowerCase();
+ var list=GM.rows.map(function(id){return S.profiles[id]||{id:id,user_id:id,username:'Pengguna'};});
+ if(q)list=list.filter(function(p){return (gmName(p)+' '+(p.username||'')).toLowerCase().indexOf(q)>=0;});
+ function rank(p){var id=p.id||p.user_id;return gmOwner(p,id)?0:(gmAdmin(p,id)?1:2);}
+ list.sort(function(a,b){
+   var ra=rank(a),rb=rank(b);if(ra!==rb)return ra-rb;
+   var oa=S.online[a.id||a.user_id]?0:1,ob=S.online[b.id||b.user_id]?0:1;if(oa!==ob)return oa-ob;
+   return gmName(a).localeCompare(gmName(b),'id',{sensitivity:'base'});
+ });
+ return list;
+}
+function gmRow(p){
+ var id=p.id||p.user_id,nm=gmName(p),mine=!!(S.me&&id===S.me.id);
+ var row=el('button','zc-gm-row');row.type='button';
+ var wrap=el('span','zc-av-wrap');wrap.appendChild(avatar(id,nm));if(S.online[id])wrap.appendChild(el('span','zc-av-on'));row.appendChild(wrap);
+ var body=el('span','zc-gm-body'),top=el('span','zc-gm-name'),n=el('span','zc-gm-nm',nm);
+ if(p.display_name&&p.name_color&&window.ZUSMO_PAINT_NAME){try{window.ZUSMO_PAINT_NAME(n,p.name_color);}catch(e){}}
+ top.appendChild(n);
+ if(gmOwner(p,id)){try{top.appendChild(verifiedBadge('1.05em'));}catch(e){}}
+ 
+ body.appendChild(top);
+ var sub=el('span','zc-gm-sub');sub.appendChild(el('span','zc-gm-un','@'+String(p.username||'').replace(/^@/,'')));
+ var rl=chatRoleLabel(p.role_label);if(rl&&rl!=='FREE'){try{sub.appendChild(zcRoleBadge(rl));}catch(e){}}
+ body.appendChild(sub);
+ row.appendChild(body);
+ var end=el('span','zc-gm-end');
+ if(mine)end.appendChild(el('em','zc-gm-me','Anda'));
+ if(gmAdmin(p,id))end.appendChild(el('span','zc-gm-tag','Admin grup'));
+ if(end.firstChild)row.appendChild(end);
+ row.addEventListener('click',function(){openProfile(id);});
+ return row;
+}
+function gmPaint(){
+ var list=$('zcGmList'),sc=$('zcGmScroll');if(!list||!sc)return;
+ var top=sc.scrollTop,cnt=$('zcGmCount'),sub=$('zcGmSub'),onl=$('zcGmOnline');
+ list.textContent='';
+ if(GM.busy&&!GM.rows.length){
+   sub.textContent='Grup · memuat anggota...';cnt.textContent='Anggota';onl.textContent='';
+   for(var i=0;i<7;i++){var k=el('div','zc-gm-skel');k.innerHTML='<span class="a"></span><span class="b"><i></i><i></i></span>';list.appendChild(k);}
+   return;
+ }
+ if(GM.err&&!GM.rows.length){
+   sub.textContent='Grup';cnt.textContent='Anggota';onl.textContent='';
+   var m=el('div','zc-gm-msg');m.appendChild(el('p',null,'Daftar anggota belum bisa dimuat. Periksa koneksi lalu coba lagi.'));
+   var b=el('button','zc-gm-retry','Coba lagi');b.type='button';b.addEventListener('click',function(){gmLoad(true);});m.appendChild(b);list.appendChild(m);return;
+ }
+ var total=GM.rows.length,on=0;GM.rows.forEach(function(id){if(S.online[id])on++;});
+ sub.textContent='Grup · '+total+' anggota';cnt.textContent=total+' anggota';onl.textContent=on?on+' online':'';
+ var arr=gmSorted();GM.view=arr;
+ if(!arr.length){var e=el('div','zc-gm-msg');e.appendChild(el('p',null,GM.q?'Tidak ada anggota yang cocok dengan "'+GM.q+'".':'Belum ada anggota.'));list.appendChild(e);return;}
+ GM.shown=Math.min(arr.length,Math.max(GM_STEP,GM.shown));
+ var frag=document.createDocumentFragment();arr.slice(0,GM.shown).forEach(function(p){frag.appendChild(gmRow(p));});list.appendChild(frag);
+ sc.scrollTop=top;
+}
+function gmMore(){
+ var sc=$('zcGmScroll'),list=$('zcGmList');
+ if(!sc||!list||!GM.view||GM.shown>=GM.view.length||sc.scrollTop+sc.clientHeight<sc.scrollHeight-500)return;
+ var from=GM.shown;GM.shown=Math.min(GM.view.length,from+GM_STEP);
+ var frag=document.createDocumentFragment();GM.view.slice(from,GM.shown).forEach(function(p){frag.appendChild(gmRow(p));});list.appendChild(frag);
+}
+async function gmLoad(force){
+ if(GM.busy)return;
+ if(!force&&GM.rows.length&&Date.now()-GM.at<45000){gmPaint();return;}
+ GM.busy=true;GM.err=false;gmPaint();
+ try{
+   if(!S.ready)await start();
+   if(!S.ready||!S.sb)throw new Error('Live Chat belum siap');
+   var rows=await gmFetch();
+   if(S.me&&!rows.some(function(p){return p.user_id===S.me.id;}))rows.push({user_id:S.me.id,username:S.me.username||'Pengguna'});
+   rows.forEach(gmCache);
+   GM.rows=rows.map(function(p){return p.user_id;});GM.at=Date.now();
+   S.memberCount=GM.rows.length;GM.cntAt=Date.now();renderOnlineUsers();
+ }catch(e){console.warn('[zc-chat] daftar anggota grup:',e);GM.err=true;}
+ finally{GM.busy=false;gmPaint();}
+}
+function ensureGroupMembersModal(){
+ if($('zcGroupMembersModal'))return;
+ var modal=document.createElement('div');modal.id='zcGroupMembersModal';modal.setAttribute('aria-hidden','true');
+ modal.innerHTML='<section class="zc-gm-card" role="dialog" aria-modal="true" aria-labelledby="zcGmTitle">'
+  +'<header class="zc-gm-top"><button type="button" class="zc-gm-back" id="zcGmClose" aria-label="Kembali ke grup"><i class="fa-solid fa-arrow-left"></i></button><b id="zcGmTitle">Info grup</b></header>'
+  +'<div class="zc-gm-scroll" id="zcGmScroll">'
+  +'<div class="zc-gm-hero"><img class="zc-gm-logo" src="zusmo-asset/677288085_miwamikadono.jpg" alt="Logo grup"><h2>𝗭𝗨𝗦𝗠𝗢 𝗖𝗢𝗠𝗠𝗨𝗡𝗜𝗧𝗬</h2><p id="zcGmSub">Grup · memuat anggota...</p>'
+  +'<div class="zc-gm-actions"><button type="button" class="zc-gm-act" id="zcGmSearchBtn"><i class="fa-solid fa-magnifying-glass"></i><span>Cari</span></button><button type="button" class="zc-gm-act" id="zcGmRulesBtn"><i class="fa-solid fa-book-open"></i><span>Aturan grup</span></button></div></div>'
+  +'<div class="zc-gm-desc"><p>Ruang diskusi komunitas pengguna KZRIZUSMO untuk tanya jawab, berbagi info, dan minta bantuan seputar fitur dan layanan.</p><small>Semua pengguna yang terdaftar otomatis menjadi anggota grup.</small></div>'
+  +'<div class="zc-gm-sec" id="zcGmSec"><div class="zc-gm-sticky"><div class="zc-gm-sechead"><b id="zcGmCount">Anggota</b><span id="zcGmOnline"></span></div>'
+  +'<label class="zc-gm-search"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i><input type="text" id="zcGmQ" placeholder="Cari anggota" maxlength="24" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search" aria-label="Cari anggota grup"></label></div>'
+  +'<div class="zc-gm-list" id="zcGmList"></div></div>'
+  +'</div></section>';
+ document.getElementById('zcChat').appendChild(modal);
+ function close(){GM.open=false;modal.classList.remove('on');modal.setAttribute('aria-hidden','true');}
+ function open(){
+   GM.open=true;GM.q='';GM.shown=GM_STEP;$('zcGmQ').value='';
+   modal.classList.add('on');modal.setAttribute('aria-hidden','false');$('zcGmScroll').scrollTop=0;
+   gmPaint();gmLoad(false);
+ }
+ $('zcGmClose').addEventListener('click',close);
+ modal.addEventListener('click',function(e){if(e.target===modal)close();});
+ $('zcGmRulesBtn').addEventListener('click',function(){if(S.openGroupRules)S.openGroupRules();});
+ $('zcGmSearchBtn').addEventListener('click',function(){var sc=$('zcGmScroll');sc.scrollTo({top:$('zcGmSec').offsetTop,behavior:'smooth'});setTimeout(function(){$('zcGmQ').focus();},260);});
+ $('zcGmQ').addEventListener('input',function(){GM.q=this.value;GM.shown=GM_STEP;$('zcGmScroll').scrollTop=Math.min($('zcGmScroll').scrollTop,$('zcGmSec').offsetTop);gmPaint();});
+ $('zcGmScroll').addEventListener('scroll',gmMore,{passive:true});
+ var t=$('zcGroupInfoOpen'),av=document.querySelector('#zcGroupView .zc-thread-head .zc-gimg');
+ t.addEventListener('click',open);
+ t.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();open();}});
+ if(av){av.style.cursor='pointer';av.addEventListener('click',open);}
+ document.addEventListener('keydown',function(e){
+   if(e.key!=='Escape'||!modal.classList.contains('on'))return;
+   var info=$('zcGroupInfoModal');if(info&&info.classList.contains('on'))return;
+   close();
+ },true);
+}
+ensureGroupMembersModal();
 $('zcHomeBack').addEventListener('click',function(){if(typeof showPage==='function')showPage('home');else{var chat=$('zcChat');if(chat)chat.classList.remove('active');}});
 qsa('#zcChat .zc-chip').forEach(function(b){b.addEventListener('click',function(){S.filter=b.dataset.f;qsa('#zcChat .zc-chip').forEach(function(x){var on=x===b;x.classList.toggle('active',on);x.setAttribute('aria-pressed',on?'true':'false');});renderConvs();});});
 $('zcGroupItem').addEventListener('click',function(){setTab('global');});
