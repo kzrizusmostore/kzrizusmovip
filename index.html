@@ -1060,9 +1060,14 @@ AccessTokenDua
         <img class="zc-gimg" src="zusmo-asset/677288085_miwamikadono.jpg" alt="" loading="lazy" decoding="async">
         <div class="zc-thread-title zc-group-title-tap" id="zcGroupInfoOpen" role="button" tabindex="0" aria-label="Buka info grup"><b>𝗭𝗨𝗦𝗠𝗢 𝗖𝗢𝗠𝗠𝗨𝗡𝗜𝗧𝗬</b><small id="zcGroupSub">Grup komunitas</small></div><button type="button" class="zc-group-info-btn" id="zcGroupInfoBtn" aria-label="Info dan aturan grup" title="Info grup"><i class="fa-solid fa-circle-question" aria-hidden="true"></i></button>
       </div>
+      <div class="zc-pinbar" id="zcPinBar" hidden>
+        <button type="button" class="zc-pin-main" id="zcPinMain" aria-label="Lompat ke pesan yang disematkan"><i class="fa-solid fa-thumbtack" aria-hidden="true"></i><span class="zc-pin-body"><b id="zcPinWho">Pesan disematkan</b><span id="zcPinText"></span></span></button>
+        <button type="button" class="zc-pin-x" id="zcPinOff" aria-label="Lepas sematan" hidden><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+      </div>
       <div class="zc-list" id="zcGlobalList" aria-live="polite"></div>
       <button type="button" class="zc-pill" id="zcGlobalPill" hidden>↓ Pesan baru</button>
       <div class="zc-moderation-note" id="zcModerationNote" hidden></div>
+      <div class="zc-slow-note" id="zcSlowNote" hidden role="status" aria-live="polite"><i class="fa-solid fa-hourglass-half" aria-hidden="true"></i><span id="zcSlowTxt"></span></div>
       <div class="zc-reply-preview" id="zcGroupReplyPreview" hidden aria-live="polite">
         <div class="zc-reply-preview-bar"></div><div class="zc-reply-preview-body"><b id="zcGroupReplyName">Membalas pesan</b><span id="zcGroupReplyText"></span></div>
         <button type="button" class="zc-reply-cancel" id="zcGroupReplyCancel" aria-label="Batalkan balasan"><i class="fa-solid fa-xmark"></i></button>
@@ -1119,42 +1124,63 @@ AccessTokenDua
     </div>
   </div>
   <div class="zc-modal" id="zcAdminSheet" aria-hidden="true">
-    <div class="zc-sheet" role="dialog" aria-modal="true" aria-labelledby="zcAdminTitle">
-      <div class="zc-sheet-handle"></div><h4 id="zcAdminTitle">Moderasi</h4>
-      <div class="zc-admin-target" id="zcAdminTarget"></div>
-      <div class="zc-admin-state" id="zcAdminState"></div>
-      <div class="zc-admin-grid">
-        <button type="button" class="zc-admin-act neutral" id="zcAdminProfile"><i class="fa-solid fa-user"></i> Profil</button>
-        <button type="button" class="zc-admin-act neutral" id="zcAdminCopyName"><i class="fa-regular fa-copy"></i> Username</button>
-        <button type="button" class="zc-admin-act neutral" id="zcAdminCopyId"><i class="fa-solid fa-fingerprint"></i> ID</button>
+    <div class="zc-sheet zc-adm" role="dialog" aria-modal="true" aria-labelledby="zcAdminTitle">
+      <div class="zc-adm-head">
+        <span class="zc-adm-ic" aria-hidden="true"><i class="fa-solid fa-shield-halved"></i></span>
+        <div class="zc-adm-ht"><h4 id="zcAdminTitle">Moderasi</h4><div class="zc-admin-target" id="zcAdminTarget"></div></div>
+        <button type="button" class="zc-adm-x" id="zcAdminClose" aria-label="Tutup"><i class="fa-solid fa-xmark"></i></button>
       </div>
-      <div id="zcAdminGMsg" hidden>
-        <div class="zc-admin-lbl">Pesan ini</div>
-        <div class="zc-admin-grid">
-          <button type="button" class="zc-admin-act" id="zcAdminDelete"><i class="fa-solid fa-trash"></i> Hapus pesan</button>
-          <button type="button" class="zc-admin-act ok" id="zcAdminRestore" hidden><i class="fa-solid fa-rotate-left"></i> Pulihkan pesan</button>
+      <div class="zc-adm-body">
+        <div class="zc-admin-state" id="zcAdminState"></div>
+        <div class="zc-adm-quick">
+          <button type="button" class="zc-admin-act neutral" id="zcAdminProfile"><i class="fa-solid fa-user"></i> Profil</button>
+          <button type="button" class="zc-admin-act neutral" id="zcAdminCopyName"><i class="fa-regular fa-copy"></i> Username</button>
+          <button type="button" class="zc-admin-act neutral" id="zcAdminCopyId"><i class="fa-solid fa-fingerprint"></i> ID</button>
         </div>
+        <section class="zc-adm-card" id="zcAdminGMsg" hidden>
+          <div class="zc-admin-lbl">Pesan ini</div>
+          <button type="button" class="zc-admin-act zc-adm-opt" id="zcAdminDelete"><i class="fa-solid fa-trash"></i><span><b>Hapus pesan</b><small>Tampil sebagai “Pesan ini telah dihapus”. Bisa dipulihkan.</small></span></button>
+          <button type="button" class="zc-admin-act zc-adm-opt danger" id="zcAdminPurge" hidden><i class="fa-solid fa-eraser"></i><span><b>Hapus tanpa jejak</b><small>Hilang total dari grup, seperti tidak pernah dikirim. Tidak bisa dipulihkan.</small></span></button>
+          <button type="button" class="zc-admin-act zc-adm-opt ok" id="zcAdminRestore" hidden><i class="fa-solid fa-rotate-left"></i><span><b>Pulihkan pesan</b><small>Tampilkan lagi isi pesan ini.</small></span></button>
+          <div class="zc-admin-grid">
+            <button type="button" class="zc-admin-act neutral" id="zcAdminPin" hidden><i class="fa-solid fa-thumbtack"></i> Sematkan</button>
+            <button type="button" class="zc-admin-act neutral" id="zcAdminUnpin" hidden><i class="fa-solid fa-thumbtack"></i> Lepas sematan</button>
+          </div>
+        </section>
+        <div id="zcAdminGUser" hidden>
+          <section class="zc-adm-card">
+            <div class="zc-admin-lbl">Pengguna</div>
+            <div class="zc-admin-grid">
+              <button type="button" class="zc-admin-act danger" id="zcAdminBlock"><i class="fa-solid fa-ban"></i> Blacklist</button>
+              <button type="button" class="zc-admin-act ok" id="zcAdminUnblock" hidden><i class="fa-solid fa-user-check"></i> Cabut blacklist</button>
+            </div>
+            <div class="zc-admin-lbl zc-adm-sub">Bisukan sementara</div>
+            <div class="zc-admin-grid" id="zcAdminMuteRow">
+              <button type="button" class="zc-admin-act" data-min="10"><i class="fa-solid fa-volume-xmark"></i> 10 mnt</button>
+              <button type="button" class="zc-admin-act" data-min="60"><i class="fa-solid fa-volume-xmark"></i> 1 jam</button>
+              <button type="button" class="zc-admin-act" data-min="1440"><i class="fa-solid fa-volume-xmark"></i> 24 jam</button>
+              <button type="button" class="zc-admin-act ok" id="zcAdminUnmute" hidden><i class="fa-solid fa-volume-high"></i> Cabut bisu</button>
+            </div>
+          </section>
+          <section class="zc-adm-card">
+            <div class="zc-admin-lbl">Semua pesan di chat grup</div>
+            <div class="zc-admin-grid">
+              <button type="button" class="zc-admin-act danger" id="zcAdminDelAll"><i class="fa-solid fa-broom"></i> Hapus semua</button>
+              <button type="button" class="zc-admin-act ok" id="zcAdminRestoreAll"><i class="fa-solid fa-rotate-left"></i> Pulihkan semua</button>
+            </div>
+          </section>
+        </div>
+        <section class="zc-adm-card" id="zcAdminGSlow">
+          <div class="zc-admin-lbl">Mode lambat grup</div>
+          <div class="zc-admin-grid zc-adm-slow" id="zcAdminSlowRow">
+            <button type="button" class="zc-admin-act" data-slow="0"><i class="fa-solid fa-bolt"></i> Mati</button>
+            <button type="button" class="zc-admin-act" data-slow="5">5 dtk</button>
+            <button type="button" class="zc-admin-act" data-slow="10">10 dtk</button>
+            <button type="button" class="zc-admin-act" data-slow="30">30 dtk</button>
+          </div>
+          <p class="zc-adm-hint">Jeda antar pesan per pengguna. Admin tidak terkena jeda.</p>
+        </section>
       </div>
-      <div id="zcAdminGUser" hidden>
-        <div class="zc-admin-lbl">Pengguna</div>
-        <div class="zc-admin-grid">
-          <button type="button" class="zc-admin-act danger" id="zcAdminBlock"><i class="fa-solid fa-ban"></i> Blacklist</button>
-          <button type="button" class="zc-admin-act ok" id="zcAdminUnblock" hidden><i class="fa-solid fa-user-check"></i> Cabut blacklist</button>
-        </div>
-        <div class="zc-admin-lbl">Bisukan sementara</div>
-        <div class="zc-admin-grid" id="zcAdminMuteRow">
-          <button type="button" class="zc-admin-act" data-min="10"><i class="fa-solid fa-volume-xmark"></i> 10 mnt</button>
-          <button type="button" class="zc-admin-act" data-min="60"><i class="fa-solid fa-volume-xmark"></i> 1 jam</button>
-          <button type="button" class="zc-admin-act" data-min="1440"><i class="fa-solid fa-volume-xmark"></i> 24 jam</button>
-          <button type="button" class="zc-admin-act ok" id="zcAdminUnmute" hidden><i class="fa-solid fa-volume-high"></i> Cabut bisu</button>
-        </div>
-        <div class="zc-admin-lbl">Semua pesan di chat grup</div>
-        <div class="zc-admin-grid">
-          <button type="button" class="zc-admin-act danger" id="zcAdminDelAll"><i class="fa-solid fa-broom"></i> Hapus semua</button>
-          <button type="button" class="zc-admin-act ok" id="zcAdminRestoreAll"><i class="fa-solid fa-rotate-left"></i> Pulihkan semua</button>
-        </div>
-      </div>
-      <button type="button" class="zc-sheet-close" id="zcAdminClose">Tutup</button>
     </div>
   </div>
 </div></div>
@@ -9536,6 +9562,49 @@ html.zc-on #zcChat .zc-shell{height:100%!important;max-height:100%!important;pad
 #zcChat .zc-av.zc-av-hasimg img{transform:scale(1.1)}
 #zcChat #zcModerationNoteT[data-gate]{text-decoration:underline;text-underline-offset:2px}
 </style>
+<style id="zc-admin-center">
+/* ===== Moderasi admin: dialog di tengah layar ===== */
+#zcChat #zcAdminSheet{align-items:center;padding:18px 14px;background:rgba(0,0,0,.74);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+#zcChat #zcAdminSheet .zc-sheet.zc-adm{width:min(100%,396px);max-height:min(88dvh,680px);padding:0;display:flex;flex-direction:column;overflow:hidden;border:1px solid rgba(255,255,255,.09);border-radius:24px;background:linear-gradient(180deg,#1d1314 0,#141010 130px);box-shadow:0 26px 70px rgba(0,0,0,.68),0 0 0 1px rgba(255,43,43,.08);opacity:0;transform:translateY(10px) scale(.95);transition:transform .22s cubic-bezier(.2,.9,.3,1),opacity .18s ease}
+#zcChat #zcAdminSheet.on .zc-sheet.zc-adm{opacity:1;transform:none}
+#zcChat .zc-adm-head{flex:0 0 auto;display:flex;align-items:center;gap:12px;padding:16px 14px 13px 16px;border-bottom:1px solid rgba(255,255,255,.06)}
+#zcChat .zc-adm-ic{flex:0 0 42px;width:42px;height:42px;border-radius:14px;display:grid;place-items:center;font-size:18px;color:#fff;background:linear-gradient(135deg,#ff3b3b,#b30000);box-shadow:0 6px 16px rgba(255,43,43,.35)}
+#zcChat .zc-adm-ht{flex:1;min-width:0}
+#zcChat .zc-adm-ht h4{margin:0;font-size:15px;font-weight:800;color:#fff;letter-spacing:.01em}
+#zcChat .zc-adm-ht .zc-admin-target{padding:3px 0 0;font-size:11.5px;line-height:1.35;color:#9d9090;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+#zcChat .zc-adm-x{flex:0 0 36px;width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:#d9d2d2;font-size:15px;cursor:pointer;display:grid;place-items:center}
+#zcChat .zc-adm-x:active{background:rgba(255,255,255,.14)}
+#zcChat .zc-adm-body{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:12px 16px 18px;scrollbar-width:none}
+#zcChat .zc-adm-body::-webkit-scrollbar{display:none}
+#zcChat .zc-adm-quick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+#zcChat .zc-adm-card{margin-top:12px;padding:12px;border-radius:16px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.07)}
+#zcChat .zc-adm-card>.zc-admin-lbl{margin:0 0 8px}
+#zcChat .zc-adm-card .zc-adm-sub{margin:12px 0 8px}
+#zcChat .zc-adm .zc-admin-state{margin:0}
+#zcChat .zc-adm .zc-admin-state:empty{display:none}
+#zcChat .zc-adm .zc-admin-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(86px,1fr));gap:8px}
+#zcChat .zc-adm .zc-admin-act{width:auto;min-height:40px;margin:0;padding:0 8px;border-radius:12px;font-size:12.5px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;transition:transform .12s ease,background .15s ease}
+#zcChat .zc-adm .zc-admin-act:active{transform:scale(.97)}
+#zcChat .zc-adm .zc-admin-act[hidden]{display:none}
+#zcChat .zc-adm .zc-adm-quick .zc-admin-act{flex-direction:column;gap:3px;min-height:52px;font-size:11.5px}
+#zcChat .zc-adm .zc-admin-act.on{background:#d91f1f;border-color:#ff5a5a;color:#fff;box-shadow:0 4px 14px rgba(255,43,43,.3)}
+#zcChat .zc-adm .zc-adm-opt{display:flex;width:100%;justify-content:flex-start;text-align:left;gap:12px;padding:10px 12px;min-height:56px;margin-top:8px;border-radius:14px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:#fff}
+#zcChat .zc-adm .zc-adm-opt>i{flex:0 0 36px;width:36px;height:36px;display:grid;place-items:center;border-radius:11px;background:rgba(255,255,255,.08);font-size:15px}
+#zcChat .zc-adm .zc-adm-opt>span{display:flex;flex-direction:column;gap:2px;min-width:0}
+#zcChat .zc-adm .zc-adm-opt b{font-size:13.5px;font-weight:800}
+#zcChat .zc-adm .zc-adm-opt small{font-size:11.5px;line-height:1.35;font-weight:500;color:#a99e9e;white-space:normal}
+#zcChat .zc-adm .zc-adm-opt.danger{border-color:rgba(255,70,70,.38);background:rgba(255,43,43,.1)}
+#zcChat .zc-adm .zc-adm-opt.danger>i{background:rgba(255,60,60,.2);color:#ff7070}
+#zcChat .zc-adm .zc-adm-opt.danger b{color:#ff8a8a}
+#zcChat .zc-adm .zc-adm-opt.ok>i{background:rgba(52,211,153,.16);color:#6ee7b7}
+#zcChat .zc-adm .zc-adm-opt.confirm{justify-content:center;background:#c32323;border-color:#ff5a5a;color:#fff;font-size:13px}
+#zcChat .zc-adm .zc-admin-grid:not(:first-child){margin-top:8px}
+#zcChat .zc-adm .zc-adm-slow{grid-template-columns:repeat(4,1fr);margin-top:0}
+#zcChat .zc-adm-hint{margin:9px 2px 0;font-size:11px;line-height:1.4;color:#8f8484}
+#zcChat .zc-slow-note{display:flex;align-items:center;gap:8px;margin:6px 10px 0;padding:8px 12px;border-radius:12px;font-size:11.5px;font-weight:700;line-height:1.35;color:#ffcf6b;background:rgba(255,184,0,.09);border:1px solid rgba(255,184,0,.24)}
+#zcChat .zc-slow-note.wait{color:#ff9b9b;background:rgba(255,43,43,.1);border-color:rgba(255,80,80,.3)}
+@media(max-width:360px){#zcChat .zc-adm .zc-adm-slow{grid-template-columns:repeat(2,1fr)}}
+</style>
 <style id="zc-media-style">
 /* ===== Sheet profil: banner video + foto profil asli ===== */
 #zcChat .zc-pf-cover{overflow:hidden}
@@ -9550,6 +9619,28 @@ html.zc-on #zcChat .zc-shell{height:100%!important;max-height:100%!important;pad
 #zcChat .zc-pf-full{width:100%;min-height:46px;margin-top:10px;padding:0 12px;display:flex;align-items:center;justify-content:center;gap:8px;border:1px solid rgba(255,255,255,.12);border-radius:15px;background:rgba(255,255,255,.05);color:#fff;font:inherit;font-size:.9rem;font-weight:700;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .12s,background .15s}
 #zcChat .zc-pf-full:active{transform:scale(.97);background:rgba(255,255,255,.1)}
 #zcChat .zc-pf-full[hidden]{display:none}
+</style>
+<style id="zc-pin-style">
+/* Sematan pesan grup, lompat ke pesan yang dibalas, pemisah pesan baru */
+#zcChat .zc-pinbar{flex:0 0 auto;display:flex;align-items:stretch;border-bottom:1px solid #2a3942;background:var(--wa-bar)}
+#zcChat .zc-pinbar[hidden]{display:none}
+#zcChat .zc-pin-main{flex:1;min-width:0;display:flex;align-items:center;gap:10px;padding:8px 6px 8px 14px;border:0;background:transparent;color:var(--wa-text);text-align:left;cursor:pointer}
+#zcChat .zc-pin-main:active{background:rgba(255,255,255,.05)}
+#zcChat .zc-pin-main>i{flex:0 0 auto;font-size:14px;color:#ff6978;transform:rotate(45deg)}
+#zcChat .zc-pin-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px;padding-left:9px;border-left:3px solid #e21d35}
+#zcChat .zc-pin-body b{font-size:11.5px;font-weight:700;color:#ff6978}
+#zcChat .zc-pin-body span{font-size:13px;color:var(--wa-text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#zcChat .zc-pin-x{flex:0 0 44px;border:0;background:transparent;color:var(--wa-sub);font-size:15px;cursor:pointer}
+#zcChat .zc-pin-x:active{background:rgba(255,255,255,.06);color:#fff}
+#zcChat .zc-pin-x[hidden]{display:none}
+#zcChat .zc-sys{align-self:center;max-width:86%;text-align:center}
+#zcChat .zc-newdiv{align-self:stretch;display:flex;align-items:center;gap:10px;margin:12px 12px 6px;font-size:12px;font-weight:700;color:#ff8f9a}
+#zcChat .zc-newdiv::before,#zcChat .zc-newdiv::after{content:"";flex:1;height:1px;background:rgba(255,105,120,.35)}
+#zcChat .zc-quoted{cursor:pointer}
+#zcChat .zc-quoted:active{background:rgba(255,255,255,.07)}
+@keyframes zcHl{0%{box-shadow:0 0 0 2px rgba(255,105,120,.9);filter:brightness(1.35)}100%{box-shadow:0 0 0 2px rgba(255,105,120,0);filter:none}}
+#zcChat .zc-bub.zc-hl{animation:zcHl 1.6s ease-out 1}
+@media(prefers-reduced-motion:reduce){#zcChat .zc-bub.zc-hl{animation:none;outline:2px solid rgba(255,105,120,.8)}}
 </style>
 <script id="zc-chat-script">
 /* ===== ZUSMO LIVE CHAT — Supabase Publishable/Anon key only. Secret key is NEVER shipped to client. ===== */
@@ -9808,7 +9899,7 @@ function listTime(ts){
 function groupUnread(){
  if(!S.me||!S.gSeen||typeof gList==='undefined'||!gList)return 0;
  var t=Date.parse(S.gSeen),n=0;if(isNaN(t))return 0;
- gList.items.forEach(function(m){if(m.user_id!==S.me.id&&!m.deleted_at&&Date.parse(m.created_at)>t)n++;});
+ gList.items.forEach(function(m){if(m.user_id!==S.me.id&&!m.deleted_at&&!isPinMarker(m)&&Date.parse(m.created_at)>t)n++;});
  return n;
 }
 function markGroupSeen(){
@@ -10016,14 +10107,19 @@ MsgList.prototype.nearBottom=function(){var b=this.box;return b.scrollHeight-b.s
 MsgList.prototype.reset=function(){this.items=[];this.ids={};this.more=false;if(this.pill)this.pill.hidden=true;this.render(true);};
 MsgList.prototype.merge=function(arr){var self=this,changed=0;(arr||[]).forEach(function(m){var ex=self.ids[m.id];if(ex){if(m.read_at&&!ex.read_at){ex.read_at=m.read_at;changed++;}if(m.delivered_at&&!ex.delivered_at){ex.delivered_at=m.delivered_at;changed++;}if(m.deleted_at!==undefined)Object.assign(ex,m);return;}self.ids[m.id]=m;self.items.push(m);changed++;});if(changed)this.sort();return changed;};
 MsgList.prototype.patch=function(m){var ex=this.ids[m.id];if(ex){Object.assign(ex,m);this.render(false);}};
+MsgList.prototype.remove=function(id){var ex=this.ids[id];if(!ex)return false;delete this.ids[id];var i=this.items.indexOf(ex);if(i>=0)this.items.splice(i,1);this.render(false);return true;};
+/* Buang pesan yang sudah tidak ada di server (dihapus tanpa jejak) dari jendela terbaru; pesan <20 dtk dilewati agar tidak salah buang. */
+MsgList.prototype.prune=function(rows){if(!rows||!rows.length)return 0;var seen={},min=Infinity,self=this,gone=[],cut=Date.now()-20000;rows.forEach(function(m){seen[m.id]=1;var t=Date.parse(m.created_at);if(t<min)min=t;});if(rows.length<PAGE)min=-Infinity;this.items.forEach(function(m){var t=Date.parse(m.created_at);if(!seen[m.id]&&t>=min&&t<cut)gone.push(m);});gone.forEach(function(m){delete self.ids[m.id];var i=self.items.indexOf(m);if(i>=0)self.items.splice(i,1);});return gone.length;};
 MsgList.prototype.profileClick=function(sender,name){return function(e){e.stopPropagation();if(Date.now()-zcLpAt<900)return;openProfile(sender);};};
 MsgList.prototype.buildInto=function(parent,m,prev){
- var o=this.opts,d=new Date(m.created_at),pd=prev?new Date(prev.created_at):null,newDay=!pd||dayKey(d)!==dayKey(pd),sender=o.senderOf(m),mine=sender===S.me.id,first=newDay||!prev||o.senderOf(prev)!==sender;
+ var self=this,o=this.opts,d=new Date(m.created_at),pd=prev?new Date(prev.created_at):null,newDay=!pd||dayKey(d)!==dayKey(pd),sender=o.senderOf(m),mine=sender===S.me.id,first=newDay||!prev||isPinMarker(prev)||o.senderOf(prev)!==sender;
  if(newDay)parent.appendChild(el('div','zc-day',dayLabel(d)));
+ if(isPinMarker(m)){this.buildPinNote(parent,m);return;}
+ var divId=o.dividerId?o.dividerId():null;if(divId!=null&&String(divId)===String(m.id)){parent.appendChild(el('div','zc-newdiv',o.dividerLabel?o.dividerLabel():'Pesan baru'));first=true;}
  var row=el('div','zc-row '+(mine?'zc-mine':'zc-other')+(first?' zc-first':''));row.dataset.messageId=m.id;row.dataset.senderId=sender;
  var a=null;if(o.showAvatar){a=avatar(sender,m.username,true);if(!first)a.style.visibility='hidden';row.appendChild(a);if(first)a.classList.add('zc-profile-target');if(first)a.addEventListener('click',this.profileClick(sender,m.username));}
  var bub=el('div','zc-bub');if(!mine&&o.showName&&first){var nameLine=el('div','zc-name-line');var spf=S.profiles[sender]||{},sdn=spf.display_name&&String(spf.display_name).trim(),suser='@'+(m.username||'Pengguna');var nm=el('button','zc-nm',sdn||suser);nm.type='button';nm.style.color='hsl('+hue(sender)+',80%,72%)';if(sdn)ncApply(nm,sender,'hsl('+hue(sender)+',80%,72%)');nm.addEventListener('click',this.profileClick(sender,m.username));nameLine.appendChild(nm);if(zcIsOwnerUser(m.username||spf.username)||(S.owner&&S.owner.uid&&String(sender)===String(S.owner.uid)))nameLine.appendChild(verifiedBadge('1.02em'));var role=chatRoleLabel(m.role_label||m.role||'');if(role){nameLine.appendChild(zcRoleBadge(role));}bub.appendChild(nameLine);}
- var quoted=m.deleted_at?null:replyOf(m);if(quoted){var q=el('div','zc-quoted');q.appendChild(el('b','',quoted.username||'Pengguna'));q.appendChild(el('span','',quoted.text||'Pesan'));bub.appendChild(q);}
+ var quoted=m.deleted_at?null:replyOf(m);if(quoted){var q=el('div','zc-quoted');q.appendChild(el('b','',quoted.username||'Pengguna'));q.appendChild(el('span','',quoted.text||'Pesan'));q.setAttribute('role','button');q.tabIndex=0;q.setAttribute('aria-label','Lompat ke pesan yang dibalas');q.addEventListener('click',function(e){e.stopPropagation();self.jumpTo(quoted,m);});q.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();e.stopPropagation();self.jumpTo(quoted,m);}});bub.appendChild(q);}
  if(m.deleted_at){var dx=el('div','zc-tx zc-deleted');dx.innerHTML='<i class="fa-solid fa-ban" aria-hidden="true"></i>';dx.appendChild(el('span','',txtOf(m)));bub.appendChild(dx);}else bub.appendChild(el('div','zc-tx',txtOf(m)));
  var meta=el('div','zc-meta');meta.appendChild(el('span','',hhmm(d)));if(mine&&o.receipts){var delivered=!!m.delivered_at||!!m.read_at;meta.appendChild(el('i','fa-solid '+(m.read_at?'fa-check-double zc-read':(delivered?'fa-check-double zc-delivered':'fa-check'))));}else if(mine&&o.groupReceipts){meta.appendChild(el('i','fa-solid fa-check-double zc-delivered'));}bub.appendChild(meta);
  if(o.allowReply&&!m.deleted_at){attachSwipeReply(bub,m,o);}
@@ -10034,7 +10130,51 @@ MsgList.prototype.buildInto=function(parent,m,prev){
 MsgList.prototype.render=function(toBottom,keepAnchor){var b=this.box,prevH=b.scrollHeight,prevT=b.scrollTop,stick=toBottom||this.nearBottom();b.textContent='';var frag=document.createDocumentFragment(),self=this;if(this.more){var btn=el('button','zc-older','Muat pesan lama');btn.type='button';btn.addEventListener('click',function(){if(self.opts.onOlder)self.opts.onOlder();});frag.appendChild(btn);}if(!this.items.length)frag.appendChild(el('div','zc-empty',this.opts.empty||'Belum ada pesan.'));var prev=null;this.items.forEach(function(m){self.buildInto(frag,m,prev);prev=m;});b.appendChild(frag);if(keepAnchor)b.scrollTop=prevT+(b.scrollHeight-prevH);else if(stick)b.scrollTop=b.scrollHeight;else b.scrollTop=prevT;if(this.opts.onChange)this.opts.onChange();};
 MsgList.prototype.add=function(m,forceStick){if(this.ids[m.id])return false;var last=this.items[this.items.length-1],near=this.nearBottom();this.ids[m.id]=m;this.items.push(m);if(!last){this.render(true);return true;}if(this.cmp(last,m)>0){this.sort();this.render(false);return true;}var frag=document.createDocumentFragment();this.buildInto(frag,m,last);this.box.appendChild(frag);if(near||forceStick)this.box.scrollTop=this.box.scrollHeight;else if(this.pill)this.pill.hidden=false;if(this.opts.onChange)this.opts.onChange();return true;};
 
-var gList=new MsgList($('zcGlobalList'),$('zcGlobalPill'),{senderOf:function(m){return m.user_id;},showAvatar:true,showName:true,receipts:false,groupReceipts:true,allowReply:true,empty:'Belum ada pesan. Jadi yang pertama menyapa!',onOlder:loadOlderGlobal,onChange:function(){renderGroupRow();renderBadges();}});
+MsgList.prototype.buildPinNote=function(parent,m){
+ if(m.deleted_at)return;
+ var uid=this.opts.senderOf(m);if(!pinAdminUid(uid))return;
+ var x=unpackPin(rawContent(m))||{},p=S.profiles[uid]||{},who=m.username||p.username||'Admin';
+ var rawN=rawContent(m);if(rawN.indexOf(ZC_SLOW_PREFIX)===0){var sx=unpackSlow(rawN)||{},ss=parseInt(sx.s,10)||0;parent.appendChild(el('div','zc-day zc-sys','@'+who+(ss>0?' mengaktifkan mode lambat ('+ss+' dtk)':' mematikan mode lambat')));return;}
+ parent.appendChild(el('div','zc-day zc-sys','@'+who+(x.off?' melepas sematan pesan':' menyematkan sebuah pesan')));
+};
+MsgList.prototype.findQuoted=function(q,m){
+ if(!q)return null;
+ if(q.id!=null)return this.ids[q.id]||null;
+ /* balasan lama (belum menyimpan id): cocokkan teks, ambil yang terdekat sebelum pesan pembalas */
+ var t=String(q.text||''),mt=m?Date.parse(m.created_at):Infinity,best=null,i,x;
+ if(!t)return null;
+ for(i=0;i<this.items.length;i++){x=this.items[i];if(x===m||isPinMarker(x))continue;if(Date.parse(x.created_at)>mt)break;if(txtOf(x).slice(0,180)===t)best=x;}
+ return best;
+};
+MsgList.prototype.scrollToId=function(id){
+ var b=this.box,rows=b.querySelectorAll('.zc-row'),row=null,i;
+ for(i=0;i<rows.length;i++){if(rows[i].dataset.messageId===String(id)){row=rows[i];break;}}
+ if(!row)return false;
+ var br=b.getBoundingClientRect(),rr=row.getBoundingClientRect();
+ b.scrollTo({top:Math.max(0,b.scrollTop+(rr.top-br.top)-(b.clientHeight-rr.height)/2),behavior:'smooth'});
+ var bub=row.querySelector('.zc-bub');
+ if(bub){bub.classList.remove('zc-hl');void bub.offsetWidth;bub.classList.add('zc-hl');setTimeout(function(){bub.classList.remove('zc-hl');},1800);}
+ return true;
+};
+MsgList.prototype.scrollToDivider=function(){
+ var d=this.box.querySelector('.zc-newdiv');if(!d)return false;
+ var b=this.box,br=b.getBoundingClientRect(),dr=d.getBoundingClientRect();
+ b.scrollTop=Math.max(0,b.scrollTop+(dr.top-br.top)-40);return true;
+};
+MsgList.prototype.jumpTo=async function(q,m){
+ if(this.jumping)return;this.jumping=true;
+ try{
+   var target=this.findQuoted(q,m),tries=0;
+   while(!target&&this.more&&tries<6&&this.opts.onOlder){
+     var n=this.items.length;await this.opts.onOlder();tries++;
+     if(this.items.length===n)break;
+     target=this.findQuoted(q,m);
+   }
+   if(!target||!this.scrollToId(target.id))flash('Pesan asli tidak ditemukan.');
+ }finally{this.jumping=false;}
+};
+
+var gList=new MsgList($('zcGlobalList'),$('zcGlobalPill'),{senderOf:function(m){return m.user_id;},showAvatar:true,showName:true,receipts:false,groupReceipts:true,allowReply:true,empty:'Belum ada pesan. Jadi yang pertama menyapa!',onOlder:loadOlderGlobal,dividerId:function(){return S.gDivId;},dividerLabel:function(){return (S.gDivN||1)+(S.gDivPlus?'+':'')+' pesan baru';},onChange:function(){renderGroupRow();renderBadges();renderPin();}});
 var pList=new MsgList($('zcThreadList'),$('zcThreadPill'),{senderOf:function(m){return m.sender_id;},showAvatar:true,showName:false,receipts:true,allowReply:true,empty:'Belum ada pesan. Mulai percakapan privat ini.',onOlder:loadOlderThread});
 
 /* Admin/developer: KLIK profil atau pesan = tampilkan profil; TAHAN (±0,5 dtk) / klik kanan = opsi moderasi (hapus pesan, blacklist, dll). */
@@ -10060,8 +10200,178 @@ var ZC_REPLY_PREFIX='[[ZC_REPLY_V1]]';
 function rawContent(m){return String(m&&m.content!=null?m.content:(m&&m.message!=null?m.message:''));}
 function unpackReply(raw){if(raw.indexOf(ZC_REPLY_PREFIX)!==0)return null;try{var x=JSON.parse(raw.slice(ZC_REPLY_PREFIX.length));if(!x||typeof x.text!=='string'||typeof x.body!=='string')return null;return x;}catch(e){return null;}}
 function replyOf(m){return unpackReply(rawContent(m));}
-function txtOf(m){if(m&&m.deleted_at)return 'Pesan ini telah dihapus';var raw=rawContent(m),q=unpackReply(raw);return q?q.body:raw;}
-function encodeReply(body,q){if(!q)return body;return ZC_REPLY_PREFIX+JSON.stringify({username:q.username||'Pengguna',text:String(q.text||'').slice(0,180),body:body});}
+function txtOf(m){if(m&&m.deleted_at)return 'Pesan ini telah dihapus';var raw=rawContent(m);if(raw.indexOf(ZC_PIN_PREFIX)===0)return 'Pesan disematkan';if(raw.indexOf(ZC_SLOW_PREFIX)===0)return 'Mode lambat diubah';var q=unpackReply(raw);return q?q.body:raw;}
+function encodeReply(body,q){if(!q)return body;return ZC_REPLY_PREFIX+JSON.stringify({username:q.username||'Pengguna',text:String(q.text||'').slice(0,180),body:body,id:q.id!=null?q.id:null});}
+
+/* ===== Sematan pesan grup =====
+   Disimpan sebagai pesan penanda khusus dari admin di chat_messages (tanpa perubahan database).
+   Penanda hanya dipercaya kalau pengirimnya admin; dari pengguna biasa disembunyikan. */
+var ZC_PIN_PREFIX='[[ZC_PIN_V1]]';
+var ZC_SLOW_PREFIX='[[ZC_SLOW_V1]]';S.slow=0;S.slowFetched=[];S.slowLast=0;
+S.pin=null;S.pinFetched=[];S.gDivArmed=true;S.gDivId=null;S.gDivN=0;S.gDivPlus=false;
+function unpackPin(raw){if(raw.indexOf(ZC_PIN_PREFIX)!==0)return null;try{var x=JSON.parse(raw.slice(ZC_PIN_PREFIX.length));return(x&&typeof x==='object')?x:null;}catch(e){return null;}}
+function isPinMarker(m){if(!m)return false;var r=rawContent(m);return r.indexOf(ZC_PIN_PREFIX)===0||r.indexOf(ZC_SLOW_PREFIX)===0;}
+function pinAdminUid(uid){if(!uid)return false;if(S.me&&String(S.me.id)===String(uid)&&S.me.is_admin)return true;return isAdminPeer(uid)||isOwnerUid(uid);}
+function computePin(){
+ var seen={},c=[];
+ (gList.items||[]).forEach(function(m){if(isPinMarker(m)){seen[m.id]=1;c.push(m);}});
+ (S.pinFetched||[]).forEach(function(m){if(m&&!seen[m.id]&&isPinMarker(m)){seen[m.id]=1;c.push(m);}});
+ c=c.filter(function(m){return !m.deleted_at&&pinAdminUid(m.user_id);});
+ c.sort(function(a,b){return gList.cmp(b,a);});
+ for(var i=0;i<c.length;i++){
+   var x=unpackPin(rawContent(c[i]));if(!x)continue;
+   if(x.off)return null;
+   if(x.id!=null&&typeof x.t==='string')return {mid:String(x.id),username:String(x.u||'Pengguna'),text:x.t,by:c[i].user_id};
+ }
+ return null;
+}
+function renderPin(){
+ try{renderSlow();}catch(e){}
+ var bar=$('zcPinBar');if(!bar)return;
+ var p=computePin();S.pin=p;
+ if(!p){bar.hidden=true;return;}
+ $('zcPinWho').textContent='Disematkan · '+p.username;
+ $('zcPinText').textContent=p.text||'Pesan';
+ var off=$('zcPinOff');if(off)off.hidden=!(S.me&&S.me.is_admin);
+ bar.hidden=false;
+}
+async function loadPin(){
+ if(!S.sb)return;
+ var rows=null,cols=['content','message'],i;
+ try{
+   for(i=0;i<cols.length&&!rows;i++){
+     var r=await S.sb.from('chat_messages').select('*').like(cols[i],ZC_PIN_PREFIX+'%').order('created_at',{ascending:false}).limit(8);
+     if(!r.error)rows=r.data||[];else if(!isColErr(r.error))break;
+   }
+ }catch(e){console.warn('[zc-chat] loadPin',e);}
+ if(!rows)return;
+ rows=rows.filter(function(m){return UUID_RE.test(String(m.user_id||''));}).map(function(m){if(m.content==null&&m.message!=null)m.content=m.message;return m;});
+ try{await ensureProfiles(rows.map(function(m){return m.user_id;}));}catch(e){}
+ S.pinFetched=rows;renderPin();
+}
+async function pinPost(payload,okMsg){
+ if(!S.ready||!S.me||!S.me.is_admin){flash('Hanya admin yang bisa menyematkan pesan.');return false;}
+ var uid=String(S.me.id||'');
+ if(!UUID_RE.test(uid)){flash('ID pengguna tidak valid. Silakan muat ulang halaman.');return false;}
+ var content=ZC_PIN_PREFIX+JSON.stringify(payload);
+ try{
+   var pu=profileUsername(),uname=NAME_RE.test(pu)?pu:String(S.me.username||'');
+   var r=await insertVariants('chat_messages',[
+     {user_id:uid,username:uname,content:content},
+     {user_id:uid,content:content},
+     {user_id:uid,username:uname,message:content},
+     {user_id:uid,message:content}
+   ]);
+   if(!r||r.error){flash(friendly(r&&r.error?r.error:new Error('Gagal menyematkan pesan.')));return false;}
+   var row=r.data;
+   gList.add(fillName({id:row.id,user_id:row.user_id||uid,username:row.username||uname,content:row.content!=null?row.content:(row.message!=null?row.message:content),created_at:row.created_at||new Date().toISOString(),deleted_at:row.deleted_at||null,is_admin:true}),false);
+   renderPin();flash(okMsg);return true;
+ }catch(e){flash(friendly(e));return false;}
+}
+async function adminPin(){
+ var m=S.adminTarget;
+ if(!m||!m.id||!m.user_id||m.deleted_at||isPinMarker(m)){flash('Pilih pesan grup untuk disematkan.');return;}
+ var t=txtOf(m).slice(0,180);
+ closeSheet('zcAdminSheet');
+ await pinPost({v:1,id:m.id,u:m.username||'Pengguna',t:t},'Pesan disematkan.');
+}
+async function unpinCurrent(){if(!S.pin)return;await pinPost({v:1,off:1},'Sematan dilepas.');}
+
+/* ===== Mode lambat grup =====
+   Pengaturan disimpan sebagai pesan penanda admin di chat_messages (sama seperti sematan, tanpa perubahan database).
+   Penanda hanya dipercaya kalau pengirimnya admin. Admin dikecualikan dari jeda. */
+function unpackSlow(raw){if(raw.indexOf(ZC_SLOW_PREFIX)!==0)return null;try{var x=JSON.parse(raw.slice(ZC_SLOW_PREFIX.length));return(x&&typeof x==='object')?x:null;}catch(e){return null;}}
+function computeSlow(){
+ var seen={},c=[];
+ function take(m){if(m&&!seen[m.id]&&rawContent(m).indexOf(ZC_SLOW_PREFIX)===0){seen[m.id]=1;c.push(m);}}
+ (gList.items||[]).forEach(take);(S.slowFetched||[]).forEach(take);
+ c=c.filter(function(m){return !m.deleted_at&&pinAdminUid(m.user_id);});
+ c.sort(function(a,b){return gList.cmp(b,a);});
+ for(var i=0;i<c.length;i++){var x=unpackSlow(rawContent(c[i]));if(!x)continue;var n=parseInt(x.s,10);if(!isFinite(n)||n<0)n=0;return Math.min(n,300);}
+ return 0;
+}
+function slowWait(){
+ if(!S.slow||!S.me||S.me.is_admin)return 0;
+ var last=S.slowLast||0,it=gList.items||[],i,t;
+ for(i=it.length-1;i>=0;i--){if(String(it[i].user_id)===String(S.me.id)&&!isPinMarker(it[i])&&!it[i].deleted_at){t=Date.parse(it[i].created_at);if(t>last&&t<=Date.now()+5000)last=t;break;}}
+ var w=last+S.slow*1000-Date.now();
+ return w>0?Math.min(w,S.slow*1000):0;
+}
+function slowTick(){
+ var n=$('zcSlowNote'),t=$('zcSlowTxt');clearTimeout(S._slowT);
+ if(!n||!t)return;
+ if(!S.slow){n.hidden=true;return;}
+ var w=slowWait();n.hidden=false;n.classList.toggle('wait',w>0);
+ if(S.me&&S.me.is_admin)t.textContent='Mode lambat '+S.slow+' dtk aktif (admin bebas)';
+ else if(w>0){t.textContent='Mode lambat: tunggu '+Math.ceil(w/1000)+' dtk';S._slowT=setTimeout(slowTick,250);}
+ else t.textContent='Mode lambat aktif: jeda '+S.slow+' dtk per pesan';
+}
+function renderSlow(){S.slow=computeSlow();slowTick();}
+async function loadSlow(){
+ if(!S.sb)return;
+ var rows=null,cols=['content','message'],i;
+ try{
+   for(i=0;i<cols.length&&!rows;i++){
+     var r=await S.sb.from('chat_messages').select('*').like(cols[i],ZC_SLOW_PREFIX+'%').order('created_at',{ascending:false}).limit(5);
+     if(!r.error)rows=r.data||[];else if(!isColErr(r.error))break;
+   }
+ }catch(e){console.warn('[zc-chat] loadSlow',e);}
+ if(!rows)return;
+ rows=rows.filter(function(m){return UUID_RE.test(String(m.user_id||''));}).map(function(m){if(m.content==null&&m.message!=null)m.content=m.message;return m;});
+ try{await ensureProfiles(rows.map(function(m){return m.user_id;}));}catch(e){}
+ S.slowFetched=rows;renderSlow();
+}
+async function slowPost(sec){
+ if(!S.ready||!S.me||!S.me.is_admin){flash('Hanya admin yang bisa mengatur mode lambat.');return false;}
+ var uid=String(S.me.id||'');
+ if(!UUID_RE.test(uid)){flash('ID pengguna tidak valid. Silakan muat ulang halaman.');return false;}
+ var content=ZC_SLOW_PREFIX+JSON.stringify({v:1,s:sec});
+ try{
+   var pu=profileUsername(),uname=NAME_RE.test(pu)?pu:String(S.me.username||'');
+   var r=await insertVariants('chat_messages',[
+     {user_id:uid,username:uname,content:content},
+     {user_id:uid,content:content},
+     {user_id:uid,username:uname,message:content},
+     {user_id:uid,message:content}
+   ]);
+   if(!r||r.error){flash(friendly(r&&r.error?r.error:new Error('Gagal mengubah mode lambat.')));return false;}
+   var row=r.data;
+   gList.add(fillName({id:row.id,user_id:row.user_id||uid,username:row.username||uname,content:row.content!=null?row.content:(row.message!=null?row.message:content),created_at:row.created_at||new Date().toISOString(),deleted_at:row.deleted_at||null,is_admin:true}),false);
+   S.slowFetched=(S.slowFetched||[]).concat([{id:row.id,user_id:row.user_id||uid,content:content,created_at:row.created_at||new Date().toISOString(),deleted_at:null}]);
+   renderSlow();return true;
+ }catch(e){flash(friendly(e));return false;}
+}
+async function adminSlow(sec){
+ if(sec===(S.slow||0)){flash(sec?'Mode lambat '+sec+' dtk sudah aktif.':'Mode lambat sudah mati.');return;}
+ var ok=await slowPost(sec);
+ if(ok){flash(sec?'Mode lambat '+sec+' dtk aktif.':'Mode lambat dimatikan.');adminPaint();}
+}
+/* Hapus tanpa jejak: baris pesan dihapus permanen dari server, hilang dari semua perangkat seolah tidak pernah dikirim. */
+async function adminPurge(){
+ var m=S.adminTarget;if(!m||!m.id||!m.user_id){flash('Pilih pesan grup untuk dihapus.');return;}
+ if(!adminConfirmTap($('zcAdminPurge'),'purge'))return;
+ var ok=false,r=await S.sb.rpc('zc_admin_purge_global',{p_message_id:String(m.id)});
+ if(!r.error)ok=true;
+ else if(missingBackend(r.error)){
+   var d=await S.sb.from('chat_messages').delete().eq('id',m.id).select('id');
+   if(!d.error&&d.data&&d.data.length)ok=true;
+ }else{flash(friendly(r.error));return;}
+ if(!ok){flash('Hapus tanpa jejak belum aktif di server. Jalankan zusmo-chat-hapus-permanen.sql di Supabase.');return;}
+ gList.remove(m.id);closeSheet('zcAdminSheet');flash('Pesan dihapus tanpa jejak.');
+}
+async function adminUnpin(){closeSheet('zcAdminSheet');await unpinCurrent();}
+
+/* ===== Pemisah "pesan baru" di grup: ditentukan sekali saat grup dibuka, tetap sampai grup ditutup ===== */
+function captureGroupDivider(){
+ S.gDivId=null;S.gDivN=0;S.gDivPlus=false;
+ var t=Date.parse(S.gSeen||'');if(isNaN(t)||!S.me)return;
+ gList.items.forEach(function(m){
+   if(String(m.user_id)===String(S.me.id)||m.deleted_at||isPinMarker(m)||Date.parse(m.created_at)<=t)return;
+   if(S.gDivId==null)S.gDivId=m.id;
+   S.gDivN++;
+ });
+ if(S.gDivId!=null&&gList.more&&gList.items.length&&String(gList.items[0].id)===String(S.gDivId))S.gDivPlus=true;
+}
 function showReplyPreview(scope){
  var q=S.replyTo;if(!q||q.scope!==scope)return;
  if(scope==='group'){var box=$('zcGroupReplyPreview');if(!box)return;$('zcGroupReplyName').textContent='Membalas '+q.username;$('zcGroupReplyText').textContent=q.text;box.hidden=false;}
@@ -10442,7 +10752,7 @@ async function fetchThread(peer,before){
 
 async function loadOlderGlobal(){if(!gList.items.length||gList.loading)return;gList.loading=true;try{var g=await fetchGlobal(gList.items[0].created_at);gList.merge(g.rows);gList.more=g.more;gList.render(false,true);}catch(e){flash(friendly(e));}gList.loading=false;}
 async function loadOlderThread(){if(!S.peer||!pList.items.length||pList.loading)return;pList.loading=true;var peer=S.peer;try{var t=await fetchThread(peer,pList.items[0].created_at);if(S.peer===peer){pList.merge(t.rows);pList.more=t.more;pList.render(false,true);}}catch(e){flash(friendly(e));}pList.loading=false;}
-async function resync(){if(!S.ready||Date.now()-S.resyncAt<3000)return;S.resyncAt=Date.now();try{var g=await fetchGlobal(null);if(gList.merge(g.rows))gList.render(false);await loadConvs();if(S.peer){var peer=S.peer,t=await fetchThread(peer,null);if(S.peer===peer&&pList.merge(t.rows))pList.render(false);}}catch(e){console.warn('[zc-chat] resync',e);}}
+async function resync(){if(!S.ready||Date.now()-S.resyncAt<3000)return;S.resyncAt=Date.now();try{var g=await fetchGlobal(null);var _pr=gList.prune(g.rows);if(gList.merge(g.rows)||_pr)gList.render(false);await loadConvs();if(S.peer){var peer=S.peer,t=await fetchThread(peer,null);if(S.peer===peer&&pList.merge(t.rows))pList.render(false);}}catch(e){console.warn('[zc-chat] resync',e);}}
 
 function typingKey(scope,peer){return scope==='group'?'group':'private:'+String([S.me&&S.me.id,peer].sort().join(':'));}
 function typingLabel(scope,peer){
@@ -10468,7 +10778,7 @@ async function markDelivered(m){if(!m||!S.me||m.receiver_id!==S.me.id||m.deliver
 function subscribeAll(){
  if(S.subscribed)return;S.subscribed=true;
  var sb=S.sb,uid=S.me.id;
- sb.channel('zc-global').on('postgres_changes',{event:'*',schema:'public',table:'chat_messages'},function(p){if(p.eventType==='INSERT')onGlobalInsert(p.new);else if(p.eventType==='UPDATE')onGlobalUpdate(p.new);}).subscribe(trackStatus('global'));
+ sb.channel('zc-global').on('postgres_changes',{event:'*',schema:'public',table:'chat_messages'},function(p){if(p.eventType==='INSERT')onGlobalInsert(p.new);else if(p.eventType==='UPDATE')onGlobalUpdate(p.new);else if(p.eventType==='DELETE')onGlobalDelete(p.old);}).subscribe(trackStatus('global'));
  sb.channel('zc-private-'+uid).on('postgres_changes',{event:'INSERT',schema:'public',table:'private_messages'},function(p){if(p.new.sender_id===uid||p.new.receiver_id===uid)onPmInsert(p.new);}).on('postgres_changes',{event:'UPDATE',schema:'public',table:'private_messages'},function(p){if(p.new.sender_id===uid||p.new.receiver_id===uid)onPmUpdate(p.new);}).subscribe(trackStatus('private'));
  S.typingChannel=sb.channel('zc-typing',{config:{broadcast:{self:false}}});S.typingChannel.on('broadcast',{event:'typing'},receiveTyping).subscribe(function(status){trackStatus('typing')(status);});
  var pr=sb.channel('zc-presence',{config:{presence:{key:uid}}});S.pres=pr;pr.on('presence',{event:'sync'},onPresence).subscribe(function(status){trackStatus('presence')(status);if(status==='SUBSCRIBED'){var p=pr.track({username:S.me.username,t:Date.now()});if(p&&p.catch)p.catch(function(){});}});
@@ -10487,6 +10797,7 @@ function renderOnlineUsers(){
 function onPresence(){var st=S.pres.presenceState(),on={};Object.keys(st).forEach(function(k){var meta=st[k]&&st[k][0]||{};on[k]=meta.username||true;if(!S.profiles[k]&&meta.username)S.profiles[k]={id:k,username:meta.username,last_seen:new Date().toISOString()};});S.online=on;renderConn();renderOnlineUsers();if(S.peer)renderPeerHead();renderConvs();if(S.usersQ.length>=3)searchUsers();}
 function onGlobalInsert(m){if(!m||!m.id||gList.ids[m.id])return;if(m.content==null&&m.message!=null)m.content=m.message;var done=function(){fillName(m);gList.add(m,m.user_id===S.me.id);};ensureProfiles([m.user_id]).then(done,done);}
 function onGlobalUpdate(m){if(!m||!m.id)return;gList.patch(m);}
+function onGlobalDelete(m){if(!m||m.id==null)return;gList.remove(m.id);}
 function onPmInsert(m){if(!m||!m.id)return;var mine=m.sender_id===S.me.id,peer=mine?m.receiver_id:m.sender_id;if(!mine)markDelivered(m);if(S.peer===peer&&pList.ids[m.id])return;var c=S.convs[peer]||(S.convs[peer]={peer_id:peer,unread:0});if(!c.last_at||Date.parse(m.created_at)>=Date.parse(c.last_at)){c.last_content=txtOf(m);c.last_at=m.created_at;c.last_sender=m.sender_id;}if(S.peer===peer)pList.add(m,mine);if(!mine){var viewing=S.peer===peer&&S.tab==='private'&&pageActive()&&!document.hidden;if(viewing)markRead(peer);else c.unread=(c.unread||0)+1;}ensureProfiles([peer]).then(function(){renderConvs();if(S.peer===peer)renderPeerHead();});renderConvs();renderBadges();if(S.peer===peer)setComposerState();}
 function onPmUpdate(m){if(m&&m.id&&S.peer&&(m.sender_id===S.me.id||m.receiver_id===S.me.id))pList.patch(m);}
 function touch(){if(!S.sb||!S.ready)return;try{S.sb.rpc('zc_touch').then(function(){},function(){});}catch(e){}}
@@ -10510,6 +10821,7 @@ async function sendGlobal(){
  if(!S.ready||!S.me||!S.me.username||S.me.blacklisted||!txt||S.sending||Date.now()-S.lastSend<SEND_GAP)return;
  var uid=String(S.me.id||'');
  if(!UUID_RE.test(uid)){flash('ID pengguna tidak valid. Silakan muat ulang halaman.');return;}
+ var _sw=slowWait();if(_sw>0){flash('Mode lambat aktif. Tunggu '+Math.ceil(_sw/1000)+' dtk lagi.');slowTick();return;}
  if(clientBanned(txt)){flash(banMsg());return;}
  S.sending=true;S.lastSend=Date.now();
  try{
@@ -10533,7 +10845,7 @@ async function sendGlobal(){
      if(d&&d.blocked){var md=d.moderation||{};flash(md.warning||'Kata terlarang tidak diizinkan.');if(md.blacklisted){S.me.blacklisted=true;setComposerState();}return;}
      row=(d&&d.id)?d:null;
    }
-   ta.value='';autosize(ta);sendTyping('group',false);clearGroupReply();
+   ta.value='';autosize(ta);sendTyping('group',false);clearGroupReply();S.slowLast=Date.now();slowTick();
    if(row){
      gList.add(fillName({
        id:row.id,user_id:row.user_id||uid,username:row.username||uname,
@@ -11160,7 +11472,7 @@ async function adminLoadFlags(uid){
 }
 function adminResetConfirm(){
  S.adminConfirm='';clearTimeout(S._admCT);
- ['zcAdminBlock','zcAdminDelAll','zcAdminRestoreAll'].forEach(function(id){var b=$(id);if(b&&b.dataset.l){b.innerHTML=b.dataset.l;delete b.dataset.l;b.classList.remove('confirm');}});
+ ['zcAdminBlock','zcAdminDelAll','zcAdminRestoreAll','zcAdminPurge'].forEach(function(id){var b=$(id);if(b&&b.dataset.l){b.innerHTML=b.dataset.l;delete b.dataset.l;b.classList.remove('confirm');}});
 }
 function adminConfirmTap(btn,key){
  if(S.adminConfirm===key){adminResetConfirm();return true;}
@@ -11182,12 +11494,16 @@ function adminPaint(){
  else if(known&&!p._flags&&!self)chip('Status belum terbaca');
  else if(!bl&&!mu&&!adm&&!self)chip('Normal');
  var hasMsg=!!m.id,del=!!m.deleted_at;
- $('zcAdminGMsg').hidden=!hasMsg;$('zcAdminDelete').hidden=!hasMsg||del;$('zcAdminRestore').hidden=!hasMsg||!del;
+ $('zcAdminGMsg').hidden=!hasMsg;$('zcAdminDelete').hidden=!hasMsg||del;$('zcAdminRestore').hidden=!hasMsg||!del;$('zcAdminPurge').hidden=!hasMsg||!m.user_id;
+ var canPin=hasMsg&&!del&&!!m.user_id&&!isPinMarker(m),isPinned=!!(S.pin&&String(S.pin.mid)===String(m.id));
+ $('zcAdminPin').hidden=!canPin||isPinned;$('zcAdminUnpin').hidden=!canPin||!isPinned;
  $('zcAdminProfile').hidden=!!m._profile||!valid;
  $('zcAdminGUser').hidden=!(known&&!self&&!adm);
  $('zcAdminBlock').hidden=bl;$('zcAdminUnblock').hidden=!bl;
  qsa('#zcAdminMuteRow [data-min]').forEach(function(b){b.hidden=mu;});
  $('zcAdminUnmute').hidden=!mu;
+ $('zcAdminGSlow').hidden=!!(m.id&&!m.user_id);
+ qsa('#zcAdminSlowRow [data-slow]').forEach(function(b){b.classList.toggle('on',(parseInt(b.getAttribute('data-slow'),10)||0)===(S.slow||0));});
 }
 function openAdmin(m){
  if(!S.me||!S.me.is_admin)return;
@@ -11251,7 +11567,7 @@ async function adminDelete(){
 var pollN=0;
 function pollTick(){
  if(!S.ready||document.hidden||!pageActive())return;
- pollN++;vipRoleCheck();adminFollowBack();if(pollN%5===0){syncBio();refreshMyMod();}
+ pollN++;vipRoleCheck();adminFollowBack();if(pollN%5===0){syncBio();refreshMyMod();}if(pollN%10===0){loadPin();loadSlow();}
  var bad=Object.keys(S.statuses).some(function(k){return S.statuses[k]!=='SUBSCRIBED';});
  /* Realtime putus -> polling cepat (6 dtk). Normal -> jaring pengaman tiap 30 dtk. */
  if(bad||pollN%5===0)resync();
@@ -11280,6 +11596,7 @@ async function start(){
   try{await loadConvs();}catch(e){console.warn('[zc-chat] load convs',e);}
   subscribeAll();
   S.ready=true;setComposerState();renderConn();renderMe();refreshMyMod();refreshMySocial();syncProfileExtras();syncNameColor();autoFollowOwner();adminFollowBack();
+  loadPin();loadSlow();
   if(!S.touchTimer)S.touchTimer=setInterval(touch,TOUCH_MS);
   if(!S.pollTimer)S.pollTimer=setInterval(pollTick,6000);
   setTab(S.tab);touch();
@@ -11287,9 +11604,10 @@ async function start(){
 }
 function setTab(t,quiet){
  S.tab=t;
+ if(t!=='global'){S.gDivArmed=true;S.gDivId=null;}
  showView(t==='global'?'group':(t==='private'&&S.peer?'thread':'list'));
  if(!S.ready||quiet)return;
- if(t==='global'){markGroupSeen();renderGroupRow();renderBadges();var g=$('zcGlobalList');g.scrollTop=g.scrollHeight;}
+ if(t==='global'){var freshDiv=false;if(S.gDivArmed){S.gDivArmed=false;captureGroupDivider();gList.render(true);freshDiv=true;}markGroupSeen();renderGroupRow();renderBadges();var g=$('zcGlobalList');if(!(freshDiv&&S.gDivId!=null&&gList.scrollToDivider()))g.scrollTop=g.scrollHeight;}
  else if(t==='private'&&S.peer){$('zcThreadList').scrollTop=$('zcThreadList').scrollHeight;markRead(S.peer);}
  else{renderGroupRow();loadConvs().catch(function(){});}
 }
@@ -11344,8 +11662,12 @@ setInterval(function(){if(document.documentElement.classList.contains('zc-on'))r
  function hook(){var n=document.getElementById('dpName');if(!n)return;try{new MutationObserver(kick).observe(n,{childList:true,characterData:true,subtree:true});}catch(e){}}
  hook();setTimeout(kick,2500);setTimeout(kick,8000);})();
 $('zcAdminClose').addEventListener('click',function(){closeSheet('zcAdminSheet');});
+$('zcAdminPurge').addEventListener('click',adminPurge);qsa('#zcAdminSlowRow [data-slow]').forEach(function(b){b.addEventListener('click',function(){adminSlow(parseInt(b.getAttribute('data-slow'),10)||0);});});
 $('zcAdminDelete').addEventListener('click',adminDelete);$('zcAdminBlock').addEventListener('click',adminBlock);$('zcAdminUnblock').addEventListener('click',adminUnblock);
 $('zcAdminRestore').addEventListener('click',adminRestore);$('zcAdminUnmute').addEventListener('click',adminUnmute);
+$('zcAdminPin').addEventListener('click',adminPin);$('zcAdminUnpin').addEventListener('click',adminUnpin);
+$('zcPinMain').addEventListener('click',function(){var p=S.pin;if(!p)return;gList.jumpTo({id:p.mid,username:p.username,text:p.text},null);});
+$('zcPinOff').addEventListener('click',unpinCurrent);
 $('zcAdminDelAll').addEventListener('click',function(){adminBulk('del');});$('zcAdminRestoreAll').addEventListener('click',function(){adminBulk('restore');});
 qsa('#zcAdminMuteRow [data-min]').forEach(function(b){b.addEventListener('click',function(){adminMute(parseInt(b.getAttribute('data-min'),10)||10);});});
 $('zcAdminCopyName').addEventListener('click',function(){var m=S.adminTarget;if(!m)return;var p=S.profiles[adminUid(m)]||{};admCopy(m.username||p.username,'Username');});
@@ -11365,7 +11687,7 @@ function watchDeveloperProfile(){
  dpObserver=new MutationObserver(sync);dpObserver.observe(node,{childList:true,characterData:true,subtree:true});
  clearInterval(S.profileTimer);S.profileTimer=setInterval(sync,1000);
 }
-function onPageToggle(){var on=pageActive();document.documentElement.classList.toggle('zc-on',on);if(on&&!S.wasOn){setVh();window.scrollTo(0,0);watchDeveloperProfile();if(!S.ready)start();else{resync();refreshProfileFromDeveloper(false);refreshMyMod();setTab(S.tab);syncProfileExtras();syncNameColor();refreshNameColors();syncBio();vipRoleCheck();}}S.wasOn=on;}
+function onPageToggle(){var on=pageActive();document.documentElement.classList.toggle('zc-on',on);if(!on&&S.wasOn){S.gDivArmed=true;S.gDivId=null;}if(on&&!S.wasOn){setVh();window.scrollTo(0,0);watchDeveloperProfile();if(!S.ready)start();else{resync();refreshProfileFromDeveloper(false);refreshMyMod();setTab(S.tab);syncProfileExtras();syncNameColor();refreshNameColors();syncBio();vipRoleCheck();}}S.wasOn=on;}
 new MutationObserver(onPageToggle).observe($('zcChat'),{attributes:true,attributeFilter:['class']});
 (function(){var ct=document.getElementById('communityTab');if(!ct)return;function warm(){if(!ct.classList.contains('active')||S.ready||S.starting)return;start();}new MutationObserver(warm).observe(ct,{attributes:true,attributeFilter:['class']});warm();})();
 renderConvs();renderBadges();renderConn();onPageToggle();
