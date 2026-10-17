@@ -12316,12 +12316,15 @@ renderConvs();renderBadges();renderConn();onPageToggle();
   for(var k=0;k<tabs.length;k++)tabs[k].classList.toggle('on',tabs[k].getAttribute('data-t')===t);
   if(t==='log')showLog();else showConv();
  }
+ function showMsg(t){P.body.textContent='';P.body.appendChild(el('div','zca-err',t));}
  function openPanel(){
-  if(!S.sb||!S.me)return;
+  ensurePanel();P.ov.hidden=false;
+  if(!S.sb||!S.me){showMsg('Chat belum tersambung. Tutup lalu coba lagi.');return;}
+  P.body.textContent='';P.body.appendChild(el('div','zca-empty','Memeriksa akses admin\u2026'));
   rpc('zc_audit_is_admin').then(function(ok){
-   if(ok!==true){flash('Khusus admin.');return;}
-   ensurePanel();P.ov.hidden=false;setTab('conv');
-  }).catch(function(e){flash(errMsg(e));});
+   if(ok!==true){showMsg('Server tidak mengenali akun ini sebagai admin. Pastikan kolom is_admin bernilai true di chat_profiles untuk akun yang sedang login.');return;}
+   setTab('conv');
+  }).catch(function(e){showMsg('Gagal mengecek admin: '+errMsg(e)+' Pastikan file SQL sudah dijalankan di Supabase.');});
  }
  function showConv(){
   var b=P.body;b.textContent='';
