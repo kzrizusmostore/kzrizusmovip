@@ -2,23 +2,19 @@
   "id": "/",
   "name": "KZRIZUSMO FF",
   "short_name": "KZRIZUSMO",
-  "description": "Aplikasi KZRIZUSMO FF — tools, event, dan VIP Free Fire.",
+  "description": "KZRIZUSMO FF - tools, shop, dan komunitas Free Fire.",
   "lang": "id",
   "dir": "ltr",
   "start_url": "/?source=pwa",
   "scope": "/",
   "display": "standalone",
-  "display_override": ["standalone", "minimal-ui"],
   "orientation": "portrait",
-  "background_color": "#000000",
+  "background_color": "#0a0a0a",
   "theme_color": "#0a0a0a",
-  "categories": ["games", "utilities", "entertainment"],
+  "categories": ["games", "utilities"],
   "icons": [
     { "src": "/zusmo-asset/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "/zusmo-asset/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
-  ],
-  "shortcuts": [
-    { "name": "Beli VIP", "short_name": "VIP", "url": "/?goto=buyvip", "icons": [{ "src": "/zusmo-asset/icon-192.png", "sizes": "192x192", "type": "image/png" }] },
-    { "name": "Event", "short_name": "Event", "url": "/?goto=event", "icons": [{ "src": "/zusmo-asset/icon-192.png", "sizes": "192x192", "type": "image/png" }] }
+    { "src": "/zusmo-asset/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/zusmo-asset/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ]
 }
