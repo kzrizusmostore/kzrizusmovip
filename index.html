@@ -1045,7 +1045,7 @@ AccessTokenDua
   </div>
   <div class="zc-modal" id="zcProfileSheet" aria-hidden="true">
     <div class="zc-sheet zc-psheet" role="dialog" aria-modal="true" aria-labelledby="zcSheetName">
-      <div class="zc-pf-cover" aria-hidden="true"><img class="zc-pf-cover-img" alt="" decoding="async" hidden></div>
+      <div class="zc-pf-cover" aria-hidden="true"><video class="zc-pf-cover-vid" muted loop playsinline preload="metadata" disablepictureinpicture tabindex="-1" hidden></video></div>
       <button type="button" class="zc-pf-x" id="zcSheetClose" aria-label="Tutup"><i class="fa-solid fa-xmark"></i></button>
       <div class="zc-pf-avwrap">
         <span class="zc-av zc-pf-av" id="zcSheetAv">?</span>
@@ -1068,31 +1068,7 @@ AccessTokenDua
         <button type="button" class="zc-sheet-chat" id="zcSheetChat"><i class="fa-solid fa-message"></i> Chat Pribadi</button>
       </div>
       <div class="zc-pf-hint" id="zcSheetHint" role="status" aria-live="polite"></div>
-      <button type="button" class="zc-pf-full" id="zcSheetFull"><i class="fa-solid fa-id-card" aria-hidden="true"></i> Lihat profil lengkap</button>
-    </div>
-  </div>
-  <div class="zc-modal zc-fp" id="zcFullProfile" aria-hidden="true">
-    <div class="zc-fp-panel" role="dialog" aria-modal="true" aria-labelledby="zcFpName">
-      <div class="zc-fp-bar"><button type="button" class="zc-fp-back" id="zcFpBack" aria-label="Kembali"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i></button><span>Profil lengkap</span></div>
-      <div class="zc-fp-scroll">
-        <div class="zc-fp-banner" id="zcFpBanner" aria-hidden="true"><img id="zcFpBannerImg" alt="" decoding="async" hidden></div>
-        <div class="zc-fp-head">
-          <span class="zc-av zc-fp-av" id="zcFpAv">?</span>
-          <b class="zc-fp-name" id="zcFpName">…</b>
-          <span class="zc-fp-user" id="zcFpUser"></span>
-          <div class="zc-pf-role" id="zcFpRole"></div>
-          <div class="zc-pf-titles" id="zcFpTitles"></div>
-          <small class="zc-pf-status" id="zcFpStatus"></small>
-        </div>
-        <section class="zc-fp-sec" id="zcFpBioBox" hidden><h5>Bio</h5><p id="zcFpBio"></p></section>
-        <section class="zc-fp-sec" id="zcFpLinkBox" hidden><h5>Tautan</h5><a id="zcFpLink" target="_blank" rel="noopener noreferrer nofollow"><i class="fa-solid fa-link" aria-hidden="true"></i><span></span></a></section>
-        <div class="zc-pf-stats">
-          <div><b id="zcFpFollowing">0</b><span>Mengikuti</span></div>
-          <div><b id="zcFpFollowers">0</b><span>Pengikut</span></div>
-          <div><b id="zcFpLikes">0</b><span>Suka</span></div>
-        </div>
-        <div class="zc-pf-join" id="zcFpJoinRow" hidden><span><i class="fa-regular fa-calendar" aria-hidden="true"></i>Gabung Sejak</span><b id="zcFpJoin"></b></div>
-      </div>
+      <button type="button" class="zc-pf-full" id="zcSheetFull" hidden><i class="fa-solid fa-user-pen" aria-hidden="true"></i> Buka profil saya</button>
     </div>
   </div>
   <div class="zc-modal" id="zcAdminSheet" aria-hidden="true">
@@ -9279,7 +9255,7 @@ html.zc-on #zcChat .zc-shell{height:100%!important;max-height:100%!important;pad
 #zcChat .zc-pf-titles .dpt{max-width:100%}
 #zcChat .zc-pf-empty{padding:4px 12px;border:1px dashed rgba(255,255,255,.14);border-radius:999px;font-size:.72rem;color:rgba(255,255,255,.4)}
 #zcChat .zc-pf-status{margin-top:12px;font-size:.74rem;color:rgba(255,255,255,.45)}
-#zcChat .zc-pf-bio{box-sizing:border-box;max-width:100%;margin:8px 0 0;padding:0 16px;font-size:.8rem;line-height:1.4;color:rgba(255,255,255,.78);text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#zcChat .zc-pf-bio{box-sizing:border-box;max-width:100%;margin:8px 0 0;padding:0 16px;font-size:.8rem;line-height:1.4;color:rgba(255,255,255,.78);text-align:center;white-space:pre-line;overflow-wrap:anywhere}
 #zcChat .zc-pf-bio[hidden]{display:none}
 #zcChat .zc-pf-stats{width:100%;display:grid;grid-template-columns:repeat(3,1fr);margin-top:20px;border:1px solid rgba(255,255,255,.07);border-radius:18px;background:rgba(255,255,255,.035)}
 #zcChat .zc-pf-stats>div,#zcChat .zc-pf-like{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;padding:14px 4px 12px;border:0;border-radius:16px;background:none;color:#fff;font:inherit}
@@ -9312,10 +9288,10 @@ html.zc-on #zcChat .zc-shell{height:100%!important;max-height:100%!important;pad
 #zcChat #zcModerationNoteT[data-gate]{text-decoration:underline;text-underline-offset:2px}
 </style>
 <style id="zc-media-style">
-/* ===== Foto & banner profil asli + Profil lengkap ===== */
+/* ===== Sheet profil: banner video + foto profil asli ===== */
 #zcChat .zc-pf-cover{overflow:hidden}
-#zcChat .zc-pf-cover-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
-#zcChat .zc-pf-cover-img[hidden]{display:none}
+#zcChat .zc-pf-cover-vid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;background:#1a1a20}
+#zcChat .zc-pf-cover-vid[hidden]{display:none}
 #zcChat #zcProfileSheet.has-banner{padding-top:56px}
 #zcChat #zcProfileSheet.has-banner .zc-pf-cover{height:132px;background:#1a1a20;-webkit-mask-image:none;mask-image:none}
 #zcChat #zcProfileSheet.has-banner .zc-pf-cover::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.30),rgba(0,0,0,0) 40%,rgba(17,17,20,.6))}
@@ -9325,29 +9301,6 @@ html.zc-on #zcChat .zc-shell{height:100%!important;max-height:100%!important;pad
 #zcChat .zc-pf-full{width:100%;min-height:46px;margin-top:10px;padding:0 12px;display:flex;align-items:center;justify-content:center;gap:8px;border:1px solid rgba(255,255,255,.12);border-radius:15px;background:rgba(255,255,255,.05);color:#fff;font:inherit;font-size:.9rem;font-weight:700;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .12s,background .15s}
 #zcChat .zc-pf-full:active{transform:scale(.97);background:rgba(255,255,255,.1)}
 #zcChat .zc-pf-full[hidden]{display:none}
-#zcChat .zc-modal.zc-fp{--pf-h:0;align-items:stretch;background:#090909}
-#zcChat .zc-fp-panel{position:relative;width:min(100%,560px);margin:0 auto;display:flex;flex-direction:column;min-height:0;background:#111114;transform:translateY(14px);transition:transform .22s cubic-bezier(.2,.8,.2,1)}
-#zcChat .zc-modal.on .zc-fp-panel{transform:none}
-#zcChat .zc-fp-bar{flex:0 0 auto;display:flex;align-items:center;gap:12px;padding:calc(10px + env(safe-area-inset-top,0px)) 12px 10px;background:#141010;border-bottom:1px solid rgba(255,255,255,.07);font-weight:800;color:#fff}
-#zcChat .zc-fp-back{flex:0 0 auto;width:38px;height:38px;padding:0;border:0;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.07);color:#fff;font-size:1rem;cursor:pointer;-webkit-tap-highlight-color:transparent}
-#zcChat .zc-fp-back:active{background:rgba(255,255,255,.16)}
-#zcChat .zc-fp-scroll{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding-bottom:calc(24px + env(safe-area-inset-bottom,0px));color:#fff}
-#zcChat .zc-fp-banner{position:relative;height:0;padding-bottom:37.5%;overflow:hidden;background:radial-gradient(120% 140% at 15% 0%,hsla(var(--pf-h),60%,46%,.7),transparent 62%),radial-gradient(100% 130% at 100% 0%,hsla(calc(var(--pf-h) + 45),60%,42%,.45),transparent 66%),#1a1a20}
-#zcChat .zc-fp-banner img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
-#zcChat .zc-fp-banner img[hidden]{display:none}
-#zcChat .zc-fp-head{position:relative;display:flex;flex-direction:column;align-items:center;margin-top:-52px;padding:0 20px}
-#zcChat .zc-fp-head .zc-fp-av{flex:0 0 104px;width:104px;height:104px;font-size:2.6rem;box-shadow:0 0 0 6px #111114,0 0 0 7px rgba(255,255,255,.1),0 14px 30px rgba(0,0,0,.5)}
-#zcChat .zc-fp-name{max-width:100%;margin-top:14px;font-size:1.45rem;font-weight:800;letter-spacing:-.015em;line-height:1.2;text-align:center;overflow-wrap:anywhere}
-#zcChat .zc-fp-user{display:inline-flex;align-items:center;justify-content:center;gap:4px;flex-wrap:wrap;margin-top:4px;font-size:.88rem;color:rgba(255,255,255,.5);overflow-wrap:anywhere;text-align:center}
-#zcChat .zc-fp-sec{margin:16px 16px 0;padding:14px 16px;border:1px solid rgba(255,255,255,.07);border-radius:18px;background:rgba(255,255,255,.035)}
-#zcChat .zc-fp-sec[hidden]{display:none}
-#zcChat .zc-fp-sec h5{margin:0 0 8px;font-size:.7rem;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.42)}
-#zcChat .zc-fp-sec p{margin:0;font-size:.92rem;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere;color:rgba(255,255,255,.9)}
-#zcChat .zc-fp-sec a{display:flex;align-items:center;gap:8px;font-size:.92rem;font-weight:600;color:#ff7b85;text-decoration:none;overflow-wrap:anywhere}
-#zcChat .zc-fp-sec a i{font-size:.85rem}
-#zcChat .zc-fp .zc-pf-stats{width:auto;margin:16px 16px 0}
-#zcChat .zc-fp .zc-pf-join{width:auto;margin:14px 22px 0}
-@media(prefers-reduced-motion:reduce){#zcChat .zc-fp-panel{transition:none}}
 </style>
 <script id="zc-chat-script">
 /* ===== ZUSMO LIVE CHAT — Supabase Publishable/Anon key only. Secret key is NEVER shipped to client. ===== */
@@ -9393,7 +9346,13 @@ function hue(id){var h=0,s=String(id);for(var i=0;i<s.length;i++)h=(h*31+s.charC
 function collPick(list,uid,salt){if(!list||!list.length)return null;var h=0,t=String(uid)+(salt||'');for(var q=0;q<t.length;q++)h=(h*31+t.charCodeAt(q))>>>0;return list[h%list.length];}
 /* Foto galeri milik sendiri (hanya terlihat di perangkat sendiri; pengguna lain melihat foto dari koleksi). */
 function ownGalleryAvatar(){try{var v=String(localStorage.getItem('dpCustomAvatar')||'').trim();return /^data:image\//i.test(v)||/^https:\/\//i.test(v)?v:'';}catch(e){return '';}}
-function collBanner(uid){try{var b=collPick((window.__zusmoBanners||[]).filter(function(x){return x&&x.img;}),uid,'bn');return b?b.img:'';}catch(e){return '';}}
+function collBanner(uid){try{var b=collPick((window.__zusmoBanners||[]).filter(function(x){return x&&x.video;}),uid,'bn');return b?b.video:'';}catch(e){return '';}}
+/* Banner live chat = VIDEO (bukan gambar). Milik sendiri disinkron dari banner video di profil Pribadi; pengguna lain dari koleksi video aplikasi. */
+function ownBannerVideo(){
+ try{var pv=document.getElementById('dpBannerVid'),sv=pv&&pv.getAttribute('src');if(sv&&(/^blob:/i.test(sv)||/^zusmo-asset\/[\w.\-]+\.(?:mp4|webm)$/i.test(sv)))return sv;}catch(e){}
+ try{var id=localStorage.getItem('zusmo_settings_banner')||'sukuna',l=(window.__zusmoBanners||[]).filter(function(x){return x&&x.video;}),d=l.filter(function(x){return x.id===id;})[0]||l[0];return d?d.video:'';}catch(e){return '';}
+}
+function bannerVideoFor(uid){return (S.me&&uid===S.me.id)?ownBannerVideo():collBanner(uid);}
 function collAvatar(uid){try{var l=collPick((window.__zusmoLogos||[]).filter(function(x){return x&&x.img&&x.id!=='lg0';}),uid,'av');return l?l.img:'';}catch(e){return '';}}
 function avatar(id,name,small){var a=el('span','zc-av'+(small?' sm':''),(name||'?').charAt(0));a.style.background='hsl('+hue(id)+',58%,40%)';var p=S.profiles&&S.profiles[id],src=((S.me&&id===S.me.id)?ownGalleryAvatar():'')||collAvatar(id)||(p&&(p.avatar_url||p.avatar||p.profile_avatar));if(src&&/^https?:|^data:image\/|^zusmo-asset\//i.test(src)){var im=document.createElement('img');im.src=src;im.alt='';im.loading='lazy';im.onerror=function(){im.remove();};a.textContent='';a.appendChild(im);a.classList.add('zc-av-hasimg');}return a;}
 function setAv(node,id,name){node.textContent=(name||'?').charAt(0);node.style.background='hsl('+hue(id)+',58%,40%)';var p=S.profiles&&S.profiles[id],src=((S.me&&id===S.me.id)?ownGalleryAvatar():'')||collAvatar(id)||(p&&(p.avatar_url||p.avatar||p.profile_avatar));if(src&&/^https?:|^data:image\/|^zusmo-asset\//i.test(src)){var im=document.createElement('img');im.src=src;im.alt='';im.onerror=function(){im.remove();};node.textContent='';node.appendChild(im);node.classList.add('zc-av-hasimg');}else node.classList.remove('zc-av-hasimg');}
@@ -9525,7 +9484,7 @@ MsgList.prototype.nearBottom=function(){var b=this.box;return b.scrollHeight-b.s
 MsgList.prototype.reset=function(){this.items=[];this.ids={};this.more=false;if(this.pill)this.pill.hidden=true;this.render(true);};
 MsgList.prototype.merge=function(arr){var self=this,changed=0;(arr||[]).forEach(function(m){var ex=self.ids[m.id];if(ex){if(m.read_at&&!ex.read_at){ex.read_at=m.read_at;changed++;}if(m.delivered_at&&!ex.delivered_at){ex.delivered_at=m.delivered_at;changed++;}if(m.deleted_at!==undefined)Object.assign(ex,m);return;}self.ids[m.id]=m;self.items.push(m);changed++;});if(changed)this.sort();return changed;};
 MsgList.prototype.patch=function(m){var ex=this.ids[m.id];if(ex){Object.assign(ex,m);this.render(false);}};
-MsgList.prototype.profileClick=function(sender,name){return function(e){e.stopPropagation();if(S.me&&S.me.is_admin){openAdminUser(sender,name);}else openProfile(sender);};};
+MsgList.prototype.profileClick=function(sender,name){return function(e){e.stopPropagation();if(Date.now()-zcLpAt<900)return;openProfile(sender);};};
 MsgList.prototype.buildInto=function(parent,m,prev){
  var o=this.opts,d=new Date(m.created_at),pd=prev?new Date(prev.created_at):null,newDay=!pd||dayKey(d)!==dayKey(pd),sender=o.senderOf(m),mine=sender===S.me.id,first=newDay||!prev||o.senderOf(prev)!==sender;
  if(newDay)parent.appendChild(el('div','zc-day',dayLabel(d)));
@@ -9546,12 +9505,21 @@ MsgList.prototype.add=function(m,forceStick){if(this.ids[m.id])return false;var 
 var gList=new MsgList($('zcGlobalList'),$('zcGlobalPill'),{senderOf:function(m){return m.user_id;},showAvatar:true,showName:true,receipts:false,groupReceipts:true,allowReply:true,empty:'Belum ada pesan. Jadi yang pertama menyapa!',onOlder:loadOlderGlobal,onChange:function(){renderGroupRow();renderBadges();}});
 var pList=new MsgList($('zcThreadList'),$('zcThreadPill'),{senderOf:function(m){return m.sender_id;},showAvatar:true,showName:false,receipts:true,allowReply:true,empty:'Belum ada pesan. Mulai percakapan privat ini.',onOlder:loadOlderThread});
 
+/* Admin/developer: KLIK profil atau pesan = tampilkan profil; TAHAN (±0,5 dtk) / klik kanan = opsi moderasi (hapus pesan, blacklist, dll). */
+var zcLpAt=0;
 function attachAdminGesture(row,m){
- var timer=null,done=false;
- function start(e){done=false;clearTimeout(timer);timer=setTimeout(function(){done=true;openAdmin(m);},550);}
+ var timer=null,sx=0,sy=0;
+ function fire(){zcLpAt=Date.now();openAdmin(m);}
+ function start(e){clearTimeout(timer);sx=e.clientX;sy=e.clientY;timer=setTimeout(fire,550);}
  function cancel(){clearTimeout(timer);}
- row.addEventListener('pointerdown',start,{passive:true});row.addEventListener('pointerup',cancel);row.addEventListener('pointercancel',cancel);row.addEventListener('pointerleave',cancel);
- row.addEventListener('contextmenu',function(e){e.preventDefault();openAdmin(m);});
+ function move(e){if(Math.abs(e.clientX-sx)>10||Math.abs(e.clientY-sy)>10)cancel();}
+ row.addEventListener('pointerdown',start,{passive:true});row.addEventListener('pointermove',move,{passive:true});row.addEventListener('pointerup',cancel);row.addEventListener('pointercancel',cancel);row.addEventListener('pointerleave',cancel);
+ row.addEventListener('contextmenu',function(e){e.preventDefault();cancel();fire();});
+ row.addEventListener('click',function(){
+   if(Date.now()-zcLpAt<900)return;
+   var uid=row.dataset.senderId||m.user_id||m.sender_id;
+   if(UUID_RE.test(uid))openProfile(uid);
+ });
 }
 
 
@@ -9807,7 +9775,7 @@ async function ensureProfiles(ids){
  var r=await S.sb.from('chat_profiles').select('*').in('user_id',ids);
  if(r.error){console.warn('[zc-chat] ensureProfiles:',r.error);return;}
  (r.data||[]).forEach(function(p){
-   var o={id:p.user_id,user_id:p.user_id,username:p.username,last_seen:p.last_seen,role_label:chatRoleLabel(p.role_label),avatar_url:p.avatar_url||p.avatar||null,display_name:p.display_name||null,titles:Array.isArray(p.titles)?p.titles:[],banner_url:p.banner_url||null,bio:p.bio||null,link_url:p.link_url||null,_full:true};
+   var o={id:p.user_id,user_id:p.user_id,username:p.username,last_seen:p.last_seen,role_label:chatRoleLabel(p.role_label),avatar_url:p.avatar_url||p.avatar||null,display_name:p.display_name||null,titles:Array.isArray(p.titles)?p.titles:[],bio:p.bio||null,link_url:p.link_url||null,_full:true};
    if(p.is_admin!==undefined)o.is_admin=!!p.is_admin;
    var bl=(p.blacklisted!==undefined)?p.blacklisted:p.is_blacklisted;if(bl!==undefined)o.blacklisted=!!bl;
    S.profiles[p.user_id]=Object.assign(S.profiles[p.user_id]||{},o);
@@ -10070,9 +10038,9 @@ async function refreshMySocial(){
  }catch(e){console.warn('[zc-chat] social stats:',e);}
 }
 window.__zcRefreshSocial=function(){return S.ready?refreshMySocial():start().then(function(){return refreshMySocial();});};
-/* ===== Foto & banner profil asli: diunggah ke Supabase Storage (bucket chat-media), URL-nya disimpan di chat_profiles ===== */
-var ZC_BUCKET='chat-media',ZC_MEDIA_MAX=1900000,ZC_MEDIA_KEY='zc_media_sync_v1:',fpUid=null;
-S.media={avatar_url:'',banner_url:'',sig:'',busy:null,off:true,warned:true,failAt:0};
+/* ===== Foto profil asli: diunggah ke Supabase Storage (bucket chat-media), URL-nya disimpan di chat_profiles. Banner tidak lagi diunggah: banner live chat = video aplikasi. ===== */
+var ZC_BUCKET='chat-media',ZC_MEDIA_MAX=1900000,ZC_MEDIA_KEY='zc_media_sync_v1:';
+S.media={avatar_url:'',sig:'',busy:null,off:true,warned:true,failAt:0};
 function hashStr(s){var h=2166136261;s=String(s||'');for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return (h>>>0).toString(36);}
 function okHttps(u){u=String(u||'').trim();return /^https:\/\/[^\s"'<>()]{4,580}$/i.test(u)?u:'';}
 /* Tautan sosial: hanya http(s). Tanpa skema -> otomatis https://. Selain itu ditolak (javascript:, data:, dll). */
@@ -10112,7 +10080,7 @@ async function safeUpload(kind,dataUrl){
 }
 function applyMedia(bio,lnk){
  if(!S.me||!S.me.id)return;
- var o={banner_url:S.media.banner_url||null,bio:bio||null,link_url:lnk||null};
+ var o={bio:bio||null,link_url:lnk||null};
  if(S.media.avatar_url)o.avatar_url=S.media.avatar_url;
  S.profiles[S.me.id]=Object.assign(S.profiles[S.me.id]||{id:S.me.id,user_id:S.me.id},o);
 }
@@ -10120,19 +10088,19 @@ async function syncProfileMedia(force){
  if(!S.sb||!S.me||!S.me.id||S.media.off)return S.media;
  if(S.media.busy)return S.media.busy;
  var run=(async function(){
-   var cav='',cbn='',bio='',lnk='';
-   try{cav=String(localStorage.getItem('dpCustomAvatar')||'');cbn=String(localStorage.getItem('dpCustomBanner')||'');bio=String(localStorage.getItem('dpBio')||'').trim().slice(0,160);lnk=cleanLink(localStorage.getItem('dpLink'));}catch(e){}
-   var isAv=/^data:image\//i.test(cav),isBn=/^data:image\//i.test(cbn);
-   var sig=[hashStr(isAv?cav:'-'),hashStr(isBn?cbn:'-'),hashStr(bio),hashStr(lnk)].join('|'),key=ZC_MEDIA_KEY+S.me.id;
+   var cav='',bio='',lnk='';
+   try{cav=String(localStorage.getItem('dpCustomAvatar')||'');bio=String(localStorage.getItem('dpBio')||'').trim().slice(0,160);lnk=cleanLink(localStorage.getItem('dpLink'));}catch(e){}
+   var isAv=/^data:image\//i.test(cav);
+   var sig=['v2',hashStr(isAv?cav:'-'),hashStr(bio),hashStr(lnk)].join('|'),key=ZC_MEDIA_KEY+S.me.id;
    if(!force&&sig===S.media.sig)return S.media;
    if(!force&&S.media.failAt&&Date.now()-S.media.failAt<30000)return S.media;
    var saved=null;try{saved=JSON.parse(localStorage.getItem(key)||'null');}catch(e){}
-   if(!force&&saved&&saved.sig===sig){S.media.sig=sig;S.media.avatar_url=okHttps(saved.a);S.media.banner_url=okHttps(saved.b);applyMedia(bio,lnk);return S.media;}
-   /* foto kustom & banner kustom (gambar) -> Storage. Foto bawaan/logo pilihan & banner bawaan/video tidak diunggah:
-      avatar bawaan tetap lewat jalur lama, banner bawaan/video jatuh ke latar gradasi otomatis. */
-   var av=isAv?await safeUpload('avatar',cav):'',bn=isBn?await safeUpload('banner',cbn):'';
-   S.media.avatar_url=av;S.media.banner_url=bn;
-   var patch={banner_url:bn||null,bio:bio||null,link_url:lnk||null},ok=false;
+   if(!force&&saved&&saved.sig===sig){S.media.sig=sig;S.media.avatar_url=okHttps(saved.a);applyMedia(bio,lnk);return S.media;}
+   /* foto kustom -> Storage. Foto bawaan/logo pilihan tidak diunggah (avatar bawaan tetap lewat jalur lama).
+      Banner tidak diunggah lagi; banner_url dikosongkan supaya sisa banner gambar lama tidak terpanggil. */
+   var av=isAv?await safeUpload('avatar',cav):'';
+   S.media.avatar_url=av;
+   var patch={banner_url:null,bio:bio||null,link_url:lnk||null},ok=false;
    if(av)patch.avatar_url=av;
    try{
      var r=await S.sb.rpc('zc_sync_media',{p_patch:patch});
@@ -10142,7 +10110,7 @@ async function syncProfileMedia(force){
      }else if(r.data&&typeof r.data==='object'&&r.data.updated===0){S.media.failAt=Date.now();mediaNote('Sinkron foto/banner: baris profil sesi ini tidak ditemukan.');}
      else ok=true;
    }catch(e){S.media.failAt=Date.now();console.warn('[zc-chat] sinkron media profil:',e);}
-   if(ok){S.media.sig=sig;try{localStorage.setItem(key,JSON.stringify({sig:sig,a:av,b:bn}));}catch(e){}}
+   if(ok){S.media.sig=sig;try{localStorage.setItem(key,JSON.stringify({sig:sig,a:av}));}catch(e){}}
    applyMedia(bio,lnk);
    return S.media;
  })();
@@ -10167,54 +10135,31 @@ async function syncBio(){
  }catch(e){console.warn('[zc-chat] sinkron bio:',e);}
  finally{S.bioBusy=false;}
 }
-/* Data media terbaru milik orang lain diambil tiap kartu dibuka (cache _full tidak ikut menyegarkan banner). */
+/* Data media terbaru milik orang lain diambil tiap kartu dibuka (cache _full tidak ikut menyegarkan avatar/bio/tautan). */
 async function refreshProfileMedia(uid){
  if(!S.sb||!UUID_RE.test(uid))return;
  var r=await S.sb.from('chat_profiles').select('*').eq('user_id',uid).maybeSingle();
  if(r.error||!r.data)return;
- var p=r.data,o={banner_url:p.banner_url||null,bio:p.bio||null,link_url:p.link_url||null};
+ var p=r.data,o={bio:p.bio||null,link_url:p.link_url||null};
  if(p.avatar_url||p.avatar)o.avatar_url=p.avatar_url||p.avatar;
  if(p.display_name!==undefined)o.display_name=p.display_name||null;
  if(Array.isArray(p.titles))o.titles=p.titles;
  S.profiles[uid]=Object.assign(S.profiles[uid]||{id:uid,user_id:uid},o);
 }
-/* Banner hanya tampil bila sudah selesai dimuat; gagal muat = kembali ke gradasi otomatis (tanpa loncatan tata letak). */
-function paintBanner(host,img,url){
- if(!host||!img)return;
- url=okHttps(url)||(/^zusmo-asset\/[\w.\-]+$/.test(String(url||''))?String(url):'');
- if(!url||img.dataset.bad===url){img.hidden=true;img.removeAttribute('src');host.classList.remove('has-banner');return;}
- if(img.getAttribute('src')===url){if(img.complete&&img.naturalWidth){img.hidden=false;host.classList.add('has-banner');}return;}
- host.classList.remove('has-banner');img.hidden=true;
- img.onload=function(){img.hidden=false;host.classList.add('has-banner');};
- img.onerror=function(){img.dataset.bad=url;img.hidden=true;img.removeAttribute('src');host.classList.remove('has-banner');};
- img.src=url;
-}
-/* ===== Profil lengkap (tampilan publik) ===== */
-function paintFullProfile(uid){
- var p=S.profiles[uid]||{id:uid,username:'Pengguna'},mine=!!(S.me&&uid===S.me.id),uname=p.username||'Pengguna';
- var dn=p.display_name&&String(p.display_name).trim();
- if(!dn&&mine){try{var _n=$('dpName'),_t=String((_n&&_n.textContent)||'').trim();if(_t&&_t!=='Guest')dn=_t;}catch(e){}}
- $('zcFpName').textContent=dn||uname;
- var un=$('zcFpUser');un.textContent='@'+uname;if(p.is_admin&&!mine)un.appendChild(verifiedBadge('1.2em'));
- setAv($('zcFpAv'),p.id||uid,dn||uname);
- var root=$('zcFullProfile');root.style.setProperty('--pf-h',hue(p.id||uid));
- paintBanner($('zcFpBanner'),$('zcFpBannerImg'),collBanner(p.id||uid));
- renderRoleInto($('zcFpRole'),p);renderTitlesInto($('zcFpTitles'),p.titles);
- $('zcFpStatus').textContent=mine?'Profil kamu':(S.online[uid]?'Online':(p.last_seen?'Terakhir aktif '+ago(p.last_seen):''));
- var bio=String(p.bio||(mine?(function(){try{return localStorage.getItem('dpBio');}catch(e){return '';}})():'')||'').trim().slice(0,160);$('zcFpBioBox').hidden=!bio;$('zcFpBio').textContent=bio;
- var lk=cleanLink(p.link_url),a=$('zcFpLink');
- var lt=a.querySelector('span');
- if(lk){a.href=lk;lt.textContent=linkHost(lk);$('zcFpLinkBox').hidden=false;}else{a.removeAttribute('href');lt.textContent='';$('zcFpLinkBox').hidden=true;}
- var cn=S.cnt[uid]||{following:0,followers:0,likes:0};
- $('zcFpFollowing').textContent=fmtN(cn.following);$('zcFpFollowers').textContent=fmtN(cn.followers);$('zcFpLikes').textContent=fmtN(cn.likes);
- var jd=p.joined_at?new Date(p.joined_at):null,jr=$('zcFpJoinRow');
- if(jd&&!isNaN(jd.getTime())){jr.hidden=false;$('zcFpJoin').textContent=('0'+jd.getDate()).slice(-2)+'-'+('0'+(jd.getMonth()+1)).slice(-2)+'-'+jd.getFullYear();}else jr.hidden=true;
-}
-function openFullProfile(uid){
- if(!UUID_RE.test(uid))return;
- fpUid=uid;paintFullProfile(uid);openSheet('zcFullProfile');
- var sc=document.querySelector('#zcFullProfile .zc-fp-scroll');if(sc)sc.scrollTop=0;
- refreshProfileMedia(uid).then(function(){if(fpUid===uid&&$('zcFullProfile').classList.contains('on'))paintFullProfile(uid);}).catch(function(){});
+/* Banner video: tampil bila sudah selesai dimuat; gagal muat = kembali ke gradasi otomatis (tanpa loncatan tata letak). */
+function stopBanner(host,vid){try{vid.pause();}catch(e){}vid.hidden=true;vid.removeAttribute('src');try{vid.load();}catch(e){}host.classList.remove('has-banner');}
+function playBanner(vid){try{vid.muted=true;var pr=vid.play();if(pr&&pr.catch)pr.catch(function(){});}catch(e){}}
+function paintBanner(host,vid,url){
+ if(!host||!vid)return;
+ url=String(url||'');
+ var ok=/^blob:/i.test(url)||/^zusmo-asset\/[\w.\-]+\.(?:mp4|webm)$/i.test(url)||/^https:\/\/[^\s"'<>()]{4,580}\.(?:mp4|webm)(?:\?[^\s"'<>()]*)?$/i.test(url);
+ if(!ok||vid.dataset.bad===url){stopBanner(host,vid);return;}
+ if(vid.getAttribute('src')===url){if(vid.readyState>=2){vid.hidden=false;host.classList.add('has-banner');}playBanner(vid);return;}
+ host.classList.remove('has-banner');vid.hidden=true;
+ vid.muted=true;vid.loop=true;vid.playsInline=true;
+ vid.onloadeddata=function(){vid.hidden=false;host.classList.add('has-banner');playBanner(vid);};
+ vid.onerror=function(){vid.dataset.bad=url;stopBanner(host,vid);};
+ vid.src=url;try{vid.load();}catch(e){}
 }
 /* Nama tampilan & gelar ikut disinkron supaya bisa dilihat orang lain di profil */
 async function syncProfileExtras(){
@@ -10244,8 +10189,6 @@ function renderTitlesInto(box,list){
  });
  if(!n)box.appendChild(el('span','zc-pf-empty','Belum ada gelar'));
 }
-/* Bio singkat untuk kartu: hanya baris pertama (maks 80 karakter); bio utuh ada di profil lengkap. */
-function shortBio(v){var t=String(v||'').replace(/\r/g,'').split('\n').map(function(x){return x.trim();}).filter(Boolean)[0]||'';return t.length>80?t.slice(0,79)+'\u2026':t;}
 function renderRoleInto(box,p){
  box.textContent='';var r=chatRoleLabel(p&&p.role_label)||'FREE';
  box.appendChild(zcRoleBadge(r));
@@ -10258,13 +10201,13 @@ function paintProfile(uid,loading){
  var _un=$('zcSheetUser');_un.textContent='@'+uname;if(p.is_admin&&!mine)_un.appendChild(verifiedBadge('1.3em'));
  setAv($('zcSheetAv'),p.id||uid,dn||uname);
  var ps=$('zcSheetAv').closest('.zc-psheet');if(ps)ps.style.setProperty('--pf-h',hue(p.id||uid));
- paintBanner($('zcProfileSheet'),document.querySelector('#zcProfileSheet .zc-pf-cover-img'),collBanner(p.id||uid));
- var _fb=$('zcSheetFull');if(_fb)_fb.innerHTML=mine?'<i class="fa-solid fa-user-pen" aria-hidden="true"></i> Buka profil saya':'<i class="fa-solid fa-id-card" aria-hidden="true"></i> Lihat profil lengkap';
+ paintBanner($('zcProfileSheet'),document.querySelector('#zcProfileSheet .zc-pf-cover-vid'),bannerVideoFor(p.id||uid));
+ var _fb=$('zcSheetFull');if(_fb)_fb.hidden=!mine;
  var isOn=!mine&&!!S.online[uid];$('zcSheetDot').dataset.on=isOn?'1':'0';
  $('zcSheetStatus').textContent=mine?'Profil kamu':(S.online[uid]?'Online':(p.last_seen?'Terakhir aktif '+ago(p.last_seen):'Offline'));
  renderRoleInto($('zcSheetRole'),p);renderTitlesInto($('zcSheetTitles'),p.titles);
   var _bv=p.bio;if(!_bv&&mine){try{_bv=localStorage.getItem('dpBio');}catch(e){}}
-  var _bt=shortBio(_bv),_bn=$('zcSheetBio');if(_bn){_bn.textContent=_bt;_bn.title=_bt?String(_bv).trim().slice(0,160):'';_bn.hidden=!_bt;}
+  var _bt=String(_bv||'').replace(/\r/g,'').trim().slice(0,160),_bn=$('zcSheetBio');if(_bn){_bn.textContent=_bt;_bn.title=_bt;_bn.hidden=!_bt;}
  var jd=p.joined_at?new Date(p.joined_at):null,jr=$('zcPfJoinRow');
  if(jr){if(jd&&!isNaN(jd.getTime())){jr.hidden=false;$('zcPfJoin').textContent=('0'+jd.getDate()).slice(-2)+'-'+('0'+(jd.getMonth()+1)).slice(-2)+'-'+jd.getFullYear();}else jr.hidden=true;}
  var cn=S.cnt[uid]||{following:0,followers:0,likes:0,i_liked:false};
@@ -10348,14 +10291,7 @@ function threadGate(){
  return {ph:'Saling ikuti dulu untuk chat',msg:'Kalian belum saling mengikuti. Ketuk untuk buka profil lalu ikuti '+u+'.'};
 }
 function openSheet(id){var x=$(id);x.classList.add('on');x.setAttribute('aria-hidden','false');}
-function closeSheet(id){var x=$(id);x.classList.remove('on');x.setAttribute('aria-hidden','true');}
-function openAdminUser(uid,name){
- if(!S.me||!S.me.is_admin||!UUID_RE.test(uid))return;
- S.adminTarget={id:null,user_id:uid,username:name||'Pengguna',content:'Profil pengguna'};
- $('zcAdminTarget').textContent=(name||'Pengguna')+' · profil pengguna';
- $('zcAdminDelete').hidden=true;$('zcAdminBlock').disabled=uid===S.me.id;$('zcAdminUnblock').disabled=false;openSheet('zcAdminSheet');
-}
-
+function closeSheet(id){var x=$(id);x.classList.remove('on');x.setAttribute('aria-hidden','true');if(id==='zcProfileSheet'){var bv=x.querySelector('.zc-pf-cover-vid');if(bv){try{bv.pause();}catch(e){}}}}
 function ensureAdminUsernamePanel(){
  var head=document.querySelector('#zcChat .zc-head');
  if(!head||document.getElementById('zcAdminNameBtn'))return;
@@ -10509,17 +10445,14 @@ $('zcRetry').addEventListener('click',function(){S.starting=null;start();});
 $('zcBack').addEventListener('click',closeThread);
 $('zcSheetClose').addEventListener('click',function(){closeSheet('zcProfileSheet');});
 $('zcSheetFull').addEventListener('click',function(){
- var uid=pfUid;if(!uid)return;
- if(S.me&&uid===S.me.id){closeSheet('zcProfileSheet');if(typeof showPage==='function')showPage('developerTab');setTimeout(function(){var t=document.getElementById('dpTabPribadi');if(t&&t.click)t.click();},120);return;}
- openFullProfile(uid);
+ var uid=pfUid;if(!uid||!S.me||uid!==S.me.id)return;
+ closeSheet('zcProfileSheet');if(typeof showPage==='function')showPage('developerTab');setTimeout(function(){var t=document.getElementById('dpTabPribadi');if(t&&t.click)t.click();},120);
 });
-$('zcFpBack').addEventListener('click',function(){closeSheet('zcFullProfile');});
-/* Foto/banner/bio/tautan di profil berubah -> sinkron otomatis (tanpa perlu buka ulang chat) */
+/* Foto/bio/tautan di profil berubah -> sinkron otomatis (tanpa perlu buka ulang chat). Banner video dibaca langsung saat kartu dibuka. */
 (function(){var t=null;function kick(){clearTimeout(t);t=setTimeout(function(){syncProfileMedia();},1200);}
  function hook(id,o){var n=document.getElementById(id);if(!n)return;try{new MutationObserver(kick).observe(n,o);}catch(e){}}
  hook('dpAvatarImg',{attributes:true,attributeFilter:['src']});
- hook('dpBanner',{attributes:true,attributeFilter:['data-bn-key']});
- hook('dpBio',{childList:true,characterData:true,subtree:true});
+  hook('dpBio',{childList:true,characterData:true,subtree:true});
  hook('dpLink',{attributes:true,attributeFilter:['href','hidden']});})();
 $('zcSheetFollow').addEventListener('click',togglePfFollow);
 $('zcPfLike').addEventListener('click',togglePfLike);
@@ -10783,7 +10716,7 @@ window.apResetRole=function(){
 #zcChat .zc-av.sm{flex-basis:28px;width:28px;height:28px}
 #zcChat .zc-av img{display:block!important;width:100%!important;height:100%!important;object-fit:cover!important;border-radius:50%!important;pointer-events:none}
 #zcChat .zc-av-hasimg{background:#171717!important}
-#zcChat .zc-av:not(.zc-pf-av):not(.zc-fp-av) img{transform:scale(1.1)!important;transform-origin:center}
+#zcChat .zc-av:not(.zc-pf-av) img{transform:scale(1.1)!important;transform-origin:center}
 #zcChat .zc-verified,#zcChat .zc-name-line .zc-verified,#zcChat .zc-pf-user .zc-verified{filter:none!important;box-shadow:none!important;text-shadow:none!important}
 </style>
 </body></html>
