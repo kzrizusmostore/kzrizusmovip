@@ -1110,10 +1110,9 @@ AccessTokenDua
       </div>
       <b class="zc-pf-name" id="zcSheetName">…</b>
       <span class="zc-pf-user" id="zcSheetUser"></span>
-      <p class="zc-pf-bio" id="zcSheetBio" hidden></p>
       <div class="zc-pf-role" id="zcSheetRole"></div>
-      <div class="zc-pf-titles" id="zcSheetTitles"></div>
       <small class="zc-pf-status" id="zcSheetStatus">…</small>
+      <p class="zc-pf-bio" id="zcSheetBio" hidden></p>
       <div class="zc-pf-stats" id="zcPfStats">
         <div><b id="zcPfFollowing">0</b><span>Mengikuti</span></div>
         <div><b id="zcPfFollowers">0</b><span>Pengikut</span></div>
@@ -1125,6 +1124,7 @@ AccessTokenDua
         <button type="button" class="zc-sheet-chat" id="zcSheetChat"><i class="fa-solid fa-message"></i> Chat Pribadi</button>
       </div>
       <div class="zc-pf-hint" id="zcSheetHint" role="status" aria-live="polite"></div>
+      <div class="zc-pf-titles" id="zcSheetTitles"></div>
       <button type="button" class="zc-pf-full zc-pf-mod" id="zcSheetMod" hidden><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Moderasi pengguna</button>
       <button type="button" class="zc-pf-full" id="zcSheetFull" hidden><i class="fa-solid fa-user-pen" aria-hidden="true"></i> Buka profil saya</button>
     </div>
@@ -9843,44 +9843,26 @@ html.zc-on #zcChat .zc-shell{height:100%!important;max-height:100%!important;pad
 #zcChat .zc-pf-full[hidden]{display:none}
 </style>
 <style id="zc-role-card-style">
-/* ===== Kartu profil orang lain: rapi + nuansa per role (simpel, tanpa glow) ===== */
-#zcChat #zcProfileSheet .zc-psheet{border-radius:24px;padding:0 18px 18px;box-shadow:0 24px 60px rgba(0,0,0,.6)}
-#zcChat #zcProfileSheet .zc-pf-cover{border-radius:24px 24px 0 0}
-#zcChat #zcProfileSheet .zc-pf-name{margin-top:12px;font-size:1.25rem;font-weight:700;letter-spacing:-.01em}
-#zcChat #zcProfileSheet .zc-pf-user{margin-top:3px;font-size:.8rem;color:rgba(255,255,255,.5)}
-#zcChat #zcProfileSheet .zc-pf-user .zc-verified{filter:none}
-#zcChat #zcProfileSheet .zc-pf-dot[data-on="1"]{animation:none}
-#zcChat #zcProfileSheet .zc-pf-role{margin-top:12px}
-#zcChat #zcProfileSheet .zc-pf-titles{margin-top:10px}
-#zcChat #zcProfileSheet .zc-pf-status{margin-top:10px;font-size:.72rem;color:rgba(255,255,255,.42)}
-#zcChat #zcProfileSheet .zc-pf-stats{margin-top:16px;border-radius:14px;background:rgba(255,255,255,.03);border-color:rgba(255,255,255,.07)}
-#zcChat #zcProfileSheet .zc-pf-stats>div,#zcChat #zcProfileSheet .zc-pf-like{padding:11px 4px 10px}
-#zcChat #zcProfileSheet .zc-pf-stats b{font-size:1.02rem;font-weight:700}
-#zcChat #zcProfileSheet .zc-pf-stats span{font-size:.68rem;letter-spacing:.2px}
-#zcChat #zcProfileSheet .zc-pf-join{margin-top:14px;padding:12px 4px 0;border-top:1px solid rgba(255,255,255,.06);font-size:.78rem}
-#zcChat #zcProfileSheet .zc-pf-actions{grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
-#zcChat #zcProfileSheet .zc-psheet .zc-pf-actions>button{min-height:44px;border-radius:12px;font-size:.86rem;font-weight:600;box-shadow:none;transition:transform .12s,background .15s,opacity .15s}
-#zcChat #zcProfileSheet .zc-psheet .zc-pf-follow{border:1px solid transparent;background:#e03636;color:#fff;box-shadow:none}
-#zcChat #zcProfileSheet .zc-psheet .zc-pf-follow[data-state="following"]{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);color:#fff;box-shadow:none}
-#zcChat #zcProfileSheet .zc-psheet .zc-pf-follow[data-state="confirm"]{background:rgba(224,54,54,.14);border:1px solid rgba(224,54,54,.5);color:#ff8f8f;box-shadow:none}
-#zcChat #zcProfileSheet .zc-psheet .zc-sheet-chat{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#fff;box-shadow:none}
-#zcChat #zcProfileSheet .zc-pf-hint{margin-top:10px}
-/* catatan profil: menempel di sudut kanan atas avatar (posisi 45 derajat), tidak menutupi banner penuh */
+/* Tombol Ikuti: datar, tanpa glow */
+#zcChat #zcProfileSheet .zc-psheet .zc-pf-follow{background:#e03636;box-shadow:none}
+#zcChat #zcProfileSheet .zc-psheet .zc-pf-follow[data-state="following"],
+#zcChat #zcProfileSheet .zc-psheet .zc-pf-follow[data-state="confirm"]{box-shadow:none}
+/* Catatan profil: sudut kanan atas avatar (45 derajat) */
 #zcChat #zcProfileSheet .zc-pf-note{position:absolute;top:auto;right:auto;left:78%;bottom:80%;z-index:4;margin:0;width:max-content;max-width:112px;padding:6px 10px;border-radius:14px;font-size:11.5px;line-height:1.3;text-align:left;box-shadow:0 3px 10px rgba(0,0,0,.4)}
 #zcChat #zcProfileSheet .zc-pf-note::before{top:auto;bottom:-4px;left:9px;margin-left:0;width:8px;height:8px}
-/* nuansa warna per role: makin tinggi makin jelas */
-#zcChat #zcProfileSheet .zc-psheet[data-role="BASIC"]{--rc:255,255,255;--rb:.14;--rt:.03;--rr:.22}
-#zcChat #zcProfileSheet .zc-psheet[data-role="ELITE"]{--rc:10,132,255;--rb:.28;--rt:.07;--rr:.55}
-#zcChat #zcProfileSheet .zc-psheet[data-role="ULTIMATE"]{--rc:168,85,247;--rb:.32;--rt:.09;--rr:.65}
-#zcChat #zcProfileSheet .zc-psheet[data-role="MAX"]{--rc:255,60,60;--rb:.38;--rt:.11;--rr:.75}
-#zcChat #zcProfileSheet .zc-psheet[data-role="BASIC"],
-#zcChat #zcProfileSheet .zc-psheet[data-role="ELITE"],
-#zcChat #zcProfileSheet .zc-psheet[data-role="ULTIMATE"],
-#zcChat #zcProfileSheet .zc-psheet[data-role="MAX"]{border-color:rgba(var(--rc),var(--rb));background:linear-gradient(180deg,rgba(var(--rc),var(--rt)),transparent 120px),#111114}
-#zcChat #zcProfileSheet .zc-psheet[data-role="BASIC"] .zc-pf-avwrap .zc-pf-av,
-#zcChat #zcProfileSheet .zc-psheet[data-role="ELITE"] .zc-pf-avwrap .zc-pf-av,
-#zcChat #zcProfileSheet .zc-psheet[data-role="ULTIMATE"] .zc-pf-avwrap .zc-pf-av,
-#zcChat #zcProfileSheet .zc-psheet[data-role="MAX"] .zc-pf-avwrap .zc-pf-av{box-shadow:0 0 0 5px #111114,0 0 0 6px rgba(var(--rc),var(--rr))}
+/* Susunan profil: nama > username > role > status > bio > statistik > aksi > gelar (paling akhir, kecil) */
+#zcChat #zcProfileSheet .zc-pf-user .zc-verified{--vs:.95em!important}
+#zcChat #zcProfileSheet .zc-pf-role{margin-top:10px}
+#zcChat #zcProfileSheet .zc-pf-status{margin-top:8px;font-size:.7rem;color:rgba(255,255,255,.42)}
+#zcChat #zcProfileSheet .zc-pf-bio{margin-top:10px;padding:0 10px;font-size:.78rem;color:rgba(255,255,255,.72)}
+#zcChat #zcProfileSheet .zc-pf-stats{margin-top:14px}
+#zcChat #zcProfileSheet .zc-pf-join{margin-top:12px;padding:10px 4px 0;border-top:1px solid rgba(255,255,255,.06)}
+#zcChat #zcProfileSheet .zc-pf-actions{margin-top:14px}
+#zcChat #zcProfileSheet .zc-pf-hint{margin-top:8px}
+#zcChat #zcProfileSheet .zc-pf-titles{width:100%;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.06);gap:5px;opacity:.9}
+#zcChat #zcProfileSheet .zc-pf-titles::before{content:"GELAR";width:100%;text-align:center;font-size:.6rem;font-weight:700;letter-spacing:1.4px;color:rgba(255,255,255,.32)}
+#zcChat #zcProfileSheet .zc-pf-titles .dpt{font-size:.66rem;transform-origin:center}
+#zcChat #zcProfileSheet .zc-pf-titles .zc-pf-empty{font-size:.66rem;padding:3px 10px}
 </style>
 <style id="zc-pin-style">
 /* Sematan pesan grup, lompat ke pesan yang dibalas, pemisah pesan baru */
@@ -11940,7 +11922,7 @@ function paintProfile(uid,loading){
  $('zcSheetName').textContent=dn||uname;try{var _nid=mine?(window.ZUSMO_NAME_LOOK_ME&&window.ZUSMO_NAME_LOOK_ME()):zcLookId(p);if(window.ZUSMO_PAINT_NAME)window.ZUSMO_PAINT_NAME($('zcSheetName'),dn?nameColorId(_nid):'');}catch(e){}
  var _un=$('zcSheetUser');_un.textContent='@'+uname;if(zcIsOwnerUser(p.username)||(S.owner&&S.owner.uid&&String(p.id||uid)===String(S.owner.uid)))_un.appendChild(verifiedBadge('1.3em'));
  setAv($('zcSheetAv'),p.id||uid,dn||uname);
- var ps=$('zcSheetAv').closest('.zc-psheet');if(ps)ps.style.setProperty('--pf-h',hue(p.id||uid));try{if(ps)ps.setAttribute('data-role',chatRoleLabel(p&&p.role_label)||'FREE');}catch(e){}
+ var ps=$('zcSheetAv').closest('.zc-psheet');if(ps)ps.style.setProperty('--pf-h',hue(p.id||uid));
  paintBanner($('zcProfileSheet'),document.querySelector('#zcProfileSheet .zc-pf-cover-vid'),bannerVideoFor(p.id||uid));
  var _fb=$('zcSheetFull');if(_fb)_fb.hidden=!mine;var _mb=$('zcSheetMod');if(_mb)_mb.hidden=!(S.me&&S.me.is_admin&&!mine);
  var isOn=!mine&&!!S.online[uid];$('zcSheetDot').dataset.on=isOn?'1':'0';
