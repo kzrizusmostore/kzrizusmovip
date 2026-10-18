@@ -557,7 +557,7 @@ window.__zusmoRenderBanner = function(on){
 #logoDetailGrid .bd-owned,#musicDetailGrid .music-owned-badge{display:none!important}
 
 @media (prefers-reduced-motion:reduce){.kl-wave i{animation:none}.kl-card{transition:none}}
-</style><meta name="build" content="jastip-v4"><script>(function(){var B='jastip-v4-20261014-wall';try{if(localStorage.getItem('kz_build')===B)return;localStorage.setItem('kz_build',B);var p=[];if(navigator.serviceWorker&&navigator.serviceWorker.getRegistrations)p.push(navigator.serviceWorker.getRegistrations().then(function(r){return Promise.all(r.map(function(x){return x.unregister()}))}).catch(function(){}));if(window.caches)p.push(caches.keys().then(function(k){return Promise.all(k.map(function(x){return caches.delete(x)}))}).catch(function(){}));Promise.all(p).then(function(){location.reload()},function(){})}catch(e){}})();</script><style id="dev-profile-style">
+</style><meta name="build" content="jastip-v4"><script>(function(){var B='jastip-v4-20261018-profil';try{if(localStorage.getItem('kz_build')===B)return;localStorage.setItem('kz_build',B);var p=[];if(navigator.serviceWorker&&navigator.serviceWorker.getRegistrations)p.push(navigator.serviceWorker.getRegistrations().then(function(r){return Promise.all(r.map(function(x){return x.unregister()}))}).catch(function(){}));if(window.caches)p.push(caches.keys().then(function(k){return Promise.all(k.map(function(x){return caches.delete(x)}))}).catch(function(){}));Promise.all(p).then(function(){location.reload()},function(){})}catch(e){}})();</script><style id="dev-profile-style">
 #developerTab{--dp-red:#ff2b2b;--dp-red-glow:rgba(255,43,43,.5);--dp-bg:rgba(6,6,8,.9);--dp-glass:rgba(10,10,12,.55);--dp-line:rgba(255,255,255,.14);--dp-text:#fff;--dp-muted:rgba(255,255,255,.55);--dp-ring:rgba(255,255,255,.6);--dp-plus:#5ac8fa;--dp-bleed:20px;--dp-banner-h:calc(min(100vw,900px)*.375);--dp-av:clamp(92px,28vw,110px);}
 #developerTab{position:relative}
 #developerTab .dp-off{display:none!important}
@@ -12232,18 +12232,18 @@ function paintProfile(uid,loading){
  f.hidden=mine;ch.hidden=mine;$('zcPfActions').hidden=mine;
  if(mine){lk.disabled=true;hint.textContent='';return;}
  var off=S.social.ok===false,rel=S.rel[uid],FOLLOW='<i class="fa-solid fa-user-plus"></i> Ikuti';
- f.dataset.state='follow';f.innerHTML=FOLLOW;ch.innerHTML='<i class="fa-solid fa-lock"></i> Chat Pribadi';
+ f.dataset.state='follow';f.innerHTML=FOLLOW;ch.innerHTML='<i class="fa-solid fa-message"></i> Chat Pribadi';
  if(off){f.disabled=true;lk.disabled=true;ch.disabled=false;ch.innerHTML='<i class="fa-solid fa-message"></i> Chat Pribadi';hint.textContent='Fitur ikuti belum aktif di server.';return;}
- if(loading||!rel){f.disabled=true;ch.disabled=true;lk.disabled=true;hint.textContent='Memuat…';return;}
- if(rel.error){f.disabled=true;ch.disabled=true;lk.disabled=true;hint.textContent='Gagal memuat profil. Tutup lalu buka lagi.';return;}
+ if(loading||!rel){f.disabled=true;ch.disabled=false;lk.disabled=true;hint.textContent='Memuat…';return;}
+ if(rel.error){f.disabled=true;ch.disabled=false;lk.disabled=true;hint.textContent='Gagal memuat profil. Tutup lalu buka lagi.';return;}
  var mutual=!!(rel.i_follow&&rel.follows_me);
  f.disabled=false;lk.disabled=!!cn.i_liked;
  if(rel.i_follow){f.dataset.state='following';f.innerHTML='<i class="fa-solid fa-check"></i> Mengikuti';}
  else if(rel.follows_me){f.dataset.state='followback';f.innerHTML='<i class="fa-solid fa-user-plus"></i> Ikuti Balik';}
  var adm=isAdminPeer(uid);if(rel.i_follow&&adm)f.disabled=true;
- ch.disabled=!(mutual||adm);
- if(mutual||adm)ch.innerHTML='<i class="fa-solid fa-message"></i> Chat Pribadi';
- hint.textContent=(mutual||adm)?'':(rel.i_follow?'Menunggu @'+uname+' mengikuti kamu balik.':(rel.follows_me?'@'+uname+' mengikutimu. Ikuti balik untuk chat pribadi.':'Saling ikuti untuk membuka chat pribadi.'));
+ ch.disabled=false;
+ ch.innerHTML='<i class="fa-solid fa-message"></i> Chat Pribadi';
+ hint.textContent='';
 }
 async function openProfile(uid){
  if(!UUID_RE.test(uid)||!S.sb)return;
