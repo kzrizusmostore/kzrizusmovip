@@ -12166,37 +12166,74 @@ renderConvs();renderBadges();renderConn();onPageToggle();
  var CSS=''
  +'.zca-btn{flex:0 0 auto;width:38px;height:38px;border-radius:12px;border:1px solid rgba(255,43,43,.35);background:rgba(255,43,43,.1);color:#ff5a5a;display:inline-flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;margin-left:auto;box-shadow:0 0 12px rgba(255,43,43,.18)}'
  +'.zca-btn:active{transform:scale(.94)}'
- +'.zca-ov{position:fixed;inset:0;z-index:100005;background:rgba(0,0,0,.72);display:flex;align-items:flex-end;justify-content:center}'
+ +'.zca-ov{position:fixed;inset:0;z-index:100005;background:rgba(0,0,0,.72);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);display:flex;align-items:flex-end;justify-content:center;opacity:0;transition:opacity .2s ease}'
+ +'.zca-ov.on{opacity:1}'
  +'.zca-ov[hidden]{display:none}'
- +'#zcChat .zc-flash{z-index:100010}'
- +'.zca-sheet{width:100%;max-width:560px;height:88vh;max-height:88vh;background:#141010;border:1px solid rgba(255,43,43,.28);border-bottom:0;border-radius:20px 20px 0 0;display:flex;flex-direction:column;color:#e9edef;box-shadow:0 -10px 40px rgba(255,43,43,.14);padding-bottom:env(safe-area-inset-bottom,0)}'
- +'.zca-head{display:flex;align-items:center;gap:10px;padding:14px 14px 10px}'
- +'.zca-head>i{color:#ff4040;font-size:20px}'
- +'.zca-ht{flex:1;min-width:0;display:flex;flex-direction:column}'
- +'.zca-ht b{font-size:15px}.zca-ht small{color:#8696a0;font-size:11px}'
- +'.zca-x{width:34px;height:34px;border-radius:10px;border:0;background:rgba(255,255,255,.07);color:#e9edef;cursor:pointer}'
- +'.zca-body{flex:1;overflow-y:auto;padding:4px 14px 18px;-webkit-overflow-scrolling:touch}'
- +'.zca-q{width:100%;box-sizing:border-box;padding:11px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:#1c1c1e;color:#e9edef;font-size:14px;margin-bottom:10px;outline:0}'
- +'.zca-q:focus{border-color:rgba(255,43,43,.6)}'
- +'.zca-row{display:block;width:100%;text-align:left;padding:11px 12px;margin-bottom:8px;border-radius:14px;border:1px solid rgba(255,255,255,.08);background:#1b1011;color:#e9edef;cursor:pointer}'
- +'.zca-row b{display:block;font-size:14px;word-break:break-word}.zca-row small{color:#8696a0;font-size:11.5px}'
- +'.zca-empty,.zca-err{padding:22px 8px;text-align:center;color:#8696a0;font-size:13px}.zca-err{color:#ff7b7b}'
- +'.zca-back{background:none;border:0;color:#ff6a6a;font-weight:600;font-size:13px;padding:4px 0 10px;cursor:pointer}'
- +'.zca-card{padding:12px;border-radius:14px;background:#1b1011;border:1px solid rgba(255,255,255,.08);margin-bottom:10px}'
- +'.zca-card h4{margin:0 0 4px;font-size:14px}.zca-card p{margin:0 0 10px;color:#8696a0;font-size:12.5px;line-height:1.45}'
- +'.zca-ta{width:100%;box-sizing:border-box;min-height:74px;resize:none;padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:#1c1c1e;color:#e9edef;font:inherit;font-size:14px;outline:0}'
- +'.zca-ta:focus{border-color:rgba(255,43,43,.6)}'
- +'.zca-line{min-height:16px;color:#ff7b7b;font-size:12px;margin:6px 0}'
- +'.zca-act{display:flex;gap:8px;flex-wrap:wrap}'
- +'.zca-b{flex:1;min-width:120px;padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:#e9edef;font-weight:600;font-size:13px;cursor:pointer}'
+ +'.zca-sheet{width:100%;max-width:560px;height:90vh;height:90dvh;background:#121012;border:1px solid rgba(255,255,255,.08);border-bottom:0;border-radius:24px 24px 0 0;display:flex;flex-direction:column;color:#e9edef;overflow:hidden;transform:translateY(28px);transition:transform .28s cubic-bezier(.2,.8,.2,1);box-shadow:0 -12px 40px rgba(0,0,0,.5)}'
+ +'.zca-ov.on .zca-sheet{transform:none}'
+ +'.zca-grab{flex:none;width:40px;height:4px;border-radius:4px;background:rgba(255,255,255,.18);margin:8px auto 0}'
+ +'.zca-head{flex:none;display:flex;align-items:center;gap:12px;padding:12px 16px 10px}'
+ +'.zca-ic{flex:none;width:42px;height:42px;border-radius:13px;background:rgba(255,43,43,.14);border:1px solid rgba(255,43,43,.28);color:#ff5a5a;display:flex;align-items:center;justify-content:center;font-size:17px}'
+ +'.zca-ht{flex:1;min-width:0}'
+ +'.zca-ht b{display:block;font-size:16px;font-weight:700;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}'
+ +'.zca-ht small{display:block;margin-top:2px;color:#8696a0;font-size:12px;line-height:1.3}'
+ +'.zca-hb{flex:none;display:flex;gap:8px}'
+ +'.zca-ib{flex:none;width:40px;height:40px;border-radius:13px;border:0;background:rgba(255,255,255,.07);color:#e9edef;font-size:15px;display:flex;align-items:center;justify-content:center;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background .15s,transform .1s}'
+ +'.zca-ib:active{transform:scale(.93);background:rgba(255,255,255,.12)}'
+ +'.zca-top{flex:none;padding:0 16px}'
+ +'.zca-top:empty{display:none}'
+ +'.zca-sw{position:relative;margin:2px 0 10px}'
+ +'.zca-si{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#8696a0;font-size:14px;pointer-events:none}'
+ +'.zca-q{width:100%;box-sizing:border-box;height:46px;padding:0 44px 0 40px;border-radius:14px;border:1px solid rgba(255,255,255,.1);background:#1b1819;color:#e9edef;font:inherit;font-size:16px;outline:0;transition:border-color .15s,background .15s}'
+ +'.zca-q::placeholder{color:#6f7b83}'
+ +'.zca-q:focus{border-color:rgba(255,43,43,.6);background:#201b1d}'
+ +'.zca-qx{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:34px;height:34px;border:0;border-radius:10px;background:transparent;color:#8696a0;font-size:14px;cursor:pointer;display:none;align-items:center;justify-content:center}'
+ +'.zca-qx.on{display:flex}'
+ +'.zca-body{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:2px 16px 20px}'
+ +'.zca-row{display:flex;align-items:center;gap:12px;width:100%;box-sizing:border-box;text-align:left;padding:12px 12px 12px 10px;margin-bottom:8px;border-radius:16px;border:1px solid rgba(255,255,255,.06);background:#181416;color:inherit;font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background .15s,transform .1s,border-color .15s}'
+ +'.zca-row:active{transform:scale(.985);background:#211719;border-color:rgba(255,43,43,.3)}'
+ +'.zca-av2{position:relative;flex:none;width:56px;height:42px}'
+ +'.zca-av{display:inline-flex;align-items:center;justify-content:center;flex:none;width:36px;height:36px;border-radius:50%;color:#fff;font-weight:700;font-size:14px;line-height:1}'
+ +'.zca-av2 .zca-av{position:absolute;border:2px solid #181416;box-sizing:border-box}'
+ +'.zca-av2 .zca-av:first-child{left:0;top:0}'
+ +'.zca-av2 .zca-av:last-child{left:20px;top:6px}'
+ +'.zca-rt{flex:1;min-width:0}'
+ +'.zca-rn{font-size:14.5px;font-weight:600;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}'
+ +'.zca-rn em{font-style:normal;color:#ff6a6a;margin:0 4px}'
+ +'.zca-rs{margin-top:3px;color:#8696a0;font-size:12px}'
+ +'.zca-chip{flex:none;min-width:22px;padding:3px 8px;border-radius:99px;background:rgba(255,43,43,.14);color:#ff7a7a;font-size:11.5px;font-weight:700;text-align:center}'
+ +'.zca-chev{flex:none;color:#55606a;font-size:12px}'
+ +'.zca-sk{height:66px;border-radius:16px;margin-bottom:8px;background:linear-gradient(110deg,#181416 30%,#241b1e 50%,#181416 70%) 0 0/220% 100%;animation:zcaSk 1.3s linear infinite}'
+ +'@keyframes zcaSk{to{background-position:-220% 0}}'
+ +'.zca-empty,.zca-err{padding:52px 20px;text-align:center;color:#8696a0;font-size:13.5px;line-height:1.55}'
+ +'.zca-empty i,.zca-err i{display:block;margin-bottom:12px;font-size:32px;color:#4a3a3d}'
+ +'.zca-err{color:#ff8a8a}.zca-err i{color:#ff5a5a}'
+ +'.zca-retry{margin-top:14px;padding:10px 18px;border-radius:12px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.07);color:#e9edef;font:inherit;font-size:13px;font-weight:600;cursor:pointer}'
+ +'.zca-msgs{display:flex;flex-direction:column;gap:3px;padding:4px 0 6px}'
+ +'.zca-ro{align-self:center;display:inline-flex;align-items:center;gap:6px;margin:2px 0 8px;padding:5px 12px;border-radius:99px;background:rgba(255,255,255,.06);color:#9aa5ac;font-size:11.5px}'
+ +'.zca-ds{align-self:center;margin:12px 0 6px;padding:4px 12px;border-radius:99px;background:rgba(255,255,255,.07);color:#9aa5ac;font-size:11px;font-weight:600}'
+ +'.zca-m{max-width:82%;box-sizing:border-box;align-self:flex-start;padding:8px 12px 6px;border-radius:16px 16px 16px 6px;background:#1e1b1d;font-size:14.5px;line-height:1.42;word-break:break-word;white-space:pre-wrap}'
+ +'.zca-m.r{align-self:flex-end;border-radius:16px 16px 6px 16px;background:#4a1118}'
+ +'.zca-m.f{margin-top:8px}'
+ +'.zca-m .w{display:block;margin-bottom:2px;font-size:12px;font-weight:700}'
+ +'.zca-m .t{display:block;margin-top:3px;text-align:right;color:rgba(255,255,255,.42);font-size:10.5px}'
+ +'.zca-m.gone{opacity:.6;font-style:italic}'
+ +'.zca-foot{flex:none;border-top:1px solid rgba(255,255,255,.08);background:#161214;padding:8px 16px calc(env(safe-area-inset-bottom,0px) + 10px)}'
+ +'.zca-foot[hidden]{display:none}'
+ +'.zca-mt{display:flex;align-items:center;justify-content:space-between;width:100%;padding:10px 4px;border:0;background:transparent;color:#e9edef;font:inherit;font-size:14px;font-weight:600;cursor:pointer}'
+ +'.zca-mt span{display:flex;align-items:center;gap:8px}.zca-mt span i{color:#ff6a6a}'
+ +'.zca-mt .zca-cv{color:#8696a0;font-size:12px;transition:transform .2s}'
+ +'.zca-mt.open .zca-cv{transform:rotate(180deg)}'
+ +'.zca-mp{display:none;padding:4px 0 2px}.zca-mp.open{display:block}'
+ +'.zca-ur{display:flex;align-items:center;gap:10px;padding:10px;margin-bottom:8px;border-radius:14px;background:#1b1819;border:1px solid rgba(255,255,255,.06)}'
+ +'.zca-ur .zca-un{flex:1;min-width:0;font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}'
+ +'.zca-b{flex:none;height:36px;padding:0 12px;border-radius:11px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:#e9edef;font:inherit;font-size:12.5px;font-weight:600;cursor:pointer;transition:transform .1s,background .15s}'
+ +'.zca-b:active{transform:scale(.95)}'
  +'.zca-b.red{background:linear-gradient(180deg,#ff3b3b,#c91818);border-color:transparent;color:#fff}'
- +'.zca-b[disabled]{opacity:.5;cursor:default}'
- +'.zca-msgs{display:flex;flex-direction:column;gap:6px;margin:8px 0 14px}'
- +'.zca-m{max-width:86%;padding:8px 10px;border-radius:12px;background:#1c1c1e;font-size:13.5px;line-height:1.4;word-break:break-word;align-self:flex-start}'
- +'.zca-m.r{align-self:flex-end;background:#4a1118}'
- +'.zca-m small{display:block;color:#8696a0;font-size:10.5px;margin-top:3px}'
- +'.zca-m i{color:#ff9d9d;font-style:normal;font-size:11px;display:block;margin-bottom:2px}'
- +'.zca-ro{text-align:center;color:#8696a0;font-size:11.5px;margin:4px 0 8px}'
+ +'.zca-b.arm{background:#ff2b2b;border-color:transparent;color:#fff}'
+ +'.zca-b[disabled]{opacity:.45;cursor:default}'
+ +'@media (prefers-reduced-motion:reduce){.zca-ov,.zca-sheet,.zca-row,.zca-ib,.zca-b{transition:none}.zca-sk{animation:none}}'
+ +'#zcChat .zc-flash{z-index:100010}'
  +'.zcm-card{margin:8px 10px;padding:16px 14px;border-radius:18px;text-align:center;color:#e9edef;background:linear-gradient(180deg,#1d1012,#120a0b);border:1px solid rgba(255,43,43,.4);box-shadow:0 0 22px rgba(255,43,43,.18),inset 0 0 30px rgba(255,43,43,.05)}'
  +'.zcm-card[hidden]{display:none}'
  +'.zcm-ic{width:46px;height:46px;margin:0 auto 8px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;color:#ff5555;background:rgba(255,43,43,.12);animation:zcmPulse 2.2s ease-in-out infinite}'
@@ -12279,101 +12316,165 @@ renderConvs();renderBadges();renderConn();onPageToggle();
  setComposerState=function(){_scs.apply(this,arguments);syncMute();};
 
  /* ---------- Panel pantau chat pribadi (admin) ---------- */
- var P={ov:null,body:null,seq:0,pair:null,tmr:null};
+ var P={ov:null,head:null,top:null,body:null,foot:null,sub:null,seq:0,pair:null,tmr:null,q:''};
+ var PAL=['#e5484d','#f76b15','#d6409f','#8e4ec6','#3e63dd','#0091ff','#12a594','#46a758'];
+ var MON=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+ function colorOf(k){var h=0,t=String(k||'');for(var i=0;i<t.length;i++)h=(h*31+t.charCodeAt(i))|0;return PAL[Math.abs(h)%PAL.length];}
+ function initial(n){n=String(n||'?').replace(/^@/,'').trim();return (n.charAt(0)||'?').toUpperCase();}
+ function avatar(id,name){var a=el('span','zca-av',initial(name));a.style.background=colorOf(id||name);return a;}
+ function ico(c){var i=el('i','fa-solid '+c);i.setAttribute('aria-hidden','true');return i;}
+ function dstr(d){return d.getDate()+' '+MON[d.getMonth()]+' '+d.getFullYear();}
+ function hm(d){return ('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2);}
+ function rel(v){var d=new Date(v);if(isNaN(d.getTime()))return '-';var t=(Date.now()-d.getTime())/1000;if(t<60)return 'Baru saja';if(t<3600)return Math.floor(t/60)+' mnt lalu';if(t<86400)return Math.floor(t/3600)+' jam lalu';if(t<172800)return 'Kemarin';return dstr(d);}
+ function dayLabel(d){var n=new Date(),x=new Date(n.getFullYear(),n.getMonth(),n.getDate()).getTime(),y=new Date(d.getFullYear(),d.getMonth(),d.getDate()).getTime(),df=Math.round((x-y)/86400000);if(df===0)return 'Hari ini';if(df===1)return 'Kemarin';return dstr(d);}
  function ensurePanel(){
   if(P.ov)return;
   var ov=el('div','zca-ov');ov.hidden=true;
-  ov.innerHTML='<div class="zca-sheet" role="dialog" aria-modal="true" aria-label="Pantau chat pribadi"><div class="zca-head"><i class="fa-solid fa-user-shield" aria-hidden="true"></i><div class="zca-ht"><b>Pantau chat pribadi</b><small>Khusus admin</small></div><button type="button" class="zca-x" aria-label="Tutup"><i class="fa-solid fa-xmark"></i></button></div><div class="zca-body"></div></div>';
+  ov.innerHTML='<div class="zca-sheet" role="dialog" aria-modal="true" aria-label="Pantau chat pribadi"><div class="zca-grab"></div><div class="zca-head"></div><div class="zca-top"></div><div class="zca-body"></div><div class="zca-foot" hidden></div></div>';
   (document.getElementById('zcChat')||document.body).appendChild(ov);
-  P.ov=ov;P.body=ov.querySelector('.zca-body');
-  ov.querySelector('.zca-x').addEventListener('click',closePanel);
+  P.ov=ov;P.head=ov.querySelector('.zca-head');P.top=ov.querySelector('.zca-top');P.body=ov.querySelector('.zca-body');P.foot=ov.querySelector('.zca-foot');
   ov.addEventListener('click',function(e){if(e.target===ov)closePanel();});
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&P.ov&&!P.ov.hidden)closePanel();});
  }
- function closePanel(){if(P.ov)P.ov.hidden=true;}
- function showMsg(t){P.body.textContent='';P.body.appendChild(el('div','zca-err',t));}
+ function closePanel(){
+  if(!P.ov||P.ov.hidden)return;
+  P.ov.classList.remove('on');P.seq++;
+  setTimeout(function(){if(P.ov&&!P.ov.classList.contains('on'))P.ov.hidden=true;},220);
+ }
+ function setHead(o){
+  var h=P.head;h.textContent='';
+  var lead;
+  if(o.back){lead=el('button','zca-ib');lead.type='button';lead.setAttribute('aria-label','Kembali');lead.appendChild(ico('fa-arrow-left'));lead.addEventListener('click',o.back);}
+  else{lead=el('span','zca-ic');lead.appendChild(ico('fa-user-shield'));}
+  var t=el('div','zca-ht');t.appendChild(el('b',null,o.title));P.sub=el('small',null,o.sub||'');t.appendChild(P.sub);
+  var r=el('div','zca-hb');
+  if(o.refresh){var rb=el('button','zca-ib');rb.type='button';rb.setAttribute('aria-label','Muat ulang');rb.appendChild(ico('fa-rotate-right'));rb.addEventListener('click',function(){loadConv(P.q);});r.appendChild(rb);}
+  var x=el('button','zca-ib');x.type='button';x.setAttribute('aria-label','Tutup');x.appendChild(ico('fa-xmark'));x.addEventListener('click',closePanel);r.appendChild(x);
+  h.appendChild(lead);h.appendChild(t);h.appendChild(r);
+ }
+ function skeleton(n){P.body.textContent='';for(var i=0;i<n;i++)P.body.appendChild(el('div','zca-sk'));}
+ function stateBox(cls,icon,text,retry){
+  P.body.textContent='';
+  var b=el('div',cls);b.appendChild(ico(icon));b.appendChild(document.createTextNode(text));
+  if(retry){var rb=el('button','zca-retry','Coba lagi');rb.type='button';rb.addEventListener('click',retry);b.appendChild(rb);}
+  P.body.appendChild(b);
+ }
  function openPanel(){
   ensurePanel();P.ov.hidden=false;
-  if(!S.sb||!S.me){showMsg('Chat belum tersambung. Tutup lalu coba lagi.');return;}
-  P.body.textContent='';P.body.appendChild(el('div','zca-empty','Memeriksa akses admin\u2026'));
+  requestAnimationFrame(function(){P.ov.classList.add('on');});
+  P.top.textContent='';P.foot.textContent='';P.foot.hidden=true;
+  setHead({title:'Pantau chat pribadi',sub:'Memeriksa akses\u2026'});
+  if(!S.sb||!S.me){stateBox('zca-err','fa-plug-circle-xmark','Chat belum tersambung. Tutup lalu coba lagi.');return;}
+  skeleton(5);
   rpc('zc_audit_is_admin').then(function(ok){
-   if(ok!==true){showMsg('Server tidak mengenali akun ini sebagai admin. Pastikan kolom is_admin bernilai true di chat_profiles untuk akun yang sedang login.');return;}
-   showConv();
-  }).catch(function(e){showMsg('Gagal mengecek admin: '+errMsg(e)+' Pastikan file SQL sudah dijalankan di Supabase.');});
+   if(ok!==true){stateBox('zca-err','fa-user-lock','Server tidak mengenali akun ini sebagai admin. Pastikan kolom is_admin bernilai true di chat_profiles untuk akun yang sedang login.');return;}
+   showList();
+  }).catch(function(e){stateBox('zca-err','fa-triangle-exclamation','Gagal mengecek admin: '+errMsg(e)+' Pastikan file SQL sudah dijalankan di Supabase.',openPanel);});
  }
- function showConv(){
-  var b=P.body;b.textContent='';
-  var q=el('input','zca-q');q.type='text';q.placeholder='Cari username';q.maxLength=30;q.autocomplete='off';q.setAttribute('autocapitalize','off');q.setAttribute('spellcheck','false');
-  var list=el('div');
-  b.appendChild(q);b.appendChild(list);
-  q.addEventListener('input',function(){clearTimeout(P.tmr);P.tmr=setTimeout(function(){loadConv(list,q.value.trim());},350);});
-  loadConv(list,'');
+ function showList(){
+  P.pair=null;P.foot.textContent='';P.foot.hidden=true;P.top.textContent='';
+  setHead({title:'Pantau chat pribadi',sub:'Memuat\u2026',refresh:true});
+  var w=el('div','zca-sw');
+  var si=ico('fa-magnifying-glass');si.className+=' zca-si';
+  var q=el('input','zca-q');q.type='text';q.placeholder='Cari username';q.maxLength=30;q.value=P.q||'';q.autocomplete='off';q.setAttribute('autocapitalize','off');q.setAttribute('spellcheck','false');q.setAttribute('enterkeyhint','search');
+  var qx=el('button','zca-qx');qx.type='button';qx.setAttribute('aria-label','Hapus pencarian');qx.appendChild(ico('fa-circle-xmark'));
+  function sync(){qx.classList.toggle('on',!!q.value);}
+  q.addEventListener('input',function(){sync();clearTimeout(P.tmr);P.tmr=setTimeout(function(){P.q=q.value.trim();loadConv(P.q);},350);});
+  qx.addEventListener('click',function(){q.value='';sync();P.q='';loadConv('');q.focus();});
+  w.appendChild(si);w.appendChild(q);w.appendChild(qx);P.top.appendChild(w);sync();
+  loadConv(P.q);
  }
- function loadConv(box,query){
-  var my=++P.seq;box.textContent='';box.appendChild(el('div','zca-empty','Memuat\u2026'));
+ function loadConv(query){
+  query=query||'';
+  var my=++P.seq;skeleton(5);
+  if(P.sub)P.sub.textContent='Memuat\u2026';
   rpc('zc_admin_dm_conversations',{p_query:query||null,p_limit:60}).then(function(rows){
-   if(my!==P.seq)return;box.textContent='';
-   if(!rows||!rows.length){box.appendChild(el('div','zca-empty','Belum ada percakapan.'));return;}
+   if(my!==P.seq)return;
+   P.body.textContent='';
+   var n=rows?rows.length:0;
+   if(P.sub)P.sub.textContent=!n?'Khusus admin':(n>=60?'60 percakapan terbaru':n+' percakapan');
+   if(!n){stateBox('zca-empty',query?'fa-magnifying-glass':'fa-comments',query?('Tidak ada percakapan untuk "'+query+'".'):'Belum ada percakapan.');return;}
    rows.forEach(function(r){
     var a=nm(r.user_a,r.username_a),c=nm(r.user_b,r.username_b);
     var btn=el('button','zca-row');btn.type='button';
-    btn.appendChild(el('b',null,a+' \u2194 '+c));
-    btn.appendChild(el('small',null,(r.msg_count||0)+' pesan \u00b7 '+fmtWhen(r.last_at)));
+    var av=el('span','zca-av2');av.appendChild(avatar(r.user_a,a));av.appendChild(avatar(r.user_b,c));
+    var rt=el('span','zca-rt');
+    var rn=el('div','zca-rn');rn.appendChild(document.createTextNode(a));rn.appendChild(el('em',null,'\u2194'));rn.appendChild(document.createTextNode(c));
+    rt.appendChild(rn);rt.appendChild(el('div','zca-rs',rel(r.last_at)));
+    btn.appendChild(av);btn.appendChild(rt);
+    btn.appendChild(el('span','zca-chip',String(r.msg_count||0)));
+    btn.appendChild(ico('fa-chevron-right zca-chev'));
     btn.addEventListener('click',function(){openThread({a:r.user_a,b:r.user_b,na:a,nb:c});});
-    box.appendChild(btn);
+    P.body.appendChild(btn);
    });
-  }).catch(function(e){if(my!==P.seq)return;box.textContent='';box.appendChild(el('div','zca-err',errMsg(e)));});
+  }).catch(function(e){if(my!==P.seq)return;if(P.sub)P.sub.textContent='Khusus admin';stateBox('zca-err','fa-triangle-exclamation',errMsg(e),function(){loadConv(query);});});
  }
- function backBtn(fn){var x=el('button','zca-back');x.type='button';x.innerHTML='<i class="fa-solid fa-arrow-left"></i> Kembali';x.addEventListener('click',fn);return x;}
  function openThread(pair){
-  var b=P.body;b.textContent='';P.pair=pair;
-  b.appendChild(backBtn(showConv));
-  b.appendChild(el('div','zca-empty','Membuka\u2026'));
+  P.pair=pair;P.top.textContent='';P.foot.textContent='';P.foot.hidden=true;
+  setHead({title:pair.na+' \u2194 '+pair.nb,sub:'Membuka\u2026',back:showList});
+  var my=++P.seq;skeleton(4);
   rpc('zc_admin_dm_open',{p_user_a:pair.a,p_user_b:pair.b,p_reason:'Pemantauan admin',p_limit:300}).then(function(rows){
+   if(my!==P.seq)return;
    showThread(pair,Array.isArray(rows)?rows:[]);
-  }).catch(function(e){b.textContent='';b.appendChild(backBtn(showConv));b.appendChild(el('div','zca-err',errMsg(e)));});
+  }).catch(function(e){if(my!==P.seq)return;if(P.sub)P.sub.textContent='';stateBox('zca-err','fa-triangle-exclamation',errMsg(e),function(){openThread(pair);});});
  }
  function tapConfirm(btn,label,fn){
   btn.addEventListener('click',function(){
-   if(btn.dataset.arm==='1'){btn.dataset.arm='';btn.textContent=label;fn(btn);return;}
-   btn.dataset.arm='1';btn.textContent='Yakin? ketuk lagi';
-   setTimeout(function(){if(btn.dataset.arm==='1'){btn.dataset.arm='';btn.textContent=label;}},2600);
+   if(btn.disabled)return;
+   if(btn.dataset.arm==='1'){btn.dataset.arm='';btn.classList.remove('arm');btn.textContent=label;fn(btn);return;}
+   btn.dataset.arm='1';btn.classList.add('arm');btn.textContent='Yakin? Ketuk lagi';
+   setTimeout(function(){if(btn.dataset.arm==='1'){btn.dataset.arm='';btn.classList.remove('arm');btn.textContent=label;}},2600);
   });
  }
  function actionRow(uid,name){
-  var card=el('div','zca-card');card.appendChild(el('h4',null,name));
-  var row=el('div','zca-act');
-  var mute=el('button','zca-b','Bisu 5 mnt');mute.type='button';
+  var row=el('div','zca-ur');
+  row.appendChild(avatar(uid,name));row.appendChild(el('span','zca-un',name));
+  var mute=el('button','zca-b red','Bisu 5 mnt');mute.type='button';
   var un=el('button','zca-b','Cabut bisu');un.type='button';
   if(S.me&&uid===S.me.id){mute.disabled=true;un.disabled=true;}
-  tapConfirm(mute,'Bisu 5 mnt',function(){
-   rpc('zc_admin_mute',{p_user_id:uid,p_minutes:5,p_reason:'Dibisukan admin lewat pantau chat'}).then(function(){flash(name+' dibisukan 5 menit.');}).catch(function(e){flash(errMsg(e));});
+  tapConfirm(mute,'Bisu 5 mnt',function(btn){
+   btn.disabled=true;
+   rpc('zc_admin_mute',{p_user_id:uid,p_minutes:5,p_reason:'Dibisukan admin lewat pantau chat'}).then(function(){btn.disabled=false;flash(name+' dibisukan 5 menit.');}).catch(function(e){btn.disabled=false;flash(errMsg(e));});
   });
   un.addEventListener('click',function(){
-   rpc('zc_admin_unmute',{p_user_id:uid}).then(function(){flash('Bisu '+name+' dicabut.');}).catch(function(e){flash(errMsg(e));});
+   if(un.disabled)return;un.disabled=true;
+   rpc('zc_admin_unmute',{p_user_id:uid}).then(function(){un.disabled=false;flash('Bisu '+name+' dicabut.');}).catch(function(e){un.disabled=false;flash(errMsg(e));});
   });
-  row.appendChild(mute);row.appendChild(un);card.appendChild(row);return card;
+  row.appendChild(mute);row.appendChild(un);return row;
  }
  function showThread(pair,rows){
-  var b=P.body;b.textContent='';
-  b.appendChild(backBtn(showConv));
-  b.appendChild(el('div','zca-ro','Hanya baca'));
+  var list=rows.slice().sort(function(x,y){return new Date(x.created_at)-new Date(y.created_at);});
+  if(P.sub)P.sub.textContent='Hanya baca \u00b7 '+list.length+' pesan';
+  P.body.textContent='';
   var wrap=el('div','zca-msgs');
-  if(!rows.length)wrap.appendChild(el('div','zca-empty','Tidak ada pesan.'));
-  rows.forEach(function(m){
-   var mine=(m.sender_id===pair.a),who=mine?pair.na:pair.nb;
+  var ro=el('div','zca-ro');ro.appendChild(ico('fa-eye'));ro.appendChild(document.createTextNode('Mode hanya baca'));wrap.appendChild(ro);
+  if(!list.length){var em=el('div','zca-empty');em.appendChild(ico('fa-comment-slash'));em.appendChild(document.createTextNode('Tidak ada pesan.'));wrap.appendChild(em);}
+  var lastDay='',lastSender=null;
+  list.forEach(function(m){
+   var d=new Date(m.created_at),valid=!isNaN(d.getTime());
+   var day=valid?dayLabel(d):'';
+   var newDay=valid&&day!==lastDay;
+   if(newDay){wrap.appendChild(el('div','zca-ds',day));lastDay=day;lastSender=null;}
+   var mine=(m.sender_id===pair.a),who=mine?pair.na:pair.nb,uid=mine?pair.a:pair.b;
    var txt=m.body||m.content||m.text||m.message||m.msg||'';
    var gone=!!(m.deleted_at||m.is_deleted||m.deleted);
-   var d=el('div','zca-m'+(mine?'':' r'));
-   d.appendChild(el('i',null,who));
-   d.appendChild(document.createTextNode(gone?'(pesan dihapus)':(txt||'(lampiran)')));
-   d.appendChild(el('small',null,fmtWhen(m.created_at)));
-   wrap.appendChild(d);
+   var first=lastSender!==m.sender_id;
+   var b=el('div','zca-m'+(mine?'':' r')+(first&&lastSender!==null?' f':'')+(gone?' gone':''));
+   if(first){var w=el('span','w',who);w.style.color=colorOf(uid||who);b.appendChild(w);}
+   b.appendChild(document.createTextNode(gone?'(pesan dihapus)':(txt||'(lampiran)')));
+   b.appendChild(el('span','t',valid?hm(d):''));
+   wrap.appendChild(b);lastSender=m.sender_id;
   });
-  b.appendChild(wrap);
-  b.appendChild(el('div','zca-ro','Tindakan moderasi'));
-  b.appendChild(actionRow(pair.a,pair.na));
-  b.appendChild(actionRow(pair.b,pair.nb));
+  P.body.appendChild(wrap);
+  /* footer moderasi */
+  P.foot.textContent='';P.foot.hidden=false;
+  var mt=el('button','zca-mt');mt.type='button';
+  var lb=el('span');lb.appendChild(ico('fa-gavel'));lb.appendChild(document.createTextNode('Tindakan moderasi'));
+  mt.appendChild(lb);mt.appendChild(ico('fa-chevron-up zca-cv'));
+  var mp=el('div','zca-mp');mp.appendChild(actionRow(pair.a,pair.na));mp.appendChild(actionRow(pair.b,pair.nb));
+  mt.addEventListener('click',function(){var o=mp.classList.toggle('open');mt.classList.toggle('open',o);});
+  P.foot.appendChild(mt);P.foot.appendChild(mp);
+  requestAnimationFrame(function(){P.body.scrollTop=P.body.scrollHeight;});
  }
 
  /* ---------- Logo perisai di header Live Chat (hanya akun admin/developer) ---------- */
