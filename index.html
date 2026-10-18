@@ -3719,9 +3719,48 @@ body.zx-wall-oj #zxOldWall{--zw-pos:14% 40%;--zw-blur:1.5px;--zw-sat:.9;--zw-br:
     try{a=JSON.parse(localStorage.getItem('zusmoVipKeyHistory')||'[]');if(Array.isArray(a))for(i=0;i<a.length;i++){x=a[i]||{};m=Math.max(m,roleTierIdx(x.tier),roleKeyIdx(x.key));}}catch(e){}
     try{a=JSON.parse(localStorage.getItem('zusmoUsedVipKeys')||'[]');if(Array.isArray(a))for(i=0;i<a.length;i++)m=Math.max(m,roleKeyIdx(a[i]));}catch(e){}
     try{x=JSON.parse(localStorage.getItem('zusmo_shadow_active_tier_vpn_max')||'null');if(x&&x.tier)m=Math.max(m,roleTierIdx(ROLE_VIPMENU[x.tier]||x.label));}catch(e){}
+    try{m=Math.max(m,roleScanStores());}catch(e){}
     return m;
   }
+  /* ===== pindai otomatis semua penyimpanan lokal =====
+     Mencari key VIP valid yang pernah dipesan/dimasukkan, di NAMA KUNCI APA PUN (termasuk kunci lama dari versi
+     sebelum sistem Supabase/Live Chat ada). Key dicocokkan ke daftar validKeys untuk menentukan tier. Hasil = tier
+     tertinggi. Di-cache lewat tanda tangan penyimpanan supaya murah dipanggil berulang. */
+  var ROLE_FREE_PROMO_KEY='KZRFREE202626KF';
+  var ROLE_KEY_RE=/KZR[-_ ]?[0-9A-F]{4}[-_ ]?[0-9A-F]{4}[-_ ]?[0-9A-F]{4}|KZR[-_ ]?FREE[-_ ]?2026[-_ ]?26KF/gi;
+  var roleScanSig='',roleScanVal=0;
+  function roleKeyIdx2(k){
+    var n=String(k||'').toUpperCase().replace(/[^A-Z0-9]/g,'');
+    if(n===ROLE_FREE_PROMO_KEY)return 1;
+    return roleKeyIdx(n);
+  }
+  function roleScanStores(){
+    var stores=[],sig='',m=0;
+    try{stores.push(localStorage);}catch(e){}
+    try{stores.push(sessionStorage);}catch(e){}
+    stores.forEach(function(st){try{sig+=st.length+'|';}catch(e){}});
+    try{sig+=(localStorage.getItem('zusmoUsedVipKeys')||'').length+'|'+(localStorage.getItem('zusmoVipKeyHistory')||'').length+'|'+(localStorage.getItem('zusmo_shadow_active_tier_vpn_max')||'').length;}catch(e){}
+    if(sig===roleScanSig)return roleScanVal;
+    stores.forEach(function(st){
+      var len=0,i,k,v,o,f;
+      try{len=st.length;}catch(e){return;}
+      for(i=0;i<len;i++){
+        k=null;v=null;
+        try{k=st.key(i);v=st.getItem(k);}catch(e){continue;}
+        if(!k||!v||v.length>300000)continue;
+        if(/^zusmo_shadow_active_tier/.test(k)){
+          try{o=JSON.parse(v);if(o&&o.tier)m=Math.max(m,roleTierIdx(ROLE_VIPMENU[o.tier]||o.label));}catch(e){}
+        }
+        if(!/KZR/i.test(v))continue;
+        ROLE_KEY_RE.lastIndex=0;
+        f=v.match(ROLE_KEY_RE);
+        if(f)f.forEach(function(x){m=Math.max(m,roleKeyIdx2(x));});
+      }
+    });
+    roleScanSig=sig;roleScanVal=m;return m;
+  }
   window.__zsRoleBump=function(t){
+    roleScanSig='';
     try{
       var n=roleTierIdx(t),cur=ROLE_ORDER.indexOf((lsGet('dpRoleUnlocked','')||'').trim().toUpperCase());
       if(n>0&&n>cur)lsSet('dpRoleUnlocked',ROLE_ORDER[n]);
@@ -3740,6 +3779,31 @@ body.zx-wall-oj #zxOldWall{--zw-pos:14% 40%;--zw-blur:1.5px;--zw-sat:.9;--zw-br:
     if(m>0&&m>i)lsSet('dpRoleUnlocked',ROLE_ORDER[m]);
     return m;
   }
+  /* ===== terapkan otomatis role dari order/key lama ke profil & Live Chat =====
+     Dijalankan saat halaman dimuat dan tiap penyimpanan/fokus berubah. roleUnlockedIdx() sudah menyimpan tier tertinggi
+     (naik-saja) ke 'dpRoleUnlocked'; di sini bila ada kenaikan, profil digambar ulang dan Live Chat diberi tahu supaya
+     role + warna nama (perak/emas) ikut tanpa pengguna harus memasukkan key lagi. */
+  var roleBackfillLast=-1;
+  function roleBackfill(){
+    var before=0,now=0;
+    try{before=Math.max(0,ROLE_ORDER.indexOf((lsGet('dpRoleUnlocked','')||'').trim().toUpperCase()));}catch(e){}
+    try{roleScanSig='';now=roleUnlockedIdx();}catch(e){return;}
+    if(now>0&&now!==roleBackfillLast){
+      var first=roleBackfillLast<0;
+      roleBackfillLast=now;
+      if(now>before||first){
+        try{window.dispatchEvent(new CustomEvent('zusmo:role-change',{detail:{role:ROLE_ORDER[now],auto:true}}));}catch(e){}
+        try{if(window.__dpRefreshProfile)window.__dpRefreshProfile();}catch(e){}
+      }
+    }
+  }
+  window.__zsRoleBackfill=roleBackfill;
+  try{roleBackfill();}catch(e){}
+  window.addEventListener('load',function(){setTimeout(roleBackfill,0);setTimeout(roleBackfill,2500);});
+  window.addEventListener('pageshow',function(){setTimeout(roleBackfill,0);});
+  window.addEventListener('focus',function(){setTimeout(roleBackfill,0);});
+  document.addEventListener('visibilitychange',function(){if(!document.hidden)setTimeout(roleBackfill,0);});
+  window.addEventListener('storage',function(){setTimeout(roleBackfill,0);});
   function roleIsOpen(k){var n=ROLE_ORDER.indexOf(k);return n===0||(n>0&&n<=roleUnlockedIdx());}
   function roleNow(){
     var v=(lsGet('dpRoleLabel','')||'').trim().toUpperCase();
@@ -6618,7 +6682,10 @@ body #developerTab .dp-card:has(.dp-bio:not(.is-empty)),body #developerTab .dp-c
   /* migrasi: pilihan warna lama yang tersimpan di username dipindah ke nama */
   try{var _oldU=localStorage.getItem('dpLookUser');if(_oldU){if(!localStorage.getItem('dpLookName')&&_oldU!=='normal')localStorage.setItem('dpLookName',_oldU);localStorage.removeItem('dpLookUser');}}catch(e){}
   function lookOk(L){var n=0;try{n=roleUnlockedIdx();}catch(e){}return n>=L[3];}
-  function lookGet(sc){var k=lsGet(LOOK_KEY[sc],'normal');for(var i=0;i<LOOKS.length;i++)if(LOOKS[i][0]===k)return lookOk(LOOKS[i])?LOOKS[i]:LOOKS[0];return LOOKS[0];}
+  /* Bawaan otomatis (selama belum pernah memilih sendiri): BASIC ke atas = perak, MAX = emas. Pilihan manual di Tampilan
+     (termasuk Normal) selalu menang dan bisa diubah kapan saja. */
+  function lookAuto(){var n=0;try{n=roleUnlockedIdx();}catch(e){}return n>=4?'emas':n>=1?'perak':'normal';}
+  function lookGet(sc){var k=lsGet(LOOK_KEY[sc],'');if(!k)k=sc==='nm'?lookAuto():'normal';for(var i=0;i<LOOKS.length;i++)if(LOOKS[i][0]===k)return lookOk(LOOKS[i])?LOOKS[i]:LOOKS[0];return LOOKS[0];}
   function lookPaint(e,v,skip){
     if(!e)return;var S=e.style;
     ['background','-webkit-background-clip','background-clip','-webkit-text-fill-color','color','text-shadow'].forEach(function(p){S.removeProperty(p);});
@@ -6634,6 +6701,7 @@ body #developerTab .dp-card:has(.dp-bio:not(.is-empty)),body #developerTab .dp-c
   window.ZUSMO_NAME_LOOKS=(function(){var m={};LOOKS.forEach(function(L){if(L[2])m[L[0]]=L[2];});return m;})();
   window.ZUSMO_NAME_LOOK_ME=function(){var l=lookGet('nm');return l[0]==='normal'?'':l[0];};
   window.ZUSMO_PAINT_NAME=function(el,id){lookPaint(el,(window.ZUSMO_NAME_LOOKS||{})[id]||'');};
+  window.addEventListener('zusmo:role-change',function(){try{lookApply();setLookRow();}catch(e){}});
   (function(){var st=document.createElement('style');st.textContent='#developerTab .dp-handle .dp-handle-user{color:#fff}#dpLookEd .lk-pv-out .lk-pu{color:#fff}';document.head.appendChild(st);})();
   var lkEd=document.createElement('div');lkEd.id='dpLookEd';
   lkEd.innerHTML='<div class="lk-hd"><button type="button" class="lk-back" id="lkBack" aria-label="Kembali"><i class="fa-solid fa-chevron-left"></i></button>Tampilan</div><div class="lk-body" id="lkBody"></div>';
@@ -6647,7 +6715,7 @@ body #developerTab .dp-card:has(.dp-bio:not(.is-empty)),body #developerTab .dp-c
     var u=document.createElement('span');u.className='lk-pu';u.textContent=un;
     pv.appendChild(a);pv.appendChild(u);b.appendChild(pv);
     function pp(){lookPaint(a,lookGet('nm')[2]);}pp();
-    [['nm','Warna nama','Free putih, Basic perak, Max emas. Terbuka sesuai role, lalu pilih sendiri. Tampil di Profil & Live Chat. Username tetap putih.']].forEach(function(sc){
+    [['nm','Warna nama','Otomatis: Basic ke atas perak, Max emas. Bisa diganti sendiri kapan saja sesuai role. Tampil di Profil & Live Chat. Username tetap putih.']].forEach(function(sc){
       var h=document.createElement('div');h.className='lk-sec';h.textContent=sc[1];
       var sub=document.createElement('div');sub.className='lk-sub';sub.textContent=sc[2];
       var g=document.createElement('div');g.className='lk-grid';g.style.gridTemplateColumns='repeat(3,1fr)';
