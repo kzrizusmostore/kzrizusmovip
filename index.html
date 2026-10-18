@@ -557,7 +557,7 @@ window.__zusmoRenderBanner = function(on){
 #logoDetailGrid .bd-owned,#musicDetailGrid .music-owned-badge{display:none!important}
 
 @media (prefers-reduced-motion:reduce){.kl-wave i{animation:none}.kl-card{transition:none}}
-</style><meta name="build" content="jastip-v4"><script>(function(){var B='jastip-v4-20261018-aksi';try{if(localStorage.getItem('kz_build')===B)return;localStorage.setItem('kz_build',B);var p=[];if(navigator.serviceWorker&&navigator.serviceWorker.getRegistrations)p.push(navigator.serviceWorker.getRegistrations().then(function(r){return Promise.all(r.map(function(x){return x.unregister()}))}).catch(function(){}));if(window.caches)p.push(caches.keys().then(function(k){return Promise.all(k.map(function(x){return caches.delete(x)}))}).catch(function(){}));Promise.all(p).then(function(){location.reload()},function(){})}catch(e){}})();</script><style id="dev-profile-style">
+</style><meta name="build" content="jastip-v4"><script>(function(){var B='jastip-v4-20261018-ikon';try{if(localStorage.getItem('kz_build')===B)return;localStorage.setItem('kz_build',B);var p=[];if(navigator.serviceWorker&&navigator.serviceWorker.getRegistrations)p.push(navigator.serviceWorker.getRegistrations().then(function(r){return Promise.all(r.map(function(x){return x.unregister()}))}).catch(function(){}));if(window.caches)p.push(caches.keys().then(function(k){return Promise.all(k.map(function(x){return caches.delete(x)}))}).catch(function(){}));Promise.all(p).then(function(){location.reload()},function(){})}catch(e){}})();</script><style id="dev-profile-style">
 #developerTab{--dp-red:#ff2b2b;--dp-red-glow:rgba(255,43,43,.5);--dp-bg:rgba(6,6,8,.9);--dp-glass:rgba(10,10,12,.55);--dp-line:rgba(255,255,255,.14);--dp-text:#fff;--dp-muted:rgba(255,255,255,.55);--dp-ring:rgba(255,255,255,.6);--dp-plus:#5ac8fa;--dp-bleed:20px;--dp-banner-h:calc(min(100vw,900px)*.375);--dp-av:clamp(92px,28vw,110px);}
 #developerTab{position:relative}
 #developerTab .dp-off{display:none!important}
@@ -15021,9 +15021,36 @@ body.kz-fp-open .fd-layer{z-index:1000200}
 <style id="kz-card-actions-corner">
 /* kartu profil: tiga tombol lingkaran (Ikuti, Chat, Profil) di banner, pojok kiri atas */
 #zcChat #zcProfileSheet .zc-psheet .zc-pf-actions{position:absolute;top:12px;left:12px;right:auto;width:auto;margin:0;gap:10px;z-index:3;justify-content:flex-start}
-#zcChat #zcProfileSheet .zc-psheet .zc-pf-actions>button{width:36px;height:36px;min-width:36px;min-height:36px}
+#zcChat #zcProfileSheet .zc-psheet .zc-pf-actions>button{width:36px;height:36px;min-width:36px;min-height:36px;gap:0;padding:0}
 #zcChat #zcProfileSheet .zc-psheet .zc-pf-actions>button i{font-size:14px}
 #zcChat #zcProfileSheet .zc-psheet .zc-pf-actions .zc-pf-follow[data-state="confirm"]::after{font-size:14px}
+</style>
+<style id="kz-card-minimal">
+/* kartu profil: tampilan minimalis, lebih sedikit garis dan hiasan */
+#zcChat #zcProfileSheet .zc-psheet .zc-pf-avwrap{align-self:center;margin-left:auto;margin-right:auto}
+#zcChat #zcProfileSheet .zc-psheet .zc-pf-avwrap .zc-pf-av{box-shadow:0 0 0 4px #111114}
+#zcChat #zcProfileSheet .zc-psheet .zc-pf-dot{display:none}
+#zcChat #zcProfileSheet .zc-psheet .zc-pf-stats{margin-top:14px;border:0;border-radius:0;background:none}
+#zcChat #zcProfileSheet .zc-psheet .zc-pf-stats>*+*::before{display:none}
+#zcChat #zcProfileSheet .zc-psheet .zc-pf-stats>div,#zcChat #zcProfileSheet .zc-psheet .zc-pf-like{padding:6px 4px;gap:2px}
+#zcChat #zcProfileSheet .zc-psheet .zc-pf-stats b{font-size:1.05rem;font-weight:700}
+#zcChat #zcProfileSheet .zc-psheet .zc-pf-stats span{font-size:.7rem;font-weight:500;letter-spacing:0;text-transform:none;color:rgba(255,255,255,.5)}
+#zcChat #zcProfileSheet .zc-psheet .zc-pf-join{justify-content:center;gap:8px;margin-top:2px;padding:0;font-size:.74rem}
+#zcChat #zcProfileSheet .zc-psheet .zc-pf-join b{font-weight:600;color:rgba(255,255,255,.7)}
+#zcChat #zcProfileSheet .zc-psheet .zc-pf-titles{border-top:0;padding-top:0;margin-top:10px}
+#zcChat #zcProfileSheet .zc-psheet .zc-pf-titles::before{display:none}
+#zcChat #zcProfileSheet .zc-psheet .zc-pf-mod{border:0;background:rgba(255,255,255,.05);color:rgba(255,255,255,.6)}
+#zcChat #zcProfileSheet .zc-psheet .zc-pf-actions>button{border:0;box-shadow:none;background:rgba(0,0,0,.4);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+#zcChat #zcProfileSheet .zc-psheet .zc-pf-actions>button::before{display:none}
+#zcChat #zcProfileSheet .zc-psheet .zc-pf-actions .zc-pf-follow{background:#e03636}
+#zcChat #zcProfileSheet .zc-psheet .zc-pf-actions .zc-pf-follow[data-state="following"]{background:rgba(0,0,0,.4)}
+#zcChat #zcProfileSheet .zc-psheet .zc-pf-actions .zc-pf-follow[data-state="confirm"]{border:1px solid rgba(255,255,255,.6)}
+</style>
+<style id="kz-card-center-fade">
+/* kartu profil dengan banner: logo tepat di tengah banner, dan banner memudar halus ke bawah */
+#zcChat #zcProfileSheet.has-banner .zc-psheet .zc-pf-cover{height:176px;-webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 38%,rgba(0,0,0,.7) 62%,rgba(0,0,0,.32) 82%,transparent 100%);mask-image:linear-gradient(to bottom,#000 0%,#000 38%,rgba(0,0,0,.7) 62%,rgba(0,0,0,.32) 82%,transparent 100%)}
+#zcChat #zcProfileSheet.has-banner .zc-psheet .zc-pf-avwrap{margin-top:36px;margin-bottom:36px}
+#zcChat #zcProfileSheet.has-banner .zc-psheet .zc-pf-avwrap .zc-pf-av{flex-basis:104px;width:104px;height:104px}
 </style>
 <script id="kz-sheet-actions-js">
 (function(){
