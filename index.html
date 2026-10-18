@@ -1087,6 +1087,7 @@ AccessTokenDua
         <span class="zc-av sm" id="zcPeerAv">?</span>
         <div class="zc-thread-title"><b id="zcPeerName">…</b><small id="zcPeerSub"></small></div>
       </div>
+      <div class="zc-thread-hint" id="zcThreadHint" role="status" aria-live="polite" hidden></div>
       <div class="zc-list" id="zcThreadList" aria-live="polite"></div>
       <button type="button" class="zc-pill" id="zcThreadPill" hidden>↓ Pesan baru</button>
       <div class="zc-moderation-note" id="zcModerationNoteT" hidden></div>
@@ -1119,13 +1120,13 @@ AccessTokenDua
         <button type="button" class="zc-pf-like" id="zcPfLike" aria-pressed="false" aria-label="Beri suka"><b id="zcPfLikes"><i class="fa-regular fa-heart" aria-hidden="true"></i> 0</b><span>Suka</span></button>
       </div>
       <div class="zc-pf-join" id="zcPfJoinRow" hidden><span><i class="fa-regular fa-calendar" aria-hidden="true"></i>Gabung Sejak</span><b id="zcPfJoin"></b></div>
-      <div class="zc-pf-actions" id="zcPfActions">
+      <div class="zc-pf-actions" id="zcPfActions" role="group" aria-label="Aksi profil">
         <button type="button" class="zc-pf-follow" id="zcSheetFollow" data-state="follow"><i class="fa-solid fa-user-plus"></i> Ikuti</button>
         <button type="button" class="zc-sheet-chat" id="zcSheetChat"><i class="fa-solid fa-message"></i> Chat Pribadi</button>
+        <button type="button" class="zc-pf-full" id="zcSheetView" aria-label="Lihat profil lengkap" title="Lihat profil lengkap" hidden><i class="fa-solid fa-id-card" aria-hidden="true"></i></button>
       </div>
       <div class="zc-pf-hint" id="zcSheetHint" role="status" aria-live="polite"></div>
       <div class="zc-pf-titles" id="zcSheetTitles"></div>
-      <button type="button" class="zc-pf-full" id="zcSheetView" hidden><i class="fa-solid fa-id-card" aria-hidden="true"></i> Lihat profil lengkap</button>
       <button type="button" class="zc-pf-full zc-pf-mod" id="zcSheetMod" hidden><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Moderasi pengguna</button>
       <button type="button" class="zc-pf-full" id="zcSheetFull" hidden><i class="fa-solid fa-user-pen" aria-hidden="true"></i> Buka profil saya</button>
     </div>
@@ -1186,39 +1187,211 @@ AccessTokenDua
 .zc-fps-frame>img.zc-fps-draw{z-index:1}
 .zc-fps-t{position:absolute;z-index:2;font-weight:800;line-height:1.15;text-align:center;white-space:pre-wrap;max-width:88%;overflow-wrap:anywhere;padding:4px;pointer-events:none}
 .zc-fps-nav{position:absolute;top:70px;bottom:0;width:36%;border:0;background:transparent;z-index:3;cursor:pointer}
+
+/* ===== v3: profil lengkap = salinan tata letak profil sendiri (kelas dp-*) ===== */
+#zcChat #zcFullProfile{--dp-red:#ff2b2b;--dp-red-glow:rgba(255,43,43,.5);--dp-bg:rgba(6,6,8,.9);--dp-glass:rgba(10,10,12,.55);--dp-line:rgba(255,255,255,.14);--dp-text:#fff;--dp-muted:rgba(255,255,255,.55);--dp-ring:rgba(255,255,255,.6);--dp-plus:#5ac8fa;--dp-bleed:20px;--dp-banner-h:calc(min(100vw,900px)*.375);--dp-av:clamp(92px,28vw,110px);}
+#zcChat #zcFullProfile .dp-hero{position:relative;margin:0 calc(-1 * var(--dp-bleed))}
+#zcChat #zcFullProfile .dp-banner{position:relative;height:var(--dp-banner-h);overflow:hidden;background:linear-gradient(135deg,#4a0000,#0a0a0a);-webkit-mask-image:linear-gradient(#000 70%,transparent);mask-image:linear-gradient(#000 70%,transparent)}
+#zcChat #zcFullProfile .dp-banner img,#zcChat #zcFullProfile .dp-banner video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+#zcChat #zcFullProfile .dp-banner video{display:none;pointer-events:none}
+#zcChat #zcFullProfile .dp-banner.is-fallback img,#zcChat #zcFullProfile .dp-banner.is-fallback video{display:none}
+#zcChat #zcFullProfile .dp-banner::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,transparent 55%,var(--dp-bg) 100%),linear-gradient(to top,rgba(255,43,43,.18),transparent 35%)}
+#zcChat #zcFullProfile .dp-id{position:relative;margin-top:8px;padding:6px calc(var(--dp-av) + 34px) 0 var(--dp-bleed);min-height:calc(var(--dp-av)/2 + 76px)}
+#zcChat #zcFullProfile .dp-name-row{display:flex;align-items:center;gap:6px;min-width:0}
+#zcChat #zcFullProfile .dp-name{font:800 clamp(22px,7vw,28px)/1.15 'Outfit',system-ui,sans-serif;color:var(--dp-text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:0 2px 10px rgba(0,0,0,.6)}
+#zcChat #zcFullProfile .dp-caret{font-size:14px;color:var(--dp-text);flex:none}
+#zcChat #zcFullProfile .dp-handle{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:6px;font:600 13px/1.3 'Outfit',system-ui,sans-serif;color:var(--dp-muted)}
+#zcChat #zcFullProfile .dp-handle-user{overflow:hidden;text-overflow:ellipsis;max-width:100%}
+#zcChat #zcFullProfile .dp-role{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:999px;border:1px solid currentColor;color:var(--dp-red);font:700 11px/1 'Rajdhani','Outfit',sans-serif;letter-spacing:.6px;text-transform:uppercase}
+#zcChat #zcFullProfile .dp-avatar{position:absolute;right:var(--dp-bleed);top:calc(var(--dp-banner-h) - var(--dp-av)/2);width:var(--dp-av);height:var(--dp-av);border-radius:50%;padding:3px;box-sizing:border-box;background:var(--dp-bg);border:2px solid var(--dp-ring);z-index:2}
+#zcChat #zcFullProfile .dp-avatar-img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;background:#111}
+#zcChat #zcFullProfile .dp-avatar-ph{position:absolute;inset:3px;border-radius:50%;display:none;place-items:center;background:#111;color:var(--dp-muted);font-size:34px}
+#zcChat #zcFullProfile .dp-avatar.is-fallback .dp-avatar-img{display:none}
+#zcChat #zcFullProfile .dp-avatar.is-fallback .dp-avatar-ph{display:grid}
+#zcChat #zcFullProfile .dp-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:2px 0 16px}
+#zcChat #zcFullProfile .dp-stat-val{display:block;font:700 clamp(22px,7vw,28px)/1.1 'Rajdhani','Outfit',sans-serif;color:var(--dp-text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#zcChat #zcFullProfile .dp-stat-lbl{display:block;margin-top:2px;font:500 12px/1.2 'Outfit',system-ui,sans-serif;color:var(--dp-muted)}
+#zcChat #zcFullProfile .dp-card{position:relative;padding:14px 44px 14px 16px;border-radius:20px;background:var(--dp-glass);border:1px solid var(--dp-line);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+#zcChat #zcFullProfile .dp-bio{font:300 14px/1.55 'Outfit',system-ui,sans-serif;color:var(--dp-text);white-space:pre-line;overflow-wrap:anywhere;word-break:break-word}
+#zcChat #zcFullProfile .dp-bio.is-empty{color:var(--dp-muted)}
+#zcChat #zcFullProfile .dp-stories{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px 8px;padding-bottom:16px}
+#zcChat #zcFullProfile .dp-story{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0;padding:0;border:0;background:transparent;color:var(--dp-text);cursor:pointer}
+#zcChat #zcFullProfile .dp-story-ring{width:100%;max-width:64px;aspect-ratio:1/1;border-radius:42%;border:2px solid var(--dp-line);background:var(--dp-glass);display:grid;place-items:center;overflow:hidden;font-size:clamp(16px,5vw,21px);transition:transform .15s ease,border-color .15s ease}
+#zcChat #zcFullProfile .dp-story-ring img,#zcChat #zcFullProfile .dp-story-ring video{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+#zcChat #zcFullProfile .dp-story.is-new .dp-story-ring{border-style:dashed;border-color:rgba(255,255,255,.55)}
+#zcChat #zcFullProfile .dp-story:active .dp-story-ring{transform:scale(.93);border-color:var(--dp-red)}
+#zcChat #zcFullProfile .dp-story-lbl{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:600 11px/1.2 'Outfit',system-ui,sans-serif;color:var(--dp-text)}
+#zcChat #zcFullProfile{--dp-orange:#ff8a1f;--dp-seen:rgba(255,255,255,.32);--dp-av-bg:#060608}
+#zcChat #zcFullProfile .dp-avatar.dp-has-story{border:4px solid transparent;background:linear-gradient(var(--dp-av-bg),var(--dp-av-bg)) padding-box,linear-gradient(45deg,var(--dp-orange),var(--dp-red)) border-box;cursor:pointer}
+#zcChat #zcFullProfile .dp-avatar.dp-has-story.dp-seen{background:linear-gradient(var(--dp-av-bg),var(--dp-av-bg)) padding-box,linear-gradient(var(--dp-seen),var(--dp-seen)) border-box}
+#zcChat #zcFullProfile .dp-hl-head{display:flex;align-items:center;justify-content:space-between;margin:0 0 10px}
+#zcChat #zcFullProfile .dp-hl-title{font:700 14px/1 'Rajdhani','Outfit',sans-serif;letter-spacing:.6px;color:var(--dp-text);text-transform:uppercase}
+#zcChat #zcFullProfile .dp-hl-arc{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;border:1px solid var(--dp-line);background:var(--dp-glass);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);color:var(--dp-text);font:600 12px/1 'Outfit',system-ui,sans-serif;cursor:pointer;transition:transform .15s ease,border-color .15s ease}
+#zcChat #zcFullProfile .dp-hl-arc i{color:var(--dp-red)}
+#zcChat #zcFullProfile .dp-hl-arc:active{transform:scale(.95);border-color:var(--dp-red)}
+#zcChat #zcFullProfile .dp-hl-ring{display:block;width:100%;max-width:66px;aspect-ratio:1/1;border-radius:42%;padding:3px;box-sizing:border-box;border:1.5px solid var(--dp-seen);transition:transform .15s ease,border-color .15s ease}
+#zcChat #zcFullProfile .dp-story:active .dp-hl-ring{transform:scale(.93);border-color:var(--dp-red)}
+#zcChat #zcFullProfile .dp-hl-cov{display:grid;place-items:center;width:100%;height:100%;border-radius:39%;overflow:hidden;background:var(--dp-glass);color:var(--dp-muted);font-size:clamp(14px,4.5vw,19px)}
+#zcChat #zcFullProfile .dp-banner{-webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 30%,rgba(0,0,0,.95) 38%,rgba(0,0,0,.85) 46%,rgba(0,0,0,.7) 54%,rgba(0,0,0,.52) 62%,rgba(0,0,0,.36) 70%,rgba(0,0,0,.22) 78%,rgba(0,0,0,.11) 86%,rgba(0,0,0,.04) 93%,transparent 100%);mask-image:linear-gradient(to bottom,#000 0%,#000 30%,rgba(0,0,0,.95) 38%,rgba(0,0,0,.85) 46%,rgba(0,0,0,.7) 54%,rgba(0,0,0,.52) 62%,rgba(0,0,0,.36) 70%,rgba(0,0,0,.22) 78%,rgba(0,0,0,.11) 86%,rgba(0,0,0,.04) 93%,transparent 100%)}
+#zcChat #zcFullProfile .dp-banner::after{background:linear-gradient(to bottom,transparent 40%,rgba(0,0,0,.08) 52%,rgba(0,0,0,.2) 62%,rgba(0,0,0,.38) 72%,rgba(0,0,0,.6) 82%,rgba(0,0,0,.82) 91%,#000 100%)}
+#zcChat #zcFullProfile .dp-id{position:relative;z-index:2;margin-top:-66px;padding:10px calc(var(--dp-av) + 30px) 0 var(--dp-bleed);min-height:0}
+#zcChat #zcFullProfile .dp-handle{text-shadow:0 1px 8px rgba(0,0,0,.7)}
+#zcChat #zcFullProfile .dp-role{gap:3px;padding:2px 6px;font-size:9px;letter-spacing:.3px}
+#zcChat #zcFullProfile .dp-role i{font-size:7.5px}
+#zcChat #zcFullProfile .dp-name-row{gap:8px}
+#zcChat #zcFullProfile .dp-name{font-size:clamp(22px,6.6vw,27px);line-height:1.1}
+#zcChat #zcFullProfile .dp-handle{gap:8px;margin-top:0;row-gap:6px}
+#zcChat #zcFullProfile .dp-handle>span[aria-hidden="true"]{opacity:.45}
+#zcChat #zcFullProfile .dp-stats{display:flex;flex-wrap:nowrap;justify-content:space-between;align-items:flex-start;gap:0 12px;margin:12px calc(var(--dp-av) + 34px) 18px 0;padding:0;border:0;border-radius:0;background:none}
+#zcChat #zcFullProfile .dp-stats>div{display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-width:0;padding:0;border:0;text-align:left}
+#zcChat #zcFullProfile .dp-stat-val{max-width:100%;font-size:clamp(16px,4.9vw,19px);font-weight:800}
+#zcChat #zcFullProfile .dp-stat-lbl{margin-top:0;font-size:12px;letter-spacing:0}
+#zcChat #zcFullProfile .dp-card{margin:0}
+#zcChat #zcFullProfile .dp-card:has(.dp-bio:not(.is-empty)),#zcChat #zcFullProfile .dp-card:has(.dp-link:not([hidden])){margin-bottom:16px}
+#zcChat #zcFullProfile .dp-bio{font-size:15px;line-height:1.55}
+#zcChat #zcFullProfile .dp-link{margin-top:8px}
+#zcChat #zcFullProfile .dp-hl-head{margin:0 0 14px}
+@supports (corner-shape:superellipse(1.3)){
+#zcChat #zcFullProfile .dp-story-ring,#zcChat #zcFullProfile .dp-hl-ring,#zcChat #zcFullProfile .dp-hl-cov{border-radius:50%;corner-shape:superellipse(1.3)}
+}
+#zcChat #zcFullProfile .dp-stories{gap:16px 10px;padding-bottom:12px}
+#zcChat #zcFullProfile .dp-story{gap:7px}
+#zcChat #zcFullProfile .dp-titles{display:flex;flex-wrap:nowrap;align-items:center;gap:6px;max-width:100%;min-width:0;margin:0 0 22px;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+#zcChat #zcFullProfile .dp-titles::-webkit-scrollbar{display:none}
+#zcChat #zcFullProfile .dp-titles .dpt{flex:0 0 auto;max-width:none}
+#zcChat #zcFullProfile .dp-titles .dpt{padding:4px 9px;font-size:11px;gap:5px;border-width:1px}
+#zcChat #zcFullProfile .dp-titles .dpt i{font-size:10px}
+#zcChat #zcFullProfile .dp-titles .dpt .dpt-img{width:13px;height:13px}
+#zcChat #zcFullProfile .dp-titles .dpt .dpt-img-l{width:19px;height:19px;margin:-3px 0}
+#zcChat #zcFullProfile .dp-titles[hidden]{display:none}
+#zcChat #zcFullProfile .dp-titles[hidden]+.dp-stories{margin-top:14px}
+#zcChat #zcFullProfile .dp-card{background:none;border:0;padding:0;border-radius:0;-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:none}
+#zcChat #zcFullProfile .dp-bio.is-empty{display:none}
+#zcChat #zcFullProfile .dp-bio{line-height:1.1;margin:0;padding:0;font-weight:300}
+#zcChat #zcFullProfile .dp-bio .dp-bio-at{font-weight:600}
+#zcChat #zcFullProfile .dp-card:has(.dp-bio:not(.is-empty)),#zcChat #zcFullProfile .dp-card:has(.dp-link:not([hidden])){margin-top:0;margin-bottom:8px}
+#zcChat #zcFullProfile .dp-link{display:inline-flex;align-items:center;gap:7px;max-width:100%;margin-top:10px;font:600 13px/1.3 'Outfit',system-ui,sans-serif;color:#5ac8fa;text-decoration:none}
+#zcChat #zcFullProfile .dp-link[hidden]{display:none}
+#zcChat #zcFullProfile .dp-banner{-webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 42%,rgba(0,0,0,.97) 48%,rgba(0,0,0,.92) 54%,rgba(0,0,0,.84) 60%,rgba(0,0,0,.73) 66%,rgba(0,0,0,.6) 72%,rgba(0,0,0,.46) 78%,rgba(0,0,0,.33) 84%,rgba(0,0,0,.2) 89%,rgba(0,0,0,.1) 94%,rgba(0,0,0,.03) 98%,transparent 100%);mask-image:linear-gradient(to bottom,#000 0%,#000 42%,rgba(0,0,0,.97) 48%,rgba(0,0,0,.92) 54%,rgba(0,0,0,.84) 60%,rgba(0,0,0,.73) 66%,rgba(0,0,0,.6) 72%,rgba(0,0,0,.46) 78%,rgba(0,0,0,.33) 84%,rgba(0,0,0,.2) 89%,rgba(0,0,0,.1) 94%,rgba(0,0,0,.03) 98%,transparent 100%)}
+#zcChat #zcFullProfile .dp-banner::after{background:linear-gradient(to bottom,transparent 55%,rgba(0,0,0,.06) 62%,rgba(0,0,0,.16) 69%,rgba(0,0,0,.3) 76%,rgba(0,0,0,.5) 83%,rgba(0,0,0,.72) 90%,rgba(0,0,0,.9) 96%,#000 100%)}
+
+/* variabel panel Pribadi */
+#zcChat #zcFullProfile{--dp-bg:#000;--dp-av-bg:#000;--dp-glass:#0b0b0d;--dp-line:rgba(255,255,255,.12);--dp-banner-h:calc(min(100vw,900px)*.42);--dp-orange:#ff8a1f;--dp-seen:rgba(255,255,255,.32);--dp-red-glow:rgba(255,43,43,.5)}
+/* kerangka halaman */
+#zcChat #zcFullProfile{background:#000}
+#zcChat #zcFullProfile .zc-fp-bar{background:#050506;-webkit-backdrop-filter:none;backdrop-filter:none;border-bottom:1px solid rgba(255,255,255,.08)}
+#zcChat #zcFullProfile .zc-fp-bt{display:flex;flex-direction:column;gap:1px;min-width:0;line-height:1.2}
+#zcChat #zcFullProfile .zc-fp-bt b{font-size:15.5px}
+#zcChat #zcFullProfile .zc-fp-bt small{font-size:11px;color:rgba(255,255,255,.5);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#zcChat #zcFullProfile .zc-fp-bt small:empty{display:none}
+#zcChat #zcFullProfile .zc-fp-scroll{background:#000}
+#zcChat #zcFullProfile .zc-fp-pad{padding:0 var(--dp-bleed) 8px}
+#zcChat #zcFullProfile [hidden]{display:none!important}
+/* banner video */
+#zcChat #zcFullProfile .dp-banner video.zc-fp-vid:not([hidden]){display:block}
+/* avatar (logo koleksi) mengisi lingkaran */
+#zcChat #zcFullProfile .dp-avatar .zc-av{flex:none;display:grid;place-items:center;width:100%;height:100%;border-radius:50%;border:0;box-shadow:none;font-size:40px;overflow:hidden}
+#zcChat #zcFullProfile .dp-avatar .zc-av img{display:block!important;width:100%!important;height:100%!important;object-fit:cover!important;border-radius:50%!important;transform:none!important}
+#zcChat #zcFullProfile .dp-avatar{cursor:default}
+#zcChat #zcFullProfile .dp-avatar.dp-has-story{cursor:pointer}
+/* nama: tanpa tombol caret; lencana verifikasi di handle */
+#zcChat #zcFullProfile .dp-handle-user{display:inline-flex;align-items:center;gap:4px}
+/* bubble catatan di atas logo */
+#zcChat #zcFullProfile .dp-note{position:absolute;right:calc(var(--dp-bleed) + var(--dp-av)/2);top:calc(var(--dp-banner-h) - var(--dp-av)/2 + 12px);--tl:clamp(10px,calc(50% - 6px),calc(100% - 28px));transform:translate(50%,-100%);z-index:3;max-width:124px;min-width:60px;padding:8px 14px;border:0;border-radius:20px;background:var(--note-bg,#2a2a2e);color:var(--note-fg,#fff);font:600 13px/1.3 "Outfit",system-ui,sans-serif;text-align:center;overflow-wrap:anywhere;text-wrap:balance;white-space:pre-line;box-shadow:0 4px 14px rgba(0,0,0,.45)}
+#zcChat #zcFullProfile .dp-note::before,#zcChat #zcFullProfile .dp-note::after{content:"";position:absolute;border-radius:50%;background:var(--note-tail,var(--note-bg,#2a2a2e))}
+#zcChat #zcFullProfile .dp-note::before{width:12px;height:12px;left:var(--tl);bottom:-7px}
+#zcChat #zcFullProfile .dp-note::after{width:6px;height:6px;left:calc(var(--tl) + 10px);bottom:-14px}
+#zcChat #zcFullProfile .dp-note .dp-note-emo{position:absolute;z-index:2;left:-5px;top:-9px;font-size:19px;line-height:1;transform:rotate(-24deg);pointer-events:none;font-family:"Apple Color Emoji","Noto Color Emoji",sans-serif}
+/* tombol Ikuti / Chat */
+#zcChat #zcFullProfile .zc-fp-actions{width:100%;display:grid;grid-template-columns:1.15fr 1fr;gap:10px;margin:0 0 6px}
+#zcChat #zcFullProfile .zc-fp-actions>button{width:100%;min-height:48px;margin:0;padding:0 10px;display:flex;align-items:center;justify-content:center;gap:8px;border-radius:15px;font:inherit;font-size:.92rem;font-weight:700;white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .12s,background .15s,opacity .15s,box-shadow .15s}
+#zcChat #zcFullProfile .zc-fp-actions>button:active:not(:disabled){transform:scale(.97)}
+#zcChat #zcFullProfile .zc-fp-actions .zc-pf-follow{border:0;background:linear-gradient(180deg,#ee3d3d,#c32323);color:#fff;box-shadow:0 10px 22px -10px rgba(238,61,61,.75),inset 0 1px 0 rgba(255,255,255,.22)}
+#zcChat #zcFullProfile .zc-fp-actions .zc-pf-follow[data-state="following"]{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);box-shadow:none;color:#fff}
+#zcChat #zcFullProfile .zc-fp-actions .zc-pf-follow[data-state="confirm"]{background:rgba(238,61,61,.14);border:1px solid rgba(238,61,61,.55);box-shadow:none;color:#ff8f8f}
+#zcChat #zcFullProfile .zc-fp-actions .zc-pf-follow:disabled{opacity:.5;cursor:default}
+#zcChat #zcFullProfile .zc-fp-actions .zc-sheet-chat{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#fff;filter:none}
+#zcChat #zcFullProfile .zc-fp-actions .zc-sheet-chat:disabled{opacity:.45;cursor:not-allowed}
+#zcChat #zcFullProfile .zc-fp-hint{min-height:0;margin:0 0 16px;font-size:.72rem;line-height:1.45;color:rgba(255,255,255,.46);text-align:left}
+#zcChat #zcFullProfile .zc-fp-hint:empty{display:none}
+#zcChat #zcFullProfile .dp-hl-cov img,#zcChat #zcFullProfile .dp-hl-cov video{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+#zcChat #zcFullProfile .dp-stories{margin-bottom:0}
+/* tab ikon + grid postingan (sama dengan profil sendiri) */
+#zcChat #zcFullProfile .fd-wrap{--fd-red:#ff2b2b;--fd-bg:#0b0b0e;--fd-sf:rgba(255,255,255,.06);--fd-ln:rgba(255,255,255,.13);--fd-mu:rgba(255,255,255,.62);display:block;width:auto;max-width:none;min-width:0;margin:6px calc(-1 * var(--dp-bleed)) 0;color:#fff;font-family:Outfit,system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+#zcChat #zcFullProfile .fd-wrap *{box-sizing:border-box}
+#zcChat #zcFullProfile .fd-head{display:flex;align-items:center;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:0;position:relative;z-index:2}
+#zcChat #zcFullProfile .fd-tabs{display:flex;align-items:center;justify-content:space-around;gap:8px;width:100%}
+#zcChat #zcFullProfile .fd-tab{position:relative;flex:1;min-height:48px;display:flex;align-items:center;justify-content:center;gap:0;padding:0 12px;background:none;border:0;border-bottom:2px solid transparent;margin-bottom:-1px;color:var(--fd-mu);cursor:pointer;touch-action:manipulation;transition:color .2s ease}
+#zcChat #zcFullProfile .fd-tab[aria-selected=true]{color:#fff;border-bottom-color:var(--fd-red)}
+#zcChat #zcFullProfile .fd-tab .fd-i{display:block;flex:none;width:25px;height:25px;opacity:.55;transition:opacity .2s ease,transform .15s ease;pointer-events:none}
+#zcChat #zcFullProfile .fd-tab[aria-selected=true] .fd-i{opacity:1}
+#zcChat #zcFullProfile .fd-tab:active .fd-i{transform:scale(.94)}
+#zcChat #zcFullProfile .fd-tab>span{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+#zcChat #zcFullProfile .fd-body{padding-top:0}
+#zcChat #zcFullProfile .fd-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px;margin:0}
+#zcChat #zcFullProfile .fd-gi{position:relative;display:block;width:100%;padding:0 0 100%;border:0;background:#15151a;overflow:hidden;cursor:pointer;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;user-select:none}
+#zcChat #zcFullProfile .fd-gi img,#zcChat #zcFullProfile .fd-gi video{position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;transition:transform .16s ease}
+#zcChat #zcFullProfile .fd-gi:active img,#zcChat #zcFullProfile .fd-gi:active video{transform:scale(.965)}
+#zcChat #zcFullProfile .fd-gi::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;box-shadow:inset 0 0 0 .5px rgba(255,255,255,.08)}
+#zcChat #zcFullProfile .fd-gb{position:absolute;top:7px;right:7px;display:flex;gap:0;color:#fff;z-index:2}
+#zcChat #zcFullProfile .fd-gb .fd-i{display:block;width:16px;height:16px;padding:4px;box-sizing:content-box;border-radius:50%;background:rgba(0,0,0,.42);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+#zcChat #zcFullProfile .fd-gp{position:absolute;display:flex;align-items:center;gap:3px;top:7px;left:7px;padding:3px 8px 3px 6px;border-radius:999px;background:#ff2b2b;color:#fff;font:700 10.5px/1 'Outfit',system-ui,sans-serif;z-index:2;box-shadow:0 2px 8px rgba(255,43,43,.4)}
+#zcChat #zcFullProfile .fd-gp .fd-i{display:block;width:12px;height:12px;fill:#fff;stroke:#fff}
+#zcChat #zcFullProfile .fd-empty{display:flex;flex-direction:column;align-items:center;text-align:center;padding:56px 24px 40px;color:var(--fd-mu)}
+#zcChat #zcFullProfile .fd-empty .fd-eic{width:80px;height:80px;border-radius:50%;border:2px solid rgba(255,43,43,.5);background:rgba(255,43,43,.12);box-shadow:0 0 28px rgba(255,43,43,.18);display:grid;place-items:center;margin-bottom:14px;color:var(--fd-red)}
+#zcChat #zcFullProfile .fd-empty b{font-size:17px;color:#fff;margin-bottom:6px}
+#zcChat #zcFullProfile .fd-empty p{margin:0;font-size:13.5px;line-height:1.5}
+#zcChat #zcFullProfile .fd-empty .fd-i{display:block;width:32px;height:32px}
+#zcChat #zcFullProfile .zc-fp-msg{padding:44px 22px}
+/* tab Feed: daftar satu kolom */
+#zcChat #zcFullProfile .zc-fpf{padding:12px 0 6px;border-bottom:1px solid rgba(255,255,255,.07)}
+#zcChat #zcFullProfile .zc-fpf-h{display:flex;align-items:center;gap:10px;padding:0 14px 10px}
+#zcChat #zcFullProfile .zc-fpf-h .zc-av{flex:0 0 34px;width:34px;height:34px;font-size:14px}
+#zcChat #zcFullProfile .zc-fpf-h div{display:flex;flex-direction:column;min-width:0;line-height:1.25}
+#zcChat #zcFullProfile .zc-fpf-h b{font-size:14px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#zcChat #zcFullProfile .zc-fpf-h small{font-size:11px;color:rgba(255,255,255,.5)}
+#zcChat #zcFullProfile .zc-fpf-m{position:relative;display:block;width:100%;padding:0;border:0;background:#15151a;aspect-ratio:4/5;overflow:hidden;cursor:pointer}
+#zcChat #zcFullProfile .zc-fpf-m img,#zcChat #zcFullProfile .zc-fpf-m video{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+#zcChat #zcFullProfile .zc-fpf-n{position:absolute;top:10px;right:10px;padding:3px 9px;border-radius:999px;background:rgba(0,0,0,.55);color:#fff;font-size:12px;font-weight:700}
+#zcChat #zcFullProfile .zc-fpf-c{padding:10px 14px 4px;font-size:14px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere;color:#ececf0}
+#zcChat #zcFullProfile .zc-fpf-c:empty{display:none}
 .zc-fps-nav.p{left:0}.zc-fps-nav.n{right:0}
 </style>
 <div class="zc-fp" id="zcFullProfile" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Profil lengkap">
-  <div class="zc-fp-bar"><button type="button" class="zc-fp-back" id="zcFpBack" aria-label="Kembali"><i class="fa-solid fa-arrow-left"></i></button><b id="zcFpTitle">Profil</b></div>
-  <div class="zc-fp-scroll" id="zcFpScroll">
-    <div class="zc-fp-cover" id="zcFpCover" aria-hidden="true"><video class="zc-fp-vid" id="zcFpVid" muted loop playsinline preload="metadata" disablepictureinpicture tabindex="-1" hidden></video></div>
-    <div class="zc-fp-head">
-      <button type="button" class="zc-fp-avbtn" id="zcFpAvBtn" aria-label="Lihat story"><span class="zc-av zc-fp-av" id="zcFpAv">?</span></button>
-      <b class="zc-fp-name" id="zcFpName"></b>
-      <span class="zc-fp-user" id="zcFpUser"></span>
-      <div class="zc-pf-role" id="zcFpRole"></div>
-      <small class="zc-fp-status" id="zcFpStatus"></small>
-      <p class="zc-fp-bio" id="zcFpBio" hidden></p>
-      <a class="zc-fp-link" id="zcFpLink" target="_blank" rel="noopener noreferrer nofollow" hidden></a>
-      <div class="zc-pf-titles" id="zcFpTitles"></div>
-      <div class="zc-fp-stats">
-        <div><b id="zcFpPosts">0</b><span>Postingan</span></div>
-        <div><b id="zcFpFollowers">0</b><span>Pengikut</span></div>
-        <div><b id="zcFpFollowing">0</b><span>Mengikuti</span></div>
-        <div><b id="zcFpLikes">0</b><span>Suka</span></div>
+  <div class="zc-fp-bar"><button type="button" class="zc-fp-back" id="zcFpBack" aria-label="Kembali"><i class="fa-solid fa-arrow-left"></i></button><div class="zc-fp-bt"><b id="zcFpTitle">Profil</b><small id="zcFpStatus"></small></div></div>
+  <div class="zc-fp-scroll" id="zcFpScroll"><div class="zc-fp-pad">
+    <div class="dp-hero">
+      <div class="dp-banner" id="zcFpCover" aria-hidden="true"><video class="zc-fp-vid" id="zcFpVid" muted loop playsinline preload="metadata" disablepictureinpicture tabindex="-1" hidden></video></div>
+      <div class="zc-fp-quick" id="zcFpActions" role="group" aria-label="Aksi profil">
+        <button type="button" class="zc-pf-follow" id="zcFpFollow" data-state="follow" aria-label="Ikuti"><i class="fa-solid fa-user-plus"></i></button>
+        <button type="button" class="zc-sheet-chat" id="zcFpChat" aria-label="Chat Pribadi"><i class="fa-solid fa-message"></i></button>
       </div>
-      <div class="zc-pf-actions zc-fp-actions" id="zcFpActions">
-        <button type="button" class="zc-pf-follow" id="zcFpFollow" data-state="follow"><i class="fa-solid fa-user-plus"></i> Ikuti</button>
-        <button type="button" class="zc-sheet-chat" id="zcFpChat"><i class="fa-solid fa-message"></i> Chat Pribadi</button>
+      <div class="dp-id">
+        <div class="dp-name-row"><span class="dp-name" id="zcFpName"></span></div>
+        <div class="dp-handle"><span class="dp-handle-user" id="zcFpUser"></span><span aria-hidden="true">&middot;</span><span class="dp-role" id="zcFpRole"></span></div>
       </div>
-      <div class="zc-fp-hint" id="zcFpHint" role="status" aria-live="polite"></div>
+      <div class="dp-avatar" id="zcFpAvBtn" role="button" tabindex="-1" aria-label="Lihat story"><span class="zc-av zc-fp-av" id="zcFpAv">?</span></div>
+      <div class="dp-note" id="zcFpNote" hidden><span id="zcFpNoteT"></span><span class="dp-note-emo" id="zcFpNoteE" hidden></span></div>
     </div>
-    <div class="zc-fp-tabs" role="tablist">
-      <button type="button" role="tab" id="zcFpTabP" aria-selected="true"><i class="fa-solid fa-table-cells"></i> Postingan</button>
-      <button type="button" role="tab" id="zcFpTabS" aria-selected="false"><i class="fa-solid fa-circle-play"></i> Story</button>
+    <div class="dp-stats">
+      <div><span class="dp-stat-val" id="zcFpFollowing">0</span><span class="dp-stat-lbl">Mengikuti</span></div>
+      <div><span class="dp-stat-val" id="zcFpFollowers">0</span><span class="dp-stat-lbl">Pengikut</span></div>
+      <div><span class="dp-stat-val" id="zcFpLikes">0</span><span class="dp-stat-lbl">Suka</span></div>
     </div>
-    <div class="zc-fp-body" id="zcFpBody"></div>
-  </div>
+    <div class="zc-fp-hint" id="zcFpHint" hidden></div>
+    <div class="dp-card" id="zcFpCard" hidden><div class="dp-bio is-empty" id="zcFpBio"></div><a class="dp-link" id="zcFpLink" target="_blank" rel="noopener noreferrer nofollow" hidden></a></div>
+    <div class="dp-titles" id="zcFpTitles" role="group" aria-label="Gelar" hidden></div>
+    <div class="dp-hl-head" id="zcFpHlHead" hidden><span class="dp-hl-title">Story</span></div>
+    <div class="dp-stories" id="zcFpStories" hidden></div>
+    <section class="fd-wrap" id="zcFpWrap" aria-label="Postingan">
+      <div class="fd-head"><div class="fd-tabs" role="tablist" aria-label="Tampilan postingan">
+        <button type="button" class="fd-tab" role="tab" id="zcFpTabP" aria-selected="true"><svg class="fd-i" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg><span>Postingan</span></button>
+        <button type="button" class="fd-tab" role="tab" id="zcFpTabF" aria-selected="false"><svg class="fd-i" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="4" y="3" width="16" height="8" rx="1.5"/><rect x="4" y="13" width="16" height="8" rx="1.5"/></svg><span>Feed</span></button>
+        <button type="button" class="fd-tab" role="tab" id="zcFpTabU" aria-selected="false"><svg class="fd-i" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M17 2l4 4-4 4"/><path d="M3 11V9a3 3 0 013-3h15"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a3 3 0 01-3 3H3"/></svg><span>Ulangan</span></button>
+      </div></div>
+      <div class="fd-body" id="zcFpBody"></div>
+    </section>
+  </div></div>
 </div>
   <div class="zc-modal" id="zcAdminSheet" aria-hidden="true">
     <div class="zc-sheet zc-adm" role="dialog" aria-modal="true" aria-labelledby="zcAdminTitle">
@@ -8720,7 +8893,7 @@ var UL_THUMB_CUSTOM={},UL_THUMB_NAMES=['Ulangg','Ulang','ulangg','ulang'],ulThDi
    c = jumlah foto, p = awalan nama file.
    22 = 1 foto (isi = thumbnail Ulangg22.png) · 21 = Ulangg211…Ulangg215 · 19 = Ulang191…Ulang195
    18 = 12 foto · 17 = 4 · 14 = 4 · 11 = 4  (slide: <awalan><nomor><urutan>.webp; foto tunggal 22 = thumbnail .png) */
-var UL_PHOTO={22:{c:1,p:'Ulangg'},21:{c:5,p:'Ulangg'},19:{c:5,p:'Ulang'},18:{c:12,p:'Ulang'},17:{c:4,p:'Ulang'},14:{c:4,p:'Ulang'},11:{c:4,p:'Ulang'}},ulSlDir={};
+var UL_PHOTO={},ulSlDir={}; /* kosong = semua Ulangan memakai video Ulang1.mp4 … Ulang27.mp4 */
 function ulSlideName(n,k){var P=UL_PHOTO[n];return P.c===1?ulThumbName(n):P.p+n+k+'.webp';}
 function ulSlideCands(n,k){
   var P=UL_PHOTO[n],a=[];
@@ -8836,7 +9009,7 @@ function ulBindThumb(img,n,onFail){
   img.src=c[ulThDir[n]||0];
 }
 
-function openUlPlaylist(pl,curN){
+function openUlPlaylist(pl,curN,who){
   var o=h('div','fd-layer fd-ov'),box=h('div','fd-sheet fd-pl-sheet');
   box.setAttribute('role','dialog');box.setAttribute('aria-label','Daftar putar '+pl.name);
   var head=h('div','fd-pl-head','<b>'+esc(pl.name)+'</b><small>'+pl.items.length+' postingan'+'</small>');
@@ -8859,19 +9032,19 @@ function openUlPlaylist(pl,curN){
     r.appendChild(th);r.appendChild(tx);
     r.addEventListener('click',function(){
       L.close();
-      if(ulCtl)ulCtl.go(n);else setTimeout(function(){openUlang(n);},120);
+      if(ulCtl)ulCtl.go(n);else setTimeout(function(){openUlang(n,who);},120);
     });
     list.appendChild(r);
   });
   setTimeout(function(){var c=list.querySelector('.fd-cur');if(c&&c.scrollIntoView){try{list.scrollTop=Math.max(0,c.offsetTop-list.clientHeight/3);}catch(e){}}},0);
 }
 
-function renderUlang(host){
+function renderUlang(host,who){
   var pr=h('div','fd-pl-row');pr.setAttribute('role','list');pr.setAttribute('data-noswipe','1');
   UL_PL.forEach(function(pl){
     var c=h('button','fd-pl-chip',ic('layers',16)+'<span>'+esc(pl.name)+'</span>');c.type='button';c.setAttribute('role','listitem');
     c.setAttribute('aria-label','Daftar putar '+pl.name+', '+pl.items.length+' postingan');
-    c.addEventListener('click',function(){openUlPlaylist(pl,0);});
+    c.addEventListener('click',function(){openUlPlaylist(pl,0,who);});
     pr.appendChild(c);
   });
   var pw=h('div','fd-pl-wrap');
@@ -8887,13 +9060,13 @@ function renderUlang(host){
     b.appendChild(h('span','fd-ul-vw',ic('play',13)+'<span>'+ulViewsFmt(ulViews(n))+'</span>'));
     if(UL_PHOTO[n]&&UL_PHOTO[n].c>1){b.appendChild(h('span','fd-ul-ph',ic('layers',16)));b.setAttribute('aria-label','Putar Ulangan '+n+' (slide '+UL_PHOTO[n].c+' foto)');}
     ulBindThumb(v,n,function(){b.classList.add('fd-miss');b.appendChild(h('span','fd-ul-miss',esc(ulThumbName(n))+'<br>tidak ditemukan'));});
-    b.addEventListener('click',function(){openUlang(n);});
+    b.addEventListener('click',function(){openUlang(n,who);});
     g.appendChild(b);
   })(i);
   host.appendChild(g);
 }
 
-function openUlang(start){
+function openUlang(start,who){
   if(ulOpen)return;ulOpen=true;
   ulState();
   var ov=h('div','fd-layer fd-view fd-ulv');
@@ -8958,7 +9131,7 @@ function openUlang(start){
   ulProf={drag:profDrag,end:profEnd};
 
   var items=[],cur=-1,L=null,rafId=0;
-  var uname=nameText(),av=avatarSrc();
+  var uname=(who&&who.name)||nameText(),av=who?(who.av||''):avatarSrc();
   var rpHtml='<div class="fd-ul-rp" role="img" aria-label="Diposting ulang oleh '+esc(uname)+'"><img class="fd-rp-av" alt="" src="'+esc(av||'zusmo-asset/icon-192.png')+'" onerror="this.onerror=null;this.src=\'zusmo-asset/icon-192.png\'"><span class="fd-rp-bd">'+'<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="url(#fdRpG)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><defs><linearGradient id="fdRpG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff8a8a"/><stop offset=".5" stop-color="#ff2b2b"/><stop offset="1" stop-color="#b30000"/></linearGradient></defs><path d="M17 2l4 4-4 4"/><path d="M3 11V9a3 3 0 013-3h15"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a3 3 0 01-3 3H3"/></svg>'+'</span></div>';
 
   function mk(n){
@@ -9393,7 +9566,12 @@ function init(){
 window.ZusmoFeed={
   open:function(id){var p=id?findPost(id):(gridOrder()[0]||null);if(p)openViewer(p,0);else toast('Belum ada postingan.');},
   create:function(){openCreate();},
-  refresh:function(){return refresh();}
+  refresh:function(){return refresh();},
+  renderUlang:function(host,who){renderUlang(host,who);},
+  openUlang:function(n,who){openUlang(n,who);},
+  openPlaylist:function(i,who){var pl=UL_PL[i];if(pl)openUlPlaylist(pl,0,who);},
+  playlists:function(){return UL_PL;},
+  thumb:function(img,n){ulBindThumb(img,n);}
 };
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',safe(init));else safe(init)();
 })();
@@ -11518,7 +11696,18 @@ async function markRead(peer){
    if(u.error)console.warn('[zc-chat] markRead:',u.error);
  }catch(e){console.warn('[zc-chat] markRead',e);}
 }
-function renderPeerHead(){var p=S.profiles[S.peer]||{id:S.peer,username:'Pengguna'};setAv($('zcPeerAv'),p.id,p.username);var _pdn=p.display_name&&String(p.display_name).trim(),_pn=$('zcPeerName');_pn.textContent=_pdn||p.username;if(_pdn||zcLookId(p))ncApply(_pn,p.id||S.peer,'');else{_pn.removeAttribute('data-zc-nc');if(window.ZUSMO_PAINT_NAME)window.ZUSMO_PAINT_NAME(_pn,'');}$('zcPeerSub').textContent=typingLabel('private',S.peer)||(S.online[S.peer]?'Online':(p.last_seen?'Terakhir aktif '+ago(p.last_seen):''));}
+var THH={};
+function paintThreadHint(){
+ var el=$('zcThreadHint');if(!el)return;
+ var uid=S.peer;if(!uid||S.social.ok===false){el.hidden=true;return;}
+ var rel=S.rel[uid];
+ if(!rel){if(!THH[uid]){THH[uid]=1;loadRelation(uid).then(function(){delete THH[uid];paintThreadHint();},function(){delete THH[uid];});}el.hidden=true;return;}
+ if(rel.error){el.hidden=true;return;}
+ var p=S.profiles[uid]||{},un=p.username||'pengguna',t='';
+ if(!(rel.i_follow&&rel.follows_me))t=rel.i_follow?'Menunggu @'+un+' mengikuti kamu balik.':(rel.follows_me?'@'+un+' mengikutimu. Ikuti balik untuk chat pribadi.':'Saling ikuti untuk membuka chat pribadi.');
+ el.textContent=t;el.hidden=!t;
+}
+function renderPeerHead(){var p=S.profiles[S.peer]||{id:S.peer,username:'Pengguna'};setAv($('zcPeerAv'),p.id,p.username);var _pdn=p.display_name&&String(p.display_name).trim(),_pn=$('zcPeerName');_pn.textContent=_pdn||p.username;if(_pdn||zcLookId(p))ncApply(_pn,p.id||S.peer,'');else{_pn.removeAttribute('data-zc-nc');if(window.ZUSMO_PAINT_NAME)window.ZUSMO_PAINT_NAME(_pn,'');}$('zcPeerSub').textContent=typingLabel('private',S.peer)||(S.online[S.peer]?'Online':(p.last_seen?'Terakhir aktif '+ago(p.last_seen):''));try{paintThreadHint();}catch(e){}}
 async function openThread(peer){if(!S.ready||!UUID_RE.test(peer)||peer===S.me.id)return;var p=S.profiles[peer];if(p&&p.blacklisted){flash('Pengguna ini sedang diblacklist dan tidak dapat diajak chat.');return;}S.peer=peer;if(S.tab!=='private')setTab('private',true);pList.reset();showThreadView(true);renderPeerHead();setComposerState();Promise.all([loadRelation(peer),(S.owner&&S.owner.uid)?null:findOwnerUid().catch(function(){})]).then(function(){if(S.peer===peer)setComposerState();});try{await ensureProfiles([peer]);if(S.peer!==peer)return;if(S.profiles[peer]&&S.profiles[peer].blacklisted){S.peer=null;showThreadView(false);flash('Pengguna ini sedang diblacklist dan tidak dapat diajak chat.');return;}renderPeerHead();var t=await fetchThread(peer,null);if(S.peer!==peer)return;pList.merge(t.rows);pList.more=t.more;pList.render(true);markRead(peer);setComposerState();}catch(e){flash(friendly(e));}}
 function closeThread(){S.peer=null;showThreadView(false);pList.reset();loadConvs().catch(function(){});}
 function showThreadView(on){if(on){S.tab='private';showView('thread');}else{S.tab='list';showView('list');}}
@@ -12054,7 +12243,7 @@ function paintProfile(uid,loading){
  var adm=isAdminPeer(uid);if(rel.i_follow&&adm)f.disabled=true;
  ch.disabled=!(mutual||adm);
  if(mutual||adm)ch.innerHTML='<i class="fa-solid fa-message"></i> Chat Pribadi';
- hint.textContent=mutual?'Kalian saling mengikuti, chat pribadi terbuka.':(rel.i_follow?'Menunggu @'+uname+' mengikuti kamu balik.':(rel.follows_me?'@'+uname+' mengikutimu. Ikuti balik untuk chat pribadi.':'Saling ikuti untuk membuka chat pribadi.'));
+ hint.textContent=(mutual||adm)?'':(rel.i_follow?'Menunggu @'+uname+' mengikuti kamu balik.':(rel.follows_me?'@'+uname+' mengikutimu. Ikuti balik untuk chat pribadi.':'Saling ikuti untuk membuka chat pribadi.'));
 }
 async function openProfile(uid){
  if(!UUID_RE.test(uid)||!S.sb)return;
@@ -12349,7 +12538,7 @@ async function start(){
   if(!S.gSeen)markGroupSeen();renderGroupRow();
   try{await loadConvs();}catch(e){console.warn('[zc-chat] load convs',e);}
   subscribeAll();
-  S.ready=true;setComposerState();renderConn();renderMe();refreshMyMod();refreshMySocial();syncProfileExtras();syncNameColor();syncNote();syncStyle();autoFollowOwner();
+  S.ready=true;setTimeout(function(){try{zcPubSync();}catch(e){}},1500);setComposerState();renderConn();renderMe();refreshMyMod();refreshMySocial();syncProfileExtras();syncNameColor();syncNote();syncStyle();autoFollowOwner();
   loadPin();loadSlow();
   if(!S.touchTimer)S.touchTimer=setInterval(touch,TOUCH_MS);
   if(!S.pollTimer)S.pollTimer=setInterval(pollTick,6000);
@@ -12557,12 +12746,12 @@ $('zcSheetFull').addEventListener('click',function(){
   hook('dpBio',{childList:true,characterData:true,subtree:true});
  hook('dpLink',{attributes:true,attributeFilter:['href','hidden']});})();
 /* ===== Profil lengkap pengguna lain: postingan & story publik ===== */
-var ZC_PUB_BUCKET='zc-public',PUB={off:false,busy:false,max:45*1024*1024};
+var ZC_PUB_BUCKET='zc-public',PUB={off:false,busy:false,max:45*1024*1024},HL_OFF=false,PREF_OFF=false;
 function pubPrefix(){return String(SUPABASE_URL).replace(/\/+$/,'')+'/storage/v1/object/public/'+ZC_PUB_BUCKET+'/';}
 /* URL dari baris milik orang lain tidak dipercaya: hanya boleh menunjuk ke bucket publik aplikasi ini */
 function pubUrl(u){u=okHttps(u);return u&&u.indexOf(pubPrefix())===0?u:'';}
 function pubKey(){return 'zc_pub_sync_v1:'+(S.me&&S.me.id||'');}
-function pubState(){var o=null;try{o=JSON.parse(localStorage.getItem(pubKey())||'null');}catch(e){}if(!o||typeof o!=='object')o={};if(!o.p)o.p={};if(!o.s)o.s={};return o;}
+function pubState(){var o=null;try{o=JSON.parse(localStorage.getItem(pubKey())||'null');}catch(e){}if(!o||typeof o!=='object')o={};if(!o.p)o.p={};if(!o.s)o.s={};if(!o.h)o.h={};return o;}
 function pubSave(o){try{localStorage.setItem(pubKey(),JSON.stringify(o));}catch(e){}}
 /* Buka DB milik fitur lain hanya bila sudah ada (jangan membuat DB kosong yang merusak upgrade-nya) */
 function pubOpenDB(name){return new Promise(function(res,rej){var r;try{r=indexedDB.open(name);}catch(e){rej(e);return;}
@@ -12638,14 +12827,93 @@ async function pubSyncStories(st){
   }
  }finally{try{db.close();}catch(e){}}
 }
+async function pubSyncHighlights(st){
+ if(HL_OFF)return;
+ var db;try{db=await pubOpenDB('dpStoryDB');}catch(e){return;}
+ try{
+  var hls=(await pubRead(db,'highlights')).filter(function(h){return h&&h.id;}).sort(function(a,b){return (a.order||0)-(b.order||0)||(a.createdAt||0)-(b.createdAt||0);}),local={};
+  var sm={};(await pubRead(db,'stories')).forEach(function(x){if(x&&x.id)sm[String(x.id)]=x;});
+  for(var i=0;i<hls.length;i++){
+   var h=hls[i],id=String(h.id);local[id]=1;
+   var ids=(h.itemIds||[]).map(String).filter(function(x){var q=sm[x];return q&&!q.deleted;});
+   var sig=[i,h.title||'',h.coverId||'',ids.join(',')].join('|'),cur=st.h[id];
+   if(cur&&cur.sig===sig)continue;
+   var paths=cur&&cur.paths?cur.paths.slice():[],items=[];
+   for(var k=0;k<ids.length;k++){
+    var q=sm[ids[k]],m=await pubGet(db,'media',q.mediaId);if(!m||!m.blob)continue;
+    var kind=(q.kind==='video'||m.kind==='video')?'video':'image',nm='h'+id+'_'+ids[k],u=await pubUpload(m.blob,nm,paths,kind);if(!u)continue;
+    var ov='';
+    if(q.overlay&&q.overlay.draw){var dr=await pubGet(db,'thumbs','dr_'+ids[k]);if(dr&&dr.blob)ov=await pubUpload(dr.blob,nm+'d',paths,'image');}
+    var tx=(q.overlay&&Array.isArray(q.overlay.texts)?q.overlay.texts:[]).slice(0,30).map(function(t){return{t:String(t.t||'').slice(0,300),x:+t.x||0,y:+t.y||0,s:+t.s||0.07,r:+t.r||0,c:/^#[0-9a-f]{3,8}$/i.test(String(t.c))?t.c:'#ffffff'};});
+    items.push({u:u,k:kind,d:ov||'',x:tx,vs:+q.start||0,ve:q.end==null?null:+q.end,c:+q.createdAt||0});
+   }
+   if(!items.length)continue;
+   var cu='',cv=h.coverId?await pubGet(db,'thumbs',h.coverId):null;
+   if(cv&&cv.blob)cu=await pubUpload(cv.blob,'h'+id+'_cv_'+hashStr(String(h.coverId)),paths,'image');
+   if(!cu&&items[0].k==='image')cu=items[0].u;
+   var r=await S.sb.from('zc_pub_highlights').upsert({user_id:S.me.id,id:id,title:String(h.title||'Sorotan').slice(0,40),cover_url:cu||null,items:items,ord:i,created_at:new Date(h.createdAt||Date.now()).toISOString(),updated_at:new Date().toISOString()},{onConflict:'user_id,id'});
+   if(r.error)throw r.error;
+   st.h[id]={sig:sig,paths:paths};pubSave(st);
+  }
+  var gone=Object.keys(st.h).filter(function(id){return !local[id];});
+  if(gone.length){
+   var d=await S.sb.from('zc_pub_highlights').delete().eq('user_id',S.me.id).in('id',gone);if(d.error)throw d.error;
+   var rm=[];gone.forEach(function(id){(st.h[id].paths||[]).forEach(function(x){rm.push(x);});delete st.h[id];});
+   await pubRemoveFiles(rm);pubSave(st);
+  }
+ }finally{try{db.close();}catch(e){}}
+}
+function hlMap(rows){
+ return (rows||[]).map(function(r){
+  var items=(Array.isArray(r.items)?r.items:[]).slice(0,60).map(function(i){i=i||{};
+   var tx=(Array.isArray(i.x)?i.x:[]).slice(0,30).map(function(t){t=t||{};return{t:String(t.t||'').slice(0,300),x:Math.max(0,Math.min(1,+t.x||0)),y:Math.max(0,Math.min(1,+t.y||0)),s:Math.max(.01,Math.min(.4,+t.s||.07)),r:+t.r||0,c:/^#[0-9a-f]{3,8}$/i.test(String(t.c))?t.c:'#ffffff'};});
+   return{url:pubUrl(i.u),kind:i.k==='video'?'video':'image',draw:pubUrl(i.d),texts:tx,vs:Math.max(0,+i.vs||0),ve:i.ve==null?null:(+i.ve||null),created:+i.c||0};
+  }).filter(function(i){return i.url;});
+  return{id:String(r.id),title:String(r.title||'Sorotan').slice(0,40),cover:pubUrl(r.cover_url),items:items};
+ }).filter(function(h){return h.items.length;});
+}
+window.kzHlLoad=async function(uid){
+ try{
+  if(!S.sb||!UUID_RE.test(String(uid||'')))return [];
+  var r=await S.sb.from('zc_pub_highlights').select('id,title,cover_url,items,ord').eq('user_id',uid).order('ord',{ascending:true}).limit(20);
+  if(r.error)return [];
+  return hlMap(r.data);
+ }catch(e){return [];}
+};
+window.kzOwnerUid=async function(){try{return S.sb?(await findOwnerUid())||'':'';}catch(e){return '';}};
+async function pubSyncPrefs(st){
+ if(PREF_OFF)return;
+ var ra=null,mu=null;try{ra=localStorage.getItem('dpPostRatio');mu=localStorage.getItem('dpProfileMusic');}catch(e){}
+ if(ra!=='4-5'&&ra!=='1-1')ra=null;
+ mu=mu?String(mu).slice(0,120):null;
+ if(!ra&&!mu)return;
+ var sig=(ra||'')+'|'+(mu||'');if(st.r===sig)return;
+ var r=await S.sb.from('zc_pub_prefs').upsert({user_id:S.me.id,post_ratio:ra,music_id:mu,updated_at:new Date().toISOString()},{onConflict:'user_id'});
+ if(r.error)throw r.error;
+ st.r=sig;pubSave(st);
+}
+window.kzPrefLoad=async function(uid){
+ try{
+  if(!S.sb||!UUID_RE.test(String(uid||'')))return {ratio:'',music:''};
+  var r=await S.sb.from('zc_pub_prefs').select('post_ratio,music_id').eq('user_id',uid).limit(1);
+  if(r.error){r=await S.sb.from('zc_pub_prefs').select('post_ratio').eq('user_id',uid).limit(1);}
+  if(r.error||!r.data||!r.data.length)return {ratio:'',music:''};
+  var d=r.data[0];
+  return {ratio:d.post_ratio==='4-5'?'4-5':(d.post_ratio==='1-1'?'1-1':''),music:String(d.music_id||'').slice(0,120)};
+ }catch(e){return {ratio:'',music:''};}
+};
+window.kzPubNow=function(){setTimeout(function(){try{zcPubSync();}catch(e){}},300);};
 async function zcPubSync(){
  if(PUB.off||PUB.busy||!S.sb||!S.me||!S.me.id||!S.ready||!window.indexedDB||navigator.onLine===false)return;
  PUB.busy=true;
- try{var st=pubState();await pubSyncPosts(st);await pubSyncStories(st);}
+ try{var st=pubState();await pubSyncPosts(st);await pubSyncStories(st);PUB.err='';
+  try{await pubSyncHighlights(st);}catch(e2){if(missingBackend(e2)||/zc_pub_highlights/i.test(String((e2&&e2.message)||''))){HL_OFF=true;var t2='Sorotan publik belum aktif. Jalankan zusmo-chat-profile-highlights.sql di Supabase.';if(S.me&&S.me.is_admin)zcSyncNote(t2);else console.warn('[zc-chat] '+t2);}else console.warn('[zc-chat] sinkron sorotan:',e2);}
+  try{await pubSyncPrefs(st);}catch(e3){if(missingBackend(e3)||/zc_pub_prefs/i.test(String((e3&&e3.message)||''))){PREF_OFF=true;console.warn('[zc-chat] Ukuran postingan publik belum aktif. Jalankan zusmo-chat-profile-highlights.sql di Supabase.');}else console.warn('[zc-chat] sinkron ukuran postingan:',e3);}
+ }
  catch(e){
   var msg=String((e&&e.message)||'');
-  if(missingBackend(e)||/bucket not found/i.test(msg)){PUB.off=true;var t='Postingan & story publik belum aktif. Jalankan zusmo-chat-profile-content.sql di Supabase.';if(S.me&&S.me.is_admin)zcSyncNote(t);else console.warn('[zc-chat] '+t);}
-  else console.warn('[zc-chat] sinkron postingan/story:',e);
+  if(missingBackend(e)||/bucket not found/i.test(msg)){PUB.off=true;var t='Postingan & story publik belum aktif. Jalankan zusmo-chat-profile-content.sql di Supabase.';PUB.err=t;if(S.me&&S.me.is_admin)zcSyncNote(t);else console.warn('[zc-chat] '+t);}
+  else{PUB.err='Sinkron gagal: '+(msg||'tidak diketahui');console.warn('[zc-chat] sinkron postingan/story:',e);}
  }
  finally{PUB.busy=false;}
 }
@@ -12660,6 +12928,36 @@ function fpEl(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=nu
 function fpOn(){var o=$('zcFullProfile');return !!(o&&o.classList.contains('on'));}
 function fpMsg(t,ic){var d=fpEl('div','zc-fp-msg'),i=fpEl('i','fa-solid '+ic);d.appendChild(i);d.appendChild(fpEl('span',null,t));return d;}
 function fpPad(n){return ('0'+n).slice(-2);}
+function fpIc(n,sz){
+ var I={grid:'<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>',
+  feed:'<rect x="4" y="3" width="16" height="8" rx="1.5"/><rect x="4" y="13" width="16" height="8" rx="1.5"/>',
+  ulang:'<path d="M17 2l4 4-4 4"/><path d="M3 11V9a3 3 0 013-3h15"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a3 3 0 01-3 3H3"/>',
+  play:'<polygon points="7 4 20 12 7 20" fill="currentColor"/>',
+  pin:'<path d="M12 17v5M9 3h6l-1 6 3 3v2H7v-2l3-3-1-6z"/>',
+  clone:'<rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 00-2-2H5a2 2 0 00-2 2v9a2 2 0 002 2h3"/>'};
+ return '<svg class="fd-i" width="'+(sz||22)+'" height="'+(sz||22)+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">'+(I[n]||'')+'</svg>';
+}
+function fpEmpty(ic,t,x){var d=fpEl('div','fd-empty'),c=fpEl('div','fd-eic');c.innerHTML=fpIc(ic,32);d.appendChild(c);d.appendChild(fpEl('b',null,t));if(x)d.appendChild(fpEl('p',null,x));return d;}
+function fpPaintNote(){
+ var fn=$('zcFpNote'),sn=$('zcSheetNote');if(!fn)return;
+ var t=(sn&&!sn.hidden&&FP.uid&&pfUid===FP.uid&&$('zcSheetNoteT'))?String($('zcSheetNoteT').textContent||''):'';
+ if(!t){fn.hidden=true;return;}
+ var se=$('zcSheetNoteE'),e=(se&&!se.hidden)?String(se.textContent||''):'',cs=sn.style;
+ fn.style.setProperty('--note-bg',cs.getPropertyValue('--nb')||'#2a2a2e');
+ fn.style.setProperty('--note-fg',cs.getPropertyValue('--nf')||'#fff');
+ fn.style.setProperty('--note-tail',cs.getPropertyValue('--nt')||cs.getPropertyValue('--nb')||'#2a2a2e');
+ $('zcFpNoteT').textContent=t;var ee=$('zcFpNoteE');ee.textContent=e;ee.hidden=!e;fn.hidden=false;
+}
+function fpStoryRow(){
+ var hd=$('zcFpHlHead'),box=$('zcFpStories');box.textContent='';
+ var list=FP.stories||[];hd.hidden=box.hidden=!list.length;if(!list.length)return;
+ list.forEach(function(s,idx){
+  var b=fpEl('button','dp-story');b.type='button';b.setAttribute('aria-label','Putar story '+(idx+1));
+  var r=fpEl('span','dp-hl-ring'),c=fpEl('span','dp-hl-cov');
+  c.appendChild(fpThumb(s.url,'',s.kind==='video'));r.appendChild(c);b.appendChild(r);b.appendChild(fpEl('span','dp-story-lbl',ago(s.created)));
+  b.onclick=function(){fpViewStories(idx);};box.appendChild(b);
+ });
+}
 function fpPaint(){
  var uid=FP.uid;if(!uid||!fpOn())return;
  var p=S.profiles[uid]||{id:uid,username:'Pengguna'},uname=p.username||'Pengguna',dn=p.display_name&&String(p.display_name).trim(),nm=dn||uname,mine=!!(S.me&&uid===S.me.id);
@@ -12670,66 +12968,84 @@ function fpPaint(){
  setAv($('zcFpAv'),p.id||uid,nm);
  $('zcFullProfile').style.setProperty('--pf-h',hue(p.id||uid));
  paintBanner($('zcFpCover'),$('zcFpVid'),bannerVideoFor(p.id||uid));
- renderRoleInto($('zcFpRole'),p);renderTitlesInto($('zcFpTitles'),p.titles);
+ var rb=$('zcFpRole');rb.textContent='';var ri=document.createElement('i');ri.className='fa-solid fa-crown';ri.setAttribute('aria-hidden','true');rb.appendChild(ri);rb.appendChild(fpEl('span',null,chatRoleLabel(p.role_label)||'FREE'));
+ var tb=$('zcFpTitles');renderTitlesInto(tb,p.titles);var hasT=!!tb.querySelector('.dpt');if(!hasT)tb.textContent='';tb.hidden=!hasT;
  var sp=[],jd=p.joined_at?new Date(p.joined_at):null;
  sp.push(mine?'Ini profil kamu':(S.online[uid]?'Online':(p.last_seen?'Terakhir aktif '+ago(p.last_seen):'Offline')));
  if(jd&&!isNaN(jd.getTime()))sp.push('Gabung '+fpPad(jd.getDate())+'-'+fpPad(jd.getMonth()+1)+'-'+jd.getFullYear());
  $('zcFpStatus').textContent=sp.join(' · ');
  var bt=String(p.bio||'').replace(/\r/g,'').split('\n').map(function(l){return l.replace(/\s+/g,' ').trim();}).filter(Boolean).join('\n').slice(0,160),bn=$('zcFpBio');
- bn.textContent=bt;bn.hidden=!bt;
- var lk=cleanLink(p.link_url),la=$('zcFpLink');if(lk){la.href=lk;la.textContent=linkHost(lk);la.hidden=false;}else{la.hidden=true;la.removeAttribute('href');}
+ bn.textContent=bt;bn.classList.toggle('is-empty',!bt);
+ var lk=cleanLink(p.link_url),la=$('zcFpLink');if(!lk&&fpIsOwner(uid)){lk=cleanLink(window.KZRIZUSMO_OFFICIAL_SITE||'https://www.kzrizusmostore.com')||lk;}if(lk){la.href=lk;la.textContent=linkHost(lk);la.hidden=false;}else{la.hidden=true;la.removeAttribute('href');}
+ $('zcFpCard').hidden=!bt&&!lk;
  var cn=S.cnt[uid]||{following:0,followers:0,likes:0};
  $('zcFpFollowers').textContent=fmtN(cn.followers);$('zcFpFollowing').textContent=fmtN(cn.following);$('zcFpLikes').textContent=fmtN(likeShown(cn.likes));
- $('zcFpPosts').textContent=FP.posts===null?'–':fmtN(FP.total);
  var sf=$('zcSheetFollow'),sc=$('zcSheetChat'),f=$('zcFpFollow'),c=$('zcFpChat');
- f.innerHTML=sf.innerHTML;f.disabled=sf.disabled;f.dataset.state=sf.dataset.state||'follow';
- c.innerHTML=sc.innerHTML;c.disabled=sc.disabled;
- $('zcFpHint').textContent=mine?'':$('zcSheetHint').textContent;$('zcFpActions').hidden=mine;
- var ab=$('zcFpAvBtn'),has=!!(FP.stories&&FP.stories.length);ab.classList.toggle('has-story',has);ab.disabled=!has;
+ var fLbl=(sf.textContent||'').trim(),cLbl=(sc.textContent||'').trim(),fI=sf.querySelector('i'),cI=sc.querySelector('i');
+ f.innerHTML=fI?fI.outerHTML:'<i class="fa-solid fa-user-plus"></i>';f.disabled=sf.disabled;f.dataset.state=sf.dataset.state||'follow';
+ c.innerHTML=cI?cI.outerHTML:'<i class="fa-solid fa-message"></i>';c.disabled=sc.disabled;
+ $('zcFpHint').textContent='';$('zcFpActions').hidden=mine;
+ if(f.dataset.state==='confirm'){f.innerHTML='<i class="fa-solid fa-user-minus"></i>';f.setAttribute('aria-label','Tap lagi untuk berhenti mengikuti');}
+ else f.setAttribute('aria-label',fLbl||'Ikuti');
+ c.setAttribute('aria-label',cLbl||'Chat Pribadi');f.title=f.getAttribute('aria-label');c.title=c.getAttribute('aria-label');
+ var ab=$('zcFpAvBtn'),has=!!(FP.stories&&FP.stories.length);ab.classList.toggle('dp-has-story',has);ab.tabIndex=has?0:-1;
+ fpStoryRow();fpPaintNote();
+ try{if(window.kzDevFp)window.kzDevFp(fpIsOwner(uid),fpWho(),FP.hls||[],FP.pm||'',mine);}catch(e){}
 }
 function fpTabs(){
- var p=FP.tab==='p';$('zcFpTabP').setAttribute('aria-selected',p?'true':'false');$('zcFpTabS').setAttribute('aria-selected',p?'false':'true');
- var sc=FP.stories&&FP.stories.length;$('zcFpTabS').lastChild.textContent=' Story'+(sc?' ('+sc+')':'');
+ [['P','p'],['F','f'],['U','u']].forEach(function(k){var b=$('zcFpTab'+k[0]);if(b)b.setAttribute('aria-selected',FP.tab===k[1]?'true':'false');});
 }
 function fpThumb(u,poster,isV){
  if(isV&&!poster){var v=fpEl('video');v.muted=true;v.preload='metadata';v.playsInline=true;v.src=u+'#t=0.1';return v;}
  var i=fpEl('img');i.loading='lazy';i.decoding='async';i.alt='';i.referrerPolicy='no-referrer';i.src=isV?poster:u;return i;
 }
+function fpIsOwner(uid){var p=S.profiles[uid]||{};return !!(zcIsOwnerUser(p.username)||(S.owner&&S.owner.uid&&String(p.id||uid)===String(S.owner.uid)));}
+function fpWho(){var p=S.profiles[FP.uid]||{},own=fpIsOwner(FP.uid);return{name:(p.display_name&&String(p.display_name).trim())||p.username||'Pengguna',av:own?'zusmo-asset/xzqkso.jpg':okHttps(p.avatar_url)};}
 function fpBody(){
  var b=$('zcFpBody');b.textContent='';
+ if(FP.tab==='u'&&window.ZusmoFeed&&window.ZusmoFeed.renderUlang){window.ZusmoFeed.renderUlang(b,(S.me&&FP.uid===S.me.id)?null:fpWho());return;}
  if(FP.posts===null){b.appendChild(fpMsg('Memuat…','fa-spinner fa-spin'));return;}
  if(FP.err){b.appendChild(fpMsg(FP.err==='off'?'Postingan & story belum aktif di server. Pemilik aplikasi perlu menjalankan zusmo-chat-profile-content.sql di Supabase.':'Gagal memuat. Tutup lalu buka lagi.','fa-triangle-exclamation'));return;}
  var mine=!!(S.me&&FP.uid===S.me.id),g;
- if(FP.tab==='p'){
-  if(!FP.posts.length){b.appendChild(fpMsg(mine?'Postinganmu akan muncul di sini setelah tersinkron.':'Belum ada postingan.','fa-image'));return;}
-  g=fpEl('div','zc-fp-grid');
+ if(FP.tab==='u'){b.appendChild(fpEmpty('ulang','Belum ada ulangan','Ulangan hanya tampil di profil pemiliknya.'));return;}
+ if(!FP.posts.length){b.appendChild(fpEmpty('grid','Belum ada postingan',mine?(PUB.err||'Postinganmu akan muncul di sini setelah tersinkron.'):''));return;}
+ if(FP.tab==='f'){
+  var pr=S.profiles[FP.uid]||{},nm=(pr.display_name&&String(pr.display_name).trim())||pr.username||'Pengguna';
   FP.posts.forEach(function(p,idx){
-   var it=p.items[Math.min(p.cover,p.items.length-1)]||p.items[0],c=fpEl('button','zc-fp-cell');c.type='button';c.setAttribute('aria-label','Buka postingan '+(idx+1));
-   c.appendChild(fpThumb(it.u,it.p,it.t==='video'));
-   var ic=p.pinned?'fa-thumbtack':(p.items.length>1?'fa-clone':(it.t==='video'?'fa-play':''));if(ic)c.appendChild(fpEl('i','fa-solid '+ic));
-   c.onclick=function(){fpViewPost(idx);};g.appendChild(c);
+   var it=p.items[Math.min(p.cover,p.items.length-1)]||p.items[0],card=fpEl('article','zc-fpf'),h=fpEl('div','zc-fpf-h'),av=fpEl('span','zc-av'),meta=fpEl('div');
+   setAv(av,FP.uid,nm);meta.appendChild(fpEl('b',null,nm));var d=new Date(p.created);meta.appendChild(fpEl('small',null,isNaN(d.getTime())?'':ago(p.created)));
+   h.appendChild(av);h.appendChild(meta);card.appendChild(h);
+   var m=fpEl('button','zc-fpf-m');m.type='button';m.setAttribute('aria-label','Buka postingan '+(idx+1));
+   var f0=p.items[0]||{},rr=(f0.w&&f0.h)?f0.w/f0.h:1;m.style.aspectRatio=String(Math.max(0.8,Math.min(16/9,rr)));var th0=fpThumb(it.u,it.p,it.t==='video');m.appendChild(th0);
+   if(!(f0.w&&f0.h)){var fit0=function(){var w0=th0.naturalWidth||th0.videoWidth,h0=th0.naturalHeight||th0.videoHeight;if(w0&&h0)m.style.aspectRatio=String(Math.max(0.8,Math.min(16/9,w0/h0)));};th0.addEventListener('load',fit0);th0.addEventListener('loadedmetadata',fit0);}
+   if(p.items.length>1)m.appendChild(fpEl('span','zc-fpf-n','1 / '+p.items.length));
+   m.onclick=function(){fpViewPost(idx);};card.appendChild(m);
+   card.appendChild(fpEl('div','zc-fpf-c',p.caption));b.appendChild(card);
   });
-  b.appendChild(g);
- }else{
-  if(!FP.stories.length){b.appendChild(fpMsg('Tidak ada story aktif.','fa-circle-play'));return;}
-  g=fpEl('div','zc-fp-grid');
-  FP.stories.forEach(function(s,idx){
-   var c=fpEl('button','zc-fp-cell zc-fp-scell');c.type='button';c.setAttribute('aria-label','Putar story '+(idx+1));
-   c.appendChild(fpThumb(s.url,'',s.kind==='video'));if(s.kind==='video')c.appendChild(fpEl('i','fa-solid fa-play'));
-   c.appendChild(fpEl('small',null,ago(s.created)));c.onclick=function(){fpViewStories(idx);};g.appendChild(c);
-  });
-  b.appendChild(g);
+  return;
  }
+ g=fpEl('div','fd-grid');
+ var lr='';if(mine){try{lr=localStorage.getItem('dpPostRatio');}catch(e){}}
+ g.setAttribute('data-r',(mine?(lr==='4-5'?'4-5':'1-1'):(FP.pr||(fpIsOwner(FP.uid)?'4-5':'1-1'))));
+ FP.posts.forEach(function(p,idx){
+  var it=p.items[Math.min(p.cover,p.items.length-1)]||p.items[0],c=fpEl('button','fd-gi');c.type='button';c.setAttribute('aria-label','Buka postingan '+(idx+1));
+  var th=fpThumb(it.u,it.p,it.t==='video');th.className='fd-on';c.appendChild(th);
+  if(p.pinned){var pn=fpEl('span','fd-gp');pn.innerHTML=fpIc('pin',12)+'Disematkan';c.appendChild(pn);}
+  var ic=p.items.length>1?'clone':(it.t==='video'?'play':'');if(ic){var gb=fpEl('span','fd-gb');gb.innerHTML=fpIc(ic,16);c.appendChild(gb);}
+  c.onclick=function(){fpViewPost(idx);};g.appendChild(c);
+ });
+ b.appendChild(g);
 }
 async function pubLoad(uid,g){
  try{
   var rs=await Promise.all([
    S.sb.from('zc_pub_posts').select('id,caption,items,cover,pinned,created_at',{count:'exact'}).eq('user_id',uid).order('pinned',{ascending:false}).order('created_at',{ascending:false}).limit(60),
-   S.sb.from('zc_pub_stories').select('id,url,kind,overlay_url,texts,v_start,v_end,created_at,expires_at').eq('user_id',uid).gt('expires_at',new Date().toISOString()).order('created_at',{ascending:true}).limit(60)]);
+   S.sb.from('zc_pub_stories').select('id,url,kind,overlay_url,texts,v_start,v_end,created_at,expires_at').eq('user_id',uid).gt('expires_at',new Date().toISOString()).order('created_at',{ascending:true}).limit(60),window.kzHlLoad(uid),window.kzPrefLoad(uid)]);
   if(g!==FP.gen)return;
+  FP.hls=rs[2]||[];FP.pr=(rs[3]&&rs[3].ratio)||'';FP.pm=(rs[3]&&rs[3].music)||'';
   var e=rs[0].error||rs[1].error;if(e)throw e;
   FP.posts=(rs[0].data||[]).map(function(p){
-   var items=(Array.isArray(p.items)?p.items:[]).slice(0,20).map(function(i){i=i||{};return{u:pubUrl(i.u),t:i.t==='video'?'video':'image',p:pubUrl(i.p)};}).filter(function(i){return i.u;});
+   var items=(Array.isArray(p.items)?p.items:[]).slice(0,20).map(function(i){i=i||{};return{u:pubUrl(i.u),t:i.t==='video'?'video':'image',p:pubUrl(i.p),w:Math.max(0,+i.w||0),h:Math.max(0,+i.h||0)};}).filter(function(i){return i.u;});
    return{id:String(p.id),caption:String(p.caption||'').slice(0,2200),items:items,cover:Math.max(0,+p.cover||0),pinned:!!p.pinned,created:p.created_at};
   }).filter(function(p){return p.items.length;});
   FP.total=Math.max(rs[0].count||0,FP.posts.length);
@@ -12740,16 +13056,17 @@ async function pubLoad(uid,g){
   FP.err=null;
  }catch(e){
   if(g!==FP.gen)return;
-  FP.err=(missingBackend(e)||/zc_pub|bucket/i.test(String((e&&e.message)||'')))?'off':'fail';FP.posts=[];FP.stories=[];
+  FP.err=(missingBackend(e)||/zc_pub|bucket/i.test(String((e&&e.message)||'')))?'off':'fail';FP.posts=[];FP.stories=[];FP.hls=[];FP.pr='';FP.pm='';
   console.warn('[zc-chat] profil lengkap:',e);
  }
  fpPaint();fpTabs();fpBody();
 }
 function fpOpen(uid){
  if(!UUID_RE.test(uid)||!S.sb)return;
- var g=++FP.gen;FP.uid=uid;FP.tab='p';FP.posts=null;FP.stories=null;FP.err=null;FP.total=0;pfUid=uid;
+ var g=++FP.gen;FP.uid=uid;FP.tab='p';FP.posts=null;FP.stories=null;FP.hls=null;FP.pr='';FP.pm='';FP.err=null;FP.total=0;pfUid=uid;
  var o=$('zcFullProfile');o.classList.add('on');o.setAttribute('aria-hidden','false');$('zcFpScroll').scrollTop=0;
- fpPaint();fpTabs();fpBody();pubLoad(uid,g);
+ fpPaint();fpTabs();fpBody();
+ if(S.me&&uid===S.me.id){PUB.off=false;Promise.resolve(zcPubSync()).catch(function(){}).then(function(){if(g===FP.gen)pubLoad(uid,g);});}else pubLoad(uid,g);
 }
 function fpClose(){
  if(FP.view){FP.view.close();}
@@ -12819,12 +13136,14 @@ function fpViewStories(i0){
 }
 /* paintProfile ikut menyegarkan halaman profil lengkap bila sedang terbuka */
 (function(){var orig=paintProfile;paintProfile=function(uid,loading){orig(uid,loading);try{if(FP.uid===uid)fpPaint();}catch(e){}};})();
-$('zcSheetView').addEventListener('click',function(){if(pfUid)fpOpen(pfUid);});
+(function(){var o=zcNoteRender;zcNoteRender=function(uid){o.apply(this,arguments);try{if(FP.uid===uid)fpPaintNote();}catch(e){}};})();
+$('zcSheetView').addEventListener('click',function(){if(!pfUid)return;var u=pfUid;closeSheet('zcProfileSheet');fpOpen(u);});
 $('zcFpBack').addEventListener('click',fpClose);
 $('zcFpTabP').addEventListener('click',function(){FP.tab='p';fpTabs();fpBody();});
-$('zcFpTabS').addEventListener('click',function(){FP.tab='s';fpTabs();fpBody();});
+$('zcFpTabF').addEventListener('click',function(){FP.tab='f';fpTabs();fpBody();});
+$('zcFpTabU').addEventListener('click',function(){FP.tab='u';fpTabs();fpBody();});
 $('zcFpAvBtn').addEventListener('click',function(){if(FP.stories&&FP.stories.length)fpViewStories(0);});
-$('zcFpFollow').addEventListener('click',function(){if(!FP.uid)return;pfUid=FP.uid;togglePfFollow();});
+$('zcFpFollow').addEventListener('click',function(){if(!FP.uid)return;pfUid=FP.uid;var pr=togglePfFollow();try{fpPaint();}catch(e){}if(pr&&pr.then)pr.then(function(){try{fpPaint();}catch(e){}},function(){});});
 $('zcFpChat').addEventListener('click',function(){var uid=FP.uid;if(!uid||this.disabled)return;fpClose();closeSheet('zcProfileSheet');openThread(uid);});
 document.addEventListener('keydown',function(e){if(e.key!=='Escape'||!fpOn())return;e.stopImmediatePropagation();if(FP.view)FP.view.close();else fpClose();},true);
 $('zcSheetFollow').addEventListener('click',togglePfFollow);
@@ -13363,7 +13682,7 @@ renderConvs();renderBadges();renderConn();onPageToggle();
     wrap.addEventListener('click',function(e){
       var b=e.target.closest?e.target.closest('.dpe-ratio-btn'):null;if(!b)return;
       var v=b.getAttribute('data-r')==='4-5'?'4-5':'1-1';
-      put(v);apply(v);sync(wrap,v);
+      put(v);apply(v);sync(wrap,v);try{if(window.kzPubNow)window.kzPubNow();}catch(e){}
     });
   }
   apply(get());
@@ -14437,3 +14756,272 @@ body.zx-wall-dl #zxOldWall,body.zx-wall-oj #zxOldWall{display:block!important}
 .ff-exp-note i{color:#ffb454;margin-top:3px}
 .ff-exp-note b{display:block;color:#ffb454;font-size:12px;letter-spacing:.6px;margin-bottom:2px}
 </style>
+
+<style id="kz-dev-extras-css">
+/* ===== Developer: centang merah, tautan, musik, sorotan, ulangan ===== */
+#developerTab .dv2-verified-badge{color:#ff2b2b!important;width:1.1rem!important;height:1.1rem!important;display:inline-block!important;vertical-align:-.15em;flex-shrink:0;filter:drop-shadow(0 0 6px rgba(255,43,43,.55))}
+body.kz-fp-open .fd-layer{z-index:1000200}
+.kzdx-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:12px 0 4px}
+.kzdx-link,.kzdm-pill{display:inline-flex;align-items:center;gap:8px;max-width:100%;height:32px;padding:0 14px 0 11px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.08);color:#fff;font:600 12.5px 'Outfit',system-ui,sans-serif;text-decoration:none;cursor:pointer;-webkit-appearance:none;appearance:none;-webkit-tap-highlight-color:transparent}
+.kzdx-link:active,.kzdm-pill:active{transform:scale(.97);background:rgba(255,255,255,.12)}
+.kzdx-link i{font-size:12px;color:#ff2b2b}
+.kzdx-link span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.kzdm[hidden]{display:none!important}
+.kzdm-ic{flex:none;width:16px;height:16px;display:grid;place-items:center;font-size:12px;color:#ff2b2b}
+.kzdm-eq{display:none;align-items:flex-end;gap:2px;height:12px}
+.kzdm-eq i{display:block;width:2.5px;height:100%;border-radius:2px;background:currentColor;transform-origin:bottom;animation:kzdmEq .9s ease-in-out infinite}
+.kzdm-eq i:nth-child(2){animation-delay:-.3s}
+.kzdm-eq i:nth-child(3){animation-delay:-.6s}
+.kzdm-pill.on .kzdm-eq{display:flex}
+.kzdm-pill.on .kzdm-note{display:none}
+.kzdm-name{min-width:0;max-width:min(62vw,250px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@keyframes kzdmEq{0%,100%{transform:scaleY(.3)}50%{transform:scaleY(1)}}
+.kzx-title{font:700 13px 'Outfit',system-ui,sans-serif;letter-spacing:.4px;color:rgba(255,255,255,.7);margin:8px 0 2px}
+.kzh-row{display:flex;gap:14px;overflow-x:auto;padding:6px 2px 10px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.kzh-row::-webkit-scrollbar{display:none}
+.kzh-item{flex:0 0 auto;width:68px;display:flex;flex-direction:column;align-items:center;gap:6px;background:none;border:0;padding:0;color:#fff;font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.kzh-ring{width:64px;height:64px;border-radius:50%;padding:2.5px;background:linear-gradient(135deg,#ff2b2b,#ff8a8a 55%,#7a0f0f);display:grid;place-items:center}
+.kzh-cov{display:block;width:100%;height:100%;border-radius:50%;overflow:hidden;border:2px solid #0b0b0e;background:#15151a center/cover no-repeat}
+.kzh-wrap[hidden]{display:none}
+.kzh-lbl{max-width:68px;font:600 11px/1.2 'Outfit',system-ui,sans-serif;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:rgba(255,255,255,.85)}
+.kzdx-sec{margin:14px 0 10px}
+.kzdx-fd{--fd-red:#ff2b2b;--fd-bg:#0b0b0e;--fd-sf:rgba(255,255,255,.06);--fd-ln:rgba(255,255,255,.13);--fd-mu:rgba(255,255,255,.62);margin:6px 0 12px}
+.kzdx-fp{padding:6px 14px 2px}
+.kzdx-fp[hidden],.kzdx-fp-m[hidden]{display:none}
+</style>
+<script id="kz-dev-extras">
+(function(){
+  var SITE=window.KZRIZUSMO_OFFICIAL_SITE||'https://www.kzrizusmostore.com';
+  var WHO={name:'Rizqi',av:'zusmo-asset/xzqkso.jpg'},FPWHO={name:'Rizqi',av:'zusmo-asset/xzqkso.jpg'};
+  function $(id){return document.getElementById(id);}
+  function lsGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+  function host(u){try{return new URL(u).hostname.replace(/^www\./,'');}catch(e){return u;}}
+
+  /* ===== musik (30 detik, berulang) ===== */
+  var CAP=30,A=null,curKey='',bgWas=false;
+  function songs(){try{var r=typeof window.zsMusicList==='function'?window.zsMusicList():[];return Array.isArray(r)?r:[];}catch(e){return[];}}
+  function pick(){var l=songs(),id=lsGet('dpProfileMusic')||'',i;for(i=0;i<l.length;i++)if(l[i].id===id)return l[i];return l[0]||null;}
+  function playing(){return !!(A&&!A.paused);}
+  function syncUI(){var on=playing();Array.prototype.forEach.call(document.querySelectorAll('.kzdm-pill'),function(b){b.classList.toggle('on',on&&b.getAttribute('data-k')===curKey);});}
+  function pauseBg(){var b=$('bgMusic');if(b&&!b.paused){bgWas=true;try{b.pause();}catch(e){}}}
+  function resumeBg(){var b=$('bgMusic');if(bgWas&&b){bgWas=false;var p=b.play();if(p&&p.catch)p.catch(function(){});}}
+  function stop(){if(A){try{A.pause();}catch(e){}}curKey='';resumeBg();syncUI();}
+  function play(m,key){
+    if(!A){
+      A=new Audio();A.preload='none';
+      A.addEventListener('timeupdate',function(){if(A.currentTime>=CAP)A.currentTime=0;});
+      A.addEventListener('ended',function(){A.currentTime=0;var p=A.play();if(p&&p.catch)p.catch(function(){});});
+      A.addEventListener('play',syncUI);A.addEventListener('pause',syncUI);
+    }
+    pauseBg();
+    if(A.getAttribute('data-u')!==m.url){A.src=m.url;A.setAttribute('data-u',m.url);}
+    curKey=key;
+    var p=A.play();if(p&&p.catch)p.catch(function(){curKey='';resumeBg();syncUI();});
+    syncUI();
+  }
+  function pickFor(id){var l=songs(),i;for(i=0;i<l.length;i++)if(l[i].id===id)return l[i];return null;}
+  function refreshPill(w){
+    var m=(w.__res||pick)();w.hidden=!m;
+    if(m){w.querySelector('.kzdm-name').textContent=m.name;w.querySelector('.kzdm-pill').setAttribute('aria-label','Putar musik: '+m.name);}
+  }
+  function mkPill(key,res){
+    var w=document.createElement('div');w.className='kzdm';w.hidden=true;
+    w.innerHTML='<button type="button" class="kzdm-pill" data-k="'+key+'" aria-label="Putar musik"><span class="kzdm-ic"><i class="fa-solid fa-music kzdm-note" aria-hidden="true"></i><span class="kzdm-eq" aria-hidden="true"><i></i><i></i><i></i></span></span><span class="kzdm-name"></span></button>';
+    w.__res=res||null;
+    w.querySelector('.kzdm-pill').addEventListener('click',function(){
+      var m=(w.__res||pick)();if(!m)return;
+      if(curKey===key&&playing())stop();else play(m,key);
+    });
+    refreshPill(w);
+    return w;
+  }
+  function pillVisible(){
+    var b=document.querySelector('.kzdm-pill[data-k="'+curKey+'"]');
+    if(!b||!b.getClientRects().length)return false;
+    if(curKey==='fp'){var o=$('zcFullProfile');return !!(o&&o.classList.contains('on'));}
+    if(curKey==='dv'){var t=$('developerTab'),p=$('dpPanelDev');return !!(t&&t.classList.contains('active')&&p&&!p.classList.contains('dp-off'));}
+    return true;
+  }
+  document.addEventListener('visibilitychange',function(){if(document.hidden&&playing())stop();});
+
+  /* ===== sorotan (dari server, per akun) ===== */
+  function mkHl(){
+    var wrap=document.createElement('div');wrap.className='kzh-wrap';wrap.hidden=true;
+    var t=document.createElement('div');t.className='kzx-title';t.textContent='Sorotan';
+    var row=document.createElement('div');row.className='kzh-row';row.setAttribute('role','list');row.setAttribute('data-noswipe','1');
+    wrap.appendChild(t);wrap.appendChild(row);wrap.__row=row;
+    return wrap;
+  }
+  function renderHl(wrap,list){
+    if(!wrap)return;
+    var sig=list.map(function(h){return h.id+'|'+h.title+'|'+h.cover+'|'+h.items.length;}).join('~');
+    if(wrap.__sig===sig)return;wrap.__sig=sig;
+    var row=wrap.__row;row.textContent='';wrap.hidden=!list.length;
+    list.forEach(function(h){
+      var b=document.createElement('button');b.type='button';b.className='kzh-item';b.setAttribute('role','listitem');b.setAttribute('aria-label','Sorotan '+h.title);
+      var ring=document.createElement('span'),cov=document.createElement('span'),lb=document.createElement('span');
+      ring.className='kzh-ring';cov.className='kzh-cov';lb.className='kzh-lbl';
+      var cu=h.cover||(h.items[0]&&h.items[0].kind==='image'?h.items[0].url:'');
+      if(cu)cov.style.backgroundImage='url("'+cu+'")';
+      var tt=h.title;if(tt.length>15)tt=tt.slice(0,15)+'\u2026';lb.textContent=tt;
+      ring.appendChild(cov);b.appendChild(ring);b.appendChild(lb);
+      b.addEventListener('click',function(){hlView(h);});
+      row.appendChild(b);
+    });
+  }
+  function hlView(h){
+    var list=h.items;if(!list||!list.length||document.getElementById('kzHlV'))return;
+    function E(tag){return document.createElement(tag||'div');}
+    var root=E();root.id='kzHlV';root.style.cssText='position:fixed;inset:0;z-index:1000500;background:#000;overflow:hidden;touch-action:none';
+    var frame=E(),bars=E(),top=E(),ttl=E('span'),x=E('button');
+    frame.style.cssText='position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);overflow:hidden;background:#000';
+    bars.style.cssText='position:absolute;left:10px;right:10px;top:calc(env(safe-area-inset-top,0px) + 8px);display:flex;gap:4px;z-index:5';
+    top.style.cssText='position:absolute;left:12px;right:8px;top:calc(env(safe-area-inset-top,0px) + 20px);display:flex;align-items:center;justify-content:space-between;z-index:5;color:#fff;font:700 14px Outfit,system-ui,sans-serif;text-shadow:0 1px 6px rgba(0,0,0,.8)';
+    x.type='button';x.setAttribute('aria-label','Tutup');x.innerHTML='<i class="fa-solid fa-xmark"></i>';x.style.cssText='border:0;background:none;color:#fff;font-size:20px;width:40px;height:40px;cursor:pointer';
+    ttl.textContent=h.title;top.appendChild(ttl);top.appendChild(x);
+    var fills=list.map(function(){var sg=E(),f=E();sg.style.cssText='flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.3);overflow:hidden';f.style.cssText='height:100%;width:0;background:#fff';sg.appendChild(f);bars.appendChild(sg);return f;});
+    root.appendChild(frame);root.appendChild(bars);root.appendChild(top);
+    var idx=0,raf=0,t0=0,vid=null,dead=false;
+    function fit(){var W=root.clientWidth||window.innerWidth,H=root.clientHeight||window.innerHeight,w=Math.min(W,H*9/16);frame.style.width=w+'px';frame.style.height=(w*16/9)+'px';frame.style.setProperty('--fw',w+'px');}
+    function stopM(){cancelAnimationFrame(raf);raf=0;if(vid){try{vid.pause();vid.removeAttribute('src');vid.load();}catch(e){}vid=null;}}
+    function close(){if(dead)return;dead=true;stopM();if(root.parentNode)root.parentNode.removeChild(root);window.removeEventListener('resize',fit);}
+    function go(n){if(dead)return;if(n>=list.length){close();return;}show(Math.max(0,n));}
+    function tick(ts){
+      if(dead)return;var f;
+      if(vid&&vid.duration){var s=list[idx],st=s.vs,en=(s.ve&&s.ve>st&&s.ve<=vid.duration)?s.ve:vid.duration;f=(vid.currentTime-st)/Math.max(.1,en-st);if(vid.currentTime>=en-.05||vid.ended){go(idx+1);return;}}
+      else{if(!t0)t0=ts;f=vid?0:(ts-t0)/5000;if(!vid&&f>=1){go(idx+1);return;}}
+      fills[idx].style.width=Math.max(0,Math.min(100,f*100))+'%';raf=requestAnimationFrame(tick);
+    }
+    function show(n){
+      stopM();idx=n;t0=0;frame.textContent='';fit();
+      fills.forEach(function(b,k){b.style.width=k<n?'100%':'0';});
+      var s=list[n],m;
+      if(s.kind==='video'){m=document.createElement('video');m.playsInline=true;m.preload='auto';vid=m;m.style.cssText='width:100%;height:100%;object-fit:cover';
+        m.addEventListener('loadedmetadata',function(){try{if(s.vs)m.currentTime=s.vs;}catch(e){}});
+        m.addEventListener('error',function(){vid=null;});m.src=s.url;frame.appendChild(m);
+        var pp=m.play();if(pp&&pp.catch)pp.catch(function(){m.muted=true;var q=m.play();if(q&&q.catch)q.catch(function(){});});}
+      else{m=document.createElement('img');m.alt='';m.referrerPolicy='no-referrer';m.src=s.url;m.style.cssText='width:100%;height:100%;object-fit:cover';frame.appendChild(m);}
+      if(s.draw){var d=document.createElement('img');d.alt='';d.referrerPolicy='no-referrer';d.src=s.draw;d.style.cssText='position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none';frame.appendChild(d);}
+      s.texts.forEach(function(t){var e=E();e.textContent=t.t;e.style.cssText='position:absolute;left:'+(t.x*100)+'%;top:'+(t.y*100)+'%;transform:translate(-50%,-50%) rotate('+t.r+'rad);color:'+t.c+';font:700 calc(var(--fw)*'+t.s+') Outfit,system-ui,sans-serif;white-space:pre-wrap;text-align:center;text-shadow:0 1px 8px rgba(0,0,0,.6);pointer-events:none';frame.appendChild(e);});
+      raf=requestAnimationFrame(tick);
+    }
+    x.addEventListener('click',close);
+    root.addEventListener('click',function(e){if(e.target.closest('button'))return;var r=root.getBoundingClientRect();go(e.clientX-r.left<r.width/3?idx-1:idx+1);});
+    window.addEventListener('resize',fit);
+    document.body.appendChild(root);show(0);
+  }
+  var devHl=null,devHlAt=0;
+  function refreshDevHl(){
+    if(!devHl||!devHl.parentNode||!devHl.parentNode.offsetParent)return;
+    var now=Date.now();if(now-devHlAt<30000)return;devHlAt=now;
+    if(!window.kzOwnerUid||!window.kzHlLoad){devHlAt=now-25000;return;}
+    window.kzOwnerUid().then(function(u){if(!u){devHlAt=Date.now()-25000;return null;}return window.kzHlLoad(u);}).then(function(l){if(l)renderHl(devHl,l);});
+  }
+
+  /* ===== tab Developer ===== */
+  var CHECK='<svg class="dv2-verified-badge" viewBox="0 0 40 40" aria-label="Verified" role="img"><title>Verified</title><polygon points="20.00,1.00 23.93,5.32 29.50,3.55 30.75,9.25 36.45,10.50 34.68,16.07 39.00,20.00 34.68,23.93 36.45,29.50 30.75,30.75 29.50,36.45 23.93,34.68 20.00,39.00 16.07,34.68 10.50,36.45 9.25,30.75 3.55,29.50 5.32,23.93 1.00,20.00 5.32,16.07 3.55,10.50 9.25,9.25 10.50,3.55 16.07,5.32" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 20.5l5 5 11-11" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  function ensureCheck(){var n=$('devNameText');if(n&&!n.querySelector('.dv2-verified-badge'))n.insertAdjacentHTML('beforeend',' '+CHECK);}
+  var devBuilt=false;
+  function buildDev(){
+    if(devBuilt)return;
+    var tab=$('developerTab'),panel=$('dpPanelDev'),api=window.ZusmoFeed;
+    if(!tab||!panel||!api||!api.renderUlang)return;
+    if(!tab.classList.contains('active')||panel.classList.contains('dp-off'))return;
+    var social=panel.querySelector('.dv2-social-row'),hero=panel.querySelector('.dv2-hero');
+    if(!social||!hero)return;
+    devBuilt=true;
+    /* tautan + musik */
+    var row=document.createElement('div');row.className='kzdx-row';row.id='kzDvLinks';
+    var a=document.createElement('a');a.className='kzdx-link';a.href=SITE;a.target='_blank';a.rel='noopener noreferrer';
+    a.innerHTML='<i class="fa-solid fa-link" aria-hidden="true"></i><span></span>';a.lastChild.textContent=host(SITE);
+    row.appendChild(a);row.appendChild(mkPill('dv'));
+    social.insertAdjacentElement('afterend',row);
+    /* sorotan + ulangan */
+    var sec=document.createElement('section');sec.id='kzDvUl';sec.className='kzdx-sec';
+    devHl=mkHl();sec.appendChild(devHl);
+    sec.insertAdjacentHTML('beforeend','<div class="dv2-section-head"><span class="dv2-section-title">Ulangan</span><span class="dv2-section-sub">Postingan ulang TikTok</span></div>');
+    var wrap=document.createElement('div'),body=document.createElement('div');
+    wrap.className='fd-wrap kzdx-fd';body.className='fd-body';wrap.appendChild(body);sec.appendChild(wrap);
+    api.renderUlang(body,WHO);
+    hero.insertAdjacentElement('afterend',sec);
+  }
+
+  /* ===== profil di Live Chat: musik + sorotan untuk semua pengguna (dari server) ===== */
+  var FPM={mid:'',owner:false};
+  window.kzDevFp=function(isOwner,who,hls,mid,mine){
+    var wrap=$('zcFpWrap');if(!wrap||!wrap.parentNode)return;
+    FPM.owner=!!isOwner;FPM.mid=mine?(lsGet('dpProfileMusic')||''):(mid||'');
+    var box=$('zcFpKzx');
+    if(!box){
+      box=document.createElement('div');box.id='zcFpKzx';box.className='kzdx-fp';
+      var mw=document.createElement('div');mw.className='kzdx-fp-m';
+      mw.appendChild(mkPill('fp',function(){return FPM.mid?pickFor(FPM.mid):(FPM.owner?pick():null);}));box.appendChild(mw);
+      box.appendChild(mkHl());
+      wrap.parentNode.insertBefore(box,wrap);
+    }
+    var pw=box.querySelector('.kzdm');if(pw)refreshPill(pw);
+    var showPill=!!(pw&&!pw.hidden);
+    if(!showPill&&curKey==='fp')stop();
+    renderHl(box.querySelector('.kzh-wrap'),hls||[]);
+    box.hidden=!showPill&&!(hls&&hls.length);
+  };
+
+  function tick(){
+    try{ensureCheck();buildDev();}catch(e){}
+    Array.prototype.forEach.call(document.querySelectorAll('.kzdm'),refreshPill);
+    try{refreshDevHl();}catch(e){}
+    var o=$('zcFullProfile');document.body.classList.toggle('kz-fp-open',!!(o&&o.classList.contains('on')));
+    if(playing()&&!pillVisible())stop();
+  }
+  setInterval(tick,700);
+  document.addEventListener('DOMContentLoaded',tick);
+  window.addEventListener('load',tick);
+})();
+</script>
+
+<style id="kz-fp-tweaks-css">
+/* profil lengkap: tombol aksi liquid glass (gaya sama dengan tombol pensil di profil sendiri) */
+#zcChat #zcFullProfile .fd-grid[data-r="4-5"] .fd-gi{padding-bottom:125%}
+#zcChat #zcFullProfile .zc-fp-quick{position:absolute;top:14px;left:var(--dp-bleed,14px);z-index:6;display:flex;align-items:center;gap:10px}
+#zcChat #zcFullProfile .zc-fp-quick[hidden]{display:none}
+#zcChat #zcFullProfile .zc-fp-quick>button{position:relative;box-sizing:border-box;width:36px;height:36px;min-width:36px;min-height:36px;margin:0;padding:0;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0;line-height:0;color:#fff;cursor:pointer;overflow:hidden;background:linear-gradient(145deg,rgba(255,255,255,.26) 0%,rgba(255,255,255,.08) 45%,rgba(255,255,255,.14) 100%);-webkit-backdrop-filter:blur(14px) saturate(180%);backdrop-filter:blur(14px) saturate(180%);border:1px solid rgba(255,255,255,.34);box-shadow:inset 0 1.5px 1px rgba(255,255,255,.55),inset 0 -2px 4px rgba(255,255,255,.08),inset 0 0 10px rgba(255,255,255,.1),0 6px 16px rgba(0,0,0,.45),0 1px 3px rgba(0,0,0,.35);transition:transform .15s ease,background .15s ease;-webkit-tap-highlight-color:transparent}
+#zcChat #zcFullProfile .zc-fp-quick>button::before{content:"";position:absolute;left:12%;right:12%;top:5%;height:42%;border-radius:50%;background:linear-gradient(to bottom,rgba(255,255,255,.5),rgba(255,255,255,0));pointer-events:none}
+#zcChat #zcFullProfile .zc-fp-quick>button i{position:relative;display:block;flex:none;width:auto;height:auto;margin:0;padding:0;font-size:14px;line-height:1;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.5);transform:none}
+#zcChat #zcFullProfile .zc-fp-quick>button:active:not(:disabled){transform:scale(.92);background:linear-gradient(145deg,rgba(255,255,255,.34),rgba(255,255,255,.14))}
+#zcChat #zcFullProfile .zc-fp-quick>button:disabled{opacity:.85;cursor:default}
+#zcChat #zcFullProfile .zc-fp-quick .zc-pf-follow[data-state="following"]{background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(255,255,255,.04))}
+#zcChat #zcFullProfile .zc-fp-quick .zc-sheet-chat:disabled{opacity:.55;cursor:not-allowed}
+#zcChat #zcFullProfile .dp-link,#developerTab .dp-link{display:inline-flex;align-items:center;gap:7px}
+#zcChat #zcFullProfile .dp-link::before,#developerTab .dp-link::before{content:"\f0c1";font-family:"Font Awesome 6 Free","Font Awesome 5 Free",FontAwesome;font-weight:900;font-style:normal;font-size:12px;line-height:1;flex:none;-webkit-font-smoothing:antialiased}
+.zc-thread-hint{flex:none;margin:8px 12px 0;padding:8px 12px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.72);font-size:12px;line-height:1.45;text-align:center}
+.zc-thread-hint[hidden]{display:none}
+</style>
+
+<style id="kz-sheet-actions-css">
+/* kartu profil: Ikuti · Chat · Profil lengkap sebagai tiga tombol simbol */
+#zcChat #zcProfileSheet .zc-pf-actions{display:flex;align-items:center;justify-content:center;gap:20px;margin-top:16px;grid-template-columns:none}
+#zcChat #zcProfileSheet .zc-pf-actions[hidden]{display:none}
+#zcChat #zcProfileSheet .zc-pf-actions>button{position:relative;box-sizing:border-box;width:48px;height:48px;min-width:48px;min-height:48px;margin:0;padding:0;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0;line-height:0;color:#fff;cursor:pointer;overflow:hidden;background:linear-gradient(145deg,rgba(255,255,255,.26) 0%,rgba(255,255,255,.08) 45%,rgba(255,255,255,.14) 100%);-webkit-backdrop-filter:blur(14px) saturate(180%);backdrop-filter:blur(14px) saturate(180%);border:1px solid rgba(255,255,255,.34);box-shadow:inset 0 1.5px 1px rgba(255,255,255,.55),inset 0 -2px 4px rgba(255,255,255,.08),inset 0 0 10px rgba(255,255,255,.1),0 6px 16px rgba(0,0,0,.45),0 1px 3px rgba(0,0,0,.35);transition:transform .15s ease,background .15s ease;-webkit-tap-highlight-color:transparent}
+#zcChat #zcProfileSheet .zc-pf-actions>button[hidden]{display:none}
+#zcChat #zcProfileSheet .zc-pf-actions>button::before{content:"";position:absolute;left:12%;right:12%;top:5%;height:42%;border-radius:50%;background:linear-gradient(to bottom,rgba(255,255,255,.5),rgba(255,255,255,0));pointer-events:none}
+#zcChat #zcProfileSheet .zc-pf-actions>button i{position:relative;display:block;flex:none;width:auto;height:auto;margin:0;padding:0;font-size:17px;line-height:1;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.5);transform:none}
+#zcChat #zcProfileSheet .zc-pf-actions>button:active:not(:disabled){transform:scale(.92);background:linear-gradient(145deg,rgba(255,255,255,.34),rgba(255,255,255,.14))}
+#zcChat #zcProfileSheet .zc-pf-actions>button:disabled{opacity:.5;cursor:not-allowed}
+#zcChat #zcProfileSheet .zc-pf-actions .zc-pf-follow:disabled{opacity:.85;cursor:default}
+#zcChat #zcProfileSheet .zc-pf-actions .zc-pf-follow[data-state="following"]{background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(255,255,255,.04))}
+#zcChat #zcProfileSheet .zc-pf-actions .zc-pf-follow[data-state="confirm"]{border-color:rgba(255,255,255,.7)}
+#zcChat #zcProfileSheet .zc-pf-actions .zc-pf-follow[data-state="confirm"]::after{content:"\f503";font-family:"Font Awesome 6 Free","Font Awesome 5 Free",FontAwesome;font-weight:900;font-size:17px;line-height:1;color:#fff;position:relative}
+#zcChat #zcProfileSheet .zc-pf-hint{margin-top:10px}
+#zcChat #zcProfileSheet .zc-pf-hint:empty{display:none}
+</style>
+<script id="kz-sheet-actions-js">
+(function(){
+  function wire(id,fb){
+    var b=document.getElementById(id);if(!b)return;
+    function lab(){var t=(b.textContent||'').trim()||fb;b.setAttribute('aria-label',t);b.title=t;}
+    lab();
+    try{new MutationObserver(lab).observe(b,{childList:true,characterData:true,subtree:true});}catch(e){}
+  }
+  wire('zcSheetFollow','Ikuti');wire('zcSheetChat','Chat Pribadi');
+})();
+</script>
