@@ -688,6 +688,8 @@ body #developerTab .dp-story{gap:7px}
 .zc-entry-body small{font-size:.68rem;color:rgba(255,255,255,.62)}
 .zc-entry-badge{min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:#ff2b2b;color:#fff;font-size:.68rem;font-weight:800;display:grid;place-items:center}
 .zc-entry-badge[hidden]{display:none}
+.tab-unread-badge{position:absolute;top:-4px;right:-13px;min-width:15px;height:15px;padding:0 4px;border-radius:999px;background:#ff2b2b;color:#fff;font-size:9px!important;font-weight:800;letter-spacing:0!important;line-height:1;display:grid;place-items:center;box-sizing:border-box;border:1.5px solid #0a0a0a;box-shadow:0 0 8px rgba(255,43,43,.6);pointer-events:none;font-style:normal}
+.tab-unread-badge[hidden]{display:none}
 .zc-entry>.fa-chevron-right{color:rgba(255,255,255,.5);font-size:.8rem}
 
 html.zc-on body{padding-bottom:0!important;overflow:hidden!important}
@@ -923,7 +925,7 @@ window.addEventListener('load',function(){api.migrate();});
     KOLEKSI
   </div><div class="tab home-center active" onclick="showPage('home')"><div class="home-circle"><i class="fa fa-home"></i></div><span data-i18n="nav.home">HOME</span></div><div class="tab" onclick="showPage('progressTab')"><i class="fa-solid fa-chart-line"></i>
     PROGRESS
-  </div><div class="tab" onclick="showPage('communityTab')"><i class="fa-solid fa-users"></i>
+  </div><div class="tab" onclick="showPage('communityTab')"><span class="tab-icon-wrap"><i class="fa-solid fa-users"></i><span class="tab-unread-badge" id="zcNavBadge" hidden></span></span>
     COMMUNITY
   </div><div class="tab" onclick="showPage('developerTab')"><span class="tab-icon-wrap"><i class="fa-solid fa-user"></i><span class="tab-new-dot"></span></span>
     PROFILE
@@ -10351,7 +10353,7 @@ function profileAvatarSrc(){try{var c=zsc();return c?c.mySrc():'';}catch(e){retu
 try{var _c0=zsc();if(_c0)_c0.migrate();}catch(e){}
 function qsa(sel){return Array.prototype.slice.call(document.querySelectorAll(sel));}
 function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e;}
-var S={sb:null,me:null,starting:null,ready:false,tab:'list',filter:'all',gSeen:null,peer:null,profiles:{},online:{},convs:{},statuses:{},seen:{},resyncAt:0,lastSend:0,touchTimer:null,usersQ:'',usersTimer:null,usersSeq:0,pres:null,wasOn:false,profileTimer:null,profileName:'' ,adminTarget:null,replyTo:null,typingChannel:null,typingState:{},typingTimers:{},typingLast:{},typingIdle:{}};
+var S={sb:null,me:null,starting:null,ready:false,tab:'list',filter:'all',gSeen:null,gUnreadN:0,unreadRpc:null,unreadMut:0,unreadErr:null,unreadLoading:false,gCounted:{},pmCounted:{},chs:[],cursorCh:null,peer:null,profiles:{},online:{},convs:{},statuses:{},seen:{},resyncAt:0,lastSend:0,touchTimer:null,usersQ:'',usersTimer:null,usersSeq:0,pres:null,wasOn:false,profileTimer:null,profileName:'' ,adminTarget:null,replyTo:null,typingChannel:null,typingState:{},typingTimers:{},typingLast:{},typingIdle:{}};
 
 function hue(id){var h=0,s=String(id);for(var i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))>>>0;return h%360;}
 /* Banner & foto profil dipilih acak dari koleksi aplikasi (stabil per pengguna). Koleksi bertambah = pilihan ikut bertambah. */
@@ -10436,7 +10438,7 @@ function setAv(node,id,name){node.textContent=(name||'?').charAt(0);node.style.b
 
 /* ===== Tampilan ala WhatsApp: grup tersemat + chat pribadi ===== */
 var ZC_GROUP_KEYS='zusmo community komunitas grup global chat',ZC_SEEN_KEY='zc_group_seen_v1';
-try{S.gSeen=localStorage.getItem(ZC_SEEN_KEY)||null;}catch(e){}
+function zcSeenKey(){return ZC_SEEN_KEY+':'+(S.me&&S.me.id?S.me.id:'anon');}
 function listTime(ts){
  if(!ts)return '';var d=new Date(ts);if(isNaN(d.getTime()))return '';
  var now=new Date();if(dayKey(d)===dayKey(now))return hhmm(d);
@@ -10444,6 +10446,7 @@ function listTime(ts){
  return pad(d.getDate())+'/'+pad(d.getMonth()+1)+'/'+String(d.getFullYear()).slice(-2);
 }
 function groupUnread(){
+ if(S.me&&S.unreadRpc===true)return S.gUnreadN||0;
  if(!S.me||!S.gSeen||typeof gList==='undefined'||!gList)return 0;
  var t=Date.parse(S.gSeen),n=0;if(isNaN(t))return 0;
  gList.items.forEach(function(m){if(m.user_id!==S.me.id&&!m.deleted_at&&!isPinMarker(m)&&Date.parse(m.created_at)>t)n++;});
@@ -10452,7 +10455,88 @@ function groupUnread(){
 function markGroupSeen(){
  var l=gList.items[gList.items.length-1];
  S.gSeen=l?l.created_at:new Date().toISOString();
- try{localStorage.setItem(ZC_SEEN_KEY,S.gSeen);}catch(e){}
+ try{localStorage.setItem(zcSeenKey(),S.gSeen);}catch(e){}
+ if(S.unreadRpc!==false&&S.me){S.gUnreadN=0;S.unreadMut++;queueGroupMark(l?l.created_at:null);}
+}
+/* ===== UNREAD TERPUSAT (Prompt 2): hitungan dari server; localStorage hanya cadangan bila SQL belum dijalankan ===== */
+function fmtUnread(n){n=parseInt(n,10)||0;return n>99?'99+':String(n);}
+function onceFor(map,id){id=String(id);if(map[id])return false;map[id]=1;var k=Object.keys(map);if(k.length>3000){var keep={};k.slice(-1500).forEach(function(x){keep[x]=1;});Object.keys(map).forEach(function(x){delete map[x];});Object.assign(map,keep);}return true;}
+function groupViewing(){return S.tab==='global'&&pageActive()&&!document.hidden;}
+function isMissingFn(e){if(!e)return false;var c=String(e.code||''),m=String(e.message||'');return c==='PGRST202'||c==='42883'||c==='42P01'||e.status===404||/could not find the function|does not exist|schema cache/i.test(m);}
+function queueGroupMark(ts){
+ if(S.unreadRpc===false||!S.sb||!S.me)return;
+ S.gMarkWant=true;S.gMarkTs=ts||null;
+ clearTimeout(S.gMarkTimer);S.gMarkTimer=setTimeout(flushGroupMark,350);
+}
+async function flushGroupMark(){
+ if(!S.gMarkWant||!S.sb||!S.me||S.unreadRpc===false)return;
+ var uid=S.me.id,ts=S.gMarkTs;S.gMarkWant=false;S.gMarkTs=null;
+ try{
+   var r=await S.sb.rpc('zc_mark_group_read',{p_upto:ts||null});
+   if(!S.me||S.me.id!==uid)return;
+   if(r.error){
+     if(isMissingFn(r.error)){S.unreadRpc=false;return;}
+     S.gMarkWant=true;S.gMarkTs=ts;console.warn('[zc-chat] mark group read:',r.error);
+   }
+ }catch(e){S.gMarkWant=true;S.gMarkTs=ts;console.warn('[zc-chat] mark group read',e);}
+}
+function scheduleUnread(ms){
+ if(S.unreadRpc===false||!S.ready)return;
+ clearTimeout(S.unreadSched);S.unreadSched=setTimeout(function(){loadUnreadSummary().catch(function(){});},ms==null?1200:ms);
+}
+function ensureCursorChannel(){
+ if(S.cursorCh||!S.sb||!S.me)return;
+ var uid=S.me.id;
+ try{
+   S.cursorCh=S.sb.channel('zc-cursor-'+uid).on('postgres_changes',{event:'*',schema:'public',table:'zc_group_read_state',filter:'user_id=eq.'+uid},function(){scheduleUnread(300);}).subscribe();
+   S.chs.push(S.cursorCh);
+ }catch(e){S.cursorCh=null;console.warn('[zc-chat] cursor channel',e);}
+}
+/* Sumber kebenaran: RPC zc_unread_summary (dihitung server untuk auth.uid()). Dipakai saat start, reconnect, setelah event realtime (rekonsiliasi), dan berkala. */
+async function loadUnreadSummary(){
+ if(!S.sb||!S.me||S.unreadRpc===false)return false;
+ if(S.gMarkWant)await flushGroupMark();
+ var uid=S.me&&S.me.id,seq=S.unreadMut;if(!uid)return false;
+ S.unreadLoading=true;
+ var r;try{r=await S.sb.rpc('zc_unread_summary');}catch(e){r={error:e};}
+ S.unreadLoading=false;
+ if(!S.me||S.me.id!==uid)return false; /* akun berganti saat menunggu: buang hasil */
+ if(r.error){
+   if(isMissingFn(r.error)){S.unreadRpc=false;S.unreadErr=null;console.info('[zc-chat] zc_unread_summary belum ada, memakai mode lokal.');}
+   else{S.unreadErr=r.error;console.warn('[zc-chat] zc_unread_summary:',r.error);}
+   renderBadges();renderConvs();return false;
+ }
+ var d=r.data;if(typeof d==='string'){try{d=JSON.parse(d);}catch(e){d=null;}}
+ if(!d||String(d.uid)!==String(uid)){S.unreadErr=new Error('Respons unread tidak valid.');renderBadges();return false;}
+ S.unreadRpc=true;S.unreadErr=null;
+ var g=d.group||{};
+ S.gUnreadN=Math.max(0,parseInt(g.unread,10)||0);
+ if(g.last_read_at){var tt=Date.parse(g.last_read_at);if(!isNaN(tt)&&(!S.gSeen||isNaN(Date.parse(S.gSeen))||tt>Date.parse(S.gSeen))){S.gSeen=g.last_read_at;try{localStorage.setItem(zcSeenKey(),S.gSeen);}catch(e){}}}
+ if(groupViewing()&&S.gUnreadN>0&&typeof gList!=='undefined'&&gList.items.length)markGroupSeen();
+ var map={},missing=[];
+ (d.private||[]).forEach(function(p){var id=String(p&&p.peer_id||'');if(UUID_RE.test(id))map[id]=Math.max(0,parseInt(p.unread,10)||0);});
+ Object.keys(map).forEach(function(id){if(map[id]>0&&!S.convs[id]){S.convs[id]={peer_id:id,last_content:'',last_at:null,last_sender:null,unread:0};missing.push(id);}});
+ Object.keys(S.convs).forEach(function(k){
+   var viewing=S.peer===k&&S.tab==='private'&&pageActive()&&!document.hidden;
+   if(viewing){S.convs[k].unread=0;if(map[k]>0)markRead(k);}
+   else S.convs[k].unread=map[k]||0;
+ });
+ if(missing.length)ensureProfiles(missing).then(function(){renderConvs();renderBadges();},function(){});
+ renderConvs();renderBadges();
+ ensureCursorChannel();
+ if(S.unreadMut!==seq&&!S.unreadRetry){S.unreadRetry=true;setTimeout(function(){S.unreadRetry=false;loadUnreadSummary().catch(function(){});},500);}
+ return true;
+}
+/* Pergantian akun: buang seluruh state/subscription akun lama agar unread tidak terbawa. */
+function zcAccountReset(){
+ try{(S.chs||[]).forEach(function(c){try{S.sb.removeChannel(c);}catch(e){}});}catch(e){}
+ clearTimeout(S.unreadSched);clearTimeout(S.gMarkTimer);
+ S.chs=[];S.cursorCh=null;S.typingChannel=null;S.pres=null;S.subscribed=false;S.ready=false;S.starting=null;
+ S.me=null;S.peer=null;S.convs={};S.profiles={};S.online={};S.statuses={};S.seen={};
+ S.gUnreadN=0;S.gSeen=null;S.gCounted={};S.pmCounted={};S.unreadRpc=null;S.unreadErr=null;S.gMarkWant=false;S.gMarkTs=null;S.noMarkPriv=false;
+ try{gList.reset();pList.reset();}catch(e){}
+ try{renderConvs();renderBadges();}catch(e){}
+ start();
 }
 function zcOnlineN(){return Object.keys(S.online||{}).filter(function(id){return UUID_RE.test(id);}).length;}
 function renderGroupRow(){
@@ -11515,7 +11599,7 @@ function renderConvs(){
  if(!arr.length){
    var gHidden=$('zcGroupItem').hidden&&(!$('zcOwnerItem')||$('zcOwnerItem').hidden);
    if(q){if(gHidden)box.appendChild(el('div','zc-empty','Tidak ada chat yang cocok.'));}
-   else if(S.filter==='unread'){if(gHidden)box.appendChild(el('div','zc-empty','Tidak ada pesan yang belum dibaca.'));}
+   else if(S.filter==='unread'){if(gHidden)box.appendChild(el('div','zc-empty',S.unreadErr?'Status baca belum bisa dimuat. Periksa koneksi lalu buka ulang daftar chat.':(S.unreadLoading&&S.unreadRpc===null?'Memuat status baca…':'Tidak ada pesan yang belum dibaca.')));}
    else box.appendChild(el('div','zc-empty','Belum ada chat pribadi.\nCari username temanmu, ikuti, lalu saling mengikuti untuk mulai ngobrol.'));
    return;
  }
@@ -11540,8 +11624,10 @@ function renderConvs(){
 function renderBadges(){
  var total=0;Object.keys(S.convs).forEach(function(k){total+=S.convs[k].unread||0;});
  total+=groupUnread();
- var a=$('zcUnread');if(a){a.textContent=total>99?'99+':String(total);a.hidden=!total;}
- var eb=$('zcEntryBadge');if(eb){eb.textContent=total>99?'99+':String(total);eb.hidden=!total;}
+ var txt=fmtUnread(total),lbl=total+' pesan belum dibaca';
+ var a=$('zcUnread');if(a){a.textContent=txt;a.hidden=!total;}
+ var eb=$('zcEntryBadge');if(eb){eb.textContent=txt;eb.hidden=!total;eb.setAttribute('aria-label',lbl);}
+ var nb=$('zcNavBadge');if(nb){nb.textContent=txt;nb.hidden=!total;nb.setAttribute('aria-label',lbl);var tb=nb.closest('.tab');if(tb)tb.setAttribute('aria-label',total?('Community, '+lbl):'Community');}
 }
 async function ensureProfiles(ids){
  ids=(ids||[]).filter(function(id){return UUID_RE.test(id);});
@@ -11586,6 +11672,7 @@ async function loadConvs(){
  S.convs=next;
  await ensureProfiles(Object.keys(next));
  renderConvs();renderBadges();
+ try{await loadUnreadSummary();}catch(e){console.warn('[zc-chat] unread summary',e);}
 }
 
 async function fetchGlobal(before){
@@ -11660,10 +11747,11 @@ async function markDelivered(m){if(!m||!S.me||m.receiver_id!==S.me.id||m.deliver
 function subscribeAll(){
  if(S.subscribed)return;S.subscribed=true;
  var sb=S.sb,uid=S.me.id;
- sb.channel('zc-global').on('postgres_changes',{event:'*',schema:'public',table:'chat_messages'},function(p){if(p.eventType==='INSERT')onGlobalInsert(p.new);else if(p.eventType==='UPDATE')onGlobalUpdate(p.new);else if(p.eventType==='DELETE')onGlobalDelete(p.old);}).subscribe(trackStatus('global'));
- sb.channel('zc-private-'+uid).on('postgres_changes',{event:'INSERT',schema:'public',table:'private_messages'},function(p){if(p.new.sender_id===uid||p.new.receiver_id===uid)onPmInsert(p.new);}).on('postgres_changes',{event:'UPDATE',schema:'public',table:'private_messages'},function(p){if(p.new.sender_id===uid||p.new.receiver_id===uid)onPmUpdate(p.new);}).subscribe(trackStatus('private'));
- S.typingChannel=sb.channel('zc-typing',{config:{broadcast:{self:false}}});S.typingChannel.on('broadcast',{event:'typing'},receiveTyping).subscribe(function(status){trackStatus('typing')(status);});
- var pr=sb.channel('zc-presence',{config:{presence:{key:uid}}});S.pres=pr;pr.on('presence',{event:'sync'},onPresence).subscribe(function(status){trackStatus('presence')(status);if(status==='SUBSCRIBED'){var p=pr.track({username:S.me.username,t:Date.now()});if(p&&p.catch)p.catch(function(){});}});
+ function reg(c){S.chs.push(c);return c;}
+ reg(sb.channel('zc-global')).on('postgres_changes',{event:'*',schema:'public',table:'chat_messages'},function(p){if(p.eventType==='INSERT')onGlobalInsert(p.new);else if(p.eventType==='UPDATE')onGlobalUpdate(p.new);else if(p.eventType==='DELETE')onGlobalDelete(p.old);}).subscribe(trackStatus('global'));
+ reg(sb.channel('zc-private-'+uid)).on('postgres_changes',{event:'INSERT',schema:'public',table:'private_messages'},function(p){if(p.new.sender_id===uid||p.new.receiver_id===uid)onPmInsert(p.new);}).on('postgres_changes',{event:'UPDATE',schema:'public',table:'private_messages'},function(p){if(p.new.sender_id===uid||p.new.receiver_id===uid)onPmUpdate(p.new);}).subscribe(trackStatus('private'));
+ S.typingChannel=reg(sb.channel('zc-typing',{config:{broadcast:{self:false}}}));S.typingChannel.on('broadcast',{event:'typing'},receiveTyping).subscribe(function(status){trackStatus('typing')(status);});
+ var pr=reg(sb.channel('zc-presence',{config:{presence:{key:uid}}}));S.pres=pr;pr.on('presence',{event:'sync'},onPresence).subscribe(function(status){trackStatus('presence')(status);if(status==='SUBSCRIBED'){var p=pr.track({username:S.me.username,t:Date.now()});if(p&&p.catch)p.catch(function(){});}});
 }
 function renderOnlineUsers(){
  var sub=$('zcGroupSub');if(!sub)return;
@@ -11680,16 +11768,17 @@ function renderOnlineUsers(){
  sub.appendChild(document.createTextNode(' · '+names.slice(0,3).join(', ')+(names.length>3?' +'+(names.length-3):'')));
 }
 function onPresence(){var st=S.pres.presenceState(),on={};Object.keys(st).forEach(function(k){var meta=st[k]&&st[k][0]||{};on[k]=meta.username||true;if(!S.profiles[k]&&meta.username)S.profiles[k]={id:k,username:meta.username,last_seen:new Date().toISOString()};});S.online=on;renderConn();renderOnlineUsers();try{renderGroupRow();}catch(e){}try{gmCount();gmOnPresence();}catch(e){}if(S.peer)renderPeerHead();renderConvs();if(S.usersQ.length>=3)searchUsers();}
-function onGlobalInsert(m){if(!m||!m.id||gList.ids[m.id])return;if(m.content==null&&m.message!=null)m.content=m.message;var done=function(){fillName(m);gList.add(m,m.user_id===S.me.id);};ensureProfiles([m.user_id]).then(done,done);}
-function onGlobalUpdate(m){if(!m||!m.id)return;if(m.content==null){if(m.message!=null)m.content=m.message;else delete m.content;}gList.patch(m);}
-function onGlobalDelete(m){if(!m||m.id==null)return;gList.remove(m.id);}
-function onPmInsert(m){if(!m||!m.id)return;var mine=m.sender_id===S.me.id,peer=mine?m.receiver_id:m.sender_id;if(!mine)markDelivered(m);if(S.peer===peer&&pList.ids[m.id])return;var c=S.convs[peer]||(S.convs[peer]={peer_id:peer,unread:0});var _rx=zcRxIs(m);if(!_rx&&(!c.last_at||Date.parse(m.created_at)>=Date.parse(c.last_at))){c.last_content=txtOf(m);c.last_at=m.created_at;c.last_sender=m.sender_id;}if(S.peer===peer)pList.add(m,mine);if(!mine){var viewing=S.peer===peer&&S.tab==='private'&&pageActive()&&!document.hidden;if(viewing)markRead(peer);else if(!_rx)c.unread=(c.unread||0)+1;}ensureProfiles([peer]).then(function(){renderConvs();if(S.peer===peer)renderPeerHead();});renderConvs();renderBadges();if(S.peer===peer)setComposerState();}
-function onPmUpdate(m){if(m&&m.id&&S.peer&&(m.sender_id===S.me.id||m.receiver_id===S.me.id)){if(m.content==null){if(m.message!=null)m.content=m.message;else delete m.content;}pList.patch(m);}}
+function onGlobalInsert(m){if(!m||!m.id||gList.ids[m.id])return;if(m.content==null&&m.message!=null)m.content=m.message;var done=function(){if(!S.me||gList.ids[m.id])return;fillName(m);var mine=String(m.user_id)===String(S.me.id),wasView=groupViewing(),added=gList.add(m,m.user_id===S.me.id);if(added&&!mine&&!m.deleted_at&&!isPinMarker(m)&&!wasView&&onceFor(S.gCounted,m.id)){if(S.unreadRpc!==false){S.gUnreadN=(S.gUnreadN||0)+1;S.unreadMut++;scheduleUnread(1500);}renderGroupRow();renderBadges();}};ensureProfiles([m.user_id]).then(done,done);}
+function onGlobalUpdate(m){if(!m||!m.id)return;if(m.content==null){if(m.message!=null)m.content=m.message;else delete m.content;}gList.patch(m);if(m.deleted_at)scheduleUnread(600);}
+function onGlobalDelete(m){if(!m||m.id==null)return;gList.remove(m.id);scheduleUnread(600);}
+function onPmInsert(m){if(!m||!m.id)return;var mine=m.sender_id===S.me.id,peer=mine?m.receiver_id:m.sender_id;if(!mine)markDelivered(m);if(S.peer===peer&&pList.ids[m.id])return;var c=S.convs[peer]||(S.convs[peer]={peer_id:peer,unread:0});var _rx=zcRxIs(m);if(!_rx&&(!c.last_at||Date.parse(m.created_at)>=Date.parse(c.last_at))){c.last_content=txtOf(m);c.last_at=m.created_at;c.last_sender=m.sender_id;}if(S.peer===peer)pList.add(m,mine);if(!mine){var viewing=S.peer===peer&&S.tab==='private'&&pageActive()&&!document.hidden;if(viewing)markRead(peer);else if(!_rx&&!m.deleted_at&&onceFor(S.pmCounted,m.id)){c.unread=(c.unread||0)+1;S.unreadMut++;scheduleUnread(1500);}}ensureProfiles([peer]).then(function(){renderConvs();if(S.peer===peer)renderPeerHead();});renderConvs();renderBadges();if(S.peer===peer)setComposerState();}
+function onPmUpdate(m){if(m&&S.me&&String(m.receiver_id)===String(S.me.id)&&(m.read_at!=null||m.deleted_at))scheduleUnread(400);if(m&&m.id&&S.peer&&(m.sender_id===S.me.id||m.receiver_id===S.me.id)){if(m.content==null){if(m.message!=null)m.content=m.message;else delete m.content;}pList.patch(m);}}
 function touch(){if(!S.sb||!S.ready)return;try{S.sb.rpc('zc_touch').then(function(){},function(){});}catch(e){}}
 async function markRead(peer){
  var c=S.convs[peer];if(c)c.unread=0;renderBadges();
  if(!S.sb||!S.me||!UUID_RE.test(peer))return;
  try{
+   if(!S.noMarkPriv){var r0=await S.sb.rpc('zc_mark_private_read',{p_peer:peer});if(!r0.error){S.unreadMut++;return;}if(isMissingFn(r0.error))S.noMarkPriv=true;else console.warn('[zc-chat] zc_mark_private_read:',r0.error);}
    var r=await S.sb.rpc('zc_mark_read',{p_peer:peer});
    if(!r.error)return;
    var u=await S.sb.from('private_messages').update({read_at:new Date().toISOString()}).eq('receiver_id',S.me.id).eq('sender_id',peer).is('read_at',null);
@@ -11912,6 +12001,23 @@ async function findOwnerUid(){
  if(row&&UUID_RE.test(String(row.user_id||'')))S.owner.uid=row.user_id;
  return S.owner.uid;
 }
+/* zc_toggle_like itu TOGGLE. Dua perangkat/tab yang sama-sama melihat "belum like" lalu sama-sama toggle akan saling membatalkan
+   (like hilang). Karena itu: baca status segar dari server sebelum toggle, lalu cek hasilnya; kalau malah ter-unlike
+   oleh toggle lain, ulangi (maks 3x). Tidak pernah toggle bila server sudah mencatat like. */
+async function ensureOwnerLike(oid){
+ for(var i=0;i<3;i++){
+   var c=await loadCard(oid);
+   if(!c)return false;
+   var cn=S.cnt[oid];
+   if(cn&&cn.i_liked)return true;
+   var l=await S.sb.rpc('zc_toggle_like',{p_target:oid});
+   if(l.error)throw l.error;
+   var d=Array.isArray(l.data)?l.data[0]:l.data;
+   if(d&&typeof d==='object'&&d.liked===true)return true;
+ }
+ var c2=await loadCard(oid);
+ return !!(c2&&S.cnt[oid]&&S.cnt[oid].i_liked);
+}
 async function autoFollowOwner(){
  var O=S.owner;
  if(O.busy||O.done||!S.ready||!S.sb||!S.me||S.social.ok===false)return;
@@ -11926,9 +12032,8 @@ async function autoFollowOwner(){
    var rel=S.rel[oid],cn=S.cnt[oid];
    if(!rel||!cn||rel.error)return;
    if(!rel.i_follow){var f=await S.sb.rpc('zc_follow',{p_target:oid});if(f.error)throw f.error;}
-   /* zc_toggle_like itu toggle: hanya dipanggil kalau BELUM like, supaya tidak malah meng-unlike */
-   if(!cn.i_liked){var l=await S.sb.rpc('zc_toggle_like',{p_target:oid});if(l.error)throw l.error;}
-   await loadCard(oid);
+   /* like owner dijamin tepat 1 per akun (x100 di tampilan); aman dari race antar perangkat/tab */
+   await ensureOwnerLike(oid);
    O.done=true;
    try{await ensureProfiles([oid]);}catch(e){}
    renderConvs();
@@ -12273,6 +12378,8 @@ async function togglePfFollow(){
    var r=await S.sb.rpc(want?'zc_follow':'zc_unfollow',{p_target:uid});
    if(r.error)throw r.error;
    await loadCard(uid);
+   /* follow manual ke admin/developer juga harus menghasilkan like (aturan: 1 follow = 100 like), tanpa menggandakan */
+   if(want&&isOwnerUid(uid)){try{await ensureOwnerLike(uid);}catch(e2){console.warn('[zc-chat] like owner:',e2);}}
  }catch(e){rel.i_follow=prev.f;cn.followers=prev.n;flash(friendly(e));}
  finally{delete S.social.busy[uid];}
  if(pfUid===uid)paintProfile(uid);
@@ -12520,9 +12627,11 @@ async function start(){
  if(S.starting)return S.starting;showErr('');S.starting=(async function(){
   await loadSdk();
   if(!S.sb)S.sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false},realtime:{params:{eventsPerSecond:10}}});
+  if(!S.authWatch){S.authWatch=true;S.sb.auth.onAuthStateChange(function(ev,ses2){var nu=ses2&&ses2.user?ses2.user.id:null;if(!S.me)return;if(ev==='SIGNED_OUT'||(nu&&nu!==S.me.id))setTimeout(zcAccountReset,0);});}
   var ses=await S.sb.auth.getSession();
   if(!ses.data||!ses.data.session){var si=await S.sb.auth.signInAnonymously();if(si.error)throw si.error;}
   S.me=await ensureMe();
+  try{S.gSeen=localStorage.getItem(zcSeenKey())||null;}catch(e){S.gSeen=null;}
   /* Sumber kebenaran username = Profil-Developer, BUKAN nama dari server (mis. "AnonXXXX"). */
   (function(){var pu=profileUsername();S.me.username=NAME_RE.test(pu)?pu:null;})();
   S.me.avatar_url=profileAvatarSrc()||S.me.avatar_url||null;S.profiles[S.me.id]=S.me;
@@ -12535,6 +12644,7 @@ async function start(){
   /* Global & privat dimuat terpisah: kalau salah satu gagal, yang lain tetap jalan. */
   try{var g=await fetchGlobal(null);gList.merge(g.rows);gList.more=g.more;gList.render(true);}
   catch(e){console.warn('[zc-chat] load global',e);flash(friendly(e));}
+  try{await loadUnreadSummary();}catch(e){console.warn('[zc-chat] unread awal',e);}
   if(!S.gSeen)markGroupSeen();renderGroupRow();
   try{await loadConvs();}catch(e){console.warn('[zc-chat] load convs',e);}
   subscribeAll();
@@ -12542,6 +12652,7 @@ async function start(){
   loadPin();loadSlow();
   if(!S.touchTimer)S.touchTimer=setInterval(touch,TOUCH_MS);
   if(!S.pollTimer)S.pollTimer=setInterval(pollTick,6000);
+  if(!S.unreadPoll)S.unreadPoll=setInterval(function(){if(S.ready&&!document.hidden&&S.unreadRpc===true)loadUnreadSummary().catch(function(){});},45000);
   setTab(S.tab);touch();
  })().catch(function(e){S.starting=null;showErr(friendly(e));console.warn('[zc-chat]',e);});return S.starting;
 }
