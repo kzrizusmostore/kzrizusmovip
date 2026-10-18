@@ -12166,6 +12166,36 @@ renderConvs();renderBadges();renderConn();onPageToggle();
  var CSS=''
  +'.zca-btn{flex:0 0 auto;width:38px;height:38px;border-radius:12px;border:1px solid rgba(255,43,43,.35);background:rgba(255,43,43,.1);color:#ff5a5a;display:inline-flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;margin-left:auto;box-shadow:0 0 12px rgba(255,43,43,.18)}'
  +'.zca-btn:active{transform:scale(.94)}'
+ +'.zca-ov{position:fixed;inset:0;z-index:100000;background:rgba(0,0,0,.72);display:flex;align-items:flex-end;justify-content:center}'
+ +'.zca-ov[hidden]{display:none}'
+ +'.zca-sheet{width:100%;max-width:560px;height:88vh;max-height:88vh;background:#141010;border:1px solid rgba(255,43,43,.28);border-bottom:0;border-radius:20px 20px 0 0;display:flex;flex-direction:column;color:#e9edef;box-shadow:0 -10px 40px rgba(255,43,43,.14);padding-bottom:env(safe-area-inset-bottom,0)}'
+ +'.zca-head{display:flex;align-items:center;gap:10px;padding:14px 14px 10px}'
+ +'.zca-head>i{color:#ff4040;font-size:20px}'
+ +'.zca-ht{flex:1;min-width:0;display:flex;flex-direction:column}'
+ +'.zca-ht b{font-size:15px}.zca-ht small{color:#8696a0;font-size:11px}'
+ +'.zca-x{width:34px;height:34px;border-radius:10px;border:0;background:rgba(255,255,255,.07);color:#e9edef;cursor:pointer}'
+ +'.zca-body{flex:1;overflow-y:auto;padding:4px 14px 18px;-webkit-overflow-scrolling:touch}'
+ +'.zca-q{width:100%;box-sizing:border-box;padding:11px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:#1c1c1e;color:#e9edef;font-size:14px;margin-bottom:10px;outline:0}'
+ +'.zca-q:focus{border-color:rgba(255,43,43,.6)}'
+ +'.zca-row{display:block;width:100%;text-align:left;padding:11px 12px;margin-bottom:8px;border-radius:14px;border:1px solid rgba(255,255,255,.08);background:#1b1011;color:#e9edef;cursor:pointer}'
+ +'.zca-row b{display:block;font-size:14px;word-break:break-word}.zca-row small{color:#8696a0;font-size:11.5px}'
+ +'.zca-empty,.zca-err{padding:22px 8px;text-align:center;color:#8696a0;font-size:13px}.zca-err{color:#ff7b7b}'
+ +'.zca-back{background:none;border:0;color:#ff6a6a;font-weight:600;font-size:13px;padding:4px 0 10px;cursor:pointer}'
+ +'.zca-card{padding:12px;border-radius:14px;background:#1b1011;border:1px solid rgba(255,255,255,.08);margin-bottom:10px}'
+ +'.zca-card h4{margin:0 0 4px;font-size:14px}.zca-card p{margin:0 0 10px;color:#8696a0;font-size:12.5px;line-height:1.45}'
+ +'.zca-ta{width:100%;box-sizing:border-box;min-height:74px;resize:none;padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:#1c1c1e;color:#e9edef;font:inherit;font-size:14px;outline:0}'
+ +'.zca-ta:focus{border-color:rgba(255,43,43,.6)}'
+ +'.zca-line{min-height:16px;color:#ff7b7b;font-size:12px;margin:6px 0}'
+ +'.zca-act{display:flex;gap:8px;flex-wrap:wrap}'
+ +'.zca-b{flex:1;min-width:120px;padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:#e9edef;font-weight:600;font-size:13px;cursor:pointer}'
+ +'.zca-b.red{background:linear-gradient(180deg,#ff3b3b,#c91818);border-color:transparent;color:#fff}'
+ +'.zca-b[disabled]{opacity:.5;cursor:default}'
+ +'.zca-msgs{display:flex;flex-direction:column;gap:6px;margin:8px 0 14px}'
+ +'.zca-m{max-width:86%;padding:8px 10px;border-radius:12px;background:#1c1c1e;font-size:13.5px;line-height:1.4;word-break:break-word;align-self:flex-start}'
+ +'.zca-m.r{align-self:flex-end;background:#4a1118}'
+ +'.zca-m small{display:block;color:#8696a0;font-size:10.5px;margin-top:3px}'
+ +'.zca-m i{color:#ff9d9d;font-style:normal;font-size:11px;display:block;margin-bottom:2px}'
+ +'.zca-ro{text-align:center;color:#8696a0;font-size:11.5px;margin:4px 0 8px}'
  +'.zcm-card{margin:8px 10px;padding:16px 14px;border-radius:18px;text-align:center;color:#e9edef;background:linear-gradient(180deg,#1d1012,#120a0b);border:1px solid rgba(255,43,43,.4);box-shadow:0 0 22px rgba(255,43,43,.18),inset 0 0 30px rgba(255,43,43,.05)}'
  +'.zcm-card[hidden]{display:none}'
  +'.zcm-ic{width:46px;height:46px;margin:0 auto 8px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;color:#ff5555;background:rgba(255,43,43,.12);animation:zcmPulse 2.2s ease-in-out infinite}'
@@ -12179,6 +12209,9 @@ renderConvs();renderBadges();renderConn();onPageToggle();
  var st=document.createElement('style');st.id='zcm-style';st.textContent=CSS;document.head.appendChild(st);
 
  function rpc(fn,args){return S.sb.rpc(fn,args||{}).then(function(r){if(r.error)throw r.error;return r.data;});}
+ function errMsg(e){if(e&&(e.code==='42501'||/khusus admin/i.test(e.message||'')))return 'Khusus admin.';return (e&&e.message)?String(e.message).slice(0,140):'Gagal memuat. Coba lagi.';}
+ function nm(id,name){return name||('Pengguna '+String(id||'').slice(0,6));}
+ function fmtWhen(v){return (typeof admHhmm==='function')?admHhmm(v):String(v||'-');}
 
  /* ---------- Kartu mute / blacklist ---------- */
  var wasMuted=false,tick=null;
@@ -12244,6 +12277,104 @@ renderConvs();renderBadges();renderConn();onPageToggle();
  var _scs=setComposerState;
  setComposerState=function(){_scs.apply(this,arguments);syncMute();};
 
+ /* ---------- Panel pantau chat pribadi (admin) ---------- */
+ var P={ov:null,body:null,seq:0,pair:null,tmr:null};
+ function ensurePanel(){
+  if(P.ov)return;
+  var ov=el('div','zca-ov');ov.hidden=true;
+  ov.innerHTML='<div class="zca-sheet" role="dialog" aria-modal="true" aria-label="Pantau chat pribadi"><div class="zca-head"><i class="fa-solid fa-user-shield" aria-hidden="true"></i><div class="zca-ht"><b>Pantau chat pribadi</b><small>Khusus admin</small></div><button type="button" class="zca-x" aria-label="Tutup"><i class="fa-solid fa-xmark"></i></button></div><div class="zca-body"></div></div>';
+  document.body.appendChild(ov);
+  P.ov=ov;P.body=ov.querySelector('.zca-body');
+  ov.querySelector('.zca-x').addEventListener('click',closePanel);
+  ov.addEventListener('click',function(e){if(e.target===ov)closePanel();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&P.ov&&!P.ov.hidden)closePanel();});
+ }
+ function closePanel(){if(P.ov)P.ov.hidden=true;}
+ function showMsg(t){P.body.textContent='';P.body.appendChild(el('div','zca-err',t));}
+ function openPanel(){
+  ensurePanel();P.ov.hidden=false;
+  if(!S.sb||!S.me){showMsg('Chat belum tersambung. Tutup lalu coba lagi.');return;}
+  P.body.textContent='';P.body.appendChild(el('div','zca-empty','Memeriksa akses admin\u2026'));
+  rpc('zc_audit_is_admin').then(function(ok){
+   if(ok!==true){showMsg('Server tidak mengenali akun ini sebagai admin. Pastikan kolom is_admin bernilai true di chat_profiles untuk akun yang sedang login.');return;}
+   showConv();
+  }).catch(function(e){showMsg('Gagal mengecek admin: '+errMsg(e)+' Pastikan file SQL sudah dijalankan di Supabase.');});
+ }
+ function showConv(){
+  var b=P.body;b.textContent='';
+  var q=el('input','zca-q');q.type='text';q.placeholder='Cari username';q.maxLength=30;q.autocomplete='off';q.setAttribute('autocapitalize','off');q.setAttribute('spellcheck','false');
+  var list=el('div');
+  b.appendChild(q);b.appendChild(list);
+  q.addEventListener('input',function(){clearTimeout(P.tmr);P.tmr=setTimeout(function(){loadConv(list,q.value.trim());},350);});
+  loadConv(list,'');
+ }
+ function loadConv(box,query){
+  var my=++P.seq;box.textContent='';box.appendChild(el('div','zca-empty','Memuat\u2026'));
+  rpc('zc_admin_dm_conversations',{p_query:query||null,p_limit:60}).then(function(rows){
+   if(my!==P.seq)return;box.textContent='';
+   if(!rows||!rows.length){box.appendChild(el('div','zca-empty','Belum ada percakapan.'));return;}
+   rows.forEach(function(r){
+    var a=nm(r.user_a,r.username_a),c=nm(r.user_b,r.username_b);
+    var btn=el('button','zca-row');btn.type='button';
+    btn.appendChild(el('b',null,a+' \u2194 '+c));
+    btn.appendChild(el('small',null,(r.msg_count||0)+' pesan \u00b7 '+fmtWhen(r.last_at)));
+    btn.addEventListener('click',function(){openThread({a:r.user_a,b:r.user_b,na:a,nb:c});});
+    box.appendChild(btn);
+   });
+  }).catch(function(e){if(my!==P.seq)return;box.textContent='';box.appendChild(el('div','zca-err',errMsg(e)));});
+ }
+ function backBtn(fn){var x=el('button','zca-back');x.type='button';x.innerHTML='<i class="fa-solid fa-arrow-left"></i> Kembali';x.addEventListener('click',fn);return x;}
+ function openThread(pair){
+  var b=P.body;b.textContent='';P.pair=pair;
+  b.appendChild(backBtn(showConv));
+  b.appendChild(el('div','zca-empty','Membuka\u2026'));
+  rpc('zc_admin_dm_open',{p_user_a:pair.a,p_user_b:pair.b,p_reason:'Pemantauan admin',p_limit:300}).then(function(rows){
+   showThread(pair,Array.isArray(rows)?rows:[]);
+  }).catch(function(e){b.textContent='';b.appendChild(backBtn(showConv));b.appendChild(el('div','zca-err',errMsg(e)));});
+ }
+ function tapConfirm(btn,label,fn){
+  btn.addEventListener('click',function(){
+   if(btn.dataset.arm==='1'){btn.dataset.arm='';btn.textContent=label;fn(btn);return;}
+   btn.dataset.arm='1';btn.textContent='Yakin? ketuk lagi';
+   setTimeout(function(){if(btn.dataset.arm==='1'){btn.dataset.arm='';btn.textContent=label;}},2600);
+  });
+ }
+ function actionRow(uid,name){
+  var card=el('div','zca-card');card.appendChild(el('h4',null,name));
+  var row=el('div','zca-act');
+  var mute=el('button','zca-b','Bisu 5 mnt');mute.type='button';
+  var un=el('button','zca-b','Cabut bisu');un.type='button';
+  if(S.me&&uid===S.me.id){mute.disabled=true;un.disabled=true;}
+  tapConfirm(mute,'Bisu 5 mnt',function(){
+   rpc('zc_admin_mute',{p_user_id:uid,p_minutes:5,p_reason:'Dibisukan admin lewat pantau chat'}).then(function(){flash(name+' dibisukan 5 menit.');}).catch(function(e){flash(errMsg(e));});
+  });
+  un.addEventListener('click',function(){
+   rpc('zc_admin_unmute',{p_user_id:uid}).then(function(){flash('Bisu '+name+' dicabut.');}).catch(function(e){flash(errMsg(e));});
+  });
+  row.appendChild(mute);row.appendChild(un);card.appendChild(row);return card;
+ }
+ function showThread(pair,rows){
+  var b=P.body;b.textContent='';
+  b.appendChild(backBtn(showConv));
+  b.appendChild(el('div','zca-ro','Hanya baca'));
+  var wrap=el('div','zca-msgs');
+  if(!rows.length)wrap.appendChild(el('div','zca-empty','Tidak ada pesan.'));
+  rows.forEach(function(m){
+   var mine=(m.sender_id===pair.a),who=mine?pair.na:pair.nb;
+   var txt=m.body||m.content||m.text||m.message||m.msg||'';
+   var gone=!!(m.deleted_at||m.is_deleted||m.deleted);
+   var d=el('div','zca-m'+(mine?'':' r'));
+   d.appendChild(el('i',null,who));
+   d.appendChild(document.createTextNode(gone?'(pesan dihapus)':(txt||'(lampiran)')));
+   d.appendChild(el('small',null,fmtWhen(m.created_at)));
+   wrap.appendChild(d);
+  });
+  b.appendChild(wrap);
+  b.appendChild(el('div','zca-ro','Tindakan moderasi'));
+  b.appendChild(actionRow(pair.a,pair.na));
+  b.appendChild(actionRow(pair.b,pair.nb));
+ }
+
  /* ---------- Logo perisai di header Live Chat (hanya akun admin/developer) ---------- */
  function ensureBtn(){
   var head=document.querySelector('#zcConvView .zc-head'),b=$('zcAuditBtn');
@@ -12251,9 +12382,9 @@ renderConvs();renderBadges();renderConn();onPageToggle();
   var show=!!(S.me&&S.me.is_admin&&S.ready);
   if(!show){if(b&&b.parentNode)b.parentNode.removeChild(b);return;}
   if(b)return;
-  b=el('button','zca-btn');b.type='button';b.id='zcAuditBtn';b.title='Akun admin';b.setAttribute('aria-label','Akun admin');
+  b=el('button','zca-btn');b.type='button';b.id='zcAuditBtn';b.title='Pantau chat pribadi';b.setAttribute('aria-label','Pantau chat pribadi');
   b.innerHTML='<i class="fa-solid fa-user-shield" aria-hidden="true"></i>';
-  b.addEventListener('click',function(){flash('Akun admin aktif');});
+  b.addEventListener('click',openPanel);
   head.insertBefore(b,$('zcOnline')||null);
  }
  setInterval(ensureBtn,1500);ensureBtn();syncMute();
