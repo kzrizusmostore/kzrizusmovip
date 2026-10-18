@@ -1043,7 +1043,7 @@ AccessTokenDua
         <button type="button" class="zc-item zc-group-item" id="zcGroupItem">
           <img class="zc-gimg" src="zusmo-asset/677288085_miwamikadono.jpg" alt="" loading="lazy" decoding="async">
           <div class="zc-item-body">
-            <div class="zc-item-top"><span class="zc-item-name" id="zcGroupName">𝗭𝗨𝗦𝗠𝗢 𝗖𝗢𝗠𝗠𝗨𝗡𝗜𝗧𝗬</span><span class="zc-item-time" id="zcGroupTime"></span></div>
+            <div class="zc-item-top"><span class="zc-item-name" id="zcGroupName">𝗭𝗨𝗦𝗠𝗢 𝗖𝗢𝗠𝗠𝗨𝗡𝗜𝗧𝗬</span><span class="zc-gon" id="zcGroupOn" hidden><i aria-hidden="true"></i><b id="zcGroupOnN">0</b></span><span class="zc-newdot" id="zcGroupDot" hidden aria-label="Ada pesan baru"></span><span class="zc-item-time" id="zcGroupTime"></span></div>
             <div class="zc-item-bot"><span class="zc-item-sub" id="zcGroupPrev">Ketuk untuk membuka grup</span><span class="zc-unread-badge" id="zcGroupBadge" hidden>0</span><i class="fa-solid fa-thumbtack zc-pin" aria-hidden="true"></i></div>
           </div>
         </button>
@@ -9417,6 +9417,14 @@ html.zc-on #zcChat .zc-shell{height:100%!important;max-height:100%!important;pad
 #zcChat .zc-item-bot{display:flex;align-items:center;gap:8px;min-height:22px}
 #zcChat .zc-item-sub{flex:1;min-width:0;font-size:14.5px;color:var(--wa-sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #zcChat .zc-item.unread .zc-item-sub{color:#cfd8dc}
+#zcChat .zc-newdot{flex:none;align-self:center;width:11px;height:11px;border-radius:50%;background:#ffb020;box-shadow:0 0 0 0 rgba(255,176,32,.7);animation:zcDotPulse 1.6s ease-out infinite}
+#zcChat .zc-newdot[hidden],#zcChat .zc-gon[hidden]{display:none}
+#zcChat .zc-gon{flex:none;align-self:center;display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;background:rgba(45,255,143,.1);color:#2dff8f;font-size:11.5px;font-weight:600;line-height:1.3}
+#zcChat .zc-gon i{width:6px;height:6px;border-radius:50%;background:#2dff8f;box-shadow:0 0 5px #2dff8f}
+#zcChat .zc-gon b{font-weight:600}
+@keyframes zcDotPulse{0%{box-shadow:0 0 0 0 rgba(255,176,32,.7)}70%{box-shadow:0 0 0 8px rgba(255,176,32,0)}100%{box-shadow:0 0 0 0 rgba(255,176,32,0)}}
+#zcGroupSub .zc-sub-on{display:inline-flex;align-items:center;gap:4px;color:#2dff8f;font-weight:600}
+#zcGroupSub .zc-sub-on i{width:6px;height:6px;border-radius:50%;background:#2dff8f;box-shadow:0 0 5px #2dff8f}
 #zcChat .zc-unread-badge{min-width:22px;height:22px;padding:0 6px;display:grid;place-items:center;border-radius:11px;background:var(--wa-green);color:#090909;font-size:12.5px;font-weight:700}
 #zcChat .zc-pin{flex:0 0 auto;font-size:13px;color:var(--wa-sub);transform:rotate(45deg)}
 #zcChat .zc-tick{margin-right:5px;font-size:12px;color:var(--wa-sub)}
@@ -10120,6 +10128,7 @@ function markGroupSeen(){
  S.gSeen=l?l.created_at:new Date().toISOString();
  try{localStorage.setItem(ZC_SEEN_KEY,S.gSeen);}catch(e){}
 }
+function zcOnlineN(){return Object.keys(S.online||{}).filter(function(id){return UUID_RE.test(id);}).length;}
 function renderGroupRow(){
  var row=$('zcGroupItem');if(!row)return;
  var items=(typeof gList!=='undefined'&&gList&&gList.items)||[];
@@ -10134,6 +10143,8 @@ function renderGroupRow(){
  if(last){var who=(S.me&&last.user_id===S.me.id)?'Anda':(last.username||'Pengguna');prev.textContent=who+': '+txtOf(last);tm.textContent=listTime(last.created_at);}
  else{prev.textContent=S.ready?'Belum ada pesan. Jadi yang pertama menyapa!':'Ketuk untuk membuka grup';tm.textContent='';}
  bd.hidden=!un;bd.textContent=un>99?'99+':String(un);
+ var dt=$('zcGroupDot');if(dt)dt.hidden=!un;
+ var gon=$('zcGroupOn'),gn=zcOnlineN();if(gon){gon.hidden=!gn;var gnn=$('zcGroupOnN');if(gnn)gnn.textContent=String(gn);}
  if(pin)pin.hidden=!!un;
  row.classList.toggle('unread',!!un);
 }
@@ -11334,9 +11345,12 @@ function renderOnlineUsers(){
    if(S.me&&id===S.me.id){names.unshift('Anda');return;}
    var p=S.profiles[id]||{};names.push(p.username||(typeof S.online[id]==='string'?S.online[id]:'Pengguna'));
  });
- sub.textContent=typingLabel('group')||names.slice(0,4).join(', ')+(names.length>4?' +'+(names.length-4):'');
+ var tl=typingLabel('group');
+ if(tl){sub.textContent=tl;return;}
+ sub.textContent='';var ob=el('span','zc-sub-on');ob.appendChild(document.createElement('i'));ob.appendChild(document.createTextNode(ids.length+' online'));sub.appendChild(ob);
+ sub.appendChild(document.createTextNode(' · '+names.slice(0,3).join(', ')+(names.length>3?' +'+(names.length-3):'')));
 }
-function onPresence(){var st=S.pres.presenceState(),on={};Object.keys(st).forEach(function(k){var meta=st[k]&&st[k][0]||{};on[k]=meta.username||true;if(!S.profiles[k]&&meta.username)S.profiles[k]={id:k,username:meta.username,last_seen:new Date().toISOString()};});S.online=on;renderConn();renderOnlineUsers();try{gmCount();gmOnPresence();}catch(e){}if(S.peer)renderPeerHead();renderConvs();if(S.usersQ.length>=3)searchUsers();}
+function onPresence(){var st=S.pres.presenceState(),on={};Object.keys(st).forEach(function(k){var meta=st[k]&&st[k][0]||{};on[k]=meta.username||true;if(!S.profiles[k]&&meta.username)S.profiles[k]={id:k,username:meta.username,last_seen:new Date().toISOString()};});S.online=on;renderConn();renderOnlineUsers();try{renderGroupRow();}catch(e){}try{gmCount();gmOnPresence();}catch(e){}if(S.peer)renderPeerHead();renderConvs();if(S.usersQ.length>=3)searchUsers();}
 function onGlobalInsert(m){if(!m||!m.id||gList.ids[m.id])return;if(m.content==null&&m.message!=null)m.content=m.message;var done=function(){fillName(m);gList.add(m,m.user_id===S.me.id);};ensureProfiles([m.user_id]).then(done,done);}
 function onGlobalUpdate(m){if(!m||!m.id)return;if(m.content==null){if(m.message!=null)m.content=m.message;else delete m.content;}gList.patch(m);}
 function onGlobalDelete(m){if(!m||m.id==null)return;gList.remove(m.id);}
