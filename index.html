@@ -3978,6 +3978,28 @@ body.zx-wall-oj #zxOldWall{--zw-pos:14% 40%;--zw-blur:1.5px;--zw-sat:.9;--zw-br:
     ttRead().forEach(function(it){var v=ttItemView(it);if(v)box.appendChild(ttBadge(v.def,v.text,false));});
     box.hidden=!box.firstChild;
   }
+  /* ===== gelar otomatis sesuai role =====
+     FREE 1, BASIC 2, ELITE 3, ULTIMATE 4, MAX 5 (ttMax). 'User Zusmo' selalu jadi gelar pertama dan tidak diacak; sisanya
+     dipilih acak dari daftar lalu DISIMPAN (tidak berubah-ubah tiap muat). Hanya mengisi saat jatah slot bertambah
+     (role naik / pertama kali), jadi gelar yang diatur atau dihapus sendiri tidak dipaksa balik. */
+  var TT_AUTO_KEY='dpTitlesAutoN';
+  function ttAutoFill(){
+    var target=ttMax(),done=parseInt(lsGet(TT_AUTO_KEY,'0'),10)||0;
+    if(target<=done)return false;
+    var items=[],ids={};
+    ttRead().forEach(function(it){ids[it.id]=1;items.push(it);});
+    if(done===0&&!ids[TT_DEFAULT]){items.unshift({id:TT_DEFAULT});ids[TT_DEFAULT]=1;}
+    var pool=TT_LIST.filter(function(d){return d.id!==TT_DEFAULT&&!ids[d.id];}),i,j,t;
+    for(i=pool.length-1;i>0;i--){j=Math.floor(Math.random()*(i+1));t=pool[i];pool[i]=pool[j];pool[j]=t;}
+    while(items.length<target&&pool.length)items.push({id:pool.shift().id});
+    lsSet(TT_KEY,JSON.stringify(items));
+    lsSet(TT_AUTO_KEY,String(target));
+    try{window.dispatchEvent(new Event('zusmo:titles-change'));}catch(e){}
+    try{renderTitles();setTitlesRow();}catch(e){}
+    return true;
+  }
+  try{ttAutoFill();}catch(e){}
+  window.addEventListener('zusmo:role-change',function(){try{ttAutoFill();}catch(e){}});
   function setTitlesRow(){
     var e=$('dpvTitles');if(!e)return;
     e.textContent='';
