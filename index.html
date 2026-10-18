@@ -9842,6 +9842,43 @@ html.zc-on #zcChat .zc-shell{height:100%!important;max-height:100%!important;pad
 #zcChat .zc-pf-full:active{transform:scale(.97);background:rgba(255,255,255,.1)}
 #zcChat .zc-pf-full[hidden]{display:none}
 </style>
+<style id="zc-role-card-style">
+/* ===== Kartu profil orang lain: rapi + nuansa per role (simpel, tanpa glow) ===== */
+#zcChat #zcProfileSheet .zc-psheet{border-radius:24px;padding:0 18px 18px;box-shadow:0 24px 60px rgba(0,0,0,.6)}
+#zcChat #zcProfileSheet .zc-pf-cover{border-radius:24px 24px 0 0}
+#zcChat #zcProfileSheet .zc-pf-name{margin-top:12px;font-size:1.25rem;font-weight:700;letter-spacing:-.01em}
+#zcChat #zcProfileSheet .zc-pf-user{margin-top:3px;font-size:.8rem;color:rgba(255,255,255,.5)}
+#zcChat #zcProfileSheet .zc-pf-user .zc-verified{filter:none}
+#zcChat #zcProfileSheet .zc-pf-dot[data-on="1"]{animation:none}
+#zcChat #zcProfileSheet .zc-pf-role{margin-top:12px}
+#zcChat #zcProfileSheet .zc-pf-titles{margin-top:10px}
+#zcChat #zcProfileSheet .zc-pf-status{margin-top:10px;font-size:.72rem;color:rgba(255,255,255,.42)}
+#zcChat #zcProfileSheet .zc-pf-stats{margin-top:16px;border-radius:14px;background:rgba(255,255,255,.03);border-color:rgba(255,255,255,.07)}
+#zcChat #zcProfileSheet .zc-pf-stats>div,#zcChat #zcProfileSheet .zc-pf-like{padding:11px 4px 10px}
+#zcChat #zcProfileSheet .zc-pf-stats b{font-size:1.02rem;font-weight:700}
+#zcChat #zcProfileSheet .zc-pf-stats span{font-size:.68rem;letter-spacing:.2px}
+#zcChat #zcProfileSheet .zc-pf-join{margin-top:14px;padding:12px 4px 0;border-top:1px solid rgba(255,255,255,.06);font-size:.78rem}
+#zcChat #zcProfileSheet .zc-pf-actions{grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+#zcChat #zcProfileSheet .zc-psheet .zc-pf-actions>button{min-height:44px;border-radius:12px;font-size:.86rem;font-weight:600;box-shadow:none;transition:transform .12s,background .15s,opacity .15s}
+#zcChat #zcProfileSheet .zc-psheet .zc-pf-follow{border:1px solid transparent;background:#e03636;color:#fff;box-shadow:none}
+#zcChat #zcProfileSheet .zc-psheet .zc-pf-follow[data-state="following"]{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);color:#fff;box-shadow:none}
+#zcChat #zcProfileSheet .zc-psheet .zc-pf-follow[data-state="confirm"]{background:rgba(224,54,54,.14);border:1px solid rgba(224,54,54,.5);color:#ff8f8f;box-shadow:none}
+#zcChat #zcProfileSheet .zc-psheet .zc-sheet-chat{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#fff;box-shadow:none}
+#zcChat #zcProfileSheet .zc-pf-hint{margin-top:10px}
+/* nuansa warna per role: makin tinggi makin jelas */
+#zcChat #zcProfileSheet .zc-psheet[data-role="BASIC"]{--rc:255,255,255;--rb:.14;--rt:.03;--rr:.22}
+#zcChat #zcProfileSheet .zc-psheet[data-role="ELITE"]{--rc:10,132,255;--rb:.28;--rt:.07;--rr:.55}
+#zcChat #zcProfileSheet .zc-psheet[data-role="ULTIMATE"]{--rc:168,85,247;--rb:.32;--rt:.09;--rr:.65}
+#zcChat #zcProfileSheet .zc-psheet[data-role="MAX"]{--rc:255,60,60;--rb:.38;--rt:.11;--rr:.75}
+#zcChat #zcProfileSheet .zc-psheet[data-role="BASIC"],
+#zcChat #zcProfileSheet .zc-psheet[data-role="ELITE"],
+#zcChat #zcProfileSheet .zc-psheet[data-role="ULTIMATE"],
+#zcChat #zcProfileSheet .zc-psheet[data-role="MAX"]{border-color:rgba(var(--rc),var(--rb));background:linear-gradient(180deg,rgba(var(--rc),var(--rt)),transparent 120px),#111114}
+#zcChat #zcProfileSheet .zc-psheet[data-role="BASIC"] .zc-pf-avwrap .zc-pf-av,
+#zcChat #zcProfileSheet .zc-psheet[data-role="ELITE"] .zc-pf-avwrap .zc-pf-av,
+#zcChat #zcProfileSheet .zc-psheet[data-role="ULTIMATE"] .zc-pf-avwrap .zc-pf-av,
+#zcChat #zcProfileSheet .zc-psheet[data-role="MAX"] .zc-pf-avwrap .zc-pf-av{box-shadow:0 0 0 5px #111114,0 0 0 6px rgba(var(--rc),var(--rr))}
+</style>
 <style id="zc-pin-style">
 /* Sematan pesan grup, lompat ke pesan yang dibalas, pemisah pesan baru */
 #zcChat .zc-pinbar{flex:0 0 auto;display:flex;align-items:stretch;border-bottom:1px solid #2a3942;background:var(--wa-bar)}
@@ -11900,7 +11937,7 @@ function paintProfile(uid,loading){
  $('zcSheetName').textContent=dn||uname;try{var _nid=mine?(window.ZUSMO_NAME_LOOK_ME&&window.ZUSMO_NAME_LOOK_ME()):zcLookId(p);if(window.ZUSMO_PAINT_NAME)window.ZUSMO_PAINT_NAME($('zcSheetName'),dn?nameColorId(_nid):'');}catch(e){}
  var _un=$('zcSheetUser');_un.textContent='@'+uname;if(zcIsOwnerUser(p.username)||(S.owner&&S.owner.uid&&String(p.id||uid)===String(S.owner.uid)))_un.appendChild(verifiedBadge('1.3em'));
  setAv($('zcSheetAv'),p.id||uid,dn||uname);
- var ps=$('zcSheetAv').closest('.zc-psheet');if(ps)ps.style.setProperty('--pf-h',hue(p.id||uid));
+ var ps=$('zcSheetAv').closest('.zc-psheet');if(ps)ps.style.setProperty('--pf-h',hue(p.id||uid));try{if(ps)ps.setAttribute('data-role',chatRoleLabel(p&&p.role_label)||'FREE');}catch(e){}
  paintBanner($('zcProfileSheet'),document.querySelector('#zcProfileSheet .zc-pf-cover-vid'),bannerVideoFor(p.id||uid));
  var _fb=$('zcSheetFull');if(_fb)_fb.hidden=!mine;var _mb=$('zcSheetMod');if(_mb)_mb.hidden=!(S.me&&S.me.is_admin&&!mine);
  var isOn=!mine&&!!S.online[uid];$('zcSheetDot').dataset.on=isOn?'1':'0';
