@@ -1125,10 +1125,101 @@ AccessTokenDua
       </div>
       <div class="zc-pf-hint" id="zcSheetHint" role="status" aria-live="polite"></div>
       <div class="zc-pf-titles" id="zcSheetTitles"></div>
+      <button type="button" class="zc-pf-full" id="zcSheetView" hidden><i class="fa-solid fa-id-card" aria-hidden="true"></i> Lihat profil lengkap</button>
       <button type="button" class="zc-pf-full zc-pf-mod" id="zcSheetMod" hidden><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Moderasi pengguna</button>
       <button type="button" class="zc-pf-full" id="zcSheetFull" hidden><i class="fa-solid fa-user-pen" aria-hidden="true"></i> Buka profil saya</button>
     </div>
   </div>
+  <style id="zc-fp-css">
+.zc-fp{position:absolute;inset:0;z-index:25;display:none;flex-direction:column;background:#0b0b0d;color:#f2f2f4;--pf-h:0}
+.zc-fp.on{display:flex}
+.zc-fp-bar{display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top,0px) + 8px) 12px 8px;background:rgba(11,11,13,.94);border-bottom:1px solid rgba(255,255,255,.08);flex:none}
+.zc-fp-bar b{font-size:15px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.zc-fp-back,.zc-fpv-x{width:38px;height:38px;border:0;border-radius:50%;background:rgba(255,255,255,.08);color:#fff;font-size:15px;cursor:pointer;flex:none}
+.zc-fp-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding-bottom:calc(env(safe-area-inset-bottom,0px) + 24px)}
+.zc-fp-cover{height:132px;position:relative;overflow:hidden;background:linear-gradient(135deg,hsl(var(--pf-h) 55% 32%),#0b0b0d)}
+.zc-fp-vid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.zc-fp-head{display:flex;flex-direction:column;align-items:center;gap:6px;padding:0 16px 14px;margin-top:-44px;text-align:center;position:relative}
+.zc-fp-avbtn{width:92px;height:92px;border-radius:50%;border:0;padding:4px;background:#0b0b0d;cursor:default;flex:none}
+.zc-fp-avbtn.has-story{cursor:pointer;background:conic-gradient(var(--dp-red,#ff2b2b),#ff9a3c,var(--dp-red,#ff2b2b))}
+.zc-fp-av{width:100%;height:100%;border-radius:50%;display:grid;place-items:center;font-size:34px;font-weight:800;color:#fff;border:3px solid #0b0b0d;overflow:hidden}.zc-fp-av img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.zc-fp-name{font-size:19px;font-weight:800;line-height:1.2;max-width:100%;overflow-wrap:anywhere}
+.zc-fp-user{font-size:13px;color:#9a9aa3;display:inline-flex;align-items:center;gap:4px}
+.zc-fp-status{font-size:11.5px;color:#8a8a93}
+.zc-fp-bio{font-size:13px;line-height:1.45;color:#d6d6dc;white-space:pre-line;overflow-wrap:anywhere;max-width:34ch}
+.zc-fp-link{font-size:12.5px;color:#7db4ff;text-decoration:none;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.zc-fp-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;width:100%;max-width:360px;margin-top:6px}
+.zc-fp-stats div{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 2px;border-radius:12px;background:rgba(255,255,255,.05)}
+.zc-fp-stats b{font-size:15px;font-weight:800}
+.zc-fp-stats span{font-size:10.5px;color:#9a9aa3}
+.zc-fp-actions{width:100%;max-width:360px;display:flex;gap:8px}
+.zc-fp-actions>button{flex:1}
+.zc-fp-hint{font-size:11.5px;color:#8a8a93;min-height:14px}
+.zc-fp-tabs{display:flex;position:sticky;top:0;z-index:3;background:#0b0b0d;border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08)}
+.zc-fp-tabs button{flex:1;padding:12px 6px;border:0;background:transparent;color:#8a8a93;font-weight:700;font-size:13px;font-family:inherit;cursor:pointer;border-bottom:2px solid transparent}
+.zc-fp-tabs button[aria-selected="true"]{color:#fff;border-bottom-color:var(--dp-red,#ff2b2b)}
+.zc-fp-body{padding:2px}
+.zc-fp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.zc-fp-cell{position:relative;aspect-ratio:1/1;border:0;padding:0;background:#17171b;overflow:hidden;cursor:pointer}
+.zc-fp-cell img,.zc-fp-cell video{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+.zc-fp-cell i{position:absolute;top:6px;right:6px;color:#fff;font-size:12px;text-shadow:0 1px 4px rgba(0,0,0,.8)}
+.zc-fp-cell small{position:absolute;left:6px;bottom:5px;color:#fff;font-size:10.5px;font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,.9)}
+.zc-fp-scell{aspect-ratio:9/14}
+.zc-fp-msg{display:flex;flex-direction:column;align-items:center;gap:8px;padding:38px 22px;color:#8a8a93;font-size:13px;text-align:center;line-height:1.5}
+.zc-fp-msg i{font-size:24px;opacity:.6}
+.zc-fpv{position:absolute;inset:0;z-index:6;background:#000;display:flex;flex-direction:column}
+.zc-fpv-top{display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top,0px) + 8px) 12px 8px;color:#fff;font-size:13px;font-weight:700;flex:none;z-index:3}
+.zc-fpv-top span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.zc-fpv-track{flex:1;min-height:0;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.zc-fpv-track::-webkit-scrollbar{display:none}
+.zc-fpv-slide{flex:0 0 100%;scroll-snap-align:center;display:flex;align-items:center;justify-content:center;min-width:0}
+.zc-fpv-slide img,.zc-fpv-slide video{max-width:100%;max-height:100%;object-fit:contain}
+.zc-fpv-cap{flex:none;max-height:30%;overflow-y:auto;padding:10px 16px calc(env(safe-area-inset-bottom,0px) + 14px);color:#eee;font-size:13px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere;background:linear-gradient(transparent,rgba(0,0,0,.7))}
+.zc-fpv-cap:empty{display:none}
+.zc-fps{background:#000;align-items:center}
+.zc-fps-bars{position:absolute;left:10px;right:10px;top:calc(env(safe-area-inset-top,0px) + 8px);display:flex;gap:3px;z-index:4}
+.zc-fps-bars i{flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.3);overflow:hidden}
+.zc-fps-bars i b{display:block;height:100%;width:0;background:#fff}
+.zc-fps .zc-fpv-top{position:absolute;left:0;right:0;top:calc(env(safe-area-inset-top,0px) + 14px);width:100%;background:linear-gradient(rgba(0,0,0,.5),transparent);padding-top:10px}
+.zc-fps-frame{position:relative;margin:auto;background:#000;overflow:hidden;flex:none}
+.zc-fps-frame>img,.zc-fps-frame>video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.zc-fps-frame>img.zc-fps-draw{z-index:1}
+.zc-fps-t{position:absolute;z-index:2;font-weight:800;line-height:1.15;text-align:center;white-space:pre-wrap;max-width:88%;overflow-wrap:anywhere;padding:4px;pointer-events:none}
+.zc-fps-nav{position:absolute;top:70px;bottom:0;width:36%;border:0;background:transparent;z-index:3;cursor:pointer}
+.zc-fps-nav.p{left:0}.zc-fps-nav.n{right:0}
+</style>
+<div class="zc-fp" id="zcFullProfile" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Profil lengkap">
+  <div class="zc-fp-bar"><button type="button" class="zc-fp-back" id="zcFpBack" aria-label="Kembali"><i class="fa-solid fa-arrow-left"></i></button><b id="zcFpTitle">Profil</b></div>
+  <div class="zc-fp-scroll" id="zcFpScroll">
+    <div class="zc-fp-cover" id="zcFpCover" aria-hidden="true"><video class="zc-fp-vid" id="zcFpVid" muted loop playsinline preload="metadata" disablepictureinpicture tabindex="-1" hidden></video></div>
+    <div class="zc-fp-head">
+      <button type="button" class="zc-fp-avbtn" id="zcFpAvBtn" aria-label="Lihat story"><span class="zc-av zc-fp-av" id="zcFpAv">?</span></button>
+      <b class="zc-fp-name" id="zcFpName"></b>
+      <span class="zc-fp-user" id="zcFpUser"></span>
+      <div class="zc-pf-role" id="zcFpRole"></div>
+      <small class="zc-fp-status" id="zcFpStatus"></small>
+      <p class="zc-fp-bio" id="zcFpBio" hidden></p>
+      <a class="zc-fp-link" id="zcFpLink" target="_blank" rel="noopener noreferrer nofollow" hidden></a>
+      <div class="zc-pf-titles" id="zcFpTitles"></div>
+      <div class="zc-fp-stats">
+        <div><b id="zcFpPosts">0</b><span>Postingan</span></div>
+        <div><b id="zcFpFollowers">0</b><span>Pengikut</span></div>
+        <div><b id="zcFpFollowing">0</b><span>Mengikuti</span></div>
+        <div><b id="zcFpLikes">0</b><span>Suka</span></div>
+      </div>
+      <div class="zc-pf-actions zc-fp-actions" id="zcFpActions">
+        <button type="button" class="zc-pf-follow" id="zcFpFollow" data-state="follow"><i class="fa-solid fa-user-plus"></i> Ikuti</button>
+        <button type="button" class="zc-sheet-chat" id="zcFpChat"><i class="fa-solid fa-message"></i> Chat Pribadi</button>
+      </div>
+      <div class="zc-fp-hint" id="zcFpHint" role="status" aria-live="polite"></div>
+    </div>
+    <div class="zc-fp-tabs" role="tablist">
+      <button type="button" role="tab" id="zcFpTabP" aria-selected="true"><i class="fa-solid fa-table-cells"></i> Postingan</button>
+      <button type="button" role="tab" id="zcFpTabS" aria-selected="false"><i class="fa-solid fa-circle-play"></i> Story</button>
+    </div>
+    <div class="zc-fp-body" id="zcFpBody"></div>
+  </div>
+</div>
   <div class="zc-modal" id="zcAdminSheet" aria-hidden="true">
     <div class="zc-sheet zc-adm" role="dialog" aria-modal="true" aria-labelledby="zcAdminTitle">
       <div class="zc-adm-head">
@@ -11936,7 +12027,7 @@ function paintProfile(uid,loading){
  setAv($('zcSheetAv'),p.id||uid,dn||uname);
  var ps=$('zcSheetAv').closest('.zc-psheet');if(ps)ps.style.setProperty('--pf-h',hue(p.id||uid));
  paintBanner($('zcProfileSheet'),document.querySelector('#zcProfileSheet .zc-pf-cover-vid'),bannerVideoFor(p.id||uid));
- var _fb=$('zcSheetFull');if(_fb)_fb.hidden=!mine;var _mb=$('zcSheetMod');if(_mb)_mb.hidden=!(S.me&&S.me.is_admin&&!mine);
+ var _fb=$('zcSheetFull');if(_fb)_fb.hidden=!mine;var _vb=$('zcSheetView');if(_vb)_vb.hidden=mine;var _mb=$('zcSheetMod');if(_mb)_mb.hidden=!(S.me&&S.me.is_admin&&!mine);
  var isOn=!mine&&!!S.online[uid];$('zcSheetDot').dataset.on=isOn?'1':'0';
  $('zcSheetStatus').textContent=mine?'':(S.online[uid]?'Online':(p.last_seen?'Terakhir aktif '+ago(p.last_seen):'Offline'));
  renderRoleInto($('zcSheetRole'),p);renderTitlesInto($('zcSheetTitles'),p.titles);
@@ -12465,6 +12556,277 @@ $('zcSheetFull').addEventListener('click',function(){
  hook('dpAvatarImg',{attributes:true,attributeFilter:['src']});
   hook('dpBio',{childList:true,characterData:true,subtree:true});
  hook('dpLink',{attributes:true,attributeFilter:['href','hidden']});})();
+/* ===== Profil lengkap pengguna lain: postingan & story publik ===== */
+var ZC_PUB_BUCKET='zc-public',PUB={off:false,busy:false,max:45*1024*1024};
+function pubPrefix(){return String(SUPABASE_URL).replace(/\/+$/,'')+'/storage/v1/object/public/'+ZC_PUB_BUCKET+'/';}
+/* URL dari baris milik orang lain tidak dipercaya: hanya boleh menunjuk ke bucket publik aplikasi ini */
+function pubUrl(u){u=okHttps(u);return u&&u.indexOf(pubPrefix())===0?u:'';}
+function pubKey(){return 'zc_pub_sync_v1:'+(S.me&&S.me.id||'');}
+function pubState(){var o=null;try{o=JSON.parse(localStorage.getItem(pubKey())||'null');}catch(e){}if(!o||typeof o!=='object')o={};if(!o.p)o.p={};if(!o.s)o.s={};return o;}
+function pubSave(o){try{localStorage.setItem(pubKey(),JSON.stringify(o));}catch(e){}}
+/* Buka DB milik fitur lain hanya bila sudah ada (jangan membuat DB kosong yang merusak upgrade-nya) */
+function pubOpenDB(name){return new Promise(function(res,rej){var r;try{r=indexedDB.open(name);}catch(e){rej(e);return;}
+ r.onupgradeneeded=function(){try{r.transaction.abort();}catch(e){}};
+ r.onsuccess=function(){res(r.result);};r.onerror=function(){rej(r.error||new Error('nodb'));};});}
+function pubRead(db,store,id){return new Promise(function(res,rej){try{
+ var t=db.transaction(store,'readonly'),q=id==null?t.objectStore(store).getAll():t.objectStore(store).get(id);
+ t.oncomplete=function(){res(q.result||(id==null?[]:null));};t.onerror=t.onabort=function(){rej(t.error||new Error('idb'));};}catch(e){rej(e);}});}
+function pubGet(db,store,id){return pubRead(db,store,id).catch(function(){return null;});}
+async function pubUpload(blob,name,paths,kind){
+ if(!blob||!blob.size||blob.size>PUB.max)return '';
+ var t=String(blob.type||'').toLowerCase(),ext=t.indexOf('png')>-1?'png':t.indexOf('webp')>-1?'webp':t.indexOf('gif')>-1?'gif':t.indexOf('webm')>-1?'webm':t.indexOf('quicktime')>-1?'mov':(t.indexOf('video')>-1||(!t&&kind==='video'))?'mp4':'jpg';
+ var ct=t||(kind==='video'?'video/mp4':'image/jpeg'),st=S.sb.storage.from(ZC_PUB_BUCKET),path=S.me.id+'/'+name+'.'+ext;
+ var r=await st.upload(path,blob,{contentType:ct,cacheControl:'31536000',upsert:false});
+ if(r.error&&String(r.error.statusCode||'')!=='409'&&!/already exists|duplicate/i.test(String(r.error.message||'')))throw r.error;
+ if(paths.indexOf(path)<0)paths.push(path);
+ var pu=st.getPublicUrl(path);return okHttps(pu&&pu.data&&pu.data.publicUrl);
+}
+async function pubRemoveFiles(paths){if(!paths||!paths.length)return;try{await S.sb.storage.from(ZC_PUB_BUCKET).remove(paths);}catch(e){}}
+async function pubSyncPosts(st){
+ var db;try{db=await pubOpenDB('zusmoFeedDB');}catch(e){return;}
+ try{
+  var posts=(await pubRead(db,'posts')).filter(function(p){return p&&p.id&&p.items&&p.items.length;}),local={};
+  for(var i=0;i<posts.length;i++){
+   var p=posts[i],id=String(p.id),cur=st.p[id];local[id]=1;
+   var sig=[p.updatedAt||p.createdAt,p.pinned?1:0,p.cover||0,hashStr(p.caption||''),p.items.length].join('|');
+   if(cur&&cur.sig===sig)continue;
+   var paths=cur&&cur.paths?cur.paths.slice():[],items=cur&&cur.items?cur.items:null;
+   if(!items){
+    items=[];
+    for(var k=0;k<p.items.length;k++){
+     var it=p.items[k],m=await pubGet(db,'media',it.mediaId);if(!m||!m.blob)continue;
+     var isV=it.type==='video',u=await pubUpload(m.blob,'p'+id+'_'+k,paths,isV?'video':'image');if(!u)continue;
+     var pu='';
+     if(isV&&it.posterId&&it.posterId!==it.mediaId){var pm=await pubGet(db,'media',it.posterId);if(pm&&pm.blob)pu=await pubUpload(pm.blob,'p'+id+'_'+k+'t',paths,'image');}
+     items.push({u:u,t:isV?'video':'image',p:isV?pu:u,w:+it.w||0,h:+it.h||0});
+    }
+   }
+   if(!items.length)continue;
+   var r=await S.sb.from('zc_pub_posts').upsert({user_id:S.me.id,id:id,caption:String(p.caption||'').slice(0,2200),items:items,cover:Math.max(0,Math.min(+p.cover||0,items.length-1)),pinned:!!p.pinned,created_at:new Date(p.createdAt||Date.now()).toISOString(),updated_at:new Date(p.updatedAt||p.createdAt||Date.now()).toISOString()},{onConflict:'user_id,id'});
+   if(r.error)throw r.error;
+   st.p[id]={sig:sig,paths:paths,items:items};pubSave(st);
+  }
+  var gone=Object.keys(st.p).filter(function(id){return !local[id];});
+  if(gone.length){
+   var d=await S.sb.from('zc_pub_posts').delete().eq('user_id',S.me.id).in('id',gone);if(d.error)throw d.error;
+   var rm=[];gone.forEach(function(id){(st.p[id].paths||[]).forEach(function(x){rm.push(x);});delete st.p[id];});
+   await pubRemoveFiles(rm);pubSave(st);
+  }
+ }finally{try{db.close();}catch(e){}}
+}
+async function pubSyncStories(st){
+ var db;try{db=await pubOpenDB('dpStoryDB');}catch(e){return;}
+ try{
+  var now=Date.now(),all=await pubRead(db,'stories'),local={};
+  var act=all.filter(function(s){return s&&!s.deleted&&+s.expiresAt>now;});
+  for(var i=0;i<act.length;i++){
+   var s=act[i],id=String(s.id);local[id]=1;if(st.s[id])continue;
+   var m=await pubGet(db,'media',s.mediaId);if(!m||!m.blob)continue;
+   var paths=[],kind=(s.kind==='video'||m.kind==='video')?'video':'image',u=await pubUpload(m.blob,'s'+id,paths,kind);if(!u)continue;
+   var ov='';
+   if(s.overlay&&s.overlay.draw){var dr=await pubGet(db,'thumbs','dr_'+id);if(dr&&dr.blob)ov=await pubUpload(dr.blob,'s'+id+'d',paths,'image');}
+   var texts=(s.overlay&&Array.isArray(s.overlay.texts)?s.overlay.texts:[]).slice(0,30).map(function(t){return{t:String(t.t||'').slice(0,300),x:+t.x||0,y:+t.y||0,s:+t.s||0.07,r:+t.r||0,c:/^#[0-9a-f]{3,8}$/i.test(String(t.c))?t.c:'#ffffff'};});
+   var r=await S.sb.from('zc_pub_stories').upsert({user_id:S.me.id,id:id,url:u,kind:kind,overlay_url:ov||null,texts:texts,v_start:+s.start||0,v_end:s.end==null?null:+s.end,created_at:new Date(s.createdAt||now).toISOString(),expires_at:new Date(+s.expiresAt).toISOString()},{onConflict:'user_id,id'});
+   if(r.error)throw r.error;
+   st.s[id]={paths:paths};pubSave(st);
+  }
+  var gone=Object.keys(st.s).filter(function(id){return !local[id];});
+  if(gone.length){
+   var d=await S.sb.from('zc_pub_stories').delete().eq('user_id',S.me.id).in('id',gone);if(d.error)throw d.error;
+   var rm=[];gone.forEach(function(id){(st.s[id].paths||[]).forEach(function(x){rm.push(x);});delete st.s[id];});
+   await pubRemoveFiles(rm);pubSave(st);
+  }
+ }finally{try{db.close();}catch(e){}}
+}
+async function zcPubSync(){
+ if(PUB.off||PUB.busy||!S.sb||!S.me||!S.me.id||!S.ready||!window.indexedDB||navigator.onLine===false)return;
+ PUB.busy=true;
+ try{var st=pubState();await pubSyncPosts(st);await pubSyncStories(st);}
+ catch(e){
+  var msg=String((e&&e.message)||'');
+  if(missingBackend(e)||/bucket not found/i.test(msg)){PUB.off=true;var t='Postingan & story publik belum aktif. Jalankan zusmo-chat-profile-content.sql di Supabase.';if(S.me&&S.me.is_admin)zcSyncNote(t);else console.warn('[zc-chat] '+t);}
+  else console.warn('[zc-chat] sinkron postingan/story:',e);
+ }
+ finally{PUB.busy=false;}
+}
+setTimeout(zcPubSync,5000);
+setInterval(function(){if(!document.hidden)zcPubSync();},60000);
+window.addEventListener('online',function(){setTimeout(zcPubSync,1500);});
+document.addEventListener('visibilitychange',function(){if(!document.hidden)setTimeout(zcPubSync,1500);});
+
+/* ----- tampilan profil lengkap ----- */
+var FP={uid:null,tab:'p',posts:null,stories:null,err:null,gen:0,total:0,view:null};
+function fpEl(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e;}
+function fpOn(){var o=$('zcFullProfile');return !!(o&&o.classList.contains('on'));}
+function fpMsg(t,ic){var d=fpEl('div','zc-fp-msg'),i=fpEl('i','fa-solid '+ic);d.appendChild(i);d.appendChild(fpEl('span',null,t));return d;}
+function fpPad(n){return ('0'+n).slice(-2);}
+function fpPaint(){
+ var uid=FP.uid;if(!uid||!fpOn())return;
+ var p=S.profiles[uid]||{id:uid,username:'Pengguna'},uname=p.username||'Pengguna',dn=p.display_name&&String(p.display_name).trim(),nm=dn||uname,mine=!!(S.me&&uid===S.me.id);
+ $('zcFpTitle').textContent='@'+uname;
+ var n=$('zcFpName');n.textContent=nm;try{if(window.ZUSMO_PAINT_NAME)window.ZUSMO_PAINT_NAME(n,dn?nameColorId(zcLookId(p)):'');}catch(e){}
+ var un=$('zcFpUser');un.textContent='@'+uname;
+ if(zcIsOwnerUser(p.username)||(S.owner&&S.owner.uid&&String(p.id||uid)===String(S.owner.uid)))un.appendChild(verifiedBadge('1.3em'));
+ setAv($('zcFpAv'),p.id||uid,nm);
+ $('zcFullProfile').style.setProperty('--pf-h',hue(p.id||uid));
+ paintBanner($('zcFpCover'),$('zcFpVid'),bannerVideoFor(p.id||uid));
+ renderRoleInto($('zcFpRole'),p);renderTitlesInto($('zcFpTitles'),p.titles);
+ var sp=[],jd=p.joined_at?new Date(p.joined_at):null;
+ sp.push(mine?'Ini profil kamu':(S.online[uid]?'Online':(p.last_seen?'Terakhir aktif '+ago(p.last_seen):'Offline')));
+ if(jd&&!isNaN(jd.getTime()))sp.push('Gabung '+fpPad(jd.getDate())+'-'+fpPad(jd.getMonth()+1)+'-'+jd.getFullYear());
+ $('zcFpStatus').textContent=sp.join(' · ');
+ var bt=String(p.bio||'').replace(/\r/g,'').split('\n').map(function(l){return l.replace(/\s+/g,' ').trim();}).filter(Boolean).join('\n').slice(0,160),bn=$('zcFpBio');
+ bn.textContent=bt;bn.hidden=!bt;
+ var lk=cleanLink(p.link_url),la=$('zcFpLink');if(lk){la.href=lk;la.textContent=linkHost(lk);la.hidden=false;}else{la.hidden=true;la.removeAttribute('href');}
+ var cn=S.cnt[uid]||{following:0,followers:0,likes:0};
+ $('zcFpFollowers').textContent=fmtN(cn.followers);$('zcFpFollowing').textContent=fmtN(cn.following);$('zcFpLikes').textContent=fmtN(likeShown(cn.likes));
+ $('zcFpPosts').textContent=FP.posts===null?'–':fmtN(FP.total);
+ var sf=$('zcSheetFollow'),sc=$('zcSheetChat'),f=$('zcFpFollow'),c=$('zcFpChat');
+ f.innerHTML=sf.innerHTML;f.disabled=sf.disabled;f.dataset.state=sf.dataset.state||'follow';
+ c.innerHTML=sc.innerHTML;c.disabled=sc.disabled;
+ $('zcFpHint').textContent=mine?'':$('zcSheetHint').textContent;$('zcFpActions').hidden=mine;
+ var ab=$('zcFpAvBtn'),has=!!(FP.stories&&FP.stories.length);ab.classList.toggle('has-story',has);ab.disabled=!has;
+}
+function fpTabs(){
+ var p=FP.tab==='p';$('zcFpTabP').setAttribute('aria-selected',p?'true':'false');$('zcFpTabS').setAttribute('aria-selected',p?'false':'true');
+ var sc=FP.stories&&FP.stories.length;$('zcFpTabS').lastChild.textContent=' Story'+(sc?' ('+sc+')':'');
+}
+function fpThumb(u,poster,isV){
+ if(isV&&!poster){var v=fpEl('video');v.muted=true;v.preload='metadata';v.playsInline=true;v.src=u+'#t=0.1';return v;}
+ var i=fpEl('img');i.loading='lazy';i.decoding='async';i.alt='';i.referrerPolicy='no-referrer';i.src=isV?poster:u;return i;
+}
+function fpBody(){
+ var b=$('zcFpBody');b.textContent='';
+ if(FP.posts===null){b.appendChild(fpMsg('Memuat…','fa-spinner fa-spin'));return;}
+ if(FP.err){b.appendChild(fpMsg(FP.err==='off'?'Postingan & story belum aktif di server. Pemilik aplikasi perlu menjalankan zusmo-chat-profile-content.sql di Supabase.':'Gagal memuat. Tutup lalu buka lagi.','fa-triangle-exclamation'));return;}
+ var mine=!!(S.me&&FP.uid===S.me.id),g;
+ if(FP.tab==='p'){
+  if(!FP.posts.length){b.appendChild(fpMsg(mine?'Postinganmu akan muncul di sini setelah tersinkron.':'Belum ada postingan.','fa-image'));return;}
+  g=fpEl('div','zc-fp-grid');
+  FP.posts.forEach(function(p,idx){
+   var it=p.items[Math.min(p.cover,p.items.length-1)]||p.items[0],c=fpEl('button','zc-fp-cell');c.type='button';c.setAttribute('aria-label','Buka postingan '+(idx+1));
+   c.appendChild(fpThumb(it.u,it.p,it.t==='video'));
+   var ic=p.pinned?'fa-thumbtack':(p.items.length>1?'fa-clone':(it.t==='video'?'fa-play':''));if(ic)c.appendChild(fpEl('i','fa-solid '+ic));
+   c.onclick=function(){fpViewPost(idx);};g.appendChild(c);
+  });
+  b.appendChild(g);
+ }else{
+  if(!FP.stories.length){b.appendChild(fpMsg('Tidak ada story aktif.','fa-circle-play'));return;}
+  g=fpEl('div','zc-fp-grid');
+  FP.stories.forEach(function(s,idx){
+   var c=fpEl('button','zc-fp-cell zc-fp-scell');c.type='button';c.setAttribute('aria-label','Putar story '+(idx+1));
+   c.appendChild(fpThumb(s.url,'',s.kind==='video'));if(s.kind==='video')c.appendChild(fpEl('i','fa-solid fa-play'));
+   c.appendChild(fpEl('small',null,ago(s.created)));c.onclick=function(){fpViewStories(idx);};g.appendChild(c);
+  });
+  b.appendChild(g);
+ }
+}
+async function pubLoad(uid,g){
+ try{
+  var rs=await Promise.all([
+   S.sb.from('zc_pub_posts').select('id,caption,items,cover,pinned,created_at',{count:'exact'}).eq('user_id',uid).order('pinned',{ascending:false}).order('created_at',{ascending:false}).limit(60),
+   S.sb.from('zc_pub_stories').select('id,url,kind,overlay_url,texts,v_start,v_end,created_at,expires_at').eq('user_id',uid).gt('expires_at',new Date().toISOString()).order('created_at',{ascending:true}).limit(60)]);
+  if(g!==FP.gen)return;
+  var e=rs[0].error||rs[1].error;if(e)throw e;
+  FP.posts=(rs[0].data||[]).map(function(p){
+   var items=(Array.isArray(p.items)?p.items:[]).slice(0,20).map(function(i){i=i||{};return{u:pubUrl(i.u),t:i.t==='video'?'video':'image',p:pubUrl(i.p)};}).filter(function(i){return i.u;});
+   return{id:String(p.id),caption:String(p.caption||'').slice(0,2200),items:items,cover:Math.max(0,+p.cover||0),pinned:!!p.pinned,created:p.created_at};
+  }).filter(function(p){return p.items.length;});
+  FP.total=Math.max(rs[0].count||0,FP.posts.length);
+  FP.stories=(rs[1].data||[]).map(function(s){
+   var tx=(Array.isArray(s.texts)?s.texts:[]).slice(0,30).map(function(t){t=t||{};return{t:String(t.t||'').slice(0,300),x:Math.max(0,Math.min(1,+t.x||0)),y:Math.max(0,Math.min(1,+t.y||0)),s:Math.max(.01,Math.min(.4,+t.s||.07)),r:+t.r||0,c:/^#[0-9a-f]{3,8}$/i.test(String(t.c))?t.c:'#ffffff'};});
+   return{id:String(s.id),url:pubUrl(s.url),kind:s.kind==='video'?'video':'image',draw:pubUrl(s.overlay_url),texts:tx,vs:Math.max(0,+s.v_start||0),ve:s.v_end==null?null:(+s.v_end||null),created:s.created_at};
+  }).filter(function(s){return s.url;});
+  FP.err=null;
+ }catch(e){
+  if(g!==FP.gen)return;
+  FP.err=(missingBackend(e)||/zc_pub|bucket/i.test(String((e&&e.message)||'')))?'off':'fail';FP.posts=[];FP.stories=[];
+  console.warn('[zc-chat] profil lengkap:',e);
+ }
+ fpPaint();fpTabs();fpBody();
+}
+function fpOpen(uid){
+ if(!UUID_RE.test(uid)||!S.sb)return;
+ var g=++FP.gen;FP.uid=uid;FP.tab='p';FP.posts=null;FP.stories=null;FP.err=null;FP.total=0;pfUid=uid;
+ var o=$('zcFullProfile');o.classList.add('on');o.setAttribute('aria-hidden','false');$('zcFpScroll').scrollTop=0;
+ fpPaint();fpTabs();fpBody();pubLoad(uid,g);
+}
+function fpClose(){
+ if(FP.view){FP.view.close();}
+ FP.gen++;FP.uid=null;var o=$('zcFullProfile');o.classList.remove('on');o.setAttribute('aria-hidden','true');
+ var v=$('zcFpVid');if(v){try{v.pause();}catch(e){}}
+}
+/* penampil postingan: geser kiri/kanan untuk foto & video berikutnya */
+function fpViewPost(idx){
+ var p=FP.posts&&FP.posts[idx];if(!p||FP.view)return;
+ var root=fpEl('div','zc-fpv'),top=fpEl('div','zc-fpv-top'),x=fpEl('button','zc-fpv-x'),cnt=fpEl('span'),track=fpEl('div','zc-fpv-track'),cap=fpEl('div','zc-fpv-cap',p.caption);
+ x.type='button';x.setAttribute('aria-label','Tutup');x.innerHTML='<i class="fa-solid fa-xmark"></i>';
+ top.appendChild(x);top.appendChild(cnt);root.appendChild(top);root.appendChild(track);root.appendChild(cap);
+ p.items.forEach(function(it){
+  var s=fpEl('div','zc-fpv-slide'),m;
+  if(it.t==='video'){m=fpEl('video');m.controls=true;m.playsInline=true;m.preload='metadata';m.src=it.u;if(it.p)m.poster=it.p;}
+  else{m=fpEl('img');m.alt='';m.referrerPolicy='no-referrer';m.decoding='async';m.src=it.u;}
+  s.appendChild(m);track.appendChild(s);
+ });
+ function upd(){
+  var w=track.clientWidth||1,i=Math.max(0,Math.min(p.items.length-1,Math.round(track.scrollLeft/w)));
+  var d=new Date(p.created),ds=isNaN(d.getTime())?'':'  ·  '+fpPad(d.getDate())+'-'+fpPad(d.getMonth()+1)+'-'+d.getFullYear();
+  cnt.textContent=(p.items.length>1?(i+1)+' / '+p.items.length:'Postingan')+ds;
+  Array.prototype.forEach.call(track.querySelectorAll('video'),function(v,k){if(p.items[k]&&p.items[k]!==p.items[i]){try{v.pause();}catch(e){}}});
+ }
+ var tm=null;track.addEventListener('scroll',function(){clearTimeout(tm);tm=setTimeout(upd,80);});
+ var V={close:function(){
+  if(!root.parentNode)return;Array.prototype.forEach.call(root.querySelectorAll('video'),function(v){try{v.pause();v.removeAttribute('src');v.load();}catch(e){}});
+  root.parentNode.removeChild(root);FP.view=null;}};
+ x.onclick=V.close;FP.view=V;$('zcFullProfile').appendChild(root);upd();
+}
+/* penampil story: ketuk kiri/kanan untuk pindah, bilah di atas = progres */
+function fpViewStories(i0){
+ var list=FP.stories;if(!list||!list.length||FP.view)return;
+ var root=fpEl('div','zc-fpv zc-fps'),bars=fpEl('div','zc-fps-bars'),top=fpEl('div','zc-fpv-top'),who=fpEl('span'),x=fpEl('button','zc-fpv-x'),frame=fpEl('div','zc-fps-frame'),pv=fpEl('button','zc-fps-nav p'),nx=fpEl('button','zc-fps-nav n');
+ x.type='button';x.setAttribute('aria-label','Tutup');x.innerHTML='<i class="fa-solid fa-xmark"></i>';pv.type=nx.type='button';pv.setAttribute('aria-label','Sebelumnya');nx.setAttribute('aria-label','Berikutnya');
+ var pr=S.profiles[FP.uid]||{};who.textContent=(pr.display_name&&String(pr.display_name).trim())||pr.username||'Story';
+ top.appendChild(who);top.appendChild(x);
+ var fills=list.map(function(){var i=fpEl('i'),b=fpEl('b');i.appendChild(b);bars.appendChild(i);return b;});
+ root.appendChild(bars);root.appendChild(top);root.appendChild(frame);root.appendChild(pv);root.appendChild(nx);
+ var idx=0,raf=0,t0=0,dur=5000,vid=null,dead=false;
+ function fit(){var W=root.clientWidth||window.innerWidth,H=root.clientHeight||window.innerHeight,w=Math.min(W,H*9/16);frame.style.width=w+'px';frame.style.height=(w*16/9)+'px';frame.style.setProperty('--fw',w+'px');}
+ function stop(){cancelAnimationFrame(raf);raf=0;if(vid){try{vid.pause();vid.removeAttribute('src');vid.load();}catch(e){}vid=null;}}
+ function go(n){if(dead)return;if(n>=list.length){V.close();return;}if(n<0)n=0;show(n);}
+ function tick(ts){
+  if(dead)return;var f;
+  if(vid&&vid.duration){var s=list[idx],st=s.vs,en=(s.ve&&s.ve>st&&s.ve<=vid.duration)?s.ve:vid.duration;f=(vid.currentTime-st)/Math.max(.1,en-st);if(vid.currentTime>=en-.05||vid.ended){go(idx+1);return;}}
+  else{if(!t0)t0=ts;f=vid?0:(ts-t0)/dur;if(!vid&&f>=1){go(idx+1);return;}}
+  fills[idx].style.width=Math.max(0,Math.min(100,f*100))+'%';raf=requestAnimationFrame(tick);
+ }
+ function show(n){
+  stop();idx=n;t0=0;frame.textContent='';fit();
+  fills.forEach(function(b,k){b.style.width=k<n?'100%':'0';});
+  var s=list[n],m;
+  if(s.kind==='video'){m=fpEl('video');m.playsInline=true;m.muted=false;m.preload='auto';vid=m;
+   m.addEventListener('loadedmetadata',function(){try{if(s.vs)m.currentTime=s.vs;}catch(e){}});
+   m.addEventListener('error',function(){vid=null;});m.src=s.url;frame.appendChild(m);
+   var pp=m.play();if(pp&&pp.catch)pp.catch(function(){m.muted=true;var q=m.play();if(q&&q.catch)q.catch(function(){});});}
+  else{m=fpEl('img');m.alt='';m.referrerPolicy='no-referrer';m.src=s.url;frame.appendChild(m);}
+  if(s.draw){var d=fpEl('img','zc-fps-draw');d.alt='';d.referrerPolicy='no-referrer';d.src=s.draw;d.style.cssText='position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:1;pointer-events:none';frame.appendChild(d);}
+  s.texts.forEach(function(t){var e=fpEl('div','zc-fps-t',t.t);e.style.cssText='left:'+(t.x*100)+'%;top:'+(t.y*100)+'%;transform:translate(-50%,-50%) rotate('+t.r+'rad);color:'+t.c+';font-size:calc(var(--fw)*'+t.s+');text-shadow:'+(t.c==='#000000'?'0 0 6px rgba(255,255,255,.6)':'0 1px 8px rgba(0,0,0,.6)');frame.appendChild(e);});
+  who.textContent=((pr.display_name&&String(pr.display_name).trim())||pr.username||'Story')+'  ·  '+ago(s.created);
+  raf=requestAnimationFrame(tick);
+ }
+ var V={close:function(){if(dead)return;dead=true;stop();if(root.parentNode)root.parentNode.removeChild(root);FP.view=null;window.removeEventListener('resize',fit);}};
+ x.onclick=V.close;pv.onclick=function(){go(idx-1);};nx.onclick=function(){go(idx+1);};window.addEventListener('resize',fit);
+ FP.view=V;$('zcFullProfile').appendChild(root);show(Math.max(0,Math.min(list.length-1,i0||0)));
+}
+/* paintProfile ikut menyegarkan halaman profil lengkap bila sedang terbuka */
+(function(){var orig=paintProfile;paintProfile=function(uid,loading){orig(uid,loading);try{if(FP.uid===uid)fpPaint();}catch(e){}};})();
+$('zcSheetView').addEventListener('click',function(){if(pfUid)fpOpen(pfUid);});
+$('zcFpBack').addEventListener('click',fpClose);
+$('zcFpTabP').addEventListener('click',function(){FP.tab='p';fpTabs();fpBody();});
+$('zcFpTabS').addEventListener('click',function(){FP.tab='s';fpTabs();fpBody();});
+$('zcFpAvBtn').addEventListener('click',function(){if(FP.stories&&FP.stories.length)fpViewStories(0);});
+$('zcFpFollow').addEventListener('click',function(){if(!FP.uid)return;pfUid=FP.uid;togglePfFollow();});
+$('zcFpChat').addEventListener('click',function(){var uid=FP.uid;if(!uid||this.disabled)return;fpClose();closeSheet('zcProfileSheet');openThread(uid);});
+document.addEventListener('keydown',function(e){if(e.key!=='Escape'||!fpOn())return;e.stopImmediatePropagation();if(FP.view)FP.view.close();else fpClose();},true);
 $('zcSheetFollow').addEventListener('click',togglePfFollow);
 $('zcPfLike').addEventListener('click',togglePfLike);
 $('zcSheetChat').addEventListener('click',function(){var uid=pfUid;if(!uid||this.disabled)return;closeSheet('zcProfileSheet');openThread(uid);});
