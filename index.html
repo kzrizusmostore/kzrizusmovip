@@ -10260,7 +10260,7 @@ MsgList.prototype.buildInto=function(parent,m,prev){
  var bub=el('div','zc-bub');if(!mine&&o.showName&&first){var nameLine=el('div','zc-name-line');var spf=S.profiles[sender]||{},sdn=spf.display_name&&String(spf.display_name).trim(),suser='@'+(m.username||'Pengguna');var nm=el('button','zc-nm',sdn||suser);nm.type='button';nm.style.color='hsl('+hue(sender)+',80%,72%)';if(sdn)ncApply(nm,sender,'hsl('+hue(sender)+',80%,72%)');nm.addEventListener('click',this.profileClick(sender,m.username));nameLine.appendChild(nm);if(zcIsOwnerUser(m.username||spf.username)||(S.owner&&S.owner.uid&&String(sender)===String(S.owner.uid)))nameLine.appendChild(verifiedBadge('1.02em'));var role=chatRoleLabel(m.role_label||m.role||'');if(role){nameLine.appendChild(zcRoleBadge(role));}bub.appendChild(nameLine);}
  var quoted=m.deleted_at?null:replyOf(m);if(quoted){var q=el('div','zc-quoted');q.appendChild(el('b','',quoted.username||'Pengguna'));q.appendChild(el('span','',quoted.text||'Pesan'));q.setAttribute('role','button');q.tabIndex=0;q.setAttribute('aria-label','Lompat ke pesan yang dibalas');q.addEventListener('click',function(e){e.stopPropagation();self.jumpTo(quoted,m);});q.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();e.stopPropagation();self.jumpTo(quoted,m);}});bub.appendChild(q);}
  if(m.deleted_at){var dx=el('div','zc-tx zc-deleted');dx.innerHTML='<i class="fa-solid fa-ban" aria-hidden="true"></i>';dx.appendChild(el('span','',txtOf(m)));bub.appendChild(dx);}else{var _sn=zcStkNum(replyOf(m)?replyOf(m).body:rawContent(m));if(_sn){var sx=el('div','zc-tx zc-stk-msg'),si=document.createElement('img');si.src=zcStkSrc(_sn);si.alt='Stiker '+_sn;si.loading='lazy';si.decoding='async';si.draggable=false;si.onerror=function(){sx.textContent='Stiker';sx.classList.remove('zc-stk-msg');};sx.appendChild(si);bub.classList.add('zc-bub-stk');bub.appendChild(sx);}else{var _tn=zcTxNode(txtOf(m));bub.appendChild(_tn.node);if(_tn.me&&!mine)bub.classList.add('zc-bub-mn');}}
- var meta=el('div','zc-meta');meta.appendChild(el('span','',hhmm(d)));if(mine&&o.receipts){var delivered=!!m.delivered_at||!!m.read_at;meta.appendChild(el('i','fa-solid '+(m.read_at?'fa-check-double zc-read':(delivered?'fa-check-double zc-delivered':'fa-check'))));}else if(mine&&o.groupReceipts){meta.appendChild(el('i','fa-solid fa-check-double zc-delivered'));}bub.appendChild(meta);
+ var meta=el('div','zc-meta');if(!m.deleted_at&&zcIsEdited(m))meta.appendChild(el('span','zc-edited','diedit'));meta.appendChild(el('span','',hhmm(d)));if(mine&&o.receipts){var delivered=!!m.delivered_at||!!m.read_at;meta.appendChild(el('i','fa-solid '+(m.read_at?'fa-check-double zc-read':(delivered?'fa-check-double zc-delivered':'fa-check'))));}else if(mine&&o.groupReceipts){meta.appendChild(el('i','fa-solid fa-check-double zc-delivered'));}bub.appendChild(meta);
  if(o.allowReply&&!m.deleted_at){attachSwipeReply(bub,m,o);}
  if(!m.deleted_at&&m.id!=null)zcRxPaint(self,m,bub);
  row.appendChild(bub);
@@ -10341,6 +10341,128 @@ async function zcDeleteOwn(m,list){
  m.deleted_at=now;list.render(false);flash('Pesan dihapus untuk semua orang.');S.resyncAt=0;resync();return true;
 }
 function zcCloseMsgMenu(){var o=document.getElementById('zcMsgMenu');if(o)o.remove();}
+/* ===== v7: Edit pesan sendiri + Lapor pesan + antrean laporan admin ===== */
+var ZC_ED_MARK='\u2063\u2063',ZC_ED_MS=300000,zcReported={};
+var ZC_REP_WHY=[['spam','Spam atau promosi','fa-solid fa-bullhorn'],['penipuan','Penipuan','fa-solid fa-user-secret'],['pelecehan','Pelecehan atau kata kasar','fa-solid fa-face-angry'],['tidak_pantas','Konten tidak pantas','fa-solid fa-ban'],['lainnya','Lainnya','fa-regular fa-circle-question']];
+function zcEdStrip(s){s=String(s==null?'':s);return s.slice(-2)===ZC_ED_MARK?s.slice(0,-2):s;}
+function zcIsEdited(m){var q=replyOf(m),b=q?q.body:rawContent(m);return String(b).slice(-2)===ZC_ED_MARK;}
+function zcCanEdit(m){if(!m||m.deleted_at||m.id==null||isPinMarker(m))return false;var t=new Date(m.created_at).getTime();return !!t&&Date.now()-t<=ZC_ED_MS;}
+function zcSheet(center){
+ var ov=el('div','zc-mm-ov');ov.id='zcMsgMenu';var sh=el('div','zc-mm-sheet');sh.setAttribute('role','dialog');
+ if(center){ov.style.alignItems='center';sh.style.borderRadius='20px';sh.style.margin='0 12px';}
+ ov.addEventListener('click',function(e){if(e.target===ov)zcCloseMsgMenu();});
+ ov.appendChild(sh);(document.getElementById('zcChat')||document.body).appendChild(ov);return sh;
+}
+function zcBtn(icon,label,cls,fn){var b=el('button','zc-mm-btn'+(cls?' '+cls:''));b.type='button';b.innerHTML='<i class="'+icon+'" aria-hidden="true"></i>';b.appendChild(el('span','',label));b.addEventListener('click',fn);return b;}
+
+/* --- Edit pesan --- */
+function zcEditOpen(m,list){
+ zcCloseMsgMenu();
+ var q=replyOf(m),cur=zcEdStrip(q?q.body:rawContent(m));
+ var sh=zcSheet(true);
+ sh.appendChild(el('div','zc-ed-t','Edit pesan'));
+ var ta=document.createElement('textarea');ta.className='zc-ed-ta';ta.maxLength=500;ta.rows=4;ta.value=cur;ta.setAttribute('aria-label','Isi pesan');sh.appendChild(ta);
+ sh.appendChild(el('div','zc-ed-hint','Pesan hanya bisa diedit sampai 5 menit setelah dikirim.'));
+ var row=el('div','zc-ed-row'),no=el('button','zc-ed-b','Batal'),ok=el('button','zc-ed-b pri','Simpan');no.type='button';ok.type='button';
+ no.addEventListener('click',zcCloseMsgMenu);
+ ok.addEventListener('click',async function(){
+  var txt=normalizeSend(ta.value);
+  if(!txt){flash('Pesan tidak boleh kosong.');return;}
+  if(txt===cur){zcCloseMsgMenu();return;}
+  if(clientBanned(txt)){flash(banMsg());return;}
+  if(!zcCanEdit(m)){zcCloseMsgMenu();flash('Waktu edit sudah habis (maks 5 menit).');return;}
+  ok.disabled=true;no.disabled=true;
+  var done=await zcEditSave(m,list,txt);
+  if(done)zcCloseMsgMenu();else{ok.disabled=false;no.disabled=false;}
+ });
+ row.appendChild(no);row.appendChild(ok);sh.appendChild(row);
+ setTimeout(function(){try{ta.focus();ta.setSelectionRange(ta.value.length,ta.value.length);}catch(e){}},60);
+}
+async function zcEditSave(m,list,txt){
+ var q=replyOf(m),scope=m.user_id?'global':'private',body=txt+ZC_ED_MARK;
+ var raw=q?encodeReply(body,{username:q.username,text:q.text,id:q.id}):body;
+ var ok=false,late=false;
+ try{
+  var r=await S.sb.rpc('zc_edit_own_message',{p_scope:scope,p_message_id:String(m.id),p_content:raw});
+  if(!r.error){if(r.data===true)ok=true;else late=true;}
+  else{
+   var tbl=scope==='global'?'chat_messages':'private_messages',col=scope==='global'?'user_id':'sender_id',cols=['content','message'];
+   for(var i=0;i<cols.length&&!ok;i++){var p={};p[cols[i]]=raw;var u=await S.sb.from(tbl).update(p).eq('id',m.id).eq(col,S.me.id).is('deleted_at',null).select('id');if(!u.error&&u.data&&u.data.length)ok=true;}
+  }
+ }catch(e){}
+ if(late){flash('Pesan tidak bisa diedit lagi (maks 5 menit).');return false;}
+ if(!ok){flash('Gagal mengedit pesan. Jalankan zusmo-chat-edit-report.sql di Supabase.');return false;}
+ m.content=raw;if(m.message!=null)m.message=raw;list.render(false);flash('Pesan diedit.');return true;
+}
+
+/* --- Lapor pesan --- */
+function zcReportOpen(m,scope){
+ zcCloseMsgMenu();
+ var key=scope+':'+m.id;if(zcReported[key]){flash('Kamu sudah melaporkan pesan ini.');return;}
+ var sh=zcSheet(false);
+ sh.appendChild(el('div','zc-ed-t','Laporkan pesan'));
+ sh.appendChild(el('div','zc-mm-prev',txtOf(m)));
+ sh.appendChild(el('div','zc-ed-hint','Pilih alasan. Laporan dikirim ke admin untuk ditinjau.'));
+ ZC_REP_WHY.forEach(function(w){sh.appendChild(zcBtn(w[2],w[1],'',function(){zcReportSend(m,scope,w[0],key);}));});
+ sh.appendChild(zcBtn('fa-solid fa-xmark','Batal','zc-mm-cancel',zcCloseMsgMenu));
+}
+async function zcReportSend(m,scope,why,key){
+ zcCloseMsgMenu();
+ try{
+  var r=await S.sb.rpc('zc_report_message',{p_scope:scope,p_message_id:String(m.id),p_reason:why});
+  if(r.error)throw r.error;
+  var s=String(r.data||'');
+  if(s==='ok'){zcReported[key]=1;flash('Laporan terkirim. Terima kasih.');}
+  else if(s==='duplicate'){zcReported[key]=1;flash('Kamu sudah melaporkan pesan ini.');}
+  else if(s==='self')flash('Tidak bisa melaporkan pesan sendiri.');
+  else if(s==='notfound')flash('Pesan tidak ditemukan.');
+  else flash('Laporan tidak bisa dikirim.');
+ }catch(e){flash('Gagal mengirim laporan. Jalankan zusmo-chat-edit-report.sql di Supabase.');}
+}
+
+/* --- Antrean laporan (admin) --- */
+function zcRepLabel(k){for(var i=0;i<ZC_REP_WHY.length;i++)if(ZC_REP_WHY[i][0]===k)return ZC_REP_WHY[i][1];return 'Lainnya';}
+function zcRepBadge(n){var b=$('zcRepBtn');if(!b)return;var t=b.querySelector('.zc-rep-n');if(!t)return;t.textContent=n>99?'99+':String(n);t.hidden=!n;}
+async function zcRepCount(){if(!S.sb||!S.me||!S.me.is_admin)return;try{var r=await S.sb.rpc('zc_list_reports');if(!r.error&&Array.isArray(r.data))zcRepBadge(r.data.length);}catch(e){}}
+async function zcRepOpen(){
+ zcCloseMsgMenu();
+ var sh=zcSheet(false);sh.classList.add('zc-rep-sheet');
+ sh.appendChild(el('div','zc-ed-t','Laporan pesan'));
+ var box=el('div','zc-rep-list');box.appendChild(el('div','zc-rep-empty','Memuat…'));sh.appendChild(box);
+ sh.appendChild(zcBtn('fa-solid fa-xmark','Tutup','zc-mm-cancel',zcCloseMsgMenu));
+ var rows=[];
+ try{var r=await S.sb.rpc('zc_list_reports');if(r.error)throw r.error;rows=r.data||[];}
+ catch(e){box.textContent='';box.appendChild(el('div','zc-rep-empty','Gagal memuat laporan. Jalankan zusmo-chat-edit-report.sql di Supabase.'));return;}
+ zcRepBadge(rows.length);box.textContent='';
+ if(!rows.length){box.appendChild(el('div','zc-rep-empty','Belum ada laporan baru.'));return;}
+ rows.forEach(function(x){
+  var it=el('div','zc-rep-item'),d=new Date(x.created_at),top=el('div','zc-rep-top');
+  top.appendChild(el('b','',zcRepLabel(x.reason)));top.appendChild(el('span','',dayLabel(d)+' '+hhmm(d)));it.appendChild(top);
+  var raw=String(x.message_text||''),q=unpackReply(raw),body=zcEdStrip(q?q.body:raw);
+  it.appendChild(el('div','zc-rep-tx',(zcStkNum(body)?'Stiker':body).slice(0,240)));
+  it.appendChild(el('div','zc-rep-meta','Pengirim @'+(x.reported_username||'?')+' · pelapor @'+(x.reporter_username||'?')+(x.scope==='private'?' · chat pribadi':'')));
+  var act=el('div','zc-ed-row'),pf=el('button','zc-ed-b','Profil pengirim'),dn=el('button','zc-ed-b pri','Selesai');pf.type='button';dn.type='button';
+  pf.addEventListener('click',function(){if(UUID_RE.test(String(x.reported_user_id||''))){zcCloseMsgMenu();openProfile(x.reported_user_id);}});
+  dn.addEventListener('click',async function(){
+   dn.disabled=true;
+   try{var rr=await S.sb.rpc('zc_resolve_report',{p_id:x.id});if(rr.error||rr.data!==true)throw rr.error||new Error('x');}
+   catch(e){flash('Gagal menandai selesai.');dn.disabled=false;return;}
+   it.remove();zcRepCount();if(!box.children.length)box.appendChild(el('div','zc-rep-empty','Belum ada laporan baru.'));
+  });
+  act.appendChild(pf);act.appendChild(dn);it.appendChild(act);box.appendChild(it);
+ });
+}
+function zcRepInit(){
+ if(zcRepInit.done||!S.me)return;zcRepInit.done=true;
+ if(!S.me.is_admin)return;
+ var head=document.querySelector('#zcChat .zc-head');if(!head||$('zcRepBtn'))return;
+ var b=el('button','zc-rep-btn');b.type='button';b.id='zcRepBtn';b.setAttribute('aria-label','Laporan pesan');
+ b.innerHTML='<i class="fa-regular fa-flag" aria-hidden="true"></i><span class="zc-rep-n" hidden>0</span>';
+ b.addEventListener('click',zcRepOpen);head.appendChild(b);
+ zcRepCount();setInterval(zcRepCount,60000);
+}
+setInterval(zcRepInit,1500);
+
 function openMsgMenu(m,o){
  zcCloseMsgMenu();if(!o)o=(m.user_id?gList:pList).opts;
  var mine=S.me&&String(o.senderOf(m))===String(S.me.id),isG=!!m.user_id,list=isG?gList:pList,body=(replyOf(m)?replyOf(m).body:rawContent(m)),isStk=!!zcStkNum(body);
@@ -10350,6 +10472,8 @@ function openMsgMenu(m,o){
  function add(icon,label,cls,fn){var b=el('button','zc-mm-btn'+(cls?' '+cls:''));b.type='button';b.innerHTML='<i class="'+icon+'" aria-hidden="true"></i>';b.appendChild(el('span','',label));b.addEventListener('click',fn);sh.appendChild(b);return b;}
  if(o.allowReply)add('fa-solid fa-reply','Balas','',function(){zcCloseMsgMenu();setReply(m,isG?'group':'thread');});
  if(!isStk)add('fa-regular fa-copy','Salin pesan','',function(){zcCloseMsgMenu();zcCopyText(txtOf(m));});
+ if(mine&&!isStk&&zcCanEdit(m))add('fa-regular fa-pen-to-square','Edit pesan','',function(){zcEditOpen(m,list);});
+ if(!mine&&!(S.me&&S.me.is_admin)&&!m.deleted_at&&m.id!=null)add('fa-regular fa-flag','Laporkan pesan','zc-mm-del',function(){zcReportOpen(m,isG?'global':'private');});
  if(mine){var armed=false;var db=add('fa-regular fa-trash-can','Hapus untuk semua orang','zc-mm-del',async function(){
    if(!armed){armed=true;db.classList.add('confirm');db.lastChild.textContent='Ketuk lagi untuk menghapus';return;}
    db.disabled=true;zcCloseMsgMenu();await zcDeleteOwn(m,list);
@@ -10516,7 +10640,7 @@ var ZC_REPLY_PREFIX='[[ZC_REPLY_V1]]';
 function rawContent(m){return String(m&&m.content!=null?m.content:(m&&m.message!=null?m.message:''));}
 function unpackReply(raw){if(raw.indexOf(ZC_REPLY_PREFIX)!==0)return null;try{var x=JSON.parse(raw.slice(ZC_REPLY_PREFIX.length));if(!x||typeof x.text!=='string'||typeof x.body!=='string')return null;return x;}catch(e){return null;}}
 function replyOf(m){return unpackReply(rawContent(m));}
-function txtOf(m){if(m&&m.deleted_at)return 'Pesan ini telah dihapus';var raw=rawContent(m);if(raw.indexOf(ZC_PIN_PREFIX)===0)return 'Pesan disematkan';if(raw.indexOf(ZC_SLOW_PREFIX)===0)return 'Mode lambat diubah';if(raw.indexOf(ZC_RCT_PREFIX)===0)return 'Reaksi';var q=unpackReply(raw),qb=q?q.body:raw;return zcStkNum(qb)?'Stiker':qb;}
+function txtOf(m){if(m&&m.deleted_at)return 'Pesan ini telah dihapus';var raw=rawContent(m);if(raw.indexOf(ZC_PIN_PREFIX)===0)return 'Pesan disematkan';if(raw.indexOf(ZC_SLOW_PREFIX)===0)return 'Mode lambat diubah';if(raw.indexOf(ZC_RCT_PREFIX)===0)return 'Reaksi';var q=unpackReply(raw),qb=q?q.body:raw;return zcStkNum(qb)?'Stiker':zcEdStrip(qb);}
 function encodeReply(body,q){if(!q)return body;return ZC_REPLY_PREFIX+JSON.stringify({username:q.username||'Pengguna',text:String(q.text||'').slice(0,180),body:body,id:q.id!=null?q.id:null});}
 
 /* ===== Sematan pesan grup =====
@@ -11124,10 +11248,10 @@ function renderOnlineUsers(){
 }
 function onPresence(){var st=S.pres.presenceState(),on={};Object.keys(st).forEach(function(k){var meta=st[k]&&st[k][0]||{};on[k]=meta.username||true;if(!S.profiles[k]&&meta.username)S.profiles[k]={id:k,username:meta.username,last_seen:new Date().toISOString()};});S.online=on;renderConn();renderOnlineUsers();try{gmCount();gmOnPresence();}catch(e){}if(S.peer)renderPeerHead();renderConvs();if(S.usersQ.length>=3)searchUsers();}
 function onGlobalInsert(m){if(!m||!m.id||gList.ids[m.id])return;if(m.content==null&&m.message!=null)m.content=m.message;var done=function(){fillName(m);gList.add(m,m.user_id===S.me.id);};ensureProfiles([m.user_id]).then(done,done);}
-function onGlobalUpdate(m){if(!m||!m.id)return;gList.patch(m);}
+function onGlobalUpdate(m){if(!m||!m.id)return;if(m.content==null){if(m.message!=null)m.content=m.message;else delete m.content;}gList.patch(m);}
 function onGlobalDelete(m){if(!m||m.id==null)return;gList.remove(m.id);}
 function onPmInsert(m){if(!m||!m.id)return;var mine=m.sender_id===S.me.id,peer=mine?m.receiver_id:m.sender_id;if(!mine)markDelivered(m);if(S.peer===peer&&pList.ids[m.id])return;var c=S.convs[peer]||(S.convs[peer]={peer_id:peer,unread:0});var _rx=zcRxIs(m);if(!_rx&&(!c.last_at||Date.parse(m.created_at)>=Date.parse(c.last_at))){c.last_content=txtOf(m);c.last_at=m.created_at;c.last_sender=m.sender_id;}if(S.peer===peer)pList.add(m,mine);if(!mine){var viewing=S.peer===peer&&S.tab==='private'&&pageActive()&&!document.hidden;if(viewing)markRead(peer);else if(!_rx)c.unread=(c.unread||0)+1;}ensureProfiles([peer]).then(function(){renderConvs();if(S.peer===peer)renderPeerHead();});renderConvs();renderBadges();if(S.peer===peer)setComposerState();}
-function onPmUpdate(m){if(m&&m.id&&S.peer&&(m.sender_id===S.me.id||m.receiver_id===S.me.id))pList.patch(m);}
+function onPmUpdate(m){if(m&&m.id&&S.peer&&(m.sender_id===S.me.id||m.receiver_id===S.me.id)){if(m.content==null){if(m.message!=null)m.content=m.message;else delete m.content;}pList.patch(m);}}
 function touch(){if(!S.sb||!S.ready)return;try{S.sb.rpc('zc_touch').then(function(){},function(){});}catch(e){}}
 async function markRead(peer){
  var c=S.convs[peer];if(c)c.unread=0;renderBadges();
@@ -12795,6 +12919,26 @@ window.apResetRole=function(){
 .zc-mm-sheet{width:100%;max-width:520px;background:#1b1b1f;border-radius:20px 20px 0 0;padding:14px 12px calc(14px + env(safe-area-inset-bottom,0px));box-shadow:0 -10px 40px rgba(0,0,0,.5);animation:zcMmUp .18s ease-out}
 @keyframes zcMmUp{from{transform:translateY(24px);opacity:0}to{transform:none;opacity:1}}
 .zc-mm-prev{margin:0 4px 10px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.06);color:#cfcfcf;font-size:13px;line-height:1.35;max-height:64px;overflow:hidden;overflow-wrap:anywhere}
+.zc-edited{font-style:italic;margin-right:2px}
+.zc-ed-t{font-size:15px;font-weight:700;color:#fff;margin:2px 4px 10px}
+.zc-ed-ta{width:100%;box-sizing:border-box;min-height:96px;max-height:40vh;resize:none;padding:11px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:#fff;font:inherit;font-size:15px;line-height:1.4;outline:none}
+.zc-ed-ta:focus{border-color:rgba(255,43,43,.6)}
+.zc-ed-hint{margin:6px 4px 12px;font-size:12px;color:rgba(255,255,255,.5);line-height:1.35}
+.zc-ed-row{display:flex;gap:8px}
+.zc-ed-b{flex:1;min-height:46px;border:0;border-radius:12px;font:inherit;font-size:14px;font-weight:700;cursor:pointer;background:rgba(255,255,255,.08);color:#fff}
+.zc-ed-b.pri{background:#ff2b2b}
+.zc-ed-b:disabled{opacity:.5}
+.zc-rep-btn{position:relative;margin-left:auto;flex:none;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:#fff;display:grid;place-items:center;cursor:pointer;font-size:15px}
+.zc-rep-n{position:absolute;top:-4px;right:-4px;min-width:17px;height:17px;padding:0 4px;box-sizing:border-box;border-radius:9px;background:#ff2b2b;color:#fff;font-size:10px;font-weight:800;display:grid;place-items:center}
+.zc-rep-n[hidden]{display:none}
+.zc-rep-sheet{max-height:82vh;display:flex;flex-direction:column}
+.zc-rep-list{overflow-y:auto;display:grid;gap:8px;margin-bottom:8px}
+.zc-rep-item{padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.06)}
+.zc-rep-top{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:rgba(255,255,255,.55)}
+.zc-rep-top b{color:#ff8585;font-size:13px}
+.zc-rep-tx{margin:6px 0;font-size:14px;color:#fff;line-height:1.35;overflow-wrap:anywhere;white-space:pre-wrap}
+.zc-rep-meta{margin-bottom:8px;font-size:12px;color:rgba(255,255,255,.5)}
+.zc-rep-empty{padding:18px 8px;text-align:center;font-size:13px;color:rgba(255,255,255,.55)}
 .zc-mm-btn{display:flex;align-items:center;gap:14px;width:100%;min-height:48px;padding:0 14px;border:0;border-radius:12px;background:transparent;color:#fff;font-size:15px;font-weight:600;text-align:left;cursor:pointer;font-family:inherit}
 .zc-mm-btn i{width:20px;text-align:center;color:#aaa}
 .zc-mm-btn:active{background:rgba(255,255,255,.08)}
