@@ -12166,8 +12166,9 @@ renderConvs();renderBadges();renderConn();onPageToggle();
  var CSS=''
  +'.zca-btn{flex:0 0 auto;width:38px;height:38px;border-radius:12px;border:1px solid rgba(255,43,43,.35);background:rgba(255,43,43,.1);color:#ff5a5a;display:inline-flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;margin-left:auto;box-shadow:0 0 12px rgba(255,43,43,.18)}'
  +'.zca-btn:active{transform:scale(.94)}'
- +'.zca-ov{position:fixed;inset:0;z-index:100000;background:rgba(0,0,0,.72);display:flex;align-items:flex-end;justify-content:center}'
+ +'.zca-ov{position:fixed;inset:0;z-index:100005;background:rgba(0,0,0,.72);display:flex;align-items:flex-end;justify-content:center}'
  +'.zca-ov[hidden]{display:none}'
+ +'#zcChat .zc-flash{z-index:100010}'
  +'.zca-sheet{width:100%;max-width:560px;height:88vh;max-height:88vh;background:#141010;border:1px solid rgba(255,43,43,.28);border-bottom:0;border-radius:20px 20px 0 0;display:flex;flex-direction:column;color:#e9edef;box-shadow:0 -10px 40px rgba(255,43,43,.14);padding-bottom:env(safe-area-inset-bottom,0)}'
  +'.zca-head{display:flex;align-items:center;gap:10px;padding:14px 14px 10px}'
  +'.zca-head>i{color:#ff4040;font-size:20px}'
@@ -12283,7 +12284,7 @@ renderConvs();renderBadges();renderConn();onPageToggle();
   if(P.ov)return;
   var ov=el('div','zca-ov');ov.hidden=true;
   ov.innerHTML='<div class="zca-sheet" role="dialog" aria-modal="true" aria-label="Pantau chat pribadi"><div class="zca-head"><i class="fa-solid fa-user-shield" aria-hidden="true"></i><div class="zca-ht"><b>Pantau chat pribadi</b><small>Khusus admin</small></div><button type="button" class="zca-x" aria-label="Tutup"><i class="fa-solid fa-xmark"></i></button></div><div class="zca-body"></div></div>';
-  document.body.appendChild(ov);
+  (document.getElementById('zcChat')||document.body).appendChild(ov);
   P.ov=ov;P.body=ov.querySelector('.zca-body');
   ov.querySelector('.zca-x').addEventListener('click',closePanel);
   ov.addEventListener('click',function(e){if(e.target===ov)closePanel();});
