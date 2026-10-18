@@ -1049,6 +1049,41 @@ AccessTokenDua
             <div class="zc-item-bot"><span class="zc-item-sub" id="zcGroupPrev">Ketuk untuk membuka grup</span><span class="zc-unread-badge" id="zcGroupBadge" hidden>0</span><i class="fa-solid fa-thumbtack zc-pin" aria-hidden="true"></i></div>
           </div>
         </button>
+        <style id="zdCss">.zd{margin:6px 0 10px;border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.015)}
+.zd[hidden],.zd [hidden]{display:none!important}
+.zd-head{display:flex;align-items:center;justify-content:space-between;padding:10px 16px 4px;color:var(--wa-text)}
+.zd-head b{font-size:13px;letter-spacing:.2px;display:flex;align-items:center;gap:7px}.zd-head b i{color:var(--wa-green)}
+.zd-hb{width:40px;height:40px;border:0;border-radius:50%;background:transparent;color:var(--wa-sub);cursor:pointer;font-size:14px}
+.zd-hb.spin i{animation:zdSpin .8s linear infinite}@keyframes zdSpin{to{transform:rotate(360deg)}}
+.zd-tabs{display:flex;gap:8px;padding:4px 16px 8px;overflow-x:auto;scrollbar-width:none}.zd-tabs::-webkit-scrollbar{display:none}
+.zd-tab{flex:0 0 auto;height:36px;padding:0 14px;border-radius:18px;border:1px solid #2a3942;background:transparent;color:var(--wa-sub);font-size:13px;font-weight:600;cursor:pointer}
+.zd-tab.on{background:rgba(255,43,43,.14);border-color:var(--wa-green);color:#fff}
+.zd-row{padding:8px 16px;border-top:1px solid rgba(255,255,255,.04)}
+.zd-main{display:flex;align-items:center;gap:12px;cursor:pointer;min-height:48px}
+.zd-av{flex:0 0 44px!important;width:44px!important;height:44px!important}
+.zd-body{min-width:0;flex:1}
+.zd-name{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:700;color:var(--wa-text)}.zd-nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.zd-new{font-style:normal;font-size:10px;font-weight:800;padding:2px 6px;border-radius:8px;background:var(--wa-green);color:#fff}
+.zd-sub{font-size:11.5px;color:var(--wa-sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.zd-acts{display:flex;gap:8px;margin-top:6px;padding-left:56px}
+.zd-btn{position:relative;height:40px;min-width:40px;padding:0 14px;border-radius:20px;border:1px solid #2a3942;background:transparent;color:var(--wa-text);font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.zd-btn:disabled{opacity:.5;cursor:default}
+.zd-f.on{color:var(--wa-sub)}.zd-c{background:var(--wa-green);border-color:var(--wa-green);color:#fff}.zd-s{padding:0;width:40px;color:var(--wa-sub)}
+.zd-bd{position:absolute;top:-5px;right:-4px;min-width:18px;height:18px;padding:0 4px;border-radius:9px;background:#fff;color:#c00;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.zd-greet{margin:8px 0 2px 56px;padding:10px;border-radius:12px;background:rgba(255,255,255,.05)}
+.zd-gnote{font-size:12px;line-height:1.45;color:var(--wa-sub)}
+.zd-tpls{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.zd-tpl{min-height:36px;padding:6px 12px;border-radius:18px;border:1px solid var(--wa-green);background:transparent;color:#fff;font-size:12.5px;cursor:pointer}
+.zd-empty{padding:18px 20px;text-align:center;font-size:12.5px;line-height:1.55;color:var(--wa-sub)}
+.zd-link{min-height:40px;padding:0 14px;border:0;background:transparent;color:var(--wa-green);font-size:13px;font-weight:700;cursor:pointer}
+#zdMore{text-align:center;padding-bottom:6px}
+@media(min-width:700px){.zd-acts{padding-left:56px}}
+</style>
+        <section class="zd" id="zcDisc" hidden aria-label="Temukan teman">
+          <div class="zd-head"><b><i class="fa-solid fa-user-group" aria-hidden="true"></i> Temukan Teman</b><span><button type="button" class="zd-hb" id="zdFind" aria-label="Cari username"><i class="fa-solid fa-magnifying-glass"></i></button><button type="button" class="zd-hb" id="zdRefresh" aria-label="Segarkan rekomendasi"><i class="fa-solid fa-rotate"></i></button><button type="button" class="zd-hb" id="zdToggle" aria-expanded="true" aria-label="Ciutkan atau buka"><i class="fa-solid fa-chevron-up"></i></button></span></div>
+          <div id="zdBody"><div class="zd-tabs" role="tablist"><button type="button" class="zd-tab on" role="tab" data-t="rec" aria-selected="true">Untuk Kamu</button><button type="button" class="zd-tab" role="tab" data-t="online" aria-selected="false">Online</button><button type="button" class="zd-tab" role="tab" data-t="new" aria-selected="false">Baru</button><button type="button" class="zd-tab" role="tab" data-t="fol" aria-selected="false">Diikuti</button></div><div id="zdList"></div><div id="zdMore"></div></div>
+        </section>
+
         <div class="zc-search-hint" id="zcSearchHint"></div>
         <div class="zc-list" id="zcUserList"></div>
         <div class="zc-list" id="zcConvList"></div>
@@ -11589,6 +11624,7 @@ function renderOwnerRow(){
  row.classList.toggle('unread',!!un);
 }
 function renderConvs(){
+ try{zdSync();}catch(e){console.warn('[zc-disc]',e);}
  renderGroupRow();renderOwnerRow();
  var box=$('zcConvList');box.textContent='';
  if(S.filter==='group')return;
@@ -12622,6 +12658,184 @@ function pollTick(){
  /* Realtime putus -> polling cepat (6 dtk). Normal -> jaring pengaman tiap 30 dtk. */
  if(bad||pollN%5===0)resync();
  if(S.peer&&S.tab==='private'&&S.social.ok!==false&&threadGate()&&pollN%2===0)loadRelation(S.peer).then(function(){setComposerState();});
+}
+/* ===== ZUSMO SOCIAL DISCOVERY (Prompt 3) — memakai RPC/tabel yang sudah ada: chat_profiles, zc_follow_list, zc_profile_card, zc_follow/zc_unfollow, presence S.online, openThread. Tanpa data palsu. ===== */
+var ZD={uid:null,tab:'rec',shown:8,seed:Date.now(),fol:{},folIds:[],folOk:true,pools:{},raw:{},marked:{},loaded:false,loading:false,err:'',open:true,bound:false,t:null,seq:0,cardBusy:{},openGreet:null};
+var ZD_PAGE=8,ZD_RAW=30,ZD_TPL=['Hai, boleh kenalan?','Lagi ngobrolin apa?','Halo! Salam kenal dari ZUSMO','Main Free Fire bareng yuk?'];
+function zdSeenKey(){return 'zd_seen_v1:'+(S.me?S.me.id:'x');}
+function zdSeen(){try{return JSON.parse(localStorage.getItem(zdSeenKey())||'{}')||{};}catch(e){return {};}}
+function zdMark(ids){var m=zdSeen(),n=0;ids.forEach(function(i){if(ZD.marked[i])return;ZD.marked[i]=1;m[i]=(m[i]||0)+1;n++;});if(!n)return;var k=Object.keys(m);if(k.length>300)k.slice(0,k.length-300).forEach(function(x){delete m[x];});try{localStorage.setItem(zdSeenKey(),JSON.stringify(m));}catch(e){}}
+function zdReset(){ZD.uid=S.me?S.me.id:null;ZD.shown=ZD_PAGE;ZD.seed=Date.now();ZD.fol={};ZD.folIds=[];ZD.pools={};ZD.raw={};ZD.marked={};ZD.snap=null;ZD.loaded=false;ZD.loading=false;ZD.err='';ZD.cardBusy={};ZD.openGreet=null;ZD.seq++;}
+function zdIsFol(id){var r=S.rel&&S.rel[id];if(r&&!r.error)return !!r.i_follow;return !!ZD.fol[id];}
+function zdOk(p){if(!p||!UUID_RE.test(String(p.id||''))||!S.me||p.id===S.me.id||!p.username)return false;if(p.blacklisted||p.is_blacklisted)return false;var r=ZD.raw[p.id]||{};if(r.is_private===true||r.private===true||r.is_public===false||r.deleted_at||r.disabled===true)return false;return true;}
+function zdIsNew(p){var r=ZD.raw[p.id]||{},t=Date.parse(r.created_at||r.joined_at||'');return !!t&&Date.now()-t<14*864e5;}
+function zdJit(id){var h=0,t=id+ZD.seed;for(var i=0;i<t.length;i++)h=(h*31+t.charCodeAt(i))>>>0;return (h%1000)/1000;}
+function zdScore(p,seen){var s=0,id=p.id;if(S.online[id])s+=40;if(!S.convs[id])s+=30;if(!zdIsFol(id))s+=20;var ls=Date.parse(p.last_seen||'');if(ls&&Date.now()-ls<7*864e5)s+=10;if(zdIsNew(p))s+=8;s-=Math.min(seen[id]||0,5)*6;return s+zdJit(id)*5;}
+function zdRank(list){var seen=ZD.snap||(ZD.snap=zdSeen());return list.slice().sort(function(a,b){return zdScore(b,seen)-zdScore(a,seen);});}
+function zdCandidates(){
+ var t=ZD.tab,out=[];
+ if(t==='online'){Object.keys(S.online).forEach(function(id){var p=S.profiles[id];if(p&&zdOk(p))out.push(p);});return out.sort(function(a,b){return String(a.username).localeCompare(String(b.username));});}
+ if(t==='fol'){ZD.folIds.forEach(function(id){var p=S.profiles[id];if(p&&zdOk(p)&&zdIsFol(id))out.push(p);});return out;}
+ var pool=(ZD.pools[t]&&ZD.pools[t].ids)||[];
+ pool.forEach(function(id){var p=S.profiles[id];if(!p||!zdOk(p))return;if(t==='rec'&&(zdIsFol(id)||(S.convs[id]&&S.convs[id].last_at)))return;out.push(p);});
+ return t==='rec'?zdRank(out):out;
+}
+async function zdFetchPool(t){
+ var pl=ZD.pools[t]||(ZD.pools[t]={ids:[],from:0,done:false,busy:false,noCol:false});
+ if(pl.busy||pl.done)return;pl.busy=true;var uid=ZD.uid;
+ try{
+  var q=S.sb.from('chat_profiles').select('*');
+  q=(t==='new'&&!pl.noCol)?q.order('created_at',{ascending:false}):q.order('last_seen',{ascending:false,nullsFirst:false});
+  var r=await q.range(pl.from,pl.from+ZD_RAW-1);
+  if(uid!==ZD.uid)return;
+  if(r.error){if(t==='new'&&isColErr(r.error)&&!pl.noCol){pl.noCol=true;pl.busy=false;pl.done=true;ZD.err='Tanggal bergabung belum tersedia di database.';return;}throw r.error;}
+  var rows=(r.data||[]).filter(function(p){return p&&UUID_RE.test(String(p.user_id||''))&&p.username;});
+  rows.forEach(function(p){ZD.raw[p.user_id]=p;gmCache(p);if(pl.ids.indexOf(p.user_id)<0)pl.ids.push(p.user_id);});
+  pl.from+=ZD_RAW;if((r.data||[]).length<ZD_RAW)pl.done=true;
+ }finally{pl.busy=false;}
+}
+async function zdLoadFollowing(){
+ try{var r=await S.sb.rpc('zc_follow_list',{p_kind:'following',p_limit:200});
+  if(r.error){ZD.folOk=!missingBackend(r.error)?true:false;if(!missingBackend(r.error))console.warn('[zc-disc] following:',r.error);return;}
+  var ids=[];(r.data||[]).forEach(function(x){var id=typeof x==='string'?x:(x&&(x.user_id||x.id||x.zc_follow_list));if(id&&UUID_RE.test(String(id))&&ids.indexOf(id)<0)ids.push(id);});
+  ZD.folIds=ids;ZD.fol={};ids.forEach(function(i){ZD.fol[i]=1;});await ensureProfiles(ids);
+ }catch(e){console.warn('[zc-disc] following:',e);}
+}
+async function zdLoad(){
+ if(ZD.loading||!S.ready||!S.sb)return;ZD.loading=true;ZD.err='';var uid=ZD.uid;zdPaint();
+ try{
+  await zdLoadFollowing();
+  if(ZD.tab==='online'){await ensureProfiles(Object.keys(S.online));}
+  else if(ZD.tab!=='fol'){await zdFetchPool(ZD.tab);}
+  if(uid!==ZD.uid)return;ZD.loaded=true;
+ }catch(e){ZD.err=missingBackend(e)?'Daftar pengguna belum bisa dimuat dari server.':friendly(e);ZD.loaded=true;}
+ finally{if(uid===ZD.uid)ZD.loading=false;}
+ zdPaint();
+}
+async function zdEnsureEnough(){
+ var t=ZD.tab;if(t==='online'||t==='fol')return;
+ var pl=ZD.pools[t];var guard=0;
+ while(zdCandidates().length<ZD.shown&&!(ZD.pools[t]&&ZD.pools[t].done)&&guard++<4){await zdFetchPool(t);}
+}
+function zdSub(p){
+ var parts=['@'+p.username],id=p.id;
+ parts.push(S.online[id]?'Online':(p.last_seen?'Aktif '+ago(p.last_seen):'Offline'));
+ var c=S.cnt&&S.cnt[id];if(c)parts.push(fmtN(c.followers)+' pengikut');
+ return parts.join(' · ');
+}
+function zdBtn(cls,act,html,label){var b=el('button','zd-btn '+cls);b.type='button';b.dataset.act=act;b.innerHTML=html;if(label)b.setAttribute('aria-label',label);return b;}
+function zdRowEl(p){
+ var id=p.id,row=el('div','zd-row');row.dataset.id=id;
+ var main=el('div','zd-main'),wrap=el('span','zc-av-wrap zd-av');wrap.appendChild(avatar(id,p.username));if(S.online[id])wrap.appendChild(el('span','zc-av-on'));main.appendChild(wrap);
+ var b=el('div','zd-body'),n=el('div','zd-name'),nm=el('span','zd-nm',(p.display_name&&String(p.display_name).trim())||p.username);try{ncApply(nm,id,'');}catch(e){}n.appendChild(nm);
+ if(zdIsNew(p))n.appendChild(el('em','zd-new','Baru'));
+ b.appendChild(n);b.appendChild(el('div','zd-sub',zdSub(p)));main.appendChild(b);
+ main.addEventListener('click',function(){openProfile(id);});row.appendChild(main);
+ var rel=S.rel&&S.rel[id],fol=zdIsFol(id),acts=el('div','zd-acts');
+ var f=zdBtn('zd-f'+(fol?' on':''),'f',fol?'<i class="fa-solid fa-check"></i> Mengikuti':'<i class="fa-solid fa-user-plus"></i> '+((rel&&rel.follows_me)?'Ikuti Balik':'Ikuti'));
+ if(S.social&&S.social.ok===false)f.disabled=true;if(fol&&isAdminPeer(id))f.disabled=true;if(S.social&&S.social.busy[id])f.disabled=true;
+ var c=zdBtn('zd-c','c','<i class="fa-solid fa-message"></i> Chat'),u=S.convs[id]&&S.convs[id].unread;
+ if(u)c.appendChild(el('span','zd-bd',u>99?'99+':String(u)));
+ acts.appendChild(f);acts.appendChild(c);acts.appendChild(zdBtn('zd-s','s','<i class="fa-solid fa-hand"></i>','Sapa'));row.appendChild(acts);
+ if(ZD.openGreet===id)row.appendChild(zdGreetEl(id));
+ return row;
+}
+function zdGreetEl(id){
+ var box=el('div','zd-greet'),rel=S.rel&&S.rel[id];
+ var can=!!(S.me.is_admin||isAdminPeer(id)||(rel&&rel.i_follow&&rel.follows_me));
+ if(!can){var p=S.profiles[id]||{};box.appendChild(el('div','zd-gnote',(rel&&rel.follows_me?'Ikuti balik':'Ikuti')+' @'+(p.username||'pengguna')+' dulu. Chat pribadi terbuka setelah kalian saling mengikuti.'));return box;}
+ box.appendChild(el('div','zd-gnote','Pilih pesan pembuka. Pesan baru terkirim setelah kamu menekan kirim.'));
+ var w=el('div','zd-tpls');ZD_TPL.forEach(function(t){var b=el('button','zd-tpl',t);b.type='button';b.dataset.act='t';b.dataset.tpl=t;w.appendChild(b);});box.appendChild(w);return box;
+}
+function zdPaintRow(id){
+ var list=$('zdList');if(!list)return;var old=list.querySelector('.zd-row[data-id="'+id+'"]'),p=S.profiles[id];
+ if(old&&p)old.replaceWith(zdRowEl(p));
+}
+function zdPaint(){
+ var list=$('zdList'),more=$('zdMore');if(!list)return;
+ var tabs=document.querySelectorAll('#zcDisc .zd-tab');for(var i=0;i<tabs.length;i++){var on=tabs[i].dataset.t===ZD.tab;tabs[i].classList.toggle('on',on);tabs[i].setAttribute('aria-selected',on?'true':'false');}
+ $('zdBody').hidden=!ZD.open;var tg=$('zdToggle');tg.setAttribute('aria-expanded',ZD.open?'true':'false');tg.firstChild.className='fa-solid fa-chevron-'+(ZD.open?'up':'down');
+ list.textContent='';more.textContent='';if(!ZD.open)return;
+ if(ZD.loading&&!ZD.loaded){list.appendChild(el('div','zd-empty','Memuat pengguna…'));return;}
+ var all=zdCandidates(),vis=all.slice(0,ZD.shown);
+ if(ZD.err&&!vis.length){var e1=el('div','zd-empty',ZD.err),rb=el('button','zd-link','Coba lagi');rb.type='button';rb.dataset.act='retry';e1.appendChild(document.createElement('br'));e1.appendChild(rb);list.appendChild(e1);return;}
+ if(!vis.length){var msg={rec:'Belum ada rekomendasi baru. Coba segarkan nanti, atau cari username temanmu di kolom pencarian.',online:'Belum ada pengguna lain yang online sekarang.',new:'Belum ada pengguna baru yang bisa ditampilkan.',fol:ZD.folOk?'Kamu belum mengikuti siapa pun. Buka tab Rekomendasi untuk mulai.':'Daftar diikuti belum aktif di server.'}[ZD.tab];list.appendChild(el('div','zd-empty',msg));return;}
+ vis.forEach(function(p){list.appendChild(zdRowEl(p));});
+ if(ZD.tab==='rec')zdMark(vis.map(function(p){return p.id;}));
+ var pl=ZD.pools[ZD.tab],canMore=all.length>vis.length||(pl&&!pl.done);
+ if(canMore){var mb=el('button','zd-link','Muat lagi');mb.type='button';mb.dataset.act='more';more.appendChild(mb);}
+ zdCards(vis.map(function(p){return p.id;}));
+}
+async function zdCards(ids){
+ var uid=ZD.uid,todo=ids.filter(function(id){return !(S.cnt&&S.cnt[id])&&!ZD.cardBusy[id]&&S.social&&S.social.ok!==false;});
+ for(var i=0;i<todo.length;i+=4){
+  await Promise.all(todo.slice(i,i+4).map(async function(id){ZD.cardBusy[id]=1;try{await loadCard(id);}catch(e){}if(uid===ZD.uid)zdPaintRow(id);}));
+  if(uid!==ZD.uid)return;
+ }
+}
+async function zdSetTab(t){
+ if(ZD.tab===t)return;ZD.tab=t;ZD.shown=ZD_PAGE;ZD.err='';ZD.openGreet=null;ZD.marked={};ZD.snap=null;zdPaint();
+ try{if(t==='online')await ensureProfiles(Object.keys(S.online));else if(t==='fol')await zdLoadFollowing();else await zdFetchPool(t);await zdEnsureEnough();}catch(e){ZD.err=friendly(e);}
+ zdPaint();
+}
+async function zdRefresh(){
+ var b=$('zdRefresh');if(b.disabled)return;b.disabled=true;b.classList.add('spin');
+ ZD.seed=Date.now();ZD.shown=ZD_PAGE;ZD.err='';ZD.openGreet=null;ZD.marked={};ZD.snap=null;
+ try{await zdLoadFollowing();if(ZD.tab==='online')await ensureProfiles(Object.keys(S.online));else if(ZD.tab!=='fol'){var pl=ZD.pools[ZD.tab];if(pl&&pl.done&&zdCandidates().length<ZD_PAGE){pl.done=false;pl.from=0;}await zdEnsureEnough();}}catch(e){ZD.err=friendly(e);}
+ b.disabled=false;b.classList.remove('spin');zdPaint();
+}
+async function zdFollow(id){
+ if(!S.ready||!S.me||id===S.me.id||!S.social||S.social.ok===false||S.social.busy[id])return;
+ var want=!zdIsFol(id);
+ if(!want&&isAdminPeer(id)){flash('Admin tidak bisa di-unfollow.');return;}
+ S.social.busy[id]=1;zdPaintRow(id);
+ try{
+  var r=await S.sb.rpc(want?'zc_follow':'zc_unfollow',{p_target:id});if(r.error)throw r.error;
+  await loadCard(id);
+  if(want&&isOwnerUid(id)){try{await ensureOwnerLike(id);}catch(e2){console.warn('[zc-disc] like owner:',e2);}}
+  if(want){ZD.fol[id]=1;if(ZD.folIds.indexOf(id)<0)ZD.folIds.unshift(id);}else delete ZD.fol[id];
+ }catch(e){flash(friendly(e));}
+ finally{delete S.social.busy[id];}
+ zdPaintRow(id);try{refreshMySocial();}catch(e){}if(S.peer===id)setComposerState();
+}
+async function zdChat(id){
+ var p=S.profiles[id];if(p&&p.blacklisted){flash('Pengguna ini sedang diblacklist dan tidak dapat diajak chat.');return;}
+ await openThread(id);
+}
+async function zdGreetToggle(id){
+ if(ZD.openGreet===id){ZD.openGreet=null;zdPaintRow(id);return;}
+ var prev=ZD.openGreet;ZD.openGreet=id;if(prev)zdPaintRow(prev);
+ if(!(S.rel&&S.rel[id])){try{await loadRelation(id);}catch(e){}}
+ if(ZD.openGreet===id)zdPaintRow(id);
+}
+async function zdUseTpl(id,txt){
+ ZD.openGreet=null;zdPaintRow(id);await openThread(id);
+ if(S.peer!==id)return;
+ var inp=$('zcThreadIn');if(!inp||inp.disabled){flash('Chat belum bisa dikirim. Periksa catatan di bawah.');return;}
+ inp.value=txt;try{inp.dispatchEvent(new Event('input',{bubbles:true}));}catch(e){}inp.focus();flash('Tekan kirim untuk menyapa.');
+}
+function zdBind(){
+ if(ZD.bound)return;var root=$('zcDisc');if(!root)return;ZD.bound=true;
+ root.addEventListener('click',function(ev){
+  var t=ev.target.closest&&ev.target.closest('[data-act],.zd-tab,#zdRefresh,#zdToggle,#zdFind');if(!t)return;
+  var row=t.closest('.zd-row'),id=row&&row.dataset.id,a=t.dataset.act;
+  if(t.classList.contains('zd-tab')){zdSetTab(t.dataset.t);return;}
+  if(t.id==='zdRefresh'){zdRefresh();return;}
+  if(t.id==='zdToggle'){ZD.open=!ZD.open;zdPaint();return;}
+  if(t.id==='zdFind'){var q=$('zcUserQ');if(q)q.focus();return;}
+  if(a==='f'&&id)zdFollow(id);else if(a==='c'&&id)zdChat(id);else if(a==='s'&&id)zdGreetToggle(id);
+  else if(a==='t'&&id)zdUseTpl(id,t.dataset.tpl);
+  else if(a==='more'){ZD.shown+=ZD_PAGE;zdPaint();zdEnsureEnough().then(zdPaint);}
+  else if(a==='retry'){ZD.loaded=false;ZD.pools={};zdLoad();}
+ });
+}
+function zdSync(){
+ var box=$('zcDisc');if(!box)return;
+ var show=!!(S.ready&&S.me&&S.sb&&S.filter==='all'&&!(S.usersQ&&S.usersQ.length>0));
+ box.hidden=!show;if(!show)return;zdBind();
+ if(ZD.uid!==S.me.id)zdReset();
+ if(!ZD.loaded&&!ZD.loading){zdLoad();return;}
+ clearTimeout(ZD.t);ZD.t=setTimeout(function(){if(ZD.tab==='online'){ensureProfiles(Object.keys(S.online)).then(zdPaint,zdPaint);}else zdPaint();},350);
 }
 async function start(){
  if(S.starting)return S.starting;showErr('');S.starting=(async function(){
