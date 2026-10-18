@@ -1106,8 +1106,8 @@ AccessTokenDua
       <div class="zc-pf-avwrap">
         <span class="zc-av zc-pf-av" id="zcSheetAv">?</span>
         <span class="zc-pf-dot" id="zcSheetDot" data-on="0" aria-hidden="true"></span>
+        <div class="zc-pf-note" id="zcSheetNote" hidden><span class="zc-pf-note-e" id="zcSheetNoteE" hidden></span><span id="zcSheetNoteT"></span></div>
       </div>
-      <div class="zc-pf-note" id="zcSheetNote" hidden><span class="zc-pf-note-e" id="zcSheetNoteE" hidden></span><span id="zcSheetNoteT"></span></div>
       <b class="zc-pf-name" id="zcSheetName">…</b>
       <span class="zc-pf-user" id="zcSheetUser"></span>
       <p class="zc-pf-bio" id="zcSheetBio" hidden></p>
@@ -9865,6 +9865,9 @@ html.zc-on #zcChat .zc-shell{height:100%!important;max-height:100%!important;pad
 #zcChat #zcProfileSheet .zc-psheet .zc-pf-follow[data-state="confirm"]{background:rgba(224,54,54,.14);border:1px solid rgba(224,54,54,.5);color:#ff8f8f;box-shadow:none}
 #zcChat #zcProfileSheet .zc-psheet .zc-sheet-chat{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#fff;box-shadow:none}
 #zcChat #zcProfileSheet .zc-pf-hint{margin-top:10px}
+/* catatan profil: menempel di sudut kanan atas avatar (posisi 45 derajat), tidak menutupi banner penuh */
+#zcChat #zcProfileSheet .zc-pf-note{position:absolute;top:auto;right:auto;left:78%;bottom:80%;z-index:4;margin:0;width:max-content;max-width:112px;padding:6px 10px;border-radius:14px;font-size:11.5px;line-height:1.3;text-align:left;box-shadow:0 3px 10px rgba(0,0,0,.4)}
+#zcChat #zcProfileSheet .zc-pf-note::before{top:auto;bottom:-4px;left:9px;margin-left:0;width:8px;height:8px}
 /* nuansa warna per role: makin tinggi makin jelas */
 #zcChat #zcProfileSheet .zc-psheet[data-role="BASIC"]{--rc:255,255,255;--rb:.14;--rt:.03;--rr:.22}
 #zcChat #zcProfileSheet .zc-psheet[data-role="ELITE"]{--rc:10,132,255;--rb:.28;--rt:.07;--rr:.55}
