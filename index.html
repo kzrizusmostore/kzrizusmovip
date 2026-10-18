@@ -15036,3 +15036,70 @@ body.kz-fp-open .fd-layer{z-index:1000200}
   wire('zcSheetFollow','Ikuti');wire('zcSheetChat','Chat Pribadi');
 })();
 </script>
+
+
+<!-- ZUSMO PATCH: hide only the right-side floating circular control in Live Chat list -->
+<script id="zc-hide-right-floating-control">
+(function(){
+  'use strict';
+  var selector = 'button,a,[role="button"],[onclick],[tabindex]';
+  function chatListIsVisible(){
+    var chat = document.getElementById('zcChat');
+    var list = document.getElementById('zcConvView');
+    if (!chat || !list || !list.classList.contains('active')) return false;
+    return window.getComputedStyle(chat).display !== 'none' &&
+      chat.getClientRects().length > 0;
+  }
+  function hideTarget(el){
+    if (!el || el.nodeType !== 1 || el.id === 'zcFab' ||
+        el.hasAttribute('data-zc-chat-floating-hidden')) return false;
+    if (el.closest && el.closest('.zc-modal,.zc-psheet,.zc-fp-quick,.zc-pf-actions')) return false;
+    var cs = window.getComputedStyle(el);
+    if (cs.display === 'none' || cs.visibility === 'hidden' ||
+        (cs.position !== 'fixed' && cs.position !== 'absolute')) return false;
+    var r = el.getBoundingClientRect();
+    if (r.width < 44 || r.width > 90 || r.height < 44 || r.height > 90) return false;
+    if (Math.abs(r.width - r.height) > 12) return false;
+    if (r.right < window.innerWidth - 48 || r.right > window.innerWidth + 4) return false;
+    if (r.top < window.innerHeight * 0.28 || r.top > window.innerHeight * 0.82) return false;
+    var radius = parseFloat(cs.borderTopLeftRadius) || 0;
+    if (cs.borderTopLeftRadius.indexOf('%') !== -1) radius = Math.min(r.width, r.height) * radius / 100;
+    if (radius < Math.min(r.width, r.height) * 0.34) return false;
+    el.setAttribute('data-zc-chat-floating-hidden','1');
+    el.setAttribute('aria-hidden','true');
+    el.style.setProperty('display','none','important');
+    return true;
+  }
+  function scan(root){
+    if (!chatListIsVisible()) return;
+    if (root && root.nodeType === 1 && root.matches && root.matches(selector)) hideTarget(root);
+    var base = root && root.querySelectorAll ? root : document;
+    var nodes = base.querySelectorAll(selector);
+    for (var i=0; i<nodes.length; i++) hideTarget(nodes[i]);
+  }
+  function start(){
+    scan(document);
+    try {
+      var chat = document.getElementById('zcChat');
+      var list = document.getElementById('zcConvView');
+      if (chat && window.MutationObserver) {
+        new MutationObserver(function(){ scan(document); }).observe(chat,{attributes:true,attributeFilter:['class','style']});
+      }
+      if (list && window.MutationObserver) {
+        new MutationObserver(function(){ scan(document); }).observe(list,{attributes:true,attributeFilter:['class','style']});
+      }
+      if (document.body && window.MutationObserver) {
+        new MutationObserver(function(records){
+          if (!chatListIsVisible()) return;
+          records.forEach(function(record){
+            record.addedNodes.forEach(function(node){ if(node && node.nodeType===1) scan(node); });
+          });
+        }).observe(document.body,{childList:true,subtree:true});
+      }
+    } catch(e) {}
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded',start,{once:true});
+  else start();
+  window.addEventListener('resize',function(){scan(document);},{passive:true});
+})();
+</script>
