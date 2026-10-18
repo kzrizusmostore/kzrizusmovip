@@ -6731,8 +6731,9 @@ body #developerTab .dp-card:has(.dp-bio:not(.is-empty)),body #developerTab .dp-c
   function lookPaint(e,v,skip){
     if(!e)return;var S=e.style;
     ['background','-webkit-background-clip','background-clip','-webkit-text-fill-color','color','text-shadow'].forEach(function(p){S.removeProperty(p);});
+    try{e.classList.remove('zusmo-gold-shine');}catch(_){}
     if(!v||skip)return;
-    if(v.indexOf('gradient')>-1){S.background=v;S.webkitBackgroundClip='text';S.backgroundClip='text';S.webkitTextFillColor='transparent';S.textShadow='none';}
+    if(v.indexOf('gradient')>-1){if(v.indexOf('#FFEA9F')>-1){try{e.classList.add('zusmo-gold-shine');}catch(_){}}S.background=v;S.webkitBackgroundClip='text';S.backgroundClip='text';S.webkitTextFillColor='transparent';S.textShadow='none';}
     else{S.color=v;S.textShadow='0 0 10px '+v+'99';}
   }
   function lookApply(){
@@ -9855,14 +9856,25 @@ html.zc-on #zcChat .zc-shell{height:100%!important;max-height:100%!important;pad
 #zcChat #zcProfileSheet .zc-pf-role{margin-top:10px}
 #zcChat #zcProfileSheet .zc-pf-status{margin-top:8px;font-size:.7rem;color:rgba(255,255,255,.42)}
 #zcChat #zcProfileSheet .zc-pf-bio{margin-top:10px;padding:0 10px;font-size:.78rem;color:rgba(255,255,255,.72)}
-#zcChat #zcProfileSheet .zc-pf-stats{margin-top:14px}
-#zcChat #zcProfileSheet .zc-pf-join{margin-top:12px;padding:10px 4px 0;border-top:1px solid rgba(255,255,255,.06)}
+/* Statistik: tanpa kotak, hanya garis tipis atas-bawah dan pemisah antar kolom */
+#zcChat #zcProfileSheet .zc-pf-stats{margin-top:16px;border:0;border-top:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.07);border-radius:0;background:none}
+#zcChat #zcProfileSheet .zc-pf-stats>div,#zcChat #zcProfileSheet .zc-pf-like{padding:12px 4px 11px;border-radius:0;gap:4px}
+#zcChat #zcProfileSheet .zc-pf-stats b{font-size:1.15rem;font-weight:700}
+#zcChat #zcProfileSheet .zc-pf-stats span{font-size:.64rem;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:rgba(255,255,255,.45)}
+#zcChat #zcProfileSheet .zc-pf-like:disabled{opacity:1;cursor:default}
+#zcChat #zcProfileSheet .zc-pf-like.on b{color:#ff5a6a}
+#zcChat #zcProfileSheet .zc-pf-status:empty{display:none}
+#zcChat #zcProfileSheet .zc-pf-join{margin-top:12px;padding:0 4px}
 #zcChat #zcProfileSheet .zc-pf-actions{margin-top:14px}
 #zcChat #zcProfileSheet .zc-pf-hint{margin-top:8px}
 #zcChat #zcProfileSheet .zc-pf-titles{width:100%;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.06);gap:5px;opacity:.9}
 #zcChat #zcProfileSheet .zc-pf-titles::before{content:"GELAR";width:100%;text-align:center;font-size:.6rem;font-weight:700;letter-spacing:1.4px;color:rgba(255,255,255,.32)}
 #zcChat #zcProfileSheet .zc-pf-titles .dpt{font-size:.66rem;transform-origin:center}
 #zcChat #zcProfileSheet .zc-pf-titles .zc-pf-empty{font-size:.66rem;padding:3px 10px}
+/* Nama emas: kilau halus yang bergerak pelan melintasi teks */
+.zusmo-gold-shine{background-image:linear-gradient(105deg,rgba(255,255,255,0) 38%,rgba(255,252,230,.95) 50%,rgba(255,255,255,0) 62%),linear-gradient(90deg,#FFEA9F,#B07F43)!important;background-size:250% 100%,100% 100%!important;background-repeat:no-repeat!important;background-position:97% 0,0 0;-webkit-background-clip:text!important;background-clip:text!important;animation:zusmoGoldShine 5.5s cubic-bezier(.45,0,.55,1) infinite}
+@keyframes zusmoGoldShine{0%{background-position:97% 0,0 0}55%,100%{background-position:3% 0,0 0}}
+@media(prefers-reduced-motion:reduce){.zusmo-gold-shine{animation:none}}
 </style>
 <style id="zc-pin-style">
 /* Sematan pesan grup, lompat ke pesan yang dibalas, pemisah pesan baru */
@@ -11926,7 +11938,7 @@ function paintProfile(uid,loading){
  paintBanner($('zcProfileSheet'),document.querySelector('#zcProfileSheet .zc-pf-cover-vid'),bannerVideoFor(p.id||uid));
  var _fb=$('zcSheetFull');if(_fb)_fb.hidden=!mine;var _mb=$('zcSheetMod');if(_mb)_mb.hidden=!(S.me&&S.me.is_admin&&!mine);
  var isOn=!mine&&!!S.online[uid];$('zcSheetDot').dataset.on=isOn?'1':'0';
- $('zcSheetStatus').textContent=mine?'Profil kamu':(S.online[uid]?'Online':(p.last_seen?'Terakhir aktif '+ago(p.last_seen):'Offline'));
+ $('zcSheetStatus').textContent=mine?'':(S.online[uid]?'Online':(p.last_seen?'Terakhir aktif '+ago(p.last_seen):'Offline'));
  renderRoleInto($('zcSheetRole'),p);renderTitlesInto($('zcSheetTitles'),p.titles);
   var _bv=p.bio;if(!_bv&&mine){try{_bv=localStorage.getItem('dpBio');}catch(e){}}
   var _bt=String(_bv||'').replace(/\r/g,'').split('\n').map(function(l){return l.replace(/\s+/g,' ').trim();}).filter(Boolean).join('\n').slice(0,160),_bn=$('zcSheetBio');if(_bn){_bn.textContent=_bt;_bn.title=_bt;_bn.hidden=!_bt;_bn.classList.remove('open');_bn.onclick=function(){this.classList.toggle('open');};}
