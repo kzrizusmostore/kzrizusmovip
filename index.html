@@ -1,4 +1,64 @@
-<!DOCTYPE html><html lang="id"><head><script id="kz-reset-epoch">
+<!DOCTYPE html><html lang="id"><head><script id="kz-account-isolation">
+/* ISOLASI DATA PER AKUN
+   Role/VIP, banner koleksi, gelar, pembelian, saldo, dan riwayat disimpan di localStorage perangkat, sehingga dulu
+   dipakai bersama oleh semua akun di perangkat yang sama. Skrip ini menyimpan data itu per user-id (stash) dan
+   menukarnya otomatis saat akun berganti. Dipanggil dari start() (setelah login) dan zauLogout() (keluar). */
+(function(){
+  var OWNER='kz_acct_owner',CLEAN='kz_acct_clean',STASH='kzacct:',GUARD='kz_acct_reload';
+  /* Data lama (sebelum isolasi) dianggap milik akun ini; akun lain dimulai dari kosong. */
+  var LEGACY_OWNERS=['kzrizusmo_store'];
+  /* Pengaturan level perangkat + identitas sesi (ditulis ulang tiap login) tidak ikut dipisah. */
+  var KEEP={zusmo_settings_volume:1,zusmo_settings_animasi:1,zusmo_settings_music_on:1,zusmo_settings_custom_keyboard:1,
+    zusmo_shadow_language_v2:1,zusmo_shadow_vip_prices_v1:1,zusmo_shadow_vip_prices_v2:1,zusmo_shadow_vip_prices_v3:1,
+    zusmo_push_nudge_v1:1,zusmo_old_early_vip_key:1,dpUsername:1};
+  function get(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+  function set(k,v){try{localStorage.setItem(k,v);}catch(e){}}
+  function del(k){try{localStorage.removeItem(k);}catch(e){}}
+  function isBound(k){
+    if(!k||KEEP[k]||k===OWNER||k===CLEAN||k===GUARD||k.indexOf(STASH)===0)return false;
+    if(k==='role'||k==='roleColor'||k==='zsVerifiedAccount'||k==='zc_fyp_saved_v1'||k==='kz_diamond_9999_migration_v4')return true;
+    return /^(zusmo|dp|hmNewClicked_|kzBnKoleksi)/.test(k);
+  }
+  function snap(){var o={},i,k;try{for(i=0;i<localStorage.length;i++){k=localStorage.key(i);if(isBound(k))o[k]=localStorage.getItem(k);}}catch(e){}return o;}
+  function wipe(){Object.keys(snap()).forEach(del);}
+  function put(id,map){
+    try{localStorage.setItem(STASH+id,JSON.stringify(map));return true;}catch(e){}
+    var slim={};Object.keys(map).forEach(function(k){if(String(map[k]).length<100000)slim[k]=map[k];});
+    try{localStorage.setItem(STASH+id,JSON.stringify(slim));return true;}catch(e){}
+    try{console.warn('[kzAcct] stash penuh, data akun '+id+' tidak tersimpan di perangkat');}catch(e){}
+    return false;
+  }
+  function take(id){try{var t=localStorage.getItem(STASH+id);return t?JSON.parse(t):null;}catch(e){return null;}}
+  function apply(map){Object.keys(map||{}).forEach(function(k){if(isBound(k))set(k,map[k]);});}
+  /* true = isi localStorage berubah, halaman harus dimuat ulang agar tampilan memakai data akun yang benar */
+  function ensure(uid,username){
+    uid=String(uid||'');if(!uid)return false;
+    var owner=get(OWNER);
+    if(owner===uid){try{sessionStorage.removeItem(GUARD);}catch(e){}return false;}
+    var uname=String(username||'').trim().toLowerCase(),legacy=LEGACY_OWNERS.indexOf(uname)>-1;
+    var clean=get(CLEAN)==='1',cur=snap(),has=Object.keys(cur).length>0,changed=false;
+    if(owner){ if(has)put(owner,cur); wipe(); changed=true; }
+    else if(has&&!clean){
+      if(legacy){set(OWNER,uid);del(CLEAN);del(STASH+'legacy');return false;}
+      put('legacy',cur);wipe();changed=true;
+    }
+    var mine=take(uid);
+    if(!mine&&legacy){mine=take('legacy');if(mine)del(STASH+'legacy');}
+    if(mine){ if(!changed&&has)wipe(); apply(mine); changed=true; }
+    set(OWNER,uid);del(CLEAN);
+    if(get(OWNER)!==uid)return false;
+    if(!changed)return false;
+    try{if(sessionStorage.getItem(GUARD)===uid)return false;sessionStorage.setItem(GUARD,uid);}catch(e){}
+    return true;
+  }
+  function leave(){
+    var owner=get(OWNER),cur=snap();
+    if(Object.keys(cur).length)put(owner||'legacy',cur);
+    wipe();del(OWNER);set(CLEAN,'1');
+  }
+  window.kzAcct={ensure:ensure,leave:leave,isBound:isBound};
+})();
+</script><script id="kz-reset-epoch">
 /* RESET MASSAL: ubah nilai KZ_RESET_EPOCH setiap kali ingin mereset nama & username semua pengguna lagi.
    Tiap perangkat menjalankan reset sekali saja saat nilai epoch berbeda dari yang tersimpan. */
 (function(){
@@ -1616,6 +1676,12 @@ body.fyp-solid #zusmoWallpaperBg,body.fyp-solid #zxOldWall{display:none!importan
 #zcFeed .fy-sk-l{width:60%;height:12px;border-radius:6px;margin-top:12px}
 @keyframes fySk{to{background-position:-200% 0}}
 #zcFeed .fy-sent{height:2px}
+
+/* PERBAIKAN menu postingan Fyp: .page.active memakai animasi fadeSlide (forwards) yang meninggalkan transform: translateY(0).
+   Transform pada induk membuat position:fixed ikut induk (bukan layar), sehingga panel menu ada di dasar Fyp yang sangat panjang
+   (di luar layar) dan hanya latar gelap yang terlihat. Untuk halaman Fyp animasi dibuat tanpa fill-mode agar tidak ada transform tersisa. */
+@keyframes zfFade{from{opacity:0}to{opacity:1}}
+#zcFeed.page.active{opacity:1;animation:zfFade .35s ease}
 </style>
 <div class="page" id="zcFeed"><div class="zf-wrap">
 <div class="zf-head"><h1 role="heading" aria-level="1"><i class="fa-solid fa-newspaper" aria-hidden="true"></i>Fyp</h1><button type="button" class="zf-ib" id="zfRefresh" aria-label="Muat ulang Fyp"><i class="fa-solid fa-rotate-right" aria-hidden="true"></i></button><button type="button" class="zf-btn" id="zfNew"><i class="fa-solid fa-plus" aria-hidden="true"></i> Posting</button></div>
@@ -13246,16 +13312,17 @@ async function zauChangePassword(){
  }catch(e){zauShowMessage('zauAccountMsg',zauErrorText(e,'password'));console.warn('[ZUSMO AUTH] ganti password',e&&e.message||e);}
  finally{btn.disabled=false;btn.textContent='Ganti password';}
 }
-async function zauLogout(){if(!S.sb)return;var b=$('zauLogout');if(b){b.disabled=true;b.textContent='Keluar…';}try{var r=await S.sb.auth.signOut();if(r.error)throw r.error;$('zauAccount').hidden=true;ZC_AUTH_REQUIRED=true;S.me=null;S.ready=false;S.starting=null;zauSetAccountButton(false);zauShowGate('login');}catch(e){zauShowMessage('zauAccountMsg','Gagal keluar: '+zauErrorText(e));}finally{if(b){b.disabled=false;b.textContent='Keluar dari akun';}}}
+async function zauLogout(){if(!S.sb)return;var b=$('zauLogout');if(b){b.disabled=true;b.textContent='Keluar…';}try{var r=await S.sb.auth.signOut();if(r.error)throw r.error;try{if(window.kzAcct)window.kzAcct.leave();}catch(e2){}$('zauAccount').hidden=true;ZC_AUTH_REQUIRED=true;S.me=null;S.ready=false;S.starting=null;zauSetAccountButton(false);zauShowGate('login');setTimeout(function(){location.reload();},60);}catch(e){zauShowMessage('zauAccountMsg','Gagal keluar: '+zauErrorText(e));}finally{if(b){b.disabled=false;b.textContent='Keluar dari akun';}}}
 window.zcLogoutAccount=async function(){try{if(!S.sb||!S.me)return 'none';zauEnsureUi();await zauLogout();return S.me?'fail':'ok';}catch(e){return 'fail';}};
 
 async function start(){
  if(S.starting)return S.starting;showErr('');S.starting=(async function(){
   await loadSdk();
   if(!S.sb)S.sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false},realtime:{params:{eventsPerSecond:10}}});
-  if(!S.authWatch){S.authWatch=true;S.sb.auth.onAuthStateChange(function(ev,ses2){var nu=ses2&&ses2.user?ses2.user.id:null;if(!S.me)return;if(ev==='SIGNED_OUT'||(nu&&nu!==S.me.id))setTimeout(zcAccountReset,0);});}
+  if(!S.authWatch){S.authWatch=true;S.sb.auth.onAuthStateChange(function(ev,ses2){var nu=ses2&&ses2.user?ses2.user.id:null;if(!S.me)return;if(ev==='SIGNED_OUT'){try{if(window.kzAcct)window.kzAcct.leave();}catch(e){}setTimeout(function(){location.reload();},0);return;}if(nu&&nu!==S.me.id)setTimeout(zcAccountReset,0);});}
   var ses=await S.sb.auth.getSession(),authSession=ses&&ses.data&&ses.data.session,authUser=authSession&&authSession.user;
   if(!authUser||authUser.is_anonymous){ZC_AUTH_REQUIRED=true;S.ready=false;zauShowGate($('zauGate')&&!$('zauGate').hidden?null:'login');return;}
+  try{if(window.kzAcct&&window.kzAcct.ensure(authUser.id,zauNameFromAuthEmail(authUser.email))){location.reload();return;}}catch(e){console.warn('[kzAcct]',e);}
   ZC_AUTH_REQUIRED=false;zauHideGate();
   S.me=await ensureMe();
   try{S.gSeen=localStorage.getItem(zcSeenKey())||null;}catch(e){S.gSeen=null;}
@@ -14318,7 +14385,7 @@ renderConvs();renderBadges();renderConn();onPageToggle();
 */
 var ZCP_CONFIG_KEY = String(window.ZUSMO_PUSH_VAPID_PUBLIC_KEY || '').trim();
 var ZCP_BUSY = false;
-var ZCP_LAST_PREFS = {dm:true, community:false, hide_content:false};
+var ZCP_LAST_PREFS = {dm:true, community:true, hide_content:true};
 function zcpById(id){return document.getElementById(id);}
 function zcpEscHtml(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
 function zcpBase64ToBytes(s){
@@ -14438,10 +14505,10 @@ function zcpInitUi(){
    +'<div id="zcpGuide" class="zcp-guide" hidden></div>'
    +'<div id="zcpPrefs" class="zcp-prefs" hidden>'
    +'<label class="zcp-sw"><span class="tx"><b>Pesan pribadi</b><small>Saat ada DM baru</small></span><input type="checkbox" id="zcpDm" checked><span class="tr"></span></label>'
-   +'<label class="zcp-sw"><span class="tx"><b>ZUSMO COMMUNITY</b><small>Pesan komunitas (dibatasi agar tidak spam)</small></span><input type="checkbox" id="zcpCommunity"><span class="tr"></span></label>'
-   +'<label class="zcp-sw"><span class="tx"><b>Sembunyikan isi pesan</b><small>Tampilkan pemberitahuan umum di layar kunci</small></span><input type="checkbox" id="zcpHide"><span class="tr"></span></label>'
+   +'<label class="zcp-sw"><span class="tx"><b>ZUSMO COMMUNITY</b><small>Pesan komunitas (dibatasi agar tidak spam)</small></span><input type="checkbox" id="zcpCommunity" checked><span class="tr"></span></label>'
+   +'<label class="zcp-sw"><span class="tx"><b>Sembunyikan isi pesan</b><small>Tampilkan pemberitahuan umum di layar kunci</small></span><input type="checkbox" id="zcpHide" checked><span class="tr"></span></label>'
    +'</div>'
-   +'<button type="button" id="zcpDisable" class="zcp-secondary" hidden>Matikan di perangkat ini</button>'
+   
    +'<div id="zcpMsg" class="zcp-msg" aria-live="polite"></div>'
    +'<p class="zcp-foot">Notifikasi bergantung pada izin browser, koneksi, pengaturan perangkat, dan dukungan layanan push.</p>'
    +'</div>'
@@ -14452,7 +14519,7 @@ function zcpInitUi(){
   zcpById('zcpClose').addEventListener('click',zcpClose);
   ov.addEventListener('click',function(e){if(e.target===ov)zcpClose();});
   zcpById('zcpEnable').addEventListener('click',zcpEnable);
-  zcpById('zcpDisable').addEventListener('click',zcpDisable);
+  
   [['zcpDm','dm'],['zcpCommunity','community'],['zcpHide','hide_content']].forEach(function(pair){
    zcpById(pair[0]).addEventListener('change',function(){zcpSavePrefs().catch(function(e){zcpMsg('Gagal menyimpan preferensi: '+String(e&&e.message||e).slice(0,120),true);});});
   });
@@ -14480,6 +14547,11 @@ async function zcpReadPrefs(sub){
  if(r.error)throw r.error;
  var d=r.data||{};
  ZCP_LAST_PREFS={dm:d.dm!==false,community:d.community===true,hide_content:d.hide_content===true};
+/* Setelah push aktif, ketiga pilihan (pesan pribadi, komunitas, sembunyikan isi) otomatis nyala. Sekali per akun untuk perangkat yang sudah aktif; setelah itu pilihan manual dihormati. */
+if(sub&&d.registered){var _k='zusmo_push_all_on_v1',_done='';try{_done=localStorage.getItem(_k)||'';}catch(e){}
+if(!_done||_done!==String(sub.endpoint||'').slice(-24)){
+ if(!(d.dm!==false&&d.community===true&&d.hide_content===true)){try{var _up=await S.sb.rpc('zc_push_prefs_set',{p_dm:true,p_community:true,p_hide:true});if(!_up.error){d.dm=true;d.community=true;d.hide_content=true;ZCP_LAST_PREFS={dm:true,community:true,hide_content:true};}}catch(e){}}
+ try{localStorage.setItem(_k,String(sub.endpoint||'').slice(-24));}catch(e){}}}
  var p=zcpById('zcpPrefs');if(p)p.hidden=!sub||!d.registered;
  var dis=zcpById('zcpDisable');if(dis)dis.hidden=!sub||!d.registered;
  var en=zcpById('zcpEnable');if(en)en.hidden=!!(sub&&d.registered);
@@ -14503,7 +14575,7 @@ async function zcpRefresh(){
   if(!zcpConfigured()){zcpStatus('Public VAPID key belum dikonfigurasi.');zcpMsg('Isi ZUSMO_PUSH_VAPID_PUBLIC_KEY di file push-config.js terlebih dahulu.',true);return;}
   if(Notification.permission==='denied'){zcpStatus('Izin notifikasi ditolak browser.');zcpMsg('Buka pengaturan situs di Chrome Android → Notifikasi → Izinkan, lalu buka ulang panel ini.',true);return;}
   await zcpContext();var reg=await zcpRegistration();var sub=await reg.pushManager.getSubscription();
-  if(!sub){zcpStatus(Notification.permission==='granted'?'Izin sudah diberikan, tetapi push belum diaktifkan di perangkat ini.':'Push belum diaktifkan di perangkat ini.');zcpById('zcpEnable').hidden=false;zcpById('zcpPrefs').hidden=true;zcpById('zcpDisable').hidden=true;return;}
+  if(!sub){zcpStatus(Notification.permission==='granted'?'Izin sudah diberikan, tetapi push belum diaktifkan di perangkat ini.':'Push belum diaktifkan di perangkat ini.');zcpById('zcpEnable').hidden=false;zcpById('zcpPrefs').hidden=true;return;}
   await zcpSaveSubscription(sub);
   var d=await zcpReadPrefs(sub);
   if(!d.registered){zcpStatus('Subscription browser belum terdaftar di server.');zcpMsg('Coba aktifkan ulang. Jika tetap gagal, cek RPC dan secrets Supabase.',true);}
@@ -14555,7 +14627,7 @@ async function zcpDisable(){
   await zcpContext();var reg=await zcpRegistration();var sub=await reg.pushManager.getSubscription();
   if(sub){var r=await S.sb.rpc('zc_push_remove',{p_endpoint:sub.endpoint});if(r.error)throw r.error;await sub.unsubscribe();}
   zcpStatus('Push dimatikan di perangkat ini');zcpMsg('Perangkat ini tidak akan menerima push sampai kamu mengaktifkannya lagi.');
-  zcpById('zcpPrefs').hidden=true;zcpById('zcpDisable').hidden=true;zcpById('zcpEnable').hidden=false;
+  zcpById('zcpPrefs').hidden=true;zcpById('zcpEnable').hidden=false;
  }catch(e){zcpMsg('Gagal mematikan push: '+String(e&&e.message||e).slice(0,180),true);console.warn('[ZUSMO PUSH] disable failed',e);}
  finally{zcpSetBusy(false);try{zcnAfterChange();}catch(x){}}
 }
