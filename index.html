@@ -960,7 +960,7 @@ window.addEventListener('load',function(){api.migrate();});
 <div class="o-dl" data-locked="1"><p class="o-lockmsg"><i class="fa-solid fa-lock"></i><span id="oMsg">Terkunci — selesaikan 3 kunci lagi untuk membuka link.</span></p>
 <div class="o-card"><div class="o-fh"><span class="o-fi is-logo"><img loading="lazy" src="zusmo-asset/ffold2022.png" alt="Logo Free Fire Old 2022" width="50" height="50" decoding="async" onerror="this.replaceWith(Object.assign(document.createElement('i'),{className:'fa-brands fa-android'}))"></span><div class="o-fm"><div class="o-fn">com.dts.freefireth.apk</div><div class="o-meta"><span><i class="fa-solid fa-hard-drive"></i>151 MB</span><span><i class="fa-brands fa-android"></i>APK</span><span class="o-req"><i class="fa-solid fa-circle-check"></i>Wajib</span></div></div></div><div class="o-row"><button type="button" class="o-b o-p" data-o-chrome="apk" data-o-lock><i class="fa-solid fa-download"></i>Download</button></div><div class="o-link"><code data-o-url="apk">••••••••••••••••••••••</code><button type="button" class="o-c" data-o-copy="apk" data-o-lock><i class="fa-regular fa-copy"></i><span>Salin</span></button></div>
 <div class="o-acc"><span class="o-acc-t"><i class="fa-solid fa-user-lock"></i>Akun untuk login</span>
-<div class="o-cred"><div><small>USERNAME</small><code>ZUSMOOLD2022</code></div><button type="button" class="o-c" data-o-copy="user"><i class="fa-regular fa-copy"></i><span>Salin</span></button></div>
+<div class="o-cred"><div><small>USERNAME</small><code>KZRIZUSMO2022</code></div><button type="button" class="o-c" data-o-copy="user"><i class="fa-regular fa-copy"></i><span>Salin</span></button></div>
 <div class="o-cred"><div><small>PASSWORD</small><code>KZRIZUSMO2022</code></div><button type="button" class="o-c" data-o-copy="pass"><i class="fa-regular fa-copy"></i><span>Salin</span></button></div>
 <div class="o-warn"><i class="fa-solid fa-triangle-exclamation"></i><span>Akun ini publik: 1 akun dipakai banyak orang, risikonya hanya saling tabrak akun. Disarankan membuat akun sendiri. Kalau belum paham, kamu bisa beli akun dan bebas request username &amp; password.</span></div>
 <button type="button" class="o-b o-g" data-o-jastip><i class="fa-solid fa-key"></i>Beli akun (request bebas)</button><details class="o-fold o-fold-in o-more" ontoggle="var v=this.querySelector('video');if(!v)return;if(this.open){if(v.preload!=='metadata'){v.preload='metadata';v.load()}}else v.pause()"><summary><span class="o-tag req" style="margin:0">Cara buat akun sendiri</span><i class="fa-solid fa-chevron-down o-chev"></i></summary><div class="o-foldbody">
@@ -2263,7 +2263,7 @@ refresh();
 <script id="o22-script">
 (function(){var P=document.getElementById('oldDownload2022');if(!P)return;
 var K='zusmo_old22_keys',V='https://vt.tiktok.com/ZSbahHvwQ',W=6,
-U={apk:'https://www.mediafire.com/file/l6no065xphjl3hf/com.dts.freefireth.apk/file',obb:'https://www.mediafire.com/file/75dy1f1tpd4vypv/OBB-OLD-2022.zip/file',cfg:'https://www.mediafire.com/file/cq1ps5wfqn3c7xu/Config+Lobby.zip/file',reg:'https://register.samosasmobiles.dpdns.org',video:V,user:'ZUSMOOLD2022',pass:'KZRIZUSMO2022'},
+U={apk:'https://www.mediafire.com/file/l6no065xphjl3hf/com.dts.freefireth.apk/file',obb:'https://www.mediafire.com/file/75dy1f1tpd4vypv/OBB-OLD-2022.zip/file',cfg:'https://www.mediafire.com/file/cq1ps5wfqn3c7xu/Config+Lobby.zip/file',reg:'https://register.samosasmobiles.dpdns.org',video:V,user:'KZRIZUSMO2022',pass:'KZRIZUSMO2022'},
 S=[].slice.call(P.querySelectorAll('.o-step')),T=P.querySelector('.o-track'),D=[];
 try{D=JSON.parse(localStorage.getItem(K)||'[]');if(!Array.isArray(D))D=[];}catch(e){D=[];}
 if(D.indexOf('like')>-1&&D.indexOf('engage')<0)D.push('engage');
@@ -10597,8 +10597,11 @@ async function loadMyAvatar(){
 document.addEventListener('visibilitychange',function(){if(!document.hidden)invalidateAvatars();});
 window.addEventListener('online',function(){invalidateAvatars();try{if(S.media&&S.media.retry)syncProfileMedia(true);}catch(e){}});
 window.zcAvatarSrc=function(uid){try{wantLogo(uid);return logoSrcFor(uid);}catch(e){return '';}};
-function avatar(id,name,small){var a=el('span','zc-av'+(small?' sm':''),(name||'?').charAt(0));a.style.background='hsl('+hue(id)+',58%,40%)';a.setAttribute('data-zc-uid',id);a.setAttribute('data-zc-name',name||'?');var src=logoSrcFor(id);if(src&&/^https?:|^data:image\/|^zusmo-asset\//i.test(src)){var im=document.createElement('img');im.src=src;im.alt='';im.loading='lazy';im.onerror=function(){im.remove();a.textContent=(name||'?').charAt(0);a.classList.remove('zc-av-hasimg');};a.textContent='';a.appendChild(im);a.classList.add('zc-av-hasimg');}wantLogo(id);return a;}
-function setAv(node,id,name){node.textContent=(name||'?').charAt(0);node.style.background='hsl('+hue(id)+',58%,40%)';node.setAttribute('data-zc-uid',id);node.setAttribute('data-zc-name',name||'?');var src=logoSrcFor(id);if(src&&/^https?:|^data:image\/|^zusmo-asset\//i.test(src)){var im=document.createElement('img');im.src=src;im.alt='';im.onerror=function(){im.remove();node.textContent=(name||'?').charAt(0);node.classList.remove('zc-av-hasimg');};node.textContent='';node.appendChild(im);node.classList.add('zc-av-hasimg');}else node.classList.remove('zc-av-hasimg');wantLogo(id);}
+/* Logo koleksi punya garis putih tipis di tepinya -> diperbesar 5% (kelas zc-av-zoom). Pengecualian: Default (id 'default') dan Default 2 (lg0), serta foto galeri. */
+var ZC_ZOOM_MAP=null,ZC_ZOOM_N=-1;
+function zcCollZoom(src){try{var l=window.__zusmoLogos||[];if(!ZC_ZOOM_MAP||ZC_ZOOM_N!==l.length){ZC_ZOOM_MAP={};l.forEach(function(x){if(x&&x.img&&x.id!=='lg0')ZC_ZOOM_MAP[x.img]=1;});ZC_ZOOM_N=l.length;}return !!ZC_ZOOM_MAP[String(src||'')];}catch(e){return false;}}
+function avatar(id,name,small){var a=el('span','zc-av'+(small?' sm':''),(name||'?').charAt(0));a.style.background='hsl('+hue(id)+',58%,40%)';a.setAttribute('data-zc-uid',id);a.setAttribute('data-zc-name',name||'?');var src=logoSrcFor(id);if(src&&/^https?:|^data:image\/|^zusmo-asset\//i.test(src)){var im=document.createElement('img');im.src=src;im.alt='';im.loading='lazy';im.onerror=function(){im.remove();a.textContent=(name||'?').charAt(0);a.classList.remove('zc-av-hasimg');};a.textContent='';a.appendChild(im);a.classList.add('zc-av-hasimg');a.classList.toggle('zc-av-zoom',zcCollZoom(src));}wantLogo(id);return a;}
+function setAv(node,id,name){node.textContent=(name||'?').charAt(0);node.style.background='hsl('+hue(id)+',58%,40%)';node.setAttribute('data-zc-uid',id);node.setAttribute('data-zc-name',name||'?');var src=logoSrcFor(id);if(src&&/^https?:|^data:image\/|^zusmo-asset\//i.test(src)){var im=document.createElement('img');im.src=src;im.alt='';im.onerror=function(){im.remove();node.textContent=(name||'?').charAt(0);node.classList.remove('zc-av-hasimg');};node.textContent='';node.appendChild(im);node.classList.add('zc-av-hasimg');node.classList.toggle('zc-av-zoom',zcCollZoom(src));}else{node.classList.remove('zc-av-hasimg');node.classList.remove('zc-av-zoom');}wantLogo(id);}
 
 /* ===== Tampilan ala WhatsApp: grup tersemat + chat pribadi ===== */
 var ZC_GROUP_KEYS='zusmo community komunitas grup global chat',ZC_SEEN_KEY='zc_group_seen_v1';
@@ -13002,7 +13005,7 @@ function zauEnsureUi(){
  }
  zauEnsureAccountButton();
 }
-function zauEnsureAccountButton(){var h=document.querySelector('#zcConvView .zc-head');if(!h||$('zauAccountBtn'))return;var b=document.createElement('button');b.type='button';b.id='zauAccountBtn';b.className='zau-account-btn';b.textContent='Akun';b.hidden=true;b.addEventListener('click',zauOpenAccount);h.appendChild(b);}
+function zauEnsureAccountButton(){var b=document.getElementById('zauAccountBtn');if(b)b.remove();}
 function zauSetAccountButton(on){zauEnsureUi();var b=$('zauAccountBtn');if(b)b.hidden=!(!!on&&!!S.ready&&!!S.me);}
 function zauSetMode(mode){zauEnsureUi();var reg=mode==='register';$('zauTabLogin').classList.toggle('active',!reg);$('zauTabReg').classList.toggle('active',reg);$('zauConfirmWrap').hidden=!reg;$('zauConfirm').required=reg;$('zauPass').autocomplete=reg?'new-password':'current-password';$('zauSubmit').textContent=reg?'Buat akun':'Masuk';$('zauMsg').classList.remove('show');$('zauMsg').textContent='';zauUpdateUserNote();if(reg)zauPrefillUsername();}
 /* ===== Autofill username saat Daftar: ambil dari profil Supabase milik sesi di perangkat ini, atau dari username terakhir yang masuk di perangkat ini ===== */
@@ -14346,8 +14349,7 @@ function zcpInitUi(){
   ov.innerHTML='<section class="zcp-sheet" role="dialog" aria-modal="true" aria-labelledby="zcpTitle">'
    +'<div class="zcp-grab"></div>'
    +'<header class="zcp-head"><div><b id="zcpTitle">Notifikasi</b><small id="zcpSub">Pesan terbaru dari admin</small></div><button type="button" id="zcpClose" class="zcp-close" aria-label="Tutup">×</button></header>'
-   +'<nav class="zcp-tabs" role="tablist"><button type="button" data-zt="inbox" class="on" role="tab">Kotak Masuk<i class="zcp-tdot" id="zcpTabDot"></i></button><button type="button" data-zt="settings" role="tab">Pengaturan</button><button type="button" data-zt="send" id="zcpTabSend" role="tab" hidden>Broadcast</button><button type="button" data-zt="devices" id="zcpTabDev" role="tab" hidden>Perangkat</button></nav>'
-   +'<div class="zcp-pane" data-zp="inbox"><div id="zcpInboxList" class="zcb-list"></div></div>'
+   +'<nav class="zcp-tabs" role="tablist"><button type="button" data-zt="settings" class="on" role="tab">Pengaturan</button><button type="button" data-zt="send" id="zcpTabSend" role="tab" hidden>Broadcast</button><button type="button" data-zt="devices" id="zcpTabDev" role="tab" hidden>Perangkat</button></nav>'
    +'<div class="zcp-pane" data-zp="settings" hidden>'
    +'<div id="zcpStatus" class="zcp-status" role="status">Memeriksa dukungan browser…</div>'
    +'<p class="zcp-intro">Izinkan notifikasi agar kamu tahu ada pesan baru, event, dan update, walau halaman Zusmo sedang tidak dibuka.</p>'
@@ -14380,7 +14382,7 @@ async function zcpOpen(tab){
  zcpInitUi();var ov=zcpById('zcPushOverlay');if(!ov)return;
  ov.classList.add('open');ov.setAttribute('aria-hidden','false');zcpSetBusy(false);zcpMsg('');
  zcbSyncAdminTab();
- zcpTab(typeof tab==='string'?tab:(ZCB.unread>0?'inbox':'settings'));
+ zcpTab(typeof tab==='string'?tab:'settings');
  await zcpRefresh();
  try{zcbSyncAdminTab();}catch(e){}
 }
@@ -14588,6 +14590,7 @@ function zcbSyncAdminTab(){
 }
 function zcpTab(name){
  var ov=zcpById('zcPushOverlay');if(!ov)return;
+ if(name==='inbox')name='settings';
  if((name==='send'||name==='devices')&&!zcbIsAdmin())name='settings';
  ZCP_TAB=name;
  Array.prototype.forEach.call(ov.querySelectorAll('.zcp-tabs button'),function(b){var on=b.getAttribute('data-zt')===name;b.classList.toggle('on',on);b.setAttribute('aria-selected',on?'true':'false');});
@@ -15302,6 +15305,8 @@ window.apResetRole=function(){
 #zcChat .zc-av img{display:block!important;width:100%!important;height:100%!important;object-fit:cover!important;border-radius:50%!important;pointer-events:none}
 #zcChat .zc-av-hasimg{background:#171717!important}
 #zcChat .zc-av img{transform:none!important}
+#zcChat .zc-av.zc-av-zoom img{transform:scale(1.05)!important;transform-origin:center}
+#zcChat #zcFullProfile .dp-avatar .zc-av.zc-av-zoom img{transform:scale(1.05)!important;transform-origin:center}
 #zcChat .zc-verified,#zcChat .zc-name-line .zc-verified,#zcChat .zc-pf-user .zc-verified{color:#ff2b2b!important;filter:none!important;box-shadow:none!important;text-shadow:none!important}
 </style>
 <style id="zc-stk-style">
