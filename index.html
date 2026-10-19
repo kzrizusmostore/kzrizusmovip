@@ -14066,47 +14066,118 @@ function zcpSetBusy(on){ZCP_BUSY=!!on;['zcpEnable','zcpDisable','zcpDm','zcpComm
 function zcpInitUi(){
  if(!zcpById('zcpStyles')){
   var st=document.createElement('style');st.id='zcpStyles';st.textContent=`
-  .zcp-open{width:38px!important;height:38px!important;min-width:38px!important;flex:0 0 38px!important;display:grid!important;place-items:center!important;margin-left:auto!important;padding:0!important;border:1px solid rgba(255,255,255,.14)!important;border-radius:12px!important;background:rgba(255,255,255,.045)!important;color:#dbeafe!important;box-shadow:none!important;cursor:pointer!important}
-  .zcp-open:active{transform:scale(.96)} .zcp-open i{font-size:16px!important;color:#8bd7ff!important}
-  .zcp-overlay{position:fixed;inset:0;z-index:2147483000;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.76);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px)}
+  .zcp-open{width:38px!important;height:38px!important;min-width:38px!important;flex:0 0 38px!important;display:grid!important;place-items:center!important;margin-left:auto!important;padding:0!important;position:relative!important;border:1px solid rgba(255,255,255,.14)!important;border-radius:12px!important;background:rgba(255,255,255,.045)!important;color:#fff!important;box-shadow:none!important;cursor:pointer!important}
+  .zcp-open:active{transform:scale(.96)} .zcp-open i{font-size:16px!important;color:#fff!important}
+  .zcp-od{position:absolute;top:5px;right:5px;width:9px;height:9px;border-radius:50%;background:#ff3b3b;border:2px solid #121316;display:none}.zcp-od.on{display:block}
+  .zcp-overlay{position:fixed;inset:0;z-index:2147483000;display:none;align-items:flex-end;justify-content:center;padding:0;background:rgba(0,0,0,.62);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
   .zcp-overlay.open{display:flex!important}
-  .zcp-sheet{width:min(440px,100%);max-height:min(84vh,760px);overflow:auto;overscroll-behavior:contain;background:#121316;color:#f5f5f7;border:1px solid rgba(120,190,255,.24);border-radius:22px;padding:18px;box-shadow:0 18px 60px rgba(0,0,0,.52);font-family:Inter,system-ui,sans-serif}
-  .zcp-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.zcp-head b{display:block;font-size:18px;line-height:1.25}.zcp-head small{display:block;color:#999eaa;font-size:12px;margin-top:3px}
-  .zcp-close{width:36px;height:36px;border:1px solid rgba(255,255,255,.12);border-radius:12px;background:rgba(255,255,255,.06);color:#eee;font-size:23px;line-height:1;flex:none;cursor:pointer}
-  .zcp-status{border:1px solid rgba(90,190,255,.22);background:rgba(32,130,190,.10);border-radius:13px;padding:12px 13px;color:#9cdfff;font-size:13px;font-weight:750;overflow-wrap:anywhere}
-  .zcp-intro,.zcp-foot{color:#a2a2ad;font-size:12px;line-height:1.55;margin:12px 1px}
-  .zcp-primary,.zcp-secondary{width:100%;min-height:46px;border-radius:13px;padding:12px 14px;font-size:14px;font-weight:800;cursor:pointer;margin-top:8px}
-  .zcp-primary{background:#218ed0;border:1px solid #38a8ed;color:#fff}.zcp-secondary{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);color:#c7d2de}
+  .zcp-sheet{position:relative;width:min(520px,100%);max-height:min(90vh,860px);overflow-y:auto;overscroll-behavior:contain;background:#111214;color:#f4f4f6;border:1px solid rgba(255,255,255,.09);border-bottom:0;border-radius:26px 26px 0 0;padding:8px 18px calc(22px + env(safe-area-inset-bottom,0px));box-shadow:0 -18px 60px rgba(0,0,0,.55);font-family:Inter,system-ui,sans-serif;animation:zcpUp .26s cubic-bezier(.2,.8,.2,1)}
+  @keyframes zcpUp{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+  .zcp-grab{width:40px;height:4px;border-radius:9px;background:rgba(255,255,255,.2);margin:6px auto 12px}
+  .zcp-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+  .zcp-head b{display:block;font-size:20px;line-height:1.2;letter-spacing:-.01em}.zcp-head small{display:block;color:#9a9aa6;font-size:12.5px;margin-top:4px}
+  .zcp-close{width:36px;height:36px;border:0;border-radius:50%;background:rgba(255,255,255,.09);color:#fff;font-size:22px;line-height:1;flex:none;cursor:pointer}
+  .zcp-tabs{display:flex;gap:4px;padding:4px;border-radius:15px;background:rgba(255,255,255,.06);margin:0 0 16px}
+  .zcp-tabs button{flex:1;min-height:38px;border:0;border-radius:11px;background:transparent;color:#a2a2ae;font:700 13px Inter,system-ui,sans-serif;position:relative;cursor:pointer;transition:.18s}
+  .zcp-tabs button[hidden]{display:none}.zcp-tabs button.on{background:#fff;color:#0b0b0c}
+  .zcp-tdot{position:absolute;top:7px;right:10px;width:8px;height:8px;border-radius:50%;background:#ff3b3b;display:none}.zcp-tdot.on{display:block}
+  .zcp-pane[hidden]{display:none!important}
+  .zcp-status{display:flex;align-items:center;gap:10px;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.045);border-radius:16px;padding:14px;color:#ececf1;font-size:14px;font-weight:700;overflow-wrap:anywhere}
+  .zcp-status::before{content:'';width:9px;height:9px;border-radius:50%;background:#7c7c88;flex:none}
+  .zcp-intro,.zcp-foot{color:#9a9aa6;font-size:12.5px;line-height:1.6;margin:12px 2px}
+  .zcp-primary,.zcp-secondary{width:100%;min-height:50px;border-radius:15px;padding:12px 16px;font:800 14.5px Inter,system-ui,sans-serif;cursor:pointer;margin-top:10px;transition:transform .12s}
+  .zcp-primary{background:#fff;border:0;color:#0b0b0c}.zcp-secondary{background:transparent;border:1px solid rgba(255,255,255,.22);color:#fff}
+  .zcp-primary:active,.zcp-secondary:active{transform:scale(.985)}
   .zcp-primary:disabled,.zcp-secondary:disabled{opacity:.5;cursor:wait}
-  .zcp-prefs{display:grid;gap:8px;margin-top:14px}.zcp-prefs[hidden]{display:none!important}
-  .zcp-prefs label{display:flex;align-items:center;gap:11px;padding:12px;border:1px solid rgba(255,255,255,.09);border-radius:13px;background:rgba(255,255,255,.025);cursor:pointer}
-  .zcp-prefs input{width:19px;height:19px;flex:none;accent-color:#279bdc}.zcp-prefs span{display:block;min-width:0}.zcp-prefs b{display:block;font-size:13px}.zcp-prefs small{display:block;font-size:11px;color:#969aa5;margin-top:3px;line-height:1.4}
-  .zcp-msg{color:#a7e6b6;font-size:12px;line-height:1.5;overflow-wrap:anywhere;margin-top:10px}.zcp-msg:empty{display:none}.zcp-msg.bad{color:#ff9a9a}
-  @media(max-width:360px){.zcp-sheet{padding:14px;border-radius:18px}.zcp-head b{font-size:16px}.zcp-intro{font-size:11.5px}}
+  .zcp-primary[hidden],.zcp-secondary[hidden]{display:none!important}
+  .zcp-prefs{display:grid;gap:10px;margin-top:14px}.zcp-prefs[hidden]{display:none!important}
+  .zcp-sw{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 15px;border:1px solid rgba(255,255,255,.08);border-radius:16px;background:rgba(255,255,255,.035);cursor:pointer;position:relative}
+  .zcp-sw .tx{min-width:0}.zcp-sw b{display:block;font-size:14px}.zcp-sw small{display:block;font-size:12px;color:#8f8f9b;margin-top:3px;line-height:1.45}
+  .zcp-sw input{position:absolute;opacity:0;pointer-events:none}
+  .zcp-sw .tr{flex:none;width:48px;height:29px;border-radius:99px;background:rgba(255,255,255,.17);position:relative;transition:background .2s}
+  .zcp-sw .tr::after{content:'';position:absolute;left:3px;top:3px;width:23px;height:23px;border-radius:50%;background:#d6d6dd;transition:transform .2s,background .2s}
+  .zcp-sw input:checked+.tr{background:#fff}.zcp-sw input:checked+.tr::after{transform:translateX(19px);background:#0b0b0c}
+  .zcp-sw input:disabled+.tr{opacity:.5}
+  .zcp-msg{color:#8ee6a8;font-size:12.5px;line-height:1.5;overflow-wrap:anywhere;margin-top:12px}.zcp-msg:empty{display:none}.zcp-msg.bad{color:#ff9c9c}
+  .zcp-guide{margin-top:12px;padding:14px;border-radius:16px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);font-size:13px;line-height:1.6;color:#d9d9e0}
+  .zcp-guide[hidden]{display:none}.zcp-guide b{display:block;margin-bottom:6px;color:#fff}.zcp-guide ol{margin:0;padding-left:18px}.zcp-guide li{margin:3px 0}
+  /* kotak masuk */
+  .zcb-list{display:grid;gap:10px}
+  .zcb-empty{padding:30px 10px;text-align:center;color:#8f8f9b;font-size:13px;line-height:1.6}
+  .zcb-card{position:relative;display:flex;gap:12px;padding:14px;border-radius:18px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.035)}
+  .zcb-card.unread{border-color:rgba(255,255,255,.26);background:rgba(255,255,255,.07)}
+  .zcb-ic{flex:none;width:40px;height:40px;border-radius:13px;background:#fff;color:#0b0b0c;display:grid;place-items:center;font-size:16px}
+  .zcb-tx{min-width:0;flex:1}.zcb-tx b{display:block;font-size:14.5px;line-height:1.35;overflow-wrap:anywhere}.zcb-tx p{margin:4px 0 0;font-size:13px;line-height:1.5;color:#b7b7c2;overflow-wrap:anywhere}
+  .zcb-meta{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px;font-size:11.5px;color:#8a8a96}
+  .zcb-go{border:0;border-radius:99px;background:#fff;color:#0b0b0c;font:800 12px Inter,system-ui,sans-serif;padding:7px 13px;cursor:pointer}
+  .zcb-ud{position:absolute;top:13px;right:13px;width:9px;height:9px;border-radius:50%;background:#ff3b3b}
+  .zcb-skel{height:84px;border-radius:18px;background:linear-gradient(110deg,#17181b 30%,#212227 50%,#17181b 70%) 0 0/220% 100%;animation:zcbSk 1.4s linear infinite}
+  @keyframes zcbSk{to{background-position:-220% 0}}
+  .zcb-retry{margin-top:8px}
+  /* broadcast admin */
+  .zcb-prev{border-radius:18px;background:#1c1d21;border:1px solid rgba(255,255,255,.08);padding:12px;display:flex;gap:11px;margin-bottom:14px}
+  .zcb-prev img{width:38px;height:38px;border-radius:10px;background:#fff;object-fit:cover;flex:none}
+  .zcb-prev .pt{min-width:0}.zcb-prev .pm{font-size:11px;color:#8a8a96;display:block}.zcb-prev b{display:block;font-size:14px;margin-top:2px;overflow-wrap:anywhere}.zcb-prev span.pb{display:block;font-size:13px;color:#c2c2cc;margin-top:2px;overflow-wrap:anywhere}
+  .zcb-f{display:block;margin-top:12px}.zcb-f>span{display:flex;justify-content:space-between;font-size:12px;font-weight:700;color:#a7a7b3;margin-bottom:6px}
+  .zcb-f input,.zcb-f textarea,.zcb-f select{width:100%;box-sizing:border-box;padding:13px 14px;border-radius:14px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:#fff;font:600 14.5px Inter,system-ui,sans-serif;outline:none}
+  .zcb-f textarea{min-height:84px;resize:vertical}.zcb-f select option{background:#111214;color:#fff}
+  .zcb-f input:focus,.zcb-f textarea:focus,.zcb-f select:focus{border-color:rgba(255,255,255,.5)}
+  .zcb-f[hidden]{display:none}
+  .zcb-h4{margin:20px 2px 8px;font-size:12px;font-weight:800;color:#8f8f9b;letter-spacing:.06em;text-transform:uppercase}
+  .zcb-hrow{display:flex;justify-content:space-between;gap:10px;padding:11px 2px;border-bottom:1px solid rgba(255,255,255,.06);font-size:13px}
+  .zcb-hrow:last-child{border-bottom:0}.zcb-hrow b{display:block;font-weight:700;overflow-wrap:anywhere}.zcb-hrow small{color:#8a8a96;white-space:nowrap}
+  .zcb-cf{position:absolute;inset:0;z-index:5;display:none;align-items:center;justify-content:center;padding:22px;background:rgba(0,0,0,.6)}
+  .zcb-cf.open{display:flex}.zcb-cfb{width:min(380px,100%);background:#17181b;border:1px solid rgba(255,255,255,.12);border-radius:22px;padding:20px;color:#fff;font-family:Inter,system-ui,sans-serif}
+  .zcb-cfb h3{margin:0 0 6px;font-size:17px}.zcb-cfb p{margin:0 0 4px;font-size:13px;color:#b9b9c4;line-height:1.5;overflow-wrap:anywhere}
+  /* halaman Notifikasi (inbox admin) */
+  .zcb-page{margin:0 0 18px}.zcb-ph{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}.zcb-ph b{font-size:15px;color:#fff}
+  .zcb-ph button{border:0;border-radius:99px;background:#fff;color:#0b0b0c;font:800 12px Inter,system-ui,sans-serif;padding:8px 14px;cursor:pointer}
+  /* banner ajakan aktifkan */
+  .zcn-bn{display:flex;align-items:center;gap:12px;margin:10px 14px;padding:12px 14px;border-radius:18px;background:#16171a;border:1px solid rgba(255,255,255,.1);color:#fff;font-family:Inter,system-ui,sans-serif}
+  .zcn-bn[hidden]{display:none!important}
+  .zcn-bi{flex:none;width:38px;height:38px;border-radius:12px;background:#fff;color:#0b0b0c;display:grid;place-items:center;font-size:15px}
+  .zcn-bt{min-width:0;flex:1}.zcn-bt b{display:block;font-size:13.5px}.zcn-bt small{display:block;font-size:11.5px;color:#9a9aa6;margin-top:2px;line-height:1.4}
+  .zcn-bb{flex:none;border:0;border-radius:99px;background:#fff;color:#0b0b0c;font:800 12.5px Inter,system-ui,sans-serif;padding:9px 15px;cursor:pointer}
+  .zcn-hero{width:64px;height:64px;border-radius:20px;background:#fff;color:#0b0b0c;display:grid;place-items:center;font-size:26px;margin:6px auto 14px}
+  .zcn-ttl{text-align:center;font-size:21px;font-weight:800;letter-spacing:-.01em}.zcn-sub{text-align:center;color:#9a9aa6;font-size:13.5px;line-height:1.55;margin:6px 8px 16px}
+  .zcn-li{display:flex;align-items:center;gap:13px;padding:12px 14px;border-radius:15px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);margin-bottom:8px;font-size:13.5px;font-weight:600}
+  .zcn-li i{width:20px;text-align:center;color:#fff}
+  .zcn-later{display:block;width:100%;margin-top:6px;padding:13px;border:0;background:transparent;color:#9a9aa6;font:700 13.5px Inter,system-ui,sans-serif;cursor:pointer;visibility:hidden}
+  .zcn-later.show{visibility:visible}
+  .zcn-toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);opacity:0;z-index:2147483200;max-width:86vw;padding:11px 18px;border-radius:99px;background:#fff;color:#0b0b0c;font:700 13px Inter,system-ui,sans-serif;pointer-events:none;transition:.25s}
+  .zcn-toast.on{opacity:1;transform:translate(-50%,0)}
+  #notifBell{position:relative}
   `;document.head.appendChild(st);
  }
  var head=document.querySelector('#zcConvView .zc-head');
  if(head && !zcpById('zcPushOpenBtn')){
-  var b=document.createElement('button');b.type='button';b.id='zcPushOpenBtn';b.className='zcp-open';b.title='Pengaturan push notification';b.setAttribute('aria-label','Pengaturan push notification');
-  b.innerHTML='<i class="fa-solid fa-bell" aria-hidden="true"></i>';
-  b.addEventListener('click',zcpOpen);
+  var b=document.createElement('button');b.type='button';b.id='zcPushOpenBtn';b.className='zcp-open';b.title='Notifikasi';b.setAttribute('aria-label','Notifikasi');
+  b.innerHTML='<i class="fa-solid fa-bell" aria-hidden="true"></i><span class="zcp-od" id="zcbChatDot"></span>';
+  b.addEventListener('click',function(){zcpOpen();});
   var online=zcpById('zcOnline');head.insertBefore(b,online||null);
  }
  if(!zcpById('zcPushOverlay')){
   var ov=document.createElement('div');ov.id='zcPushOverlay';ov.className='zcp-overlay';ov.setAttribute('aria-hidden','true');
   ov.innerHTML='<section class="zcp-sheet" role="dialog" aria-modal="true" aria-labelledby="zcpTitle">'
-   +'<header class="zcp-head"><div><b id="zcpTitle">Notifikasi Zusmo</b><small>Push asli dari browser ke perangkat ini</small></div><button type="button" id="zcpClose" class="zcp-close" aria-label="Tutup">×</button></header>'
+   +'<div class="zcp-grab"></div>'
+   +'<header class="zcp-head"><div><b id="zcpTitle">Notifikasi</b><small id="zcpSub">Pesan terbaru dari admin</small></div><button type="button" id="zcpClose" class="zcp-close" aria-label="Tutup">×</button></header>'
+   +'<nav class="zcp-tabs" role="tablist"><button type="button" data-zt="inbox" class="on" role="tab">Kotak Masuk<i class="zcp-tdot" id="zcpTabDot"></i></button><button type="button" data-zt="settings" role="tab">Pengaturan</button><button type="button" data-zt="send" id="zcpTabSend" role="tab" hidden>Broadcast</button></nav>'
+   +'<div class="zcp-pane" data-zp="inbox"><div id="zcpInboxList" class="zcb-list"></div></div>'
+   +'<div class="zcp-pane" data-zp="settings" hidden>'
    +'<div id="zcpStatus" class="zcp-status" role="status">Memeriksa dukungan browser…</div>'
-   +'<p class="zcp-intro">Izinkan notifikasi agar kamu bisa mengetahui pesan baru meskipun halaman Zusmo tidak sedang terbuka. Kamu tetap bisa mengatur jenis notifikasinya.</p>'
-   +'<button type="button" id="zcpEnable" class="zcp-primary">Aktifkan push notification</button>'
+   +'<p class="zcp-intro">Izinkan notifikasi agar kamu tahu ada pesan baru, event, dan update, walau halaman Zusmo sedang tidak dibuka.</p>'
+   +'<button type="button" id="zcpEnable" class="zcp-primary">Aktifkan notifikasi</button>'
+   +'<div id="zcpGuide" class="zcp-guide" hidden></div>'
    +'<div id="zcpPrefs" class="zcp-prefs" hidden>'
-   +'<label><input type="checkbox" id="zcpDm" checked><span><b>Pesan pribadi</b><small>Notifikasi saat menerima DM baru</small></span></label>'
-   +'<label><input type="checkbox" id="zcpCommunity"><span><b>ZUSMO COMMUNITY</b><small>Notifikasi pesan komunitas (dibatasi agar tidak spam)</small></span></label>'
-   +'<label><input type="checkbox" id="zcpHide"><span><b>Sembunyikan isi pesan</b><small>Tampilkan pemberitahuan umum di layar kunci</small></span></label>'
+   +'<label class="zcp-sw"><span class="tx"><b>Pesan pribadi</b><small>Saat ada DM baru</small></span><input type="checkbox" id="zcpDm" checked><span class="tr"></span></label>'
+   +'<label class="zcp-sw"><span class="tx"><b>ZUSMO COMMUNITY</b><small>Pesan komunitas (dibatasi agar tidak spam)</small></span><input type="checkbox" id="zcpCommunity"><span class="tr"></span></label>'
+   +'<label class="zcp-sw"><span class="tx"><b>Sembunyikan isi pesan</b><small>Tampilkan pemberitahuan umum di layar kunci</small></span><input type="checkbox" id="zcpHide"><span class="tr"></span></label>'
    +'</div>'
    +'<button type="button" id="zcpDisable" class="zcp-secondary" hidden>Matikan di perangkat ini</button>'
    +'<div id="zcpMsg" class="zcp-msg" aria-live="polite"></div>'
    +'<p class="zcp-foot">Notifikasi bergantung pada izin browser, koneksi, pengaturan perangkat, dan dukungan layanan push.</p>'
+   +'</div>'
+   +'<div class="zcp-pane" data-zp="send" hidden></div>'
    +'</section>';
   document.body.appendChild(ov);
   zcpById('zcpClose').addEventListener('click',zcpClose);
@@ -14116,14 +14187,23 @@ function zcpInitUi(){
   [['zcpDm','dm'],['zcpCommunity','community'],['zcpHide','hide_content']].forEach(function(pair){
    zcpById(pair[0]).addEventListener('change',function(){zcpSavePrefs().catch(function(e){zcpMsg('Gagal menyimpan preferensi: '+String(e&&e.message||e).slice(0,120),true);});});
   });
+  Array.prototype.forEach.call(ov.querySelectorAll('.zcp-tabs button'),function(bt){bt.addEventListener('click',function(){zcpTab(bt.getAttribute('data-zt'));});});
  }
+}
+async function zcpOpen(tab){
+ zcpInitUi();var ov=zcpById('zcPushOverlay');if(!ov)return;
+ ov.classList.add('open');ov.setAttribute('aria-hidden','false');zcpSetBusy(false);zcpMsg('');
+ zcbSyncAdminTab();
+ zcpTab(typeof tab==='string'?tab:(ZCB.unread>0?'inbox':'settings'));
+ await zcpRefresh();
+ try{zcbSyncAdminTab();}catch(e){}
 }
 function zcpClose(){var ov=zcpById('zcPushOverlay');if(ov){ov.classList.remove('open');ov.setAttribute('aria-hidden','true');}}
 async function zcpContext(){if(!S.sb||!S.me||!S.ready)await start();if(!S.sb||!S.me||!S.me.id)throw new Error('Sesi Live Chat belum siap. Buka ulang Live Chat dan coba lagi.');}
 async function zcpRegistration(){
  if(!('serviceWorker' in navigator))throw new Error('Browser ini tidak mendukung service worker. Gunakan Chrome Android melalui HTTPS.');
  if(!('PushManager' in window))throw new Error('Push API tidak tersedia di browser ini.');
- await navigator.serviceWorker.register('/sw.js?v=11',{scope:'/'});
+ await navigator.serviceWorker.register('/sw.js?v=12',{scope:'/'});
  return await navigator.serviceWorker.ready;
 }
 async function zcpReadPrefs(sub){
@@ -14146,7 +14226,7 @@ async function zcpSaveSubscription(sub){
  return true;
 }
 async function zcpRefresh(){
- zcpMsg('');zcpStatus('Memeriksa status…');
+ zcpMsg('');zcpStatus('Memeriksa status…');try{zcnApplyGuide();}catch(x){}
  try{
   if(!window.isSecureContext){zcpStatus('Push memerlukan situs HTTPS.');zcpById('zcpEnable').hidden=false;zcpById('zcpEnable').disabled=true;zcpMsg('Jangan buka file lokal content://. Buka https://www.kzrizusmostore.com di Chrome.',true);return;}
   if(!('Notification' in window)){zcpStatus('Notifikasi browser tidak didukung.');zcpById('zcpEnable').hidden=false;zcpById('zcpEnable').disabled=true;return;}
@@ -14164,25 +14244,19 @@ async function zcpRefresh(){
   console.warn('[ZUSMO PUSH] refresh failed',e);
  }
 }
-async function zcpOpen(){
- zcpInitUi();var ov=zcpById('zcPushOverlay');if(!ov)return;
- ov.classList.add('open');ov.setAttribute('aria-hidden','false');zcpSetBusy(false);zcpMsg('');
- await zcpRefresh();
- try{zcbRender();}catch(e){}
-}
 async function zcpEnable(){
  if(ZCP_BUSY)return;zcpSetBusy(true);zcpMsg('');
  try{
   if(!zcpConfigured())throw new Error('Public VAPID key belum diisi. Edit file push-config.js lalu deploy ulang ke Vercel.');
   if(!window.isSecureContext)throw new Error('Push hanya bisa dipasang dari situs HTTPS, bukan content:// atau file lokal.');
   if(!('Notification' in window)||!('PushManager' in window))throw new Error('Browser ini tidak mendukung Web Push. Gunakan Chrome Android terbaru.');
-  await zcpContext();
   var permission=Notification.permission;
   if(permission==='default')permission=await Notification.requestPermission();
   if(permission!=='granted'){
    if(permission==='denied')throw new Error('Izin ditolak. Buka pengaturan situs Chrome → Notifikasi → Izinkan.');
    throw new Error('Izin notifikasi belum diberikan.');
   }
+  await zcpContext();
   var reg=await zcpRegistration();var sub=await reg.pushManager.getSubscription();
   if(!sub){sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:zcpBase64ToBytes(ZCP_CONFIG_KEY)});}
   await zcpSaveSubscription(sub);
@@ -14191,7 +14265,7 @@ async function zcpEnable(){
   zcpMsg(prefs.registered?'Push aktif. Preferensi notifikasi tersimpan.':'Subscription dibuat, tetapi konfirmasi server belum lengkap.',!prefs.registered);
  }catch(e){
   zcpStatus('Push belum aktif.');zcpMsg(String(e&&e.message||e||'Gagal mengaktifkan push').slice(0,240),true);console.warn('[ZUSMO PUSH] enable failed',e);
- }finally{zcpSetBusy(false);}
+ }finally{zcpSetBusy(false);try{zcnAfterChange();}catch(x){}}
 }
 async function zcpSavePrefs(){
  if(ZCP_BUSY)return;zcpSetBusy(true);zcpMsg('');
@@ -14214,10 +14288,10 @@ async function zcpDisable(){
   zcpStatus('Push dimatikan di perangkat ini');zcpMsg('Perangkat ini tidak akan menerima push sampai kamu mengaktifkannya lagi.');
   zcpById('zcpPrefs').hidden=true;zcpById('zcpDisable').hidden=true;zcpById('zcpEnable').hidden=false;
  }catch(e){zcpMsg('Gagal mematikan push: '+String(e&&e.message||e).slice(0,180),true);console.warn('[ZUSMO PUSH] disable failed',e);}
- finally{zcpSetBusy(false);}
+ finally{zcpSetBusy(false);try{zcnAfterChange();}catch(x){}}
 }
 function zcpOpenRoute(route){
- route=String(route||'');if(typeof showPage==='function')showPage('zcChat');
+ route=String(route||'');if(/^(page|url):/.test(route)){zcbGo(route);return;}if(typeof showPage==='function')showPage('zcChat');
  var p=start();Promise.resolve(p).then(function(){
   if(route==='community'){setTab('global');return;}
   var m=/^dm:([0-9a-f-]{36})$/i.exec(route);
@@ -14235,48 +14309,175 @@ if('serviceWorker' in navigator){navigator.serviceWorker.addEventListener('messa
 document.addEventListener('keydown',function(e){if(e.key==='Escape')zcpClose();});
 /* When the service worker opens a new window, restore the requested chat after the app has loaded. */
 setTimeout(function(){try{var u=new URL(window.location.href),route=u.searchParams.get('zpush');if(route){u.searchParams.delete('zpush');history.replaceState({},'',u.pathname+(u.search||'')+u.hash);zcpOpenRoute(route);}}catch(e){}},900);
-/* ===== ADMIN BROADCAST PUSH (khusus kzrizusmo_store) =====
-   Tombol hanya tampil untuk akun owner, tetapi otorisasi SEBENARNYA diperiksa di server
-   (Edge Function "zusmo-broadcast"): JWT valid + chat_profiles.is_admin = true + username kzrizusmo_store. */
-function zcbIsOwner(){try{return !!(S&&S.me&&S.me.is_admin&&iAmOwner());}catch(e){return false;}}
-function zcbMsg(s,bad){var n=zcpById('zcbMsg');if(n){n.textContent=String(s||'');n.classList.toggle('bad',!!bad);}}
-function zcbRender(){
- var sheet=document.querySelector('#zcPushOverlay .zcp-sheet');if(!sheet)return;
- var box=zcpById('zcbAdmin');
- if(!zcbIsOwner()){if(box)box.remove();return;}
- if(box)return;
- if(!zcpById('zcbStyles')){
-  var st=document.createElement('style');st.id='zcbStyles';st.textContent=`
-  .zcb-admin{margin-top:18px;padding:14px;border:1px solid rgba(255,70,70,.28);border-radius:16px;background:rgba(255,60,60,.05)}
-  .zcb-admin h3{margin:0 0 4px;font-size:15px;color:#ffb4b4}
-  .zcb-admin p{margin:0 0 10px;font-size:11.5px;line-height:1.5;color:#a2a2ad}
-  .zcb-admin input,.zcb-admin textarea,.zcb-admin select{width:100%;box-sizing:border-box;margin-top:8px;padding:11px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);color:#f5f5f7;font:600 14px Inter,system-ui,sans-serif;outline:none}
-  .zcb-admin textarea{resize:vertical;min-height:74px}
-  .zcb-admin select option{background:#121316;color:#f5f5f7}
-  .zcb-admin input:focus,.zcb-admin textarea:focus,.zcb-admin select:focus{border-color:#38a8ed}
-  .zcb-count{text-align:right;font-size:11px;color:#8a8f9a;margin-top:4px}
-  .zcb-admin .zcp-primary{background:#d93a3a;border-color:#ff5b5b}`;
-  document.head.appendChild(st);
+/* ===== NOTIFIKASI v2: kotak masuk, titik merah, broadcast admin, ajakan aktifkan push ===== */
+var ZCB={unread:0,items:[],at:0,busy:false,err:'',hist:[],histAt:0};
+var ZCP_TAB='settings';
+var ZCB_ROUTES=[['page:home','Beranda'],['page:leaderboardTab','Testimoni'],['page:eventTab','Event'],['page:shopTab','Koleksi'],['page:progressTab','Progress'],['page:communityTab','Community'],['page:developerTab','Profile'],['page:zcChat','Live Chat'],['community','ZUSMO COMMUNITY'],['page:notifikasi','Notifikasi'],['__url','Link kustom (https)'],['','Tidak ada (hanya buka aplikasi)']];
+var ZCP_PAGES=['home','leaderboardTab','eventTab','shopTab','progressTab','communityTab','developerTab','zcChat','notifikasi'];
+function zcbEl(tag,cls,text){var e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=String(text);return e;}
+function zcbIsAdmin(){try{return !!(S&&S.me&&S.me.is_admin);}catch(e){return false;}}
+function zcbAgo(iso){var t=Date.parse(iso);if(!t)return '';var s=Math.max(0,(Date.now()-t)/1000);if(s<60)return 'baru saja';if(s<3600)return Math.floor(s/60)+' mnt lalu';if(s<86400)return Math.floor(s/3600)+' jam lalu';if(s<604800)return Math.floor(s/86400)+' hari lalu';return new Date(t).toLocaleDateString('id-ID',{day:'numeric',month:'short'});}
+function zcbRouteLabel(route){
+ route=String(route||'');if(!route)return '';
+ if(route.indexOf('url:')===0)return 'Buka link';
+ for(var i=0;i<ZCB_ROUTES.length;i++){if(ZCB_ROUTES[i][0]===route&&route)return 'Buka '+ZCB_ROUTES[i][1];}
+ return '';
+}
+function zcbGo(route){
+ route=String(route||'');if(!route)return;
+ try{zcpClose();}catch(e){}
+ if(route.indexOf('url:')===0){
+  try{var u=new URL(route.slice(4));if(u.protocol==='https:')window.open(u.href,'_blank','noopener');}catch(e){}
+  return;
  }
- box=document.createElement('div');box.id='zcbAdmin';box.className='zcb-admin';
- box.innerHTML='<h3>Kirim push ke semua pengguna</h3>'
-  +'<p>Khusus admin kzrizusmo_store. Pesan dikirim ke semua perangkat yang sudah mengaktifkan push.</p>'
-  +'<input type="text" id="zcbTitle" maxlength="60" placeholder="Judul (maks 60 karakter)" autocomplete="off">'
-  +'<textarea id="zcbBody" maxlength="180" placeholder="Isi pesan (maks 180 karakter)"></textarea>'
-  +'<div class="zcb-count" id="zcbCount">0/180</div>'
-  +'<select id="zcbRoute" aria-label="Aksi saat notifikasi diketuk"><option value="community">Ketuk → buka ZUSMO COMMUNITY</option><option value="">Ketuk → buka aplikasi saja</option></select>'
+ if(route.indexOf('page:')===0){
+  var id=route.slice(5);
+  if(ZCP_PAGES.indexOf(id)>=0){var pg=document.getElementById(id);if(pg&&pg.classList.contains('page')&&typeof showPage==='function')showPage(id);}
+  return;
+ }
+ zcpOpenRoute(route);
+}
+/* ---- data kotak masuk ---- */
+function zcbPaintDots(){
+ var on=ZCB.unread>0;
+ ['zcbBellDot'].forEach(function(id){var d=zcpById(id);if(d)d.classList.toggle('dot-show',on);});
+ ['zcbChatDot'].forEach(function(id){var d=zcpById(id);if(d)d.classList.toggle('on',on);});
+ var td=zcpById('zcpTabDot');if(td)td.classList.toggle('on',on);
+}
+async function zcbFetch(force){
+ if(ZCB.busy)return ZCB.items;
+ if(!force&&Date.now()-ZCB.at<8000)return ZCB.items;
+ ZCB.busy=true;
+ try{
+  await zcpContext();
+  var r=await S.sb.rpc('zc_notif_list');
+  if(r.error)throw r.error;
+  var d=r.data||{};
+  ZCB.items=Array.isArray(d.items)?d.items:[];ZCB.unread=+d.unread||0;ZCB.at=Date.now();ZCB.err='';
+ }catch(e){ZCB.err=String(e&&e.message||e||'Gagal memuat').slice(0,140);}
+ finally{ZCB.busy=false;}
+ zcbPaintDots();return ZCB.items;
+}
+async function zcbMarkRead(){
+ if(!ZCB.unread)return;
+ try{
+  var r=await S.sb.rpc('zc_notif_mark_read');
+  if(!r.error){ZCB.unread=0;zcbPaintDots();}
+ }catch(e){}
+}
+function zcbCard(it){
+ var c=zcbEl('div','zcb-card'+(it.unread?' unread':''));
+ var ic=zcbEl('span','zcb-ic');ic.innerHTML='<i class="fa-solid fa-bell" aria-hidden="true"></i>';c.appendChild(ic);
+ var tx=zcbEl('div','zcb-tx');tx.appendChild(zcbEl('b','',it.title));tx.appendChild(zcbEl('p','',it.body));
+ var meta=zcbEl('div','zcb-meta');meta.appendChild(zcbEl('time','',zcbAgo(it.created_at)));
+ var lbl=zcbRouteLabel(it.route);
+ if(lbl){var go=zcbEl('button','zcb-go',lbl);go.type='button';go.addEventListener('click',function(){zcbGo(it.route);});meta.appendChild(go);}
+ tx.appendChild(meta);c.appendChild(tx);
+ if(it.unread)c.appendChild(zcbEl('i','zcb-ud'));
+ return c;
+}
+function zcbPaintList(box){
+ if(!box)return;
+ box.textContent='';
+ if(ZCB.err&&!ZCB.items.length){
+  var e=zcbEl('div','zcb-empty','Belum bisa memuat pesan. '+ZCB.err);box.appendChild(e);
+  var rb=zcbEl('button','zcp-secondary zcb-retry','Coba lagi');rb.type='button';rb.addEventListener('click',function(){zcbLoadInto(box,true);});box.appendChild(rb);return;
+ }
+ if(!ZCB.items.length){box.appendChild(zcbEl('div','zcb-empty','Belum ada pesan dari admin.\nInfo event, promo, dan update akan muncul di sini.'));box.lastChild.style.whiteSpace='pre-line';return;}
+ ZCB.items.forEach(function(it){box.appendChild(zcbCard(it));});
+}
+async function zcbLoadInto(box,force){
+ if(!box)return;
+ if(!ZCB.items.length){box.textContent='';for(var i=0;i<3;i++)box.appendChild(zcbEl('div','zcb-skel'));}
+ await zcbFetch(!!force);
+ zcbPaintList(box);
+ setTimeout(zcbMarkRead,900);
+}
+function zcbShowInbox(){zcbLoadInto(zcpById('zcpInboxList'),true);}
+/* ---- tab ---- */
+function zcbSyncAdminTab(){
+ var t=zcpById('zcpTabSend');if(!t)return;
+ var a=zcbIsAdmin();t.hidden=!a;
+ if(!a&&ZCP_TAB==='send')zcpTab('settings');
+}
+function zcpTab(name){
+ var ov=zcpById('zcPushOverlay');if(!ov)return;
+ if(name==='send'&&!zcbIsAdmin())name='settings';
+ ZCP_TAB=name;
+ Array.prototype.forEach.call(ov.querySelectorAll('.zcp-tabs button'),function(b){var on=b.getAttribute('data-zt')===name;b.classList.toggle('on',on);b.setAttribute('aria-selected',on?'true':'false');});
+ Array.prototype.forEach.call(ov.querySelectorAll('.zcp-pane'),function(p){p.hidden=p.getAttribute('data-zp')!==name;});
+ var sub={inbox:'Pesan terbaru dari admin',settings:'Atur push di perangkat ini',send:'Kirim pesan ke semua pengguna'}[name]||'';
+ var s=zcpById('zcpSub');if(s)s.textContent=sub;
+ if(name==='inbox')zcbShowInbox();
+ if(name==='send')zcbShowSend();
+}
+/* ---- broadcast admin ---- */
+function zcbBuildSend(){
+ var pane=document.querySelector('#zcPushOverlay .zcp-pane[data-zp="send"]');if(!pane||pane.getAttribute('data-built'))return;
+ pane.setAttribute('data-built','1');
+ var opts='';ZCB_ROUTES.forEach(function(r){opts+='<option value="'+r[0]+'">'+(r[0]===''||r[0]==='__url'?r[1]:'Buka '+r[1])+'</option>';});
+ pane.innerHTML='<div class="zcb-prev"><img id="zcbPvIcon" alt="" src="/zusmo-asset/icon-192.png" onerror="this.style.visibility=\'hidden\'"><div class="pt"><span class="pm">KZRIZUSMO · www.kzrizusmostore.com · sekarang</span><b id="zcbPvT">Judul notifikasi</b><span class="pb" id="zcbPvB">Isi pesan akan tampil di sini.</span></div></div>'
+  +'<label class="zcb-f"><span>Judul <em id="zcbCt" style="font-style:normal;font-weight:600">0/60</em></span><input type="text" id="zcbTitle" maxlength="60" placeholder="Contoh: Event baru dimulai!" autocomplete="off"></label>'
+  +'<label class="zcb-f"><span>Isi pesan <em id="zcbCb" style="font-style:normal;font-weight:600">0/180</em></span><textarea id="zcbBody" maxlength="180" placeholder="Tulis pesan singkat dan jelas"></textarea></label>'
+  +'<label class="zcb-f"><span>Saat notifikasi diketuk</span><select id="zcbRoute">'+opts+'</select></label>'
+  +'<label class="zcb-f" id="zcbUrlWrap" hidden><span>Link tujuan (wajib https)</span><input type="url" id="zcbUrl" placeholder="https://" autocomplete="off" inputmode="url"></label>'
   +'<button type="button" id="zcbSend" class="zcp-primary">Kirim ke semua pengguna</button>'
-  +'<div id="zcbMsg" class="zcp-msg" aria-live="polite"></div>';
- sheet.appendChild(box);
- zcpById('zcbBody').addEventListener('input',function(){zcpById('zcbCount').textContent=this.value.length+'/180';});
+  +'<div id="zcbMsg" class="zcp-msg" aria-live="polite"></div>'
+  +'<div class="zcb-h4">Riwayat terakhir</div><div id="zcbHist"><div class="zcb-empty">Memuat…</div></div>';
+ function pv(){
+  var t=zcpById('zcbTitle').value,b=zcpById('zcbBody').value;
+  zcpById('zcbPvT').textContent=t||'Judul notifikasi';zcpById('zcbPvB').textContent=b||'Isi pesan akan tampil di sini.';
+  zcpById('zcbCt').textContent=t.length+'/60';zcpById('zcbCb').textContent=b.length+'/180';
+ }
+ zcpById('zcbTitle').addEventListener('input',pv);zcpById('zcbBody').addEventListener('input',pv);
+ zcpById('zcbRoute').addEventListener('change',function(){zcpById('zcbUrlWrap').hidden=this.value!=='__url';});
  zcpById('zcbSend').addEventListener('click',zcbSend);
+}
+function zcbShowSend(){zcbBuildSend();zcbLoadHist();}
+async function zcbLoadHist(){
+ var box=zcpById('zcbHist');if(!box)return;
+ try{
+  await zcpContext();
+  var r=await S.sb.rpc('zc_push_broadcast_history');
+  if(r.error)throw r.error;
+  var rows=Array.isArray(r.data)?r.data:[];
+  box.textContent='';
+  if(!rows.length){box.appendChild(zcbEl('div','zcb-empty','Belum ada broadcast.'));return;}
+  rows.forEach(function(h){
+   var row=zcbEl('div','zcb-hrow');var l=zcbEl('div');l.appendChild(zcbEl('b','',h.title));
+   l.appendChild(zcbEl('small','',(h.sent||0)+' terkirim'+(h.failed?(' · '+h.failed+' gagal'):'')));
+   row.appendChild(l);row.appendChild(zcbEl('small','',zcbAgo(h.created_at)));box.appendChild(row);
+  });
+ }catch(e){box.textContent='';box.appendChild(zcbEl('div','zcb-empty','Riwayat belum bisa dimuat. Jalankan file zusmo_push_v2.sql di Supabase.'));}
+}
+function zcbMsg(s,bad){var n=zcpById('zcbMsg');if(n){n.textContent=String(s||'');n.classList.toggle('bad',!!bad);}}
+function zcbConfirm(title,body,routeText){
+ return new Promise(function(res){
+  var sheet=document.querySelector('#zcPushOverlay .zcp-sheet');if(!sheet){res(false);return;}
+  var cf=zcpById('zcbCf');if(cf)cf.remove();
+  cf=zcbEl('div','zcb-cf open');cf.id='zcbCf';
+  var bx=zcbEl('div','zcb-cfb');
+  bx.appendChild(zcbEl('h3','','Kirim ke SEMUA pengguna?'));
+  bx.appendChild(zcbEl('p','',title));bx.appendChild(zcbEl('p','',body));bx.appendChild(zcbEl('p','','Saat diketuk: '+routeText));
+  var ok=zcbEl('button','zcp-primary','Ya, kirim sekarang');ok.type='button';
+  var no=zcbEl('button','zcp-secondary','Batal');no.type='button';
+  ok.addEventListener('click',function(){cf.remove();res(true);});no.addEventListener('click',function(){cf.remove();res(false);});
+  bx.appendChild(ok);bx.appendChild(no);cf.appendChild(bx);sheet.appendChild(cf);
+ });
 }
 async function zcbSend(){
  var btn=zcpById('zcbSend');if(!btn||btn.disabled)return;
- var title=String(zcpById('zcbTitle').value||'').trim(),body=String(zcpById('zcbBody').value||'').trim(),route=String(zcpById('zcbRoute').value||'');
+ var title=String(zcpById('zcbTitle').value||'').trim(),body=String(zcpById('zcbBody').value||'').trim(),sel=String(zcpById('zcbRoute').value||''),route=sel;
  if(!title){zcbMsg('Judul wajib diisi.',true);return;}
  if(!body){zcbMsg('Isi pesan wajib diisi.',true);return;}
- if(!window.confirm('Kirim notifikasi ini ke SEMUA pengguna?\n\n'+title+'\n'+body))return;
+ var routeText=zcpById('zcbRoute').options[zcpById('zcbRoute').selectedIndex].textContent;
+ if(sel==='__url'){
+  var u=String(zcpById('zcbUrl').value||'').trim();
+  try{var x=new URL(u);if(x.protocol!=='https:')throw 0;route='url:'+x.href;routeText='Link '+x.href;}catch(e){zcbMsg('Link harus diawali https:// dan valid.',true);return;}
+  if(route.length>304){zcbMsg('Link terlalu panjang.',true);return;}
+ }
+ zcbMsg('');
+ if(!(await zcbConfirm(title,body,routeText)))return;
  btn.disabled=true;zcbMsg('Mengirim…');
  try{
   await zcpContext();
@@ -14289,10 +14490,168 @@ async function zcbSend(){
   var d=r.data||{};
   if(!d.ok)throw new Error(d.error||'Server tidak mengonfirmasi pengiriman.');
   zcbMsg('Terkirim ke '+d.sent+' perangkat'+(d.failed?(' · gagal '+d.failed):'')+(d.removed?(' · '+d.removed+' langganan kedaluwarsa dibersihkan'):'')+'.');
-  zcpById('zcbTitle').value='';zcpById('zcbBody').value='';zcpById('zcbCount').textContent='0/180';
+  zcpById('zcbTitle').value='';zcpById('zcbBody').value='';zcpById('zcbUrl').value='';
+  zcpById('zcbTitle').dispatchEvent(new Event('input'));
+  ZCB.at=0;zcbLoadHist();
  }catch(e){zcbMsg(String(e&&e.message||e).slice(0,200),true);console.warn('[ZUSMO PUSH] broadcast failed',e);}
  finally{btn.disabled=false;}
 }
+/* ---- halaman Notifikasi (bell di header) + titik merah ---- */
+function zcbMount(){
+ try{
+  var bell=zcpById('notifBell');
+  if(bell&&!zcpById('zcbBellDot')){var d=document.createElement('span');d.className='notif-dot';d.id='zcbBellDot';bell.appendChild(d);zcbPaintDots();}
+  var chatBtn=zcpById('zcPushOpenBtn');
+  if(chatBtn&&!zcpById('zcbChatDot')){var o=document.createElement('span');o.className='zcp-od';o.id='zcbChatDot';chatBtn.appendChild(o);zcbPaintDots();}
+  var pg=document.getElementById('notifikasi');
+  if(pg&&!zcpById('zcbPageBox')){
+   var sec=zcbEl('section','zcb-page');sec.id='zcbPageBox';
+   var ph=zcbEl('div','zcb-ph');ph.appendChild(zcbEl('b','','Pesan dari admin'));
+   var pb=zcbEl('button','','Pengaturan push');pb.type='button';pb.addEventListener('click',function(){zcpOpen('settings');});ph.appendChild(pb);
+   sec.appendChild(ph);var lst=zcbEl('div','zcb-list');lst.id='zcbPageList';sec.appendChild(lst);
+   var anchor=pg.querySelector('.nf-filters');if(anchor)pg.insertBefore(sec,anchor);else pg.appendChild(sec);
+   var seen=pg.classList.contains('active');
+   new MutationObserver(function(){var on=pg.classList.contains('active');if(on&&!seen)zcbLoadInto(zcpById('zcbPageList'),true);seen=on;}).observe(pg,{attributes:true,attributeFilter:['class']});
+   if(seen)zcbLoadInto(lst,true);
+  }
+  zcnMountBanners();
+ }catch(e){console.warn('[ZUSMO PUSH] mount',e);}
+}
+/* ---- ajakan aktifkan push ---- */
+var ZCN={st:null,at:0,timer:0},ZCN_KEY='zusmo_push_nudge_v1';
+function zcnIsIos(){return /iPad|iPhone|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);}
+function zcnStandalone(){try{return window.navigator.standalone===true||window.matchMedia('(display-mode: standalone)').matches;}catch(e){return false;}}
+async function zcnIsActive(){
+ try{
+  if(!('Notification' in window)||!('serviceWorker' in navigator)||!('PushManager' in window))return false;
+  if(Notification.permission!=='granted')return false;
+  var reg=await navigator.serviceWorker.getRegistration('/');if(!reg)return false;
+  return !!(await reg.pushManager.getSubscription());
+ }catch(e){return false;}
+}
+async function zcnState(force){
+ if(!force&&ZCN.st&&Date.now()-ZCN.at<15000)return ZCN.st;
+ var st;
+ if(!window.isSecureContext)st={kind:'insecure'};
+ else if(zcnIsIos()&&!zcnStandalone())st={kind:'ios'};
+ else if(!('Notification' in window)||!('serviceWorker' in navigator)||!('PushManager' in window)||!zcpConfigured())st={kind:'unsupported'};
+ else if(Notification.permission==='denied')st={kind:'denied'};
+ else if(await zcnIsActive())st={kind:'active'};
+ else st={kind:'ready'};
+ ZCN.st=st;ZCN.at=Date.now();return st;
+}
+function zcnGuideHtml(kind){
+ if(kind==='ios')return '<b>Pasang ke Layar Utama dulu</b><ol><li>Buka situs ini di Safari.</li><li>Ketuk tombol Bagikan.</li><li>Pilih "Tambahkan ke Layar Utama".</li><li>Buka Zusmo dari ikon di layar utama, lalu aktifkan notifikasi.</li></ol>';
+ if(kind==='denied')return '<b>Notifikasi sedang diblokir</b><ol><li>Ketuk ikon gembok atau titik tiga di address bar Chrome.</li><li>Buka Izin / Pengaturan situs, lalu pilih Notifikasi.</li><li>Ubah menjadi Izinkan, lalu muat ulang halaman.</li></ol>';
+ return '';
+}
+async function zcnApplyGuide(){
+ var g=zcpById('zcpGuide');if(!g)return;
+ var st=await zcnState();
+ var h=(st.kind==='ios'||st.kind==='denied')?zcnGuideHtml(st.kind):'';
+ g.innerHTML=h;g.hidden=!h;
+}
+function zcnToast(t){
+ var n=zcpById('zcnToast');if(!n){n=zcbEl('div','zcn-toast');n.id='zcnToast';document.body.appendChild(n);}
+ n.textContent=String(t||'');n.classList.add('on');clearTimeout(ZCN.timer);ZCN.timer=setTimeout(function(){n.classList.remove('on');},3200);
+}
+function zcnBuild(){
+ zcpInitUi();
+ if(zcpById('zcnOverlay'))return;
+ var ov=document.createElement('div');ov.id='zcnOverlay';ov.className='zcp-overlay';ov.setAttribute('aria-hidden','true');
+ ov.innerHTML='<section class="zcp-sheet" role="dialog" aria-modal="true" aria-labelledby="zcnTtl"><div class="zcp-grab"></div><div class="zcn-hero"><i class="fa-solid fa-bell" aria-hidden="true"></i></div><div class="zcn-ttl" id="zcnTtl"></div><div class="zcn-sub" id="zcnSub"></div><div id="zcnBody"></div><button type="button" class="zcp-primary" id="zcnGo"></button><button type="button" class="zcn-later" id="zcnLater">Nanti saja</button></section>';
+ document.body.appendChild(ov);
+ ov.addEventListener('click',function(e){if(e.target===ov&&zcpById('zcnLater').classList.contains('show'))zcnClose();});
+ zcpById('zcnLater').addEventListener('click',zcnClose);
+}
+function zcnClose(){var ov=zcpById('zcnOverlay');if(ov){ov.classList.remove('open');ov.setAttribute('aria-hidden','true');}}
+function zcnNoteShown(){
+ try{var d=JSON.parse(localStorage.getItem(ZCN_KEY)||'{}'),now=Date.now();var a=(d.shown||[]).filter(function(t){return now-t<7*864e5;});a.push(now);localStorage.setItem(ZCN_KEY,JSON.stringify({shown:a}));sessionStorage.setItem('zcnSess','1');}catch(e){}
+}
+function zcnCanShow(){
+ try{var d=JSON.parse(localStorage.getItem(ZCN_KEY)||'{}'),now=Date.now();var a=(d.shown||[]).filter(function(t){return now-t<7*864e5;});if(a.length>=3)return false;if(sessionStorage.getItem('zcnSess'))return false;return true;}catch(e){return true;}
+}
+function zcnOpen(kind){
+ zcnBuild();
+ var ov=zcpById('zcnOverlay'),T=zcpById('zcnTtl'),Sb=zcpById('zcnSub'),B=zcpById('zcnBody'),G=zcpById('zcnGo'),L=zcpById('zcnLater');
+ B.textContent='';L.classList.remove('show');
+ var go;
+ if(kind==='ios'||kind==='denied'){
+  T.textContent=kind==='ios'?'Pasang ke Layar Utama dulu':'Notifikasi sedang diblokir';
+  Sb.textContent=kind==='ios'?'Di iPhone/iPad, notifikasi web hanya bisa aktif jika Zusmo dipasang di Layar Utama.':'Izinkan notifikasi lewat pengaturan situs di browser kamu.';
+  var g=zcbEl('div','zcp-guide');g.innerHTML=zcnGuideHtml(kind);B.appendChild(g);
+  G.textContent=kind==='ios'?'Mengerti':'Saya sudah mengizinkan';
+  go=kind==='ios'?zcnClose:function(){zcnEnableFlow(G);};
+ }else{
+  T.textContent='Aktifkan notifikasi Zusmo';Sb.textContent='Jadi yang pertama tahu, walau web sedang ditutup.';
+  [['fa-comments','Pesan baru di Live Chat'],['fa-bullhorn','Info event, promo, dan update dari admin'],['fa-bolt','Langsung muncul di layar HP kamu']].forEach(function(x){
+   var li=zcbEl('div','zcn-li');li.innerHTML='<i class="fa-solid '+x[0]+'" aria-hidden="true"></i>';li.appendChild(zcbEl('span','',x[1]));B.appendChild(li);
+  });
+  G.textContent='Aktifkan notifikasi';go=function(){zcnEnableFlow(G);};
+ }
+ G.onclick=go;G.disabled=false;
+ ov.classList.add('open');ov.setAttribute('aria-hidden','false');
+ clearTimeout(zcnOpen._t);zcnOpen._t=setTimeout(function(){L.classList.add('show');},4000);
+}
+async function zcnEnableFlow(btn){
+ if(btn)btn.disabled=true;
+ try{await zcpEnable();}catch(e){}
+ var st=await zcnState(true);
+ if(st.kind==='active'){zcnClose();zcnToast('Notifikasi aktif ✓');}
+ else if(st.kind==='denied'||st.kind==='ios'){zcnOpen(st.kind);}
+ else{var m=(zcpById('zcpMsg')||{}).textContent;if(m)zcnToast(m);}
+ zcnRefreshBanners();if(btn)btn.disabled=false;
+}
+function zcnAfterChange(){ZCN.at=0;zcnApplyGuide();zcnRefreshBanners();}
+function zcnMakeBanner(id){
+ var b=zcbEl('div','zcn-bn');b.id=id;b.hidden=true;
+ b.innerHTML='<span class="zcn-bi"><i class="fa-solid fa-bell" aria-hidden="true"></i></span><div class="zcn-bt"><b></b><small></small></div><button type="button" class="zcn-bb"></button>';
+ b.querySelector('.zcn-bb').addEventListener('click',function(){
+  var k=(ZCN.st&&ZCN.st.kind)||'ready';
+  if(k==='ready')zcnEnableFlow(null);else zcnOpen(k);
+ });
+ return b;
+}
+function zcnMountBanners(){
+ var home=document.getElementById('home');
+ if(home&&!zcpById('zcnHomeBanner'))home.insertBefore(zcnMakeBanner('zcnHomeBanner'),home.firstChild);
+ var head=document.querySelector('#zcConvView .zc-head');
+ if(head&&!zcpById('zcnChatBanner'))head.parentNode.insertBefore(zcnMakeBanner('zcnChatBanner'),head.nextSibling);
+}
+async function zcnRefreshBanners(){
+ try{
+  var st=await zcnState();
+  ['zcnHomeBanner','zcnChatBanner'].forEach(function(id){
+   var b=zcpById(id);if(!b)return;
+   var show=st.kind==='ready'||st.kind==='denied'||st.kind==='ios';
+   b.hidden=!show;if(!show)return;
+   var t=b.querySelector('b'),s=b.querySelector('small'),btn=b.querySelector('.zcn-bb');
+   if(st.kind==='ready'){t.textContent='Aktifkan notifikasi';s.textContent='Dapat info event, promo, dan pesan baru.';btn.textContent='Aktifkan';}
+   else if(st.kind==='denied'){t.textContent='Notifikasi diblokir';s.textContent='Ketuk untuk lihat cara mengaktifkan.';btn.textContent='Cara';}
+   else{t.textContent='Pasang ke Layar Utama';s.textContent='Agar notifikasi bisa aktif di iPhone/iPad.';btn.textContent='Cara';}
+  });
+ }catch(e){}
+}
+(function(){
+ function tick(){zcbMount();}
+ setInterval(tick,4000);tick();
+ setTimeout(function(){zcbFetch(true);},2500);
+ setInterval(function(){if(document.visibilityState==='visible'&&S&&S.ready)zcbFetch(true);},60000);
+ document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible'){zcbFetch(true);ZCN.at=0;zcnRefreshBanners();}});
+ setInterval(zcnRefreshBanners,20000);setTimeout(zcnRefreshBanners,1200);
+ /* sheet sambutan: pertama kali buka, lalu maks 3x per 7 hari selama belum aktif */
+ setTimeout(async function(){
+  try{
+   if(document.visibilityState!=='visible')return;
+   var st=await zcnState(true);
+   if(st.kind!=='ready'&&st.kind!=='denied'&&st.kind!=='ios')return;
+   if(!zcnCanShow())return;
+   zcnNoteShown();zcnOpen(st.kind);
+  }catch(e){}
+ },6000);
+ document.addEventListener('keydown',function(e){if(e.key==='Escape')zcnClose();});
+})();
+
 zcpInitUi();
 
 })();
