@@ -6201,22 +6201,20 @@ body #developerTab .dp-card:has(.dp-bio:not(.is-empty)),body #developerTab .dp-c
 <div class="dpe-body" id="dpeBody">
   <div class="dpe-media">
     <button type="button" class="dpe-banner" id="dpeBannerBtn" aria-label="Ganti banner"><img id="dpeBannerImg" alt=""><video id="dpeBannerVid" muted loop playsinline autoplay></video><span class="dpe-cam"><i class="fa-solid fa-camera" aria-hidden="true"></i><span>Ganti banner</span></span></button>
-    <button type="button" class="dpe-avatar" id="dpeAvatarBtn" aria-label="Ganti foto profil"><img id="dpeAvatarImg" alt=""></button>
+    <button type="button" class="dpe-avatar" id="dpeAvatarBtn" aria-label="Ganti foto profil"><img id="dpeAvatarImg" alt=""></button><span class="dpe-avcam" aria-hidden="true"><i class="fa-solid fa-camera"></i></span>
   </div>
-  <button type="button" class="dpe-photo" id="dpePhotoBtn">Ubah foto</button>
+  <button type="button" class="dpe-photo" id="dpePhotoBtn"><i class="fa-solid fa-image-portrait" aria-hidden="true"></i><span>Ubah foto profil</span></button>
   <div class="dpe-reset"><button type="button" id="dpeResetBn">Kembalikan banner</button><button type="button" id="dpeResetAv" hidden>Hapus foto galeri</button></div>
-  <div class="dpe-sec">Info dasar</div>
-  <button type="button" class="dpe-row dpe-go" data-f="name"><span class="dpe-lbl">Nama</span><span class="dpe-val" id="dpvName"></span><i class="fa-solid fa-chevron-right dpe-chev" aria-hidden="true"></i></button>
-  <button type="button" class="dpe-row dpe-go" data-f="user"><span class="dpe-lbl">Nama pengguna</span><span class="dpe-val" id="dpvUser"></span><i class="fa-solid fa-chevron-right dpe-chev" aria-hidden="true"></i></button>
-  <button type="button" class="dpe-row dpe-go" data-f="bio"><span class="dpe-lbl">Bio</span><span class="dpe-val" id="dpvBio"></span><i class="fa-solid fa-chevron-right dpe-chev" aria-hidden="true"></i></button>
-  <button type="button" class="dpe-row dpe-go" data-f="note" id="dpeNoteBtn"><span class="dpe-lbl">Catatan</span><span class="dpe-val" id="dpvNote"></span><i class="fa-solid fa-chevron-right dpe-chev" aria-hidden="true"></i></button>
-  <button type="button" class="dpe-row dpe-go" data-f="look" id="dpeLookBtn"><span class="dpe-lbl">Tampilan</span><span class="dpe-val" id="dpvLook"></span><i class="fa-solid fa-chevron-right dpe-chev" aria-hidden="true"></i></button>
-  <div class="dpe-sec">Role</div>
-  <button type="button" class="dpe-row dpe-go" data-f="role" id="dpeRoleBtn"><span class="dpe-lbl">Role</span><span class="dpe-val dpe-role-val" id="dpvRole"></span><i class="fa-solid fa-chevron-right dpe-chev" aria-hidden="true"></i></button>
-  <div class="dpe-sec">Gelar</div>
-  <button type="button" class="dpe-row dpe-go" data-f="titles" id="dpeTitlesBtn"><span class="dpe-lbl">Gelar</span><span class="dpe-val dpe-titles-val" id="dpvTitles"></span><i class="fa-solid fa-chevron-right dpe-chev" aria-hidden="true"></i></button>
-  <div class="dpe-sec">Tautan</div>
-  <button type="button" class="dpe-row dpe-go" data-f="link"><span class="dpe-lbl">Tautan</span><span class="dpe-val" id="dpvLink"></span><i class="fa-solid fa-chevron-right dpe-chev" aria-hidden="true"></i></button>
+  <div class="dpe-sec">Info profil</div>
+  <button type="button" class="dpe-row dpe-go" data-f="name"><span class="dpe-lbl"><i class="fa-solid fa-user dpe-lic" aria-hidden="true"></i>Nama</span><span class="dpe-val" id="dpvName"></span><i class="fa-solid fa-chevron-right dpe-chev" aria-hidden="true"></i></button>
+  <button type="button" class="dpe-row dpe-go" data-f="user"><span class="dpe-lbl"><i class="fa-solid fa-at dpe-lic" aria-hidden="true"></i>Nama pengguna</span><span class="dpe-val" id="dpvUser"></span><i class="fa-solid fa-chevron-right dpe-chev" aria-hidden="true"></i></button>
+  <button type="button" class="dpe-row dpe-go" data-f="bio"><span class="dpe-lbl"><i class="fa-solid fa-align-left dpe-lic" aria-hidden="true"></i>Bio</span><span class="dpe-val" id="dpvBio"></span><i class="fa-solid fa-chevron-right dpe-chev" aria-hidden="true"></i></button>
+  <button type="button" class="dpe-row dpe-go" data-f="link"><span class="dpe-lbl"><i class="fa-solid fa-link dpe-lic" aria-hidden="true"></i>Tautan</span><span class="dpe-val" id="dpvLink"></span><i class="fa-solid fa-chevron-right dpe-chev" aria-hidden="true"></i></button>
+  <div class="dpe-sec">Personalisasi</div>
+  <button type="button" class="dpe-row dpe-go" data-f="note" id="dpeNoteBtn"><span class="dpe-lbl"><i class="fa-solid fa-comment-dots dpe-lic" aria-hidden="true"></i>Catatan</span><span class="dpe-val" id="dpvNote"></span><i class="fa-solid fa-chevron-right dpe-chev" aria-hidden="true"></i></button>
+  <button type="button" class="dpe-row dpe-go" data-f="look" id="dpeLookBtn"><span class="dpe-lbl"><i class="fa-solid fa-palette dpe-lic" aria-hidden="true"></i>Tampilan</span><span class="dpe-val" id="dpvLook"></span><i class="fa-solid fa-chevron-right dpe-chev" aria-hidden="true"></i></button>
+  <button type="button" class="dpe-row dpe-go" data-f="role" id="dpeRoleBtn"><span class="dpe-lbl"><i class="fa-solid fa-crown dpe-lic" aria-hidden="true"></i>Role</span><span class="dpe-val dpe-role-val" id="dpvRole"></span><i class="fa-solid fa-chevron-right dpe-chev" aria-hidden="true"></i></button>
+  <button type="button" class="dpe-row dpe-go" data-f="titles" id="dpeTitlesBtn"><span class="dpe-lbl"><i class="fa-solid fa-award dpe-lic" aria-hidden="true"></i>Gelar</span><span class="dpe-val dpe-titles-val" id="dpvTitles"></span><i class="fa-solid fa-chevron-right dpe-chev" aria-hidden="true"></i></button>
   <p class="dpe-err" id="dpeErr" role="alert"></p>
 </div>`;
 
@@ -6228,12 +6226,31 @@ body #developerTab .dp-card:has(.dp-bio:not(.is-empty)),body #developerTab .dp-c
     if(!/^https?:\/\//i.test(v)) v='https://'+v;
     try{var u=new URL(v);if((u.protocol!=='http:'&&u.protocol!=='https:')||u.hostname.indexOf('.')<1) return '';return u.href;}catch(e){return '';}
   }
+  /* ikon platform otomatis dari alamat tautan */
+  var PLAT=[
+    [/(^|\.)tiktok\.com$/,'fa-brands fa-tiktok','#ffffff'],
+    [/(^|\.)instagram\.com$|^instagr\.am$/,'fa-brands fa-instagram','#f58ab6'],
+    [/(^|\.)wa\.me$|(^|\.)whatsapp\.com$/,'fa-brands fa-whatsapp','#34c759'],
+    [/(^|\.)youtube\.com$|^youtu\.be$/,'fa-brands fa-youtube','#ff4d4d'],
+    [/(^|\.)facebook\.com$|^fb\.com$|^fb\.me$/,'fa-brands fa-facebook','#5b9bff'],
+    [/(^|\.)twitter\.com$|(^|\.)x\.com$/,'fa-brands fa-x-twitter','#ffffff'],
+    [/^t\.me$|(^|\.)telegram\.me$/,'fa-brands fa-telegram','#4cc3ff'],
+    [/(^|\.)discord\.(com|gg)$/,'fa-brands fa-discord','#8c9eff'],
+    [/(^|\.)github\.com$/,'fa-brands fa-github','#ffffff'],
+    [/(^|\.)saweria\.co$/,'fa-solid fa-mug-hot','#ffb454']
+  ];
+  function platOf(href){
+    try{var h=new URL(href).hostname.toLowerCase();
+      for(var i=0;i<PLAT.length;i++){if(PLAT[i][0].test(h)) return {cls:PLAT[i][1],clr:PLAT[i][2]};}
+    }catch(e){}
+    return {cls:'fa-solid fa-link',clr:''};
+  }
   function renderLink(){
     var a=$('dpLink');if(!a) return;
     var h=normLink(lsGet(K_LK,''));
     a.textContent='';
     if(!h){a.hidden=true;a.removeAttribute('href');return;}
-    var i=document.createElement('i');i.className='fa-solid fa-link';i.setAttribute('aria-hidden','true');
+    var pl=platOf(h),i=document.createElement('i');i.className=pl.cls;if(pl.clr) i.style.color=pl.clr;i.setAttribute('aria-hidden','true');
     var s=document.createElement('span');s.textContent=h.replace(/^https?:\/\/(www\.)?/i,'').replace(/\/$/,'');
     a.href=h;a.appendChild(i);a.appendChild(s);a.hidden=false;
   }
@@ -6272,6 +6289,19 @@ body #developerTab .dp-card:has(.dp-bio:not(.is-empty)),body #developerTab .dp-c
     f.click();
   }
 
+  /* pilih foto profil -> layar pangkas bulat (rasio 1:1) -> JPEG 400x400 */
+  var AV_CFG={ratio:1,w:400,h:400,round:true,label:'Pangkas foto profil',hint:'Geser dan cubit untuk mengatur foto &middot; tampil bulat'};
+  function pickAvatar(done){
+    var f=document.createElement('input');f.type='file';f.accept='image/*';
+    f.addEventListener('change',function(){
+      var file=f.files&&f.files[0];if(!file) return;
+      if(!/^image\/(?:jpeg|png|webp)$/i.test(file.type)){setErr('Format harus JPG, PNG, atau WebP.');return;}
+      if(file.size>10485760){setErr('Ukuran gambar maksimal 10 MB.');return;}
+      openCrop(file,done,AV_CFG);
+    });
+    f.click();
+  }
+
   /* ===== PANGKAS BANNER: rasio lebar 8:3 (kira-kira 2,67:1), hasil = area terang di bingkai ===== */
   var BN_W=1200,BN_H=450,BN_RATIO=BN_W/BN_H;
   function cropStyle(){
@@ -6293,25 +6323,26 @@ body #developerTab .dp-card:has(.dp-bio:not(.is-empty)),body #developerTab .dp-c
     +".dpc-save{background:#ff2b2b;color:#fff;box-shadow:0 0 16px rgba(255,43,43,.45)}";
     document.head.appendChild(st);
   }
-  function openCrop(file,done){
+  function openCrop(file,done,cfg){
     cropStyle();
     var url=URL.createObjectURL(file),im=new Image();
     im.onerror=function(){URL.revokeObjectURL(url);setErr('Gambar tidak bisa dibaca. Coba format JPG atau PNG.');};
-    im.onload=function(){buildCrop(im,url,done);};
+    im.onload=function(){buildCrop(im,url,done,cfg);};
     im.src=url;
   }
-  function buildCrop(im,url,done){
+  function buildCrop(im,url,done,cfg){
+    cfg=cfg||{ratio:BN_RATIO,w:BN_W,h:BN_H,round:false,label:'Pangkas banner',hint:'Geser dan cubit untuk mengatur banner &middot; rasio lebar 8:3'};
     var iw=im.naturalWidth||im.width,ih=im.naturalHeight||im.height;
     if(!iw||!ih){URL.revokeObjectURL(url);setErr('Gambar tidak valid.');return;}
-    var ov=document.createElement('div');ov.id='dpCropOv';ov.setAttribute('role','dialog');ov.setAttribute('aria-modal','true');ov.setAttribute('aria-label','Pangkas banner');
+    var ov=document.createElement('div');ov.id='dpCropOv';ov.setAttribute('role','dialog');ov.setAttribute('aria-modal','true');ov.setAttribute('aria-label',cfg.label);
     ov.innerHTML='<div class="dpc-title">Pangkas</div>'
       +'<div class="dpc-stage" id="dpcStage"><img class="dpc-img" id="dpcImg" alt="" draggable="false"><div class="dpc-frame" id="dpcFrame"></div></div>'
-      +'<div class="dpc-hint">Geser dan cubit untuk mengatur banner &middot; rasio lebar 8:3</div>'
+      +'<div class="dpc-hint">'+cfg.hint+'</div>'
       +'<div class="dpc-zoom"><i class="fa-solid fa-magnifying-glass-minus" aria-hidden="true"></i><input type="range" id="dpcZoom" min="1" max="4" step="0.01" value="1" aria-label="Zoom banner"><i class="fa-solid fa-magnifying-glass-plus" aria-hidden="true"></i></div>'
       +'<div class="dpc-actions"><button type="button" class="dpc-btn dpc-cancel" id="dpcCancel">Batal</button><button type="button" class="dpc-btn dpc-save" id="dpcSave">Simpan</button></div>';
     document.body.appendChild(ov);
     var stage=ov.querySelector('#dpcStage'),img=ov.querySelector('#dpcImg'),frame=ov.querySelector('#dpcFrame'),zoom=ov.querySelector('#dpcZoom');
-    img.src=url;
+    img.src=url;if(cfg.round) frame.style.borderRadius='50%';
     var S={fx:0,fy:0,fw:0,fh:0,smin:1,z:1,ox:0,oy:0,ready:false};
     function limit(){var s=S.smin*S.z;S.ox=clamp(S.ox,S.fx+S.fw-iw*s,S.fx);S.oy=clamp(S.oy,S.fy+S.fh-ih*s,S.fy);}
     function apply(){
@@ -6322,8 +6353,8 @@ body #developerTab .dp-card:has(.dp-bio:not(.is-empty)),body #developerTab .dp-c
     function layout(){
       var r=stage.getBoundingClientRect(),sw=r.width,sh=r.height;
       if(!sw||!sh) return;
-      var fw=Math.min(sw-32,720),fh=fw/BN_RATIO;
-      if(fh>sh-24){fh=Math.max(40,sh-24);fw=fh*BN_RATIO;}
+      var fw=Math.min(sw-32,720),fh=fw/cfg.ratio;
+      if(fh>sh-24){fh=Math.max(40,sh-24);fw=fh*cfg.ratio;}
       var cx=0,cy=0;
       if(S.ready){var s0=S.smin*S.z;cx=(S.fx+S.fw/2-S.ox)/s0;cy=(S.fy+S.fh/2-S.oy)/s0;}
       S.fx=(sw-fw)/2;S.fy=(sh-fh)/2;S.fw=fw;S.fh=fh;
@@ -6376,10 +6407,10 @@ body #developerTab .dp-card:has(.dp-bio:not(.is-empty)),body #developerTab .dp-c
         var s=S.smin*S.z;
         var sw=Math.min(iw,S.fw/s),sh=Math.min(ih,S.fh/s);
         var sx=clamp((S.fx-S.ox)/s,0,Math.max(0,iw-sw)),sy=clamp((S.fy-S.oy)/s,0,Math.max(0,ih-sh));
-        var c=document.createElement('canvas');c.width=BN_W;c.height=BN_H;
-        var x=c.getContext('2d');x.fillStyle='#000';x.fillRect(0,0,BN_W,BN_H);
+        var c=document.createElement('canvas');c.width=cfg.w;c.height=cfg.h;
+        var x=c.getContext('2d');x.fillStyle='#000';x.fillRect(0,0,cfg.w,cfg.h);
         x.imageSmoothingEnabled=true;try{x.imageSmoothingQuality='high';}catch(_){}
-        x.drawImage(im,sx,sy,sw,sh,0,0,BN_W,BN_H);
+        x.drawImage(im,sx,sy,sw,sh,0,0,cfg.w,cfg.h);
         var out=c.toDataURL('image/jpeg',0.86);
         close();setErr('');done(out);
       }catch(err){setErr('Gagal memproses gambar.');close();}
@@ -6416,6 +6447,7 @@ body #developerTab .dp-card:has(.dp-bio:not(.is-empty)),body #developerTab .dp-c
   }
   /* pratinjau banner di editor: gambar atau video */
   function showBnPrev(){
+    setTimeout(function(){try{dirtySync();}catch(e){}},0);
     var img=$('dpeBannerImg'),vid=$('dpeBannerVid');if(!img||!vid) return;
     var tok=++bnTok;
     function asImg(src){try{vid.pause();}catch(e){}vid.removeAttribute('src');vid.style.display='none';try{vid.load();}catch(e){}setPrev(img,src);}
@@ -6443,19 +6475,20 @@ body #developerTab .dp-card:has(.dp-bio:not(.is-empty)),body #developerTab .dp-c
     if(ed) return;
     ed=document.createElement('div');ed.id='dpEdOv';ed.setAttribute('role','dialog');ed.setAttribute('aria-modal','true');ed.setAttribute('aria-label','Edit profil');
     ed.innerHTML=ED_HTML;document.body.appendChild(ed);
-    $('dpeBack').addEventListener('click',closeEditor);
+    $('dpeBack').addEventListener('click',function(){requestClose();});
     $('dpeSave').addEventListener('click',saveEditor);
     $('dpeBannerBtn').addEventListener('click',function(){
       pickBanner(function(u){D.bn=u;D.bnBlob=null;showBnPrev();},function(file){D.bn='idb:video';D.bnBlob=file;showBnPrev();});
     });
     function logoSrc(id){return window.zsCollLogo?window.zsCollLogo.src(id):'';}
     function paintAv(){
+      setTimeout(function(){try{dirtySync();}catch(e){}},0);
       var img=$('dpeAvatarImg');if(img) setPrev(img,D.av||logoSrc(D.coll)||defAvatar());
       var rm=$('dpeResetAv');if(rm) rm.hidden=!D.av;
       var nt=$('kzLcNote');if(nt)nt.innerHTML='<i class="fa-solid fa-circle-info" aria-hidden="true"></i> '+(D.pub==='photo'&&D.av?'Live Chat menampilkan foto Galeri kamu. Banner tetap dari Koleksi.':'Live Chat menampilkan logo Koleksi. Foto Galeri hanya di profil.');
     }
     window.__dpPaintAv=paintAv;
-    function pickAv(){pickImage(400,400,0.85,function(u){D.av=u;paintAv();setErr('');});}
+    function pickAv(){pickAvatar(function(u){D.av=u;paintAv();setErr('');});}
     function pickCollection(){
       if(typeof window.openLogoDetail!=='function'){setErr('Koleksi logo belum siap, coba lagi.');return;}
       if(!window.__dpLogoHook){
@@ -6499,33 +6532,58 @@ body #developerTab .dp-card:has(.dp-bio:not(.is-empty)),body #developerTab .dp-c
     function shake(n){if(!n) return;n.classList.remove('shake');void n.offsetWidth;n.classList.add('shake');try{navigator.vibrate&&navigator.vibrate(28);}catch(x){}}
     function pickSource(){
       if($('dpeSrc')) return;
-      var has=!!D.coll,ls=has?logoSrc(D.coll):'',hasAv=!!D.av;
-      if(!hasAv)D.pub='logo';
-      function chip(on){return 'border:1px solid '+(on?'#ff2b2b':'#3a3a3a')+';background:'+(on?'#ff2b2b':'transparent')+';color:#fff;border-radius:999px;padding:7px 14px;font-weight:600;font-size:13px;';}
+      if(!D.av) D.pub='logo';
       var o=document.createElement('div');o.className='dpe-src';o.id='dpeSrc';
-      o.innerHTML='<div class="dpe-src-card" role="dialog" aria-label="Foto profil"><span class="dpe-src-grab" aria-hidden="true"></span>'
-        +'<button type="button" class="dpe-opt'+(has?'':' dpe-opt-main')+'" data-s="kol"><span class="dpe-opt-ic" id="dpeIcKol"><i class="fa-solid fa-shapes" aria-hidden="true"></i></span><span class="dpe-opt-tx"><b>Koleksi<em class="dpe-tag req">Wajib</em></b><small>'+(D.pub==='photo'?'Logo profil':'Tampil di Live Chat')+'</small></span><i class="fa-solid '+(has?'fa-circle-check dpe-opt-ok':'fa-chevron-right')+' dpe-opt-end" aria-hidden="true"></i></button>'
-        +'<button type="button" class="dpe-opt'+(has?'':' locked')+'" data-s="gal"'+(has?'':' aria-disabled="true"')+'><span class="dpe-opt-ic" id="dpeIcGal"><i class="fa-solid fa-images" aria-hidden="true"></i></span><span class="dpe-opt-tx"><b>Galeri<em class="dpe-tag opt">Opsional</em></b><small>'+(has?(D.pub==='photo'?'Tampil di Live Chat':'Hanya di profil'):'Pasang koleksi dulu')+'</small></span><i class="fa-solid '+(hasAv?'fa-circle-check dpe-opt-ok':(has?'fa-chevron-right':'fa-lock'))+' dpe-opt-end" aria-hidden="true"></i></button>'
-        +'<div class="dpe-pub" style="display:flex;align-items:center;gap:8px;margin:10px 4px 2px;"><span style="flex:1;font-size:12px;opacity:.75;">Tampil publik di Live Chat</span>'
-        +'<button type="button" data-s="pub-logo" aria-pressed="'+(D.pub!=='photo')+'" style="'+chip(D.pub!=='photo')+'">Koleksi</button>'
-        +'<button type="button" data-s="pub-photo" aria-pressed="'+(D.pub==='photo')+'" style="'+chip(D.pub==='photo')+(has?'':'opacity:.45;')+'">Galeri</button></div>'
-        +'<button type="button" class="dpe-src-cancel" data-s="x">Batal</button></div>';
+      o.innerHTML='<div class="ps-card" role="dialog" aria-modal="true" aria-label="Foto profil"><span class="ps-grab" aria-hidden="true"></span>'
+        +'<div class="ps-title">Foto profil</div>'
+        +'<p class="ps-sub">Pilih satu foto yang tampil di Live Chat.</p>'
+        +'<div class="ps-prev" aria-label="Pratinjau">'
+        +'<div class="ps-pv"><div class="ps-pvl">Di profil</div><div class="ps-pvbox ps-pvprof"><span class="ps-pva" id="psPvA1"></span><b id="psPvN1"></b></div></div>'
+        +'<div class="ps-pv"><div class="ps-pvl">Di Live Chat</div><div class="ps-pvbox ps-pvchat"><span class="ps-pva sm" id="psPvA2"></span><span class="ps-bub"><b id="psPvN2"></b><span>Halo semua!</span></span></div></div>'
+        +'</div>'
+        +'<div class="ps-list" id="psList" role="radiogroup" aria-label="Foto untuk Live Chat"></div>'
+        +'<p class="ps-hint">Foto Galeri selalu tampil di profilmu.</p>'
+        +'<button type="button" class="ps-done" data-s="x">Selesai</button></div>';
       function thumb(id,src){var h=o.querySelector('#'+id);if(!h||!src) return;var im=document.createElement('img');im.alt='';im.src=src;h.innerHTML='';h.appendChild(im);}
-      thumb('dpeIcKol',ls);thumb('dpeIcGal',hasAv?D.av:'');
+      function paint(){
+        var has=!!D.coll,hasAv=!!D.av,onPhoto=(D.pub==='photo'&&hasAv),onLogo=has&&!onPhoto;
+        var kSub=!has?'Belum dipasang':(onLogo?'Tampil di Live Chat':'Logo profil');
+        var gSub=!has?'Pasang Koleksi dulu':(!hasAv?'Belum ada foto':(onPhoto?'Tampil di Live Chat':'Hanya di profil'));
+        o.querySelector('#psList').innerHTML=
+          '<div class="ps-opt'+(onLogo?' on':'')+'" data-o="kol">'
+            +'<button type="button" class="ps-pick" role="radio" aria-checked="'+onLogo+'" data-s="pub-logo"><span class="ps-radio" aria-hidden="true"></span><span class="ps-th" id="psThK"><i class="fa-solid fa-shapes" aria-hidden="true"></i></span><span class="ps-tx"><b>Koleksi<em class="ps-tag">Wajib</em></b><small>'+kSub+'</small></span></button>'
+            +'<button type="button" class="ps-edit" data-s="kol">'+(has?'Ganti':'Pilih')+'</button>'
+          +'</div>'
+          +'<div class="ps-opt'+(onPhoto?' on':'')+(has?'':' lock')+'" data-o="gal">'
+            +'<button type="button" class="ps-pick" role="radio" aria-checked="'+onPhoto+'"'+(has?'':' aria-disabled="true"')+' data-s="pub-photo"><span class="ps-radio" aria-hidden="true"></span><span class="ps-th" id="psThG"><i class="fa-solid fa-images" aria-hidden="true"></i></span><span class="ps-tx"><b>Galeri<em class="ps-tag">Opsional</em></b><small>'+gSub+'</small></span></button>'
+            +(has?'<button type="button" class="ps-edit" data-s="gal">'+(hasAv?'Ganti':'Tambah')+'</button>':'<span class="ps-lockic" aria-hidden="true"><i class="fa-solid fa-lock"></i></span>')
+          +'</div>';
+        thumb('psThK',has?logoSrc(D.coll):'');thumb('psThG',hasAv?D.av:'');
+        var logo=has?logoSrc(D.coll):'',nm=((typeof D2!=='undefined'&&D2.name)||'Nama kamu');
+        function pv(id,src){var h=o.querySelector('#'+id);if(!h) return;h.innerHTML='';if(src){var im=document.createElement('img');im.alt='';im.src=src;h.appendChild(im);}else{h.innerHTML='<i class="fa-solid fa-user" aria-hidden="true"></i>';}}
+        pv('psPvA1',D.av||logo);pv('psPvA2',onPhoto?D.av:logo);
+        o.querySelector('#psPvN1').textContent=nm;o.querySelector('#psPvN2').textContent=nm;
+      }
+      function nudge(){shake(o.querySelector('[data-o="kol"]'));}
+      function close(){paintAv();o.remove();}
+      paint();
       o.addEventListener('click',function(e){
         var b=e.target.closest?e.target.closest('button'):null,sv=b?b.getAttribute('data-s'):'';
-        if(sv==='pub-logo'){D.pub='logo';o.remove();pickSource();return;}
-        if(sv==='pub-photo'){
-          if(!D.coll){shake(o.querySelector('[data-s="kol"]'));return;}
-          if(!D.av){o.remove();pickImage(400,400,0.85,function(u){D.av=u;D.pub='photo';paintAv();setErr('');});return;}
-          D.pub='photo';o.remove();pickSource();return;
+        if(sv==='pub-logo'){
+          if(!D.coll){o.remove();pickCollection();return;}
+          D.pub='logo';paintAv();paint();return;
         }
-        if(b&&b.getAttribute('data-s')==='gal'){
-          if(!D.coll){shake(o.querySelector('[data-s="kol"]'));return;}
+        if(sv==='pub-photo'){
+          if(!D.coll){nudge();return;}
+          if(!D.av){o.remove();pickAvatar(function(u){D.av=u;D.pub='photo';paintAv();setErr('');});return;}
+          D.pub='photo';paintAv();paint();return;
+        }
+        if(sv==='kol'){o.remove();pickCollection();return;}
+        if(sv==='gal'){
+          if(!D.coll){nudge();return;}
           o.remove();pickAv();return;
         }
-        if(b&&b.getAttribute('data-s')==='kol'){o.remove();pickCollection();return;}
-        if(b||e.target===o) o.remove();
+        if(sv==='x'||e.target===o) close();
       });
       ed.appendChild(o);
     }
@@ -6543,7 +6601,7 @@ body #developerTab .dp-card:has(.dp-bio:not(.is-empty)),body #developerTab .dp-c
       var t=e.target;if(!t||!t.scrollIntoView) return;
       setTimeout(function(){try{t.scrollIntoView({block:'center',behavior:'smooth'});}catch(x){}},320);
     });
-    document.addEventListener('keydown',function(e){if(e.key==='Escape'&&ed.classList.contains('show')) closeEditor();});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape'&&ed.classList.contains('show')) requestClose();});
   }
   function lockLeft(key,days){
     var t=parseInt(lsGet(key,'0'),10);if(!t||isNaN(t)) return 0;
@@ -6558,6 +6616,8 @@ body #developerTab .dp-card:has(.dp-bio:not(.is-empty)),body #developerTab .dp-c
   function oneLine(v){return String(v||'').replace(/\s+/g,' ').trim();}
   function setVal(id,txt,pre){var e=$(id);if(!e) return;if(txt){e.textContent=(pre||'')+txt;e.classList.remove('empty');}else{e.textContent='Belum diisi';e.classList.add('empty');}}
   function renderRows(){
+    try{dirtySync();}catch(e){}
+    try{var li=document.querySelector('#dpEdOv .dpe-go[data-f="link"] .dpe-lic');if(li){var pp=D2.link?platOf(normLink(D2.link)||D2.link):{cls:'fa-solid fa-link',clr:''};li.className=pp.cls+' dpe-lic';li.style.color=pp.clr||'';}}catch(e){}
     setVal('dpvName',D2.name);setVal('dpvUser',D2.un,'@');setVal('dpvBio',oneLine(D2.bio));setRoleRow();setTitlesRow();setNoteRow();try{setLookRow();lookApply();}catch(e){}
     setVal('dpvLink',D2.link?D2.link.replace(/^https?:\/\/(www\.)?/i,'').replace(/\/$/,''):'');
   }
@@ -6842,7 +6902,33 @@ body #developerTab .dp-card:has(.dp-bio:not(.is-empty)),body #developerTab .dp-c
     }
     subErr('');renderRows();closeSub();
   }
+  /* ===== Simpan aktif hanya jika ada perubahan; konfirmasi sebelum membuang ===== */
+  var snap=null;
+  function takeSnap(){return {bn:D.bn,av:D.av,coll:D.coll,pub:D.pub,blob:!!D.bnBlob,name:D2.name,un:D2.un,bio:D2.bio,link:D2.link};}
+  function isDirty(){
+    if(!snap) return false;
+    var c=takeSnap();
+    for(var k in snap){if(snap[k]!==c[k]) return true;}
+    return false;
+  }
+  function dirtySync(){var b=$('dpeSave');if(b) b.disabled=!isDirty();}
+  function confirmClose(){
+    if(!ed||$('dpeDiscard')) return;
+    var o=document.createElement('div');o.className='dpe-dc';o.id='dpeDiscard';
+    o.innerHTML='<div class="dpe-dc-card" role="alertdialog" aria-modal="true" aria-labelledby="dpeDcT"><div class="dpe-dc-t" id="dpeDcT">Buang perubahan?</div><p class="dpe-dc-s">Perubahan yang belum disimpan akan hilang.</p><button type="button" class="dpe-dc-keep" data-d="keep">Lanjut mengedit</button><button type="button" class="dpe-dc-drop" data-d="drop">Buang</button></div>';
+    o.addEventListener('click',function(e){
+      var b=e.target.closest?e.target.closest('button'):null,v=b?b.getAttribute('data-d'):'';
+      if(v==='drop'){o.remove();snap=null;closeEditor();return;}
+      if(v==='keep'||e.target===o) o.remove();
+    });
+    ed.appendChild(o);
+  }
+  function requestClose(){
+    var d=$('dpeDiscard');if(d){d.remove();return;}
+    if(isDirty()) confirmClose();else closeEditor();
+  }
   function openEditor(){
+    snap=null;
     buildEditor();
     try{window.zsCollLogo&&window.zsCollLogo.migrate();}catch(e){}
     D.bn=lsGet(K_BN,'');D.av=lsGet(K_AV,'');D.coll=(window.zsCollLogo&&window.zsCollLogo.get())||'';
@@ -6854,6 +6940,7 @@ body #developerTab .dp-card:has(.dp-bio:not(.is-empty)),body #developerTab .dp-c
     D2.bio=(lsGet(CONFIG.keys.bio,'')||'').slice(0,CONFIG.bioMax);
     D2.link=lsGet(K_LK,'');
     renderRows();
+    snap=takeSnap();dirtySync();
     setErr('');
     ed.classList.add('show');$('dpeBody').scrollTop=0;
     if(typeof hmLockScroll==='function') hmLockScroll();
@@ -6919,6 +7006,89 @@ body #developerTab .dp-card:has(.dp-bio:not(.is-empty)),body #developerTab .dp-c
     toast('Profil diperbarui');
   }
   $('dpEditBtn').addEventListener('click',openEditor);
+
+  /* ===== Kelengkapan profil: progres + satu langkah berikutnya ===== */
+  var PC_STEPS=[
+    {k:'name',t:'Isi nama profil',s:'Nama yang dilihat orang lain.',ic:'fa-user',
+     ok:function(){var n=(($('dpName')||{}).textContent||'').trim();return !!n&&n.toLowerCase()!=='guest';},
+     go:function(){openSub('name');}},
+    {k:'coll',t:'Pasang logo Koleksi',s:'Logo ini tampil di Live Chat.',ic:'fa-shapes',
+     ok:function(){try{return !!(window.zsCollLogo&&window.zsCollLogo.get());}catch(e){return false;}},
+     go:function(){window.__dpWantColl=true;}},
+    {k:'bio',t:'Tambah bio',s:'Ceritakan dirimu dalam satu-dua kalimat.',ic:'fa-align-left',
+     ok:function(){return !!(lsGet(CONFIG.keys.bio,'')||'').trim();},
+     go:function(){openSub('bio');}},
+    {k:'gal',t:'Tambah foto Galeri',s:'Foto pribadimu tampil di profil.',ic:'fa-images',
+     ok:function(){return !!lsGet(K_AV,'');},
+     go:function(){try{window.__dpPickSource();}catch(e){}}},
+    {k:'link',t:'Tambah tautan',s:'TikTok, Instagram, atau WhatsApp.',ic:'fa-link',
+     ok:function(){return !!lsGet(K_LK,'');},
+     go:function(){openSub('link');}},
+    {k:'note',t:'Tulis catatan',s:'Gelembung singkat di atas fotomu.',ic:'fa-comment-dots',
+     ok:function(){return !!(lsGet('dpNote','')||'').trim();},
+     go:function(){if(typeof openNote==='function') openNote(true);}},
+    {k:'bn',t:'Ganti banner',s:'Pilih dari Koleksi atau Galeri.',ic:'fa-image',
+     ok:function(){return !!lsGet(K_BN,'');},
+     go:function(){var b=$('dpeBannerBtn');if(b) b.click();}}
+  ];
+  var pcEl=null;
+  function pcState(){
+    var done=0,next=null;
+    PC_STEPS.forEach(function(st){var o=false;try{o=!!st.ok();}catch(e){}st._ok=o;if(o) done++;else if(!next) next=st;});
+    return {done:done,total:PC_STEPS.length,pct:Math.round(done/PC_STEPS.length*100),next:next};
+  }
+  function pcBuild(){
+    if(pcEl) return pcEl;
+    var host=$('dpTitles')||$('dpStories');if(!host||!host.parentNode) return null;
+    if(!document.getElementById('dpPcStyle')){
+      var st=document.createElement('style');st.id='dpPcStyle';
+      st.textContent='#dpPc{margin:12px 16px 4px;padding:14px 14px 12px;border-radius:18px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#fff;font-family:"Outfit",system-ui,sans-serif}'
+      +'#dpPc[hidden]{display:none}'
+      +'#dpPc .pc-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px}'
+      +'#dpPc .pc-ttl{font-size:15px;font-weight:800}'
+      +'#dpPc .pc-left{font-size:12.5px;font-weight:500;color:rgba(255,255,255,.55)}'
+      +'#dpPc .pc-bar{height:6px;margin:10px 0 12px;border-radius:6px;background:rgba(255,255,255,.1);overflow:hidden}'
+      +'#dpPc .pc-fill{display:block;height:100%;width:0;border-radius:6px;background:#ff2b2b;transition:width .4s ease}'
+      +'#dpPc .pc-next{display:flex;align-items:center;gap:12px;width:100%;padding:10px 12px 10px 10px;border:1px solid rgba(255,255,255,.12);border-radius:14px;background:rgba(255,255,255,.04);color:#fff;font:inherit;text-align:left;cursor:pointer;-webkit-tap-highlight-color:transparent}'
+      +'#dpPc .pc-next:active{background:rgba(255,255,255,.09)}'
+      +'#dpPc .pc-ic{flex:none;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:rgba(255,43,43,.16);color:#ff6b6b;font-size:15px}'
+      +'#dpPc .pc-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}'
+      +'#dpPc .pc-tx b{font-size:14.5px;font-weight:700}'
+      +'#dpPc .pc-tx small{font-size:12.5px;color:rgba(255,255,255,.55);line-height:1.3}'
+      +'#dpPc .pc-go{flex:none;font-size:12px;color:rgba(255,255,255,.4)}'
+      +'@media (prefers-reduced-motion:reduce){#dpPc .pc-fill{transition:none}}';
+      document.head.appendChild(st);
+    }
+    pcEl=document.createElement('section');pcEl.id='dpPc';pcEl.setAttribute('aria-label','Kelengkapan profil');
+    pcEl.innerHTML='<div class="pc-top"><span class="pc-ttl" id="pcTtl"></span><span class="pc-left" id="pcLeft"></span></div>'
+      +'<div class="pc-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" id="pcBar"><span class="pc-fill" id="pcFill"></span></div>'
+      +'<button type="button" class="pc-next" id="pcNext"><span class="pc-ic"><i class="fa-solid" id="pcIc" aria-hidden="true"></i></span><span class="pc-tx"><b id="pcT"></b><small id="pcS"></small></span><i class="fa-solid fa-chevron-right pc-go" aria-hidden="true"></i></button>';
+    host.parentNode.insertBefore(pcEl,host);
+    pcEl.querySelector('#pcNext').addEventListener('click',function(){
+      var n=pcState().next;if(!n) return;
+      openEditor();
+      if(n.k==='coll'){window.__dpWantColl=true;setTimeout(function(){try{window.__dpPickSource();}catch(e){}},260);return;}
+      setTimeout(function(){try{n.go();}catch(e){}},300);
+    });
+    return pcEl;
+  }
+  function pcRender(){
+    var el=pcBuild();if(!el) return;
+    var st=pcState();
+    if(!st.next){el.hidden=true;return;}
+    el.hidden=false;
+    var left=st.total-st.done;
+    $('pcTtl').textContent='Profil '+st.pct+'% lengkap';
+    $('pcLeft').textContent='Tinggal '+left+' langkah';
+    $('pcFill').style.width=st.pct+'%';
+    $('pcBar').setAttribute('aria-valuenow',String(st.pct));
+    var ic=$('pcIc');ic.className='fa-solid '+st.next.ic;
+    $('pcT').textContent=st.next.t;$('pcS').textContent=st.next.s;
+  }
+  window.addEventListener('zusmo:profile-saved',function(){setTimeout(pcRender,50);});
+  window.addEventListener('storage',function(){pcRender();});
+  setTimeout(pcRender,600);
+  setInterval(function(){var p=$('dpPanelPribadi');if(p&&p.offsetParent!==null) pcRender();},2000);
   var _avWait=false;
   window.addEventListener('zusmo:avatar-sync',function(e){if(!_avWait)return;_avWait=false;if(e&&e.detail&&e.detail.ok===false)toast('Foto BELUM terkirim ke pengguna lain'+(e.detail.err?' ('+e.detail.err+')':'')+'. Akan dicoba lagi otomatis.');});
 
@@ -15351,7 +15521,7 @@ zcpInitUi();
     if(!body||document.getElementById('dpePostRatioRow'))return;
     var wrap=document.createElement('div');wrap.id='dpePostRatioRow';
     wrap.innerHTML='<div class="dpe-sec">Postingan</div>'+
-      '<div class="dpe-row"><span class="dpe-lbl">Ukuran</span>'+
+      '<div class="dpe-row"><span class="dpe-lbl"><i class="fa-solid fa-crop-simple dpe-lic" aria-hidden="true"></i>Ukuran</span>'+
       '<div class="dpe-ratio-opts" role="group" aria-label="Ukuran kotak postingan">'+
       '<button type="button" class="dpe-ratio-btn" data-r="1-1" aria-label="Kotak persegi" aria-pressed="false"><span class="dpe-ratio-box"></span><span class="dpe-ratio-cap">Persegi</span></button>'+
       '<button type="button" class="dpe-ratio-btn" data-r="4-5" aria-label="Kotak potret" aria-pressed="false"><span class="dpe-ratio-box"></span><span class="dpe-ratio-cap">Potret</span></button>'+
@@ -15799,7 +15969,77 @@ document.addEventListener('visibilitychange',function(){if(document.hidden)pause
 window.addEventListener('online',function(){if(P.classList.contains('active')&&F.loaded&&(F.err||F.off)){F.err=false;load(!F.rows.length);}});
 new MutationObserver(function(){document.body.classList.toggle('fyp-solid',P.classList.contains('active'));if(P.classList.contains('active')){if(!F.loaded){F.loaded=true;load(true);}else pickVideo();}else{pauseAll();if($('zfSheet').classList.contains('on'))closeSheet();}}).observe(P,{attributes:true,attributeFilter:['class']});
 })();
-</script></body></html>
+</script><style id="kz-profile-ux-css">
+/* ===== Edit profil: tata letak, label, ikon ===== */
+#dpEdOv .dpe-media{margin-bottom:78px}
+#dpEdOv .dpe-avcam{position:absolute;left:calc(50% + 36px);bottom:-66px;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--r);color:#fff;font-size:14px;border:3px solid #0a0a0c;pointer-events:none}
+#dpEdOv .dpe-photo{display:flex;align-items:center;gap:8px;width:fit-content;margin:14px auto 0;padding:10px 18px;border-radius:999px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.07);color:#fff;font-size:14px;font-weight:700}
+#dpEdOv .dpe-photo i{font-size:14px;opacity:.85}
+#dpEdOv #kzLcNote{margin:10px 28px 6px;text-align:center;font-size:12.5px;line-height:1.5;color:rgba(255,255,255,.6);text-wrap:balance}
+#dpEdOv .dpe-sec{padding:24px 16px 8px;font-size:13px;font-weight:700;letter-spacing:0;text-transform:none;color:rgba(255,255,255,.5)}
+#dpEdOv .dpe-row{min-height:56px;padding:14px 16px}
+#dpEdOv .dpe-lbl{display:flex;align-items:center;gap:12px;width:auto;flex:none;white-space:nowrap;color:#fff;font-size:15px;font-weight:600}
+#dpEdOv .dpe-lic{width:18px;text-align:center;font-size:14px;color:rgba(255,255,255,.5)}
+#dpEdOv .dpe-val{color:rgba(255,255,255,.85)}
+#dpEdOv .dpe-val.empty{color:rgba(255,255,255,.35)}
+#dpEdOv .dpe-chev{color:rgba(255,255,255,.35)}
+
+/* ===== Sheet Foto profil & Banner profil ===== */
+#dpEdOv .ps-card{width:100%;max-height:92%;overflow-y:auto;padding:8px 16px calc(18px + env(safe-area-inset-bottom,0px));background:#16161a;border-radius:22px 22px 0 0;border-top:1px solid rgba(255,255,255,.1);animation:dpeUp .26s cubic-bezier(.2,.8,.2,1) both;text-align:left}
+#dpEdOv .ps-grab{display:block;width:38px;height:4px;margin:2px auto 14px;border-radius:4px;background:rgba(255,255,255,.18)}
+#dpEdOv .ps-title{font-size:18px;font-weight:800;color:#fff}
+#dpEdOv .ps-sub{margin:4px 0 16px;font-size:13.5px;line-height:1.45;color:rgba(255,255,255,.6)}
+#dpEdOv .ps-list{display:flex;flex-direction:column;gap:10px}
+#dpEdOv .ps-opt{display:flex;align-items:center;gap:6px;padding:4px 10px 4px 4px;border:1.5px solid rgba(255,255,255,.12);border-radius:18px;background:rgba(255,255,255,.03);transition:border-color .15s,background .15s}
+#dpEdOv .ps-opt.on{border-color:var(--r);background:rgba(255,43,43,.08)}
+#dpEdOv .ps-opt.lock{opacity:.6}
+#dpEdOv .ps-opt.shake{animation:dpeShake .4s}
+#dpEdOv .ps-pick,#dpEdOv .ps-row{display:flex;align-items:center;gap:12px;min-width:0;padding:10px 8px;border:0;border-radius:14px;background:transparent;color:#fff;font:inherit;text-align:left;cursor:pointer;-webkit-tap-highlight-color:transparent}
+#dpEdOv .ps-pick{flex:1}
+#dpEdOv .ps-row{width:100%;padding:10px 12px 10px 10px;border:1.5px solid rgba(255,255,255,.12);background:rgba(255,255,255,.03);border-radius:18px}
+#dpEdOv .ps-pick:active,#dpEdOv .ps-row:active{background:rgba(255,255,255,.07)}
+#dpEdOv .ps-radio{flex:none;width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,.35);display:grid;place-items:center;transition:border-color .15s}
+#dpEdOv .ps-opt.on .ps-radio{border-color:var(--r)}
+#dpEdOv .ps-opt.on .ps-radio::after{content:"";width:10px;height:10px;border-radius:50%;background:var(--r)}
+#dpEdOv .ps-th{flex:none;width:52px;height:52px;border-radius:50%;overflow:hidden;display:grid;place-items:center;background:rgba(255,255,255,.08)}
+#dpEdOv .ps-th.sq{border-radius:14px}
+#dpEdOv .ps-th img{display:block;width:100%;height:100%;object-fit:cover}
+#dpEdOv .ps-th i{font-size:20px;color:rgba(255,255,255,.7)}
+#dpEdOv .ps-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+#dpEdOv .ps-tx b{display:flex;align-items:baseline;gap:8px;font-size:16px;font-weight:800}
+#dpEdOv .ps-tag{font-style:normal;font-size:11.5px;font-weight:600;color:rgba(255,255,255,.45)}
+#dpEdOv .ps-tx small{font-size:12.5px;font-weight:500;line-height:1.3;color:rgba(255,255,255,.55)}
+#dpEdOv .ps-opt.on .ps-tx small{color:#ff9a9a}
+#dpEdOv .ps-edit{flex:none;padding:9px 15px;border:1px solid rgba(255,255,255,.2);border-radius:999px;background:transparent;color:#fff;font:700 13px/1 'Outfit',system-ui,sans-serif;cursor:pointer}
+#dpEdOv .ps-edit:active{background:rgba(255,255,255,.1)}
+#dpEdOv .ps-lockic{flex:none;width:36px;display:grid;place-items:center;color:#ffb454;font-size:15px}
+#dpEdOv .ps-chev{flex:none;font-size:13px;color:rgba(255,255,255,.4)}
+#dpEdOv .ps-hint{margin:12px 2px 16px;font-size:12.5px;line-height:1.5;color:rgba(255,255,255,.5)}
+#dpEdOv .ps-list+.ps-done{margin-top:16px}
+#dpEdOv .ps-done{display:block;width:100%;height:52px;border:0;border-radius:999px;background:var(--r);color:#fff;font:800 16px/1 'Outfit',system-ui,sans-serif;cursor:pointer}
+#dpEdOv .ps-done:active{transform:scale(.98)}
+#dpEdOv .ps-done.ps-ghost{background:rgba(255,255,255,.08);color:rgba(255,255,255,.85)}
+#dpEdOv .ps-prev{display:grid;grid-template-columns:1fr 1.4fr;gap:10px;margin:0 0 16px}
+#dpEdOv .ps-pv{min-width:0}
+#dpEdOv .ps-pvl{margin:0 0 6px 2px;font-size:12px;font-weight:700;color:rgba(255,255,255,.5)}
+#dpEdOv .ps-pvbox{height:92px;border-radius:16px;border:1px solid rgba(255,255,255,.1);background:#0f0f12;display:flex;align-items:center;gap:10px;padding:10px;overflow:hidden}
+#dpEdOv .ps-pvprof{flex-direction:column;justify-content:center;gap:6px;text-align:center}
+#dpEdOv .ps-pva{flex:none;width:46px;height:46px;border-radius:50%;overflow:hidden;display:grid;place-items:center;background:rgba(255,255,255,.1);color:rgba(255,255,255,.6);font-size:16px}
+#dpEdOv .ps-pva.sm{width:30px;height:30px;font-size:12px;align-self:flex-start}
+#dpEdOv .ps-pva img{display:block;width:100%;height:100%;object-fit:cover}
+#dpEdOv .ps-pvprof b{max-width:100%;font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#dpEdOv .ps-bub{min-width:0;display:flex;flex-direction:column;gap:2px;padding:7px 10px;border-radius:4px 14px 14px 14px;background:rgba(255,255,255,.09);font-size:12.5px;line-height:1.3}
+#dpEdOv .ps-bub b{font-size:11.5px;font-weight:700;color:#ff9a9a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#dpEdOv .dpe-save[disabled]{opacity:.4;pointer-events:none}
+#dpEdOv .dpe-dc{position:absolute;inset:0;z-index:9;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(0,0,0,.7)}
+#dpEdOv .dpe-dc-card{width:100%;max-width:340px;padding:20px 18px 12px;border-radius:20px;background:#16161a;border:1px solid rgba(255,255,255,.1);text-align:center}
+#dpEdOv .dpe-dc-t{font-size:18px;font-weight:800;color:#fff}
+#dpEdOv .dpe-dc-s{margin:6px 0 16px;font-size:14px;line-height:1.5;color:rgba(255,255,255,.6)}
+#dpEdOv .dpe-dc-keep{display:block;width:100%;height:48px;border:0;border-radius:999px;background:var(--r);color:#fff;font:800 15px/1 'Outfit',system-ui,sans-serif;cursor:pointer}
+#dpEdOv .dpe-dc-drop{display:block;width:100%;height:46px;margin-top:4px;border:0;background:transparent;color:#ff6b6b;font:700 15px/1 'Outfit',system-ui,sans-serif;cursor:pointer}
+@media (prefers-reduced-motion:reduce){#dpEdOv .ps-card,#dpEdOv .ps-opt.shake{animation:none}}
+</style>
+</body></html>
 <script id="fd-swipe-tabs">
 /* Geser kiri/kanan ala pager: halaman tetangga (Postingan - Feed - Ulangan) ikut terlihat dan bergeser bersama
    halaman aktif mengikuti jari (setengah-setengah saat di tengah). Lepas jari = meluncur halus ke halaman tujuan
@@ -16301,10 +16541,14 @@ new MutationObserver(function(){document.body.classList.toggle('fyp-solid',P.cla
       if($('dpeSrcBn')) return;
       var open=true; /* Default sudah terpasang = termasuk koleksi, jadi Galeri langsung terbuka */
       var o=document.createElement('div');o.className='dpe-src';o.id='dpeSrcBn';
-      o.innerHTML='<div class="dpe-src-card" role="dialog" aria-label="Banner profil"><span class="dpe-src-grab" aria-hidden="true"></span>'
-        +'<button type="button" class="dpe-opt dpe-opt-main" data-s="kol"><span class="dpe-opt-ic"><i class="fa-solid fa-film" aria-hidden="true"></i></span><span class="dpe-opt-tx"><b>Koleksi</b></span><i class="fa-solid '+(open?'fa-circle-check dpe-opt-ok':'fa-chevron-right')+' dpe-opt-end" aria-hidden="true"></i></button>'
-        +'<button type="button" class="dpe-opt'+(open?'':' locked')+'" data-s="gal"'+(open?'':' aria-disabled="true"')+'><span class="dpe-opt-ic"><i class="fa-solid fa-images" aria-hidden="true"></i></span><span class="dpe-opt-tx"><b>Galeri</b></span><i class="fa-solid '+(open?'fa-chevron-right':'fa-lock')+' dpe-opt-end" aria-hidden="true"></i></button>'
-        +'<button type="button" class="dpe-src-cancel" data-s="x">Batal</button></div>';
+      o.innerHTML='<div class="ps-card" role="dialog" aria-modal="true" aria-label="Banner profil"><span class="ps-grab" aria-hidden="true"></span>'
+        +'<div class="ps-title">Banner profil</div>'
+        +'<p class="ps-sub">Pilih dari koleksi atau unggah dari perangkatmu.</p>'
+        +'<div class="ps-list">'
+        +'<button type="button" class="ps-row" data-s="kol"><span class="ps-th sq"><i class="fa-solid fa-film" aria-hidden="true"></i></span><span class="ps-tx"><b>Koleksi</b><small>Banner video pilihan</small></span><i class="fa-solid fa-chevron-right ps-chev" aria-hidden="true"></i></button>'
+        +'<button type="button" class="ps-row" data-s="gal"><span class="ps-th sq"><i class="fa-solid fa-images" aria-hidden="true"></i></span><span class="ps-tx"><b>Galeri</b><small>Foto atau video dari perangkat</small></span><i class="fa-solid fa-chevron-right ps-chev" aria-hidden="true"></i></button>'
+        +'</div>'
+        +'<button type="button" class="ps-done ps-ghost" data-s="x">Tutup</button></div>';
       o.addEventListener('click',function(ev){
         var b=ev.target.closest?ev.target.closest('button'):null,s=b?b.getAttribute('data-s'):'';
         if(s==='kol'){o.remove();openOverlay('editor');return;}
@@ -16501,7 +16745,7 @@ new MutationObserver(function(){document.body.classList.toggle('fyp-solid',P.cla
     var ed=$('dpEdOv');if(!ed||$('kzPmRow')) return;
     var bio=ed.querySelector('.dpe-go[data-f="bio"]');if(!bio) return;
     var r=document.createElement('button');r.type='button';r.id='kzPmRow';r.className='dpe-row';
-    r.innerHTML='<span class="dpe-lbl">Musik</span><span class="dpe-val" id="kzPmVal"></span><i class="fa-solid fa-chevron-right dpe-chev" aria-hidden="true"></i>';
+    r.innerHTML='<span class="dpe-lbl"><i class="fa-solid fa-music dpe-lic" aria-hidden="true"></i>Musik</span><span class="dpe-val" id="kzPmVal"></span><i class="fa-solid fa-chevron-right dpe-chev" aria-hidden="true"></i>';
     r.addEventListener('click',openPicker);
     bio.insertAdjacentElement('afterend',r);
     updateRowVal();
