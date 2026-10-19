@@ -14161,7 +14161,7 @@ function zcpInitUi(){
   ov.innerHTML='<section class="zcp-sheet" role="dialog" aria-modal="true" aria-labelledby="zcpTitle">'
    +'<div class="zcp-grab"></div>'
    +'<header class="zcp-head"><div><b id="zcpTitle">Notifikasi</b><small id="zcpSub">Pesan terbaru dari admin</small></div><button type="button" id="zcpClose" class="zcp-close" aria-label="Tutup">×</button></header>'
-   +'<nav class="zcp-tabs" role="tablist"><button type="button" data-zt="inbox" class="on" role="tab">Kotak Masuk<i class="zcp-tdot" id="zcpTabDot"></i></button><button type="button" data-zt="settings" role="tab">Pengaturan</button><button type="button" data-zt="send" id="zcpTabSend" role="tab" hidden>Broadcast</button></nav>'
+   +'<nav class="zcp-tabs" role="tablist"><button type="button" data-zt="inbox" class="on" role="tab">Kotak Masuk<i class="zcp-tdot" id="zcpTabDot"></i></button><button type="button" data-zt="settings" role="tab">Pengaturan</button><button type="button" data-zt="send" id="zcpTabSend" role="tab" hidden>Broadcast</button><button type="button" data-zt="devices" id="zcpTabDev" role="tab" hidden>Perangkat</button></nav>'
    +'<div class="zcp-pane" data-zp="inbox"><div id="zcpInboxList" class="zcb-list"></div></div>'
    +'<div class="zcp-pane" data-zp="settings" hidden>'
    +'<div id="zcpStatus" class="zcp-status" role="status">Memeriksa dukungan browser…</div>'
@@ -14178,6 +14178,7 @@ function zcpInitUi(){
    +'<p class="zcp-foot">Notifikasi bergantung pada izin browser, koneksi, pengaturan perangkat, dan dukungan layanan push.</p>'
    +'</div>'
    +'<div class="zcp-pane" data-zp="send" hidden></div>'
+   +'<div class="zcp-pane" data-zp="devices" hidden></div>'
    +'</section>';
   document.body.appendChild(ov);
   zcpById('zcpClose').addEventListener('click',zcpClose);
@@ -14198,7 +14199,7 @@ async function zcpOpen(tab){
  await zcpRefresh();
  try{zcbSyncAdminTab();}catch(e){}
 }
-function zcpClose(){var ov=zcpById('zcPushOverlay');if(ov){ov.classList.remove('open');ov.setAttribute('aria-hidden','true');}}
+function zcpClose(){try{zcdStop();}catch(e){}var ov=zcpById('zcPushOverlay');if(ov){ov.classList.remove('open');ov.setAttribute('aria-hidden','true');}}
 async function zcpContext(){if(!S.sb||!S.me||!S.ready)await start();if(!S.sb||!S.me||!S.me.id)throw new Error('Sesi Live Chat belum siap. Buka ulang Live Chat dan coba lagi.');}
 async function zcpRegistration(){
  if(!('serviceWorker' in navigator))throw new Error('Browser ini tidak mendukung service worker. Gunakan Chrome Android melalui HTTPS.');
@@ -14397,19 +14398,20 @@ function zcbShowInbox(){zcbLoadInto(zcpById('zcpInboxList'),true);}
 /* ---- tab ---- */
 function zcbSyncAdminTab(){
  var t=zcpById('zcpTabSend');if(!t)return;
- var a=zcbIsAdmin();t.hidden=!a;
- if(!a&&ZCP_TAB==='send')zcpTab('settings');
+ var a=zcbIsAdmin();t.hidden=!a;var td=zcpById('zcpTabDev');if(td)td.hidden=!a;
+ if(!a&&(ZCP_TAB==='send'||ZCP_TAB==='devices'))zcpTab('settings');
 }
 function zcpTab(name){
  var ov=zcpById('zcPushOverlay');if(!ov)return;
- if(name==='send'&&!zcbIsAdmin())name='settings';
+ if((name==='send'||name==='devices')&&!zcbIsAdmin())name='settings';
  ZCP_TAB=name;
  Array.prototype.forEach.call(ov.querySelectorAll('.zcp-tabs button'),function(b){var on=b.getAttribute('data-zt')===name;b.classList.toggle('on',on);b.setAttribute('aria-selected',on?'true':'false');});
  Array.prototype.forEach.call(ov.querySelectorAll('.zcp-pane'),function(p){p.hidden=p.getAttribute('data-zp')!==name;});
- var sub={inbox:'Pesan terbaru dari admin',settings:'Atur push di perangkat ini',send:'Kirim pesan ke semua pengguna'}[name]||'';
+ var sub={inbox:'Pesan terbaru dari admin',settings:'Atur push di perangkat ini',send:'Kirim pesan ke semua pengguna',devices:'Perangkat dengan izin notifikasi (live)'}[name]||'';
  var s=zcpById('zcpSub');if(s)s.textContent=sub;
  if(name==='inbox')zcbShowInbox();
  if(name==='send')zcbShowSend();
+ if(name==='devices')zcdShow();else zcdStop();
 }
 /* ---- broadcast admin ---- */
 function zcbBuildSend(){
@@ -14602,7 +14604,7 @@ async function zcnEnableFlow(btn){
  else{var m=(zcpById('zcpMsg')||{}).textContent;if(m)zcnToast(m);}
  zcnRefreshBanners();if(btn)btn.disabled=false;
 }
-function zcnAfterChange(){ZCN.at=0;zcnApplyGuide();zcnRefreshBanners();}
+function zcnAfterChange(){ZCN.at=0;zcnApplyGuide();zcnRefreshBanners();try{zcdReport(true,3000);}catch(x){}}
 function zcnMakeBanner(id){
  var b=zcbEl('div','zcn-bn');b.id=id;b.hidden=true;
  b.innerHTML='<span class="zcn-bi"><i class="fa-solid fa-bell" aria-hidden="true"></i></span><div class="zcn-bt"><b></b><small></small></div><button type="button" class="zcn-bb"></button>';
@@ -14651,6 +14653,119 @@ async function zcnRefreshBanners(){
 })();
 
 
+
+/* ===== PELAPORAN & PANTAUAN IZIN NOTIFIKASI (admin) =====
+   Tiap perangkat melapor status izinnya ke tabel zc_notif_devices (lihat zusmo_notif_devices.sql).
+   Admin melihat jumlah + daftar (username, waktu diizinkan, terakhir aktif) secara live di Notifikasi -> Perangkat. */
+var ZCD={id:'',timer:0,last:0,busy:false,ch:null,poll:0,deb:0,rows:[],stats:null,q:''};
+function zcdDeviceId(){
+ if(ZCD.id)return ZCD.id;
+ try{var v=localStorage.getItem('zusmo_notif_dev');if(!v||v.length<8){v=(window.crypto&&crypto.randomUUID)?crypto.randomUUID():('d'+Date.now().toString(36)+Math.random().toString(36).slice(2,12));localStorage.setItem('zusmo_notif_dev',v);}ZCD.id=v;}
+ catch(e){ZCD.id='t'+Date.now().toString(36)+Math.random().toString(36).slice(2,10);}
+ return ZCD.id;
+}
+function zcdPlatform(){
+ var u=String(navigator.userAgent||''),os='Lainnya',br='';
+ if(/Android/i.test(u))os='Android';else if(/iPhone|iPad|iPod/i.test(u))os='iOS';else if(/Windows/i.test(u))os='Windows';else if(/Mac OS X/i.test(u))os='macOS';else if(/Linux/i.test(u))os='Linux';
+ if(/\bwv\b|; wv\)/i.test(u))br='WebView';else if(/SamsungBrowser/i.test(u))br='Samsung';else if(/Edg\//i.test(u))br='Edge';else if(/Firefox/i.test(u))br='Firefox';else if(/Chrome|CriOS/i.test(u))br='Chrome';else if(/Safari/i.test(u))br='Safari';
+ return br?os+' · '+br:os;
+}
+function zcdReport(force,delay){
+ clearTimeout(ZCD.timer);
+ ZCD.timer=setTimeout(async function(){
+  if(ZCD.busy)return;
+  if(!force&&Date.now()-ZCD.last<60000)return;
+  if(!('Notification' in window))return;
+  ZCD.busy=true;
+  try{
+   await zcpContext();
+   var active=false;try{active=await zcnIsActive();}catch(e){}
+   var r=await S.sb.rpc('zc_notif_report',{p_device:zcdDeviceId(),p_perm:Notification.permission,p_push:!!active,p_ua:String(navigator.userAgent||'').slice(0,300),p_platform:zcdPlatform()});
+   if(r.error)throw r.error;
+   ZCD.last=Date.now();
+  }catch(e){console.warn('[ZUSMO NOTIF] report',e&&e.message||e);}
+  finally{ZCD.busy=false;}
+ },delay==null?0:delay);
+}
+(function(){
+ setTimeout(function(){zcdReport(true);},4500);
+ setInterval(function(){if(document.visibilityState==='visible')zcdReport(true);},90000);
+ document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible')zcdReport(false,800);});
+})();
+function zcdFmt(iso){var t=Date.parse(iso);if(!t)return '-';return new Date(t).toLocaleString('id-ID',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});}
+function zcdCss(){
+ if(zcpById('zcdCss'))return;
+ var st=document.createElement('style');st.id='zcdCss';
+ st.textContent='.zcd-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}'
+ +'.zcd-t{padding:11px 8px;border-radius:14px;background:rgba(255,255,255,.05);text-align:center}.zcd-t b{display:block;font-size:20px;font-weight:800;font-variant-numeric:tabular-nums}.zcd-t small{display:block;margin-top:2px;font-size:10.5px;color:#9a9aa6;font-weight:600}'
+ +'.zcd-live{display:flex;align-items:center;gap:6px;margin:0 2px 10px;font-size:11.5px;color:#9a9aa6}.zcd-live i{width:7px;height:7px;border-radius:50%;background:#555}.zcd-live.on i{background:#34d17b;box-shadow:0 0 0 3px rgba(52,209,123,.18)}'
+ +'.zcd-q{width:100%;box-sizing:border-box;margin:0 0 6px;padding:11px 13px;border:1px solid rgba(255,255,255,.1);border-radius:12px;background:rgba(255,255,255,.04);color:#fff;font:600 13.5px Inter,system-ui,sans-serif;outline:0}'
+ +'.zcd-r{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:11px 2px;border-bottom:1px solid rgba(255,255,255,.06);font-size:13px}.zcd-r:last-child{border-bottom:0}'
+ +'.zcd-r b{display:flex;align-items:center;gap:6px;font-weight:700;overflow-wrap:anywhere}.zcd-r small{display:block;margin-top:3px;color:#8a8a96;font-size:11.5px;line-height:1.4}'
+ +'.zcd-c{flex:none;padding:3px 9px;border-radius:99px;font-size:11px;font-weight:800;background:rgba(255,255,255,.08);color:#b9b9c4}.zcd-c.g{background:rgba(52,209,123,.16);color:#4fe08f}.zcd-c.d{background:rgba(255,107,107,.15);color:#ff7d7d}'
+ +'.zcd-on{width:7px;height:7px;border-radius:50%;background:#34d17b;flex:none}';
+ document.head.appendChild(st);
+}
+function zcdBuild(){
+ var pane=document.querySelector('#zcPushOverlay .zcp-pane[data-zp="devices"]');if(!pane||pane.getAttribute('data-built'))return;
+ pane.setAttribute('data-built','1');zcdCss();
+ pane.innerHTML='<div class="zcd-live" id="zcdLive"><i></i><span id="zcdLiveT">Menghubungkan…</span></div>'
+  +'<div class="zcd-grid" id="zcdTiles"></div>'
+  +'<input type="search" class="zcd-q" id="zcdQ" placeholder="Cari username…" autocomplete="off">'
+  +'<div id="zcdList"><div class="zcb-empty">Memuat…</div></div>';
+ zcpById('zcdQ').addEventListener('input',function(){ZCD.q=this.value.trim().toLowerCase();zcdPaintList();});
+}
+function zcdTile(n,l){var t=zcbEl('div','zcd-t');t.appendChild(zcbEl('b','',n));t.appendChild(zcbEl('small','',l));return t;}
+function zcdPaint(){
+ var st=ZCD.stats||{},box=zcpById('zcdTiles');if(!box)return;box.textContent='';
+ box.appendChild(zcdTile(st.granted_devices||0,'Perangkat izin'));
+ box.appendChild(zcdTile(st.granted_users||0,'Pengguna izin'));
+ box.appendChild(zcdTile(st.push_active||0,'Push aktif'));
+ box.appendChild(zcdTile(st.online_now||0,'Online (izin)'));
+ box.appendChild(zcdTile(st.denied||0,'Diblokir'));
+ box.appendChild(zcdTile(st.pending||0,'Belum memilih'));
+ zcdPaintList();
+}
+function zcdPaintList(){
+ var box=zcpById('zcdList');if(!box)return;box.textContent='';
+ var q=ZCD.q,rows=ZCD.rows.filter(function(r){return !q||String(r.username||'').toLowerCase().indexOf(q)>=0;});
+ if(!rows.length){box.appendChild(zcbEl('div','zcb-empty',ZCD.rows.length?'Tidak ada yang cocok.':'Belum ada perangkat yang melapor.'));return;}
+ rows.forEach(function(r){
+  var row=zcbEl('div','zcd-r'),l=zcbEl('div'),b=zcbEl('b');
+  if(r.online){b.appendChild(zcbEl('span','zcd-on'));}
+  b.appendChild(document.createTextNode(r.username||'(tanpa nama)'));l.appendChild(b);
+  l.appendChild(zcbEl('small','',(r.platform||'-')+(r.permission==='granted'?' · diizinkan '+zcdFmt(r.first_granted_at):'')));
+  l.appendChild(zcbEl('small','','Terakhir aktif '+zcbAgo(r.last_seen_at)));
+  var ok=r.permission==='granted',c=zcbEl('span','zcd-c '+(ok?'g':r.permission==='denied'?'d':''),ok?(r.push_active?'Push aktif':'Diizinkan'):r.permission==='denied'?'Diblokir':'Belum');
+  row.appendChild(l);row.appendChild(c);box.appendChild(row);
+ });
+}
+function zcdLive(on,t){var n=zcpById('zcdLive');if(n)n.classList.toggle('on',!!on);var x=zcpById('zcdLiveT');if(x)x.textContent=t;}
+async function zcdLoad(){
+ try{
+  await zcpContext();
+  var r=await S.sb.rpc('zc_notif_admin_stats');
+  if(r.error)throw r.error;
+  var d=r.data||{};ZCD.stats=d.stats||{};ZCD.rows=Array.isArray(d.items)?d.items:[];
+  zcdPaint();zcdLive(!!ZCD.ch,'Live · diperbarui '+new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit',second:'2-digit'}));
+ }catch(e){
+  zcdLive(false,'Gagal memuat');var b=zcpById('zcdList');if(b){b.textContent='';b.appendChild(zcbEl('div','zcb-empty','Data belum bisa dimuat. Jalankan file zusmo_notif_devices.sql di Supabase.'));}
+  console.warn('[ZUSMO NOTIF] admin',e&&e.message||e);
+ }
+}
+async function zcdShow(){
+ zcdBuild();zcdStop();
+ await zcdLoad();
+ try{
+  ZCD.ch=S.sb.channel('zc-notif-devices').on('postgres_changes',{event:'*',schema:'public',table:'zc_notif_devices'},function(){clearTimeout(ZCD.deb);ZCD.deb=setTimeout(zcdLoad,600);}).subscribe(function(s){if(s==='SUBSCRIBED')zcdLive(true,'Live');});
+ }catch(e){}
+ ZCD.poll=setInterval(zcdLoad,15000);
+}
+function zcdStop(){
+ clearInterval(ZCD.poll);ZCD.poll=0;clearTimeout(ZCD.deb);
+ if(ZCD.ch){try{S.sb.removeChannel(ZCD.ch);}catch(e){}ZCD.ch=null;}
+}
+
 /* ===== GERBANG IZIN NOTIFIKASI (wajib) =====
    Selama izin notifikasi belum "granted", seluruh halaman tertutup dan tidak bisa diklik.
    Sudah diizinkan -> gerbang tidak muncul lagi. Tidak ada tombol tutup / "nanti saja".
@@ -14698,7 +14813,7 @@ async function zcnRefreshBanners(){
  function hide(){
   if(!el)return;lock(false);el.remove();el=null;
   try{zcnRefreshBanners();}catch(e){}
-  setTimeout(function(){try{if(zcpConfigured())zcpEnable();}catch(e){}},400);
+  setTimeout(function(){try{if(zcpConfigured())zcpEnable();}catch(e){}},400);try{zcdReport(true,2500);}catch(e){}
  }
  function recheck(){
   var p=perm();
