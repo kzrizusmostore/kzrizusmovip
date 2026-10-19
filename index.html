@@ -13023,7 +13023,31 @@ async function zauServerOwnProfile(){
  return out;
 }
 async function zauServerOwnUsername(){return (await zauServerOwnProfile()).username;}
+/* ===== IDENTITAS AKUN = IDENTITAS PROFIL (semua pengguna) =====
+   Username profil SELALU sama dengan username login. Nama profil = nama tersimpan di server (chat_profiles.display_name);
+   kalau kosong/tamu/sama dengan username, dibuat dari username: tanda _ dan . jadi spasi, huruf besar
+   (contoh: kzrizusmo_store -> KZRIZUSMO STORE). Tidak lagi memakai sisa data tamu lama (Guest / @anjay) di localStorage. */
+function zauAccountDisplayName(username,serverName){
+ var u=String(username||'').trim(),n=String(serverName||'').trim().replace(/\s+/g,' ').slice(0,24);
+ if(n&&!zauIsGuestName(n)&&n.toLowerCase()!==u.toLowerCase())return n;
+ var r=String(S&&S._regName||'').trim().replace(/\s+/g,' ').slice(0,24);
+ if(r&&!zauIsGuestName(r)&&r.toLowerCase()!==u.toLowerCase())return r;
+ return u.replace(/[._]+/g,' ').replace(/\s+/g,' ').trim().toUpperCase().slice(0,24);
+}
+function zauForceIdentity(username,serverName){
+ var u=String(username||'').trim().replace(/^@+/,'');
+ if(!NAME_RE.test(u))return '';
+ var name=zauAccountDisplayName(u,serverName);
+ if(!name)return '';
+ try{localStorage.setItem('dpUsername',u);localStorage.setItem('hmDisplayName',name);localStorage.setItem(ZAU_LAST_NAME_KEY,name);}catch(e){}
+ ['dpName','hmNameText','sdName'].forEach(function(id){var x=$(id);if(x)x.textContent=name;});
+ var du=$('dpUser');if(du)du.textContent='@'+u;
+ try{if(window.__dpRefreshProfile)window.__dpRefreshProfile();}catch(e){}
+ try{if(S)S.extraSig='';}catch(e){}
+ return name;
+}
 async function zauSaveName(name){
+ try{S._regName=name;}catch(e){}
  try{localStorage.setItem('hmDisplayName',name);localStorage.setItem(ZAU_LAST_NAME_KEY,name);}catch(e){}
  ['dpName','hmNameText','sdName'].forEach(function(id){var x=$(id);if(x)x.textContent=name;});
  try{var r=await S.sb.rpc('zc_sync_profile',{p_display_name:name});
@@ -13100,7 +13124,7 @@ async function zauSubmitAuth(){
    if(session&&session.user&&session.user.is_anonymous){var so=await S.sb.auth.signOut();if(so.error)throw so.error;}
    var login=await S.sb.auth.signInWithPassword({email:zauEmail(username),password:password});if(login.error)throw login.error;
    if(!login.data||!login.data.session)throw new Error('Login belum membuat sesi. Periksa konfigurasi Auth Supabase.');
-   try{var pr=await S.sb.from('chat_profiles').select('display_name').eq('user_id',login.data.session.user.id).maybeSingle();var dn=pr&&pr.data?String(pr.data.display_name||'').trim():'';if(dn){localStorage.setItem('hmDisplayName',dn);localStorage.setItem(ZAU_LAST_NAME_KEY,dn);}}catch(e){}
+   try{var pr=await S.sb.from('chat_profiles').select('display_name').eq('user_id',login.data.session.user.id).maybeSingle();var dn=pr&&pr.data?String(pr.data.display_name||'').trim():'';zauForceIdentity(username,dn);}catch(e){}
    zauRememberUsername(username);zauAfterAuthNotif(null);zauHideGate();$('zauAccount').hidden=true;S.starting=null;start();return;
   }
   var isAnon=!!(session&&session.user&&session.user.is_anonymous);
@@ -13154,6 +13178,7 @@ async function start(){
   try{S.gSeen=localStorage.getItem(zcSeenKey())||null;}catch(e){S.gSeen=null;}
   /* Username akun berasal dari email sintetis Auth / profil server, bukan data tamu lama di localStorage. */
   (function(){var pu=zauNameFromAuthEmail(authUser&&authUser.email)||S.me.username||profileUsername();S.me.username=NAME_RE.test(pu||'')?pu:null;})();
+  try{zauForceIdentity(S.me.username,S.me.display_name);}catch(e){console.warn('[ZUSMO AUTH] sinkron identitas profil',e&&e.message||e);}
   S.me.avatar_url=profileAvatarSrc()||S.me.avatar_url||null;S.profiles[S.me.id]=S.me;
   await syncChatRole();
   try{syncAvatarLogo();}catch(e){}
