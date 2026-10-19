@@ -14123,7 +14123,7 @@ async function zcpContext(){if(!S.sb||!S.me||!S.ready)await start();if(!S.sb||!S
 async function zcpRegistration(){
  if(!('serviceWorker' in navigator))throw new Error('Browser ini tidak mendukung service worker. Gunakan Chrome Android melalui HTTPS.');
  if(!('PushManager' in window))throw new Error('Push API tidak tersedia di browser ini.');
- await navigator.serviceWorker.register('/sw.js?v=10',{scope:'/'});
+ await navigator.serviceWorker.register('/sw.js?v=11',{scope:'/'});
  return await navigator.serviceWorker.ready;
 }
 async function zcpReadPrefs(sub){
@@ -14168,6 +14168,7 @@ async function zcpOpen(){
  zcpInitUi();var ov=zcpById('zcPushOverlay');if(!ov)return;
  ov.classList.add('open');ov.setAttribute('aria-hidden','false');zcpSetBusy(false);zcpMsg('');
  await zcpRefresh();
+ try{zcbRender();}catch(e){}
 }
 async function zcpEnable(){
  if(ZCP_BUSY)return;zcpSetBusy(true);zcpMsg('');
@@ -14234,6 +14235,64 @@ if('serviceWorker' in navigator){navigator.serviceWorker.addEventListener('messa
 document.addEventListener('keydown',function(e){if(e.key==='Escape')zcpClose();});
 /* When the service worker opens a new window, restore the requested chat after the app has loaded. */
 setTimeout(function(){try{var u=new URL(window.location.href),route=u.searchParams.get('zpush');if(route){u.searchParams.delete('zpush');history.replaceState({},'',u.pathname+(u.search||'')+u.hash);zcpOpenRoute(route);}}catch(e){}},900);
+/* ===== ADMIN BROADCAST PUSH (khusus kzrizusmo_store) =====
+   Tombol hanya tampil untuk akun owner, tetapi otorisasi SEBENARNYA diperiksa di server
+   (Edge Function "zusmo-broadcast"): JWT valid + chat_profiles.is_admin = true + username kzrizusmo_store. */
+function zcbIsOwner(){try{return !!(S&&S.me&&S.me.is_admin&&iAmOwner());}catch(e){return false;}}
+function zcbMsg(s,bad){var n=zcpById('zcbMsg');if(n){n.textContent=String(s||'');n.classList.toggle('bad',!!bad);}}
+function zcbRender(){
+ var sheet=document.querySelector('#zcPushOverlay .zcp-sheet');if(!sheet)return;
+ var box=zcpById('zcbAdmin');
+ if(!zcbIsOwner()){if(box)box.remove();return;}
+ if(box)return;
+ if(!zcpById('zcbStyles')){
+  var st=document.createElement('style');st.id='zcbStyles';st.textContent=`
+  .zcb-admin{margin-top:18px;padding:14px;border:1px solid rgba(255,70,70,.28);border-radius:16px;background:rgba(255,60,60,.05)}
+  .zcb-admin h3{margin:0 0 4px;font-size:15px;color:#ffb4b4}
+  .zcb-admin p{margin:0 0 10px;font-size:11.5px;line-height:1.5;color:#a2a2ad}
+  .zcb-admin input,.zcb-admin textarea,.zcb-admin select{width:100%;box-sizing:border-box;margin-top:8px;padding:11px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);color:#f5f5f7;font:600 14px Inter,system-ui,sans-serif;outline:none}
+  .zcb-admin textarea{resize:vertical;min-height:74px}
+  .zcb-admin select option{background:#121316;color:#f5f5f7}
+  .zcb-admin input:focus,.zcb-admin textarea:focus,.zcb-admin select:focus{border-color:#38a8ed}
+  .zcb-count{text-align:right;font-size:11px;color:#8a8f9a;margin-top:4px}
+  .zcb-admin .zcp-primary{background:#d93a3a;border-color:#ff5b5b}`;
+  document.head.appendChild(st);
+ }
+ box=document.createElement('div');box.id='zcbAdmin';box.className='zcb-admin';
+ box.innerHTML='<h3>Kirim push ke semua pengguna</h3>'
+  +'<p>Khusus admin kzrizusmo_store. Pesan dikirim ke semua perangkat yang sudah mengaktifkan push.</p>'
+  +'<input type="text" id="zcbTitle" maxlength="60" placeholder="Judul (maks 60 karakter)" autocomplete="off">'
+  +'<textarea id="zcbBody" maxlength="180" placeholder="Isi pesan (maks 180 karakter)"></textarea>'
+  +'<div class="zcb-count" id="zcbCount">0/180</div>'
+  +'<select id="zcbRoute" aria-label="Aksi saat notifikasi diketuk"><option value="community">Ketuk → buka ZUSMO COMMUNITY</option><option value="">Ketuk → buka aplikasi saja</option></select>'
+  +'<button type="button" id="zcbSend" class="zcp-primary">Kirim ke semua pengguna</button>'
+  +'<div id="zcbMsg" class="zcp-msg" aria-live="polite"></div>';
+ sheet.appendChild(box);
+ zcpById('zcbBody').addEventListener('input',function(){zcpById('zcbCount').textContent=this.value.length+'/180';});
+ zcpById('zcbSend').addEventListener('click',zcbSend);
+}
+async function zcbSend(){
+ var btn=zcpById('zcbSend');if(!btn||btn.disabled)return;
+ var title=String(zcpById('zcbTitle').value||'').trim(),body=String(zcpById('zcbBody').value||'').trim(),route=String(zcpById('zcbRoute').value||'');
+ if(!title){zcbMsg('Judul wajib diisi.',true);return;}
+ if(!body){zcbMsg('Isi pesan wajib diisi.',true);return;}
+ if(!window.confirm('Kirim notifikasi ini ke SEMUA pengguna?\n\n'+title+'\n'+body))return;
+ btn.disabled=true;zcbMsg('Mengirim…');
+ try{
+  await zcpContext();
+  var r=await S.sb.functions.invoke('zusmo-broadcast',{body:{title:title,body:body,route:route}});
+  if(r.error){
+   var m=r.error.message||'Gagal mengirim';
+   try{if(r.error.context&&r.error.context.json){var j=await r.error.context.json();if(j&&j.error)m=j.error;}}catch(x){}
+   throw new Error(m);
+  }
+  var d=r.data||{};
+  if(!d.ok)throw new Error(d.error||'Server tidak mengonfirmasi pengiriman.');
+  zcbMsg('Terkirim ke '+d.sent+' perangkat'+(d.failed?(' · gagal '+d.failed):'')+(d.removed?(' · '+d.removed+' langganan kedaluwarsa dibersihkan'):'')+'.');
+  zcpById('zcbTitle').value='';zcpById('zcbBody').value='';zcpById('zcbCount').textContent='0/180';
+ }catch(e){zcbMsg(String(e&&e.message||e).slice(0,200),true);console.warn('[ZUSMO PUSH] broadcast failed',e);}
+ finally{btn.disabled=false;}
+}
 zcpInitUi();
 
 })();
