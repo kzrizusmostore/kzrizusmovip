@@ -6452,6 +6452,7 @@ body #developerTab .dp-card:has(.dp-bio:not(.is-empty)),body #developerTab .dp-c
     function paintAv(){
       var img=$('dpeAvatarImg');if(img) setPrev(img,D.av||logoSrc(D.coll)||defAvatar());
       var rm=$('dpeResetAv');if(rm) rm.hidden=!D.av;
+      var nt=$('kzLcNote');if(nt)nt.innerHTML='<i class="fa-solid fa-circle-info" aria-hidden="true"></i> '+(D.pub==='photo'&&D.av?'Live Chat menampilkan foto Galeri kamu. Banner tetap dari Koleksi.':'Live Chat menampilkan logo Koleksi. Foto Galeri hanya di profil.');
     }
     window.__dpPaintAv=paintAv;
     function pickAv(){pickImage(400,400,0.85,function(u){D.av=u;paintAv();setErr('');});}
@@ -6499,15 +6500,26 @@ body #developerTab .dp-card:has(.dp-bio:not(.is-empty)),body #developerTab .dp-c
     function pickSource(){
       if($('dpeSrc')) return;
       var has=!!D.coll,ls=has?logoSrc(D.coll):'',hasAv=!!D.av;
+      if(!hasAv)D.pub='logo';
+      function chip(on){return 'border:1px solid '+(on?'#ff2b2b':'#3a3a3a')+';background:'+(on?'#ff2b2b':'transparent')+';color:#fff;border-radius:999px;padding:7px 14px;font-weight:600;font-size:13px;';}
       var o=document.createElement('div');o.className='dpe-src';o.id='dpeSrc';
       o.innerHTML='<div class="dpe-src-card" role="dialog" aria-label="Foto profil"><span class="dpe-src-grab" aria-hidden="true"></span>'
-        +'<button type="button" class="dpe-opt'+(has?'':' dpe-opt-main')+'" data-s="kol"><span class="dpe-opt-ic" id="dpeIcKol"><i class="fa-solid fa-shapes" aria-hidden="true"></i></span><span class="dpe-opt-tx"><b>Koleksi<em class="dpe-tag req">Wajib</em></b><small>Tampil di Live Chat</small></span><i class="fa-solid '+(has?'fa-circle-check dpe-opt-ok':'fa-chevron-right')+' dpe-opt-end" aria-hidden="true"></i></button>'
-        +'<button type="button" class="dpe-opt'+(has?'':' locked')+'" data-s="gal"'+(has?'':' aria-disabled="true"')+'><span class="dpe-opt-ic" id="dpeIcGal"><i class="fa-solid fa-images" aria-hidden="true"></i></span><span class="dpe-opt-tx"><b>Galeri<em class="dpe-tag opt">Opsional</em></b><small>'+(has?'Hanya di profil':'Pasang koleksi dulu')+'</small></span><i class="fa-solid '+(hasAv?'fa-circle-check dpe-opt-ok':(has?'fa-chevron-right':'fa-lock'))+' dpe-opt-end" aria-hidden="true"></i></button>'
+        +'<button type="button" class="dpe-opt'+(has?'':' dpe-opt-main')+'" data-s="kol"><span class="dpe-opt-ic" id="dpeIcKol"><i class="fa-solid fa-shapes" aria-hidden="true"></i></span><span class="dpe-opt-tx"><b>Koleksi<em class="dpe-tag req">Wajib</em></b><small>'+(D.pub==='photo'?'Logo profil':'Tampil di Live Chat')+'</small></span><i class="fa-solid '+(has?'fa-circle-check dpe-opt-ok':'fa-chevron-right')+' dpe-opt-end" aria-hidden="true"></i></button>'
+        +'<button type="button" class="dpe-opt'+(has?'':' locked')+'" data-s="gal"'+(has?'':' aria-disabled="true"')+'><span class="dpe-opt-ic" id="dpeIcGal"><i class="fa-solid fa-images" aria-hidden="true"></i></span><span class="dpe-opt-tx"><b>Galeri<em class="dpe-tag opt">Opsional</em></b><small>'+(has?(D.pub==='photo'?'Tampil di Live Chat':'Hanya di profil'):'Pasang koleksi dulu')+'</small></span><i class="fa-solid '+(hasAv?'fa-circle-check dpe-opt-ok':(has?'fa-chevron-right':'fa-lock'))+' dpe-opt-end" aria-hidden="true"></i></button>'
+        +'<div class="dpe-pub" style="display:flex;align-items:center;gap:8px;margin:10px 4px 2px;"><span style="flex:1;font-size:12px;opacity:.75;">Tampil publik di Live Chat</span>'
+        +'<button type="button" data-s="pub-logo" aria-pressed="'+(D.pub!=='photo')+'" style="'+chip(D.pub!=='photo')+'">Koleksi</button>'
+        +'<button type="button" data-s="pub-photo" aria-pressed="'+(D.pub==='photo')+'" style="'+chip(D.pub==='photo')+(has?'':'opacity:.45;')+'">Galeri</button></div>'
         +'<button type="button" class="dpe-src-cancel" data-s="x">Batal</button></div>';
       function thumb(id,src){var h=o.querySelector('#'+id);if(!h||!src) return;var im=document.createElement('img');im.alt='';im.src=src;h.innerHTML='';h.appendChild(im);}
       thumb('dpeIcKol',ls);thumb('dpeIcGal',hasAv?D.av:'');
       o.addEventListener('click',function(e){
-        var b=e.target.closest?e.target.closest('button'):null;
+        var b=e.target.closest?e.target.closest('button'):null,sv=b?b.getAttribute('data-s'):'';
+        if(sv==='pub-logo'){D.pub='logo';o.remove();pickSource();return;}
+        if(sv==='pub-photo'){
+          if(!D.coll){shake(o.querySelector('[data-s="kol"]'));return;}
+          if(!D.av){o.remove();pickImage(400,400,0.85,function(u){D.av=u;D.pub='photo';paintAv();setErr('');});return;}
+          D.pub='photo';o.remove();pickSource();return;
+        }
         if(b&&b.getAttribute('data-s')==='gal'){
           if(!D.coll){shake(o.querySelector('[data-s="kol"]'));return;}
           o.remove();pickAv();return;
@@ -6526,7 +6538,7 @@ body #developerTab .dp-card:has(.dp-bio:not(.is-empty)),body #developerTab .dp-c
     $('dpeNoteBtn').addEventListener('click',function(){openNote(true);});
     $('dpeLookBtn').addEventListener('click',function(){openLook();});
     $('dpeResetBn').addEventListener('click',function(){D.bn='';D.bnBlob=null;showBnPrev();setErr('');});
-    $('dpeResetAv').addEventListener('click',function(){D.av='';paintAv();setErr('');});
+    $('dpeResetAv').addEventListener('click',function(){D.av='';D.pub='logo';paintAv();setErr('');});
     ed.addEventListener('focusin',function(e){
       var t=e.target;if(!t||!t.scrollIntoView) return;
       setTimeout(function(){try{t.scrollIntoView({block:'center',behavior:'smooth'});}catch(x){}},320);
@@ -6834,6 +6846,7 @@ body #developerTab .dp-card:has(.dp-bio:not(.is-empty)),body #developerTab .dp-c
     buildEditor();
     try{window.zsCollLogo&&window.zsCollLogo.migrate();}catch(e){}
     D.bn=lsGet(K_BN,'');D.av=lsGet(K_AV,'');D.coll=(window.zsCollLogo&&window.zsCollLogo.get())||'';
+    D.pub=D.av?((window.__zcAvatarPref&&window.__zcAvatarPref())||'logo'):'logo';
     D.bnBlob=null;showBnPrev();
     if(window.__dpPaintAv) window.__dpPaintAv();
     var nm=(($('dpName').textContent)||'').trim().slice(0,NAME_MAX);
@@ -6883,6 +6896,7 @@ body #developerTab .dp-card:has(.dp-bio:not(.is-empty)),body #developerTab .dp-c
       if(D.bn) localStorage.setItem(K_BN,D.bn);else localStorage.removeItem(K_BN);
       if(D.bnBlob) localStorage.setItem('dpBannerVer',String(Date.now()));
       if(D.av) localStorage.setItem(K_AV,D.av);else localStorage.removeItem(K_AV);
+      localStorage.setItem('dpAvatarPublic',(D.pub==='photo'&&D.av)?'photo':'logo');
     }catch(e){
       if(oldBn) lsSet(K_BN,oldBn);else lsDel(K_BN);
       if(oldAv) lsSet(K_AV,oldAv);else lsDel(K_AV);
@@ -10637,10 +10651,21 @@ var ZC_AVURL_RE=/^https:\/\/[^\s"'<>()]{4,300}\/storage\/v1\/object\/public\/cha
 /* hanya URL Storage proyek ini DAN di folder milik uid itu sendiri; URL luar / foto milik orang lain ditolak */
 function validPhoto(uid,u){u=String(u||'');return (uid&&ZC_AVURL_RE.test(u)&&u.indexOf('/'+uid+'/')>0)?u:'';}
 function localPhoto(){try{var v=String(localStorage.getItem('dpCustomAvatar')||'');return /^data:image\/(?:jpeg|png|webp);base64,/i.test(v)?v:'';}catch(e){return '';}}
+/* Pilihan avatar publik Live Chat: 'photo' = foto Galeri, 'logo' = logo Koleksi. Disimpan per akun di localStorage 'dpAvatarPublic'.
+   Belum pernah memilih: 'photo' hanya jika foto sudah pernah terunggah (menjaga perilaku lama), selain itu 'logo'. */
+function savedMedia(){try{return JSON.parse(localStorage.getItem(ZC_MEDIA_KEY+(S.me&&S.me.id))||'null');}catch(e){return null;}}
+function avatarPref(saved){
+ var v='';try{v=localStorage.getItem('dpAvatarPublic')||'';}catch(e){}
+ if(v==='photo'||v==='logo')return v;
+ saved=saved||savedMedia();
+ return ((S.media&&S.media.remote)||(saved&&saved.a))?'photo':'logo';
+}
+window.__zcAvatarPref=function(){try{return avatarPref();}catch(e){return 'logo';}};
 function photoUrlOf(uid){
  try{
   if(S.me&&uid===S.me.id){
    /* milik sendiri: foto di perangkat (pratinjau instan) -> URL server yang terkonfirmasi (perangkat lain tanpa foto lokal) */
+   if(avatarPref()!=='photo')return '';
    return localPhoto()||validPhoto(uid,S.media&&S.media.remote)||'';
   }
   var c=LOGO_CACHE[uid];if(c&&c.url)return c.url;
@@ -12220,9 +12245,9 @@ function zcStkInit(){
 zcStkInit();
 /* ===== IKUTI / TEMAN: profil orang lain; chat pribadi hanya jika saling mengikuti ===== */
 S.social={ok:null,busy:{}};S.rel={};S.cnt={};S.extraSig='';
-/* 1 like = 100 like: server tetap menyimpan 1 per orang, tampilan dikali bobot ini */
+/* Prompt 5: angka like = poin ledger dari server (follow_bonus 100 + profile_like 100, maks 200 per pemberi->penerima). Tidak ada pengali di tampilan. ZC_LIKE_WEIGHT hanya fallback untuk backend lama. */
 var ZC_LIKE_WEIGHT=100;
-function likeShown(n){return (+n||0)*ZC_LIKE_WEIGHT;}
+function likeShown(n){return +n||0;}
 /* Akun admin/developer yang otomatis di-ikuti + di-like oleh semua pengguna live chat */
 var ZC_OWNER_USERNAME='kzrizusmo_store';
 /* ===== AKUN DEVELOPER: following dibekukan di 0 (hanya menerima pengikut) ===== */
@@ -12264,7 +12289,9 @@ async function loadCard(uid){
  if(!c||typeof c!=='object')return null;
  S.social.ok=true;
   S.rel[uid]={i_follow:!!c.i_follow,follows_me:!!c.follows_me};
- S.cnt[uid]={following:+c.following||0,followers:+c.followers||0,likes:+c.likes||0,i_liked:!!c.i_liked};
+ /* Prompt 5: 'like_points' = poin dari ledger server (sumber kebenaran). Backend lama (belum migrasi) tidak punya field ini -> fallback satuan lama x100. */
+ var _pts=(c.like_points!==undefined&&c.like_points!==null)?(+c.like_points||0):((+c.likes||0)*ZC_LIKE_WEIGHT);
+ S.cnt[uid]={following:+c.following||0,followers:+c.followers||0,likes:_pts,i_liked:!!(c.my_profile_like!==undefined?c.my_profile_like:c.i_liked),my_points:+c.my_points||0,my_follow_bonus:c.my_follow_bonus,limit:+c.like_limit||200};
  var o={id:uid,user_id:uid};
  if(c.username)o.username=c.username;
  if(c.display_name!==undefined)o.display_name=c.display_name;
@@ -12285,7 +12312,7 @@ async function refreshMySocial(){
  if(!S.ready||!S.me||S.social.ok===false)return;
  try{
    var c=await loadCard(S.me.id);if(!c)return;
-   var st={following:+c.following||0,followers:+c.followers||0,likes:likeShown(c.likes)};
+   var st={following:+c.following||0,followers:+c.followers||0,likes:likeShown((S.cnt[S.me.id]||{}).likes)};
    try{localStorage.setItem('zusmo_social_stats',JSON.stringify(st));}catch(e){}
    window.dispatchEvent(new CustomEvent('zusmo:social-stats',{detail:st}));
  }catch(e){console.warn('[zc-chat] social stats:',e);}
@@ -12317,23 +12344,10 @@ async function findOwnerUid(){
  if(row&&UUID_RE.test(String(row.user_id||'')))S.owner.uid=row.user_id;
  return S.owner.uid;
 }
-/* zc_toggle_like itu TOGGLE. Dua perangkat/tab yang sama-sama melihat "belum like" lalu sama-sama toggle akan saling membatalkan
-   (like hilang). Karena itu: baca status segar dari server sebelum toggle, lalu cek hasilnya; kalau malah ter-unlike
-   oleh toggle lain, ulangi (maks 3x). Tidak pernah toggle bila server sudah mencatat like. */
-async function ensureOwnerLike(oid){
- for(var i=0;i<3;i++){
-   var c=await loadCard(oid);
-   if(!c)return false;
-   var cn=S.cnt[oid];
-   if(cn&&cn.i_liked)return true;
-   var l=await S.sb.rpc('zc_toggle_like',{p_target:oid});
-   if(l.error)throw l.error;
-   var d=Array.isArray(l.data)?l.data[0]:l.data;
-   if(d&&typeof d==='object'&&d.liked===true)return true;
- }
- var c2=await loadCard(oid);
- return !!(c2&&S.cnt[oid]&&S.cnt[oid].i_liked);
-}
+/* Prompt 5: tidak ada lagi like otomatis / toggle. Bonus 100 datang dari FOLLOW (trigger server, sekali per pasangan);
+   like tambahan 100 hanya dari tombol Like (zc_give_profile_like). Follow otomatis ke akun owner dilakukan HANYA jika server
+   belum pernah mencatat follow ke owner (my_follow_bonus=false), jadi refresh/login ulang tidak memicu transaksi baru dan
+   Unfollow satu klik tidak dibatalkan. Backend lama (field my_follow_bonus tidak ada): tidak menebak, tidak melakukan apa-apa. */
 async function autoFollowOwner(){
  var O=S.owner;
  if(O.busy||O.done||!S.ready||!S.sb||!S.me||S.social.ok===false)return;
@@ -12347,9 +12361,8 @@ async function autoFollowOwner(){
    if(!c)return;
    var rel=S.rel[oid],cn=S.cnt[oid];
    if(!rel||!cn||rel.error)return;
-   if(!rel.i_follow){var f=await S.sb.rpc('zc_follow',{p_target:oid});if(f.error)throw f.error;}
-   /* like owner dijamin tepat 1 per akun (x100 di tampilan); aman dari race antar perangkat/tab */
-   await ensureOwnerLike(oid);
+   if(cn.my_follow_bonus===undefined){O.done=true;return;}
+   if(!rel.i_follow&&!cn.my_follow_bonus){var f=await S.sb.rpc('zc_follow',{p_target:oid});if(f.error)throw f.error;await loadCard(oid);}
    O.done=true;
    try{await ensureProfiles([oid]);}catch(e){}
    renderConvs();
@@ -12419,7 +12432,9 @@ async function syncProfileMedia(force){
    var key=ZC_MEDIA_KEY+S.me.id,saved=null;try{saved=JSON.parse(localStorage.getItem(key)||'null');}catch(e){}
    /* set = ada foto di perangkat -> unggah; clear = foto dihapus di perangkat yang pernah mengunggah -> kosongkan di server;
       keep = perangkat tanpa foto lokal & tanpa riwayat unggah -> avatar server TIDAK disentuh (aman untuk perangkat lain) */
-   var mode=cav?'set':(saved&&saved.a?'clear':'keep');
+   var pref=avatarPref(saved),explicit='';try{explicit=localStorage.getItem('dpAvatarPublic')||'';}catch(e){}
+   /* foto diunggah (publik) HANYA jika dipilih tampil di Live Chat; dipilih Koleksi -> foto di server dihapus (tidak tersisa publik) */
+   var mode=(cav&&pref==='photo')?'set':(((saved&&saved.a)||(explicit==='logo'&&S.media.remote))?'clear':'keep');
    var sig=['v3',mode,hashStr(cav||'-'),hashStr(bio),hashStr(lnk)].join('|');
    if(!force&&sig===S.media.sig)return S.media;
    if(!force&&S.media.failAt&&Date.now()-S.media.failAt<30000)return S.media;
@@ -12682,13 +12697,13 @@ function paintProfile(uid,loading){
  if(loading||!rel){f.disabled=true;ch.disabled=false;lk.disabled=true;hint.textContent='Memuat…';return;}
  if(rel.error){f.disabled=true;ch.disabled=false;lk.disabled=true;hint.textContent='Gagal memuat profil. Tutup lalu buka lagi.';return;}
  var mutual=!!(rel.i_follow&&rel.follows_me);
- f.disabled=false;lk.disabled=!!cn.i_liked;
- if(rel.i_follow){f.dataset.state='following';f.innerHTML='<i class="fa-solid fa-check"></i> Mengikuti';}
+ f.disabled=!!S.social.busy[uid];lk.disabled=!!cn.i_liked||!!S.social.busy['l'+uid]||((+cn.my_points||0)>=((+cn.limit)||200));
+ if(rel.i_follow){f.dataset.state='following';f.innerHTML='<i class="fa-solid fa-user-minus"></i> Berhenti Ikuti';}
  else if(rel.follows_me){f.dataset.state='followback';f.innerHTML='<i class="fa-solid fa-user-plus"></i> Ikuti Balik';}
- var adm=isAdminPeer(uid);if(rel.i_follow&&adm)f.disabled=true;
+ if(rel.i_follow&&ZC_LOCK_ADMIN_UNFOLLOW&&isAdminPeer(uid))f.disabled=true;
  ch.disabled=false;
  ch.innerHTML='<i class="fa-solid fa-message"></i> Chat Pribadi';
- hint.textContent='';
+ hint.textContent=zcLikeNote(cn);
 }
 async function openProfile(uid){
  if(!UUID_RE.test(uid)||!S.sb)return;
@@ -12701,27 +12716,33 @@ async function openProfile(uid){
  try{await loadCard(uid);}catch(e){console.warn('[zc-chat] kartu profil:',e);S.rel[uid]={error:true};}
  if(pfUid===uid)paintProfile(uid);
 }
+/* Prompt 5: TIDAK ada update optimistis. Angka & tombol berubah hanya setelah server menjawab (loadCard = sumber kebenaran).
+   S.social.busy mengunci klik berulang selama permintaan berjalan. Unfollow = satu klik, tanpa konfirmasi. */
+var ZC_LOCK_ADMIN_UNFOLLOW=false; /* true = kembalikan aturan lama "admin tidak bisa di-unfollow" (hanya di UI; server tidak melarang) */
+function zcLikeNote(cn){
+ var m=(cn&&+cn.my_points)||0,lim=(cn&&+cn.limit)||200;
+ if(m>=lim)return 'Batas '+lim+' like dari kamu ke akun ini sudah tercapai.';
+ return 'Kontribusi like dari kamu: '+m+'/'+lim;
+}
 async function togglePfFollow(){
  var uid=pfUid;if(!uid||!S.me||uid===S.me.id||S.social.ok!==true||S.social.busy[uid])return;
  var rel=S.rel[uid],cn=S.cnt[uid],f=$('zcSheetFollow');if(!rel||!cn||rel.error)return;
-  if(rel.i_follow&&isAdminPeer(uid)){flash('Admin tidak bisa di-unfollow.');return;}
- if(rel.i_follow&&f.dataset.state!=='confirm'){
-   /* tap pertama pada "Mengikuti": minta konfirmasi supaya tidak berhenti mengikuti tanpa sengaja */
-   f.dataset.state='confirm';f.textContent='Tap lagi untuk berhenti mengikuti';
-   clearTimeout(pfTimer);pfTimer=setTimeout(function(){if(pfUid===uid)paintProfile(uid);},3200);return;
- }
+ if(rel.i_follow&&ZC_LOCK_ADMIN_UNFOLLOW&&isAdminPeer(uid)){flash('Admin tidak bisa di-unfollow.');return;}
  clearTimeout(pfTimer);
- var want=!rel.i_follow,prev={f:rel.i_follow,n:cn.followers};
+ var want=!rel.i_follow,before=+cn.my_points||0,ok=false;
  S.social.busy[uid]=1;
- rel.i_follow=want;cn.followers=Math.max(0,cn.followers+(want?1:-1));paintProfile(uid);
+ f.disabled=true;f.textContent='Memproses…';
  try{
    var r=await S.sb.rpc(want?'zc_follow':'zc_unfollow',{p_target:uid});
    if(r.error)throw r.error;
    await loadCard(uid);
-   /* follow manual ke admin/developer juga harus menghasilkan like (aturan: 1 follow = 100 like), tanpa menggandakan */
-   if(want&&isOwnerUid(uid)){try{await ensureOwnerLike(uid);}catch(e2){console.warn('[zc-chat] like owner:',e2);}}
- }catch(e){rel.i_follow=prev.f;cn.followers=prev.n;flash(friendly(e));}
+   ok=true;
+ }catch(e){flash(friendly(e));}
  finally{delete S.social.busy[uid];}
+ if(ok&&want){
+   var gained=((S.cnt[uid]&&+S.cnt[uid].my_points)||0)-before;
+   flash(gained>0?'Berhasil mengikuti · +'+gained+' like untuk akun ini':'Berhasil mengikuti (bonus follow sudah pernah diberikan)');
+ }
  if(pfUid===uid)paintProfile(uid);
  if(S.peer===uid)setComposerState();
  refreshMySocial();
@@ -12729,16 +12750,20 @@ async function togglePfFollow(){
 async function togglePfLike(){
  var uid=pfUid;if(!uid||!S.me||uid===S.me.id||S.social.ok!==true||S.social.busy['l'+uid])return;
  var cn=S.cnt[uid];if(!cn)return;
- if(cn.i_liked){flash('Like tidak bisa dibatalkan.');return;}
- var prev={l:cn.i_liked,n:cn.likes};
+ if(cn.i_liked){flash('Like tambahan sudah pernah kamu berikan. Like tidak bisa dibatalkan.');return;}
+ if((+cn.my_points||0)>=((+cn.limit)||200)){flash(zcLikeNote(cn));return;}
  S.social.busy['l'+uid]=1;
- cn.i_liked=!cn.i_liked;cn.likes=Math.max(0,cn.likes+(cn.i_liked?1:-1));paintProfile(uid);
+ var lk=$('zcPfLike');if(lk)lk.disabled=true;
  try{
-   var r=await S.sb.rpc('zc_toggle_like',{p_target:uid});
+   var r=await S.sb.rpc('zc_give_profile_like',{p_target:uid});
    if(r.error)throw r.error;
    var d=Array.isArray(r.data)?r.data[0]:r.data;
-   if(d&&typeof d==='object'){if(d.liked!==undefined)cn.i_liked=!!d.liked;if(d.likes!==undefined)cn.likes=+d.likes||0;}
- }catch(e){cn.i_liked=prev.l;cn.likes=prev.n;flash(friendly(e));}
+   await loadCard(uid);
+   if(d&&d.ok)flash('Like diberikan · +'+(d.granted||100)+' like');
+   else if(d&&d.reason==='limit_reached')flash(zcLikeNote(S.cnt[uid]));
+   else if(d&&d.reason==='already_claimed')flash('Like tambahan sudah pernah kamu berikan. Like tidak bisa dibatalkan.');
+   else flash('Like tidak dapat diberikan.');
+ }catch(e){flash(friendly(e));}
  finally{delete S.social.busy['l'+uid];}
  if(pfUid===uid)paintProfile(uid);
 }
@@ -13046,13 +13071,12 @@ async function zdRefresh(){
 async function zdFollow(id){
  if(!S.ready||!S.me||id===S.me.id||!S.social||S.social.ok===false||S.social.busy[id])return;
  var want=!zdIsFol(id);
- if(!want&&isAdminPeer(id)){flash('Admin tidak bisa di-unfollow.');return;}
+ if(!want&&ZC_LOCK_ADMIN_UNFOLLOW&&isAdminPeer(id)){flash('Admin tidak bisa di-unfollow.');return;}
  S.social.busy[id]=1;zdPaintRow(id);
  try{
   var r=await S.sb.rpc(want?'zc_follow':'zc_unfollow',{p_target:id});if(r.error)throw r.error;
   await loadCard(id);
-  if(want&&isOwnerUid(id)){try{await ensureOwnerLike(id);}catch(e2){console.warn('[zc-disc] like owner:',e2);}}
-  if(want){ZD.fol[id]=1;if(ZD.folIds.indexOf(id)<0)ZD.folIds.unshift(id);}else delete ZD.fol[id];
+   if(want){ZD.fol[id]=1;if(ZD.folIds.indexOf(id)<0)ZD.folIds.unshift(id);}else delete ZD.fol[id];
  }catch(e){flash(friendly(e));}
  finally{delete S.social.busy[id];}
  zdPaintRow(id);try{refreshMySocial();}catch(e){}if(S.peer===id)setComposerState();
