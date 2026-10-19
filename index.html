@@ -10747,6 +10747,7 @@ function friendly(err){
 function showErr(msg){var b=$('zcErr');if(!b)return;if(msg){$('zcErrTxt').textContent=msg;b.classList.add('on');}else b.classList.remove('on');}
 
 function profileUsername(){
+ try{if(typeof S!=='undefined'&&S&&S.me&&NAME_RE.test(String(S.me.username||'')))return String(S.me.username).trim();}catch(e){}
  /* Live Chat wajib mengikuti username yang sedang tampil di Profil.
     Jangan mendahulukan localStorage karena bisa berisi username lama. */
  var v='';
@@ -11595,17 +11596,22 @@ function fillName(m){
  return m;
 }
 async function ensureMe(){
- var _pu=profileUsername();
- var r=await S.sb.rpc('chat_ensure_profile',{p_username:NAME_RE.test(_pu)?_pu:null});
- var d=!r.error&&one(r.data);
- if(d&&(d.id||d.user_id)){d.id=d.id||d.user_id;return d;}
- console.warn('[zc-chat] chat_ensure_profile gagal, pakai chat_profiles langsung:',r.error);
- var ses=await S.sb.auth.getSession(),uid=ses.data&&ses.data.session&&ses.data.session.user&&ses.data.session.user.id;
- if(!uid||!UUID_RE.test(uid))throw (r.error||new Error('Sesi pengguna tidak valid.'));
+ var ses=await S.sb.auth.getSession(),session=ses&&ses.data&&ses.data.session,authUser=session&&session.user;
+ var emailName=zauNameFromAuthEmail(authUser&&authUser.email),preferred=NAME_RE.test(emailName||'')?emailName:profileUsername();
+ var uid=authUser&&authUser.id;
+ if(!uid||!UUID_RE.test(uid))throw new Error('Sesi pengguna tidak valid. Silakan masuk kembali.');
+ var r=await S.sb.rpc('chat_ensure_profile',{p_username:NAME_RE.test(preferred||'')?preferred:null});
+ var d=!r.error?one(r.data):null;
  var sel=await S.sb.from('chat_profiles').select('*').eq('user_id',uid).maybeSingle();
- var row=(sel&&sel.data)||{};
- if(!sel.data){var un=profileUsername();if(NAME_RE.test(un)){var up=await S.sb.from('chat_profiles').upsert({user_id:uid,username:un},{onConflict:'user_id'});if(!up.error)row={user_id:uid,username:un};}}
- return Object.assign({},row,{id:uid,user_id:uid,username:row.username||null,blacklisted:!!(row.blacklisted||row.is_blacklisted),is_admin:!!row.is_admin});
+ var row=(!sel.error&&sel.data)||d||null;
+ if(!row){
+   console.warn('[zc-chat] chat_ensure_profile gagal:',r.error,'chat_profiles:',sel.error);
+   throw (r.error||sel.error||new Error('Profil akun belum tersedia di server. Pastikan migrasi profil sudah dijalankan.'));
+ }
+ var adminCheck=await S.sb.rpc('zusmo_is_admin');
+ if(adminCheck.error)throw new Error('Tidak dapat memverifikasi status admin dari chat_profiles. Pastikan migrasi SQL Zusmo berhasil dijalankan.');
+ var serverAdmin=adminCheck.data===true;
+ return Object.assign({},row,{id:uid,user_id:uid,username:(NAME_RE.test(emailName||'')?emailName:(row.username||preferred||null)),blacklisted:!!(row.blacklisted||row.is_blacklisted),is_admin:serverAdmin});
 }
 function loadScript(src){return new Promise(function(res,rej){var s=document.createElement('script');s.src=src;s.async=true;s.onload=res;s.onerror=function(){s.remove();rej(new Error('Gagal memuat Supabase SDK'));};document.head.appendChild(s);});}
 function loadSdk(){if(window.supabase&&window.supabase.createClient)return Promise.resolve();var i=0;function next(){if(i>=SDK_URLS.length)return Promise.reject(new Error('Library Supabase gagal dimuat.'));return loadScript(SDK_URLS[i++]).then(function(){if(!(window.supabase&&window.supabase.createClient))return next();},next);}return next();}
@@ -13020,17 +13026,115 @@ function zdSync(){
  if(!ZD.loaded&&!ZD.loading){zdLoad();return;}
  clearTimeout(ZD.t);ZD.t=setTimeout(function(){if(ZD.tab==='online'){ensureProfiles(Object.keys(S.online)).then(zdPaint,zdPaint);}else zdPaint();},350);
 }
+/* ===== AUTH AKUN ZUSMO: login username/password, registrasi, dan konversi sesi anonim lama ===== */
+var ZC_AUTH_REQUIRED=false;
+var ZC_AUTH_DOMAIN='@users.zusmo.local';
+function zauEmail(username){return String(username||'').trim().toLowerCase()+ZC_AUTH_DOMAIN;}
+function zauNameFromAuthEmail(email){var e=String(email||'').trim().toLowerCase(),suffix=ZC_AUTH_DOMAIN;if(!e.endsWith(suffix))return '';var u=e.slice(0,-suffix.length);return NAME_RE.test(u)?u:'';}
+function zauErrorText(err,context){
+ var m=String((err&&(err.message||err.error_description||err.msg))||err||''),low=m.toLowerCase();
+ if(/username sudah|already registered|duplicate key|unique constraint|reserved|dicadangkan|sudah dipakai|username.*taken|23505/.test(low))return 'Username sudah dipakai atau dicadangkan. Silakan gunakan username lain.';
+ if(/invalid login credentials|invalid_credentials|wrong password|password is incorrect|user not found/.test(low))return 'Username atau password salah.';
+ if(/password.*(at least|minimum|too short|shorter|weak)|weak_password/.test(low))return 'Password terlalu pendek atau belum memenuhi syarat. Gunakan minimal 8 karakter.';
+ if(/invalid email|email address.*invalid|unable to validate email|not a valid email/.test(low))return 'Supabase menolak alamat email sintetis users.zusmo.local. Pastikan konfigurasi Auth sesuai dan uji domain sintetis pada akun percobaan.';
+ if(/email.*already|user.*already|email_exists/.test(low))return 'Akun dengan username tersebut sudah ada. Gunakan tab Masuk.';
+ if(/confirm|verification|not confirmed|email_not_confirmed/.test(low))return 'Konfirmasi email masih aktif. Matikan Confirm email dan Secure email change jika tersedia, lalu uji kembali.';
+ if(/manual linking|linking.*disabled|identity.*link/.test(low))return 'Konversi akun tamu gagal. Aktifkan Allow manual linking di pengaturan Auth Supabase.';
+ if(/row-level security|permission denied|42501/.test(low))return 'Akses database ditolak. Periksa migrasi SQL dan policy RLS; jangan menonaktifkan RLS.';
+ if(/failed to fetch|networkerror|load failed|network request failed/.test(low))return 'Tidak bisa terhubung ke server. Periksa koneksi internet dan konfigurasi Supabase.';
+ if(context==='login')return 'Username atau password salah.';
+ return m||'Terjadi kesalahan. Periksa konfigurasi Supabase lalu coba lagi.';
+}
+function zauEnsureUi(){
+ if(!$('zauGate')){
+  var css=document.createElement('style');css.id='zauCss';css.textContent=''
+   +'.zau-overlay{position:fixed;inset:0;z-index:2147483000;display:flex;align-items:center;justify-content:center;overflow:auto;padding:18px;background:radial-gradient(ellipse at top,rgba(120,0,0,.38),transparent 55%),rgba(0,0,0,.97);color:#fff;font-family:Inter,system-ui,sans-serif;overscroll-behavior:contain}'
+   +'.zau-overlay[hidden]{display:none!important}.zau-card{width:min(100%,420px);max-height:calc(100dvh - 36px);overflow:auto;padding:24px 20px 20px;border:1px solid rgba(255,60,60,.45);border-radius:24px;background:linear-gradient(160deg,#1c0808,#090909 70%);box-shadow:0 20px 60px rgba(0,0,0,.65),0 0 22px rgba(255,43,43,.16)}'
+   +'.zau-back{border:0;background:transparent;color:#aaa;font-size:13px;padding:6px 0 16px;cursor:pointer}.zau-brand{text-align:center;font-weight:900;letter-spacing:3px;font-size:19px}.zau-sub{text-align:center;color:#999;font-size:12px;line-height:1.6;margin:7px 0 20px}'
+   +'.zau-tabs{display:grid;grid-template-columns:1fr 1fr;gap:7px;padding:5px;border-radius:14px;background:#080808;border:1px solid #272727;margin-bottom:17px}.zau-tab{border:0;border-radius:10px;padding:12px;background:transparent;color:#aaa;font-weight:800;cursor:pointer}.zau-tab.active{background:linear-gradient(135deg,#ff4141,#b60000);color:#fff;box-shadow:0 4px 12px rgba(255,0,0,.24)}'
+   +'.zau-label{display:block;margin:12px 0 6px;font-size:12px;color:#ddd;font-weight:700}.zau-input{width:100%;min-height:46px;padding:12px 13px;border:1px solid #353535;border-radius:12px;background:#080808;color:#fff;font-size:16px;outline:none;box-sizing:border-box}.zau-input:focus{border-color:#ff4545;box-shadow:0 0 0 3px rgba(255,43,43,.12)}.zau-help{margin-top:6px;color:#858585;font-size:11px;line-height:1.5}'
+   +'.zau-submit,.zau-action{width:100%;min-height:46px;margin-top:18px;padding:12px 14px;border:0;border-radius:13px;background:linear-gradient(135deg,#ff4141,#b80000);color:#fff;font-size:14px;font-weight:800;cursor:pointer}.zau-submit:disabled{opacity:.55;cursor:wait}.zau-link{display:block;margin:14px auto 0;border:0;background:transparent;color:#ff7878;font-size:12px;font-weight:700;padding:8px;cursor:pointer}.zau-msg{display:none;margin-top:13px;padding:11px 12px;border-radius:12px;background:rgba(255,65,65,.1);border:1px solid rgba(255,65,65,.25);color:#ffb5b5;font-size:12px;line-height:1.5;overflow-wrap:anywhere}.zau-msg.show{display:block}.zau-note{margin-top:15px;color:#8b8b8b;font-size:11px;line-height:1.6}.zau-secondary{background:#171717;border:1px solid #353535}.zau-row{display:flex;gap:9px}.zau-row>*{flex:1;min-width:0}.zau-title2{font-size:17px;font-weight:800;margin:8px 0 4px}.zau-account-btn{flex:0 0 auto;min-width:42px;height:38px;padding:0 11px;border:1px solid rgba(255,70,70,.4);border-radius:12px;background:rgba(255,43,43,.1);color:#fff;font-weight:800;font-size:12px;cursor:pointer}.zau-account-btn[hidden]{display:none!important}@media(max-width:360px){.zau-card{padding:20px 15px}.zau-brand{font-size:17px}.zau-overlay{padding:10px}.zau-card{max-height:calc(100dvh - 20px)}}';document.head.appendChild(css);
+  var gate=document.createElement('div');gate.id='zauGate';gate.className='zau-overlay';gate.hidden=true;gate.innerHTML='<section class="zau-card" role="dialog" aria-modal="true" aria-labelledby="zauTitle"><button class="zau-back" type="button" id="zauBack">← Kembali</button><div class="zau-brand" id="zauTitle">ZUSMO LIVE CHAT</div><p class="zau-sub">Masuk dengan akun kamu untuk melanjutkan chat.</p><div class="zau-tabs" role="tablist"><button class="zau-tab active" id="zauTabLogin" type="button" role="tab">Masuk</button><button class="zau-tab" id="zauTabReg" type="button" role="tab">Daftar</button></div><form id="zauForm"><label class="zau-label" for="zauUser">Username</label><input class="zau-input" id="zauUser" name="username" minlength="3" maxlength="24" autocomplete="username" autocapitalize="none" spellcheck="false" required><div class="zau-help">3–24 karakter: huruf, angka, titik, atau garis bawah.</div><label class="zau-label" for="zauPass">Password</label><input class="zau-input" id="zauPass" name="password" type="password" minlength="8" autocomplete="current-password" required><div id="zauConfirmWrap" hidden><label class="zau-label" for="zauConfirm">Konfirmasi password</label><input class="zau-input" id="zauConfirm" name="confirm" type="password" minlength="8" autocomplete="new-password"><div class="zau-help">Gunakan minimal 8 karakter. Username admin tidak bisa didaftarkan.</div></div><button class="zau-submit" id="zauSubmit" type="submit">Masuk</button><div class="zau-msg" id="zauMsg" role="alert"></div></form><p class="zau-note" id="zauGateNote">Kalau masih memiliki sesi tamu lama di perangkat ini, pilih Daftar untuk mengubahnya menjadi akun permanen dan mempertahankan UUID serta pesan.</p></section>';document.body.appendChild(gate);
+  var account=document.createElement('div');account.id='zauAccount';account.className='zau-overlay';account.hidden=true;account.innerHTML='<section class="zau-card" role="dialog" aria-modal="true" aria-labelledby="zauAccountTitle"><button class="zau-back" type="button" id="zauAccountClose">← Kembali</button><div class="zau-title2" id="zauAccountTitle">Pengaturan akun</div><p class="zau-sub" id="zauAccountUser"></p><form id="zauPasswordForm"><label class="zau-label" for="zauOldPass">Password saat ini</label><input class="zau-input" id="zauOldPass" type="password" autocomplete="current-password" required><label class="zau-label" for="zauNewPass">Password baru</label><input class="zau-input" id="zauNewPass" type="password" minlength="8" autocomplete="new-password" required><label class="zau-label" for="zauNewPass2">Konfirmasi password baru</label><input class="zau-input" id="zauNewPass2" type="password" minlength="8" autocomplete="new-password" required><button class="zau-submit" id="zauPasswordSubmit" type="submit">Ganti password</button><div class="zau-msg" id="zauAccountMsg" role="alert"></div></form><button type="button" class="zau-action zau-secondary" id="zauLogout">Keluar dari akun</button></section>';document.body.appendChild(account);
+  $('zauTabLogin').addEventListener('click',function(){zauSetMode('login');});$('zauTabReg').addEventListener('click',function(){zauSetMode('register');});
+  $('zauForm').addEventListener('submit',function(e){e.preventDefault();zauSubmitAuth();});
+  $('zauBack').addEventListener('click',function(){zauHideGate();var b=$('zcHomeBack');if(b)b.click();});
+  $('zauAccountClose').addEventListener('click',function(){$('zauAccount').hidden=true;});
+  $('zauPasswordForm').addEventListener('submit',function(e){e.preventDefault();zauChangePassword();});
+  $('zauLogout').addEventListener('click',zauLogout);
+ }
+ zauEnsureAccountButton();
+}
+function zauEnsureAccountButton(){var h=document.querySelector('#zcConvView .zc-head');if(!h||$('zauAccountBtn'))return;var b=document.createElement('button');b.type='button';b.id='zauAccountBtn';b.className='zau-account-btn';b.textContent='Akun';b.hidden=true;b.addEventListener('click',zauOpenAccount);h.appendChild(b);}
+function zauSetAccountButton(on){zauEnsureUi();var b=$('zauAccountBtn');if(b)b.hidden=!(!!on&&!!S.ready&&!!S.me);}
+function zauSetMode(mode){zauEnsureUi();var reg=mode==='register';$('zauTabLogin').classList.toggle('active',!reg);$('zauTabReg').classList.toggle('active',reg);$('zauConfirmWrap').hidden=!reg;$('zauConfirm').required=reg;$('zauPass').autocomplete=reg?'new-password':'current-password';$('zauSubmit').textContent=reg?'Buat akun':'Masuk';$('zauGateNote').textContent=reg?'Kalau masih memiliki sesi tamu lama di perangkat ini, pendaftaran akan mempertahankan UUID dan pesan. Username kzrizusmo_store dicadangkan untuk admin.':'Kalau masih memiliki sesi tamu lama di perangkat ini, pilih Daftar untuk mengubahnya menjadi akun permanen dan mempertahankan UUID serta pesan.';$('zauMsg').classList.remove('show');$('zauMsg').textContent='';}
+function zauShowMessage(id,msg,success){var x=$(id);if(!x)return;x.textContent=msg||'';x.classList.toggle('show',!!msg);if(msg)x.style.color=success?'#a7f3c0':'#ffb5b5';}
+function zauShowGate(mode){zauEnsureUi();if(!pageActive())return;var wasVisible=!$('zauGate').hidden;ZC_AUTH_REQUIRED=true;$('zauGate').hidden=false;$('zauAccount').hidden=true;zauSetAccountButton(false);if(mode||!wasVisible)zauSetMode(mode||'login');try{$('zauUser').focus({preventScroll:true});}catch(e){}}
+function zauHideGate(){if($('zauGate'))$('zauGate').hidden=true;}
+function zauOpenAccount(){if(!S.ready||!S.me)return;zauEnsureUi();$('zauAccountUser').textContent='Masuk sebagai @'+String(S.me.username||'').trim();$('zauAccountMsg').classList.remove('show');$('zauOldPass').value='';$('zauNewPass').value='';$('zauNewPass2').value='';$('zauAccount').hidden=false;}
+async function zauCheckUsername(username){var r=await S.sb.rpc('zusmo_username_available',{p_username:username});if(r.error)throw r.error;var d=r.data;if(Array.isArray(d))d=d.length?d[0]:false;if(d&&typeof d==='object'){d=Object.prototype.hasOwnProperty.call(d,'zusmo_username_available')?d.zusmo_username_available:(Object.prototype.hasOwnProperty.call(d,'available')?d.available:Object.values(d)[0]);}return d===true||d==='t';}
+async function zauSetServerUsername(username){var e=await S.sb.rpc('zc_set_username',{p_username:username});if(e.error)throw e.error;var d=one(e.data);if(d&&d.username&&String(d.username).trim().toLowerCase()!==username.trim().toLowerCase())throw new Error('Username tidak berhasil diverifikasi di server.');}
+async function zauSubmitAuth(){
+ zauEnsureUi();var username=String($('zauUser').value||'').trim(),password=String($('zauPass').value||''),isReg=!$('zauConfirmWrap').hidden,confirmation=String($('zauConfirm').value||''),btn=$('zauSubmit');
+ zauShowMessage('zauMsg','');
+ if(!NAME_RE.test(username)){zauShowMessage('zauMsg','Format username tidak valid. Gunakan 3–24 karakter: A–Z, angka, titik, garis bawah.');return;}
+ if(isReg&&password.length<8){zauShowMessage('zauMsg','Password terlalu pendek. Minimal 8 karakter.');return;}
+ if(isReg&&password!==confirmation){zauShowMessage('zauMsg','Konfirmasi password tidak sama.');return;}
+ if(!password){zauShowMessage('zauMsg','Masukkan password.');return;}
+ btn.disabled=true;btn.textContent=isReg?'Memproses…':'Memeriksa…';
+ try{
+  await loadSdk();if(!S.sb)S.sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false},realtime:{params:{eventsPerSecond:10}}});
+  var current=await S.sb.auth.getSession(),session=current&&current.data&&current.data.session;
+  if(!isReg){
+   if(session&&session.user&&session.user.is_anonymous){var so=await S.sb.auth.signOut();if(so.error)throw so.error;}
+   var login=await S.sb.auth.signInWithPassword({email:zauEmail(username),password:password});if(login.error)throw login.error;
+   if(!login.data||!login.data.session)throw new Error('Login belum membuat sesi. Periksa konfigurasi Auth Supabase.');
+   zauHideGate();$('zauAccount').hidden=true;S.starting=null;start();return;
+  }
+  var available=await zauCheckUsername(username);if(!available)throw new Error('Username sudah dipakai atau dicadangkan. Silakan gunakan username lain.');
+  if(session&&session.user&&session.user.is_anonymous){
+   /* Existing anonymous session: claim username through existing server RPC, then attach synthetic email/password to the same Auth user. UUID, profile, and messages stay on that user. */
+   var ens=await S.sb.rpc('chat_ensure_profile',{p_username:username});if(ens.error)throw ens.error;
+   await zauSetServerUsername(username);
+   var linked=await S.sb.auth.updateUser({email:zauEmail(username),password:password});if(linked.error)throw linked.error;
+  }else{
+   var signup=await S.sb.auth.signUp({email:zauEmail(username),password:password,options:{data:{username:username}}});if(signup.error)throw signup.error;
+   if(!signup.data||!signup.data.session){throw new Error('Supabase tidak memberi sesi setelah daftar. Matikan Confirm email dan Secure email change (jika tersedia) di Auth, lalu periksa apakah ada akun percobaan yang belum terkonfirmasi.');}
+   var ens2=await S.sb.rpc('chat_ensure_profile',{p_username:username});if(ens2.error)throw ens2.error;
+   await zauSetServerUsername(username);
+  }
+  zauHideGate();$('zauAccount').hidden=true;S.starting=null;start();
+ }catch(e){zauShowMessage('zauMsg',zauErrorText(e,isReg?'register':'login'));console.warn('[ZUSMO AUTH]',e&&e.message||e);}
+ finally{btn.disabled=false;btn.textContent=isReg?'Buat akun':'Masuk';}
+}
+async function zauChangePassword(){
+ var oldp=String($('zauOldPass').value||''),newp=String($('zauNewPass').value||''),confirm=String($('zauNewPass2').value||''),btn=$('zauPasswordSubmit');
+ zauShowMessage('zauAccountMsg','');if(newp.length<8){zauShowMessage('zauAccountMsg','Password terlalu pendek. Minimal 8 karakter.');return;}if(newp!==confirm){zauShowMessage('zauAccountMsg','Konfirmasi password tidak sama.');return;}if(!S.sb||!S.me){zauShowMessage('zauAccountMsg','Sesi akun tidak tersedia. Masuk kembali.');return;}
+ btn.disabled=true;btn.textContent='Menyimpan…';
+ try{
+  var current=await S.sb.auth.getSession(),u=current&&current.data&&current.data.session&&current.data.session.user,email=u&&u.email,username=zauNameFromAuthEmail(email)||String(S.me.username||'');
+  if(!email&&NAME_RE.test(username))email=zauEmail(username);if(!email)throw new Error('Alamat login akun tidak ditemukan.');
+  var verify=await S.sb.auth.signInWithPassword({email:email,password:oldp});if(verify.error)throw verify.error;
+  if(!verify.data||!verify.data.user||verify.data.user.id!==S.me.id)throw new Error('Konfirmasi password tidak sesuai dengan akun yang sedang aktif.');
+  var change=await S.sb.auth.updateUser({password:newp});if(change.error)throw change.error;
+  zauShowMessage('zauAccountMsg','Password berhasil diganti.',true);$('zauOldPass').value='';$('zauNewPass').value='';$('zauNewPass2').value='';
+ }catch(e){zauShowMessage('zauAccountMsg',zauErrorText(e,'password'));console.warn('[ZUSMO AUTH] ganti password',e&&e.message||e);}
+ finally{btn.disabled=false;btn.textContent='Ganti password';}
+}
+async function zauLogout(){if(!S.sb)return;var b=$('zauLogout');if(b){b.disabled=true;b.textContent='Keluar…';}try{var r=await S.sb.auth.signOut();if(r.error)throw r.error;$('zauAccount').hidden=true;ZC_AUTH_REQUIRED=true;S.me=null;S.ready=false;S.starting=null;zauSetAccountButton(false);zauShowGate('login');}catch(e){zauShowMessage('zauAccountMsg','Gagal keluar: '+zauErrorText(e));}finally{if(b){b.disabled=false;b.textContent='Keluar dari akun';}}}
+
 async function start(){
  if(S.starting)return S.starting;showErr('');S.starting=(async function(){
   await loadSdk();
   if(!S.sb)S.sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false},realtime:{params:{eventsPerSecond:10}}});
   if(!S.authWatch){S.authWatch=true;S.sb.auth.onAuthStateChange(function(ev,ses2){var nu=ses2&&ses2.user?ses2.user.id:null;if(!S.me)return;if(ev==='SIGNED_OUT'||(nu&&nu!==S.me.id))setTimeout(zcAccountReset,0);});}
-  var ses=await S.sb.auth.getSession();
-  if(!ses.data||!ses.data.session){var si=await S.sb.auth.signInAnonymously();if(si.error)throw si.error;}
+  var ses=await S.sb.auth.getSession(),authSession=ses&&ses.data&&ses.data.session,authUser=authSession&&authSession.user;
+  if(!authUser||authUser.is_anonymous){ZC_AUTH_REQUIRED=true;S.ready=false;zauShowGate($('zauGate')&&!$('zauGate').hidden?null:'login');return;}
+  ZC_AUTH_REQUIRED=false;zauHideGate();
   S.me=await ensureMe();
   try{S.gSeen=localStorage.getItem(zcSeenKey())||null;}catch(e){S.gSeen=null;}
-  /* Sumber kebenaran username = Profil-Developer, BUKAN nama dari server (mis. "AnonXXXX"). */
-  (function(){var pu=profileUsername();S.me.username=NAME_RE.test(pu)?pu:null;})();
+  /* Username akun berasal dari email sintetis Auth / profil server, bukan data tamu lama di localStorage. */
+  (function(){var pu=zauNameFromAuthEmail(authUser&&authUser.email)||S.me.username||profileUsername();S.me.username=NAME_RE.test(pu||'')?pu:null;})();
   S.me.avatar_url=profileAvatarSrc()||S.me.avatar_url||null;S.profiles[S.me.id]=S.me;
   await syncChatRole();
   try{syncAvatarLogo();}catch(e){}
@@ -13046,7 +13150,7 @@ async function start(){
   if(!S.gSeen)markGroupSeen();renderGroupRow();
   try{await loadConvs();}catch(e){console.warn('[zc-chat] load convs',e);}
   subscribeAll();
-  S.ready=true;setTimeout(function(){try{zcPubSync();}catch(e){}},1500);setComposerState();renderConn();renderMe();refreshMyMod();refreshMySocial();syncProfileExtras();syncNameColor();syncNote();syncStyle();autoFollowOwner();
+  S.ready=true;zauHideGate();zauSetAccountButton(true);if(typeof zcdReport==='function')zcdReport(true,1200);setTimeout(function(){try{zcPubSync();}catch(e){}},1500);setComposerState();renderConn();renderMe();refreshMyMod();refreshMySocial();syncProfileExtras();syncNameColor();syncNote();syncStyle();autoFollowOwner();
   loadPin();loadSlow();
   if(!S.touchTimer)S.touchTimer=setInterval(touch,TOUCH_MS);
   if(!S.pollTimer)S.pollTimer=setInterval(pollTick,6000);
@@ -13695,7 +13799,7 @@ function watchDeveloperProfile(){
  dpObserver=new MutationObserver(sync);dpObserver.observe(node,{childList:true,characterData:true,subtree:true});
  clearInterval(S.profileTimer);S.profileTimer=setInterval(sync,1000);
 }
-function onPageToggle(){var on=pageActive();document.documentElement.classList.toggle('zc-on',on);if(!on&&S.wasOn){S.gDivArmed=true;S.gDivId=null;}if(on&&!S.wasOn){setVh();window.scrollTo(0,0);watchDeveloperProfile();if(!S.ready)start();else{resync();refreshProfileFromDeveloper(false);refreshMyMod();setTab(S.tab);syncProfileExtras();syncNameColor();syncNote();syncStyle();refreshNameColors();syncBio();vipRoleCheck();}}S.wasOn=on;}
+function onPageToggle(){var on=pageActive();document.documentElement.classList.toggle('zc-on',on);if(!on&&S.wasOn){S.gDivArmed=true;S.gDivId=null;}if(on&&!S.wasOn){setVh();window.scrollTo(0,0);watchDeveloperProfile();if(!S.ready){if(ZC_AUTH_REQUIRED)zauShowGate('login');else start();}else{zauHideGate();zauSetAccountButton(true);resync();refreshProfileFromDeveloper(false);refreshMyMod();setTab(S.tab);syncProfileExtras();syncNameColor();syncNote();syncStyle();refreshNameColors();syncBio();vipRoleCheck();}}if(on&&ZC_AUTH_REQUIRED)zauShowGate('login');S.wasOn=on;}
 new MutationObserver(onPageToggle).observe($('zcChat'),{attributes:true,attributeFilter:['class']});
 (function(){var ct=document.getElementById('communityTab');if(!ct)return;function warm(){if(!ct.classList.contains('active')||S.ready||S.starting)return;start();}new MutationObserver(warm).observe(ct,{attributes:true,attributeFilter:['class']});warm();})();
 renderConvs();renderBadges();renderConn();onPageToggle();
@@ -14674,6 +14778,7 @@ function zcdReport(force,delay){
  clearTimeout(ZCD.timer);
  ZCD.timer=setTimeout(async function(){
   if(ZCD.busy)return;
+  if(!S||!S.sb||!S.me||!S.ready||!S.me.id||S.me.is_anonymous)return;
   if(!force&&Date.now()-ZCD.last<60000)return;
   if(!('Notification' in window))return;
   ZCD.busy=true;
