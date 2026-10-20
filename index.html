@@ -10880,6 +10880,7 @@ function logoIdOf(uid){
  return '';
 }
 function logoSrcFor(uid){
+ if(String(uid)===ZC_BOT_ID)return zcBotLogo();
  var ph=photoUrlOf(uid);if(ph)return ph;
  var id=logoIdOf(uid),c=zsc(),s=(id&&c)?c.src(id):'';
  return s||collAvatar(uid); /* belum pasang koleksi -> pilihan acak lama (stabil per pengguna) */
@@ -11308,7 +11309,34 @@ function zcBotBoot(){
  }catch(e){}
 }
 
-S.profiles[ZC_BOT_ID]=Object.assign({id:ZC_BOT_ID,user_id:ZC_BOT_ID,username:'zusmo_bot',display_name:'Zusmo Bot',is_admin:true,role_label:'',titles:[],_full:true},S.profiles[ZC_BOT_ID]||{},{is_admin:true,display_name:'Zusmo Bot'});
+var ZC_BOT_NAME='Live Chat Bot';
+/* logo bot digambar dari kode (kepala robot), bukan dari koleksi */
+var ZC_BOT_LOGO=null;
+function zcBotLogo(){
+ if(!ZC_BOT_LOGO){
+  var svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6b76ff"/><stop offset="1" stop-color="#3a3fd0"/></linearGradient></defs><rect width="64" height="64" fill="url(#g)"/><line x1="32" y1="11" x2="32" y2="19" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/><circle cx="32" cy="9.5" r="3.4" fill="#ffd166"/><rect x="9" y="29" width="5" height="12" rx="2.5" fill="#cfd4ff"/><rect x="50" y="29" width="5" height="12" rx="2.5" fill="#cfd4ff"/><rect x="14" y="19" width="36" height="31" rx="10" fill="#f4f5ff"/><circle cx="25" cy="33" r="4.6" fill="#3a3fd0"/><circle cx="39" cy="33" r="4.6" fill="#3a3fd0"/><circle cx="26.4" cy="31.6" r="1.4" fill="#fff"/><circle cx="40.4" cy="31.6" r="1.4" fill="#fff"/><path d="M24 42.5 Q32 48 40 42.5" fill="none" stroke="#3a3fd0" stroke-width="2.6" stroke-linecap="round"/></svg>';
+  ZC_BOT_LOGO='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
+ }
+ return ZC_BOT_LOGO;
+}
+/* Pesan bot selalu tampil dari BOT, bukan dari username pengguna. Dikenali dari: pengirim = akun bot, sambutan grup yang menyebut
+   username pengirimnya sendiri, atau sapaan pribadi bertanda tak terlihat (bagi penerima). */
+var ZC_BOT_WELCOME_RE=/^\s*Selamat datang di Live Chat Zusmo, @([^\s!]+)!/i;
+function zcBotMsg(m){
+ try{
+  if(!m)return false;
+  var u=m.user_id!=null?m.user_id:m.sender_id;
+  if(String(u)===ZC_BOT_ID)return true;
+  var c=rawContent(m);if(typeof c!=='string')return false;
+  if(m.user_id!=null){
+   var w=ZC_BOT_WELCOME_RE.exec(c);if(!w)return false;
+   var p=S.profiles[m.user_id],un=String(m.username||(p&&p.username)||'').toLowerCase();
+   return !!un&&String(w[1]).toLowerCase()===un;
+  }
+  return !!(S.me&&String(m.sender_id)!==String(S.me.id)&&c.indexOf(ZC_BOT_MARK)>=0);
+ }catch(e){return false;}
+}
+S.profiles[ZC_BOT_ID]=Object.assign({id:ZC_BOT_ID,user_id:ZC_BOT_ID,username:'zusmo_bot',display_name:ZC_BOT_NAME,is_admin:true,role_label:'',titles:[],_full:true},S.profiles[ZC_BOT_ID]||{},{is_admin:true,display_name:ZC_BOT_NAME});
 function zcBotChip(t){var c=document.createElement('span');c.textContent=t;c.setAttribute('aria-hidden','true');c.style.cssText='display:inline-block;margin-left:5px;padding:1px 6px;border-radius:5px;font:800 9.5px/1.5 Inter,system-ui,sans-serif;letter-spacing:.06em;vertical-align:middle;'+(t==='BOT'?'background:#5865f2;color:#fff':'background:rgba(255,59,59,.18);color:#ff6b6b;border:1px solid rgba(255,59,59,.45)');return c;}
 /* ===== TAMPILAN PROFIL DI LIVE CHAT =====
    Satu pengaturan untuk Live Chat DAN halaman Profil (tidak dipisah): apa yang boleh dilihat orang lain di profilmu.
@@ -11482,17 +11510,17 @@ MsgList.prototype.patch=function(m){var ex=this.ids[m.id];if(ex){Object.assign(e
 MsgList.prototype.remove=function(id){var ex=this.ids[id];if(!ex)return false;delete this.ids[id];var i=this.items.indexOf(ex);if(i>=0)this.items.splice(i,1);this.render(false);return true;};
 /* Buang pesan yang sudah tidak ada di server (dihapus tanpa jejak) dari jendela terbaru; pesan <20 dtk dilewati agar tidak salah buang. */
 MsgList.prototype.prune=function(rows){if(!rows||!rows.length)return 0;var seen={},min=Infinity,self=this,gone=[],cut=Date.now()-20000;rows.forEach(function(m){seen[m.id]=1;var t=Date.parse(m.created_at);if(t<min)min=t;});if(rows.length<PAGE)min=-Infinity;this.items.forEach(function(m){var t=Date.parse(m.created_at);if(!seen[m.id]&&t>=min&&t<cut)gone.push(m);});gone.forEach(function(m){delete self.ids[m.id];var i=self.items.indexOf(m);if(i>=0)self.items.splice(i,1);});return gone.length;};
-MsgList.prototype.profileClick=function(sender,name){return function(e){e.stopPropagation();if(String(sender)===ZC_BOT_ID){flash('Zusmo Bot: bot moderator otomatis. Ketik /help di grup.');return;}if(Date.now()-zcLpAt<900)return;openProfile(sender);};};
+MsgList.prototype.profileClick=function(sender,name){return function(e){e.stopPropagation();if(String(sender)===ZC_BOT_ID){flash('Live Chat Bot: bot grup otomatis. Ketik /help di grup.');return;}if(Date.now()-zcLpAt<900)return;openProfile(sender);};};
 MsgList.prototype.buildInto=function(parent,m,prev){
  if(zcRxIs(m))return;
  if(prev&&zcRxIs(prev)){var _ix=this.items.indexOf(m);prev=null;for(var _k=_ix-1;_k>=0;_k--){if(!zcRxIs(this.items[_k])){prev=this.items[_k];break;}}}
- var self=this,o=this.opts,d=new Date(m.created_at),pd=prev?new Date(prev.created_at):null,newDay=!pd||dayKey(d)!==dayKey(pd),sender=o.senderOf(m),mine=sender===S.me.id,first=newDay||!prev||isPinMarker(prev)||o.senderOf(prev)!==sender;
+ var self=this,o=this.opts,d=new Date(m.created_at),pd=prev?new Date(prev.created_at):null,newDay=!pd||dayKey(d)!==dayKey(pd),sender=o.senderOf(m),_isBot=sender===ZC_BOT_ID,_un=_isBot?ZC_BOT_NAME:m.username,mine=sender===S.me.id,first=newDay||!prev||isPinMarker(prev)||o.senderOf(prev)!==sender;
  if(newDay)parent.appendChild(el('div','zc-day',dayLabel(d)));
  if(isPinMarker(m)){this.buildPinNote(parent,m);return;}
  var divId=o.dividerId?o.dividerId():null;if(divId!=null&&String(divId)===String(m.id)){parent.appendChild(el('div','zc-newdiv',o.dividerLabel?o.dividerLabel():'Pesan baru'));first=true;}
  var row=el('div','zc-row '+(mine?'zc-mine':'zc-other')+(first?' zc-first':''));row.dataset.messageId=m.id;row.dataset.senderId=sender;
- var a=null;if(o.showAvatar){a=avatar(sender,m.username,true);if(!first){a.style.opacity='0';a.setAttribute('aria-hidden','true');}else{a.classList.add('zc-profile-target');a.setAttribute('role','button');a.tabIndex=0;a.setAttribute('aria-label','Lihat profil '+(m.username||'pengguna'));a.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();this.click();}});}row.appendChild(a);a.addEventListener('click',this.profileClick(sender,m.username));}
- var bub=el('div','zc-bub');if(!mine&&o.showName&&first){var nameLine=el('div','zc-name-line');var spf=S.profiles[sender]||{},sdn=zcShowFor(sender,'name')&&spf.display_name&&String(spf.display_name).trim(),suser='@'+(m.username||'Pengguna');var nm=el('button','zc-nm',sdn||suser);nm.type='button';nm.style.color='hsl('+hue(sender)+',80%,72%)';if(sdn)ncApply(nm,sender,'hsl('+hue(sender)+',80%,72%)');nm.addEventListener('click',this.profileClick(sender,m.username));nameLine.appendChild(nm);if(zcIsOwnerUser(m.username||spf.username)||(S.owner&&S.owner.uid&&String(sender)===String(S.owner.uid)))nameLine.appendChild(verifiedBadge('1.02em'));var role=chatRoleLabel(m.role_label||m.role||'');if(role){nameLine.appendChild(zcRoleBadge(role,spf));}if(String(sender)===ZC_BOT_ID){nameLine.appendChild(zcBotChip('BOT'));}bub.appendChild(nameLine);}
+ var a=null;if(o.showAvatar){a=avatar(sender,_un,true);if(!first){a.style.opacity='0';a.setAttribute('aria-hidden','true');}else{a.classList.add('zc-profile-target');a.setAttribute('role','button');a.tabIndex=0;a.setAttribute('aria-label','Lihat profil '+(_un||'pengguna'));a.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();this.click();}});}row.appendChild(a);a.addEventListener('click',this.profileClick(sender,_un));}
+ var bub=el('div','zc-bub');if(!mine&&(o.showName||_isBot)&&first){var nameLine=el('div','zc-name-line');var spf=S.profiles[sender]||{},sdn=_isBot?ZC_BOT_NAME:(zcShowFor(sender,'name')&&spf.display_name&&String(spf.display_name).trim()),suser='@'+(m.username||'Pengguna');var nm=el('button','zc-nm',sdn||suser);nm.type='button';nm.style.color='hsl('+hue(sender)+',80%,72%)';if(sdn&&!_isBot)ncApply(nm,sender,'hsl('+hue(sender)+',80%,72%)');nm.addEventListener('click',this.profileClick(sender,m.username));nameLine.appendChild(nm);if(!_isBot&&(zcIsOwnerUser(m.username||spf.username)||(S.owner&&S.owner.uid&&String(sender)===String(S.owner.uid))))nameLine.appendChild(verifiedBadge('1.02em'));var role=_isBot?'':chatRoleLabel(m.role_label||m.role||'');if(role){nameLine.appendChild(zcRoleBadge(role,spf));}if(_isBot){nameLine.appendChild(zcBotChip('BOT'));}bub.appendChild(nameLine);}
  var quoted=m.deleted_at?null:replyOf(m);if(quoted){var q=el('div','zc-quoted');q.appendChild(el('b','',quoted.username||'Pengguna'));q.appendChild(el('span','',quoted.text||'Pesan'));q.setAttribute('role','button');q.tabIndex=0;q.setAttribute('aria-label','Lompat ke pesan yang dibalas');q.addEventListener('click',function(e){e.stopPropagation();self.jumpTo(quoted,m);});q.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();e.stopPropagation();self.jumpTo(quoted,m);}});bub.appendChild(q);}
  if(m.deleted_at||zcVioIs(m)){var dx=el('div','zc-tx zc-deleted');dx.innerHTML='<i class="fa-solid fa-ban" aria-hidden="true"></i>';dx.appendChild(el('span','',txtOf(m)));bub.appendChild(dx);}else{var _sn=zcStkNum(replyOf(m)?replyOf(m).body:rawContent(m));if(_sn){var sx=el('div','zc-tx zc-stk-msg'),si=document.createElement('img');si.src=zcStkSrc(_sn);si.alt='Stiker '+_sn;si.loading='lazy';si.decoding='async';si.draggable=false;si.onerror=function(){sx.textContent='Stiker';sx.classList.remove('zc-stk-msg');};sx.appendChild(si);bub.classList.add('zc-bub-stk');bub.appendChild(sx);}else{var _tn=zcTxNode(txtOf(m));bub.appendChild(_tn.node);if(_tn.me&&!mine)bub.classList.add('zc-bub-mn');}}
  var meta=el('div','zc-meta');if(!m.deleted_at&&zcIsEdited(m))meta.appendChild(el('span','zc-edited','diedit'));meta.appendChild(el('span','',hhmm(d)));if(mine&&o.receipts){var delivered=!!m.delivered_at||!!m.read_at;meta.appendChild(el('i','fa-solid '+(m.read_at?'fa-check-double zc-read':(delivered?'fa-check-double zc-delivered':'fa-check'))));}else if(mine&&o.groupReceipts){meta.appendChild(el('i','fa-solid fa-check-double zc-delivered'));}bub.appendChild(meta);
@@ -11551,8 +11579,8 @@ MsgList.prototype.jumpTo=async function(q,m){
  }finally{this.jumping=false;}
 };
 
-var gList=new MsgList($('zcGlobalList'),$('zcGlobalPill'),{senderOf:function(m){return m.user_id;},showAvatar:true,showName:true,receipts:false,groupReceipts:true,allowReply:true,empty:'Belum ada pesan. Jadi yang pertama menyapa!',onOlder:loadOlderGlobal,dividerId:function(){return S.gDivId;},dividerLabel:function(){return (S.gDivN||1)+(S.gDivPlus?'+':'')+' pesan baru';},onChange:function(){renderGroupRow();renderBadges();renderPin();}});
-var pList=new MsgList($('zcThreadList'),$('zcThreadPill'),{senderOf:function(m){return m.sender_id;},showAvatar:true,showName:false,receipts:true,allowReply:true,empty:'Belum ada pesan. Mulai percakapan privat ini.',onOlder:loadOlderThread});
+var gList=new MsgList($('zcGlobalList'),$('zcGlobalPill'),{senderOf:function(m){return zcBotMsg(m)?ZC_BOT_ID:m.user_id;},showAvatar:true,showName:true,receipts:false,groupReceipts:true,allowReply:true,empty:'Belum ada pesan. Jadi yang pertama menyapa!',onOlder:loadOlderGlobal,dividerId:function(){return S.gDivId;},dividerLabel:function(){return (S.gDivN||1)+(S.gDivPlus?'+':'')+' pesan baru';},onChange:function(){renderGroupRow();renderBadges();renderPin();}});
+var pList=new MsgList($('zcThreadList'),$('zcThreadPill'),{senderOf:function(m){return zcBotMsg(m)?ZC_BOT_ID:m.sender_id;},showAvatar:true,showName:false,receipts:true,allowReply:true,empty:'Belum ada pesan. Mulai percakapan privat ini.',onOlder:loadOlderThread});
 
 /* ===== MENU PESAN (tahan / klik kanan): Balas, Salin pesan, Hapus untuk semua orang (pesan sendiri; tersisa jejak "Pesan ini telah dihapus") ===== */
 function zcCopyText(t,okMsg){
