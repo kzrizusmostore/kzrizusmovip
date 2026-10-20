@@ -11061,7 +11061,7 @@ function zcAccountReset(){
  try{(S.chs||[]).forEach(function(c){try{S.sb.removeChannel(c);}catch(e){}});}catch(e){}
  clearTimeout(S.unreadSched);clearTimeout(S.gMarkTimer);
  S.chs=[];S.cursorCh=null;S.typingChannel=null;S.pres=null;S.subscribed=false;S.ready=false;S.starting=null;
- S.me=null;S.peer=null;S.convs={};S.profiles={};S.online={};S.statuses={};S.seen={};
+ S.me=null;S.peer=null;S.convs={};S.profiles={};S.online={};try{S.online[ZC_BOT_ID]='zusmo_bot';}catch(e){}S.statuses={};S.seen={};
  S.gUnreadN=0;S.gSeen=null;S.gCounted={};S.pmCounted={};S.unreadRpc=null;S.unreadErr=null;S.gMarkWant=false;S.gMarkTs=null;S.noMarkPriv=false;
  try{gList.reset();pList.reset();}catch(e){}
  try{renderConvs();renderBadges();}catch(e){}
@@ -11337,7 +11337,8 @@ function zcBotMsg(m){
  }catch(e){return false;}
 }
 S.profiles[ZC_BOT_ID]=Object.assign({id:ZC_BOT_ID,user_id:ZC_BOT_ID,username:'zusmo_bot',display_name:ZC_BOT_NAME,is_admin:true,role_label:'',titles:[],_full:true},S.profiles[ZC_BOT_ID]||{},{is_admin:true,display_name:ZC_BOT_NAME});
-function zcBotChip(t){var c=document.createElement('span');c.textContent=t;c.setAttribute('aria-hidden','true');c.style.cssText='display:inline-block;margin-left:5px;padding:1px 6px;border-radius:5px;font:800 9.5px/1.5 Inter,system-ui,sans-serif;letter-spacing:.06em;vertical-align:middle;'+(t==='BOT'?'background:#5865f2;color:#fff':'background:rgba(255,59,59,.18);color:#ff6b6b;border:1px solid rgba(255,59,59,.45)');return c;}
+try{(S.online=S.online||{})[ZC_BOT_ID]='zusmo_bot';}catch(e){}
+function zcBotChip(t){var c=document.createElement('span');c.textContent=t;c.setAttribute('aria-hidden','true');c.style.cssText='display:inline-block;margin-left:5px;padding:1px 6px;border-radius:5px;font:800 9.5px/1.5 Inter,system-ui,sans-serif;letter-spacing:.06em;vertical-align:middle;'+(t==='BOT'?'background:linear-gradient(135deg,#6d5dfc,#a855f7);color:#fff':'background:rgba(255,59,59,.18);color:#ff6b6b;border:1px solid rgba(255,59,59,.45)');return c;}
 /* ===== TAMPILAN PROFIL DI LIVE CHAT =====
    Satu pengaturan untuk Live Chat DAN halaman Profil (tidak dipisah): apa yang boleh dilihat orang lain di profilmu.
    Disimpan di chat_profiles.lc_visibility (zusmo-chat-tampilan.sql) + cache lokal. Kunci bernilai false = disembunyikan. */
@@ -11549,7 +11550,7 @@ MsgList.prototype.buildInto=function(parent,m,prev){
  var divId=o.dividerId?o.dividerId():null;if(divId!=null&&String(divId)===String(m.id)){parent.appendChild(el('div','zc-newdiv',o.dividerLabel?o.dividerLabel():'Pesan baru'));first=true;}
  var row=el('div','zc-row '+(mine?'zc-mine':'zc-other')+(first?' zc-first':''));row.dataset.messageId=m.id;row.dataset.senderId=sender;
  var a=null;if(o.showAvatar){a=avatar(sender,_un,true);if(!first){a.style.opacity='0';a.setAttribute('aria-hidden','true');}else{a.classList.add('zc-profile-target');a.setAttribute('role','button');a.tabIndex=0;a.setAttribute('aria-label','Lihat profil '+(_un||'pengguna'));a.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();this.click();}});}row.appendChild(a);a.addEventListener('click',this.profileClick(sender,_un));}
- var bub=el('div','zc-bub');if(!mine&&(o.showName||_isBot)&&first){var nameLine=el('div','zc-name-line');var spf=S.profiles[sender]||{},sdn=_isBot?ZC_BOT_NAME:(zcShowFor(sender,'name')&&spf.display_name&&String(spf.display_name).trim()),suser='@'+(m.username||'Pengguna');var nm=el('button','zc-nm',sdn||suser);nm.type='button';nm.style.color='hsl('+hue(sender)+',80%,72%)';if(sdn&&!_isBot)ncApply(nm,sender,'hsl('+hue(sender)+',80%,72%)');nm.addEventListener('click',this.profileClick(sender,m.username));nameLine.appendChild(nm);if(!_isBot&&(zcIsOwnerUser(m.username||spf.username)||(S.owner&&S.owner.uid&&String(sender)===String(S.owner.uid))))nameLine.appendChild(verifiedBadge('1.02em'));var role=_isBot?'':chatRoleLabel(m.role_label||m.role||'');if(role){nameLine.appendChild(zcRoleBadge(role,spf));}if(_isBot){nameLine.appendChild(zcBotChip('BOT'));}bub.appendChild(nameLine);}
+ var bub=el('div','zc-bub');if(!mine&&(o.showName||_isBot)&&first){var nameLine=el('div','zc-name-line');var spf=S.profiles[sender]||{},sdn=_isBot?ZC_BOT_NAME:(zcShowFor(sender,'name')&&spf.display_name&&String(spf.display_name).trim()),suser='@'+(m.username||'Pengguna');var nm=el('button','zc-nm',sdn||suser);nm.type='button';nm.style.color='hsl('+hue(sender)+',80%,72%)';if(_isBot)nm.classList.add('zusmo-bot-shine');if(sdn&&!_isBot)ncApply(nm,sender,'hsl('+hue(sender)+',80%,72%)');nm.addEventListener('click',this.profileClick(sender,m.username));nameLine.appendChild(nm);if(!_isBot&&(zcIsOwnerUser(m.username||spf.username)||(S.owner&&S.owner.uid&&String(sender)===String(S.owner.uid))))nameLine.appendChild(verifiedBadge('1.02em'));var role=_isBot?'':chatRoleLabel(m.role_label||m.role||'');if(role){nameLine.appendChild(zcRoleBadge(role,spf));}if(_isBot){nameLine.appendChild(zcBotChip('BOT'));}bub.appendChild(nameLine);}
  var quoted=m.deleted_at?null:replyOf(m);if(quoted){var q=el('div','zc-quoted');q.appendChild(el('b','',quoted.username||'Pengguna'));q.appendChild(el('span','',quoted.text||'Pesan'));q.setAttribute('role','button');q.tabIndex=0;q.setAttribute('aria-label','Lompat ke pesan yang dibalas');q.addEventListener('click',function(e){e.stopPropagation();self.jumpTo(quoted,m);});q.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();e.stopPropagation();self.jumpTo(quoted,m);}});bub.appendChild(q);}
  if(m.deleted_at||zcVioIs(m)){var dx=el('div','zc-tx zc-deleted');dx.innerHTML='<i class="fa-solid fa-ban" aria-hidden="true"></i>';dx.appendChild(el('span','',txtOf(m)));bub.appendChild(dx);}else{var _sn=zcStkNum(replyOf(m)?replyOf(m).body:rawContent(m));if(_sn){var sx=el('div','zc-tx zc-stk-msg'),si=document.createElement('img');si.src=zcStkSrc(_sn);si.alt='Stiker '+_sn;si.loading='lazy';si.decoding='async';si.draggable=false;si.onerror=function(){sx.textContent='Stiker';sx.classList.remove('zc-stk-msg');};sx.appendChild(si);bub.classList.add('zc-bub-stk');bub.appendChild(sx);}else{var _tn=zcTxNode(txtOf(m));bub.appendChild(_tn.node);if(_tn.me&&!mine)bub.classList.add('zc-bub-mn');}}
  var meta=el('div','zc-meta');if(!m.deleted_at&&zcIsEdited(m))meta.appendChild(el('span','zc-edited','diedit'));meta.appendChild(el('span','',hhmm(d)));if(mine&&o.receipts){var delivered=!!m.delivered_at||!!m.read_at;meta.appendChild(el('i','fa-solid '+(m.read_at?'fa-check-double zc-read':(delivered?'fa-check-double zc-delivered':'fa-check'))));}else if(mine&&o.groupReceipts){meta.appendChild(el('i','fa-solid fa-check-double zc-delivered'));}bub.appendChild(meta);
@@ -12553,7 +12554,7 @@ function renderOnlineUsers(){
  sub.textContent='';var ob=el('span','zc-sub-on');ob.appendChild(document.createElement('i'));ob.appendChild(document.createTextNode(ids.length+' online'));sub.appendChild(ob);
  sub.appendChild(document.createTextNode(' · '+names.slice(0,3).join(', ')+(names.length>3?' +'+(names.length-3):'')));
 }
-function onPresence(){var st=S.pres.presenceState(),on={};Object.keys(st).forEach(function(k){var meta=st[k]&&st[k][0]||{};on[k]=meta.username||true;if(!S.profiles[k]&&meta.username)S.profiles[k]={id:k,username:meta.username,last_seen:new Date().toISOString()};});S.online=on;renderConn();renderOnlineUsers();try{renderGroupRow();}catch(e){}try{gmCount();gmOnPresence();}catch(e){}if(S.peer)renderPeerHead();renderConvs();if(S.usersQ.length>=3)searchUsers();}
+function onPresence(){var st=S.pres.presenceState(),on={};Object.keys(st).forEach(function(k){var meta=st[k]&&st[k][0]||{};on[k]=meta.username||true;if(!S.profiles[k]&&meta.username)S.profiles[k]={id:k,username:meta.username,last_seen:new Date().toISOString()};});on[ZC_BOT_ID]='zusmo_bot';S.online=on;renderConn();renderOnlineUsers();try{renderGroupRow();}catch(e){}try{gmCount();gmOnPresence();}catch(e){}if(S.peer)renderPeerHead();renderConvs();if(S.usersQ.length>=3)searchUsers();}
 function onGlobalInsert(m){if(!m||!m.id||gList.ids[m.id])return;if(m.content==null&&m.message!=null)m.content=m.message;var done=function(){if(!S.me||gList.ids[m.id])return;fillName(m);var mine=String(m.user_id)===String(S.me.id),wasView=groupViewing(),added=gList.add(m,m.user_id===S.me.id);if(added&&!mine&&!m.deleted_at&&!isPinMarker(m)&&!wasView&&onceFor(S.gCounted,m.id)){if(S.unreadRpc!==false){S.gUnreadN=(S.gUnreadN||0)+1;S.unreadMut++;scheduleUnread(1500);}renderGroupRow();renderBadges();}};ensureProfiles([m.user_id]).then(done,done);}
 function onGlobalUpdate(m){if(!m||!m.id)return;if(m.content==null){if(m.message!=null)m.content=m.message;else delete m.content;}gList.patch(m);if(m.deleted_at)scheduleUnread(600);}
 function onGlobalDelete(m){if(!m||m.id==null)return;gList.remove(m.id);scheduleUnread(600);}
@@ -13113,7 +13114,24 @@ function renderRoleInto(box,p){
  box.textContent='';var r=chatRoleLabel(p&&p.role_label)||'FREE';
  box.appendChild(zcRoleBadge(r,p));
  }
+function zcPaintBotCard(){
+ var host=$('zcProfileSheet'),vid=host.querySelector('.zc-pf-cover-vid');
+ $('zcSheetName').textContent=ZC_BOT_NAME;
+ var un=$('zcSheetUser');un.textContent='@zusmo_bot';
+ setAv($('zcSheetAv'),ZC_BOT_ID,ZC_BOT_NAME);
+ try{paintBanner(host,vid,'');}catch(e){}
+ host.classList.add('has-banner','zc-bot');
+ var dot=$('zcSheetDot');if(dot)dot.dataset.on='1';
+ var rl=$('zcSheetRole');if(rl){rl.textContent='';var pill=document.createElement('span');pill.className='zc-bot-pill';pill.innerHTML='<i class="fa-solid fa-robot" aria-hidden="true"></i>BOT';rl.appendChild(pill);}
+ var st=$('zcSheetStatus');if(st)st.textContent='';
+ var ch=$('zcSheetChat'),ac=$('zcPfActions');
+ if(ch){ch.hidden=false;ch.disabled=false;ch.innerHTML='<i class="fa-solid fa-message"></i> Pesan';}
+ if(ac)ac.hidden=false;
+ ['zcSheetFollow','zcSheetView','zcSheetFull','zcSheetMod'].forEach(function(i){var b=$(i);if(b)b.hidden=true;});
+ var nt=$('zcSheetNote');if(nt)nt.hidden=true;
+}
 function paintProfile(uid,loading){
+ try{var _b=String(uid)===ZC_BOT_ID,_h=$('zcProfileSheet'),_n0=$('zcSheetName');if(_h)_h.classList.toggle('zc-bot',_b);if(_n0)_n0.classList.toggle('zusmo-bot-shine',_b);if(_b){zcPaintBotCard();return;}}catch(e){}
  var p=S.profiles[uid]||{id:uid,username:'Pengguna'},mine=!!(S.me&&uid===S.me.id),uname=p.username||'Pengguna';
  var dn=p.display_name&&String(p.display_name).trim();if(!zcShowFor(uid,'name'))dn='';
  try{zcNoteShow(uid,p,mine);}catch(e){}
@@ -13155,6 +13173,7 @@ function paintProfile(uid,loading){
 async function openProfile(uid){
  if(!UUID_RE.test(uid)||!S.sb)return;
  pfUid=uid;clearTimeout(pfTimer);
+ if(String(uid)===ZC_BOT_ID){paintProfile(uid);openSheet('zcProfileSheet');return;}
  paintProfile(uid,true);openSheet('zcProfileSheet');
  try{await ensureProfiles([uid]);}catch(e){}
  try{await refreshProfileMedia(uid);}catch(e){}
@@ -13912,7 +13931,7 @@ function gmRow(p){
  var wrap=el('span','zc-av-wrap');wrap.appendChild(avatar(id,nm));if(S.online[id])wrap.appendChild(el('span','zc-av-on'));row.appendChild(wrap);
  var body=el('span','zc-gm-body'),top=el('span','zc-gm-name'),n=el('span','zc-gm-nm',nm);
  if(p.display_name&&zcLookId(p)&&window.ZUSMO_PAINT_NAME){try{window.ZUSMO_PAINT_NAME(n,zcLookId(p));}catch(e){}}
- top.appendChild(n);
+ top.appendChild(n);if(id===ZC_BOT_ID)n.classList.add('zusmo-bot-shine');
  if(gmOwner(p,id)){try{top.appendChild(verifiedBadge('1.05em'));}catch(e){}}
  
  body.appendChild(top);
@@ -13922,7 +13941,7 @@ function gmRow(p){
  row.appendChild(body);
  var end=el('span','zc-gm-end');
  if(mine)end.appendChild(el('em','zc-gm-me','Anda'));
- if(gmAdmin(p,id))end.appendChild(el('span','zc-gm-tag','Admin grup'));
+ if(id===ZC_BOT_ID)end.appendChild(el('span','zc-gm-tag zc-gm-tag-bot','BOT'));else if(gmAdmin(p,id))end.appendChild(el('span','zc-gm-tag','Admin grup'));
  if(end.firstChild)row.appendChild(end);
  row.addEventListener('click',function(){openProfile(id);});
  return row;
@@ -17576,6 +17595,24 @@ body.kz-fp-open .fd-layer{z-index:1000200}
 #zcChat #zcProfileSheet .zc-psheet .zc-pf-actions>button{width:36px;height:36px;min-width:36px;min-height:36px;gap:0;padding:0}
 #zcChat #zcProfileSheet .zc-psheet .zc-pf-actions>button i{font-size:14px}
 #zcChat #zcProfileSheet .zc-psheet .zc-pf-actions .zc-pf-follow[data-state="confirm"]::after{font-size:14px}
+</style>
+<style id="zc-bot-card-style">
+/* Kartu bot: banner ungu senada logo, nama gradasi mengkilap, hanya tombol pesan */
+.zusmo-bot-shine{background-image:linear-gradient(105deg,rgba(255,255,255,0) 36%,rgba(255,255,255,.95) 50%,rgba(255,255,255,0) 64%),linear-gradient(90deg,#c4b5fd,#8b7bff,#c084fc,#a78bfa)!important;background-size:250% 100%,100% 100%!important;background-repeat:no-repeat!important;background-position:97% 0,0 0;-webkit-background-clip:text!important;background-clip:text!important;color:transparent!important;-webkit-text-fill-color:transparent!important;animation:zusmoBotShine 4.5s cubic-bezier(.45,0,.55,1) infinite}
+@keyframes zusmoBotShine{0%{background-position:97% 0,0 0}55%,100%{background-position:3% 0,0 0}}
+@keyframes zcBotSweep{0%,15%{transform:translateX(-60%)}60%,100%{transform:translateX(60%)}}
+@media(prefers-reduced-motion:reduce){.zusmo-bot-shine,#zcChat #zcProfileSheet.zc-bot .zc-pf-cover::before{animation:none}}
+#zcChat #zcProfileSheet.zc-bot .zc-pf-cover{background:radial-gradient(70% 120% at 50% 118%,rgba(196,160,255,.60),transparent 68%),radial-gradient(45% 80% at 8% 0%,rgba(120,134,255,.60),transparent 70%),radial-gradient(45% 80% at 96% 8%,rgba(217,70,239,.38),transparent 70%),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='80' viewBox='0 0 160 80'%3E%3Cg fill='none' stroke='white' stroke-opacity='.14' stroke-width='1.2' stroke-linecap='round'%3E%3Cpath d='M0 20h34l10 10h30'/%3E%3Cpath d='M160 56h-40l-10-10H90'/%3E%3Cpath d='M50 80V62l8-8h24'/%3E%3Cpath d='M110 0v14l8 8h20'/%3E%3C/g%3E%3Cg fill='white' fill-opacity='.24'%3E%3Ccircle cx='74' cy='30' r='2.2'/%3E%3Ccircle cx='90' cy='46' r='2.2'/%3E%3Ccircle cx='82' cy='54' r='2.2'/%3E%3Ccircle cx='138' cy='22' r='2.2'/%3E%3Ccircle cx='34' cy='20' r='1.8'/%3E%3C/g%3E%3C/svg%3E") 0 0/160px 80px repeat,linear-gradient(135deg,#2b30c4 0%,#4a3fe0 48%,#7a3df0 100%)}
+#zcChat #zcProfileSheet.zc-bot .zc-pf-cover::before{content:"";position:absolute;inset:-20% -40%;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.22) 50%,transparent 60%);transform:translateX(-60%);animation:zcBotSweep 6s cubic-bezier(.45,0,.55,1) infinite;pointer-events:none}
+#zcChat #zcProfileSheet.zc-bot .zc-pf-cover::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.16),rgba(0,0,0,0) 45%,rgba(17,17,20,.88))}
+#zcChat #zcProfileSheet.zc-bot .zc-psheet{padding-bottom:26px;border-color:rgba(139,123,255,.28)}
+#zcChat #zcProfileSheet.zc-bot .zc-psheet .zc-pf-avwrap .zc-pf-av{box-shadow:0 0 0 5px #111114,0 0 0 6px rgba(167,139,250,.6),0 0 34px rgba(124,92,255,.55)}
+#zcChat #zcProfileSheet.zc-bot .zc-pf-dot[data-on="1"]{background:#34d399}
+#zcChat #zcProfileSheet.zc-bot :is(.zc-pf-status,.zc-pf-bio,.zc-pf-stats,.zc-pf-join,.zc-pf-hint,.zc-pf-titles,.zc-pf-note,#zcSheetFollow,#zcSheetView,#zcSheetMod,#zcSheetFull){display:none!important}
+#zcChat #zcProfileSheet.zc-bot .zc-pf-role{margin-top:12px}
+#zcChat .zc-bot-pill{display:inline-flex;align-items:center;gap:7px;padding:6px 15px;border-radius:999px;font:800 .72rem/1 Inter,system-ui,sans-serif;letter-spacing:.14em;color:#fff;background:linear-gradient(135deg,#6d5dfc,#a855f7);box-shadow:0 6px 18px -8px rgba(124,92,255,.9),inset 0 1px 0 rgba(255,255,255,.3)}
+#zcChat .zc-bot-pill i{font-size:.8rem}
+#zcGroupMembersModal .zc-gm-tag.zc-gm-tag-bot{border-color:rgba(167,139,250,.6);background:rgba(124,92,255,.16);color:#c4b5fd;font-weight:700;letter-spacing:.08em}
 </style>
 <script id="kz-sheet-actions-js">
 (function(){
