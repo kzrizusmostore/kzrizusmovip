@@ -11427,6 +11427,35 @@ window.ZUSMO_LCVIS_OPEN=zcLcvOpen;
    itu bagi penerima, tetapi DISEMBUNYIKAN dari pengirimnya (penanda tak terlihat di akhir pesan). Admin/developer/kzrizusmo_store dikecualikan. */
 var ZC_BOT_MARK='\u2062\u2062\u2062';
 function zcBotHidden(m){try{return !!m&&S.me&&String(m.sender_id)===String(S.me.id)&&rawContent(m).indexOf(ZC_BOT_MARK)>=0;}catch(e){return false;}}
+
+/* Sapa acak: tiap pengguna masuk, kirim template sapaan ke 3 pengguna acak lewat chat PRIBADI (bukan grup).
+   Tidak mengulang ke akun yang sama (dicatat lokal), pengirim tidak melihat pesannya (penanda tak terlihat), penerima melihatnya dari bot. */
+var ZC_GREET_TPL=['Hai boleh kenalan','Halo salam kenal dari zusmo','Main free fire bareng yuk','Woilah, lagi online juga ya?','Halo, boleh kenalan?','Yuk mabar free fire bareng'];
+async function zcGreetRandom(n){
+ if(!S.sb||!S.me||!UUID_RE.test(String(S.me.id||'')))return 0;
+ var key='zcGreeted:'+S.me.id,done={};
+ try{done=JSON.parse(localStorage.getItem(key)||'{}')||{};}catch(e){done={};}
+ var r=await S.sb.from('chat_profiles').select('user_id,username,is_admin,blacklisted').order('last_seen',{ascending:false}).limit(300);
+ if(r.error)r=await S.sb.from('chat_profiles').select('user_id,username,is_admin').limit(300);
+ if(r.error||!r.data)return 0;
+ var pool=r.data.filter(function(p){
+  var id=String(p.user_id||'');
+  return UUID_RE.test(id)&&id!==String(S.me.id)&&id!==ZC_BOT_ID&&!done[id]&&!p.blacklisted&&p.username&&!isOwnerName(p.username);
+ });
+ for(var i=pool.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=pool[i];pool[i]=pool[j];pool[j]=t;}
+ var sent=0;
+ for(var k=0;k<pool.length&&sent<n;k++){
+  var id=String(pool[k].user_id),txt=ZC_GREET_TPL[Math.floor(Math.random()*ZC_GREET_TPL.length)]+ZC_BOT_MARK;
+  try{
+   var q=await S.sb.rpc('zc_send_private',{p_receiver:id,p_content:txt});
+   if(!q.error){var d=one(q.data);if(!d||!d.blocked){done[id]=Date.now();sent++;}}
+   else console.warn('[zc-chat] sapa acak gagal:',q.error);
+  }catch(e){}
+  await new Promise(function(ok){setTimeout(ok,700+Math.floor(Math.random()*900));});
+ }
+ try{localStorage.setItem(key,JSON.stringify(done));}catch(e){}
+ return sent;
+}
 function zcAutoGreetSoon(){
  try{zcLcvLoad();}catch(e){}
  try{zcBotBoot();}catch(e){}
@@ -11435,7 +11464,7 @@ function zcAutoGreetSoon(){
   var k='zcGreet:'+S.me.id;
   try{if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,'1');}catch(e){}
   setTimeout(async function(){
-   try{var r=await S.sb.rpc('zc_auto_greet');if(r.error)console.warn('[zc-chat] zc_auto_greet:',r.error);}catch(e){console.warn('[zc-chat] zc_auto_greet:',e);}
+   try{await zcGreetRandom(3);}catch(e){console.warn('[zc-chat] sapa acak:',e);}
   },5000+Math.floor(Math.random()*7000));
  }catch(e){}
 }
