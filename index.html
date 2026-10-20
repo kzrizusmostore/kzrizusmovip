@@ -4176,7 +4176,7 @@ body.zx-wall-oj #zxOldWall{--zw-pos:14% 40%;--zw-blur:1.5px;--zw-sat:.9;--zw-br:
   function renderAvatar(){
     var box=$('dpAvatar'),img=$('dpAvatarImg');if(!box||!img) return;
     var h=document.querySelector('img.hm-avatar'),src=h?h.getAttribute('src'):'';
-    var cav=lsGet('dpCustomAvatar','');if(cav) src=cav;else{try{var _cl=window.zsCollLogo&&window.zsCollLogo.mySrc();if(_cl) src=_cl;}catch(e){}}
+    var cav=lsGet('dpCustomAvatar',''),_cl='';try{_cl=(window.zsCollLogo&&window.zsCollLogo.mySrc())||'';}catch(e){}var _pp=lsGet('dpAvatarPublic','');if(cav&&_pp!=='logo') src=cav;else if(_cl) src=_cl;else if(cav) src=cav;
     if(!src){box.classList.add('is-fallback');return;}
     if(img.getAttribute('src')===src) return;
     img.onload=function(){box.classList.remove('is-fallback');};
@@ -6224,7 +6224,7 @@ body #developerTab .dp-card:has(.dp-bio:not(.is-empty)),body #developerTab .dp-c
   function normLink(v){
     v=String(v||'').trim();if(!v) return '';
     if(!/^https?:\/\//i.test(v)) v='https://'+v;
-    try{var u=new URL(v);if((u.protocol!=='http:'&&u.protocol!=='https:')||u.hostname.indexOf('.')<1) return '';return u.href;}catch(e){return '';}
+    try{var u=new URL(v);if((u.protocol!=='http:'&&u.protocol!=='https:')||u.hostname.indexOf('.')<1) return '';if(/(^|\.)(tiktok|instagram)\.com$/i.test(u.hostname)){u.search='';u.hash='';}return u.href;}catch(e){return '';}
   }
   /* ikon platform otomatis dari alamat tautan */
   var PLAT=[
@@ -6483,9 +6483,9 @@ body #developerTab .dp-card:has(.dp-bio:not(.is-empty)),body #developerTab .dp-c
     function logoSrc(id){return window.zsCollLogo?window.zsCollLogo.src(id):'';}
     function paintAv(){
       setTimeout(function(){try{dirtySync();}catch(e){}},0);
-      var img=$('dpeAvatarImg');if(img) setPrev(img,D.av||logoSrc(D.coll)||defAvatar());
+      var img=$('dpeAvatarImg');if(img) setPrev(img,(D.pub==='photo'&&D.av)?D.av:(logoSrc(D.coll)||D.av||defAvatar()));
       var rm=$('dpeResetAv');if(rm) rm.hidden=!D.av;
-      var nt=$('kzLcNote');if(nt)nt.innerHTML='<i class="fa-solid fa-circle-info" aria-hidden="true"></i> '+(D.pub==='photo'&&D.av?'Live Chat menampilkan foto Galeri kamu. Banner tetap dari Koleksi.':'Live Chat menampilkan logo Koleksi. Foto Galeri hanya di profil.');
+      var nt=$('kzLcNote');if(nt)nt.innerHTML='<i class="fa-solid fa-circle-info" aria-hidden="true"></i> '+(D.pub==='photo'&&D.av?'Profil & Live Chat menampilkan foto Galeri kamu.':'Profil & Live Chat menampilkan logo Koleksi kamu.');
     }
     window.__dpPaintAv=paintAv;
     function pickAv(){pickAvatar(function(u){D.av=u;paintAv();setErr('');});}
@@ -6542,26 +6542,26 @@ body #developerTab .dp-card:has(.dp-bio:not(.is-empty)),body #developerTab .dp-c
         +'<div class="ps-pv"><div class="ps-pvl">Di Live Chat</div><div class="ps-pvbox ps-pvchat"><span class="ps-pva sm" id="psPvA2"></span><span class="ps-bub"><b id="psPvN2"></b><span>Halo semua!</span></span></div></div>'
         +'</div>'
         +'<div class="ps-list" id="psList" role="radiogroup" aria-label="Foto untuk Live Chat"></div>'
-        +'<p class="ps-hint">Foto Galeri selalu tampil di profilmu.</p>'
+        +'<p class="ps-hint">Pilihanmu tampil di profil dan Live Chat.</p>'
         +'<button type="button" class="ps-done" data-s="x">Selesai</button></div>';
       function thumb(id,src){var h=o.querySelector('#'+id);if(!h||!src) return;var im=document.createElement('img');im.alt='';im.src=src;h.innerHTML='';h.appendChild(im);}
       function paint(){
         var has=!!D.coll,hasAv=!!D.av,onPhoto=(D.pub==='photo'&&hasAv),onLogo=has&&!onPhoto;
-        var kSub=!has?'Belum dipasang':(onLogo?'Tampil di Live Chat':'Logo profil');
-        var gSub=!has?'Pasang Koleksi dulu':(!hasAv?'Belum ada foto':(onPhoto?'Tampil di Live Chat':'Hanya di profil'));
+        var kSub=!has?'Belum dipasang':(onLogo?'Tampil di profil & Live Chat':'Tidak dipilih');
+        var gSub=!has?'Pasang Koleksi dulu':(!hasAv?'Belum ada foto':(onPhoto?'Tampil di profil & Live Chat':'Tidak dipilih'));
         o.querySelector('#psList').innerHTML=
           '<div class="ps-opt'+(onLogo?' on':'')+'" data-o="kol">'
-            +'<button type="button" class="ps-pick" role="radio" aria-checked="'+onLogo+'" data-s="pub-logo"><span class="ps-radio" aria-hidden="true"></span><span class="ps-th" id="psThK"><i class="fa-solid fa-shapes" aria-hidden="true"></i></span><span class="ps-tx"><b>Koleksi<em class="ps-tag">Wajib</em></b><small>'+kSub+'</small></span></button>'
+            +'<button type="button" class="ps-pick" role="radio" aria-checked="'+onLogo+'" data-s="pub-logo"><span class="ps-radio" aria-hidden="true"></span><span class="ps-th" id="psThK"><i class="fa-solid fa-shapes" aria-hidden="true"></i></span><span class="ps-tx"><b>Koleksi</b><small>'+kSub+'</small></span></button>'
             +'<button type="button" class="ps-edit" data-s="kol">'+(has?'Ganti':'Pilih')+'</button>'
           +'</div>'
           +'<div class="ps-opt'+(onPhoto?' on':'')+(has?'':' lock')+'" data-o="gal">'
-            +'<button type="button" class="ps-pick" role="radio" aria-checked="'+onPhoto+'"'+(has?'':' aria-disabled="true"')+' data-s="pub-photo"><span class="ps-radio" aria-hidden="true"></span><span class="ps-th" id="psThG"><i class="fa-solid fa-images" aria-hidden="true"></i></span><span class="ps-tx"><b>Galeri<em class="ps-tag">Opsional</em></b><small>'+gSub+'</small></span></button>'
+            +'<button type="button" class="ps-pick" role="radio" aria-checked="'+onPhoto+'"'+(has?'':' aria-disabled="true"')+' data-s="pub-photo"><span class="ps-radio" aria-hidden="true"></span><span class="ps-th" id="psThG"><i class="fa-solid fa-images" aria-hidden="true"></i></span><span class="ps-tx"><b>Galeri</b><small>'+gSub+'</small></span></button>'
             +(has?'<button type="button" class="ps-edit" data-s="gal">'+(hasAv?'Ganti':'Tambah')+'</button>':'<span class="ps-lockic" aria-hidden="true"><i class="fa-solid fa-lock"></i></span>')
           +'</div>';
         thumb('psThK',has?logoSrc(D.coll):'');thumb('psThG',hasAv?D.av:'');
         var logo=has?logoSrc(D.coll):'',nm=((typeof D2!=='undefined'&&D2.name)||'Nama kamu');
         function pv(id,src){var h=o.querySelector('#'+id);if(!h) return;h.innerHTML='';if(src){var im=document.createElement('img');im.alt='';im.src=src;h.appendChild(im);}else{h.innerHTML='<i class="fa-solid fa-user" aria-hidden="true"></i>';}}
-        pv('psPvA1',D.av||logo);pv('psPvA2',onPhoto?D.av:logo);
+        pv('psPvA1',onPhoto?D.av:(logo||D.av));pv('psPvA2',onPhoto?D.av:logo);
         o.querySelector('#psPvN1').textContent=nm;o.querySelector('#psPvN2').textContent=nm;
       }
       function nudge(){shake(o.querySelector('[data-o="kol"]'));}
@@ -6865,6 +6865,7 @@ body #developerTab .dp-card:has(.dp-bio:not(.is-empty)),body #developerTab .dp-c
     inp.value=d.val()||'';inp.readOnly=lk>0;
     row.appendChild(inp);body.appendChild(row);
     if(d.multi){var c=document.createElement('div');c.className='dpe-cnt';c.id='dpsCnt';body.appendChild(c);inp.addEventListener('input',subCnt);subCnt();}
+    if(key==='link') inp.addEventListener('input',function(){var v=this.value;if(/^(https?:\/\/)?([a-z0-9-]+\.)*(tiktok|instagram)\.com(\/|$|\?|#)/i.test(v.trim())){var c=v.replace(/[?#].*$/,'');if(c!==v) this.value=c;}});
     if(key==='user') inp.addEventListener('input',function(){var v=this.value,c2=cleanUser(v);if(c2!==v.replace(/^@+/,'')) this.value=c2;});
     var h=document.createElement('div');h.className='dps-hint'+(lk?' lock':'');
     h.textContent=d.desc+(lk?(key==='user'?' Nama pengguna sudah dikunci.':(key==='name'&&window.__kzUserLocked===true?' Nama sudah dikunci.':' Bisa diubah lagi dalam '+lk+' hari.')):'');
@@ -7042,27 +7043,23 @@ body #developerTab .dp-card:has(.dp-bio:not(.is-empty)),body #developerTab .dp-c
     var host=$('dpTitles')||$('dpStories');if(!host||!host.parentNode) return null;
     if(!document.getElementById('dpPcStyle')){
       var st=document.createElement('style');st.id='dpPcStyle';
-      st.textContent='#dpPc{margin:12px 16px 4px;padding:14px 14px 12px;border-radius:18px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#fff;font-family:"Outfit",system-ui,sans-serif}'
+      st.textContent='#dpPc{position:relative;margin:8px 16px 0;font-family:"Outfit",system-ui,sans-serif}'
       +'#dpPc[hidden]{display:none}'
-      +'#dpPc .pc-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px}'
-      +'#dpPc .pc-ttl{font-size:15px;font-weight:800}'
-      +'#dpPc .pc-left{font-size:12.5px;font-weight:500;color:rgba(255,255,255,.55)}'
-      +'#dpPc .pc-bar{height:6px;margin:10px 0 12px;border-radius:6px;background:rgba(255,255,255,.1);overflow:hidden}'
-      +'#dpPc .pc-fill{display:block;height:100%;width:0;border-radius:6px;background:#ff2b2b;transition:width .4s ease}'
-      +'#dpPc .pc-next{display:flex;align-items:center;gap:12px;width:100%;padding:10px 12px 10px 10px;border:1px solid rgba(255,255,255,.12);border-radius:14px;background:rgba(255,255,255,.04);color:#fff;font:inherit;text-align:left;cursor:pointer;-webkit-tap-highlight-color:transparent}'
-      +'#dpPc .pc-next:active{background:rgba(255,255,255,.09)}'
-      +'#dpPc .pc-ic{flex:none;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:rgba(255,43,43,.16);color:#ff6b6b;font-size:15px}'
-      +'#dpPc .pc-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}'
-      +'#dpPc .pc-tx b{font-size:14.5px;font-weight:700}'
-      +'#dpPc .pc-tx small{font-size:12.5px;color:rgba(255,255,255,.55);line-height:1.3}'
-      +'#dpPc .pc-go{flex:none;font-size:12px;color:rgba(255,255,255,.4)}'
-      +'@media (prefers-reduced-motion:reduce){#dpPc .pc-fill{transition:none}}';
+      +'#dpPc .pc-next{display:flex;align-items:center;gap:10px;width:100%;padding:6px 40px 6px 6px;border:1px solid rgba(255,255,255,.08);border-radius:999px;background:rgba(255,255,255,.035);color:#fff;font:inherit;text-align:left;cursor:pointer;-webkit-tap-highlight-color:transparent}'
+      +'#dpPc .pc-next:active{background:rgba(255,255,255,.08)}'
+      +'#dpPc .pc-ring{flex:none;position:relative;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#ff2b2b calc(var(--p,0)*1%),rgba(255,255,255,.12) 0)}'
+      +'#dpPc .pc-ring::before{content:"";position:absolute;inset:3px;border-radius:50%;background:#0b0b0d}'
+      +'#dpPc .pc-ring b{position:relative;font-size:9.5px;font-weight:800;letter-spacing:-.2px}'
+      +'#dpPc .pc-tx{flex:1;min-width:0;font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}'
+      +'#dpPc .pc-tx span{color:rgba(255,255,255,.5);font-weight:500}'
+      +'#dpPc .pc-go{flex:none;font-size:11px;color:rgba(255,255,255,.35)}'
+      +'#dpPc .pc-x{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:28px;height:28px;border:0;border-radius:50%;background:none;color:rgba(255,255,255,.4);font-size:12px;cursor:pointer;-webkit-tap-highlight-color:transparent}'
+      +'#dpPc .pc-x:active{background:rgba(255,255,255,.08)}';
       document.head.appendChild(st);
     }
     pcEl=document.createElement('section');pcEl.id='dpPc';pcEl.setAttribute('aria-label','Kelengkapan profil');
-    pcEl.innerHTML='<div class="pc-top"><span class="pc-ttl" id="pcTtl"></span><span class="pc-left" id="pcLeft"></span></div>'
-      +'<div class="pc-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" id="pcBar"><span class="pc-fill" id="pcFill"></span></div>'
-      +'<button type="button" class="pc-next" id="pcNext"><span class="pc-ic"><i class="fa-solid" id="pcIc" aria-hidden="true"></i></span><span class="pc-tx"><b id="pcT"></b><small id="pcS"></small></span><i class="fa-solid fa-chevron-right pc-go" aria-hidden="true"></i></button>';
+    pcEl.innerHTML='<button type="button" class="pc-next" id="pcNext"><span class="pc-ring" id="pcRing"><b id="pcPct"></b></span><span class="pc-tx"><span id="pcT"></span></span><i class="fa-solid fa-chevron-right pc-go" aria-hidden="true"></i></button>'
+      +'<button type="button" class="pc-x" id="pcX" aria-label="Sembunyikan"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>';
     host.parentNode.insertBefore(pcEl,host);
     pcEl.querySelector('#pcNext').addEventListener('click',function(){
       var n=pcState().next;if(!n) return;
@@ -7070,20 +7067,19 @@ body #developerTab .dp-card:has(.dp-bio:not(.is-empty)),body #developerTab .dp-c
       if(n.k==='coll'){window.__dpWantColl=true;setTimeout(function(){try{window.__dpPickSource();}catch(e){}},260);return;}
       setTimeout(function(){try{n.go();}catch(e){}},300);
     });
+    pcEl.querySelector('#pcX').addEventListener('click',function(){lsSet('dpPcHide','1');pcEl.hidden=true;});
     return pcEl;
   }
   function pcRender(){
     var el=pcBuild();if(!el) return;
     var st=pcState();
-    if(!st.next){el.hidden=true;return;}
+    if(!st.next||lsGet('dpPcHide','')==='1'){el.hidden=true;return;}
     el.hidden=false;
-    var left=st.total-st.done;
-    $('pcTtl').textContent='Profil '+st.pct+'% lengkap';
-    $('pcLeft').textContent='Tinggal '+left+' langkah';
-    $('pcFill').style.width=st.pct+'%';
-    $('pcBar').setAttribute('aria-valuenow',String(st.pct));
-    var ic=$('pcIc');ic.className='fa-solid '+st.next.ic;
-    $('pcT').textContent=st.next.t;$('pcS').textContent=st.next.s;
+    $('pcRing').style.setProperty('--p',String(st.pct));
+    $('pcPct').textContent=st.pct+'%';
+    $('pcT').innerHTML='';
+    var t=$('pcT');t.textContent=st.next.t;
+    el.querySelector('#pcNext').setAttribute('aria-label','Profil '+st.pct+'% lengkap. '+st.next.t);
   }
   window.addEventListener('zusmo:profile-saved',function(){setTimeout(pcRender,50);});
   window.addEventListener('storage',function(){pcRender();});
@@ -11274,7 +11270,7 @@ MsgList.prototype.buildInto=function(parent,m,prev){
  if(isPinMarker(m)){this.buildPinNote(parent,m);return;}
  var divId=o.dividerId?o.dividerId():null;if(divId!=null&&String(divId)===String(m.id)){parent.appendChild(el('div','zc-newdiv',o.dividerLabel?o.dividerLabel():'Pesan baru'));first=true;}
  var row=el('div','zc-row '+(mine?'zc-mine':'zc-other')+(first?' zc-first':''));row.dataset.messageId=m.id;row.dataset.senderId=sender;
- var a=null;if(o.showAvatar){a=avatar(sender,m.username,true);if(!first)a.style.visibility='hidden';row.appendChild(a);if(first)a.classList.add('zc-profile-target');if(first)a.addEventListener('click',this.profileClick(sender,m.username));}
+ var a=null;if(o.showAvatar){a=avatar(sender,m.username,true);if(!first){a.style.opacity='0';a.setAttribute('aria-hidden','true');}else{a.classList.add('zc-profile-target');a.setAttribute('role','button');a.tabIndex=0;a.setAttribute('aria-label','Lihat profil '+(m.username||'pengguna'));a.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();this.click();}});}row.appendChild(a);a.addEventListener('click',this.profileClick(sender,m.username));}
  var bub=el('div','zc-bub');if(!mine&&o.showName&&first){var nameLine=el('div','zc-name-line');var spf=S.profiles[sender]||{},sdn=spf.display_name&&String(spf.display_name).trim(),suser='@'+(m.username||'Pengguna');var nm=el('button','zc-nm',sdn||suser);nm.type='button';nm.style.color='hsl('+hue(sender)+',80%,72%)';if(sdn)ncApply(nm,sender,'hsl('+hue(sender)+',80%,72%)');nm.addEventListener('click',this.profileClick(sender,m.username));nameLine.appendChild(nm);if(zcIsOwnerUser(m.username||spf.username)||(S.owner&&S.owner.uid&&String(sender)===String(S.owner.uid)))nameLine.appendChild(verifiedBadge('1.02em'));var role=chatRoleLabel(m.role_label||m.role||'');if(role){nameLine.appendChild(zcRoleBadge(role,spf));}bub.appendChild(nameLine);}
  var quoted=m.deleted_at?null:replyOf(m);if(quoted){var q=el('div','zc-quoted');q.appendChild(el('b','',quoted.username||'Pengguna'));q.appendChild(el('span','',quoted.text||'Pesan'));q.setAttribute('role','button');q.tabIndex=0;q.setAttribute('aria-label','Lompat ke pesan yang dibalas');q.addEventListener('click',function(e){e.stopPropagation();self.jumpTo(quoted,m);});q.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();e.stopPropagation();self.jumpTo(quoted,m);}});bub.appendChild(q);}
  if(m.deleted_at){var dx=el('div','zc-tx zc-deleted');dx.innerHTML='<i class="fa-solid fa-ban" aria-hidden="true"></i>';dx.appendChild(el('span','',txtOf(m)));bub.appendChild(dx);}else{var _sn=zcStkNum(replyOf(m)?replyOf(m).body:rawContent(m));if(_sn){var sx=el('div','zc-tx zc-stk-msg'),si=document.createElement('img');si.src=zcStkSrc(_sn);si.alt='Stiker '+_sn;si.loading='lazy';si.decoding='async';si.draggable=false;si.onerror=function(){sx.textContent='Stiker';sx.classList.remove('zc-stk-msg');};sx.appendChild(si);bub.classList.add('zc-bub-stk');bub.appendChild(sx);}else{var _tn=zcTxNode(txtOf(m));bub.appendChild(_tn.node);if(_tn.me&&!mine)bub.classList.add('zc-bub-mn');}}
@@ -15814,8 +15810,9 @@ function more(){if(F.loaded&&!F.busy&&!F.end&&!F.err&&!F.off&&navigator.onLine!=
 function maybeMore(){requestAnimationFrame(function(){var s=$('zfSent');if(s&&s.getBoundingClientRect().top<window.innerHeight+600)more();});}
 
 /* ---------- tampilan kartu ---------- */
+var FY_LIKE_X=50; /* 1 suka = 50 suka (tampilan saja; ubah angka ini untuk mengganti pengali) */
 function paint(p){var u=p._ui;if(!u)return;u.like.setAttribute('aria-pressed',p.liked?'true':'false');u.like.setAttribute('aria-label',p.liked?'Batalkan suka':'Suka');u.like.textContent='';u.like.appendChild(ic((p.liked?'fa-solid':'fa-regular')+' fa-heart'));
- u.cnt.textContent=p.likes>0?fmt(p.likes)+' suka':'Belum ada suka';u.cm.setAttribute('aria-label','Komentar. '+p.comments);u.cmn.textContent=p.comments>0?fmt(p.comments):'';
+ u.cnt.textContent=p.likes>0?fmt(p.likes*FY_LIKE_X)+' suka':'Belum ada suka';u.cm.setAttribute('aria-label','Komentar. '+p.comments);u.cmn.textContent=p.comments>0?fmt(p.comments):'';
  var sv=!!F.saved[keyOf(p)];u.save.setAttribute('aria-pressed',sv?'true':'false');u.save.textContent='';u.save.appendChild(ic((sv?'fa-solid':'fa-regular')+' fa-bookmark'));}
 function toggleLike(p,want){if(typeof want!=='boolean')want=!p.liked;if(want===p.liked)return;
  p.liked=want;p.likes=Math.max(0,p.likes+(want?1:-1));paint(p);p._want=want;if(p._fly)return;sendLike(p);}
@@ -16009,7 +16006,7 @@ new MutationObserver(function(){document.body.classList.toggle('fyp-solid',P.cla
 #dpEdOv .ps-tx b{display:flex;align-items:baseline;gap:8px;font-size:16px;font-weight:800}
 #dpEdOv .ps-tag{font-style:normal;font-size:11.5px;font-weight:600;color:rgba(255,255,255,.45)}
 #dpEdOv .ps-tx small{font-size:12.5px;font-weight:500;line-height:1.3;color:rgba(255,255,255,.55)}
-#dpEdOv .ps-opt.on .ps-tx small{color:#ff9a9a}
+#dpEdOv .ps-opt.on .ps-tx small{color:#4ade80;font-weight:600}
 #dpEdOv .ps-edit{flex:none;padding:9px 15px;border:1px solid rgba(255,255,255,.2);border-radius:999px;background:transparent;color:#fff;font:700 13px/1 'Outfit',system-ui,sans-serif;cursor:pointer}
 #dpEdOv .ps-edit:active{background:rgba(255,255,255,.1)}
 #dpEdOv .ps-lockic{flex:none;width:36px;display:grid;place-items:center;color:#ffb454;font-size:15px}
@@ -17150,7 +17147,7 @@ body.kz-fp-open .fd-layer{z-index:1000200}
 #zcChat #zcFullProfile .zc-fp-quick .zc-pf-follow[data-state="following"]{background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(255,255,255,.04))}
 #zcChat #zcFullProfile .zc-fp-quick .zc-sheet-chat:disabled{opacity:.55;cursor:not-allowed}
 #zcChat #zcFullProfile .dp-link,#developerTab .dp-link{display:inline-flex;align-items:center;gap:7px}
-#zcChat #zcFullProfile .dp-link::before,#developerTab .dp-link::before{content:"\f0c1";font-family:"Font Awesome 6 Free","Font Awesome 5 Free",FontAwesome;font-weight:900;font-style:normal;font-size:12px;line-height:1;flex:none;-webkit-font-smoothing:antialiased}
+#zcChat #zcFullProfile .dp-link::before{content:"\f0c1";font-family:"Font Awesome 6 Free","Font Awesome 5 Free",FontAwesome;font-weight:900;font-style:normal;font-size:12px;line-height:1;flex:none;-webkit-font-smoothing:antialiased}
 .zc-thread-hint{flex:none;margin:8px 12px 0;padding:8px 12px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.72);font-size:12px;line-height:1.45;text-align:center}
 .zc-thread-hint[hidden]{display:none}
 </style>
