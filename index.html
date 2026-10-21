@@ -1429,7 +1429,7 @@ body.ev-solid #zusmoWallpaperBg,body.ev-solid #zxOldWall{display:none!important}
 <span class="ev-lbl" id="evWdLbl">E-wallet</span>
 <div class="ev-sel" id="evSel"><input type="hidden" id="evWdType" value=""><button type="button" class="pc-input ev-sel-btn" id="evWdTrig" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="evWdLbl evWdVal"><span class="ev-sel-v" id="evWdVal"><span class="ev-sel-ph">Pilih e-wallet</span></span><i class="fa-solid fa-chevron-down ev-sel-ch" aria-hidden="true"></i></button><ul class="ev-sel-list" id="evWdList" role="listbox" aria-label="E-wallet" hidden><li role="option" tabindex="-1" data-v="DANA" aria-selected="false"><img src="zusmo-asset/logodana.png" alt="" loading="lazy" decoding="async" onerror="this.style.visibility='hidden'"><span>DANA</span></li><li role="option" tabindex="-1" data-v="GoPay" aria-selected="false"><img src="zusmo-asset/logogopay.png" alt="" loading="lazy" decoding="async" onerror="this.style.visibility='hidden'"><span>GoPay</span></li><li role="option" tabindex="-1" data-v="ShopeePay" aria-selected="false"><img src="zusmo-asset/logospay.png" alt="" loading="lazy" decoding="async" onerror="this.style.visibility='hidden'"><span>ShopeePay</span></li><li role="option" tabindex="-1" data-v="OVO" aria-selected="false"><img src="zusmo-asset/logoovo.png" alt="" loading="lazy" decoding="async" onerror="this.style.visibility='hidden'"><span>OVO</span></li></ul></div>
 <div class="ev-err" id="evErrWdType" role="alert" hidden></div>
-<label class="ev-lbl" for="evWdNum">Nomor rekening</label>
+<label class="ev-lbl" for="evWdNum" id="evWdNumLbl">Nomor DANA</label>
 <div class="pc-input-wrap"><i class="pc-input-icon fa-solid fa-hashtag" aria-hidden="true"></i><input class="pc-input" id="evWdNum" type="tel" inputmode="numeric" maxlength="20" placeholder="08123456789"></div>
 <div class="ev-err" id="evErrWdNum" role="alert" hidden></div>
 <label class="ev-lbl" for="evWdName">Atas nama rekening</label>
@@ -1440,7 +1440,7 @@ body.ev-solid #zusmoWallpaperBg,body.ev-solid #zxOldWall{display:none!important}
 <label class="ev-check" id="evCheckRow"><input type="checkbox" id="evConsent"><span>Saya paham WhatsApp saya bisa dibatasi sementara.<button type="button" class="ev-linkbtn" data-ev-risk>Lihat risiko</button></span></label>
 <div class="ev-err" id="evErrConsent" role="alert" hidden></div>
 
-<button type="submit" class="pc-btn" id="evSubmit"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Kirim ke admin lewat WhatsApp</button>
+<button type="submit" class="pc-btn" id="evSubmit"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Daftar sewa</button>
 
 </form>
 </section>
@@ -1588,10 +1588,11 @@ function checkPerson(id,label){
  if(!/[A-Za-zÀ-ɏ]/.test(v))return label+' harus berisi huruf.';
  return '';
 }
+function wdName(){return $('evWdType').value||'e-wallet'}
 function checkWdNum(){
  var n=cleanNum($('evWdNum').value);
- if(!n)return 'Nomor rekening wajib diisi.';
- if(!/^\+?\d{9,15}$/.test(n))return 'Nomor rekening hanya angka, 9 sampai 15 digit.';
+ if(!n)return 'Nomor '+wdName()+' wajib diisi.';
+ if(!/^\+?\d{9,15}$/.test(n))return 'Nomor '+wdName()+' hanya angka, 9 sampai 15 digit.';
  return '';
 }
 function validate(){
@@ -1692,13 +1693,15 @@ Array.prototype.forEach.call(root.querySelectorAll('input[name="evLogin"]'),func
  var inp=$('evWdType'),btn=$('evWdTrig'),list=$('evWdList'),val=$('evWdVal');
  function close(f){list.hidden=true;btn.setAttribute('aria-expanded','false');if(f){try{btn.focus()}catch(e){}}}
  function open(){list.hidden=false;btn.setAttribute('aria-expanded','true');var s=list.querySelector('[aria-selected="true"]')||list.firstElementChild;if(s)s.focus()}
- function pick(li){
+ function pick(li,quiet){
   var v=li.getAttribute('data-v');inp.value=v;
   Array.prototype.forEach.call(list.children,function(c){c.setAttribute('aria-selected',String(c===li))});
   val.textContent='';var im=li.querySelector('img').cloneNode(true);var sp=document.createElement('span');sp.textContent=v;val.appendChild(im);val.appendChild(sp);
-  close(true);setErr('wdType','');hideReady();renderSummary();
+  var lb=$('evWdNumLbl');if(lb)lb.textContent='Nomor '+v;
+  if(!quiet)close(true);setErr('wdType','');if($('evWdNum').value)setErr('wdNum','');hideReady();renderSummary();
  }
  btn.addEventListener('click',function(){list.hidden?open():close()});
+ pick(list.firstElementChild,true); /* default: DANA */
  list.addEventListener('click',function(e){var li=e.target.closest('li');if(li)pick(li)});
  list.addEventListener('keydown',function(e){
   var li=e.target.closest('li');if(!li)return;
