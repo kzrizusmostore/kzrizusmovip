@@ -1406,15 +1406,6 @@ body.ev-solid #zusmoWallpaperBg,body.ev-solid #zxOldWall{display:none!important}
 #eventTab[data-ev-theme="light"] .ev-lg-d{display:none!important}
 #eventTab .ev-lg:has(.ev-crop-in){background:rgba(255,255,255,.13);border-radius:12px;padding:0 12px;box-sizing:border-box;height:46px;margin:5px 0}
 #eventTab[data-ev-theme="light"] .ev-lg:has(.ev-crop-in){background:#e8eeec}
-#eventTab .ev-code{display:flex;align-items:center;justify-content:center;gap:3px;width:100%;max-width:140px;flex:none}
-#eventTab .ev-code i{flex:1 1 0;min-width:0;aspect-ratio:4/5;display:flex;align-items:center;justify-content:center;border-radius:4px;background:rgba(255,255,255,.1);color:#fff;font:700 9px/1 'Space Mono',monospace;font-style:normal;box-sizing:border-box}
-#eventTab .ev-code i.on{background:rgba(255,255,255,.04);box-shadow:inset 0 0 0 1.5px #22c55e}
-#eventTab .ev-code u{flex:none;width:5px;height:1.5px;margin:0 1px;background:#fff;text-decoration:none}
-#eventTab .ev-lg:has(.ev-code){background:rgba(255,255,255,.13);border-radius:12px;padding:0 12px;box-sizing:border-box;height:46px;margin:5px 0}
-#eventTab[data-ev-theme="light"] .ev-lg:has(.ev-code){background:#e8eeec}
-#eventTab[data-ev-theme="light"] .ev-code i{background:#161a1d;color:#fff}
-#eventTab[data-ev-theme="light"] .ev-code i.on{background:#fff;color:#161a1d;box-shadow:inset 0 0 0 1.5px #22c55e}
-#eventTab[data-ev-theme="light"] .ev-code u{background:#0f172a}
 
 /* teks pengantar Sewa WA */
 #eventTab .ev-pitch{margin:0 0 14px;padding:16px 14px;border-radius:20px;background:linear-gradient(160deg,rgba(37,211,102,.1),rgba(56,189,248,.05) 70%,rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.09)}
@@ -1641,6 +1632,16 @@ body.ev-solid.ev-light .topbar-pro{background:rgba(255,255,255,.86)!important;-w
 #eventTab #evWa>*:nth-child(6){animation-delay:.16s}
 #eventTab #evWa>*:nth-child(7){animation-delay:.2s}
 @keyframes evUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+#eventTab .ev-radio span .ev-code{display:flex;align-items:center;justify-content:center;gap:2.5px;width:100%;max-width:150px;flex:none;font-size:0}
+#eventTab .ev-radio span .ev-code .c{flex:1 1 0;min-width:0;aspect-ratio:5/6;display:flex;align-items:center;justify-content:center;border-radius:32%;background:rgba(255,255,255,.075);color:rgba(255,255,255,.26);font:700 6.5px/1 'Space Mono',monospace;letter-spacing:0;box-sizing:border-box;transition:none}
+#eventTab .ev-radio span .ev-code .c.on{background:transparent;box-shadow:inset 0 0 0 1.6px #22c55e;color:rgba(255,255,255,.4)}
+#eventTab .ev-radio span .ev-code .d{flex:none;width:6px;height:1.6px;margin:0 2px;border-radius:1px;background:#fff}
+#eventTab .ev-lg:has(.ev-code){background:#0a1014;border-radius:12px;padding:0 10px;box-sizing:border-box;height:46px;margin:5px 0}
+#eventTab[data-ev-theme="light"] .ev-lg:has(.ev-code){background:#eef2f1}
+#eventTab[data-ev-theme="light"] .ev-radio span .ev-code .c{background:#161a1d;color:rgba(255,255,255,.3)}
+#eventTab[data-ev-theme="light"] .ev-radio span .ev-code .c.on{background:#fff;box-shadow:inset 0 0 0 1.6px #22c55e;color:rgba(15,23,42,.35)}
+#eventTab[data-ev-theme="light"] .ev-radio span .ev-code .d{background:#0f172a}
+
 #eventTab .ev-tut{position:fixed!important;inset:0;width:100%;height:100%;box-sizing:border-box;z-index:2147483000}
 #eventTab[data-ev-theme="light"] .ev-tut{background:rgba(15,23,42,.38);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
 #eventTab[data-ev-theme="light"] .ev-tut-box{background:#fff;border:1px solid rgba(15,23,42,.1);box-shadow:0 18px 50px rgba(15,23,42,.22)}
@@ -1710,7 +1711,9 @@ body.ev-solid.ev-light .topbar-pro{background:rgba(255,255,255,.86)!important;-w
 <section id="evHub" aria-label="Daftar layanan Event">
 <div class="kl-sec"><span>Layanan</span></div>
 <div class="kl-card ev-card" role="button" tabindex="0" aria-label="Buka Sewa WhatsApp" data-ev-open="wa"><div class="kl-body"><span class="pc-head-icon"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></span><div class="kl-body-txt"><h3>Sewa WhatsApp</h3><p>Kirim pesan WhatsApp massal. Rp200/chat atau Rp1.000/menit.</p></div><span class="kl-go"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span></div></div>
-<div class="kl-card ev-card ev-static" aria-label="Clipper, segera hadir"><div class="kl-body"><div class="kl-body-txt"><h3>Clipper<span class="ev-soon">Segera hadir</span></h3></div></div></div>
+<div class="kl-card ev-card ev-static" aria-label="Setor Email, segera hadir"><div class="kl-body"><span class="pc-head-icon"><i class="fa-solid fa-envelope" aria-hidden="true"></i></span><div class="kl-body-txt"><h3>Setor Email<span class="ev-soon">Segera hadir</span></h3></div></div></div>
+ <div class="kl-card ev-card ev-static" aria-label="Clipper, segera hadir"><div class="kl-body"><span class="pc-head-icon"><i class="fa-solid fa-scissors" aria-hidden="true"></i></span><div class="kl-body-txt"><h3>Clipper<span class="ev-soon">Segera hadir</span></h3></div></div></div>
+ <div class="kl-card ev-card ev-static" aria-label="Zusmo Mabar, segera hadir"><div class="kl-body"><span class="pc-head-icon"><i class="fa-solid fa-gamepad" aria-hidden="true"></i></span><div class="kl-body-txt"><h3>Zusmo Mabar<span class="ev-soon">Segera hadir</span></h3></div></div></div>
 </section>
 
 <section id="evWa" aria-label="Sewa WA Blast" hidden>
@@ -1744,7 +1747,7 @@ body.ev-solid.ev-light .topbar-pro{background:rgba(255,255,255,.86)!important;-w
 <div class="ev-err" id="evErrNum" role="alert" hidden></div>
 <span class="ev-lbl" id="evLoginLbl">Metode login</span>
 <div class="ev-radios" role="radiogroup" aria-labelledby="evLoginLbl">
-<label class="ev-radio"><input type="radio" name="evLogin" value="code"><span><b class="ev-lg" aria-hidden="true"><b class="ev-code" aria-hidden="true"><i class="on">X</i><i>X</i><i>X</i><i>X</i><u></u><i>X</i><i>X</i><i>X</i><i>X</i></b></b>Input Code</span><em class="ev-rec">Disarankan</em></label>
+<label class="ev-radio"><input type="radio" name="evLogin" value="code"><span><b class="ev-lg" aria-hidden="true"><b class="ev-code" aria-hidden="true"><b class="c on">X</b><b class="c">X</b><b class="c">X</b><b class="c">X</b><b class="d"></b><b class="c">X</b><b class="c">X</b><b class="c">X</b><b class="c">X</b></b></b>Input Code</span><em class="ev-rec">Disarankan</em></label>
 <label class="ev-radio"><input type="radio" name="evLogin" value="qr"><span><b class="ev-lg" aria-hidden="true"><b class="ev-crop ev-crop-qr"><img src="zusmo-asset/qrc.png" alt="" decoding="async" draggable="false"></b></b>QR Code</span></label>
 </div>
 <div class="ev-err" id="evErrLogin" role="alert" hidden></div>
