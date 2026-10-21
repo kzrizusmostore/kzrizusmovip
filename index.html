@@ -1136,8 +1136,6 @@ AccessTokenDua
 #eventTab .ev-ready h4{margin:0 0 6px;font:800 .95rem 'Rajdhani','Outfit',sans-serif;color:#7CFFA0}
 #eventTab .ev-ready pre{margin:10px 0 12px;padding:12px;border-radius:12px;background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.85);font:500 .7rem/1.6 'Outfit',sans-serif;white-space:pre-wrap;overflow-wrap:anywhere;max-height:240px;overflow:auto}
 #eventTab .ev-ghost{width:100%;padding:13px;border-radius:13px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);color:#fff;font:700 .8rem 'Outfit',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
-#eventTab .ev-est{font-size:.8rem;line-height:1.55;font-weight:700;color:#fff;margin-top:2px}
-#eventTab .ev-est.zero{color:#ffc861}
 @media (max-width:380px){#eventTab .ev-sum dl div{grid-template-columns:1fr;gap:2px}}
 @media (prefers-reduced-motion:reduce){#eventTab *{transition:none!important}}
 
@@ -1202,13 +1200,28 @@ body.ev-solid #zusmoWallpaperBg,body.ev-solid #zxOldWall{display:none!important}
 #eventTab .ev-chip{display:inline-flex;align-items:center;gap:7px;padding:7px 12px;border-radius:99px;background:rgba(255,43,43,.1);border:1px solid rgba(255,43,43,.4);font:700 .72rem 'Outfit',sans-serif;color:#fff}
 #eventTab .ev-chip i{color:#ff6b6b}
 #eventTab .ev-rate{padding:18px 10px}
-#eventTab .ev-sim{margin-top:12px;border-radius:14px;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.08)}
-#eventTab .ev-sim>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px;padding:12px 14px;font:700 .8rem 'Outfit',sans-serif;color:rgba(255,255,255,.85)}
-#eventTab .ev-sim>summary::-webkit-details-marker{display:none}
-#eventTab .ev-sim>summary i:first-child{color:#ff6b6b}
-#eventTab .ev-sim>summary .fa-chevron-down{margin-left:auto;font-size:.7rem;color:rgba(255,255,255,.5);transition:transform .2s}
-#eventTab .ev-sim[open]>summary .fa-chevron-down{transform:rotate(180deg)}
-#eventTab .ev-sim .ev-box{padding:0 14px 14px}
+#eventTab .ev-tut{margin:4px 0 14px;padding:14px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09)}
+#eventTab .ev-tut-h{display:flex;align-items:center;gap:8px;margin:0 0 10px;font:800 .92rem 'Rajdhani','Outfit',sans-serif;letter-spacing:.5px;color:#fff}
+#eventTab .ev-tut-h i{color:#ff6b6b}
+#eventTab .ev-tut-tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+#eventTab .ev-tut-tab{display:flex;align-items:center;justify-content:center;gap:7px;padding:10px 8px;border-radius:12px;border:1.5px solid rgba(255,43,43,.3);background:rgba(255,43,43,.04);color:rgba(255,255,255,.75);font:700 .78rem 'Outfit',sans-serif;cursor:pointer}
+#eventTab .ev-tut-tab.on{background:rgba(255,43,43,.18);border-color:#ff2b2b;color:#fff}
+#eventTab .ev-tut-list{list-style:none;counter-reset:evt;margin:0;padding:0;display:grid;gap:10px}
+#eventTab .ev-tut-list[hidden]{display:none}
+#eventTab .ev-tut-step{counter-increment:evt;display:flex;gap:12px;align-items:flex-start;padding:10px;border-radius:14px;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.08)}
+#eventTab .ev-tut-thumb{position:relative;flex:none;width:92px;padding:0;border:1.5px solid rgba(255,255,255,.14);border-radius:10px;overflow:hidden;background:#000;cursor:zoom-in;line-height:0}
+#eventTab .ev-tut-thumb img{display:block;width:100%;height:auto;aspect-ratio:613/1280;object-fit:cover}
+#eventTab .ev-tut-thumb::after{content:counter(evt);position:absolute;top:5px;left:5px;width:20px;height:20px;border-radius:50%;background:#ff2b2b;color:#fff;font:800 .68rem/20px 'Outfit',sans-serif;text-align:center}
+#eventTab .ev-tut-txt{min-width:0}
+#eventTab .ev-tut-txt b{display:block;font:800 .82rem 'Outfit',sans-serif;color:#fff;margin-bottom:3px}
+#eventTab .ev-tut-txt p{margin:0;font-size:.74rem;line-height:1.55;color:rgba(255,255,255,.75)}
+#eventTab .ev-tut-txt p b{display:inline;font-size:inherit;color:#fff;margin:0}
+#eventTab .ev-tut-note{margin:10px 2px 0;font-size:.68rem;line-height:1.5;color:rgba(255,255,255,.55)}
+#eventTab .ev-tut-note i{color:#ff6b6b}
+#eventTab .ev-zoom{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.88)}
+#eventTab .ev-zoom[hidden]{display:none}
+#eventTab .ev-zoom img{max-width:100%;max-height:100%;border-radius:12px;object-fit:contain}
+#eventTab .ev-zoom-x{position:absolute;top:max(12px,env(safe-area-inset-top));right:14px;width:40px;height:40px;border-radius:50%;border:0;background:rgba(255,255,255,.16);color:#fff;font-size:1rem;cursor:pointer}
 #eventTab .ev-fg{margin:0 0 6px}
 #eventTab .ev-fg+.ev-fg{margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.08)}
 #eventTab .ev-fg-t{margin:0 0 12px;font:800 .78rem 'Outfit',sans-serif;letter-spacing:1px;text-transform:uppercase;color:#ff6b6b}
@@ -1241,12 +1254,6 @@ body.ev-solid #zusmoWallpaperBg,body.ev-solid #zxOldWall{display:none!important}
 <button type="button" class="ev-pkg ev-rate" role="radio" aria-checked="false" data-m="menit"><i class="fa-regular fa-clock" aria-hidden="true"></i><b>Per menit</b><span class="ev-price">Rp1.000<small>per 1 menit</small></span></button>
 </div>
 <div class="ev-err" id="evErrMethod" role="alert" hidden></div>
-<details class="ev-sim"><summary><i class="fa-solid fa-calculator" aria-hidden="true"></i> Hitung estimasi<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary>
-<div class="ev-box">
-<label class="ev-lbl" for="evEstIn" id="evEstLbl">Pilih tarif dulu</label>
-<div class="pc-input-wrap"><i class="pc-input-icon fa-solid fa-hashtag" aria-hidden="true"></i><input class="pc-input" id="evEstIn" type="number" inputmode="numeric" min="0" step="1" placeholder="Jumlah" disabled></div>
-<div class="ev-est" id="evEstOut" aria-live="polite"></div>
-</div></details>
 </section>
 
 <section class="ev-card2 ev-card2-form" aria-labelledby="evRegH">
@@ -1266,6 +1273,15 @@ body.ev-solid #zusmoWallpaperBg,body.ev-solid #zxOldWall{display:none!important}
 <label class="ev-radio"><input type="radio" name="evLogin" value="code"><span><i class="fa-solid fa-keyboard" aria-hidden="true"></i> Input Code</span></label>
 </div>
 <div class="ev-err" id="evErrLogin" role="alert" hidden></div>
+<div class="ev-tut" id="evTut">
+<h4 class="ev-tut-h"><i class="fa-solid fa-circle-question" aria-hidden="true"></i> Tutorial login / tautkan perangkat</h4>
+<div class="ev-tut-tabs" role="tablist" aria-label="Pilih tutorial"><button type="button" role="tab" class="ev-tut-tab on" id="evTutTabQr" data-ev-tut="qr" aria-selected="true" aria-controls="evTutQr"><i class="fa-solid fa-qrcode" aria-hidden="true"></i> QR Code</button><button type="button" role="tab" class="ev-tut-tab" id="evTutTabCode" data-ev-tut="code" aria-selected="false" aria-controls="evTutCode"><i class="fa-solid fa-keyboard" aria-hidden="true"></i> Input Code</button></div>
+<ol class="ev-tut-list" id="evTutQr" role="tabpanel" aria-labelledby="evTutTabQr"><li class="ev-tut-step"><button type="button" class="ev-tut-thumb" data-ev-zoom="zusmo-asset/wb1.jpg" aria-label="Perbesar gambar langkah 1"><img src="zusmo-asset/wb1.jpg" alt="Langkah 1: Buka menu titik tiga" loading="lazy" decoding="async"></button><div class="ev-tut-txt"><b>Buka menu titik tiga</b><p>Buka WhatsApp di HP yang nomornya mau dipakai, lalu ketuk ikon titik tiga (⋮) di pojok kanan atas.</p></div></li><li class="ev-tut-step"><button type="button" class="ev-tut-thumb" data-ev-zoom="zusmo-asset/wb2.jpg" aria-label="Perbesar gambar langkah 2"><img src="zusmo-asset/wb2.jpg" alt="Langkah 2: Pilih Perangkat tertaut" loading="lazy" decoding="async"></button><div class="ev-tut-txt"><b>Pilih Perangkat tertaut</b><p>Di menu yang muncul, pilih <b>Perangkat tertaut</b>.</p></div></li><li class="ev-tut-step"><button type="button" class="ev-tut-thumb" data-ev-zoom="zusmo-asset/wb3.jpg" aria-label="Perbesar gambar langkah 3"><img src="zusmo-asset/wb3.jpg" alt="Langkah 3: Ketuk Tautkan Perangkat" loading="lazy" decoding="async"></button><div class="ev-tut-txt"><b>Ketuk Tautkan Perangkat</b><p>Ketuk tombol hijau <b>Tautkan Perangkat</b>. Tulisan &ldquo;0 dari 4 perangkat tertaut&rdquo; berarti belum ada perangkat yang tersambung.</p></div></li><li class="ev-tut-step"><button type="button" class="ev-tut-thumb" data-ev-zoom="zusmo-asset/wb4.jpg" aria-label="Perbesar gambar langkah 4"><img src="zusmo-asset/wb4.jpg" alt="Langkah 4: Pindai QR dari admin" loading="lazy" decoding="async"></button><div class="ev-tut-txt"><b>Pindai QR dari admin</b><p>Layar <b>Pindai kode QR</b> terbuka. Ketuk <b>Oke</b>, lalu arahkan kamera ke QR Code yang dikirim admin sampai berhasil terbaca.</p></div></li></ol>
+<ol class="ev-tut-list" id="evTutCode" role="tabpanel" aria-labelledby="evTutTabCode" hidden><li class="ev-tut-step"><button type="button" class="ev-tut-thumb" data-ev-zoom="zusmo-asset/wb1.jpg" aria-label="Perbesar gambar langkah 1"><img src="zusmo-asset/wb1.jpg" alt="Langkah 1: Buka menu titik tiga" loading="lazy" decoding="async"></button><div class="ev-tut-txt"><b>Buka menu titik tiga</b><p>Buka WhatsApp di HP yang nomornya mau dipakai, lalu ketuk ikon titik tiga (⋮) di pojok kanan atas.</p></div></li><li class="ev-tut-step"><button type="button" class="ev-tut-thumb" data-ev-zoom="zusmo-asset/wb2.jpg" aria-label="Perbesar gambar langkah 2"><img src="zusmo-asset/wb2.jpg" alt="Langkah 2: Pilih Perangkat tertaut" loading="lazy" decoding="async"></button><div class="ev-tut-txt"><b>Pilih Perangkat tertaut</b><p>Di menu yang muncul, pilih <b>Perangkat tertaut</b>.</p></div></li><li class="ev-tut-step"><button type="button" class="ev-tut-thumb" data-ev-zoom="zusmo-asset/wb3.jpg" aria-label="Perbesar gambar langkah 3"><img src="zusmo-asset/wb3.jpg" alt="Langkah 3: Ketuk Tautkan Perangkat" loading="lazy" decoding="async"></button><div class="ev-tut-txt"><b>Ketuk Tautkan Perangkat</b><p>Ketuk tombol hijau <b>Tautkan Perangkat</b>. Tulisan &ldquo;0 dari 4 perangkat tertaut&rdquo; berarti belum ada perangkat yang tersambung.</p></div></li><li class="ev-tut-step"><button type="button" class="ev-tut-thumb" data-ev-zoom="zusmo-asset/wb5.jpg" aria-label="Perbesar gambar langkah 4"><img src="zusmo-asset/wb5.jpg" alt="Langkah 4: Pilih tautkan dengan nomor telepon" loading="lazy" decoding="async"></button><div class="ev-tut-txt"><b>Pilih tautkan dengan nomor telepon</b><p>Di layar <b>Pindai kode QR</b>, ketuk tulisan <b>Tautkan dengan nomor telepon saja</b> di bagian bawah layar.</p></div></li><li class="ev-tut-step"><button type="button" class="ev-tut-thumb" data-ev-zoom="zusmo-asset/wb6.jpg" aria-label="Perbesar gambar langkah 5"><img src="zusmo-asset/wb6.jpg" alt="Langkah 5: Masukkan kode dari admin" loading="lazy" decoding="async"></button><div class="ev-tut-txt"><b>Masukkan kode dari admin</b><p>Ketik kode 8 karakter (format XXXX-XXXX) yang diberikan admin pada kolom <b>Masukkan kode</b>. Masukkan kode hanya saat admin sedang memandu prosesnya.</p></div></li></ol>
+<p class="ev-tut-note"><i class="fa-solid fa-circle-info" aria-hidden="true"></i> Ketuk gambar untuk memperbesar. Jangan bagikan PIN atau kode verifikasi WhatsApp (6 digit) ke siapa pun.</p>
+</div>
+<div class="ev-zoom" id="evZoom" hidden><button type="button" class="ev-zoom-x" data-ev-zoom-close aria-label="Tutup"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button><img id="evZoomImg" alt="Gambar tutorial diperbesar"></div>
+
 <div class="ev-sr"><input type="radio" name="evMethod" value="chat" tabindex="-1" aria-hidden="true"><input type="radio" name="evMethod" value="menit" tabindex="-1" aria-hidden="true"></div>
 </div>
 
@@ -1349,29 +1365,22 @@ function renderSummary(){
  row(dl,'Penarikan','GoPay, ShopeePay, atau OVO');
  box.appendChild(dl);
 }
-function renderEst(){
- var inp=$('evEstIn'),lbl=$('evEstLbl'),out=$('evEstOut'),p=cur();
- out.className='ev-est';
- if(!p){inp.disabled=true;inp.value='';lbl.textContent='Pilih tarif dulu';out.textContent='';return}
- inp.disabled=false;
- lbl.textContent=S.method==='chat'?'Jumlah chat berhasil terkirim dan valid':'Durasi pekerjaan valid (menit)';
- var raw=inp.value.trim();
- if(raw===''){out.textContent='';return}
- var v=Number(raw);
- if(!isFinite(v)||v<0||Math.floor(v)!==v){out.textContent='Masukkan bilangan bulat 0 atau lebih.';return}
- var total=v*p.rate,txt=rp(total)+' ('+nf(v)+' '+p.unit+' x '+rp(p.rate)+')';
- if(total<CFG.minWd){
-  out.className='ev-est zero';
-  out.textContent=txt+'. Belum bisa WD, kurang '+rp(CFG.minWd-total)+' (minimal WD '+rp(CFG.minWd)+').';
- }else out.textContent=txt+'. Sudah memenuhi minimal WD '+rp(CFG.minWd)+'.';
+function tutShow(k){
+ var qr=$('evTutQr'),cd=$('evTutCode'),tq=$('evTutTabQr'),tc=$('evTutTabCode');
+ if(!qr||!cd)return;
+ qr.hidden=(k!=='qr');cd.hidden=(k!=='code');
+ tq.classList.toggle('on',k==='qr');tc.classList.toggle('on',k==='code');
+ tq.setAttribute('aria-selected',String(k==='qr'));tc.setAttribute('aria-selected',String(k==='code'));
 }
+function zoomOpen(src){var z=$('evZoom');if(!z)return;$('evZoomImg').src=src;z.hidden=false}
+function zoomClose(){var z=$('evZoom');if(!z)return;z.hidden=true;$('evZoomImg').removeAttribute('src')}
 function hideReady(){var r=$('evReady');if(r)r.hidden=true}
 function sync(){
  var rs=root.querySelectorAll('input[name="evMethod"]');
  for(var i=0;i<rs.length;i++)rs[i].checked=(rs[i].value===S.method);
  var cs=root.querySelectorAll('.ev-pkg');
  for(var j=0;j<cs.length;j++)cs[j].setAttribute('aria-checked',String(cs[j].getAttribute('data-m')===S.method));
- renderSummary();renderEst();hideReady();
+ renderSummary();hideReady();
 }
 function choose(m){S.method=m;setErr('method','');sync()}
 
@@ -1474,6 +1483,11 @@ root.addEventListener('click',function(e){
  var op=t.closest('[data-ev-open]');
  if(op){view(op.getAttribute('data-ev-open'));return}
  if(t.closest('[data-ev-back]')){view('hub');return}
+ var zm=t.closest('[data-ev-zoom]');
+ if(zm){zoomOpen(zm.getAttribute('data-ev-zoom'));return}
+ if(t.closest('[data-ev-zoom-close]')||t.id==='evZoom'){zoomClose();return}
+ var tt=t.closest('[data-ev-tut]');
+ if(tt){tutShow(tt.getAttribute('data-ev-tut'));return}
  var b=t.closest('.ev-pkg');
  if(b){choose(b.getAttribute('data-m'));return}
  if(t.closest('#evCopy')){copyText($('evMsg').textContent)}
@@ -1486,14 +1500,13 @@ Array.prototype.forEach.call(root.querySelectorAll('input[name="evMethod"]'),fun
  r.addEventListener('change',function(){choose(this.value)});
 });
 Array.prototype.forEach.call(root.querySelectorAll('input[name="evLogin"]'),function(r){
- r.addEventListener('change',function(){setErr('login','');renderSummary();hideReady()});
+ r.addEventListener('change',function(){setErr('login','');renderSummary();hideReady();tutShow(this.value)});
 });
 [['evNum','num'],['evName','name'],['evWdNum','wdNum'],['evWdName','wdName']].forEach(function(x){
  $(x[0]).addEventListener('input',function(){setErr(x[1],'');hideReady()});
 });
 $('evWdType').addEventListener('change',function(){setErr('wdType','');hideReady()});
 $('evConsent').addEventListener('change',function(){setErr('consent','');hideReady()});
-$('evEstIn').addEventListener('input',renderEst);
 $('evForm').addEventListener('submit',function(e){
  e.preventDefault();
  if(validate())showReady();
