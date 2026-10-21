@@ -1374,6 +1374,21 @@ body.ev-solid #zusmoWallpaperBg,body.ev-solid #zxOldWall{display:none!important}
 #eventTab .ev-qa>summary>i{margin-left:auto;font-size:.66rem;color:rgba(255,255,255,.45);transition:transform .2s}
 #eventTab .ev-qa[open]>summary>i{transform:rotate(180deg);color:#4ade80}
 #eventTab .ev-qa>p{margin:0 0 12px;padding:0 2px;font-size:.76rem;line-height:1.6;color:rgba(255,255,255,.72)}
+
+/* halaman Sewa WA: tanpa navbar bawah, konten lebih rapat ke atas */
+body.ev-nobar .app-bottombar{display:none!important}
+body.ev-nobar #eventTab .ev-wrap{padding-bottom:calc(28px + env(safe-area-inset-bottom,0px))}
+#eventTab .ev-wrap{margin-top:-12px;padding-top:0}
+#eventTab .ev-wrap::before{top:-34px;height:300px}
+
+/* banner slide otomatis (1, 2, 1, 2 ... selalu maju) */
+#eventTab .ev-slider{position:relative;overflow:hidden;margin:0 0 14px;border-radius:18px;aspect-ratio:16/7;background:#0d1512;border:1px solid rgba(255,255,255,.09)}
+#eventTab .ev-slider-track{display:flex;height:100%;will-change:transform}
+#eventTab .ev-slide{flex:0 0 100%;height:100%}
+#eventTab .ev-slide img{display:block;width:100%;height:100%;object-fit:cover}
+#eventTab .ev-dots{position:absolute;left:0;right:0;bottom:8px;display:flex;justify-content:center;gap:6px;pointer-events:none}
+#eventTab .ev-dots i{width:6px;height:6px;border-radius:50%;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.7);transition:width .25s,background .25s}
+#eventTab .ev-dots i.on{width:16px;border-radius:99px;background:#25d366;border-color:#fff}
 </style><div class="ev-wrap">
 
 <section id="evHub" aria-label="Daftar layanan Event">
@@ -1390,14 +1405,7 @@ body.ev-solid #zusmoWallpaperBg,body.ev-solid #zxOldWall{display:none!important}
 <div><p class="pc-title"><span class="ev-t-g">SEWA</span>&nbsp;<span class="wht">WA BLAST</span></p>
 <p class="ev-top-sub">Sewakan akun WhatsApp kamu, dapat saldo langsung.</p></div>
 </header>
-<div class="ev-pitch">
-<div class="ev-tags"><span><i class="fa-solid fa-briefcase" aria-hidden="true"></i>Freelance</span><span><i class="fa-solid fa-coins" aria-hidden="true"></i>Modal WA bisa cuan</span></div>
-<h2 class="ev-pitch-h">Nomor WhatsApp dipakai kerja di ZUSMO</h2>
-<p class="ev-pitch-l">Banyak orang kira penghasilan tambahan sulit didapat, padahal di ZUSMO sistemnya lebih jelas.</p>
-</div>
-<div class="ev-promo"><b class="ev-promo-t"><i class="fa-solid fa-sack-dollar" aria-hidden="true"></i> Punya nomor WhatsApp nganggur?</b>
-<p>Daftarkan nomor, admin yang memandu prosesnya. Saldo bisa ditarik ke DANA, GoPay, ShopeePay, atau OVO.</p>
-<ul><li><i class="fa-solid fa-check" aria-hidden="true"></i> Daftar cepat lewat WhatsApp</li><li><i class="fa-solid fa-check" aria-hidden="true"></i> Tanpa modal, tanpa ribet</li><li><i class="fa-solid fa-check" aria-hidden="true"></i> WD mulai Rp5.000</li></ul></div>
+<div class="ev-slider" id="evSlider" role="region" aria-label="Banner promo Sewa WA Blast"><div class="ev-slider-track" id="evSliderTrack"><div class="ev-slide"><img src="zusmo-asset/wbb1.png" alt="Banner Sewa WA Blast 1" decoding="async" onerror="this.style.visibility='hidden'"></div><div class="ev-slide"><img src="zusmo-asset/wbb2.png" alt="Banner Sewa WA Blast 2" decoding="async" onerror="this.style.visibility='hidden'"></div><div class="ev-slide" aria-hidden="true"><img src="zusmo-asset/wbb1.png" alt="" decoding="async" onerror="this.style.visibility='hidden'"></div></div><div class="ev-dots" aria-hidden="true"><i class="on"></i><i></i></div></div>
 
 <section class="ev-card2" id="evSecRate" aria-labelledby="evPriceH">
 <h2 class="ev-sec" id="evPriceH"><span class="ev-sec-n">1</span>Pilih tarif</h2>
@@ -1661,12 +1669,43 @@ function copyText(t){
  else fallbackCopy(t,done);
 }
 
+var SL={i:0,t:null,n:2};
+function slGo(){
+ var tr=$('evSliderTrack');if(!tr)return;
+ SL.i++;
+ tr.style.transition='transform .6s ease';
+ tr.style.transform='translateX(-'+(SL.i*100)+'%)';
+ var ds=root.querySelectorAll('.ev-dots i');
+ for(var k=0;k<ds.length;k++)ds[k].classList.toggle('on',k===(SL.i%SL.n));
+ if(SL.i>=SL.n){ /* sampai salinan slide 1: lompat diam-diam ke awal, tetap terlihat maju terus */
+  setTimeout(function(){
+   tr.style.transition='none';tr.style.transform='translateX(0)';SL.i=0;
+   void tr.offsetWidth;
+  },680);
+ }
+}
+function slRun(on){
+ if(on&&!SL.t)SL.t=setInterval(slGo,4000);
+ else if(!on&&SL.t){clearInterval(SL.t);SL.t=null}
+}
+function syncBar(){
+ var on=!$('evWa').hidden&&root.classList.contains('active');
+ document.body.classList.toggle('ev-nobar',on);
+ slRun(on&&!document.hidden);
+}
+document.addEventListener('visibilitychange',function(){syncBar()});
 function view(v){
  tutClose();
  $('evHub').hidden=(v!=='hub');
  $('evWa').hidden=(v!=='wa');
+ syncBar();
  try{window.scrollTo(0,0)}catch(e){}
 }
+/* keluar dari halaman Event lewat jalur apa pun: kembali ke daftar layanan dan navbar tampil lagi */
+try{new MutationObserver(function(){
+ if(!root.classList.contains('active')&&!$('evWa').hidden){tutClose();$('evHub').hidden=false;$('evWa').hidden=true}
+ syncBar();
+}).observe(root,{attributes:true,attributeFilter:['class']})}catch(e){}
 
 root.addEventListener('click',function(e){
  var t=e.target;if(!t||!t.closest)return;
