@@ -1184,116 +1184,127 @@ AccessTokenDua
 /* background solid (video/gambar wallpaper dimatikan) saat halaman Event aktif */
 body.ev-solid,body.ev-solid:before{background:#000!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
 body.ev-solid #zusmoWallpaperBg,body.ev-solid #zxOldWall{display:none!important}
+
+#eventTab .ev-rates{grid-template-columns:1fr 1fr}
+#eventTab .ev-rate{grid-template-columns:1fr;justify-items:center;text-align:center;gap:6px;padding:16px 10px}
+#eventTab .ev-rate>i{font-size:1.3rem;color:#ff6b6b}
+#eventTab .ev-rate .ev-price{text-align:center;font-size:1.35rem}
+#eventTab .ev-rate .ev-price small{font-size:.66rem}
+#eventTab .ev-rate>small{padding:3px 9px;border-radius:99px;background:rgba(255,255,255,.07);color:rgba(255,255,255,.75);font-weight:700}
+#eventTab .ev-sep{display:flex;align-items:center;gap:10px;margin:18px 0 12px;font:800 .78rem 'Outfit',sans-serif;letter-spacing:1px;text-transform:uppercase;color:#ff6b6b}
+#eventTab .ev-sep::before,#eventTab .ev-sep::after{content:'';flex:1;height:1px;background:rgba(255,43,43,.3)}
 </style><div class="ev-wrap">
 
 <section id="evHub" aria-label="Daftar layanan Event">
 <div class="kl-sec"><span>Layanan</span></div>
-<div class="kl-card ev-card" role="button" tabindex="0" aria-label="Buka Sewa WhatsApp" data-ev-open="wa"><div class="kl-body"><span class="pc-head-icon"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></span><div class="kl-body-txt"><h3>Sewa WhatsApp</h3><p>Sewakan nomor WhatsApp untuk broadcast pesan. Dibayar per chat atau per menit.</p></div><span class="kl-go"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span></div></div>
+<div class="kl-card ev-card" role="button" tabindex="0" aria-label="Buka Sewa WhatsApp" data-ev-open="wa"><div class="kl-body"><span class="pc-head-icon"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></span><div class="kl-body-txt"><h3>Sewa WhatsApp</h3><p>Sewa WA Blast: kirim pesan massal. Rp200 per chat atau Rp1.000 per menit, WD minimal Rp5.000.</p></div><span class="kl-go"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span></div></div>
 <div class="kl-card ev-card ev-static" aria-label="Clipper"><div class="kl-body"><div class="kl-body-txt"><h3>Clipper</h3></div></div></div>
 </section>
 
-<section id="evWa" aria-label="Sewa WhatsApp / Broadcast Pesan" hidden>
+<section id="evWa" aria-label="Sewa WhatsApp Blast" hidden>
 <button type="button" class="ev-back" data-ev-back><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Kembali ke Event</button>
 
 <header class="ev-hero">
 <span class="ev-hero-ic"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></span>
-<p class="pc-title"><span class="red">SEWA</span>&nbsp;<span class="wht">WHATSAPP</span></p>
-<p class="pc-sub">Broadcast Pesan &bull; Per Chat &amp; Per Menit</p>
-<p class="ev-hero-note">Broadcast hanya boleh dilakukan kepada penerima yang sudah menyetujui menerima pesan, dan tetap wajib mematuhi kebijakan WhatsApp.</p>
+<p class="pc-title"><span class="red">SEWA</span>&nbsp;<span class="wht">WA BLAST</span></p>
+<p class="pc-sub">Per Chat &bull; Per Menit &bull; WD Min. Rp5.000</p>
+<p class="ev-hero-note">Sewa WA Blast adalah layanan atau platform untuk mengirimkan pesan WhatsApp secara massal ke banyak nomor sekaligus. Kirim hanya ke penerima yang sudah setuju dan patuhi kebijakan WhatsApp.</p>
 </header>
 
-<div class="ev-risk-banner" role="note"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i><div><b>Baca risiko sebelum menyewakan nomor</b><span>Akun bisa dibatasi dan pemulihan tidak dapat dijamin.</span></div></div>
+<div class="ev-risk-banner" role="note"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i><div><b>1 nomor = 1&times; blast</b><span>Nomor yang sudah login atau logout tidak bisa blast lagi. Akun bisa dibatasi WhatsApp dan pemulihan tidak dapat dijamin.</span></div></div>
 
 <div class="ev-group">
 <details class="ev-acc" open><summary><span class="ev-acc-n"><i class="fa-solid fa-list-check" aria-hidden="true"></i></span>Cara kerja<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary>
 <div class="ev-acc-body"><ol class="ev-steps">
-<li>Kamu mendaftarkan nomor WhatsApp yang akan disewakan.</li>
-<li>Kamu memilih pricelist per chat atau per menit.</li>
-<li>Admin KZRIZUSMO memeriksa pendaftaran dan menyepakati target pekerjaan.</li>
-<li>Akun dipakai setelah kamu memahami cara kerjanya dan memberi persetujuan.</li>
-<li>Hasil pekerjaan diperiksa berdasarkan target paket.</li>
-<li>Pembayaran diberikan jika target yang disepakati tercapai sesuai ketentuan.</li>
+<li>Pilih metode login: QR Code atau Input Code.</li>
+<li>Pilih tarif: per chat atau per menit.</li>
+<li>Isi data nomor WhatsApp dan tujuan penarikan dana (WD).</li>
+<li>Kirim pendaftaran ke admin lewat WhatsApp, lalu admin memandu proses login.</li>
+<li>Nomor dipakai untuk 1&times; blast. Hasil diverifikasi admin.</li>
+<li>Saldo bisa ditarik lewat GoPay, ShopeePay, atau OVO jika sudah mencapai minimal WD Rp5.000.</li>
 </ol></div></details>
 <details class="ev-acc ev-acc-warn"><summary><span class="ev-acc-n"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i></span>Peringatan risiko<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary>
 <div class="ev-acc-body"><ul class="ev-rules">
 <li>Akun WhatsApp dapat dibatasi sementara jika pola penggunaannya dianggap melanggar kebijakan.</li>
 <li>Lama pembatasan tidak dapat dijamin hanya beberapa jam.</li>
-<li>Admin KZRIZUSMO akan memberi arahan dan membantu mencari solusi yang tersedia jika terjadi pembatasan.</li>
+<li>Admin akan memberi arahan dan membantu mencari solusi jika terjadi pembatasan.</li>
 <li>Pemulihan akun tidak dapat dijamin.</li>
 <li>Pahami risikonya sebelum menyewakan nomor kamu.</li>
 </ul></div></details>
-<details class="ev-acc"><summary><span class="ev-acc-n"><i class="fa-solid fa-scale-balanced" aria-hidden="true"></i></span>Aturan target &amp; pembayaran<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary>
+<details class="ev-acc"><summary><span class="ev-acc-n"><i class="fa-solid fa-scale-balanced" aria-hidden="true"></i></span>Aturan &amp; pembayaran<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary>
 <div class="ev-acc-body"><ul class="ev-rules">
-<li>Metode pembayaran dan pricelist dipilih sebelum pekerjaan dimulai.</li>
-<li>Setiap paket punya target minimum dan batas maksimum.</li>
-<li>Jika target minimum tidak tercapai, tidak ada pembayaran untuk pekerjaan tersebut.</li>
-<li>Jika target tercapai, pembayaran mengikuti tarif paket dan hasil yang valid, tidak melebihi batas paket.</li>
-<li>Pesan duplikat, gagal terkirim, atau hasil yang tidak valid tidak dihitung.</li>
-<li>Pekerjaan baru dianggap berhasil setelah hasilnya diverifikasi.</li>
+<li>1 nomor = 1&times; blast. WhatsApp yang sudah login atau logout tidak bisa blast lagi.</li>
+<li>Per chat: Rp200 untuk setiap chat yang berhasil terkirim.</li>
+<li>Per menit: Rp1.000 untuk setiap menit pekerjaan yang valid.</li>
+<li>Minimal penarikan dana (WD) Rp5.000 untuk kedua metode.</li>
+<li>Pesan duplikat, gagal terkirim, atau hasil tidak valid tidak dihitung.</li>
+<li>Pekerjaan dianggap berhasil setelah diverifikasi admin. Tarif dapat disesuaikan admin di kemudian hari.</li>
 </ul></div></details>
 </div>
 
 <section class="ev-card2" aria-labelledby="evPriceH">
-<h2 class="ev-sec" id="evPriceH"><span class="ev-sec-n">1</span>Pilih pricelist</h2>
-<div class="ev-seg" role="tablist" aria-label="Metode pricelist">
-<button type="button" role="tab" class="ev-seg-b on" data-ev-seg="chat" aria-selected="true"><i class="fa-regular fa-comment-dots" aria-hidden="true"></i> Per chat</button>
-<button type="button" role="tab" class="ev-seg-b" data-ev-seg="menit" aria-selected="false"><i class="fa-regular fa-clock" aria-hidden="true"></i> Per menit</button>
+<h2 class="ev-sec" id="evPriceH"><span class="ev-sec-n">1</span>Pilih tarif</h2>
+<div class="ev-rates ev-pkgs" role="radiogroup" aria-label="Metode tarif">
+<button type="button" class="ev-pkg ev-rate" role="radio" aria-checked="false" data-m="chat"><i class="fa-regular fa-comment-dots" aria-hidden="true"></i><b>Per chat</b><span class="ev-price">Rp200<small>per 1 chat</small></span><small>Minimal WD Rp5.000</small></button>
+<button type="button" class="ev-pkg ev-rate" role="radio" aria-checked="false" data-m="menit"><i class="fa-regular fa-clock" aria-hidden="true"></i><b>Per menit</b><span class="ev-price">Rp1.000<small>per 1 menit</small></span><small>Minimal WD Rp5.000</small></button>
 </div>
-<div class="ev-pane" data-ev-pane="chat">
-<p class="ev-note">Dibayar per chat yang <b>berhasil terkirim</b> dan memenuhi kriteria pekerjaan yang disepakati. Ketuk paket untuk memilih.</p>
-<div class="ev-pkgs" id="evListChat" role="radiogroup" aria-label="Pricelist per chat"></div>
-</div>
-<div class="ev-pane" data-ev-pane="menit" hidden>
-<p class="ev-note">Dihitung dari durasi penggunaan yang benar-benar memenuhi kriteria pekerjaan dan tercatat wajar, bukan sekadar waktu akun terhubung.</p>
-<div class="ev-pkgs" id="evListMenit" role="radiogroup" aria-label="Pricelist per menit"></div>
-</div>
-<p class="ev-note ev-note-end">Harga di atas adalah harga awal dan dapat disesuaikan admin di kemudian hari.</p>
+<div class="ev-err" id="evErrMethod" role="alert" hidden></div>
+<p class="ev-note ev-note-end">Per chat dihitung dari chat yang berhasil terkirim. Per menit dihitung dari durasi kerja yang valid.</p>
 </section>
 
 <section class="ev-card2" aria-labelledby="evSimH">
 <h2 class="ev-sec" id="evSimH"><span class="ev-sec-n">2</span>Simulasi pendapatan</h2>
 <div class="ev-box">
-<label class="ev-lbl" for="evEstIn" id="evEstLbl">Pilih paket dulu</label>
+<label class="ev-lbl" for="evEstIn" id="evEstLbl">Pilih tarif dulu</label>
 <div class="pc-input-wrap"><i class="pc-input-icon fa-solid fa-calculator" aria-hidden="true"></i><input class="pc-input" id="evEstIn" type="number" inputmode="numeric" min="0" step="1" placeholder="Masukkan angka" disabled></div>
-<div class="ev-est" id="evEstOut" aria-live="polite">Pilih paket di pricelist atau formulir untuk menghitung.</div>
+<div class="ev-est" id="evEstOut" aria-live="polite">Pilih tarif di atas untuk menghitung.</div>
 <p class="ev-hint" style="margin:8px 2px 0">Ini hanya simulasi, bukan saldo atau transaksi. Hasil akhir mengikuti verifikasi admin.</p>
 </div>
-
 </section>
 
 <section class="ev-card2 ev-card2-form" aria-labelledby="evRegH">
 <h2 class="ev-sec" id="evRegH"><span class="ev-sec-n">3</span>Daftarkan nomor</h2>
 <form class="ev-form" id="evForm" novalidate autocomplete="off">
-<div class="pc-head"><div class="pc-head-icon"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></div><div class="pc-head-text"><h3>FORMULIR PENDAFTARAN</h3><p>Lengkapi data lalu kirim ke admin lewat WhatsApp</p></div></div>
 
 <label class="ev-lbl" for="evNum">Nomor WhatsApp aktif</label>
-<div class="pc-input-wrap"><i class="pc-input-icon fa-brands fa-whatsapp" aria-hidden="true"></i><input class="pc-input" id="evNum" type="tel" inputmode="tel" autocomplete="tel" maxlength="22" placeholder="+6281234567890" aria-describedby="evNumHint evErrNum"></div>
+<div class="pc-input-wrap"><i class="pc-input-icon fa-brands fa-whatsapp" aria-hidden="true"></i><input class="pc-input" id="evNum" type="tel" inputmode="tel" autocomplete="tel" maxlength="22" placeholder="+6281234567890"></div>
 <div class="ev-err" id="evErrNum" role="alert" hidden></div>
-<p class="ev-hint" id="evNumHint">Wajib memakai kode negara, misalnya +62xxxxxxxxxxx. Formulir ini tidak meminta PIN, kode OTP, atau kode verifikasi WhatsApp. Jangan membagikannya kepada siapa pun.</p>
+<p class="ev-hint">Wajib memakai kode negara, misalnya +62xxxxxxxxxxx. Formulir ini tidak meminta PIN, kode OTP, atau kode verifikasi WhatsApp.</p>
 
 <label class="ev-lbl" for="evName">Nama pemilik nomor</label>
-<div class="pc-input-wrap"><i class="pc-input-icon fa-solid fa-user" aria-hidden="true"></i><input class="pc-input" id="evName" type="text" autocomplete="name" maxlength="60" placeholder="Nama lengkap pemilik nomor" aria-describedby="evErrName"></div>
+<div class="pc-input-wrap"><i class="pc-input-icon fa-solid fa-user" aria-hidden="true"></i><input class="pc-input" id="evName" type="text" autocomplete="name" maxlength="60" placeholder="Nama lengkap pemilik nomor"></div>
 <div class="ev-err" id="evErrName" role="alert" hidden></div>
 
-<span class="ev-lbl" id="evMethodLbl">Metode pembayaran</span>
+<span class="ev-lbl" id="evLoginLbl">Metode login</span>
+<div class="ev-radios" role="radiogroup" aria-labelledby="evLoginLbl">
+<label class="ev-radio"><input type="radio" name="evLogin" value="qr"><span><i class="fa-solid fa-qrcode" aria-hidden="true"></i> QR Code</span></label>
+<label class="ev-radio"><input type="radio" name="evLogin" value="code"><span><i class="fa-solid fa-keyboard" aria-hidden="true"></i> Input Code</span></label>
+</div>
+<div class="ev-err" id="evErrLogin" role="alert" hidden></div>
+
+<span class="ev-lbl" id="evMethodLbl">Metode tarif</span>
 <div class="ev-radios" role="radiogroup" aria-labelledby="evMethodLbl">
 <label class="ev-radio"><input type="radio" name="evMethod" value="chat"><span><i class="fa-regular fa-comment-dots" aria-hidden="true"></i> Per chat</span></label>
 <label class="ev-radio"><input type="radio" name="evMethod" value="menit"><span><i class="fa-regular fa-clock" aria-hidden="true"></i> Per menit</span></label>
 </div>
-<div class="ev-err" id="evErrMethod" role="alert" hidden></div>
 
-<label class="ev-lbl" for="evPkg">Pricelist</label>
-<div class="pc-input-wrap"><i class="pc-input-icon fa-solid fa-tags" aria-hidden="true"></i><select class="pc-input" id="evPkg" aria-describedby="evErrPkg"></select></div>
-<div class="ev-err" id="evErrPkg" role="alert" hidden></div>
+<div class="ev-sep"><span>Penarikan dana (WD)</span></div>
 
-<label class="ev-lbl" for="evTarget" id="evTargetLbl">Target pekerjaan</label>
-<div class="pc-input-wrap"><i class="pc-input-icon fa-solid fa-bullseye" aria-hidden="true"></i><input class="pc-input" id="evTarget" type="number" inputmode="numeric" step="1" placeholder="Pilih paket dulu" readonly aria-describedby="evTargetHint evErrTarget"></div>
-<div class="ev-err" id="evErrTarget" role="alert" hidden></div>
-<p class="ev-hint" id="evTargetHint"></p>
+<label class="ev-lbl" for="evWdType">Metode penarikan</label>
+<div class="pc-input-wrap"><i class="pc-input-icon fa-solid fa-wallet" aria-hidden="true"></i><select class="pc-input" id="evWdType"><option value="">Pilih e-wallet</option><option value="GoPay">GoPay</option><option value="ShopeePay">ShopeePay</option><option value="OVO">OVO</option></select></div>
+<div class="ev-err" id="evErrWdType" role="alert" hidden></div>
+
+<label class="ev-lbl" for="evWdNum">Nomor rekening</label>
+<div class="pc-input-wrap"><i class="pc-input-icon fa-solid fa-hashtag" aria-hidden="true"></i><input class="pc-input" id="evWdNum" type="tel" inputmode="numeric" maxlength="20" placeholder="Nomor e-wallet, mis. 08123456789"></div>
+<div class="ev-err" id="evErrWdNum" role="alert" hidden></div>
+
+<label class="ev-lbl" for="evWdName">Atas nama rekening</label>
+<div class="pc-input-wrap"><i class="pc-input-icon fa-solid fa-id-card" aria-hidden="true"></i><input class="pc-input" id="evWdName" type="text" maxlength="60" placeholder="Nama sesuai akun e-wallet"></div>
+<div class="ev-err" id="evErrWdName" role="alert" hidden></div>
 
 <div class="ev-sum" id="evSum" aria-live="polite"></div>
 
-<label class="ev-check" id="evCheckRow"><input type="checkbox" id="evConsent" aria-describedby="evErrConsent"><span>Saya sudah membaca dan menyetujui ketentuan layanan, termasuk risiko pembatasan akun WhatsApp yang tidak dapat dijamin pemulihannya.</span></label>
+<label class="ev-check" id="evCheckRow"><input type="checkbox" id="evConsent"><span>Saya menyetujui ketentuan layanan: 1 nomor hanya 1&times; blast, risiko pembatasan akun WhatsApp tidak dapat dijamin pemulihannya, dan penarikan dana minimal Rp5.000.</span></label>
 <div class="ev-err" id="evErrConsent" role="alert" hidden></div>
 
 <button type="submit" class="pc-btn" id="evSubmit"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Daftarkan Nomor WhatsApp</button>
@@ -1306,7 +1317,6 @@ body.ev-solid #zusmoWallpaperBg,body.ev-solid #zxOldWall{display:none!important}
 <button type="button" class="ev-ghost" id="evCopy"><i class="fa-regular fa-copy" aria-hidden="true"></i> Salin ringkasan</button>
 </div>
 </form>
-
 </section>
 
 <div class="footer" style="margin-top:14px;">&copy; 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
@@ -1318,77 +1328,24 @@ var root=document.getElementById('eventTab');
 if(!root||root.__evInit)return;
 root.__evInit=1;
 
-/* Harga awal. Admin cukup mengubah angka di objek ini. */
+/* Tarif. Admin cukup mengubah angka di objek ini. */
 var CFG={
  adminWa:'6283800287738',
- chat:[
-  {id:'mini',name:'Paket Mini',rate:25,min:500,max:1000},
-  {id:'reguler',name:'Paket Reguler',rate:20,min:1001,max:5000},
-  {id:'besar',name:'Paket Besar',rate:15,min:5001,max:10000}
- ],
- menit:[
-  {id:'m10',name:'Paket 10 Menit',price:10000,min:10,max:10},
-  {id:'m30',name:'Paket 30 Menit',price:25000,min:30,max:30},
-  {id:'m60',name:'Paket 60 Menit',price:45000,min:60,max:60},
-  {id:'m120',name:'Paket 120 Menit',price:80000,min:120,max:120}
- ]
+ minWd:5000,
+ chat:{name:'Per chat',rate:200,unit:'chat',per:'per 1 chat'},
+ menit:{name:'Per menit',rate:1000,unit:'menit',per:'per 1 menit'}
 };
-var LBL={chat:'Per chat',menit:'Per menit'};
-var S={method:'',pkg:'',lastKey:''};
+var S={method:''};
 
 function $(id){return document.getElementById(id)}
 function rp(n){return 'Rp'+Number(n).toLocaleString('id-ID')}
 function nf(n){return Number(n).toLocaleString('id-ID')}
-function unit(m){return m==='chat'?'chat':'menit'}
-function listOf(m){return CFG[m]||[]}
-function find(m,id){var l=listOf(m);for(var i=0;i<l.length;i++){if(l[i].id===id)return l[i]}return null}
-function cur(){return S.method&&S.pkg?find(S.method,S.pkg):null}
-function cap(m,p){return m==='chat'?p.rate*p.max:p.price}
+function cur(){return S.method?CFG[S.method]:null}
+function minUnits(p){return Math.ceil(CFG.minWd/p.rate)}
 function toast(msg,ok){var f=window.showToast;if(typeof f==='function'){try{ok?f(msg,'success'):f(msg)}catch(e){}}}
+function checked(name){var r=root.querySelector('input[name="'+name+'"]:checked');return r?r.value:''}
+var LOGIN={qr:'QR Code',code:'Input Code'};
 
-/* ---------- Pricelist ---------- */
-function pkgHtml(m,p){
- var price=m==='chat'?rp(p.rate)+'<small>per chat berhasil terkirim</small>':rp(p.price)+'<small>per paket</small>';
- return '<button type="button" class="ev-pkg" role="radio" aria-checked="false" data-m="'+m+'" data-id="'+p.id+'">'
-  +'<span><b>'+p.name+'</b><br><small>Target minimal '+nf(p.min)+' '+unit(m)+' dan maksimal '+nf(p.max)+' '+unit(m)+'.<br>Batas pembayaran '+rp(cap(m,p))+'</small></span>'
-  +'<span class="ev-price">'+price+'</span></button>';
-}
-function renderLists(){
- ['chat','menit'].forEach(function(m){
-  $(m==='chat'?'evListChat':'evListMenit').innerHTML=listOf(m).map(function(p){return pkgHtml(m,p)}).join('');
- });
-}
-
-/* ---------- Sinkronisasi pilihan ---------- */
-function fillSelect(){
- var sel=$('evPkg'),h='<option value="">'+(S.method?'Pilih paket':'Pilih metode dulu')+'</option>';
- listOf(S.method).forEach(function(p){
-  var d=S.method==='chat'?rp(p.rate)+' per chat':rp(p.price);
-  h+='<option value="'+p.id+'">'+p.name+' ('+d+')</option>';
- });
- sel.innerHTML=h;
- sel.value=S.pkg||'';
- sel.disabled=!S.method;
-}
-function setTarget(){
- var inp=$('evTarget'),hint=$('evTargetHint'),lbl=$('evTargetLbl'),p=cur(),key=S.method+':'+S.pkg;
- if(!p){
-  inp.value='';inp.readOnly=true;inp.removeAttribute('min');inp.removeAttribute('max');
-  inp.placeholder='Pilih paket dulu';hint.textContent='';lbl.textContent='Target pekerjaan';
-  S.lastKey='';return;
- }
- if(S.method==='chat'){
-  inp.readOnly=false;inp.min=p.min;inp.max=p.max;inp.placeholder=nf(p.min)+' - '+nf(p.max);
-  if(S.lastKey!==key)inp.value=p.min;
-  lbl.textContent='Target pekerjaan (jumlah chat)';
-  hint.textContent='Isi antara '+nf(p.min)+' dan '+nf(p.max)+' chat berhasil terkirim.';
- }else{
-  inp.readOnly=true;inp.removeAttribute('min');inp.removeAttribute('max');
-  inp.value=p.min;lbl.textContent='Target pekerjaan (durasi menit)';
-  hint.textContent='Target tetap '+nf(p.min)+' menit sesuai paket.';
- }
- S.lastKey=key;
-}
 function row(dl,k,v){
  var d=document.createElement('div'),a=document.createElement('dt'),b=document.createElement('dd');
  a.textContent=k;b.textContent=v;d.appendChild(a);d.appendChild(b);dl.appendChild(d);
@@ -1397,63 +1354,47 @@ function renderSummary(){
  var box=$('evSum'),p=cur();
  box.textContent='';
  var h=document.createElement('h4');h.textContent='Ringkasan sebelum kamu menyetujui';box.appendChild(h);
+ var dl=document.createElement('dl');
  if(!p){
   var n=document.createElement('p');n.className='ev-note';n.style.margin='0';
-  n.textContent='Pilih metode dan pricelist untuk melihat target, periode pengerjaan, cara menghitung hasil, dan batas pembayaran.';
+  n.textContent='Pilih metode tarif untuk melihat tarif dan syarat penarikan dana.';
   box.appendChild(n);return;
  }
- var m=S.method,dl=document.createElement('dl'),t=Number($('evTarget').value);
- row(dl,'Metode',LBL[m]);
- row(dl,'Pricelist',p.name);
- row(dl,'Tarif',m==='chat'?rp(p.rate)+' per chat berhasil terkirim':rp(p.price)+' per paket');
- row(dl,'Target minimum',nf(p.min)+' '+unit(m));
- row(dl,'Batas maksimum',nf(p.max)+' '+unit(m));
- if(m==='chat'&&t)row(dl,'Target kamu',nf(t)+' chat');
- row(dl,'Batas pembayaran',rp(cap(m,p)));
- row(dl,'Periode pengerjaan','Disepakati bersama admin sebelum pekerjaan dimulai.');
- row(dl,'Cara menghitung',m==='chat'
-  ?'Hanya chat yang berhasil terkirim, bukan duplikat, dan lolos verifikasi admin.'
-  :'Durasi pekerjaan yang benar-benar berjalan dan tercatat wajar, bukan sekadar akun terhubung.');
- row(dl,'Target tidak tercapai','Tidak ada pembayaran untuk pekerjaan tersebut.');
+ row(dl,'Tarif',p.name+': '+rp(p.rate)+' '+p.per);
+ row(dl,'Minimal WD',rp(CFG.minWd)+' (setara '+nf(minUnits(p))+' '+p.unit+')');
+ var lg=checked('evLogin');if(lg)row(dl,'Metode login',LOGIN[lg]);
+ row(dl,'Batas pakai','1 nomor = 1× blast. Nomor yang sudah login/logout tidak bisa blast lagi.');
+ row(dl,'Penarikan','GoPay, ShopeePay, atau OVO');
  box.appendChild(dl);
 }
 function renderEst(){
  var inp=$('evEstIn'),lbl=$('evEstLbl'),out=$('evEstOut'),p=cur();
  out.className='ev-est';
- if(!p){
-  inp.disabled=true;inp.value='';lbl.textContent='Pilih paket dulu';
-  out.textContent='Pilih paket di pricelist atau formulir untuk menghitung.';return;
- }
+ if(!p){inp.disabled=true;inp.value='';lbl.textContent='Pilih tarif dulu';out.textContent='Pilih tarif di atas untuk menghitung.';return}
  inp.disabled=false;
  lbl.textContent=S.method==='chat'?'Jumlah chat berhasil terkirim dan valid':'Durasi pekerjaan valid (menit)';
  var raw=inp.value.trim();
- if(raw===''){out.textContent='Masukkan angka untuk melihat estimasi '+p.name+'.';return}
+ if(raw===''){out.textContent='Masukkan angka untuk melihat estimasi.';return}
  var v=Number(raw);
  if(!isFinite(v)||v<0||Math.floor(v)!==v){out.textContent='Masukkan bilangan bulat 0 atau lebih.';return}
- if(v<p.min){
+ var total=v*p.rate,txt=rp(total)+' ('+nf(v)+' '+p.unit+' x '+rp(p.rate)+')';
+ if(total<CFG.minWd){
   out.className='ev-est zero';
-  out.textContent='Rp0. Target minimum '+nf(p.min)+' '+unit(S.method)+' belum tercapai, jadi tidak ada pembayaran.';return;
- }
- if(S.method==='chat'){
-  var c=Math.min(v,p.max),pay=c*p.rate;
-  out.textContent=rp(pay)+' ('+nf(c)+' chat x '+rp(p.rate)+')'+(v>p.max?'. '+nf(v-p.max)+' chat melebihi batas paket dan tidak dibayar.':'.');
- }else{
-  out.textContent=rp(p.price)+' (target '+nf(p.min)+' menit tercapai).';
- }
+  out.textContent=txt+'. Belum bisa WD, kurang '+rp(CFG.minWd-total)+' (minimal WD '+rp(CFG.minWd)+').';
+ }else out.textContent=txt+'. Sudah memenuhi minimal WD '+rp(CFG.minWd)+'.';
 }
 function hideReady(){var r=$('evReady');if(r)r.hidden=true}
 function sync(){
  var rs=root.querySelectorAll('input[name="evMethod"]');
  for(var i=0;i<rs.length;i++)rs[i].checked=(rs[i].value===S.method);
- fillSelect();
  var cs=root.querySelectorAll('.ev-pkg');
- for(var j=0;j<cs.length;j++)cs[j].setAttribute('aria-checked',String(cs[j].getAttribute('data-m')===S.method&&cs[j].getAttribute('data-id')===S.pkg));
- setTarget();renderSummary();renderEst();hideReady();
+ for(var j=0;j<cs.length;j++)cs[j].setAttribute('aria-checked',String(cs[j].getAttribute('data-m')===S.method));
+ renderSummary();renderEst();hideReady();
 }
-function choose(m,id){S.method=m;S.pkg=id;sync()}
+function choose(m){S.method=m;setErr('method','');sync()}
 
 /* ---------- Validasi ---------- */
-var FIELDS={num:['evNum','evErrNum'],name:['evName','evErrName'],method:[null,'evErrMethod'],pkg:['evPkg','evErrPkg'],target:['evTarget','evErrTarget'],consent:['evConsent','evErrConsent']};
+var FIELDS={num:['evNum','evErrNum'],name:['evName','evErrName'],login:[null,'evErrLogin'],method:[null,'evErrMethod'],wdType:['evWdType','evErrWdType'],wdNum:['evWdNum','evErrWdNum'],wdName:['evWdName','evErrWdName'],consent:['evConsent','evErrConsent']};
 function setErr(key,msg){
  var f=FIELDS[key],el=f[0]?$(f[0]):null,er=$(f[1]);
  if(msg){er.textContent=msg;er.hidden=false;if(el)el.setAttribute('aria-invalid','true')}
@@ -1469,33 +1410,34 @@ function checkNum(){
  if(!/^\+[1-9]\d{7,14}$/.test(n))return 'Format nomor tidak valid. Contoh: +6281234567890 (8 sampai 15 digit setelah +).';
  return '';
 }
-function checkName(){
- var v=$('evName').value.trim();
- if(!v)return 'Nama pemilik nomor wajib diisi.';
- if(v.length<2||v.length>60)return 'Nama harus 2 sampai 60 karakter.';
- if(!/[A-Za-z\u00C0-\u024F]/.test(v))return 'Nama harus berisi huruf.';
+function checkPerson(id,label){
+ var v=$(id).value.trim();
+ if(!v)return label+' wajib diisi.';
+ if(v.length<2||v.length>60)return label+' harus 2 sampai 60 karakter.';
+ if(!/[A-Za-zÀ-ɏ]/.test(v))return label+' harus berisi huruf.';
  return '';
 }
-function checkTarget(){
- var p=cur();if(!p)return '';
- if(S.method!=='chat')return '';
- var raw=$('evTarget').value.trim(),v=Number(raw);
- if(!raw||!isFinite(v)||Math.floor(v)!==v||v<p.min||v>p.max)return 'Isi target antara '+nf(p.min)+' dan '+nf(p.max)+' chat.';
+function checkWdNum(){
+ var n=cleanNum($('evWdNum').value);
+ if(!n)return 'Nomor rekening wajib diisi.';
+ if(!/^\+?\d{9,15}$/.test(n))return 'Nomor rekening hanya angka, 9 sampai 15 digit.';
  return '';
 }
 function validate(){
  var errs={
   num:checkNum(),
-  name:checkName(),
-  method:S.method?'':'Pilih metode pembayaran.',
-  pkg:!S.method?'Pilih metode pembayaran dulu.':(cur()?'':'Pilih salah satu pricelist.'),
-  target:cur()?checkTarget():'Pilih pricelist untuk menentukan target.',
+  name:checkPerson('evName','Nama pemilik nomor'),
+  login:checked('evLogin')?'':'Pilih metode login.',
+  method:S.method?'':'Pilih metode tarif.',
+  wdType:$('evWdType').value?'':'Pilih metode penarikan.',
+  wdNum:checkWdNum(),
+  wdName:checkPerson('evWdName','Atas nama rekening'),
   consent:$('evConsent').checked?'':'Centang persetujuan untuk melanjutkan.'
  };
- var order=['num','name','method','pkg','target','consent'],first=null;
+ var order=['num','name','login','method','wdType','wdNum','wdName','consent'],first=null;
  order.forEach(function(k){setErr(k,errs[k]);if(errs[k]&&!first)first=k});
  if(first){
-  var f=first==='method'?root.querySelector('input[name="evMethod"]'):$(FIELDS[first][0]);
+  var f=first==='login'?root.querySelector('input[name="evLogin"]'):first==='method'?root.querySelector('.ev-rate'):$(FIELDS[first][0]);
   if(f){try{f.focus({preventScroll:false})}catch(e){f.focus()}}
   return false;
  }
@@ -1504,18 +1446,18 @@ function validate(){
 
 /* ---------- Pesan ke admin (tanpa backend) ---------- */
 function buildMsg(){
- var p=cur(),m=S.method,t=m==='chat'?Number($('evTarget').value):p.min;
- var tarif=m==='chat'?rp(p.rate)+' per chat berhasil terkirim':rp(p.price)+' per paket';
- return ['Halo Admin KZRIZUSMO, saya ingin mendaftarkan nomor WhatsApp untuk layanan Sewa WhatsApp / Broadcast Pesan.','',
+ var p=cur();
+ return ['Halo Admin KZRIZUSMO, saya ingin mendaftarkan nomor WhatsApp untuk layanan Sewa WA Blast.','',
   'Nomor WhatsApp: '+cleanNum($('evNum').value),
   'Nama pemilik: '+$('evName').value.trim(),
-  'Metode pembayaran: '+LBL[m],
-  'Pricelist: '+p.name+' ('+tarif+')',
-  'Target pekerjaan: '+nf(t)+' '+unit(m)+' (minimal '+nf(p.min)+', maksimal '+nf(p.max)+')',
-  'Batas pembayaran paket: '+rp(cap(m,p)),
-  'Periode pengerjaan: disepakati bersama admin',
+  'Metode login: '+LOGIN[checked('evLogin')],
+  'Metode tarif: '+p.name+' ('+rp(p.rate)+' '+p.per+')',
+  'Minimal WD: '+rp(CFG.minWd),
+  'Penarikan dana: '+$('evWdType').value,
+  'Nomor rekening: '+cleanNum($('evWdNum').value),
+  'Atas nama rekening: '+$('evWdName').value.trim(),
   '',
-  'Saya sudah membaca dan menyetujui ketentuan layanan serta risiko pembatasan akun WhatsApp. Pesan ini tidak berisi PIN, kode OTP, atau kode verifikasi WhatsApp.'
+  'Saya paham 1 nomor hanya 1x blast, dan nomor yang sudah login/logout tidak bisa blast lagi. Saya juga menyetujui risiko pembatasan akun WhatsApp. Pesan ini tidak berisi PIN, kode OTP, atau kode verifikasi WhatsApp.'
  ].join('\n');
 }
 function showReady(){
@@ -1539,46 +1481,35 @@ function copyText(t){
  else fallbackCopy(t,done);
 }
 
-/* ---------- Tampilan (tanpa mengubah riwayat/tombol Back) ---------- */
 function view(v){
  $('evHub').hidden=(v!=='hub');
  $('evWa').hidden=(v!=='wa');
  try{window.scrollTo(0,0)}catch(e){}
 }
 
-/* ---------- Event ---------- */
 root.addEventListener('click',function(e){
  var t=e.target;if(!t||!t.closest)return;
  var op=t.closest('[data-ev-open]');
  if(op){view(op.getAttribute('data-ev-open'));return}
  if(t.closest('[data-ev-back]')){view('hub');return}
  var b=t.closest('.ev-pkg');
- if(b){
-  var m=b.getAttribute('data-m'),p=find(m,b.getAttribute('data-id'));
-  if(p){choose(m,p.id);['method','pkg','target'].forEach(function(k){setErr(k,'')});toast('Dipilih: '+p.name+' ('+LBL[m]+')',true)}
-  return;
- }
+ if(b){choose(b.getAttribute('data-m'));return}
  if(t.closest('#evCopy')){copyText($('evMsg').textContent)}
 });
 root.addEventListener('keydown',function(e){
  var t=e.target;
  if((e.key==='Enter'||e.key===' ')&&t&&t.matches&&t.matches('[data-ev-open]')){e.preventDefault();t.click()}
 });
-var radios=root.querySelectorAll('input[name="evMethod"]');
-for(var i=0;i<radios.length;i++){
- radios[i].addEventListener('change',function(){
-  var m=this.value;
-  if(m!==S.method){S.method=m;S.pkg='';}
-  setErr('method','');setErr('pkg','');setErr('target','');
-  sync();
- });
-}
-$('evPkg').addEventListener('change',function(){
- S.pkg=this.value;setErr('pkg','');setErr('target','');sync();
+Array.prototype.forEach.call(root.querySelectorAll('input[name="evMethod"]'),function(r){
+ r.addEventListener('change',function(){choose(this.value)});
 });
-$('evTarget').addEventListener('input',function(){setErr('target','');renderSummary();hideReady()});
-$('evNum').addEventListener('input',function(){setErr('num','');hideReady()});
-$('evName').addEventListener('input',function(){setErr('name','');hideReady()});
+Array.prototype.forEach.call(root.querySelectorAll('input[name="evLogin"]'),function(r){
+ r.addEventListener('change',function(){setErr('login','');renderSummary();hideReady()});
+});
+[['evNum','num'],['evName','name'],['evWdNum','wdNum'],['evWdName','wdName']].forEach(function(x){
+ $(x[0]).addEventListener('input',function(){setErr(x[1],'');hideReady()});
+});
+$('evWdType').addEventListener('change',function(){setErr('wdType','');hideReady()});
 $('evConsent').addEventListener('change',function(){setErr('consent','');hideReady()});
 $('evEstIn').addEventListener('input',renderEst);
 $('evForm').addEventListener('submit',function(e){
@@ -1586,7 +1517,6 @@ $('evForm').addEventListener('submit',function(e){
  if(validate())showReady();
 });
 
-renderLists();
 sync();
 })();
 </script></div><div class="page" id="shopTab"><div class="kl-sec"><span>Jelajahi</span></div><div class="kl-card" role="button" tabindex="0" aria-label="Buka daftar logo" onclick="openLogoDetail()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}"><div class="kl-visual"><div class="kl-mosaic" id="klMosaic"></div></div><div class="kl-body"><div class="kl-body-txt"><h3>Avatar &amp; Logo</h3><p>Ganti logo profil Zusmo dari ratusan pilihan.</p></div><span class="kl-go"><i class="fa-solid fa-arrow-right"></i></span></div><div class="kl-chip"><i class="fa-solid fa-circle-check"></i><span>Dipakai:</span><b id="klActiveLogo">Default</b></div></div><div class="kl-card" role="button" tabindex="0" aria-label="Buka pustaka musik" onclick="openMusicDetail()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}"><div class="kl-visual"><div class="kl-wave" aria-hidden="true"><i style="--h:38%;--n:0"></i><i style="--h:62%;--n:1"></i><i style="--h:48%;--n:2"></i><i style="--h:80%;--n:3"></i><i style="--h:56%;--n:4"></i><i style="--h:92%;--n:5"></i><i style="--h:44%;--n:6"></i><i style="--h:70%;--n:7"></i><i style="--h:100%;--n:8"></i><i style="--h:58%;--n:9"></i><i style="--h:76%;--n:10"></i><i style="--h:40%;--n:11"></i><i style="--h:88%;--n:12"></i><i style="--h:52%;--n:13"></i><i style="--h:66%;--n:14"></i><i style="--h:96%;--n:15"></i><i style="--h:46%;--n:16"></i><i style="--h:72%;--n:17"></i><i style="--h:60%;--n:18"></i><i style="--h:84%;--n:19"></i><i style="--h:42%;--n:20"></i><i style="--h:78%;--n:21"></i><i style="--h:54%;--n:22"></i><i style="--h:90%;--n:23"></i><i style="--h:50%;--n:24"></i><i style="--h:68%;--n:25"></i><i style="--h:82%;--n:26"></i><i style="--h:45%;--n:27"></i></div></div><div class="kl-body"><div class="kl-body-txt"><h3>Pustaka Musik</h3><p>Dengarkan preview, lalu pasang jadi backsound aplikasi.</p></div><span class="kl-go"><i class="fa-solid fa-arrow-right"></i></span></div><div class="kl-chip m"><i class="fa-solid fa-music"></i><span>Aktif:</span><b id="klActiveMusic">Musik Bawaan</b></div></div></div><div class="page" id="progressTab"><div class="prog-hero"><div class="prog-hero-glow"></div><div class="prog-hero-top"><div class="prog-hero-titles"><div class="prog-hero-icon"><i class="fa-solid fa-chart-line"></i></div><div><h1>PROGRESS</h1><span>TRACKING PESANAN</span></div></div><div class="prog-total-pill"><i class="fa-solid fa-boxes-stacked"></i><span><span id="progressTotalCount">0</span> Pesanan</span></div></div></div><div class="prog-search-wrap"><button type="button" class="prog-search-icon-btn" onclick="openProgFindModal()" aria-label="Cari pesanan pakai kode"><i class="fa-solid fa-magnifying-glass"></i></button><input type="text" id="progSearchInput" class="prog-search-input" placeholder="Cari UID atau produk..." oninput="onProgressSearchInput(this.value)"/><button type="button" class="prog-search-clear" id="progSearchClear" onclick="clearProgressSearch()" aria-label="Hapus pencarian"><i class="fa-solid fa-xmark"></i></button></div><div class="prog-filter-wrap" id="progFilterWrap"><div class="prog-filter-hint"><i class="fa-solid fa-circle-info"></i><span>Pantau orderan kamu dalam 7 hari terakhir</span></div><button class="prog-filter-btn" type="button" onclick="toggleProgressFilterPopup(event)"><i class="fa-solid fa-sliders"></i><span>Filter</span></button><div class="prog-filter-popup" id="progFilterPopup"><div class="pf-group"><div class="pf-group-title">Urutkan</div><div class="pf-opt-list"><button class="pf-opt on" type="button" data-sort="semua" onclick="setProgressSort(this,'semua')">Semua</button><button class="pf-opt" type="button" data-sort="terbaru" onclick="setProgressSort(this,'terbaru')">Terbaru</button><button class="pf-opt" type="button" data-sort="terlama" onclick="setProgressSort(this,'terlama')">Terlama</button></div></div><div class="pf-group"><div class="pf-group-title">Status</div><div class="pf-opt-list"><button class="pf-opt on" type="button" data-status="all" onclick="setProgressStatus(this,'all')">Semua</button><button class="pf-opt" type="button" data-status="pending" onclick="setProgressStatus(this,'pending')">Pending</button><button class="pf-opt" type="button" data-status="proses" onclick="setProgressStatus(this,'proses')">Proses</button><button class="pf-opt" type="button" data-status="sukses" onclick="setProgressStatus(this,'sukses')">Sukses</button></div></div><div class="pf-group"><div class="pf-group-title">Kategori</div><div class="pf-opt-list"><button class="pf-opt on" type="button" data-cat="all" onclick="setProgressCategory(this,'all')">Semua</button><button class="pf-opt" type="button" data-cat="Vip Zusmo Shadow" onclick="setProgressCategory(this,'Vip Zusmo Shadow')">VIP ZS</button><button class="pf-opt" type="button" data-cat="Suntik Like" onclick="setProgressCategory(this,'Suntik Like')">Suntik Like</button><button class="pf-opt" type="button" data-cat="Suntik Folls Craftland" onclick="setProgressCategory(this,'Suntik Folls Craftland')">Suntik Folls CF</button><button class="pf-opt" type="button" data-cat="Bot Glory" onclick="setProgressCategory(this,'Bot Glory')">Bot Glory</button></div></div></div></div><div class="prog-order-list" id="progressOrderList"></div><div class="prog-find-overlay" id="progFindOverlay"><div class="prog-find-card"><button type="button" class="prog-find-close" onclick="closeProgFindModal()" aria-label="Tutup"><i class="fa-solid fa-xmark"></i></button><div class="prog-find-icon"><i class="fa-solid fa-magnifying-glass"></i></div><div class="prog-find-title">Pesanan Anda Tidak Ditemukan?</div><div class="prog-find-sub">Minta kode pesanan Anda ke admin, lalu masukkan kode pesanan.</div><div class="prog-find-code-row" id="progFindCodeRow"><input type="tel" inputmode="numeric" maxlength="1" class="prog-find-digit" data-idx="0" oninput="pfDigitInput(this)" onkeydown="pfDigitKeydown(event,this)"/><input type="tel" inputmode="numeric" maxlength="1" class="prog-find-digit" data-idx="1" oninput="pfDigitInput(this)" onkeydown="pfDigitKeydown(event,this)"/><input type="tel" inputmode="numeric" maxlength="1" class="prog-find-digit" data-idx="2" oninput="pfDigitInput(this)" onkeydown="pfDigitKeydown(event,this)"/><input type="tel" inputmode="numeric" maxlength="1" class="prog-find-digit" data-idx="3" oninput="pfDigitInput(this)" onkeydown="pfDigitKeydown(event,this)"/><input type="tel" inputmode="numeric" maxlength="1" class="prog-find-digit" data-idx="4" oninput="pfDigitInput(this)" onkeydown="pfDigitKeydown(event,this)"/></div><button type="button" class="prog-find-btn" onclick="submitProgressOrderCode()"><i class="fa-solid fa-magnifying-glass"></i><span>Cari Pesanan</span></button><div class="prog-find-msg" id="progFindMsg"></div></div></div><div class="prog-dlfail-overlay" id="progDlFailOverlay"><div class="prog-dlfail-modal"><div class="prog-dlfail-icon"><i class="fa-solid fa-triangle-exclamation"></i></div><div class="prog-dlfail-title">Download Gagal</div><div class="prog-dlfail-sub">Aplikasi ini belum support download gambar. Salin link di bawah, lalu buka lewat <b>Chrome</b> untuk download progress kamu.</div><div class="prog-dlfail-linkbox"><span id="progDlFailLink">https://www.kzrizusmostore.com</span><button type="button" class="prog-dlfail-copy" id="progDlFailCopyIcon" onclick="copyProgDownloadLink()" aria-label="Salin link"><i class="fa-regular fa-copy"></i></button></div><div class="prog-dlfail-actions"><button type="button" class="prog-dlfail-btn prog-dlfail-btn-close" onclick="closeProgDownloadFailModal()">Tutup</button><button type="button" class="prog-dlfail-btn prog-dlfail-btn-copy" onclick="copyProgDownloadLink()">Salin Link</button></div></div></div></div><div class="page" id="communityTab"><div class="cm3-head"><div class="cm3-h" role="heading" aria-level="1"><i class="fa-solid fa-users" aria-hidden="true"></i>Komunitas Zusmo</div></div><div class="cm3-grid"><div class="cm3-tile cm3-chat" id="zcEntry" role="button" tabindex="0" aria-label="Buka Live Chat Zusmo" onclick="showPage('zcChat')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('zcChat')}"><span class="cm3-ic"><i class="fa-solid fa-comments" aria-hidden="true"></i><span class="cm3-badge" id="zcEntryBadge" title="Pesan belum dibaca" hidden>0</span></span><span class="cm3-fol cm3-on" id="zcEntryOn" hidden></span><strong class="cm3-t">Live Chat</strong><span class="cm3-s">Ngobrol real-time</span><i class="fa-solid fa-arrow-right cm3-go" aria-hidden="true"></i></div><a class="cm3-tile cm3-wa" href="https://whatsapp.com/channel/0029VbDOVUJIHphDqJoiNH1L" target="_blank" rel="noopener noreferrer"><span class="cm3-ic"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></span><span class="cm3-fol">12Rb</span><strong class="cm3-t">Saluran WhatsApp</strong><span class="cm3-s">Update &amp; Informasi</span></a><div class="cm3-tile cm3-feed" id="zfEntry" role="button" tabindex="0" aria-label="Buka Fyp Zusmo" onclick="showPage('zcFeed')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('zcFeed')}"><span class="cm3-ic"><i class="fa-solid fa-newspaper" aria-hidden="true"></i></span><strong class="cm3-t">Fyp</strong><span class="cm3-s">Beranda publik</span></div><a class="cm3-tile cm3-grp" href="https://chat.whatsapp.com/ECT06FXiivsL8kI0Jhecdj?s=cl&amp;p=a&amp;ilr=4" target="_blank" rel="noopener noreferrer"><span class="cm3-ic"><i class="fa-solid fa-user-group" aria-hidden="true"></i></span><strong class="cm3-t">Grup Diskusi</strong><span class="cm3-s">Tips &amp; tanya jawab</span></a><a class="cm3-tile cm3-grp" href="https://chat.whatsapp.com/KxF1644zngD9ZBNq6M5Ise?s=cl&amp;p=a&amp;ilr=4" target="_blank" rel="noopener noreferrer"><span class="cm3-ic"><i class="fa-solid fa-gift" aria-hidden="true"></i></span><strong class="cm3-t">Info &amp; Giveaway</strong><span class="cm3-s">Promo &amp; event diamond</span></a><a class="cm3-tile cm3-tt" href="https://www.tiktok.com/@kzrizusmo_store" target="_blank" rel="noopener noreferrer"><span class="cm3-ic"><i class="fa-brands fa-tiktok" aria-hidden="true"></i></span><span class="cm3-fol">40Rb</span><strong class="cm3-t">TikTok</strong><span class="cm3-s">Tutorial &amp; tips</span></a><a class="cm3-tile cm3-sup" href="https://saweria.co/kzrizusmo" target="_blank" rel="noopener"><span class="cm3-ic"><i class="fa-solid fa-mug-hot" aria-hidden="true"></i></span><strong class="cm3-t">Traktir Kopi</strong><span class="cm3-s">Dukung biar makin keren</span></a></div><section class="cm3-admin" id="cm2Admin" data-on="0" aria-label="Admin CS"><span class="cm3-ic"><i class="fa-solid fa-headset" aria-hidden="true"></i></span><span class="cm3-admin-txt"><strong class="cm3-t">Admin CS</strong><span class="cm3-status"><span class="cm3-dot" aria-hidden="true"></span><span id="cm2AdminText">Offline, dibalas saat jam kerja</span></span></span><a class="cm3-btn" href="https://wa.me/6283800287738" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i>Chat Admin</a></section><section class="cm3-info" id="cm3Info"><button type="button" class="cm3-toggle" onclick="toggleCmtyRules(this)" aria-expanded="false" aria-controls="cm3Rules"><span><i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i>Aturan &amp; info<b class="cm3-must">Wajib baca</b></span><i class="fa-solid fa-chevron-down cm3-chev" aria-hidden="true"></i></button><div class="cm3-rules" id="cm3Rules"><div class="cm3-rules-in"><div class="cm3-chips" role="group" aria-label="Pilih topik"><button type="button" class="cm3-chip on" data-p="admin" aria-pressed="true">Admin CS</button><button type="button" class="cm3-chip" data-p="wa" aria-pressed="false">Saluran</button><button type="button" class="cm3-chip" data-p="chat" aria-pressed="false">Live Chat</button><button type="button" class="cm3-chip" data-p="grup" aria-pressed="false">Grup</button><button type="button" class="cm3-chip" data-p="tt" aria-pressed="false">TikTok</button><button type="button" class="cm3-chip" data-p="sup" aria-pressed="false">Dukungan</button></div><div class="cm3-pane" data-p="admin"><p class="cm3-meta"><i class="fa-solid fa-clock" aria-hidden="true"></i>Jam operasional admin: 09.00 - 22.00 WIB</p><p class="cm3-meta"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i><span class="allow-copy">+62 838-0028-7738</span></p><ol><li>Dilarang telepon, 1× telepon akan diblokir.</li><li>Dilarang spam, 5× chat spam akan diblokir.</li><li>Chat wajib langsung ke inti keperluan.</li><li>Chat hanya ("p", "bang", "salam") atau tidak jelas tidak akan dibalas.</li><li>Chat belum dibalas dalam 24 jam, silahkan chat ulang.</li><li>Chat dibalas dari antrian pesan bawah ke atas, mohon sabar menunggu giliran dibalas.</li><li>Matikan timer chat saat chat admin.</li></ol><p>Patuhi S&amp;K saat chat admin CS! Dengan 100–300 chat per hari, wajib sabar menunggu admin membalas. Dalam 48 jam admin selalu rechat (hapus semua chat), jadi jika belum dibalas silahkan kirim ulang pesan.</p><p class="cm3-note">Chat dikelola oleh Admin CS, bukan owner.</p></div><div class="cm3-pane" data-p="wa" hidden><ol><li>Semua update &amp; informasi resmi HANYA lewat saluran ini.</li><li>Waspada akun tiruan yang mengatasnamakan Zusmo.</li><li>Admin tidak pernah minta password/OTP lewat DM.</li></ol><p class="cm3-note">Aktifkan notifikasi biar gak ketinggalan update.</p></div><div class="cm3-pane" data-p="chat" hidden><ol><li>Ngobrol bebas sama member lain secara real-time.</li><li>Diskusi bebas, bukan pengumuman resmi.</li></ol></div><div class="cm3-pane" data-p="grup" hidden><h4>Grup Diskusi Utama</h4><ol><li>Dilarang promosi/jualan produk di luar Zusmo.</li><li>Dilarang spam chat maupun broadcast berlebihan.</li><li>Wajib sopan &amp; saling menghargai sesama member.</li></ol><p class="cm3-note">Member yang melanggar bisa dikeluarkan tanpa peringatan.</p><h4>Grup Info &amp; Giveaway</h4><ol><li>Grup khusus info promo, event &amp; giveaway diamond.</li><li>Dilarang chat di luar topik info/giveaway.</li><li>Pantau terus biar gak ketinggalan giveaway.</li></ol><p class="cm3-note">Dipantau admin, bukan tempat jualan pihak luar.</p></div><div class="cm3-pane" data-p="tt" hidden><ol><li>Konten tutorial &amp; tips resmi dari admin Zusmo.</li><li>Cek tanda centang biru buat mastiin akun resmi.</li><li>Follow biar gak ketinggalan konten terbaru.</li></ol><p class="cm3-note">Waspada akun tiruan yang niru-niru konten Zusmo.</p></div><div class="cm3-pane" data-p="sup" hidden><ol><li>Dukungan dipakai buat biaya server, domain &amp; fitur baru.</li><li>Sekecil apa pun dukunganmu sangat berarti buat Zusmo.</li><li>Sukarela, bukan syarat buat pakai aplikasi.</li></ol><p class="cm3-note">Terima kasih buat semua yang udah &amp; akan dukung Zusmo 💛</p></div></div></div></section><script>(function(){var c=document.getElementById("cm2Admin"),t=document.getElementById("cm2AdminText");if(!c||!t)return;var last=null;function jam(){try{var p=new Intl.DateTimeFormat("en-GB",{timeZone:"Asia/Jakarta",hour:"2-digit",hourCycle:"h23"}).formatToParts(new Date());for(var i=0;i<p.length;i++){if(p[i].type==="hour")return parseInt(p[i].value,10)%24}}catch(e){}return new Date(Date.now()+25200000).getUTCHours()}function render(){var h=jam(),on=h>=9&&h<22;if(on===last)return;last=on;c.setAttribute("data-on",on?"1":"0");t.textContent=on?"Online sekarang":"Offline, dibalas saat jam kerja"}render();setInterval(render,30000);document.addEventListener("visibilitychange",function(){if(!document.hidden)render()})})();(function(){var r=document.getElementById("cm3Info");if(!r)return;r.addEventListener("click",function(e){var b=e.target.closest(".cm3-chip");if(!b)return;var k=b.getAttribute("data-p");r.querySelectorAll(".cm3-chip").forEach(function(x){var on=x===b;x.classList.toggle("on",on);x.setAttribute("aria-pressed",on?"true":"false")});r.querySelectorAll(".cm3-pane").forEach(function(p){p.hidden=p.getAttribute("data-p")!==k});try{navigator.vibrate&&navigator.vibrate(8)}catch(x){}})})();</script><script id="cm3-ripple">(function(){var r=document.getElementById("communityTab");if(!r||r.__rip)return;r.__rip=1;r.addEventListener("pointerdown",function(e){var t=e.target.closest&&e.target.closest(".cm3-tile,.cm3-btn");if(!t||!r.contains(t))return;var b=t.getBoundingClientRect(),d=Math.max(b.width,b.height)*2.2,s=document.createElement("span");s.className="cm3-rip";s.style.cssText="left:"+(e.clientX-b.left)+"px;top:"+(e.clientY-b.top)+"px;width:"+d+"px;height:"+d+"px";t.appendChild(s);s.addEventListener("animationend",function(){s.remove()});setTimeout(function(){if(s.parentNode)s.remove()},900)},{passive:true})})();</script><div class="hm-footer" style="margin-top:20px">© 2026 <span>KZRIZUSMO</span> DEV</div></div><div class="page" id="beta"><div class="dev-card"><img loading="lazy" decoding="async" src="zusmo-asset/9dfz0n.png"><div class="dev-badge">BETA TESTING</div><h1>𝗭𝗨𝗦𝗠𝗢 𝗕𝗘𝗧𝗔</h1><p class="dev-note">ZUSMO Beta sedang menjalani pengujian internal untuk memastikan seluruh fitur berjalan stabil, aman, dan siap digunakan sebelum dirilis kepada semua pengguna.</p><div class="dev-progress"><span style="width:60%"></span></div><p style="color:#00ff88;font-weight:700">Terima kasih telah menunggu. Fitur akan tersedia pada pembaruan berikutnya.</p></div></div><div class="page" id="emote"><div class="dev-card"><img loading="lazy" decoding="async" src="zusmo-asset/9rj69g.png"><div class="dev-badge">UNDER DEVELOPMENT</div><h1>𝗭𝗨𝗦𝗠𝗢 𝗘𝗠𝗢𝗧𝗘</h1><p class="dev-note">Tim pengembang sedang menambahkan koleksi emote baru serta meningkatkan kompatibilitas agar pengalaman penggunaan menjadi lebih optimal.</p><div class="dev-progress"><span style="width:85%"></span></div><p style="color:#00ff88;font-weight:700">Terima kasih telah menunggu. Fitur akan tersedia pada pembaruan berikutnya.</p></div></div><div class="page" id="lvl"><div class="dev-card"><img loading="lazy" decoding="async" src="zusmo-asset/eoih4t.png"><div class="dev-badge">COMING SOON</div><h1>𝗭𝗨𝗦𝗠𝗢 𝗟𝗘𝗩𝗘𝗟</h1><p class="dev-note">ZUSMO Level sedang dipersiapkan dengan berbagai fitur baru dan penyempurnaan sistem. Nantikan peluncuran resminya pada update berikutnya.</p><div class="dev-progress"><span style="width:30%"></span></div><p style="color:#00ff88;font-weight:700">Terima kasih telah menunggu. Fitur akan tersedia pada pembaruan berikutnya.</p></div></div><div class="page" id="leaderboardTab"><div class="testi-wrap"><h1 class="testi-title">𝗧𝗘𝗦𝗧𝗜𝗠𝗢𝗡𝗜</h1><p class="testi-sub">Testimoni asli dari pengguna KZRIZUSMO. Tap gambar untuk melihat ukuran penuh.</p><div class="testi-video-row" id="testiVideoRow"></div><div class="testi-grid" id="testiGrid"></div></div></div><div class="testi-video-lightbox" id="testiVideoLightbox" onclick="if(event.target===this) closeTestiVideo()"><div class="testi-video-lb-frame"><button class="testi-video-lb-close" onclick="closeTestiVideo()" aria-label="Tutup"><i class="fa-solid fa-xmark"></i></button><video id="testiVideoLbPlayer" playsinline controls></video></div></div><div class="testi-lightbox" id="testiLightbox" onclick="if(event.target===this) closeTestiLightbox()"><div class="testi-lb-row" onclick="if(event.target===this) closeTestiLightbox()"><button class="testi-lb-nav testi-lb-prev" onclick="testiLbNav(-1)" aria-label="Sebelumnya"><i class="fa-solid fa-chevron-left"></i></button><div class="testi-lb-frame"><img loading="lazy" decoding="async" id="testiLightboxImg" src="" alt="Testimoni"></div><button class="testi-lb-nav testi-lb-next" onclick="testiLbNav(1)" aria-label="Berikutnya"><i class="fa-solid fa-chevron-right"></i></button></div></div><div class="page" id="zcChat"><div class="zc-shell">
