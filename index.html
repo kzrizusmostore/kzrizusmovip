@@ -1140,6 +1140,50 @@ AccessTokenDua
 #eventTab .ev-est.zero{color:#ffc861}
 @media (max-width:380px){#eventTab .ev-sum dl div{grid-template-columns:1fr;gap:2px}}
 @media (prefers-reduced-motion:reduce){#eventTab *{transition:none!important}}
+
+/* ===== Sewa WhatsApp: rapi + background solid ===== */
+#eventTab .ev-wrap{max-width:560px;margin:0 auto;padding:0 0 96px}
+#eventTab .ev-hero{position:relative;text-align:center;padding:22px 18px 18px;margin:0 0 14px;border-radius:22px;background:linear-gradient(160deg,rgba(255,43,43,.13),rgba(255,255,255,.03) 60%);border:1px solid rgba(255,43,43,.28)}
+#eventTab .ev-hero-ic{display:inline-grid;place-items:center;width:52px;height:52px;border-radius:16px;background:rgba(255,43,43,.16);border:1px solid rgba(255,43,43,.5);color:#ff6b6b;font-size:1.6rem;margin-bottom:10px}
+#eventTab .ev-hero .pc-title,#eventTab .ev-hero .pc-sub{margin:0}
+#eventTab .ev-hero .pc-sub{margin-top:4px}
+#eventTab .ev-hero-note{margin:12px 0 0;font-size:.72rem;line-height:1.6;color:rgba(255,255,255,.62)}
+#eventTab .ev-risk-banner{display:flex;gap:12px;align-items:center;padding:12px 14px;margin:0 0 14px;border-radius:16px;background:rgba(255,170,0,.08);border:1px solid rgba(255,170,0,.4);color:#ffc861}
+#eventTab .ev-risk-banner>i{flex:none;font-size:1.15rem}
+#eventTab .ev-risk-banner b{display:block;font-size:.82rem;color:#ffc861}
+#eventTab .ev-risk-banner span{display:block;font-size:.72rem;line-height:1.5;color:rgba(255,255,255,.78);margin-top:1px}
+#eventTab .ev-group{display:grid;gap:10px;margin:0 0 14px}
+#eventTab .ev-acc{border-radius:16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);overflow:hidden}
+#eventTab .ev-acc>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:13px 14px;font:800 .92rem 'Rajdhani','Outfit',sans-serif;letter-spacing:.5px;color:#fff;-webkit-tap-highlight-color:transparent}
+#eventTab .ev-acc>summary::-webkit-details-marker{display:none}
+#eventTab .ev-acc>summary>.fa-chevron-down{margin-left:auto;font-size:.72rem;color:rgba(255,255,255,.5);transition:transform .2s}
+#eventTab .ev-acc[open]>summary>.fa-chevron-down{transform:rotate(180deg)}
+#eventTab .ev-acc-n{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:rgba(255,43,43,.14);border:1px solid rgba(255,43,43,.45);color:#ff6b6b;font:800 .72rem 'Outfit',sans-serif}
+#eventTab .ev-acc-warn{background:rgba(255,170,0,.06);border-color:rgba(255,170,0,.35)}
+#eventTab .ev-acc-warn .ev-acc-n{background:rgba(255,170,0,.14);border-color:rgba(255,170,0,.5);color:#ffc861}
+#eventTab .ev-acc-body{padding:0 14px 14px}
+#eventTab .ev-acc-body .ev-steps{padding:0;background:none;border:0}
+#eventTab .ev-acc-body .ev-rules{padding-left:18px}
+#eventTab .ev-card2{padding:16px 14px;margin:0 0 14px;border-radius:20px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09)}
+#eventTab .ev-card2 .ev-sec{display:flex;align-items:center;gap:10px;margin:0 0 12px}
+#eventTab .ev-sec-n{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:#ff2b2b;color:#fff;font:800 .78rem 'Outfit',sans-serif}
+#eventTab .ev-card2 .ev-box{padding:0;background:none;border:0}
+#eventTab .ev-seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;margin:0 0 12px;border-radius:14px;background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.08)}
+#eventTab .ev-seg-b{display:flex;align-items:center;justify-content:center;gap:8px;padding:11px 8px;border:0;border-radius:11px;background:transparent;color:rgba(255,255,255,.6);font:700 .8rem 'Outfit',sans-serif;cursor:pointer;transition:background .18s,color .18s}
+#eventTab .ev-seg-b.on{background:rgba(255,43,43,.2);color:#fff;box-shadow:inset 0 0 0 1.5px #ff2b2b}
+#eventTab .ev-pane[hidden]{display:none}
+#eventTab .ev-note-end{margin:12px 2px 0;font-size:.68rem;color:rgba(255,255,255,.5)}
+#eventTab .ev-form{display:block;margin:0}
+#eventTab .ev-form .ev-lbl{margin-top:2px}
+#eventTab .ev-form .pc-input-wrap{margin-bottom:12px}
+#eventTab .ev-form .ev-err+.pc-input-wrap,#eventTab .ev-form .ev-hint{margin-top:0}
+#eventTab .ev-form .pc-btn{margin-top:4px}
+#eventTab .ev-form .ev-ready .pc-btn{margin-top:0;margin-bottom:10px}
+#eventTab .ev-form>.ev-err{margin-top:-8px}
+#eventTab .ev-back{margin-bottom:12px}
+/* background solid (video/gambar wallpaper dimatikan) saat halaman Event aktif */
+body.ev-solid,body.ev-solid:before{background:#000!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+body.ev-solid #zusmoWallpaperBg,body.ev-solid #zxOldWall{display:none!important}
 </style><div class="ev-wrap">
 
 <section id="evHub" aria-label="Daftar layanan Event">
@@ -1150,52 +1194,64 @@ AccessTokenDua
 
 <section id="evWa" aria-label="Sewa WhatsApp / Broadcast Pesan" hidden>
 <button type="button" class="ev-back" data-ev-back><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Kembali ke Event</button>
+
+<header class="ev-hero">
+<span class="ev-hero-ic"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></span>
 <p class="pc-title"><span class="red">SEWA</span>&nbsp;<span class="wht">WHATSAPP</span></p>
 <p class="pc-sub">Broadcast Pesan &bull; Per Chat &amp; Per Menit</p>
-<p class="ev-note" style="margin-top:12px">Broadcast hanya boleh dilakukan kepada penerima yang sudah menyetujui menerima pesan, dan tetap wajib mematuhi kebijakan WhatsApp.</p>
+<p class="ev-hero-note">Broadcast hanya boleh dilakukan kepada penerima yang sudah menyetujui menerima pesan, dan tetap wajib mematuhi kebijakan WhatsApp.</p>
+</header>
 
-<h2 class="ev-sec">Cara kerja</h2>
-<ol class="ev-steps">
+<div class="ev-risk-banner" role="note"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i><div><b>Baca risiko sebelum menyewakan nomor</b><span>Akun bisa dibatasi dan pemulihan tidak dapat dijamin.</span></div></div>
+
+<div class="ev-group">
+<details class="ev-acc" open><summary><span class="ev-acc-n"><i class="fa-solid fa-list-check" aria-hidden="true"></i></span>Cara kerja<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary>
+<div class="ev-acc-body"><ol class="ev-steps">
 <li>Kamu mendaftarkan nomor WhatsApp yang akan disewakan.</li>
 <li>Kamu memilih pricelist per chat atau per menit.</li>
 <li>Admin KZRIZUSMO memeriksa pendaftaran dan menyepakati target pekerjaan.</li>
 <li>Akun dipakai setelah kamu memahami cara kerjanya dan memberi persetujuan.</li>
 <li>Hasil pekerjaan diperiksa berdasarkan target paket.</li>
 <li>Pembayaran diberikan jika target yang disepakati tercapai sesuai ketentuan.</li>
-</ol>
-
-<h2 class="ev-sec">Peringatan risiko</h2>
-<div class="ev-risk" role="note">
-<h3><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> Baca sebelum menyewakan nomor</h3>
-<ul>
+</ol></div></details>
+<details class="ev-acc ev-acc-warn"><summary><span class="ev-acc-n"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i></span>Peringatan risiko<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary>
+<div class="ev-acc-body"><ul class="ev-rules">
 <li>Akun WhatsApp dapat dibatasi sementara jika pola penggunaannya dianggap melanggar kebijakan.</li>
 <li>Lama pembatasan tidak dapat dijamin hanya beberapa jam.</li>
 <li>Admin KZRIZUSMO akan memberi arahan dan membantu mencari solusi yang tersedia jika terjadi pembatasan.</li>
 <li>Pemulihan akun tidak dapat dijamin.</li>
 <li>Pahami risikonya sebelum menyewakan nomor kamu.</li>
-</ul>
-</div>
-
-<h2 class="ev-sec">Pricelist per chat</h2>
-<p class="ev-note">Dibayar per chat yang <b>berhasil terkirim</b> dan memenuhi kriteria pekerjaan yang disepakati. Ketuk paket untuk memilih.</p>
-<div class="ev-pkgs" id="evListChat" role="radiogroup" aria-label="Pricelist per chat"></div>
-
-<h2 class="ev-sec">Pricelist per menit</h2>
-<p class="ev-note">Dihitung dari durasi penggunaan yang benar-benar memenuhi kriteria pekerjaan dan tercatat secara wajar, bukan sekadar waktu akun terhubung jika pekerjaan tidak berjalan.</p>
-<div class="ev-pkgs" id="evListMenit" role="radiogroup" aria-label="Pricelist per menit"></div>
-<p class="ev-note" style="margin-top:10px">Semua harga di atas adalah harga awal dan dapat disesuaikan admin di kemudian hari.</p>
-
-<h2 class="ev-sec">Aturan target dan pembayaran</h2>
-<ul class="ev-rules">
+</ul></div></details>
+<details class="ev-acc"><summary><span class="ev-acc-n"><i class="fa-solid fa-scale-balanced" aria-hidden="true"></i></span>Aturan target &amp; pembayaran<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary>
+<div class="ev-acc-body"><ul class="ev-rules">
 <li>Metode pembayaran dan pricelist dipilih sebelum pekerjaan dimulai.</li>
 <li>Setiap paket punya target minimum dan batas maksimum.</li>
 <li>Jika target minimum tidak tercapai, tidak ada pembayaran untuk pekerjaan tersebut.</li>
 <li>Jika target tercapai, pembayaran mengikuti tarif paket dan hasil yang valid, tidak melebihi batas paket.</li>
 <li>Pesan duplikat, gagal terkirim, atau hasil yang tidak valid tidak dihitung.</li>
 <li>Pekerjaan baru dianggap berhasil setelah hasilnya diverifikasi.</li>
-</ul>
+</ul></div></details>
+</div>
 
-<h2 class="ev-sec">Simulasi estimasi pendapatan</h2>
+<section class="ev-card2" aria-labelledby="evPriceH">
+<h2 class="ev-sec" id="evPriceH"><span class="ev-sec-n">1</span>Pilih pricelist</h2>
+<div class="ev-seg" role="tablist" aria-label="Metode pricelist">
+<button type="button" role="tab" class="ev-seg-b on" data-ev-seg="chat" aria-selected="true"><i class="fa-regular fa-comment-dots" aria-hidden="true"></i> Per chat</button>
+<button type="button" role="tab" class="ev-seg-b" data-ev-seg="menit" aria-selected="false"><i class="fa-regular fa-clock" aria-hidden="true"></i> Per menit</button>
+</div>
+<div class="ev-pane" data-ev-pane="chat">
+<p class="ev-note">Dibayar per chat yang <b>berhasil terkirim</b> dan memenuhi kriteria pekerjaan yang disepakati. Ketuk paket untuk memilih.</p>
+<div class="ev-pkgs" id="evListChat" role="radiogroup" aria-label="Pricelist per chat"></div>
+</div>
+<div class="ev-pane" data-ev-pane="menit" hidden>
+<p class="ev-note">Dihitung dari durasi penggunaan yang benar-benar memenuhi kriteria pekerjaan dan tercatat wajar, bukan sekadar waktu akun terhubung.</p>
+<div class="ev-pkgs" id="evListMenit" role="radiogroup" aria-label="Pricelist per menit"></div>
+</div>
+<p class="ev-note ev-note-end">Harga di atas adalah harga awal dan dapat disesuaikan admin di kemudian hari.</p>
+</section>
+
+<section class="ev-card2" aria-labelledby="evSimH">
+<h2 class="ev-sec" id="evSimH"><span class="ev-sec-n">2</span>Simulasi pendapatan</h2>
 <div class="ev-box">
 <label class="ev-lbl" for="evEstIn" id="evEstLbl">Pilih paket dulu</label>
 <div class="pc-input-wrap"><i class="pc-input-icon fa-solid fa-calculator" aria-hidden="true"></i><input class="pc-input" id="evEstIn" type="number" inputmode="numeric" min="0" step="1" placeholder="Masukkan angka" disabled></div>
@@ -1203,8 +1259,11 @@ AccessTokenDua
 <p class="ev-hint" style="margin:8px 2px 0">Ini hanya simulasi, bukan saldo atau transaksi. Hasil akhir mengikuti verifikasi admin.</p>
 </div>
 
-<h2 class="ev-sec">Daftarkan nomor</h2>
-<form class="pc-card" id="evForm" novalidate autocomplete="off">
+</section>
+
+<section class="ev-card2 ev-card2-form" aria-labelledby="evRegH">
+<h2 class="ev-sec" id="evRegH"><span class="ev-sec-n">3</span>Daftarkan nomor</h2>
+<form class="ev-form" id="evForm" novalidate autocomplete="off">
 <div class="pc-head"><div class="pc-head-icon"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></div><div class="pc-head-text"><h3>FORMULIR PENDAFTARAN</h3><p>Lengkapi data lalu kirim ke admin lewat WhatsApp</p></div></div>
 
 <label class="ev-lbl" for="evNum">Nomor WhatsApp aktif</label>
@@ -1247,6 +1306,8 @@ AccessTokenDua
 <button type="button" class="ev-ghost" id="evCopy"><i class="fa-regular fa-copy" aria-hidden="true"></i> Salin ringkasan</button>
 </div>
 </form>
+
+</section>
 
 <div class="footer" style="margin-top:14px;">&copy; 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
 </section>
@@ -18167,4 +18228,137 @@ body.kz-fp-open .fd-layer{z-index:1000200}
 })();
 </script>
 
+
+<style id="ev-gate-css">
+#evGate{position:fixed;inset:0;z-index:2147482000;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.82);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+#evGate.on{display:flex}
+#evGate .eg-card{width:100%;max-width:340px;padding:22px 18px 18px;border-radius:22px;background:#111;border:1px solid rgba(255,43,43,.4);box-shadow:0 24px 60px rgba(0,0,0,.7);text-align:center;font-family:'Outfit',system-ui,sans-serif;color:#fff}
+#evGate .eg-ic{display:inline-grid;place-items:center;width:52px;height:52px;border-radius:16px;background:rgba(255,43,43,.16);border:1px solid rgba(255,43,43,.5);color:#ff6b6b;font-size:1.4rem;margin-bottom:10px}
+#evGate h3{margin:0 0 4px;font:800 1.15rem 'Rajdhani','Outfit',sans-serif;letter-spacing:.8px}
+#evGate p{margin:0 0 14px;font-size:.74rem;line-height:1.55;color:rgba(255,255,255,.6)}
+#evGate input{width:100%;padding:13px 14px;border-radius:13px;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.14);color:#fff;font:600 16px 'Outfit',sans-serif;outline:0;text-align:center}
+#evGate input:focus{border-color:#ff2b2b}
+#evGate input.bad{border-color:#ff5c5c;background:rgba(255,92,92,.08)}
+#evGate .eg-err{min-height:18px;margin:8px 0 6px;font-size:.72rem;font-weight:700;color:#ff7a7a}
+#evGate .eg-row{display:grid;grid-template-columns:1fr 1.4fr;gap:10px}
+#evGate button{padding:13px;border-radius:13px;border:0;font:800 .82rem 'Outfit',sans-serif;cursor:pointer;color:#fff}
+#evGate .eg-cancel{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14)}
+#evGate .eg-ok{background:linear-gradient(135deg,#ff3b3b,#c40f0f)}
+#evGate button:disabled{opacity:.5}
+</style>
+<div id="evGate" role="dialog" aria-modal="true" aria-labelledby="evGateT"><form class="eg-card" id="evGateF" autocomplete="off">
+<span class="eg-ic"><i class="fa-solid fa-lock" aria-hidden="true"></i></span>
+<h3 id="evGateT">AKSES ADMIN</h3>
+<p>Halaman Event hanya bisa dibuka dengan password admin.</p>
+<input type="password" id="evGatePw" placeholder="Password admin" autocomplete="off" aria-label="Password admin" aria-describedby="evGateErr">
+<div class="eg-err" id="evGateErr" role="alert"></div>
+<div class="eg-row"><button type="button" class="eg-cancel" id="evGateNo">Batal</button><button type="submit" class="eg-ok" id="evGateGo">Buka</button></div>
+</form></div>
+<script id="ev-gate-script">
+(function(){
+/* Password admin disimpan sebagai hash SHA-256 (bukan teks asli).
+   Ganti nilai ADMIN_HASH dengan hash password baru (lihat catatan cara membuatnya). */
+var ADMIN_HASH='c93c2f0bd041efce6a67fef97f2d58156f29c6e3df268b1865874ab42190c3f3';
+var KEY='kz_ev_admin_ok',MAXTRY=5,LOCKMS=30000;
+var unlocked=false,tries=0,lockUntil=0,pending=false;
+try{unlocked=sessionStorage.getItem(KEY)===ADMIN_HASH.slice(0,16)}catch(e){}
+
+function sha256(s){
+ var K=[],H=[],i,j,p=0,isP={};
+ function r(x,n){return (x>>>n)|(x<<(32-n))}
+ for(var c=2;p<64;c++){if(!isP[c]){for(i=c*c;i<312;i+=c)isP[i]=c;H[p]=(Math.pow(c,.5)*4294967296)|0;K[p++]=(Math.pow(c,1/3)*4294967296)|0}}
+ var b=unescape(encodeURIComponent(s)),l=b.length,w=[];
+ b+='\x80';while(b.length%64-56)b+='\x00';
+ for(i=0;i<b.length;i++){j=b.charCodeAt(i);w[i>>2]=(w[i>>2]||0)|(j<<((3-i%4)*8))}
+ w[w.length]=((l*8)/4294967296)|0;w[w.length]=(l*8)|0;
+ var h=H.slice(0,8);
+ for(j=0;j<w.length;){
+  var W=w.slice(j,j+=16),o=h.slice(0);
+  for(i=0;i<64;i++){
+   var w15=W[i-15],w2=W[i-2];
+   var a=o[0],e=o[4];
+   var t1=o[7]+(r(e,6)^r(e,11)^r(e,25))+((e&o[5])^(~e&o[6]))+K[i]+(W[i]=(i<16)?W[i]:(W[i-16]+(r(w15,7)^r(w15,18)^(w15>>>3))+W[i-7]+(r(w2,17)^r(w2,19)^(w2>>>10)))|0);
+   var t2=(r(a,2)^r(a,13)^r(a,22))+((a&o[1])^(a&o[2])^(o[1]&o[2]));
+   o=[(t1+t2)|0].concat(o);o[4]=(o[4]+t1)|0;o.pop();
+  }
+  for(i=0;i<8;i++)h[i]=(h[i]+o[i])|0;
+ }
+ var out='';for(i=0;i<8;i++)for(j=3;j+1;j--){var bb=(h[i]>>(j*8))&255;out+=(bb<16?'0':'')+bb.toString(16)}
+ return out;
+}
+
+var gate=document.getElementById('evGate'),form=document.getElementById('evGateF'),pw=document.getElementById('evGatePw'),err=document.getElementById('evGateErr'),go=document.getElementById('evGateGo');
+function open(){
+ pw.value='';pw.classList.remove('bad');err.textContent='';gate.classList.add('on');
+ setTimeout(function(){try{pw.focus()}catch(e){}},50);
+}
+function close(){gate.classList.remove('on');pw.value=''}
+document.getElementById('evGateNo').addEventListener('click',close);
+gate.addEventListener('click',function(e){if(e.target===gate)close()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&gate.classList.contains('on'))close()});
+form.addEventListener('submit',function(e){
+ e.preventDefault();
+ var now=Date.now();
+ if(now<lockUntil){err.textContent='Terlalu banyak percobaan. Coba lagi dalam '+Math.ceil((lockUntil-now)/1000)+' detik.';return}
+ var v=pw.value;
+ if(!v){err.textContent='Masukkan password admin.';pw.classList.add('bad');return}
+ if(sha256(v)===ADMIN_HASH){
+  unlocked=true;tries=0;try{sessionStorage.setItem(KEY,ADMIN_HASH.slice(0,16))}catch(x){}
+  close();
+  pending=true;try{window.showPage('eventTab')}finally{pending=false}
+ }else{
+  tries++;pw.classList.add('bad');pw.value='';
+  if(tries>=MAXTRY){lockUntil=Date.now()+LOCKMS;tries=0;err.textContent='Terlalu banyak percobaan. Coba lagi dalam 30 detik.'}
+  else err.textContent='Password salah. Sisa percobaan: '+(MAXTRY-tries)+'.';
+ }
+});
+
+/* Gerbang: semua jalur ke #eventTab lewat showPage */
+var prev=window.showPage;
+window.showPage=function(id){
+ if(id==='eventTab'&&!unlocked){open();return}
+ return prev.apply(this,arguments);
+};
+/* Kalau halaman Event aktif tanpa lewat showPage (mis. state lama), tutup lagi */
+function guard(){
+ var ev=document.getElementById('eventTab');
+ if(ev&&ev.classList.contains('active')&&!unlocked){
+  try{prev.call(window,'home',true)}catch(e){}
+  open();
+ }
+}
+
+/* Background solid saat halaman Event aktif */
+function solid(){
+ var ev=document.getElementById('eventTab'),on=!!(ev&&ev.classList.contains('active'));
+ if(on===document.body.classList.contains('ev-solid'))return;
+ document.body.classList.toggle('ev-solid',on);
+ var v=document.getElementById('zusmoWallpaperBg');
+ if(!v)return;
+ try{if(on)v.pause();else if(getComputedStyle(v).display!=='none'){var q=v.play();if(q&&q.catch)q.catch(function(){})}}catch(e){}
+}
+var ev0=document.getElementById('eventTab');
+if(ev0){try{new MutationObserver(function(){guard();solid()}).observe(ev0,{attributes:true,attributeFilter:['class']})}catch(e){}}
+guard();solid();
+
+/* Tab Per chat / Per menit di pricelist */
+var root=document.getElementById('eventTab');
+function seg(m){
+ var bs=root.querySelectorAll('.ev-seg-b'),ps=root.querySelectorAll('.ev-pane');
+ for(var i=0;i<bs.length;i++){var on=bs[i].getAttribute('data-ev-seg')===m;bs[i].classList.toggle('on',on);bs[i].setAttribute('aria-selected',String(on))}
+ for(var j=0;j<ps.length;j++)ps[j].hidden=ps[j].getAttribute('data-ev-pane')!==m;
+}
+if(root){
+ root.addEventListener('click',function(e){
+  var b=e.target.closest&&e.target.closest('.ev-seg-b');
+  if(b){seg(b.getAttribute('data-ev-seg'));return}
+  var p=e.target.closest&&e.target.closest('.ev-pkg');
+  if(p)seg(p.getAttribute('data-m'));
+ });
+ root.addEventListener('change',function(e){
+  if(e.target&&e.target.name==='evMethod')seg(e.target.value);
+ });
+}
+})();
+</script>
 </body></html>
