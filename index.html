@@ -1632,6 +1632,57 @@ body.ev-solid.ev-light .topbar-pro{background:rgba(255,255,255,.86)!important;-w
 #eventTab #evWa>*:nth-child(6){animation-delay:.16s}
 #eventTab #evWa>*:nth-child(7){animation-delay:.2s}
 @keyframes evUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+#eventTab .ev-page{display:block}
+#eventTab .ev-page[hidden]{display:none!important}
+#eventTab .ev-page>*{animation:evUp .45s cubic-bezier(.2,.7,.2,1) backwards}
+#eventTab .ev-top.ev-top-c{background:linear-gradient(135deg,rgba(var(--c),.24),rgba(var(--c),.06) 65%,rgba(255,255,255,.03));border-color:rgba(var(--c),.38)}
+#eventTab .ev-top-c .ev-hero-ic{background:linear-gradient(145deg,rgb(var(--c)),rgba(var(--c),.6));box-shadow:0 8px 20px rgba(var(--c),.4);color:#fff}
+#eventTab .ev-pg-w{color:rgb(var(--c))}
+#eventTab .ev-pg .ev-sec-n{background:linear-gradient(145deg,rgb(var(--c)),rgba(var(--c),.65));color:#fff}
+#eventTab .ev-pg-promo{display:flex;flex-direction:column;gap:5px;margin:0 0 14px;padding:14px 16px;border-radius:20px;background:linear-gradient(135deg,rgba(var(--c),.3),rgba(var(--c),.08));border:1.5px dashed rgba(var(--c),.6);color:#fff;font:500 .78rem/1.4 'Outfit',sans-serif}
+#eventTab .ev-pg-promo b{font:800 .98rem/1.3 'Outfit',sans-serif;color:#fff}
+#eventTab .ev-pg-promo-t{font:800 .68rem 'Outfit',sans-serif;letter-spacing:1px;text-transform:uppercase;color:rgb(var(--c))}
+#eventTab .ev-pg-list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+#eventTab .ev-pg-f{display:flex;gap:12px;align-items:flex-start;padding:11px 12px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)}
+#eventTab .ev-pg-fi{flex:none;display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:rgba(var(--c),.18);border:1px solid rgba(var(--c),.45);color:rgb(var(--c))}
+#eventTab .ev-pg-f b{display:block;font:800 .84rem 'Outfit',sans-serif;color:#fff;margin-bottom:2px}
+#eventTab .ev-pg-f p{margin:0;font-size:.74rem;line-height:1.5;color:rgba(255,255,255,.65)}
+#eventTab .ev-pg-s{display:flex;gap:12px;align-items:center;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);font:600 .8rem/1.4 'Outfit',sans-serif;color:#fff}
+#eventTab .ev-pg-s .ev-sec-n{flex:none}
+#eventTab[data-ev-theme="light"] .ev-top.ev-top-c{background:linear-gradient(135deg,#fff,rgba(var(--c),.14) 75%);border-color:rgba(var(--c),.4);box-shadow:0 10px 26px rgba(15,23,42,.08)}
+#eventTab[data-ev-theme="light"] .ev-pg-promo{background:linear-gradient(135deg,rgba(var(--c),.18),#fff);color:#334155}
+#eventTab[data-ev-theme="light"] .ev-pg-promo b,#eventTab[data-ev-theme="light"] .ev-pg-f b,#eventTab[data-ev-theme="light"] .ev-pg-s{color:#0f172a}
+#eventTab[data-ev-theme="light"] .ev-pg-f p{color:#475569}
+#eventTab[data-ev-theme="light"] .ev-pg-f,#eventTab[data-ev-theme="light"] .ev-pg-s{background:#f8fafc;border-color:rgba(15,23,42,.08)}
+#eventTab[data-ev-theme="light"] .ev-pg-w{color:rgb(var(--c))}
+#eventTab[data-ev-theme="light"] .ev-pg .ev-card2{background:#fff;border-color:rgba(15,23,42,.1)}
+#eventTab .ev-tile{background:radial-gradient(120% 90% at 100% 0%,rgba(var(--c),.4),transparent 62%),linear-gradient(155deg,rgba(var(--c),.22),rgba(var(--c),.05) 75%);border-color:rgba(var(--c),.55)}
+#eventTab .ev-tile-ic{background:linear-gradient(145deg,rgb(var(--c)),rgba(var(--c),.6));border-color:rgba(255,255,255,.25)}
+#eventTab .ev-tile-ic i{color:#fff}
+#eventTab .ev-tile-go{background:rgb(var(--c));color:#fff;border-color:transparent}
+#eventTab[data-ev-theme="light"] .ev-tile{background:radial-gradient(120% 90% at 100% 0%,rgba(var(--c),.3),transparent 62%),linear-gradient(155deg,rgba(var(--c),.14),#fff 75%)}
+@media(prefers-reduced-motion:reduce){#eventTab .ev-page>*{animation:none}}
+
+#eventTab .ev-tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px}
+#eventTab .ev-tile{--c:37,211,102;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:flex-start;gap:4px;min-height:168px;padding:16px 14px 14px;border-radius:22px;box-sizing:border-box;background:radial-gradient(120% 90% at 100% 0%,rgba(var(--c),.22),transparent 60%),linear-gradient(160deg,rgba(255,255,255,.07),rgba(255,255,255,.025));border:1.5px solid rgba(var(--c),.38);box-shadow:0 10px 24px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.08);color:#fff;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .15s,border-color .18s,box-shadow .18s}
+#eventTab .ev-tile:active{transform:scale(.97)}
+#eventTab .ev-tile:focus-visible{outline:2px solid rgb(var(--c));outline-offset:2px}
+#eventTab .ev-tile-ic{display:flex;align-items:center;justify-content:center;width:48px;height:48px;margin-bottom:10px;border-radius:16px;background:linear-gradient(145deg,rgba(var(--c),.32),rgba(var(--c),.1));border:1px solid rgba(var(--c),.5);box-shadow:0 6px 16px rgba(var(--c),.25)}
+#eventTab .ev-tile-ic i{font-size:1.35rem;color:rgb(var(--c))}
+#eventTab .ev-tile h3{margin:0;font:800 .95rem/1.2 'Outfit',sans-serif;color:#fff}
+#eventTab .ev-tile p{margin:0;font:500 .7rem/1.45 'Outfit',sans-serif;color:rgba(255,255,255,.62)}
+#eventTab .ev-tile-go{position:absolute;right:12px;bottom:12px;display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:rgba(var(--c),.2);border:1px solid rgba(var(--c),.55);color:rgb(var(--c));font-size:.8rem}
+#eventTab .ev-tile-soon{cursor:default;border-style:dashed;border-color:rgba(var(--c),.28);box-shadow:none}
+#eventTab .ev-tile-soon:active{transform:none}
+#eventTab .ev-tile-soon .ev-tile-ic{filter:saturate(.7);opacity:.85}
+#eventTab .ev-tile-badge{position:absolute;right:10px;bottom:12px;margin:0;font-size:.58rem}
+#eventTab[data-ev-theme="light"] .ev-tile{background:radial-gradient(120% 90% at 100% 0%,rgba(var(--c),.16),transparent 60%),#fff;border-color:rgba(var(--c),.45);box-shadow:0 8px 20px rgba(15,23,42,.08);color:#0f172a}
+#eventTab[data-ev-theme="light"] .ev-tile h3{color:#0f172a}
+#eventTab[data-ev-theme="light"] .ev-tile p{color:#475569}
+#eventTab[data-ev-theme="light"] .ev-tile-ic{background:linear-gradient(145deg,rgba(var(--c),.2),rgba(var(--c),.07));box-shadow:none}
+#eventTab[data-ev-theme="light"] .ev-tile-soon{background:#f8fafc;box-shadow:none}
+@media(max-width:340px){#eventTab .ev-tiles{gap:9px}#eventTab .ev-tile{padding:14px 11px 12px;min-height:158px}}
+
 #eventTab .ev-radio span .ev-code{display:flex;align-items:center;justify-content:center;gap:2.5px;width:100%;max-width:150px;flex:none;font-size:0}
 #eventTab .ev-radio span .ev-code .c{flex:1 1 0;min-width:0;aspect-ratio:5/6;display:flex;align-items:center;justify-content:center;border-radius:32%;background:rgba(255,255,255,.075);color:rgba(255,255,255,.26);font:700 6.5px/1 'Space Mono',monospace;letter-spacing:0;box-sizing:border-box;transition:none}
 #eventTab .ev-radio span .ev-code .c.on{background:transparent;box-shadow:inset 0 0 0 1.6px #22c55e;color:rgba(255,255,255,.4)}
@@ -1710,13 +1761,39 @@ body.ev-solid.ev-light .topbar-pro{background:rgba(255,255,255,.86)!important;-w
 
 <section id="evHub" aria-label="Daftar layanan Event">
 <div class="kl-sec"><span>Layanan</span></div>
-<div class="kl-card ev-card" role="button" tabindex="0" aria-label="Buka Sewa WhatsApp" data-ev-open="wa"><div class="kl-body"><span class="pc-head-icon"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></span><div class="kl-body-txt"><h3>Sewa WhatsApp</h3><p>Kirim pesan WhatsApp massal. Rp200/chat atau Rp1.000/menit.</p></div><span class="kl-go"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span></div></div>
-<div class="kl-card ev-card ev-static" aria-label="Setor Email, segera hadir"><div class="kl-body"><span class="pc-head-icon"><i class="fa-solid fa-envelope" aria-hidden="true"></i></span><div class="kl-body-txt"><h3>Setor Email<span class="ev-soon">Segera hadir</span></h3></div></div></div>
- <div class="kl-card ev-card ev-static" aria-label="Clipper, segera hadir"><div class="kl-body"><span class="pc-head-icon"><i class="fa-solid fa-scissors" aria-hidden="true"></i></span><div class="kl-body-txt"><h3>Clipper<span class="ev-soon">Segera hadir</span></h3></div></div></div>
- <div class="kl-card ev-card ev-static" aria-label="Zusmo Mabar, segera hadir"><div class="kl-body"><span class="pc-head-icon"><i class="fa-solid fa-gamepad" aria-hidden="true"></i></span><div class="kl-body-txt"><h3>Zusmo Mabar<span class="ev-soon">Segera hadir</span></h3></div></div></div>
+<div class="ev-tiles">
+<div class="ev-tile" style="--c:37,211,102" role="button" tabindex="0" aria-label="Buka Sewa WhatsApp" data-ev-open="wa"><span class="ev-tile-ic"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></span><h3>Sewa WhatsApp</h3><p>Nganggur jadi cuan! Sewain WA kamu, Rp200 per chat, langsung cair.</p><span class="ev-tile-go"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span></div>
+<div class="ev-tile" style="--c:56,189,248" role="button" tabindex="0" aria-label="Buka Setor Email" data-ev-open="email"><span class="ev-tile-ic"><i class="fa-solid fa-envelope" aria-hidden="true"></i></span><h3>Setor Email</h3><p>Setor email, dibayar cepat. Makin banyak setoran, makin tebal cuannya!</p><span class="ev-tile-go"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span></div>
+<div class="ev-tile" style="--c:251,146,60" role="button" tabindex="0" aria-label="Buka Clipper" data-ev-open="clipper"><span class="ev-tile-ic"><i class="fa-solid fa-scissors" aria-hidden="true"></i></span><h3>Clipper</h3><p>Potong video jadi duit! Klip viral, bonus mengalir terus.</p><span class="ev-tile-go"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span></div>
+<div class="ev-tile" style="--c:168,85,247" role="button" tabindex="0" aria-label="Buka Zusmo Mabar" data-ev-open="mabar"><span class="ev-tile-ic"><i class="fa-solid fa-gamepad" aria-hidden="true"></i></span><h3>Zusmo Mabar</h3><p>Mabar seru bareng Zusmo, menang bawa pulang hadiah.</p><span class="ev-tile-go"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span></div>
+</div>
 </section>
 
-<section id="evWa" aria-label="Sewa WA Blast" hidden>
+<section id="evEmail" class="ev-page ev-pg" data-ev-page style="--c:56,189,248" aria-label="Setor Email" hidden>
+<button type="button" class="ev-theme" data-ev-toggle aria-label="Ganti ke mode gelap"><i class="fa-solid fa-moon" aria-hidden="true"></i></button>
+<button type="button" class="ev-back" data-ev-back><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Kembali</button>
+<header class="ev-top ev-top-c"><span class="ev-hero-ic"><i class="fa-solid fa-envelope" aria-hidden="true"></i></span><div><p class="pc-title"><span class="ev-pg-w">SETOR</span>&nbsp;<span class="wht">EMAIL</span></p><p class="ev-top-sub">Setor email kamu, dapat cuan tanpa ribet.</p></div></header>
+<div class="ev-pg-promo"><span class="ev-pg-promo-t"><i class="fa-solid fa-fire-flame-curved" aria-hidden="true"></i> Promo cuan</span><b>Gabung sekarang, bonus perdana menunggu!</b></div>
+<section class="ev-card2"><h2 class="ev-sec"><span class="ev-sec-n"><i class="fa-solid fa-star" aria-hidden="true"></i></span>Keuntungan</h2><ul class="ev-pg-list"><li class="ev-pg-f"><span class="ev-pg-fi"><i class="fa-solid fa-bolt" aria-hidden="true"></i></span><div><b>Bayaran cepat</b><p>Setoran diproses cepat, saldo masuk tanpa lama menunggu.</p></div></li><li class="ev-pg-f"><span class="ev-pg-fi"><i class="fa-solid fa-gift" aria-hidden="true"></i></span><div><b>Bonus setoran</b><p>Makin banyak yang disetor, makin besar bonus yang kamu dapat.</p></div></li><li class="ev-pg-f"><span class="ev-pg-fi"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></span><div><b>Aman</b><p>Data setoran dijaga dan hanya dipakai untuk keperluan layanan.</p></div></li></ul></section>
+<section class="ev-card2"><h2 class="ev-sec"><span class="ev-sec-n"><i class="fa-solid fa-list-check" aria-hidden="true"></i></span>Cara kerja</h2><ol class="ev-pg-list ev-pg-steps"><li class="ev-pg-s"><span class="ev-sec-n">1</span><span>Siapkan email yang mau disetor.</span></li><li class="ev-pg-s"><span class="ev-sec-n">2</span><span>Kirim setoran lewat halaman ini.</span></li><li class="ev-pg-s"><span class="ev-sec-n">3</span><span>Tunggu verifikasi, lalu saldo masuk.</span></li></ol></section>
+</section>
+<section id="evClipper" class="ev-page ev-pg" data-ev-page style="--c:251,146,60" aria-label="Clipper" hidden>
+<button type="button" class="ev-theme" data-ev-toggle aria-label="Ganti ke mode gelap"><i class="fa-solid fa-moon" aria-hidden="true"></i></button>
+<button type="button" class="ev-back" data-ev-back><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Kembali</button>
+<header class="ev-top ev-top-c"><span class="ev-hero-ic"><i class="fa-solid fa-scissors" aria-hidden="true"></i></span><div><p class="pc-title"><span class="ev-pg-w">JADI</span>&nbsp;<span class="wht">CLIPPER</span></p><p class="ev-top-sub">Potong video, upload, dan kumpulkan cuan dari tiap klip.</p></div></header>
+<div class="ev-pg-promo"><span class="ev-pg-promo-t"><i class="fa-solid fa-fire-flame-curved" aria-hidden="true"></i> Promo cuan</span><b>Gabung sekarang, bonus perdana menunggu!</b></div>
+<section class="ev-card2"><h2 class="ev-sec"><span class="ev-sec-n"><i class="fa-solid fa-star" aria-hidden="true"></i></span>Keuntungan</h2><ul class="ev-pg-list"><li class="ev-pg-f"><span class="ev-pg-fi"><i class="fa-solid fa-fire" aria-hidden="true"></i></span><div><b>Klip viral = bonus</b><p>Klip yang ramai ditonton berhak dapat bonus tambahan.</p></div></li><li class="ev-pg-f"><span class="ev-pg-fi"><i class="fa-solid fa-film" aria-hidden="true"></i></span><div><b>Bahan siap pakai</b><p>Ambil bahan video, tinggal potong dan kreasikan.</p></div></li><li class="ev-pg-f"><span class="ev-pg-fi"><i class="fa-solid fa-wallet" aria-hidden="true"></i></span><div><b>Cair rutin</b><p>Hasil klip dihitung dan dicairkan secara berkala.</p></div></li></ul></section>
+<section class="ev-card2"><h2 class="ev-sec"><span class="ev-sec-n"><i class="fa-solid fa-list-check" aria-hidden="true"></i></span>Cara kerja</h2><ol class="ev-pg-list ev-pg-steps"><li class="ev-pg-s"><span class="ev-sec-n">1</span><span>Pilih video yang mau dipotong.</span></li><li class="ev-pg-s"><span class="ev-sec-n">2</span><span>Buat klip terbaikmu dan kirim.</span></li><li class="ev-pg-s"><span class="ev-sec-n">3</span><span>Klip disetujui, cuan mengalir.</span></li></ol></section>
+</section>
+<section id="evMabar" class="ev-page ev-pg" data-ev-page style="--c:168,85,247" aria-label="Zusmo Mabar" hidden>
+<button type="button" class="ev-theme" data-ev-toggle aria-label="Ganti ke mode gelap"><i class="fa-solid fa-moon" aria-hidden="true"></i></button>
+<button type="button" class="ev-back" data-ev-back><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Kembali</button>
+<header class="ev-top ev-top-c"><span class="ev-hero-ic"><i class="fa-solid fa-gamepad" aria-hidden="true"></i></span><div><p class="pc-title"><span class="ev-pg-w">ZUSMO</span>&nbsp;<span class="wht">MABAR</span></p><p class="ev-top-sub">Mabar bareng komunitas Zusmo, menang dapat hadiah seru.</p></div></header>
+<div class="ev-pg-promo"><span class="ev-pg-promo-t"><i class="fa-solid fa-fire-flame-curved" aria-hidden="true"></i> Promo cuan</span><b>Gabung sekarang, bonus perdana menunggu!</b></div>
+<section class="ev-card2"><h2 class="ev-sec"><span class="ev-sec-n"><i class="fa-solid fa-star" aria-hidden="true"></i></span>Keuntungan</h2><ul class="ev-pg-list"><li class="ev-pg-f"><span class="ev-pg-fi"><i class="fa-solid fa-trophy" aria-hidden="true"></i></span><div><b>Hadiah menarik</b><p>Juara tiap sesi mabar berkesempatan bawa pulang hadiah.</p></div></li><li class="ev-pg-f"><span class="ev-pg-fi"><i class="fa-solid fa-people-group" aria-hidden="true"></i></span><div><b>Satu komunitas</b><p>Ketemu teman main baru dari seluruh komunitas Zusmo.</p></div></li><li class="ev-pg-f"><span class="ev-pg-fi"><i class="fa-solid fa-calendar-check" aria-hidden="true"></i></span><div><b>Jadwal rutin</b><p>Sesi mabar diadakan berkala, jangan sampai ketinggalan.</p></div></li></ul></section>
+<section class="ev-card2"><h2 class="ev-sec"><span class="ev-sec-n"><i class="fa-solid fa-list-check" aria-hidden="true"></i></span>Cara kerja</h2><ol class="ev-pg-list ev-pg-steps"><li class="ev-pg-s"><span class="ev-sec-n">1</span><span>Daftar dan pilih sesi mabar.</span></li><li class="ev-pg-s"><span class="ev-sec-n">2</span><span>Gabung ke room sesuai jadwal.</span></li><li class="ev-pg-s"><span class="ev-sec-n">3</span><span>Main, menang, klaim hadiah.</span></li></ol></section>
+</section>
+<section id="evWa" data-ev-page aria-label="Sewa WA Blast" hidden>
 <button type="button" class="ev-theme" data-ev-toggle aria-label="Ganti ke mode gelap"><i class="fa-solid fa-moon" aria-hidden="true"></i></button>
 <button type="button" class="ev-back" data-ev-back><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Kembali</button>
 
@@ -2010,21 +2087,23 @@ function slRun(on){
  else if(!on&&SL.t){clearInterval(SL.t);SL.t=null}
 }
 function syncBar(){
- var on=!$('evWa').hidden&&root.classList.contains('active');
+ var on=evAnyPage()&&root.classList.contains('active');
  document.body.classList.toggle('ev-nobar',on);
  slRun(on&&!document.hidden);
 }
 document.addEventListener('visibilitychange',function(){syncBar()});
+var EVP={wa:'evWa',email:'evEmail',clipper:'evClipper',mabar:'evMabar'};
+function evAnyPage(){for(var k in EVP){var e=$(EVP[k]);if(e&&!e.hidden)return true}return false}
 function view(v){
  tutClose();
  $('evHub').hidden=(v!=='hub');
- $('evWa').hidden=(v!=='wa');
+ for(var k in EVP){var e=$(EVP[k]);if(e)e.hidden=(v!==k)}
  syncBar();
  try{window.scrollTo(0,0)}catch(e){}
 }
 /* keluar dari halaman Event lewat jalur apa pun: kembali ke daftar layanan dan navbar tampil lagi */
 try{new MutationObserver(function(){
- if(!root.classList.contains('active')&&!$('evWa').hidden){tutClose();$('evHub').hidden=false;$('evWa').hidden=true}
+ if(!root.classList.contains('active')&&evAnyPage()){tutClose();view('hub')}
  syncBar();
 }).observe(root,{attributes:true,attributeFilter:['class']})}catch(e){}
 
@@ -2110,15 +2189,15 @@ var root=document.getElementById('eventTab'),wa=document.getElementById('evWa');
 if(!root||!wa||root.__evTheme)return;
 root.__evTheme=1;
 var KEY='zusmo_ev_theme2';
-var btn=root.querySelector('[data-ev-toggle]');
+var btns=root.querySelectorAll('[data-ev-toggle]'),pages=root.querySelectorAll('[data-ev-page]');
 var metas=document.querySelectorAll('meta[name="theme-color"]'),orig=[];
 for(var i=0;i<metas.length;i++)orig.push(metas[i].getAttribute('content'));
 function pref(){try{return localStorage.getItem(KEY)==='dark'?'dark':'light'}catch(e){return 'light'}}
 function apply(){
- var m=pref(),on=!wa.hidden&&root.classList.contains('active'),light=on&&m==='light';
+ var m=pref(),on=false;for(var q=0;q<pages.length;q++)if(!pages[q].hidden)on=true;on=on&&root.classList.contains('active');var light=on&&m==='light';
  root.setAttribute('data-ev-theme',light?'light':'dark');
  document.body.classList.toggle('ev-light',light);
- if(btn){
+ for(var bi=0;bi<btns.length;bi++){var btn=btns[bi];
   btn.setAttribute('aria-label',m==='light'?'Ganti ke mode gelap':'Ganti ke mode terang');
   btn.innerHTML=m==='light'?'<i class="fa-solid fa-moon" aria-hidden="true"></i>':'<i class="fa-solid fa-sun" aria-hidden="true"></i>';
  }
@@ -2135,7 +2214,7 @@ window.addEventListener('storage',function(e){if(e.key===KEY)apply()});
 try{
  var mo=new MutationObserver(apply);
  mo.observe(root,{attributes:true,attributeFilter:['class']});
- mo.observe(wa,{attributes:true,attributeFilter:['hidden']});
+ for(var pi=0;pi<pages.length;pi++)mo.observe(pages[pi],{attributes:true,attributeFilter:['hidden']});
 }catch(e){}
 })();
 </script>
