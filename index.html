@@ -1369,17 +1369,9 @@ body.ev-solid #zusmoWallpaperBg,body.ev-solid #zxOldWall{display:none!important}
 <div><p class="pc-title"><span class="ev-t-g">SEWA</span>&nbsp;<span class="wht">WA BLAST</span></p>
 <p class="ev-top-sub">Sewakan akun WhatsApp kamu, dapat saldo langsung.</p></div>
 </header>
-<div class="ev-chips"><span class="ev-chip"><i class="fa-solid fa-bolt" aria-hidden="true"></i> 1 nomor = 1&times; blast</span><span class="ev-chip"><i class="fa-solid fa-wallet" aria-hidden="true"></i> Min. WD Rp5.000</span></div>
 <div class="ev-promo"><b class="ev-promo-t"><i class="fa-solid fa-sack-dollar" aria-hidden="true"></i> Punya nomor WhatsApp nganggur?</b>
 <p>Daftarkan nomor, admin yang memandu prosesnya. Saldo bisa ditarik ke DANA, GoPay, ShopeePay, atau OVO.</p>
 <ul><li><i class="fa-solid fa-check" aria-hidden="true"></i> Daftar cepat lewat WhatsApp</li><li><i class="fa-solid fa-check" aria-hidden="true"></i> Tanpa modal, tanpa ribet</li><li><i class="fa-solid fa-check" aria-hidden="true"></i> WD mulai Rp5.000</li></ul></div>
-
-<ol class="ev-prog" id="evProg" aria-label="Progres pendaftaran">
-<li data-step="rate"><button type="button" data-go="evSecRate"><span class="ev-prog-dot">1</span>Tarif</button></li>
-<li data-step="data"><button type="button" data-go="evFgNum"><span class="ev-prog-dot">2</span>Data nomor</button></li>
-<li data-step="wd"><button type="button" data-go="evFgWd"><span class="ev-prog-dot">3</span>Penarikan</button></li>
-</ol>
-<p class="ev-prog-msg" id="evProgMsg" aria-live="polite">Mulai dari memilih tarif.</p>
 
 <section class="ev-card2" id="evSecRate" aria-labelledby="evPriceH">
 <h2 class="ev-sec" id="evPriceH"><span class="ev-sec-n">1</span>Pilih tarif</h2>
@@ -1398,11 +1390,7 @@ body.ev-solid #zusmoWallpaperBg,body.ev-solid #zxOldWall{display:none!important}
 <div class="ev-fg" id="evFgNum"><h3 class="ev-fg-t">Data nomor</h3>
 <label class="ev-lbl" for="evNum">Nomor WhatsApp</label>
 <div class="pc-input-wrap"><i class="pc-input-icon fa-brands fa-whatsapp" aria-hidden="true"></i><input class="pc-input" id="evNum" type="tel" inputmode="tel" autocomplete="tel" maxlength="22" placeholder="08123456789 atau +6281234567890"></div>
-<p class="ev-hint">Boleh ketik 08&hellip; atau 62&hellip;, otomatis dijadikan format +62.</p>
 <div class="ev-err" id="evErrNum" role="alert" hidden></div>
-<label class="ev-lbl" for="evName">Nama pemilik</label>
-<div class="pc-input-wrap"><i class="pc-input-icon fa-solid fa-user" aria-hidden="true"></i><input class="pc-input" id="evName" type="text" autocomplete="name" maxlength="60" placeholder="Nama lengkap"></div>
-<div class="ev-err" id="evErrName" role="alert" hidden></div>
 <span class="ev-lbl" id="evLoginLbl">Metode login</span>
 <div class="ev-radios" role="radiogroup" aria-labelledby="evLoginLbl">
 <label class="ev-radio"><input type="radio" name="evLogin" value="code"><span><i class="fa-solid fa-keyboard" aria-hidden="true"></i> Input Code</span><em class="ev-rec">Disarankan</em></label>
@@ -1434,12 +1422,10 @@ body.ev-solid #zusmoWallpaperBg,body.ev-solid #zxOldWall{display:none!important}
 <div class="ev-err" id="evErrWdName" role="alert" hidden></div>
 </div>
 
-<div class="ev-sum" id="evSum" aria-live="polite" hidden></div>
 <label class="ev-check" id="evCheckRow"><input type="checkbox" id="evConsent"><span>Saya paham WhatsApp saya bisa dibatasi sementara.<button type="button" class="ev-linkbtn" data-ev-risk>Lihat risiko</button></span></label>
 <div class="ev-err" id="evErrConsent" role="alert" hidden></div>
 
 <button type="submit" class="pc-btn" id="evSubmit"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Kirim ke admin lewat WhatsApp</button>
-<p class="ev-note-end">Kamu akan diarahkan ke WhatsApp admin. Jangan pernah kirim PIN atau kode OTP.</p>
 
 </form>
 </section>
@@ -1487,7 +1473,7 @@ function rowx(dl,k,v,mute){
 function stepState(){
  return{
   rate:!!S.method,
-  data:!checkNum()&&!checkPerson('evName','x')&&!!checked('evLogin'),
+  data:!checkNum()&&!!checked('evLogin'),
   wd:!!$('evWdType').value&&!checkWdNum()&&!checkPerson('evWdName','x')
  };
 }
@@ -1510,7 +1496,7 @@ function updateRateHint(){
 function renderSummary(){
  var box=$('evSum'),p=cur();
  if(box){
-  var num=normNum($('evNum').value),nm=$('evName').value.trim(),lg=checked('evLogin'),wt=$('evWdType').value,wn=cleanNum($('evWdNum').value),wnm=$('evWdName').value.trim();
+  var num=normNum($('evNum').value),nm='',lg=checked('evLogin'),wt=$('evWdType').value,wn=cleanNum($('evWdNum').value),wnm=$('evWdName').value.trim();
   var any=p||num||nm||lg||wt||wn||wnm;
   box.hidden=!any;
   if(any){
@@ -1557,7 +1543,7 @@ function sync(){
 function choose(m){S.method=m;setErr('method','');sync()}
 
 /* ---------- Validasi ---------- */
-var FIELDS={num:['evNum','evErrNum'],name:['evName','evErrName'],login:[null,'evErrLogin'],method:[null,'evErrMethod'],wdType:['evWdTrig','evErrWdType'],wdNum:['evWdNum','evErrWdNum'],wdName:['evWdName','evErrWdName'],consent:['evConsent','evErrConsent']};
+var FIELDS={num:['evNum','evErrNum'],login:[null,'evErrLogin'],method:[null,'evErrMethod'],wdType:['evWdTrig','evErrWdType'],wdNum:['evWdNum','evErrWdNum'],wdName:['evWdName','evErrWdName'],consent:['evConsent','evErrConsent']};
 function setErr(key,msg){
  var f=FIELDS[key],el=f[0]?$(f[0]):null,er=$(f[1]);
  if(msg){er.textContent=msg;er.hidden=false;if(el)el.setAttribute('aria-invalid','true')}
@@ -1597,7 +1583,6 @@ function validate(){
  var nv=normNum($('evNum').value);if(nv)$('evNum').value=nv;
  var errs={
   num:checkNum(),
-  name:checkPerson('evName','Nama pemilik nomor'),
   login:checked('evLogin')?'':'Pilih metode login.',
   method:S.method?'':'Pilih metode tarif.',
   wdType:$('evWdType').value?'':'Pilih metode penarikan.',
@@ -1605,7 +1590,7 @@ function validate(){
   wdName:checkPerson('evWdName','Atas nama rekening'),
   consent:$('evConsent').checked?'':'Centang persetujuan untuk melanjutkan.'
  };
- var order=['num','name','login','method','wdType','wdNum','wdName','consent'],first=null;
+ var order=['num','login','method','wdType','wdNum','wdName','consent'],first=null;
  order.forEach(function(k){setErr(k,errs[k]);if(errs[k]&&!first)first=k});
  if(first){
   var f=first==='login'?root.querySelector('input[name="evLogin"]'):first==='method'?root.querySelector('.ev-rate'):$(FIELDS[first][0]);
@@ -1620,7 +1605,6 @@ function buildMsg(){
  var p=cur();
  return ['Halo Admin KZRIZUSMO, saya ingin mendaftarkan nomor WhatsApp untuk layanan Sewa WA Blast.','',
   'Nomor WhatsApp: '+normNum($('evNum').value),
-  'Nama pemilik: '+$('evName').value.trim(),
   'Metode login: '+LOGIN[checked('evLogin')]+' (berlaku 60 detik, saya siap sebelum kode/QR dikirim)',
   'Metode tarif: '+p.name+' ('+rp(p.rate)+' '+p.per+')',
   'Minimal WD: '+rp(CFG.minWd),
@@ -1686,7 +1670,7 @@ Array.prototype.forEach.call(root.querySelectorAll('input[name="evMethod"]'),fun
 Array.prototype.forEach.call(root.querySelectorAll('input[name="evLogin"]'),function(r){
  r.addEventListener('change',function(){setErr('login','');renderSummary();hideReady();tutShow(this.value)});
 });
-[['evNum','num'],['evName','name'],['evWdNum','wdNum'],['evWdName','wdName']].forEach(function(x){
+[['evNum','num'],['evWdNum','wdNum'],['evWdName','wdName']].forEach(function(x){
  $(x[0]).addEventListener('input',function(){setErr(x[1],'');hideReady();renderSummary()});
 });
 (function(){
@@ -1713,7 +1697,6 @@ Array.prototype.forEach.call(root.querySelectorAll('input[name="evLogin"]'),func
 $('evConsent').addEventListener('change',function(){setErr('consent','');hideReady();updateProgress()});
 /* cek langsung saat pindah kolom, dan rapikan nomor otomatis */
 $('evNum').addEventListener('blur',function(){var v=normNum(this.value);if(v&&v!==this.value)this.value=v;if(this.value)setErr('num',checkNum());renderSummary()});
-$('evName').addEventListener('blur',function(){if(this.value)setErr('name',checkPerson('evName','Nama pemilik nomor'))});
 $('evWdNum').addEventListener('blur',function(){if(this.value)setErr('wdNum',checkWdNum())});
 $('evWdName').addEventListener('blur',function(){if(this.value)setErr('wdName',checkPerson('evWdName','Atas nama rekening'))});
 $('evForm').addEventListener('submit',function(e){
@@ -18367,17 +18350,17 @@ body.kz-fp-open .fd-layer{z-index:1000200}
 #evGate{position:fixed;inset:0;z-index:2147482000;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.82);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
 #evGate.on{display:flex}
 #evGate .eg-card{width:100%;max-width:340px;padding:22px 18px 18px;border-radius:22px;background:#111;border:1px solid rgba(255,43,43,.4);box-shadow:0 24px 60px rgba(0,0,0,.7);text-align:center;font-family:'Outfit',system-ui,sans-serif;color:#fff}
-#evGate .eg-ic{display:inline-grid;place-items:center;width:52px;height:52px;border-radius:16px;background:rgba(255,43,43,.16);border:1px solid rgba(255,43,43,.5);color:#ff6b6b;font-size:1.4rem;margin-bottom:10px}
+#evGate .eg-ic{display:inline-grid;place-items:center;width:52px;height:52px;border-radius:16px;background:rgba(37,211,102,.16);border:1px solid rgba(37,211,102,.5);color:#4ade80;font-size:1.4rem;margin-bottom:10px}
 #evGate h3{margin:0 0 4px;font:800 1.15rem 'Rajdhani','Outfit',sans-serif;letter-spacing:.8px}
 #evGate p{margin:0 0 14px;font-size:.74rem;line-height:1.55;color:rgba(255,255,255,.6)}
 #evGate input{width:100%;padding:13px 14px;border-radius:13px;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.14);color:#fff;font:600 16px 'Outfit',sans-serif;outline:0;text-align:center}
-#evGate input:focus{border-color:#ff2b2b}
+#evGate input:focus{border-color:#25d366;box-shadow:0 0 0 3px rgba(37,211,102,.16)}
 #evGate input.bad{border-color:#ff5c5c;background:rgba(255,92,92,.08)}
 #evGate .eg-err{min-height:18px;margin:8px 0 6px;font-size:.72rem;font-weight:700;color:#ff7a7a}
 #evGate .eg-row{display:grid;grid-template-columns:1fr 1.4fr;gap:10px}
 #evGate button{padding:13px;border-radius:13px;border:0;font:800 .82rem 'Outfit',sans-serif;cursor:pointer;color:#fff}
 #evGate .eg-cancel{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14)}
-#evGate .eg-ok{background:linear-gradient(135deg,#ff3b3b,#c40f0f)}
+#evGate .eg-ok{background:linear-gradient(135deg,#1fa855,#0f766e)}
 #evGate button:disabled{opacity:.5}
 </style>
 <div id="evGate" role="dialog" aria-modal="true" aria-labelledby="evGateT"><form class="eg-card" id="evGateF" autocomplete="off">
@@ -18395,7 +18378,10 @@ body.kz-fp-open .fd-layer{z-index:1000200}
 var ADMIN_HASH='c93c2f0bd041efce6a67fef97f2d58156f29c6e3df268b1865874ab42190c3f3';
 var KEY='kz_ev_admin_ok',MAXTRY=5,LOCKMS=30000;
 var unlocked=false,tries=0,lockUntil=0,pending=false;
-try{unlocked=sessionStorage.getItem(KEY)===ADMIN_HASH.slice(0,16)}catch(e){}
+/* Disimpan permanen (localStorage) supaya cukup sekali input di perangkat ini. Sesi lama (sessionStorage) tetap dikenali. */
+function stored(st){try{return st.getItem(KEY)===ADMIN_HASH.slice(0,16)}catch(e){return false}}
+unlocked=stored(window.localStorage)||stored(window.sessionStorage);
+if(unlocked){try{localStorage.setItem(KEY,ADMIN_HASH.slice(0,16))}catch(e){}}
 
 function sha256(s){
  var K=[],H=[],i,j,p=0,isP={};
@@ -18437,7 +18423,7 @@ form.addEventListener('submit',function(e){
  var v=pw.value;
  if(!v){err.textContent='Masukkan password admin.';pw.classList.add('bad');return}
  if(sha256(v)===ADMIN_HASH){
-  unlocked=true;tries=0;try{sessionStorage.setItem(KEY,ADMIN_HASH.slice(0,16))}catch(x){}
+  unlocked=true;tries=0;try{localStorage.setItem(KEY,ADMIN_HASH.slice(0,16))}catch(x){}try{sessionStorage.setItem(KEY,ADMIN_HASH.slice(0,16))}catch(x){}
   close();
   pending=true;try{window.showPage('eventTab')}finally{pending=false}
  }else{
