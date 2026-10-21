@@ -1392,6 +1392,20 @@ body.ev-solid #zusmoWallpaperBg,body.ev-solid #zxOldWall{display:none!important}
 #eventTab .ev-tut-tab.on{background:rgba(37,211,102,.18);border-color:#25d366}
 #eventTab .ev-tut-thumb::after{background:linear-gradient(145deg,#25d366,#128c7e)}
 
+/* ===== Logo metode login (gambar unggahan: input1 terang, input2 gelap, qrc). Margin persen mengikuti lebar kotak, jadi ruang kosong transparan di gambar dipotong otomatis dan isinya pas di tengah. ===== */
+#eventTab .ev-radio span{height:100%;box-sizing:border-box;gap:8px;padding:12px 10px}
+#eventTab .ev-lg{display:flex;align-items:center;justify-content:center;width:100%;height:56px;pointer-events:none}
+#eventTab .ev-crop{display:block;position:relative;overflow:hidden;flex:none}
+#eventTab .ev-crop img{display:block;max-width:none;height:auto;pointer-events:none;-webkit-user-select:none;user-select:none}
+#eventTab .ev-crop-in{width:100%;max-width:132px;aspect-ratio:1051/175}
+#eventTab .ev-crop-in img{width:121.79%;margin-left:-10.56%;margin-top:-52.62%}
+#eventTab .ev-crop-qr{width:62px;aspect-ratio:1129/1022}
+#eventTab .ev-crop-qr img{width:113.37%;margin-left:-7.53%;margin-top:-15.5%}
+#eventTab .ev-lg-l{display:none!important}
+#eventTab[data-ev-theme="light"] .ev-lg-l{display:block!important}
+#eventTab[data-ev-theme="light"] .ev-lg-d{display:none!important}
+#eventTab .ev-lg:has(.ev-crop-in){background:rgba(255,255,255,.13);border-radius:12px;padding:0 12px;box-sizing:border-box;height:46px;margin:5px 0}
+#eventTab[data-ev-theme="light"] .ev-lg:has(.ev-crop-in){background:#e8eeec}
 /* teks pengantar Sewa WA */
 #eventTab .ev-pitch{margin:0 0 14px;padding:16px 14px;border-radius:20px;background:linear-gradient(160deg,rgba(37,211,102,.1),rgba(56,189,248,.05) 70%,rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.09)}
 #eventTab .ev-tags{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}
@@ -1711,8 +1725,8 @@ body.ev-solid.ev-light .topbar-pro{background:rgba(255,255,255,.86)!important;-w
 <div class="ev-err" id="evErrNum" role="alert" hidden></div>
 <span class="ev-lbl" id="evLoginLbl">Metode login</span>
 <div class="ev-radios" role="radiogroup" aria-labelledby="evLoginLbl">
-<label class="ev-radio"><input type="radio" name="evLogin" value="code"><span><i class="fa-solid fa-keyboard" aria-hidden="true"></i> Input Code</span><em class="ev-rec">Disarankan</em></label>
-<label class="ev-radio"><input type="radio" name="evLogin" value="qr"><span><i class="fa-solid fa-qrcode" aria-hidden="true"></i> QR Code</span></label>
+<label class="ev-radio"><input type="radio" name="evLogin" value="code"><span><b class="ev-lg" aria-hidden="true"><b class="ev-crop ev-crop-in"><img class="ev-lg-l" src="zusmo-asset/input1.png" alt="" decoding="async" draggable="false"><img class="ev-lg-d" src="zusmo-asset/input2.png" alt="" decoding="async" draggable="false"></b></b>Input Code</span><em class="ev-rec">Disarankan</em></label>
+<label class="ev-radio"><input type="radio" name="evLogin" value="qr"><span><b class="ev-lg" aria-hidden="true"><b class="ev-crop ev-crop-qr"><img src="zusmo-asset/qrc.png" alt="" decoding="async" draggable="false"></b></b>QR Code</span></label>
 </div>
 <div class="ev-err" id="evErrLogin" role="alert" hidden></div>
 <button type="button" class="ev-tut-open" data-ev-tut-open aria-haspopup="dialog" aria-controls="evTut"><i class="fa-solid fa-circle-question" aria-hidden="true"></i> Tutorial tautkan perangkat</button>
@@ -2209,6 +2223,7 @@ try{
       <div class="zc-mn-pop" id="zcMentionPop" hidden role="listbox" aria-label="Sebut pengguna"></div>
       <div class="zc-compose">
         <button type="button" class="zc-stk-btn" id="zcStkBtnG" aria-label="Stiker" aria-expanded="false" title="Stiker" disabled><i class="fa-regular fa-face-smile" aria-hidden="true"></i></button>
+        <button type="button" class="zc-stk-btn zc-img-btn" id="zcImgBtnG" aria-label="Kirim gambar" title="Kirim gambar (admin)" hidden disabled><i class="fa-regular fa-image" aria-hidden="true"></i></button><input type="file" id="zcImgFileG" accept="image/jpeg,image/png,image/webp,image/gif" hidden>
         <textarea id="zcGlobalIn" rows="1" maxlength="500" placeholder="Ketik pesan" disabled></textarea>
         <button type="button" class="zc-send" id="zcGlobalSend" aria-label="Kirim" disabled><i class="fa-solid fa-paper-plane"></i></button>
       </div>
@@ -11970,7 +11985,7 @@ function setComposerState(){
  clearTimeout(S._muteT);if(muted)S._muteT=setTimeout(setComposerState,Math.min(_mu-Date.now()+600,2147000000));
  var _mt='Kamu dibisukan sampai '+admHhmm(S.me&&S.me.muted_until)+'.';
  var ok=!!(S.ready&&S.me&&S.me.username&&!S.me.blacklisted&&!muted&&hasLogo());
- ['zcGlobalIn','zcGlobalSend','zcThreadIn','zcThreadSend','zcStkBtnG','zcStkBtnT'].forEach(function(id){var x=$(id);if(x)x.disabled=!ok;});if(!ok)zcStkCloseAll();
+ ['zcGlobalIn','zcGlobalSend','zcThreadIn','zcThreadSend','zcStkBtnG','zcStkBtnT','zcImgBtnG'].forEach(function(id){var x=$(id);if(x)x.disabled=!ok;});if(!ok)zcStkCloseAll();try{zcImgSync();}catch(e){}
  var msg=$('zcModerationNote');
  if(msg){
   if(S.me&&S.me.blacklisted){msg.hidden=false;msg.textContent='Kamu diblacklist dan tidak bisa mengirim pesan.';}
@@ -12386,7 +12401,7 @@ MsgList.prototype.buildInto=function(parent,m,prev){
  var a=null;if(o.showAvatar){a=avatar(sender,_un,true);if(!first){a.style.opacity='0';a.setAttribute('aria-hidden','true');}else{a.classList.add('zc-profile-target');a.setAttribute('role','button');a.tabIndex=0;a.setAttribute('aria-label','Lihat profil '+(_un||'pengguna'));a.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();this.click();}});}row.appendChild(a);a.addEventListener('click',this.profileClick(sender,_un));}
  var bub=el('div','zc-bub');if(!mine&&(o.showName||_isBot)&&first){var nameLine=el('div','zc-name-line');var spf=S.profiles[sender]||{},sdn=_isBot?ZC_BOT_NAME:(zcShowFor(sender,'name')&&spf.display_name&&String(spf.display_name).trim()),suser='@'+(m.username||'Pengguna');var nm=el('button','zc-nm',sdn||suser);nm.type='button';nm.style.color='hsl('+hue(sender)+',80%,72%)';if(sdn&&!_isBot)ncApply(nm,sender,'hsl('+hue(sender)+',80%,72%)');nm.addEventListener('click',this.profileClick(sender,m.username));nameLine.appendChild(nm);if(_isBot)nameLine.appendChild(zcBotCheck('1.02em'));if(!_isBot&&(zcIsOwnerUser(m.username||spf.username)||(S.owner&&S.owner.uid&&String(sender)===String(S.owner.uid))))nameLine.appendChild(verifiedBadge('1.02em'));var role=_isBot?'':chatRoleLabel(m.role_label||m.role||'');if(role){nameLine.appendChild(zcRoleBadge(role,spf));}if(_isBot){nameLine.appendChild(zcBotChip('BOT'));}bub.appendChild(nameLine);}
  var quoted=m.deleted_at?null:replyOf(m);if(quoted){var q=el('div','zc-quoted');q.appendChild(el('b','',quoted.username||'Pengguna'));q.appendChild(el('span','',quoted.text||'Pesan'));q.setAttribute('role','button');q.tabIndex=0;q.setAttribute('aria-label','Lompat ke pesan yang dibalas');q.addEventListener('click',function(e){e.stopPropagation();self.jumpTo(quoted,m);});q.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();e.stopPropagation();self.jumpTo(quoted,m);}});bub.appendChild(q);}
- if(m.deleted_at||zcVioIs(m)){var dx=el('div','zc-tx zc-deleted');dx.innerHTML='<i class="fa-solid fa-ban" aria-hidden="true"></i>';dx.appendChild(el('span','',txtOf(m)));bub.appendChild(dx);}else{var _sn=zcStkNum(replyOf(m)?replyOf(m).body:rawContent(m));if(_sn){var sx=el('div','zc-tx zc-stk-msg'),si=document.createElement('img');si.src=zcStkSrc(_sn);si.alt='Stiker '+_sn;si.loading='lazy';si.decoding='async';si.draggable=false;si.onerror=function(){sx.textContent='Stiker';sx.classList.remove('zc-stk-msg');};sx.appendChild(si);bub.classList.add('zc-bub-stk');bub.appendChild(sx);}else{var _tn=zcTxNode(txtOf(m));bub.appendChild(_tn.node);if(_tn.me&&!mine)bub.classList.add('zc-bub-mn');}}
+ if(m.deleted_at||zcVioIs(m)){var dx=el('div','zc-tx zc-deleted');dx.innerHTML='<i class="fa-solid fa-ban" aria-hidden="true"></i>';dx.appendChild(el('span','',txtOf(m)));bub.appendChild(dx);}else{var _bd=replyOf(m)?replyOf(m).body:rawContent(m),_iu=(m.user_id&&zcImgSenderOk(m))?zcImgUrl(_bd):'',_sn=_iu?0:zcStkNum(_bd);if(_iu){bub.classList.add('zc-bub-img');bub.appendChild(zcImgNode(_iu));}else if(_sn){var sx=el('div','zc-tx zc-stk-msg'),si=document.createElement('img');si.src=zcStkSrc(_sn);si.alt='Stiker '+_sn;si.loading='lazy';si.decoding='async';si.draggable=false;si.onerror=function(){sx.textContent='Stiker';sx.classList.remove('zc-stk-msg');};sx.appendChild(si);bub.classList.add('zc-bub-stk');bub.appendChild(sx);}else{var _tn=zcTxNode(txtOf(m));bub.appendChild(_tn.node);if(_tn.me&&!mine)bub.classList.add('zc-bub-mn');}}
  var meta=el('div','zc-meta');if(!m.deleted_at&&zcIsEdited(m))meta.appendChild(el('span','zc-edited','diedit'));meta.appendChild(el('span','',hhmm(d)));if(mine&&o.receipts){var delivered=!!m.delivered_at||!!m.read_at;meta.appendChild(el('i','fa-solid '+(m.read_at?'fa-check-double zc-read':(delivered?'fa-check-double zc-delivered':'fa-check'))));}else if(mine&&o.groupReceipts){meta.appendChild(el('i','fa-solid fa-check-double zc-delivered'));}bub.appendChild(meta);
  if(o.allowReply&&!m.deleted_at){attachSwipeReply(bub,m,o);}
  if(!m.deleted_at&&m.id!=null)zcRxPaint(self,m,bub);
@@ -12566,7 +12581,7 @@ async function zcRepOpen(){
   var it=el('div','zc-rep-item'),d=new Date(x.created_at),top=el('div','zc-rep-top');
   top.appendChild(el('b','',zcRepLabel(x.reason)));top.appendChild(el('span','',dayLabel(d)+' '+hhmm(d)));it.appendChild(top);
   var raw=String(x.message_text||''),q=unpackReply(raw),body=zcEdStrip(q?q.body:raw);
-  it.appendChild(el('div','zc-rep-tx',(zcStkNum(body)?'Stiker':body).slice(0,240)));
+  it.appendChild(el('div','zc-rep-tx',(zcImgUrl(body)?'Gambar':(zcStkNum(body)?'Stiker':body)).slice(0,240)));
   it.appendChild(el('div','zc-rep-meta','Pengirim @'+(x.reported_username||'?')+' · pelapor @'+(x.reporter_username||'?')+(x.scope==='private'?' · chat pribadi':'')));
   var act=el('div','zc-ed-row'),pf=el('button','zc-ed-b','Profil pengirim'),dn=el('button','zc-ed-b pri','Selesai');pf.type='button';dn.type='button';
   pf.addEventListener('click',function(){if(UUID_RE.test(String(x.reported_user_id||''))){zcCloseMsgMenu();openProfile(x.reported_user_id);}});
@@ -12588,9 +12603,9 @@ setInterval(zcRepInit,1500);
 
 function openMsgMenu(m,o){
  zcCloseMsgMenu();if(!o)o=(m.user_id?gList:pList).opts;
- var mine=S.me&&String(o.senderOf(m))===String(S.me.id),isG=!!m.user_id,list=isG?gList:pList,body=(replyOf(m)?replyOf(m).body:rawContent(m)),isStk=!!zcStkNum(body);
+ var mine=S.me&&String(o.senderOf(m))===String(S.me.id),isG=!!m.user_id,list=isG?gList:pList,body=(replyOf(m)?replyOf(m).body:rawContent(m)),isImg=!!zcImgUrl(body),isStk=isImg||!!zcStkNum(body);
  var ov=el('div','zc-mm-ov');ov.id='zcMsgMenu';var sh=el('div','zc-mm-sheet');sh.setAttribute('role','dialog');sh.setAttribute('aria-label','Opsi pesan');
- var pv=el('div','zc-mm-prev',isStk?'Stiker':txtOf(m));sh.appendChild(pv);
+ var pv=el('div','zc-mm-prev',isImg?'Gambar':(isStk?'Stiker':txtOf(m)));sh.appendChild(pv);
  if(!m.deleted_at&&m.id!=null){var mrx=zcRxMine(list,m),rr=el('div','zc-mm-rx');ZC_RX_SET.forEach(function(e){var b=el('button','zc-mm-rxb'+(mrx===e?' on':''),e);b.type='button';b.setAttribute('aria-label','Reaksi '+e);b.addEventListener('click',function(){zcCloseMsgMenu();zcReact(list,m,e);});rr.appendChild(b);});sh.appendChild(rr);}
  function add(icon,label,cls,fn){var b=el('button','zc-mm-btn'+(cls?' '+cls:''));b.type='button';b.innerHTML='<i class="'+icon+'" aria-hidden="true"></i>';b.appendChild(el('span','',label));b.addEventListener('click',fn);sh.appendChild(b);return b;}
  if(o.allowReply)add('fa-solid fa-reply','Balas','',function(){zcCloseMsgMenu();setReply(m,isG?'group':'thread');});
@@ -12763,7 +12778,7 @@ var ZC_REPLY_PREFIX='[[ZC_REPLY_V1]]';
 function rawContent(m){return String(m&&m.content!=null?m.content:(m&&m.message!=null?m.message:''));}
 function unpackReply(raw){if(raw.indexOf(ZC_REPLY_PREFIX)!==0)return null;try{var x=JSON.parse(raw.slice(ZC_REPLY_PREFIX.length));if(!x||typeof x.text!=='string'||typeof x.body!=='string')return null;return x;}catch(e){return null;}}
 function replyOf(m){return unpackReply(rawContent(m));}
-function txtOf(m){var _vr=zcVioReason(rawContent(m));if(_vr)return 'Pesan dihapus karena melanggar aturan: '+_vr;if(m&&m.deleted_at)return 'Pesan ini telah dihapus';var raw=rawContent(m).split(ZC_BOT_MARK).join('');if(raw.indexOf(ZC_PIN_PREFIX)===0)return 'Pesan disematkan';if(raw.indexOf(ZC_SLOW_PREFIX)===0)return 'Mode lambat diubah';if(raw.indexOf(ZC_RCT_PREFIX)===0)return 'Reaksi';var q=unpackReply(raw),qb=q?q.body:raw;return zcStkNum(qb)?'Stiker':zcEdStrip(qb);}
+function txtOf(m){var _vr=zcVioReason(rawContent(m));if(_vr)return 'Pesan dihapus karena melanggar aturan: '+_vr;if(m&&m.deleted_at)return 'Pesan ini telah dihapus';var raw=rawContent(m).split(ZC_BOT_MARK).join('');if(raw.indexOf(ZC_PIN_PREFIX)===0)return 'Pesan disematkan';if(raw.indexOf(ZC_SLOW_PREFIX)===0)return 'Mode lambat diubah';if(raw.indexOf(ZC_RCT_PREFIX)===0)return 'Reaksi';var q=unpackReply(raw),qb=q?q.body:raw;return zcImgUrl(qb)?'Gambar':(zcStkNum(qb)?'Stiker':zcEdStrip(qb));}
 function encodeReply(body,q){if(!q)return body;return ZC_REPLY_PREFIX+JSON.stringify({username:q.username||'Pengguna',text:String(q.text||'').slice(0,180),body:body,id:q.id!=null?q.id:null});}
 
 /* ===== Sematan pesan grup =====
@@ -13486,6 +13501,7 @@ async function sendGlobal(){
  if(!S.ready||!S.me||!S.me.username||S.me.blacklisted||!txt||S.sending||Date.now()-S.lastSend<SEND_GAP)return;
  var uid=String(S.me.id||'');
  if(!UUID_RE.test(uid)){flash('ID pengguna tidak valid. Silakan muat ulang halaman.');return;}
+ if(txt.indexOf(ZC_IMG_PREFIX)>-1&&!zcCanSendImage()){flash('Hanya admin yang bisa mengirim gambar.');return;}
  var _sw=slowWait();if(_sw>0){flash('Tunggu '+Math.ceil(_sw/1000)+' dtk lagi.');return;}
  if(clientBanned(txt)){var _why=banMsg();S.sending=true;S.lastSend=Date.now();try{await zcViolate('group',_why,null);ta.value='';autosize(ta);sendTyping('group',false);clearGroupReply();}finally{S.sending=false;}return;}
  S.sending=true;S.lastSend=Date.now();
@@ -13583,6 +13599,63 @@ function zcStkInit(){
  });
 }
 zcStkInit();
+/* ===== GAMBAR (khusus admin/developer kzrizusmo_store): disimpan sebagai pesan penanda [[ZC_IMG_V1:<url>]]; file di bucket publik zc-chat-images.
+   Semua pengguna bisa melihat; hanya admin yang bisa mengirim. Penegakan di server: zusmo-chat-admin-image.sql ===== */
+var ZC_IMG_BUCKET='zc-chat-images',ZC_IMG_PREFIX='[[ZC_IMG_V1:',ZC_IMG_MAXPX=1600,ZC_IMG_MAXBYTES=4*1024*1024,ZC_IMG_BUSY=false;
+function zcImgUrl(b){var m=/^\[\[ZC_IMG_V1:(https:\/\/[^\s\]]+)\]\]$/.exec(String(b||'').trim());if(!m)return '';return m[1].indexOf('/storage/v1/object/public/'+ZC_IMG_BUCKET+'/')>0?m[1]:'';}
+function zcCanSendImage(){return !!(S&&S.me&&(S.me.is_admin||iAmOwner()));}
+function zcImgSenderOk(m){if(!m)return false;var sid=m.user_id||m.sender_id,p=sid&&S.profiles&&S.profiles[sid];if(p&&(p.is_admin||zcIsOwnerUser(p.username)))return true;if(sid&&typeof isOwnerUid==='function'&&isOwnerUid(sid))return true;return !!(!p&&m.is_admin);}
+function zcImgClose(){var o=document.getElementById('zcImgLb');if(o&&o.parentNode)o.parentNode.removeChild(o);}
+function zcImgOpen(url){zcImgClose();var ov=document.createElement('div');ov.className='zc-img-lb';ov.id='zcImgLb';ov.setAttribute('role','dialog');ov.setAttribute('aria-label','Pratinjau gambar');var im=document.createElement('img');im.alt='Gambar';im.src=url;var x=document.createElement('button');x.type='button';x.setAttribute('aria-label','Tutup');x.innerHTML='<i class="fa-solid fa-xmark" aria-hidden="true"></i>';ov.appendChild(im);ov.appendChild(x);ov.addEventListener('click',zcImgClose);document.body.appendChild(ov);}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')zcImgClose();});
+function zcImgNode(url){
+ var w=document.createElement('div');w.className='zc-tx zc-img-msg zc-img-ld';
+ var im=document.createElement('img');im.alt='Gambar';im.loading='lazy';im.decoding='async';im.draggable=false;
+ im.addEventListener('load',function(){w.classList.remove('zc-img-ld');var box=w.closest&&w.closest('.zc-list');if(box&&box.scrollHeight-box.scrollTop-box.clientHeight<=im.offsetHeight+160)box.scrollTop=box.scrollHeight;});
+ im.addEventListener('error',function(){w.classList.remove('zc-img-ld');w.textContent='Gambar tidak tersedia';});
+ im.addEventListener('click',function(e){e.stopPropagation();zcImgOpen(url);});
+ im.src=url;w.appendChild(im);return w;
+}
+function zcImgSync(){var b=$('zcImgBtnG');if(b)b.hidden=!zcCanSendImage();}
+function zcImgPrepare(file){return new Promise(function(res,rej){
+ if(!file||!/^image\//.test(file.type||''))return rej(new Error('File harus berupa gambar.'));
+ if(file.type==='image/gif'){if(file.size>ZC_IMG_MAXBYTES)return rej(new Error('GIF maksimal 4 MB.'));return res({blob:file,type:'image/gif',ext:'gif'});}
+ var u=URL.createObjectURL(file),im=new Image();
+ im.onload=function(){try{
+  var w=im.naturalWidth,h=im.naturalHeight,k=Math.min(1,ZC_IMG_MAXPX/Math.max(w,h)),cw=Math.max(1,Math.round(w*k)),ch=Math.max(1,Math.round(h*k)),cv=document.createElement('canvas');
+  cv.width=cw;cv.height=ch;var cx=cv.getContext('2d');cx.fillStyle='#fff';cx.fillRect(0,0,cw,ch);cx.drawImage(im,0,0,cw,ch);URL.revokeObjectURL(u);
+  cv.toBlob(function(b){if(!b)return rej(new Error('Gagal memproses gambar.'));if(b.size>ZC_IMG_MAXBYTES)return rej(new Error('Gambar terlalu besar (maks 4 MB).'));res({blob:b,type:'image/jpeg',ext:'jpg'});},'image/jpeg',0.86);
+ }catch(e){rej(e);}};
+ im.onerror=function(){URL.revokeObjectURL(u);rej(new Error('Gambar tidak bisa dibaca. Pakai JPG, PNG, WebP, atau GIF.'));};
+ im.src=u;});}
+function zcImgErr(e){var t=String(e&&(e.message||e.error_description||e)||'');
+ if(/bucket not found|not found/i.test(t))return 'Bucket zc-chat-images belum dibuat. Jalankan zusmo-chat-admin-image.sql di Supabase.';
+ if(/row-level security|policy|not authorized|unauthorized|forbidden|403|42501/i.test(t))return 'Tidak punya izin kirim gambar. Pastikan akun ini admin dan zusmo-chat-admin-image.sql sudah dijalankan.';
+ return t||'Gagal mengirim gambar.';}
+async function zcImgPick(file){
+ var btn=$('zcImgBtnG'),ta=$('zcGlobalIn');
+ if(ZC_IMG_BUSY||!file||!ta)return;
+ if(!zcCanSendImage()){flash('Hanya admin yang bisa mengirim gambar.');return;}
+ if(!S.ready||!S.me||S.me.blacklisted)return;
+ ZC_IMG_BUSY=true;if(btn)btn.disabled=true;
+ try{
+  var p=await zcImgPrepare(file),uid=String(S.me.id||'');
+  if(!UUID_RE.test(uid))throw new Error('ID pengguna tidak valid. Silakan muat ulang halaman.');
+  var path=uid+'/'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8)+'.'+p.ext,st=S.sb.storage.from(ZC_IMG_BUCKET);
+  var up=await st.upload(path,p.blob,{contentType:p.type,cacheControl:'31536000',upsert:false});
+  if(up.error)throw up.error;
+  var pu=st.getPublicUrl(path),url=pu&&pu.data&&pu.data.publicUrl;
+  if(!url||url.indexOf('https://')!==0)throw new Error('Alamat gambar tidak valid.');
+  var gap=SEND_GAP-(Date.now()-S.lastSend);if(gap>0)await new Promise(function(r){setTimeout(r,gap+40);});
+  var draft=ta.value;ta.value=ZC_IMG_PREFIX+url+']]';
+  try{await sendGlobal();}finally{ta.value=draft;autosize(ta);}
+ }catch(e){console.error('[zc-chat] kirim gambar:',e);flash(zcImgErr(e));}
+ finally{ZC_IMG_BUSY=false;try{setComposerState();}catch(e){}}
+}
+function zcImgInit(){var b=$('zcImgBtnG'),f=$('zcImgFileG');if(!b||!f||b.dataset.ready)return;b.dataset.ready='1';
+ b.addEventListener('click',function(e){e.preventDefault();if(b.disabled)return;f.value='';f.click();});
+ f.addEventListener('change',function(){var x=f.files&&f.files[0];f.value='';if(x)zcImgPick(x);});}
+zcImgInit();try{zcImgSync();}catch(e){}
 /* ===== IKUTI / TEMAN: profil orang lain; chat pribadi hanya jika saling mengikuti ===== */
 S.social={ok:null,busy:{}};S.rel={};S.cnt={};S.extraSig='';
 /* Prompt 5: angka like = poin ledger dari server (follow_bonus 100 + profile_like 100, maks 200 per pemberi->penerima). Tidak ada pengali di tampilan. ZC_LIKE_WEIGHT hanya fallback untuk backend lama. */
@@ -16978,6 +17051,13 @@ window.apResetRole=function(){
 #zcChat .zc-stk-empty{grid-column:1/-1;padding:14px 0;text-align:center;font-size:13px;color:var(--wa-sub)}
 #zcChat .zc-stk-msg{padding:2px 0 0}
 #zcChat .zc-stk-msg img{display:block;width:128px;height:128px;max-width:100%;object-fit:contain;transform:none!important;border-radius:0!important;pointer-events:none;-webkit-user-select:none;user-select:none}
+#zcChat .zc-img-btn[hidden]{display:none!important}
+#zcChat .zc-img-msg{padding:2px 0 0;line-height:0}
+#zcChat .zc-img-msg img{display:block;max-width:min(260px,100%);max-height:340px;width:auto;height:auto;border-radius:12px;object-fit:cover;cursor:zoom-in;transform:none!important;-webkit-user-select:none;user-select:none}
+#zcChat .zc-img-msg.zc-img-ld{min-height:140px;min-width:180px;border-radius:12px;background:rgba(255,255,255,.06)}
+.zc-img-lb{position:fixed;inset:0;z-index:2147483000;background:rgba(0,0,0,.92);display:flex;align-items:center;justify-content:center;padding:16px;cursor:zoom-out}
+.zc-img-lb img{max-width:100%;max-height:100%;object-fit:contain;border-radius:6px}
+.zc-img-lb button{position:absolute;top:calc(env(safe-area-inset-top,0px) + 12px);right:12px;width:44px;height:44px;border:0;border-radius:50%;background:rgba(255,255,255,.14);color:#fff;font-size:20px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
 @media (min-width:520px){#zcChat .zc-stk-panel{grid-template-columns:repeat(7,1fr)}}
 </style>
 <style id="kz-ui-update-1018">
