@@ -1200,8 +1200,21 @@ body.ev-solid #zusmoWallpaperBg,body.ev-solid #zxOldWall{display:none!important}
 #eventTab .ev-chip{display:inline-flex;align-items:center;gap:7px;padding:7px 12px;border-radius:99px;background:rgba(255,43,43,.1);border:1px solid rgba(255,43,43,.4);font:700 .72rem 'Outfit',sans-serif;color:#fff}
 #eventTab .ev-chip i{color:#ff6b6b}
 #eventTab .ev-rate{padding:18px 10px}
-#eventTab .ev-tut{margin:4px 0 14px;padding:14px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09)}
-#eventTab .ev-tut-h{display:flex;align-items:center;gap:8px;margin:0 0 10px;font:800 .92rem 'Rajdhani','Outfit',sans-serif;letter-spacing:.5px;color:#fff}
+#eventTab .ev-tut{position:fixed;inset:0;z-index:99990;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.72);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+#eventTab .ev-tut[hidden]{display:none}
+#eventTab .ev-tut-box{width:100%;max-width:520px;max-height:88vh;max-height:88dvh;display:flex;flex-direction:column;border-radius:22px 22px 0 0;background:#14090b;border:1px solid rgba(255,255,255,.12);border-bottom:0;box-shadow:0 -12px 40px rgba(0,0,0,.55);animation:evSheet .26s ease-out}
+@keyframes evSheet{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+@media(min-width:600px){#eventTab .ev-tut{align-items:center;padding:16px}#eventTab .ev-tut-box{border-radius:22px;border-bottom:1px solid rgba(255,255,255,.12)}}
+#eventTab .ev-tut-top{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 14px 10px;border-bottom:1px solid rgba(255,255,255,.08)}
+#eventTab .ev-tut-x{flex:none;width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,.12);color:#fff;font-size:.95rem;cursor:pointer}
+#eventTab .ev-tut-body{padding:12px 14px calc(16px + env(safe-area-inset-bottom));overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+#eventTab .ev-tut-open{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin:0 0 10px;padding:12px 14px;border-radius:13px;border:1.5px dashed rgba(255,255,255,.28);background:rgba(255,255,255,.04);color:#fff;font:700 .8rem 'Outfit',sans-serif;cursor:pointer}
+#eventTab .ev-tut-open i{color:#ff6b6b}
+#eventTab .ev-rec{position:absolute;top:-8px;right:8px;padding:2px 7px;border-radius:999px;background:#25d366;color:#04210f;font:800 .58rem/1.3 'Outfit',sans-serif;letter-spacing:.3px;text-transform:uppercase;pointer-events:none}
+#eventTab .ev-time{display:flex;gap:8px;align-items:flex-start;margin:0 0 12px;padding:10px 12px;border-radius:12px;background:rgba(255,184,0,.1);border:1px solid rgba(255,184,0,.35);font-size:.74rem;line-height:1.5;color:rgba(255,255,255,.88)}
+#eventTab .ev-time i{color:#ffb800;margin-top:2px}
+#eventTab .ev-time b{color:#fff}
+#eventTab .ev-tut-h{display:flex;align-items:center;gap:8px;margin:0;font:800 .92rem 'Rajdhani','Outfit',sans-serif;letter-spacing:.5px;color:#fff}
 #eventTab .ev-tut-h i{color:#ff6b6b}
 #eventTab .ev-tut-tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
 #eventTab .ev-tut-tab{display:flex;align-items:center;justify-content:center;gap:7px;padding:10px 8px;border-radius:12px;border:1.5px solid rgba(255,43,43,.3);background:rgba(255,43,43,.04);color:rgba(255,255,255,.75);font:700 .78rem 'Outfit',sans-serif;cursor:pointer}
@@ -1269,17 +1282,21 @@ body.ev-solid #zusmoWallpaperBg,body.ev-solid #zxOldWall{display:none!important}
 <div class="ev-err" id="evErrName" role="alert" hidden></div>
 <span class="ev-lbl" id="evLoginLbl">Metode login</span>
 <div class="ev-radios" role="radiogroup" aria-labelledby="evLoginLbl">
+<label class="ev-radio"><input type="radio" name="evLogin" value="code"><span><i class="fa-solid fa-keyboard" aria-hidden="true"></i> Input Code</span><em class="ev-rec">Rekomendasi</em></label>
 <label class="ev-radio"><input type="radio" name="evLogin" value="qr"><span><i class="fa-solid fa-qrcode" aria-hidden="true"></i> QR Code</span></label>
-<label class="ev-radio"><input type="radio" name="evLogin" value="code"><span><i class="fa-solid fa-keyboard" aria-hidden="true"></i> Input Code</span></label>
 </div>
 <div class="ev-err" id="evErrLogin" role="alert" hidden></div>
-<div class="ev-tut" id="evTut">
-<h4 class="ev-tut-h"><i class="fa-solid fa-circle-question" aria-hidden="true"></i> Tutorial login / tautkan perangkat</h4>
-<div class="ev-tut-tabs" role="tablist" aria-label="Pilih tutorial"><button type="button" role="tab" class="ev-tut-tab on" id="evTutTabQr" data-ev-tut="qr" aria-selected="true" aria-controls="evTutQr"><i class="fa-solid fa-qrcode" aria-hidden="true"></i> QR Code</button><button type="button" role="tab" class="ev-tut-tab" id="evTutTabCode" data-ev-tut="code" aria-selected="false" aria-controls="evTutCode"><i class="fa-solid fa-keyboard" aria-hidden="true"></i> Input Code</button></div>
-<ol class="ev-tut-list" id="evTutQr" role="tabpanel" aria-labelledby="evTutTabQr"><li class="ev-tut-step"><button type="button" class="ev-tut-thumb" data-ev-zoom="zusmo-asset/wb1.jpg" aria-label="Perbesar gambar langkah 1"><img src="zusmo-asset/wb1.jpg" alt="Langkah 1: Buka menu titik tiga" loading="lazy" decoding="async"></button><div class="ev-tut-txt"><b>Buka menu titik tiga</b><p>Buka WhatsApp di HP yang nomornya mau dipakai, lalu ketuk ikon titik tiga (⋮) di pojok kanan atas.</p></div></li><li class="ev-tut-step"><button type="button" class="ev-tut-thumb" data-ev-zoom="zusmo-asset/wb2.jpg" aria-label="Perbesar gambar langkah 2"><img src="zusmo-asset/wb2.jpg" alt="Langkah 2: Pilih Perangkat tertaut" loading="lazy" decoding="async"></button><div class="ev-tut-txt"><b>Pilih Perangkat tertaut</b><p>Di menu yang muncul, pilih <b>Perangkat tertaut</b>.</p></div></li><li class="ev-tut-step"><button type="button" class="ev-tut-thumb" data-ev-zoom="zusmo-asset/wb3.jpg" aria-label="Perbesar gambar langkah 3"><img src="zusmo-asset/wb3.jpg" alt="Langkah 3: Ketuk Tautkan Perangkat" loading="lazy" decoding="async"></button><div class="ev-tut-txt"><b>Ketuk Tautkan Perangkat</b><p>Ketuk tombol hijau <b>Tautkan Perangkat</b>. Tulisan &ldquo;0 dari 4 perangkat tertaut&rdquo; berarti belum ada perangkat yang tersambung.</p></div></li><li class="ev-tut-step"><button type="button" class="ev-tut-thumb" data-ev-zoom="zusmo-asset/wb4.jpg" aria-label="Perbesar gambar langkah 4"><img src="zusmo-asset/wb4.jpg" alt="Langkah 4: Pindai QR dari admin" loading="lazy" decoding="async"></button><div class="ev-tut-txt"><b>Pindai QR dari admin</b><p>Layar <b>Pindai kode QR</b> terbuka. Ketuk <b>Oke</b>, lalu arahkan kamera ke QR Code yang dikirim admin sampai berhasil terbaca.</p></div></li></ol>
-<ol class="ev-tut-list" id="evTutCode" role="tabpanel" aria-labelledby="evTutTabCode" hidden><li class="ev-tut-step"><button type="button" class="ev-tut-thumb" data-ev-zoom="zusmo-asset/wb1.jpg" aria-label="Perbesar gambar langkah 1"><img src="zusmo-asset/wb1.jpg" alt="Langkah 1: Buka menu titik tiga" loading="lazy" decoding="async"></button><div class="ev-tut-txt"><b>Buka menu titik tiga</b><p>Buka WhatsApp di HP yang nomornya mau dipakai, lalu ketuk ikon titik tiga (⋮) di pojok kanan atas.</p></div></li><li class="ev-tut-step"><button type="button" class="ev-tut-thumb" data-ev-zoom="zusmo-asset/wb2.jpg" aria-label="Perbesar gambar langkah 2"><img src="zusmo-asset/wb2.jpg" alt="Langkah 2: Pilih Perangkat tertaut" loading="lazy" decoding="async"></button><div class="ev-tut-txt"><b>Pilih Perangkat tertaut</b><p>Di menu yang muncul, pilih <b>Perangkat tertaut</b>.</p></div></li><li class="ev-tut-step"><button type="button" class="ev-tut-thumb" data-ev-zoom="zusmo-asset/wb3.jpg" aria-label="Perbesar gambar langkah 3"><img src="zusmo-asset/wb3.jpg" alt="Langkah 3: Ketuk Tautkan Perangkat" loading="lazy" decoding="async"></button><div class="ev-tut-txt"><b>Ketuk Tautkan Perangkat</b><p>Ketuk tombol hijau <b>Tautkan Perangkat</b>. Tulisan &ldquo;0 dari 4 perangkat tertaut&rdquo; berarti belum ada perangkat yang tersambung.</p></div></li><li class="ev-tut-step"><button type="button" class="ev-tut-thumb" data-ev-zoom="zusmo-asset/wb5.jpg" aria-label="Perbesar gambar langkah 4"><img src="zusmo-asset/wb5.jpg" alt="Langkah 4: Pilih tautkan dengan nomor telepon" loading="lazy" decoding="async"></button><div class="ev-tut-txt"><b>Pilih tautkan dengan nomor telepon</b><p>Di layar <b>Pindai kode QR</b>, ketuk tulisan <b>Tautkan dengan nomor telepon saja</b> di bagian bawah layar.</p></div></li><li class="ev-tut-step"><button type="button" class="ev-tut-thumb" data-ev-zoom="zusmo-asset/wb6.jpg" aria-label="Perbesar gambar langkah 5"><img src="zusmo-asset/wb6.jpg" alt="Langkah 5: Masukkan kode dari admin" loading="lazy" decoding="async"></button><div class="ev-tut-txt"><b>Masukkan kode dari admin</b><p>Ketik kode 8 karakter (format XXXX-XXXX) yang diberikan admin pada kolom <b>Masukkan kode</b>. Masukkan kode hanya saat admin sedang memandu prosesnya.</p></div></li></ol>
+<p class="ev-time"><i class="fa-solid fa-hourglass-half" aria-hidden="true"></i><span><b>QR Code / Input Code hanya berlaku 60 detik.</b> Siapkan WhatsApp dulu sebelum admin mengirim. Kalau lewat 60 detik, minta admin kirim ulang. Disarankan pakai <b>Input Code</b>.</span></p>
+<button type="button" class="ev-tut-open" data-ev-tut-open aria-haspopup="dialog" aria-controls="evTut"><i class="fa-solid fa-circle-question" aria-hidden="true"></i> Lihat tutorial login / tautkan perangkat</button>
+<div class="ev-tut" id="evTut" role="dialog" aria-modal="true" aria-labelledby="evTutTitle" hidden><div class="ev-tut-box">
+<div class="ev-tut-top"><h4 class="ev-tut-h" id="evTutTitle"><i class="fa-solid fa-circle-question" aria-hidden="true"></i> Tutorial login / tautkan perangkat</h4><button type="button" class="ev-tut-x" data-ev-tut-close aria-label="Tutup tutorial"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div>
+<div class="ev-tut-body">
+<div class="ev-tut-tabs" role="tablist" aria-label="Pilih tutorial"><button type="button" role="tab" class="ev-tut-tab on" id="evTutTabCode" data-ev-tut="code" aria-selected="true" aria-controls="evTutCode"><i class="fa-solid fa-keyboard" aria-hidden="true"></i> Input Code (rekomendasi)</button><button type="button" role="tab" class="ev-tut-tab" id="evTutTabQr" data-ev-tut="qr" aria-selected="false" aria-controls="evTutQr"><i class="fa-solid fa-qrcode" aria-hidden="true"></i> QR Code</button></div>
+<p class="ev-time"><i class="fa-solid fa-hourglass-half" aria-hidden="true"></i><span>Kode / QR dari admin <b>hanya berlaku 60 detik</b>. Buka halaman tautkan perangkat dulu, baru minta admin kirim.</span></p>
+<ol class="ev-tut-list" id="evTutQr" role="tabpanel" aria-labelledby="evTutTabQr" hidden><li class="ev-tut-step"><button type="button" class="ev-tut-thumb" data-ev-zoom="zusmo-asset/wb1.jpg" aria-label="Perbesar gambar langkah 1"><img src="zusmo-asset/wb1.jpg" alt="Langkah 1: Buka menu titik tiga" loading="lazy" decoding="async"></button><div class="ev-tut-txt"><b>Buka menu titik tiga</b><p>Buka WhatsApp di HP yang nomornya mau dipakai, lalu ketuk ikon titik tiga (⋮) di pojok kanan atas.</p></div></li><li class="ev-tut-step"><button type="button" class="ev-tut-thumb" data-ev-zoom="zusmo-asset/wb2.jpg" aria-label="Perbesar gambar langkah 2"><img src="zusmo-asset/wb2.jpg" alt="Langkah 2: Pilih Perangkat tertaut" loading="lazy" decoding="async"></button><div class="ev-tut-txt"><b>Pilih Perangkat tertaut</b><p>Di menu yang muncul, pilih <b>Perangkat tertaut</b>.</p></div></li><li class="ev-tut-step"><button type="button" class="ev-tut-thumb" data-ev-zoom="zusmo-asset/wb3.jpg" aria-label="Perbesar gambar langkah 3"><img src="zusmo-asset/wb3.jpg" alt="Langkah 3: Ketuk Tautkan Perangkat" loading="lazy" decoding="async"></button><div class="ev-tut-txt"><b>Ketuk Tautkan Perangkat</b><p>Ketuk tombol hijau <b>Tautkan Perangkat</b>. Tulisan &ldquo;0 dari 4 perangkat tertaut&rdquo; berarti belum ada perangkat yang tersambung.</p></div></li><li class="ev-tut-step"><button type="button" class="ev-tut-thumb" data-ev-zoom="zusmo-asset/wb4.jpg" aria-label="Perbesar gambar langkah 4"><img src="zusmo-asset/wb4.jpg" alt="Langkah 4: Pindai QR dari admin" loading="lazy" decoding="async"></button><div class="ev-tut-txt"><b>Pindai QR dari admin</b><p>Layar <b>Pindai kode QR</b> terbuka. Ketuk <b>Oke</b>, lalu arahkan kamera ke QR Code yang dikirim admin sampai berhasil terbaca. QR hanya berlaku <b>60 detik</b>.</p></div></li></ol>
+<ol class="ev-tut-list" id="evTutCode" role="tabpanel" aria-labelledby="evTutTabCode"><li class="ev-tut-step"><button type="button" class="ev-tut-thumb" data-ev-zoom="zusmo-asset/wb1.jpg" aria-label="Perbesar gambar langkah 1"><img src="zusmo-asset/wb1.jpg" alt="Langkah 1: Buka menu titik tiga" loading="lazy" decoding="async"></button><div class="ev-tut-txt"><b>Buka menu titik tiga</b><p>Buka WhatsApp di HP yang nomornya mau dipakai, lalu ketuk ikon titik tiga (⋮) di pojok kanan atas.</p></div></li><li class="ev-tut-step"><button type="button" class="ev-tut-thumb" data-ev-zoom="zusmo-asset/wb2.jpg" aria-label="Perbesar gambar langkah 2"><img src="zusmo-asset/wb2.jpg" alt="Langkah 2: Pilih Perangkat tertaut" loading="lazy" decoding="async"></button><div class="ev-tut-txt"><b>Pilih Perangkat tertaut</b><p>Di menu yang muncul, pilih <b>Perangkat tertaut</b>.</p></div></li><li class="ev-tut-step"><button type="button" class="ev-tut-thumb" data-ev-zoom="zusmo-asset/wb3.jpg" aria-label="Perbesar gambar langkah 3"><img src="zusmo-asset/wb3.jpg" alt="Langkah 3: Ketuk Tautkan Perangkat" loading="lazy" decoding="async"></button><div class="ev-tut-txt"><b>Ketuk Tautkan Perangkat</b><p>Ketuk tombol hijau <b>Tautkan Perangkat</b>. Tulisan &ldquo;0 dari 4 perangkat tertaut&rdquo; berarti belum ada perangkat yang tersambung.</p></div></li><li class="ev-tut-step"><button type="button" class="ev-tut-thumb" data-ev-zoom="zusmo-asset/wb5.jpg" aria-label="Perbesar gambar langkah 4"><img src="zusmo-asset/wb5.jpg" alt="Langkah 4: Pilih tautkan dengan nomor telepon" loading="lazy" decoding="async"></button><div class="ev-tut-txt"><b>Pilih tautkan dengan nomor telepon</b><p>Di layar <b>Pindai kode QR</b>, ketuk tulisan <b>Tautkan dengan nomor telepon saja</b> di bagian bawah layar.</p></div></li><li class="ev-tut-step"><button type="button" class="ev-tut-thumb" data-ev-zoom="zusmo-asset/wb6.jpg" aria-label="Perbesar gambar langkah 5"><img src="zusmo-asset/wb6.jpg" alt="Langkah 5: Masukkan kode dari admin" loading="lazy" decoding="async"></button><div class="ev-tut-txt"><b>Masukkan kode dari admin</b><p>Ketik kode 8 karakter (format XXXX-XXXX) yang diberikan admin pada kolom <b>Masukkan kode</b>. Kode hanya berlaku <b>60 detik</b>, jadi masukkan segera dan hanya saat admin sedang memandu prosesnya.</p></div></li></ol>
 <p class="ev-tut-note"><i class="fa-solid fa-circle-info" aria-hidden="true"></i> Ketuk gambar untuk memperbesar. Jangan bagikan PIN atau kode verifikasi WhatsApp (6 digit) ke siapa pun.</p>
-</div>
+</div></div></div>
 <div class="ev-zoom" id="evZoom" hidden><button type="button" class="ev-zoom-x" data-ev-zoom-close aria-label="Tutup"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button><img id="evZoomImg" alt="Gambar tutorial diperbesar"></div>
 
 <div class="ev-sr"><input type="radio" name="evMethod" value="chat" tabindex="-1" aria-hidden="true"><input type="radio" name="evMethod" value="menit" tabindex="-1" aria-hidden="true"></div>
@@ -1287,7 +1304,7 @@ body.ev-solid #zusmoWallpaperBg,body.ev-solid #zxOldWall{display:none!important}
 
 <div class="ev-fg"><h3 class="ev-fg-t">Penarikan dana (WD)</h3>
 <label class="ev-lbl" for="evWdType">E-wallet</label>
-<div class="pc-input-wrap"><i class="pc-input-icon fa-solid fa-wallet" aria-hidden="true"></i><select class="pc-input" id="evWdType"><option value="">Pilih e-wallet</option><option value="GoPay">GoPay</option><option value="ShopeePay">ShopeePay</option><option value="OVO">OVO</option></select></div>
+<div class="pc-input-wrap"><i class="pc-input-icon fa-solid fa-wallet" aria-hidden="true"></i><select class="pc-input" id="evWdType"><option value="">Pilih e-wallet</option><option value="DANA">DANA</option><option value="GoPay">GoPay</option><option value="ShopeePay">ShopeePay</option><option value="OVO">OVO</option></select></div>
 <div class="ev-err" id="evErrWdType" role="alert" hidden></div>
 <label class="ev-lbl" for="evWdNum">Nomor rekening</label>
 <div class="pc-input-wrap"><i class="pc-input-icon fa-solid fa-hashtag" aria-hidden="true"></i><input class="pc-input" id="evWdNum" type="tel" inputmode="numeric" maxlength="20" placeholder="08123456789"></div>
@@ -1314,7 +1331,7 @@ body.ev-solid #zusmoWallpaperBg,body.ev-solid #zxOldWall{display:none!important}
 
 <div class="ev-group">
 <h2 class="ev-sec ev-sec-info">Info &amp; ketentuan</h2>
-<details class="ev-acc"><summary><span class="ev-acc-n"><i class="fa-solid fa-list-check" aria-hidden="true"></i></span>Cara kerja<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><div class="ev-acc-body"><ol class="ev-steps"><li>Pilih tarif dan metode login.</li><li>Isi data nomor dan tujuan WD, lalu kirim ke admin.</li><li>Admin memandu proses login.</li><li>Nomor dipakai untuk 1&times; blast, hasil diverifikasi admin.</li><li>Saldo ditarik lewat GoPay, ShopeePay, atau OVO (min. Rp5.000).</li></ol></div></details><details class="ev-acc ev-acc-warn"><summary><span class="ev-acc-n"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i></span>Risiko<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><div class="ev-acc-body"><ul class="ev-rules"><li>Akun WhatsApp dapat dibatasi, lama pembatasan tidak dapat dijamin.</li><li>Pemulihan akun tidak dapat dijamin.</li><li>Kirim hanya ke penerima yang setuju dan patuhi kebijakan WhatsApp.</li></ul></div></details><details class="ev-acc"><summary><span class="ev-acc-n"><i class="fa-solid fa-scale-balanced" aria-hidden="true"></i></span>Aturan pembayaran<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><div class="ev-acc-body"><ul class="ev-rules"><li>Per chat Rp200 untuk chat yang berhasil terkirim.</li><li>Per menit Rp1.000 untuk menit kerja yang valid.</li><li>Minimal WD Rp5.000.</li><li>Pesan duplikat atau gagal tidak dihitung.</li><li>Hasil diverifikasi admin. Tarif dapat disesuaikan.</li></ul></div></details>
+<details class="ev-acc"><summary><span class="ev-acc-n"><i class="fa-solid fa-list-check" aria-hidden="true"></i></span>Cara kerja<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><div class="ev-acc-body"><ol class="ev-steps"><li>Pilih tarif dan metode login.</li><li>Isi data nomor dan tujuan WD, lalu kirim ke admin.</li><li>Admin memandu proses login. QR Code / Input Code hanya berlaku 60 detik, jadi siapkan WhatsApp sebelum admin mengirim. Disarankan pakai Input Code.</li><li>Nomor dipakai untuk 1&times; blast, hasil diverifikasi admin.</li><li>Saldo ditarik lewat DANA, GoPay, ShopeePay, atau OVO (min. Rp5.000).</li></ol></div></details><details class="ev-acc ev-acc-warn"><summary><span class="ev-acc-n"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i></span>Risiko<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><div class="ev-acc-body"><ul class="ev-rules"><li>Akun WhatsApp dapat dibatasi, lama pembatasan tidak dapat dijamin.</li><li>Pemulihan akun tidak dapat dijamin.</li><li>Kirim hanya ke penerima yang setuju dan patuhi kebijakan WhatsApp.</li></ul></div></details><details class="ev-acc"><summary><span class="ev-acc-n"><i class="fa-solid fa-scale-balanced" aria-hidden="true"></i></span>Aturan pembayaran<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><div class="ev-acc-body"><ul class="ev-rules"><li>Per chat Rp200 untuk chat yang berhasil terkirim.</li><li>Per menit Rp1.000 untuk menit kerja yang valid.</li><li>Minimal WD Rp5.000.</li><li>QR Code / Input Code hanya berlaku 60 detik. Jika kedaluwarsa, minta admin kirim ulang.</li><li>Pesan duplikat atau gagal tidak dihitung.</li><li>Hasil diverifikasi admin. Tarif dapat disesuaikan.</li></ul></div></details>
 </div>
 
 <div class="footer" style="margin-top:14px;">&copy; 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
@@ -1360,10 +1377,23 @@ function renderSummary(){
  }
  row(dl,'Tarif',p.name+': '+rp(p.rate)+' '+p.per);
  row(dl,'Minimal WD',rp(CFG.minWd)+' (setara '+nf(minUnits(p))+' '+p.unit+')');
- var lg=checked('evLogin');if(lg)row(dl,'Metode login',LOGIN[lg]);
+ var lg=checked('evLogin');if(lg)row(dl,'Metode login',LOGIN[lg]+(lg==='code'?' (rekomendasi)':'')+'. Berlaku 60 detik');
  row(dl,'Batas pakai','1 nomor = 1× blast. Nomor yang sudah login/logout tidak bisa blast lagi.');
- row(dl,'Penarikan','GoPay, ShopeePay, atau OVO');
+ row(dl,'Penarikan','DANA, GoPay, ShopeePay, atau OVO');
  box.appendChild(dl);
+}
+function tutOpen(k){
+ var t=$('evTut');if(!t)return;
+ tutShow(k||checked('evLogin')||'code');
+ t.hidden=false;
+ try{document.documentElement.style.overflow='hidden'}catch(e){}
+ var x=t.querySelector('[data-ev-tut-close]');if(x){try{x.focus({preventScroll:true})}catch(e){}}
+}
+function tutClose(){
+ var t=$('evTut');if(!t||t.hidden)return;
+ t.hidden=true;zoomClose();
+ try{document.documentElement.style.overflow=''}catch(e){}
+ var o=root.querySelector('[data-ev-tut-open]');if(o){try{o.focus({preventScroll:true})}catch(e){}}
 }
 function tutShow(k){
  var qr=$('evTutQr'),cd=$('evTutCode'),tq=$('evTutTabQr'),tc=$('evTutTabCode');
@@ -1441,7 +1471,7 @@ function buildMsg(){
  return ['Halo Admin KZRIZUSMO, saya ingin mendaftarkan nomor WhatsApp untuk layanan Sewa WA Blast.','',
   'Nomor WhatsApp: '+cleanNum($('evNum').value),
   'Nama pemilik: '+$('evName').value.trim(),
-  'Metode login: '+LOGIN[checked('evLogin')],
+  'Metode login: '+LOGIN[checked('evLogin')]+' (berlaku 60 detik, saya siap sebelum kode/QR dikirim)',
   'Metode tarif: '+p.name+' ('+rp(p.rate)+' '+p.per+')',
   'Minimal WD: '+rp(CFG.minWd),
   'Penarikan dana: '+$('evWdType').value,
@@ -1473,6 +1503,7 @@ function copyText(t){
 }
 
 function view(v){
+ tutClose();
  $('evHub').hidden=(v!=='hub');
  $('evWa').hidden=(v!=='wa');
  try{window.scrollTo(0,0)}catch(e){}
@@ -1483,6 +1514,8 @@ root.addEventListener('click',function(e){
  var op=t.closest('[data-ev-open]');
  if(op){view(op.getAttribute('data-ev-open'));return}
  if(t.closest('[data-ev-back]')){view('hub');return}
+ if(t.closest('[data-ev-tut-open]')){tutOpen();return}
+ if(t.closest('[data-ev-tut-close]')||t.id==='evTut'){tutClose();return}
  var zm=t.closest('[data-ev-zoom]');
  if(zm){zoomOpen(zm.getAttribute('data-ev-zoom'));return}
  if(t.closest('[data-ev-zoom-close]')||t.id==='evZoom'){zoomClose();return}
@@ -1495,6 +1528,11 @@ root.addEventListener('click',function(e){
 root.addEventListener('keydown',function(e){
  var t=e.target;
  if((e.key==='Enter'||e.key===' ')&&t&&t.matches&&t.matches('[data-ev-open]')){e.preventDefault();t.click()}
+});
+document.addEventListener('keydown',function(e){
+ if(e.key!=='Escape')return;
+ var z=$('evZoom'),t=$('evTut');
+ if(z&&!z.hidden)zoomClose();else if(t&&!t.hidden)tutClose();
 });
 Array.prototype.forEach.call(root.querySelectorAll('input[name="evMethod"]'),function(r){
  r.addEventListener('change',function(){choose(this.value)});
