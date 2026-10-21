@@ -1078,7 +1078,457 @@ AccessTokenDua
   🔓 Lanjutkan
 </button><button class="cancelBtn" onclick="hideTiktokModal()" style="margin-top:8px;width:100%;padding:12px;border:none;border-radius:12px;cursor:pointer;font-size:14px">Batal</button></div></div><div class="modal" id="pwModal"><div class="modal-card" onclick="event.stopPropagation()"><h3>🔐 Password Download</h3><p>Masukkan password untuk melanjutkan.</p><input id="freePass" style="width:100%;padding:12px;border-radius:10px;background:#222;color:#fff;border:none" placeholder="Password"><p style="font-size:12px;margin-top:10px">Dapatkan password di saluran.</p><button class="download-btn" style="margin:8px 0;background:#25D366" onclick="window.open('https://whatsapp.com/channel/0029VbDOVUJIHphDqJoiNH1L','_blank')">Ke Saluran</button><div class="modal-actions"><button class="cancelBtn" onclick="hidePw()">Batal</button><button class="okBtn" onclick="checkFreePassword()">Verifikasi</button></div><p id="pwErr" style="color:#ff6b6b;margin-top:8px"></p></div></div><div class="modal" id="dlModal"><div class="modal-card" onclick="event.stopPropagation()"><h3>Konfirmasi Download</h3><p id="modalText">Yakin ingin mengunduh?</p><div class="modal-actions"><button class="cancelBtn" onclick="hideDownloadPopup()">Batal</button><button class="okBtn" onclick="confirmDownload()">Ya, Unduh</button></div></div></div><div class="settings-overlay" id="settingsOverlay"><div class="settings-sheet"><div class="settings-header"><h2><i class="fa-solid fa-gear"></i>&nbsp; <span data-i18n="settings.title">Pengaturan</span></h2><button class="settings-close" onclick="closeSettingsPanel()"><i class="fa-solid fa-xmark"></i></button></div><div class="settings-panel-title" data-i18n="settings.appearance">Tampilan</div><div class="settings-row"><div class="settings-row-label"><span class="title" data-i18n="settings.animBanner">Animasi Banner</span><span class="desc" data-i18n="settings.animBannerDesc">Banner home berupa video animasi</span></div><label class="switch"><input type="checkbox" id="toggleAnimasi" onchange="onToggleAnimasi(this.checked)"/><span class="slider"></span></label></div><div class="settings-row" style="display:none;"><div class="settings-row-label" style="margin-bottom:6px;flex-direction:row;align-items:center;justify-content:space-between;width:100%;"><span class="title" data-i18n="settings.chooseBanner" style="font-size:.85rem;">Pilih Banner</span><button type="button" class="banner-detail-btn" onclick="openBannerDetail()"><i class="fa-solid fa-table-cells-large"></i><span data-i18n="settings.detail">Detail</span></button></div><div class="banner-grid" id="bannerGrid"></div></div><div class="settings-row" style="display:block;padding-bottom:10px;"><div class="settings-row-label" style="margin-bottom:6px;"><span class="title" data-i18n="settings.bannerSize">Ukuran Banner</span><span class="desc" data-i18n="settings.bannerSizeDesc">Rasio tampilan banner home</span></div><div class="ratio-switch" id="ratioSwitch"><button type="button" class="ratio-opt" id="ratioOpt169" onclick="onSetBannerRatio('16/9')"><span class="ratio-name">16:9</span></button><button type="button" class="ratio-opt" id="ratioOpt167" onclick="onSetBannerRatio('16/7')"><span class="ratio-name">16:7</span></button></div></div><div class="settings-row"><div class="settings-row-label"><span class="title" data-i18n="settings.blurBg">Blur Background</span><span class="desc" data-i18n="settings.blurBgDesc">Efek blur pada latar belakang aplikasi</span></div><label class="switch"><input type="checkbox" id="toggleBlur" onchange="onToggleBlur(this.checked)"/><span class="slider"></span></label></div><div class="settings-panel-title" data-i18n="settings.soundVibrate">Suara &amp; Getar</div><div class="settings-row"><div class="settings-row-label"><span class="title" data-i18n="settings.sfx">Suara Efek</span><span class="desc" data-i18n="settings.sfxDesc">Bunyi klik pada tombol &amp; interaksi</span></div><label class="switch"><input type="checkbox" id="toggleSfx" onchange="onToggleSfx(this.checked)"/><span class="slider"></span></label></div><div class="settings-row"><div class="settings-row-label"><span class="title" data-i18n="settings.vibrate">Getar</span><span class="desc" data-i18n="settings.vibrateDesc">Getaran saat menekan tombol</span></div><label class="switch"><input type="checkbox" id="toggleVibrate" onchange="onToggleVibrate(this.checked)"/><span class="slider"></span></label></div><div class="settings-row settings-row-vol"><div class="settings-row-label" style="width:100%"><span class="title" data-i18n="settings.volume">Volume</span><div class="vol-slider-wrap"><i class="fa-solid fa-volume-low"></i><input type="range" id="volumeSlider" class="vol-slider" min="0" max="100" value="80" oninput="onVolumeInput(this.value)"/><i class="fa-solid fa-volume-high"></i><span class="vol-value" id="volumeValue">80%</span></div></div></div><div class="settings-panel-title" data-i18n="settings.keyboard">Keyboard</div><div class="settings-row"><div class="settings-row-label"><span class="title" data-i18n="settings.customKeyboard">Keyboard Kustom Kzrizusmo</span></div><label class="switch"><input type="checkbox" id="toggleCustomKeyboard" onchange="onToggleCustomKeyboard(this.checked)"/><span class="slider"></span></label></div></div></div><div class="banner-detail-overlay" id="bannerDetailOverlay"><div class="banner-detail-header"><button class="banner-detail-back" onclick="closeBannerDetail()"><i class="fa-solid fa-arrow-left"></i></button><h2 data-i18n="settings.chooseBanner">Pilih Banner</h2><div class="banner-detail-diamond"><img loading="lazy" decoding="async" src="zusmo-asset/onzrii.png" alt="diamond" width="14" height="14" style="width:14px;height:14px;object-fit:contain;display:block"/><span id="bannerDetailDiamondBalance">9.999</span></div></div><div class="banner-detail-body" id="bannerDetailBody"><div class="bd-filter-tabs"><button type="button" class="bd-filter-tab active" id="bannerFilterAll" onclick="onSetBannerFilter('all')">Semua</button><button type="button" class="bd-filter-tab" id="bannerFilterOwned" onclick="onSetBannerFilter('owned')">Dimiliki</button></div><div class="banner-detail-grid" id="bannerDetailGrid"></div><div class="bd-filter-empty" id="bannerFilterEmpty">Belum ada Banner yang kamu miliki.</div></div></div><div class="zx-modal-overlay" id="buyBannerOverlay"><div class="zx-modal" id="buyBannerModal"><div class="zx-modal-thumb"><img id="buyBannerImg" loading="lazy" decoding="async" src="" alt=""/></div><h3 id="buyBannerName">Banner</h3><p data-i18n="shop.buyDesc">Beli banner ini secara permanen menggunakan Diamond kamu.</p><div class="zx-price-row"><img loading="lazy" decoding="async" src="zusmo-asset/onzrii.png" alt="diamond"/><span id="buyBannerPrice">0</span></div><div class="zx-actions"><button class="zx-btn-cancel" onclick="closeBuyBanner()" data-i18n="shop.cancel">Batal</button><button class="zx-btn-confirm" id="buyBannerConfirmBtn" onclick="confirmBuyBanner()" data-i18n="shop.buy">Beli</button></div><div class="zx-balance-note" id="buyBannerBalanceNote"></div></div></div><div class="banner-detail-overlay" id="wallpaperDetailOverlay"><div class="banner-detail-header"><button class="banner-detail-back" onclick="closeWallpaperDetail()"><i class="fa-solid fa-arrow-left"></i></button><h2>Pilih Wallpaper</h2><div class="banner-detail-diamond"><img loading="lazy" decoding="async" src="zusmo-asset/onzrii.png" alt="diamond" width="14" height="14" style="width:14px;height:14px;object-fit:contain;display:block"/><span id="wallpaperDetailDiamondBalance">9.999</span></div></div><div class="banner-detail-body" id="wallpaperDetailBody"><div class="banner-detail-hint"><i class="fa-solid fa-wifi"></i><span>Jika video tidak muncul, coba pindahkan jaringan (WiFi ke Data Seluler atau sebaliknya) yang paling stabil.</span></div><div class="music-stats-row"><div class="music-stat-pill"><i class="fa-solid fa-photo-film"></i><span id="wallpaperStatTotal">0</span><small>Wallpaper</small></div><div class="music-stat-pill owned"><i class="fa-solid fa-circle-check"></i><span id="wallpaperStatOwned">0</span><small>Dimiliki</small></div></div><div class="bd-filter-tabs"><button type="button" class="bd-filter-tab active" id="wallpaperFilterAll" onclick="onSetWallpaperFilter('all')">Semua</button><button type="button" class="bd-filter-tab" id="wallpaperFilterOwned" onclick="onSetWallpaperFilter('owned')">Dimiliki</button></div><div class="banner-detail-grid wp-portrait-grid" id="wallpaperDetailGrid"></div><div class="bd-filter-empty" id="wallpaperFilterEmpty">Belum ada Wallpaper yang kamu miliki.</div></div></div><div class="zx-modal-overlay" id="buyWallpaperOverlay"><div class="zx-modal" id="buyWallpaperModal"><div class="zx-modal-thumb"><video id="buyWallpaperVideo" muted loop playsinline preload="none" src=""></video></div><h3 id="buyWallpaperName">Wallpaper</h3><p>Beli wallpaper ini secara permanen menggunakan Diamond kamu.</p><div class="zx-price-row"><img loading="lazy" decoding="async" src="zusmo-asset/onzrii.png" alt="diamond"/><span id="buyWallpaperPrice">0</span></div><div class="zx-actions"><button class="zx-btn-cancel" onclick="closeBuyWallpaper()">Batal</button><button class="zx-btn-confirm" id="buyWallpaperConfirmBtn" onclick="confirmBuyWallpaper()">Beli</button></div><div class="zx-balance-note" id="buyWallpaperBalanceNote"></div></div></div><div class="banner-detail-overlay" id="logoDetailOverlay"><div class="banner-detail-header"><button class="banner-detail-back" onclick="closeLogoDetail()"><i class="fa-solid fa-arrow-left"></i></button><h2>Pilih Logo</h2></div><div class="banner-detail-body" id="logoDetailBody"><div class="banner-detail-grid lg-round-grid" id="logoDetailGrid"></div></div></div><div class="zx-modal-overlay" id="logoOwnedDetailOverlay"><div class="zx-modal" id="logoOwnedDetailModal"><div class="zx-modal-thumb lg-round-thumb"><img id="logoOwnedDetailImg" loading="lazy" decoding="async" src="" alt=""/></div><h3 id="logoOwnedDetailName">Logo</h3><p id="logoOwnedDetailDesc">Logo ini sudah kamu miliki.</p><div class="zx-actions"><button class="zx-btn-cancel" onclick="closeLogoOwnedDetail()">Tutup</button><button class="zx-btn-confirm" id="logoOwnedDetailUseBtn" onclick="useLogoOwnedDetail()">Gunakan</button></div></div></div><div class="banner-detail-overlay" id="musicDetailOverlay"><div class="banner-detail-header"><button class="banner-detail-back" onclick="closeMusicDetail()"><i class="fa-solid fa-arrow-left"></i></button><h2>Pilih Musik</h2><div class="banner-detail-diamond kl-count-chip"><i class="fa-solid fa-record-vinyl"></i><span id="musicHeaderCount">0</span></div><div class="mp-wrap" id="mpWrapShop"><button onclick="toggleMusicPopup(event,'mpWrapShop')"><i class="mp-music-icon fa-solid fa-music"></i></button><div class="mp-popup"><div class="mp-row-toggle"><span>Musik</span><div class="mp-switch" onclick="onMpSwitchToggle()"></div></div><div class="mp-vol-row"><i class="fa-solid fa-volume-low"></i><input type="range" class="vol-slider mp-volume-slider" min="0" max="100" value="80" oninput="onMpVolumeInput(this.value)"/><i class="fa-solid fa-volume-high"></i></div><div style="text-align:right;margin-top:2px"><span class="mp-vol-val mp-volume-value">80%</span></div></div></div></div><div class="banner-detail-body" id="musicDetailBody"><div class="banner-detail-hint music-hint"><i class="fa-solid fa-circle-info"></i><span>Ketuk tombol play buat dengerin preview lagu, lalu tekan Pakai buat jadiin backsound aplikasi kamu.</span></div><div class="music-stats-row"><div class="music-stat-pill"><i class="fa-solid fa-record-vinyl"></i><span id="musicStatTotal">0</span><small>Musik</small></div><div class="music-stat-pill owned kl-active-pill"><i class="fa-solid fa-circle-check"></i><span id="musicStatActive">Musik Bawaan</span><small>Sedang dipakai</small></div></div><div class="music-toolbar"><div class="music-search-wrap"><i class="fa-solid fa-magnifying-glass"></i><input type="text" id="musicSearchInput" placeholder="Cari judul musik..." oninput="onMusicSearchInput(this.value)"/><button type="button" class="music-search-clear" id="musicSearchClear" onclick="clearMusicSearch()" style="display:none"><i class="fa-solid fa-xmark"></i></button></div><button type="button" class="music-sort-btn" id="musicSortBtn" onclick="cycleMusicSort()"><i class="fa-solid fa-arrow-down-a-z" id="musicSortIcon"></i></button></div><div class="music-detail-list" id="musicDetailGrid"></div><div class="music-filter-empty" id="musicFilterEmpty"><i class="fa-solid fa-magnifying-glass"></i><span>Musik tidak ditemukan.</span></div></div><div class="music-mini-player" id="musicMiniPlayer"><div class="music-mini-icon"></div><div class="music-mini-info"><div class="music-mini-eyebrow"><span class="music-rec-dot"></span>Sedang Diputar</div><div class="music-mini-name" id="musicMiniName">-</div><div class="music-mini-bars"><span></span><span></span><span></span><span></span></div></div><button type="button" class="music-mini-stop" onclick="stopMusicPreview()"><i class="fa-solid fa-stop"></i></button></div><audio id="musicPreviewPlayer" preload="none"></audio></div><div class="zx-modal-overlay" id="dailyClaimOverlay"><div class="zx-modal claim-modal"><button type="button" class="redeem-corner-btn" id="redeemCornerBtn" onclick="openRedeemModal()"><i class="fa-solid fa-ticket"></i><span>Redeem</span></button><div class="claim-header-icon"><img loading="lazy" decoding="async" src="zusmo-asset/onzrii.png" alt="diamond"/></div><h3 data-i18n="claim.title">Klaim Diamond Harian</h3><p data-i18n="claim.desc">Klaim 60 Diamond setiap hari. Reset setiap pukul 00:00 WIB.</p><div class="claim-week" id="claimWeekGrid"></div><button class="claim-btn-main" id="claimMainBtn" onclick="doClaimDaily()"><img loading="lazy" decoding="async" src="zusmo-asset/onzrii.png" alt=""/><span id="claimMainBtnText">Klaim 60 Diamond</span></button><div class="claim-countdown" id="claimCountdownText"></div><div class="zx-actions" style="margin-top:14px;"><button class="zx-btn-cancel" style="width:100%" onclick="closeDailyClaim()" data-i18n="shop.cancel">Tutup</button></div></div></div><div class="zx-modal-overlay" id="diamondTopupModalOverlay"><div class="zx-modal dt-modal"><button type="button" class="dt-modal-close" onclick="closeDiamondTopupModal()"><i class="fa-solid fa-xmark"></i></button><div class="dt-modal-head"><div class="claim-header-icon" style="width:38px;height:38px;margin:0;"><img loading="lazy" decoding="async" src="zusmo-asset/onzrii.png" alt="diamond" style="width:100%;height:100%;object-fit:contain;display:block"/></div><div><h3 style="margin:0;font-size:1rem;">Topup Diamond</h3><p style="margin:2px 0 0;font-size:.72rem;color:rgba(255,255,255,.55);">Pilih jumlah &amp; metode pembayaran</p></div></div><div class="dt-scope" id="dtModalScope"><div class="dt-pkg-list dt-pkg-list-modal" id="dtModalPkgList"></div><button type="button" class="dt-confirm-btn" id="dtModalConfirmBtn" style="display:none;" onclick="dtConfirmPackage(this)"><i class="fa-solid fa-check"></i> Konfirmasi Pilihan
       </button><div class="dt-method-section" id="dtModalMethodSection" style="display:none;"><div class="dt-selected-summary" id="dtModalSelectedSummary"></div><div class="vpay-sectiontitle" style="margin-top:14px;"><i class="fa-solid fa-wallet"></i> Pilih Metode Bayar</div><div class="vpay-grid"><div class="vpay-method m-qris" data-method="qris" onclick="dtSelectMethod(this,'qris')"><div class="vpay-icon"><i class="fa-solid fa-qrcode"></i></div><div class="vpay-info"><div class="vpay-name">QRIS</div><div class="vpay-number">Semua e-wallet &amp; m-banking</div></div><div class="vpay-check"><i class="fa-solid fa-check"></i></div></div><div class="vpay-method m-qris2" data-method="qris2" onclick="dtSelectMethod(this,'qris2')"><div class="vpay-icon"><i class="fa-solid fa-qrcode"></i></div><div class="vpay-info"><div class="vpay-name">QRIS 2 <span class="vpay-badge" style="background:rgba(255,255,255,.12);color:rgba(255,255,255,.75);">+ Biaya Admin</span></div><div class="vpay-number">Semua e-wallet &amp; m-banking juga</div></div><div class="vpay-check"><i class="fa-solid fa-check"></i></div></div><div class="vpay-method m-dana" data-method="dana" onclick="dtSelectMethod(this,'dana')"><div class="vpay-icon"><img loading="lazy" decoding="async" src="zusmo-asset/logodana.png" alt="DANA" onerror="this.style.display='none'"/></div><div class="vpay-info"><div class="vpay-name">DANA</div><div class="vpay-number">Saldo DANA kamu</div></div><div class="vpay-check"><i class="fa-solid fa-check"></i></div></div><div class="vpay-method m-gopay" data-method="gopay" onclick="dtSelectMethod(this,'gopay')"><div class="vpay-icon"><img loading="lazy" decoding="async" src="zusmo-asset/logogopay.png" alt="GoPay" onerror="this.style.display='none'"/></div><div class="vpay-info"><div class="vpay-name">GoPay</div><div class="vpay-number">Saldo GoPay kamu</div></div><div class="vpay-check"><i class="fa-solid fa-check"></i></div></div><div class="vpay-method m-shopee" data-method="shopee" onclick="dtSelectMethod(this,'shopee')"><div class="vpay-icon"><img loading="lazy" decoding="async" src="zusmo-asset/logospay.png" alt="ShopeePay" onerror="this.style.display='none'"/></div><div class="vpay-info"><div class="vpay-name">ShopeePay</div><div class="vpay-number">Saldo ShopeePay kamu</div></div><div class="vpay-check"><i class="fa-solid fa-check"></i></div></div><div class="vpay-method m-ovo" data-method="ovo" onclick="dtSelectMethod(this,'ovo')"><div class="vpay-icon"><img loading="lazy" decoding="async" src="zusmo-asset/logoovo.png" alt="OVO" onerror="this.style.display='none'"/></div><div class="vpay-info"><div class="vpay-name">OVO</div><div class="vpay-number">Saldo OVO kamu</div></div><div class="vpay-check"><i class="fa-solid fa-check"></i></div></div><div class="vpay-method m-wa" data-method="wa" onclick="dtSelectMethod(this,'wa')"><div class="vpay-icon"><i class="fa-brands fa-whatsapp"></i></div><div class="vpay-info"><div class="vpay-name">Order Manual</div><div class="vpay-number">Dibantu admin via WhatsApp</div></div><div class="vpay-check"><i class="fa-solid fa-check"></i></div></div></div><button type="button" class="dt-continue-btn" onclick="dtProceed()" disabled><i class="fa-solid fa-arrow-right"></i> Lanjutkan
-      </button></div></div></div></div><div class="zx-modal-overlay" id="redeemOverlay"><div class="zx-modal claim-modal"><div class="claim-header-icon"><i class="fa-solid fa-ticket" style="font-size:34px;color:#ff4747;display:block;margin-top:10px"></i></div><h3>Kode Redeem</h3><p>Masukkan kode redeem untuk mendapatkan Diamond.</p><div class="redeem-row"><input type="text" id="redeemCodeInput" class="redeem-input" placeholder="Masukkan kode redeem" autocomplete="off" enterkeyhint="done"/></div><div class="redeem-msg" id="redeemMsg"></div><div class="zx-actions" style="margin-top:14px;"><button class="zx-btn-cancel" style="width:100%" onclick="closeRedeemModal()">Tutup</button><button class="claim-btn-main" style="width:100%;margin-top:8px" onclick="doRedeemCode()"><i class="fa-solid fa-gift"></i><span>Klaim Kode</span></button></div></div></div><div class="zx-modal-overlay" id="missionOverlay"><div class="zx-modal mission-modal"><div class="mission-header-icon"><i class="fa-solid fa-list-check"></i></div><h3>Misi Harian</h3><p>Selesaikan misi hari ini untuk dapat Diamond tambahan.</p><div class="mission-list" id="missionList"></div><button class="claim-btn-main" id="missionClaimAllBtn" style="width:100%;margin-top:2px;display:none" onclick="doClaimAllMissions()"><i class="fa-solid fa-layer-group"></i><span>Klaim Semua</span></button><div class="mission-reset-note" id="missionResetNote"></div><div class="zx-actions" style="margin-top:14px;"><button class="zx-btn-cancel" style="width:100%" onclick="closeMissionModal()">Tutup</button></div></div></div><div class="banner-detail-overlay" id="orderHistoryOverlay"><div class="banner-detail-header"><button class="banner-detail-back" onclick="closeOrderHistory()"><i class="fa-solid fa-arrow-left"></i></button><h2>Riwayat Order</h2></div><div class="banner-detail-body"><div class="oh-list" id="orderHistoryList"></div></div></div><div class="zx-modal-overlay" id="clearHistoryOverlay"><div class="zx-modal"><h3>Hapus Riwayat?</h3><p>Semua riwayat transaksi Diamond kamu akan terhapus permanen dan tidak bisa dikembalikan.</p><div class="zx-actions"><button class="zx-btn-cancel" onclick="closeClearHistoryConfirm()">Batal</button><button class="zx-btn-confirm" onclick="doClearHistory()">Hapus</button></div></div></div><div class="page" id="eventTab"><div class="event-coming-soon" style="min-height:60vh;display:grid;place-items:center;font-size:24px;font-weight:800;letter-spacing:2px;text-align:center">COMING SOON</div></div><div class="page" id="shopTab"><div class="kl-sec"><span>Jelajahi</span></div><div class="kl-card" role="button" tabindex="0" aria-label="Buka daftar logo" onclick="openLogoDetail()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}"><div class="kl-visual"><div class="kl-mosaic" id="klMosaic"></div></div><div class="kl-body"><div class="kl-body-txt"><h3>Avatar &amp; Logo</h3><p>Ganti logo profil Zusmo dari ratusan pilihan.</p></div><span class="kl-go"><i class="fa-solid fa-arrow-right"></i></span></div><div class="kl-chip"><i class="fa-solid fa-circle-check"></i><span>Dipakai:</span><b id="klActiveLogo">Default</b></div></div><div class="kl-card" role="button" tabindex="0" aria-label="Buka pustaka musik" onclick="openMusicDetail()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}"><div class="kl-visual"><div class="kl-wave" aria-hidden="true"><i style="--h:38%;--n:0"></i><i style="--h:62%;--n:1"></i><i style="--h:48%;--n:2"></i><i style="--h:80%;--n:3"></i><i style="--h:56%;--n:4"></i><i style="--h:92%;--n:5"></i><i style="--h:44%;--n:6"></i><i style="--h:70%;--n:7"></i><i style="--h:100%;--n:8"></i><i style="--h:58%;--n:9"></i><i style="--h:76%;--n:10"></i><i style="--h:40%;--n:11"></i><i style="--h:88%;--n:12"></i><i style="--h:52%;--n:13"></i><i style="--h:66%;--n:14"></i><i style="--h:96%;--n:15"></i><i style="--h:46%;--n:16"></i><i style="--h:72%;--n:17"></i><i style="--h:60%;--n:18"></i><i style="--h:84%;--n:19"></i><i style="--h:42%;--n:20"></i><i style="--h:78%;--n:21"></i><i style="--h:54%;--n:22"></i><i style="--h:90%;--n:23"></i><i style="--h:50%;--n:24"></i><i style="--h:68%;--n:25"></i><i style="--h:82%;--n:26"></i><i style="--h:45%;--n:27"></i></div></div><div class="kl-body"><div class="kl-body-txt"><h3>Pustaka Musik</h3><p>Dengarkan preview, lalu pasang jadi backsound aplikasi.</p></div><span class="kl-go"><i class="fa-solid fa-arrow-right"></i></span></div><div class="kl-chip m"><i class="fa-solid fa-music"></i><span>Aktif:</span><b id="klActiveMusic">Musik Bawaan</b></div></div></div><div class="page" id="progressTab"><div class="prog-hero"><div class="prog-hero-glow"></div><div class="prog-hero-top"><div class="prog-hero-titles"><div class="prog-hero-icon"><i class="fa-solid fa-chart-line"></i></div><div><h1>PROGRESS</h1><span>TRACKING PESANAN</span></div></div><div class="prog-total-pill"><i class="fa-solid fa-boxes-stacked"></i><span><span id="progressTotalCount">0</span> Pesanan</span></div></div></div><div class="prog-search-wrap"><button type="button" class="prog-search-icon-btn" onclick="openProgFindModal()" aria-label="Cari pesanan pakai kode"><i class="fa-solid fa-magnifying-glass"></i></button><input type="text" id="progSearchInput" class="prog-search-input" placeholder="Cari UID atau produk..." oninput="onProgressSearchInput(this.value)"/><button type="button" class="prog-search-clear" id="progSearchClear" onclick="clearProgressSearch()" aria-label="Hapus pencarian"><i class="fa-solid fa-xmark"></i></button></div><div class="prog-filter-wrap" id="progFilterWrap"><div class="prog-filter-hint"><i class="fa-solid fa-circle-info"></i><span>Pantau orderan kamu dalam 7 hari terakhir</span></div><button class="prog-filter-btn" type="button" onclick="toggleProgressFilterPopup(event)"><i class="fa-solid fa-sliders"></i><span>Filter</span></button><div class="prog-filter-popup" id="progFilterPopup"><div class="pf-group"><div class="pf-group-title">Urutkan</div><div class="pf-opt-list"><button class="pf-opt on" type="button" data-sort="semua" onclick="setProgressSort(this,'semua')">Semua</button><button class="pf-opt" type="button" data-sort="terbaru" onclick="setProgressSort(this,'terbaru')">Terbaru</button><button class="pf-opt" type="button" data-sort="terlama" onclick="setProgressSort(this,'terlama')">Terlama</button></div></div><div class="pf-group"><div class="pf-group-title">Status</div><div class="pf-opt-list"><button class="pf-opt on" type="button" data-status="all" onclick="setProgressStatus(this,'all')">Semua</button><button class="pf-opt" type="button" data-status="pending" onclick="setProgressStatus(this,'pending')">Pending</button><button class="pf-opt" type="button" data-status="proses" onclick="setProgressStatus(this,'proses')">Proses</button><button class="pf-opt" type="button" data-status="sukses" onclick="setProgressStatus(this,'sukses')">Sukses</button></div></div><div class="pf-group"><div class="pf-group-title">Kategori</div><div class="pf-opt-list"><button class="pf-opt on" type="button" data-cat="all" onclick="setProgressCategory(this,'all')">Semua</button><button class="pf-opt" type="button" data-cat="Vip Zusmo Shadow" onclick="setProgressCategory(this,'Vip Zusmo Shadow')">VIP ZS</button><button class="pf-opt" type="button" data-cat="Suntik Like" onclick="setProgressCategory(this,'Suntik Like')">Suntik Like</button><button class="pf-opt" type="button" data-cat="Suntik Folls Craftland" onclick="setProgressCategory(this,'Suntik Folls Craftland')">Suntik Folls CF</button><button class="pf-opt" type="button" data-cat="Bot Glory" onclick="setProgressCategory(this,'Bot Glory')">Bot Glory</button></div></div></div></div><div class="prog-order-list" id="progressOrderList"></div><div class="prog-find-overlay" id="progFindOverlay"><div class="prog-find-card"><button type="button" class="prog-find-close" onclick="closeProgFindModal()" aria-label="Tutup"><i class="fa-solid fa-xmark"></i></button><div class="prog-find-icon"><i class="fa-solid fa-magnifying-glass"></i></div><div class="prog-find-title">Pesanan Anda Tidak Ditemukan?</div><div class="prog-find-sub">Minta kode pesanan Anda ke admin, lalu masukkan kode pesanan.</div><div class="prog-find-code-row" id="progFindCodeRow"><input type="tel" inputmode="numeric" maxlength="1" class="prog-find-digit" data-idx="0" oninput="pfDigitInput(this)" onkeydown="pfDigitKeydown(event,this)"/><input type="tel" inputmode="numeric" maxlength="1" class="prog-find-digit" data-idx="1" oninput="pfDigitInput(this)" onkeydown="pfDigitKeydown(event,this)"/><input type="tel" inputmode="numeric" maxlength="1" class="prog-find-digit" data-idx="2" oninput="pfDigitInput(this)" onkeydown="pfDigitKeydown(event,this)"/><input type="tel" inputmode="numeric" maxlength="1" class="prog-find-digit" data-idx="3" oninput="pfDigitInput(this)" onkeydown="pfDigitKeydown(event,this)"/><input type="tel" inputmode="numeric" maxlength="1" class="prog-find-digit" data-idx="4" oninput="pfDigitInput(this)" onkeydown="pfDigitKeydown(event,this)"/></div><button type="button" class="prog-find-btn" onclick="submitProgressOrderCode()"><i class="fa-solid fa-magnifying-glass"></i><span>Cari Pesanan</span></button><div class="prog-find-msg" id="progFindMsg"></div></div></div><div class="prog-dlfail-overlay" id="progDlFailOverlay"><div class="prog-dlfail-modal"><div class="prog-dlfail-icon"><i class="fa-solid fa-triangle-exclamation"></i></div><div class="prog-dlfail-title">Download Gagal</div><div class="prog-dlfail-sub">Aplikasi ini belum support download gambar. Salin link di bawah, lalu buka lewat <b>Chrome</b> untuk download progress kamu.</div><div class="prog-dlfail-linkbox"><span id="progDlFailLink">https://www.kzrizusmostore.com</span><button type="button" class="prog-dlfail-copy" id="progDlFailCopyIcon" onclick="copyProgDownloadLink()" aria-label="Salin link"><i class="fa-regular fa-copy"></i></button></div><div class="prog-dlfail-actions"><button type="button" class="prog-dlfail-btn prog-dlfail-btn-close" onclick="closeProgDownloadFailModal()">Tutup</button><button type="button" class="prog-dlfail-btn prog-dlfail-btn-copy" onclick="copyProgDownloadLink()">Salin Link</button></div></div></div></div><div class="page" id="communityTab"><div class="cm3-head"><div class="cm3-h" role="heading" aria-level="1"><i class="fa-solid fa-users" aria-hidden="true"></i>Komunitas Zusmo</div></div><div class="cm3-grid"><div class="cm3-tile cm3-chat" id="zcEntry" role="button" tabindex="0" aria-label="Buka Live Chat Zusmo" onclick="showPage('zcChat')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('zcChat')}"><span class="cm3-ic"><i class="fa-solid fa-comments" aria-hidden="true"></i><span class="cm3-badge" id="zcEntryBadge" title="Pesan belum dibaca" hidden>0</span></span><span class="cm3-fol cm3-on" id="zcEntryOn" hidden></span><strong class="cm3-t">Live Chat</strong><span class="cm3-s">Ngobrol real-time</span><i class="fa-solid fa-arrow-right cm3-go" aria-hidden="true"></i></div><a class="cm3-tile cm3-wa" href="https://whatsapp.com/channel/0029VbDOVUJIHphDqJoiNH1L" target="_blank" rel="noopener noreferrer"><span class="cm3-ic"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></span><span class="cm3-fol">12Rb</span><strong class="cm3-t">Saluran WhatsApp</strong><span class="cm3-s">Update &amp; Informasi</span></a><div class="cm3-tile cm3-feed" id="zfEntry" role="button" tabindex="0" aria-label="Buka Fyp Zusmo" onclick="showPage('zcFeed')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('zcFeed')}"><span class="cm3-ic"><i class="fa-solid fa-newspaper" aria-hidden="true"></i></span><strong class="cm3-t">Fyp</strong><span class="cm3-s">Beranda publik</span></div><a class="cm3-tile cm3-grp" href="https://chat.whatsapp.com/ECT06FXiivsL8kI0Jhecdj?s=cl&amp;p=a&amp;ilr=4" target="_blank" rel="noopener noreferrer"><span class="cm3-ic"><i class="fa-solid fa-user-group" aria-hidden="true"></i></span><strong class="cm3-t">Grup Diskusi</strong><span class="cm3-s">Tips &amp; tanya jawab</span></a><a class="cm3-tile cm3-grp" href="https://chat.whatsapp.com/KxF1644zngD9ZBNq6M5Ise?s=cl&amp;p=a&amp;ilr=4" target="_blank" rel="noopener noreferrer"><span class="cm3-ic"><i class="fa-solid fa-gift" aria-hidden="true"></i></span><strong class="cm3-t">Info &amp; Giveaway</strong><span class="cm3-s">Promo &amp; event diamond</span></a><a class="cm3-tile cm3-tt" href="https://www.tiktok.com/@kzrizusmo_store" target="_blank" rel="noopener noreferrer"><span class="cm3-ic"><i class="fa-brands fa-tiktok" aria-hidden="true"></i></span><span class="cm3-fol">40Rb</span><strong class="cm3-t">TikTok</strong><span class="cm3-s">Tutorial &amp; tips</span></a><a class="cm3-tile cm3-sup" href="https://saweria.co/kzrizusmo" target="_blank" rel="noopener"><span class="cm3-ic"><i class="fa-solid fa-mug-hot" aria-hidden="true"></i></span><strong class="cm3-t">Traktir Kopi</strong><span class="cm3-s">Dukung biar makin keren</span></a></div><section class="cm3-admin" id="cm2Admin" data-on="0" aria-label="Admin CS"><span class="cm3-ic"><i class="fa-solid fa-headset" aria-hidden="true"></i></span><span class="cm3-admin-txt"><strong class="cm3-t">Admin CS</strong><span class="cm3-status"><span class="cm3-dot" aria-hidden="true"></span><span id="cm2AdminText">Offline, dibalas saat jam kerja</span></span></span><a class="cm3-btn" href="https://wa.me/6283800287738" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i>Chat Admin</a></section><section class="cm3-info" id="cm3Info"><button type="button" class="cm3-toggle" onclick="toggleCmtyRules(this)" aria-expanded="false" aria-controls="cm3Rules"><span><i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i>Aturan &amp; info<b class="cm3-must">Wajib baca</b></span><i class="fa-solid fa-chevron-down cm3-chev" aria-hidden="true"></i></button><div class="cm3-rules" id="cm3Rules"><div class="cm3-rules-in"><div class="cm3-chips" role="group" aria-label="Pilih topik"><button type="button" class="cm3-chip on" data-p="admin" aria-pressed="true">Admin CS</button><button type="button" class="cm3-chip" data-p="wa" aria-pressed="false">Saluran</button><button type="button" class="cm3-chip" data-p="chat" aria-pressed="false">Live Chat</button><button type="button" class="cm3-chip" data-p="grup" aria-pressed="false">Grup</button><button type="button" class="cm3-chip" data-p="tt" aria-pressed="false">TikTok</button><button type="button" class="cm3-chip" data-p="sup" aria-pressed="false">Dukungan</button></div><div class="cm3-pane" data-p="admin"><p class="cm3-meta"><i class="fa-solid fa-clock" aria-hidden="true"></i>Jam operasional admin: 09.00 - 22.00 WIB</p><p class="cm3-meta"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i><span class="allow-copy">+62 838-0028-7738</span></p><ol><li>Dilarang telepon, 1× telepon akan diblokir.</li><li>Dilarang spam, 5× chat spam akan diblokir.</li><li>Chat wajib langsung ke inti keperluan.</li><li>Chat hanya ("p", "bang", "salam") atau tidak jelas tidak akan dibalas.</li><li>Chat belum dibalas dalam 24 jam, silahkan chat ulang.</li><li>Chat dibalas dari antrian pesan bawah ke atas, mohon sabar menunggu giliran dibalas.</li><li>Matikan timer chat saat chat admin.</li></ol><p>Patuhi S&amp;K saat chat admin CS! Dengan 100–300 chat per hari, wajib sabar menunggu admin membalas. Dalam 48 jam admin selalu rechat (hapus semua chat), jadi jika belum dibalas silahkan kirim ulang pesan.</p><p class="cm3-note">Chat dikelola oleh Admin CS, bukan owner.</p></div><div class="cm3-pane" data-p="wa" hidden><ol><li>Semua update &amp; informasi resmi HANYA lewat saluran ini.</li><li>Waspada akun tiruan yang mengatasnamakan Zusmo.</li><li>Admin tidak pernah minta password/OTP lewat DM.</li></ol><p class="cm3-note">Aktifkan notifikasi biar gak ketinggalan update.</p></div><div class="cm3-pane" data-p="chat" hidden><ol><li>Ngobrol bebas sama member lain secara real-time.</li><li>Diskusi bebas, bukan pengumuman resmi.</li></ol></div><div class="cm3-pane" data-p="grup" hidden><h4>Grup Diskusi Utama</h4><ol><li>Dilarang promosi/jualan produk di luar Zusmo.</li><li>Dilarang spam chat maupun broadcast berlebihan.</li><li>Wajib sopan &amp; saling menghargai sesama member.</li></ol><p class="cm3-note">Member yang melanggar bisa dikeluarkan tanpa peringatan.</p><h4>Grup Info &amp; Giveaway</h4><ol><li>Grup khusus info promo, event &amp; giveaway diamond.</li><li>Dilarang chat di luar topik info/giveaway.</li><li>Pantau terus biar gak ketinggalan giveaway.</li></ol><p class="cm3-note">Dipantau admin, bukan tempat jualan pihak luar.</p></div><div class="cm3-pane" data-p="tt" hidden><ol><li>Konten tutorial &amp; tips resmi dari admin Zusmo.</li><li>Cek tanda centang biru buat mastiin akun resmi.</li><li>Follow biar gak ketinggalan konten terbaru.</li></ol><p class="cm3-note">Waspada akun tiruan yang niru-niru konten Zusmo.</p></div><div class="cm3-pane" data-p="sup" hidden><ol><li>Dukungan dipakai buat biaya server, domain &amp; fitur baru.</li><li>Sekecil apa pun dukunganmu sangat berarti buat Zusmo.</li><li>Sukarela, bukan syarat buat pakai aplikasi.</li></ol><p class="cm3-note">Terima kasih buat semua yang udah &amp; akan dukung Zusmo 💛</p></div></div></div></section><script>(function(){var c=document.getElementById("cm2Admin"),t=document.getElementById("cm2AdminText");if(!c||!t)return;var last=null;function jam(){try{var p=new Intl.DateTimeFormat("en-GB",{timeZone:"Asia/Jakarta",hour:"2-digit",hourCycle:"h23"}).formatToParts(new Date());for(var i=0;i<p.length;i++){if(p[i].type==="hour")return parseInt(p[i].value,10)%24}}catch(e){}return new Date(Date.now()+25200000).getUTCHours()}function render(){var h=jam(),on=h>=9&&h<22;if(on===last)return;last=on;c.setAttribute("data-on",on?"1":"0");t.textContent=on?"Online sekarang":"Offline, dibalas saat jam kerja"}render();setInterval(render,30000);document.addEventListener("visibilitychange",function(){if(!document.hidden)render()})})();(function(){var r=document.getElementById("cm3Info");if(!r)return;r.addEventListener("click",function(e){var b=e.target.closest(".cm3-chip");if(!b)return;var k=b.getAttribute("data-p");r.querySelectorAll(".cm3-chip").forEach(function(x){var on=x===b;x.classList.toggle("on",on);x.setAttribute("aria-pressed",on?"true":"false")});r.querySelectorAll(".cm3-pane").forEach(function(p){p.hidden=p.getAttribute("data-p")!==k});try{navigator.vibrate&&navigator.vibrate(8)}catch(x){}})})();</script><script id="cm3-ripple">(function(){var r=document.getElementById("communityTab");if(!r||r.__rip)return;r.__rip=1;r.addEventListener("pointerdown",function(e){var t=e.target.closest&&e.target.closest(".cm3-tile,.cm3-btn");if(!t||!r.contains(t))return;var b=t.getBoundingClientRect(),d=Math.max(b.width,b.height)*2.2,s=document.createElement("span");s.className="cm3-rip";s.style.cssText="left:"+(e.clientX-b.left)+"px;top:"+(e.clientY-b.top)+"px;width:"+d+"px;height:"+d+"px";t.appendChild(s);s.addEventListener("animationend",function(){s.remove()});setTimeout(function(){if(s.parentNode)s.remove()},900)},{passive:true})})();</script><div class="hm-footer" style="margin-top:20px">© 2026 <span>KZRIZUSMO</span> DEV</div></div><div class="page" id="beta"><div class="dev-card"><img loading="lazy" decoding="async" src="zusmo-asset/9dfz0n.png"><div class="dev-badge">BETA TESTING</div><h1>𝗭𝗨𝗦𝗠𝗢 𝗕𝗘𝗧𝗔</h1><p class="dev-note">ZUSMO Beta sedang menjalani pengujian internal untuk memastikan seluruh fitur berjalan stabil, aman, dan siap digunakan sebelum dirilis kepada semua pengguna.</p><div class="dev-progress"><span style="width:60%"></span></div><p style="color:#00ff88;font-weight:700">Terima kasih telah menunggu. Fitur akan tersedia pada pembaruan berikutnya.</p></div></div><div class="page" id="emote"><div class="dev-card"><img loading="lazy" decoding="async" src="zusmo-asset/9rj69g.png"><div class="dev-badge">UNDER DEVELOPMENT</div><h1>𝗭𝗨𝗦𝗠𝗢 𝗘𝗠𝗢𝗧𝗘</h1><p class="dev-note">Tim pengembang sedang menambahkan koleksi emote baru serta meningkatkan kompatibilitas agar pengalaman penggunaan menjadi lebih optimal.</p><div class="dev-progress"><span style="width:85%"></span></div><p style="color:#00ff88;font-weight:700">Terima kasih telah menunggu. Fitur akan tersedia pada pembaruan berikutnya.</p></div></div><div class="page" id="lvl"><div class="dev-card"><img loading="lazy" decoding="async" src="zusmo-asset/eoih4t.png"><div class="dev-badge">COMING SOON</div><h1>𝗭𝗨𝗦𝗠𝗢 𝗟𝗘𝗩𝗘𝗟</h1><p class="dev-note">ZUSMO Level sedang dipersiapkan dengan berbagai fitur baru dan penyempurnaan sistem. Nantikan peluncuran resminya pada update berikutnya.</p><div class="dev-progress"><span style="width:30%"></span></div><p style="color:#00ff88;font-weight:700">Terima kasih telah menunggu. Fitur akan tersedia pada pembaruan berikutnya.</p></div></div><div class="page" id="leaderboardTab"><div class="testi-wrap"><h1 class="testi-title">𝗧𝗘𝗦𝗧𝗜𝗠𝗢𝗡𝗜</h1><p class="testi-sub">Testimoni asli dari pengguna KZRIZUSMO. Tap gambar untuk melihat ukuran penuh.</p><div class="testi-video-row" id="testiVideoRow"></div><div class="testi-grid" id="testiGrid"></div></div></div><div class="testi-video-lightbox" id="testiVideoLightbox" onclick="if(event.target===this) closeTestiVideo()"><div class="testi-video-lb-frame"><button class="testi-video-lb-close" onclick="closeTestiVideo()" aria-label="Tutup"><i class="fa-solid fa-xmark"></i></button><video id="testiVideoLbPlayer" playsinline controls></video></div></div><div class="testi-lightbox" id="testiLightbox" onclick="if(event.target===this) closeTestiLightbox()"><div class="testi-lb-row" onclick="if(event.target===this) closeTestiLightbox()"><button class="testi-lb-nav testi-lb-prev" onclick="testiLbNav(-1)" aria-label="Sebelumnya"><i class="fa-solid fa-chevron-left"></i></button><div class="testi-lb-frame"><img loading="lazy" decoding="async" id="testiLightboxImg" src="" alt="Testimoni"></div><button class="testi-lb-nav testi-lb-next" onclick="testiLbNav(1)" aria-label="Berikutnya"><i class="fa-solid fa-chevron-right"></i></button></div></div><div class="page" id="zcChat"><div class="zc-shell">
+      </button></div></div></div></div><div class="zx-modal-overlay" id="redeemOverlay"><div class="zx-modal claim-modal"><div class="claim-header-icon"><i class="fa-solid fa-ticket" style="font-size:34px;color:#ff4747;display:block;margin-top:10px"></i></div><h3>Kode Redeem</h3><p>Masukkan kode redeem untuk mendapatkan Diamond.</p><div class="redeem-row"><input type="text" id="redeemCodeInput" class="redeem-input" placeholder="Masukkan kode redeem" autocomplete="off" enterkeyhint="done"/></div><div class="redeem-msg" id="redeemMsg"></div><div class="zx-actions" style="margin-top:14px;"><button class="zx-btn-cancel" style="width:100%" onclick="closeRedeemModal()">Tutup</button><button class="claim-btn-main" style="width:100%;margin-top:8px" onclick="doRedeemCode()"><i class="fa-solid fa-gift"></i><span>Klaim Kode</span></button></div></div></div><div class="zx-modal-overlay" id="missionOverlay"><div class="zx-modal mission-modal"><div class="mission-header-icon"><i class="fa-solid fa-list-check"></i></div><h3>Misi Harian</h3><p>Selesaikan misi hari ini untuk dapat Diamond tambahan.</p><div class="mission-list" id="missionList"></div><button class="claim-btn-main" id="missionClaimAllBtn" style="width:100%;margin-top:2px;display:none" onclick="doClaimAllMissions()"><i class="fa-solid fa-layer-group"></i><span>Klaim Semua</span></button><div class="mission-reset-note" id="missionResetNote"></div><div class="zx-actions" style="margin-top:14px;"><button class="zx-btn-cancel" style="width:100%" onclick="closeMissionModal()">Tutup</button></div></div></div><div class="banner-detail-overlay" id="orderHistoryOverlay"><div class="banner-detail-header"><button class="banner-detail-back" onclick="closeOrderHistory()"><i class="fa-solid fa-arrow-left"></i></button><h2>Riwayat Order</h2></div><div class="banner-detail-body"><div class="oh-list" id="orderHistoryList"></div></div></div><div class="zx-modal-overlay" id="clearHistoryOverlay"><div class="zx-modal"><h3>Hapus Riwayat?</h3><p>Semua riwayat transaksi Diamond kamu akan terhapus permanen dan tidak bisa dikembalikan.</p><div class="zx-actions"><button class="zx-btn-cancel" onclick="closeClearHistoryConfirm()">Batal</button><button class="zx-btn-confirm" onclick="doClearHistory()">Hapus</button></div></div></div><div class="page" id="eventTab"><style>
+#eventTab .ev-wrap{max-width:640px;margin:0 auto;padding:4px 0 8px}
+#eventTab [hidden]{display:none!important}
+#eventTab .ev-card{margin-bottom:12px}
+#eventTab .ev-card .kl-body{margin-top:0}
+#eventTab .ev-card.ev-static{cursor:default}
+#eventTab .ev-card.ev-static:active{transform:none;background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1)}
+#eventTab .ev-back{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;margin:0 0 14px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#fff;font:700 .78rem 'Outfit',sans-serif;cursor:pointer;transition:transform .15s}
+#eventTab .ev-back:active{transform:scale(.97)}
+#eventTab .ev-sec{font:800 1rem 'Rajdhani','Outfit',sans-serif;letter-spacing:.8px;margin:22px 2px 8px;color:#fff}
+#eventTab .ev-note{font-size:.72rem;line-height:1.6;color:rgba(255,255,255,.62);margin:0 2px 10px}
+#eventTab .ev-note b{color:#fff}
+#eventTab .ev-steps{list-style:none;counter-reset:evs;margin:0;padding:14px;display:grid;gap:10px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)}
+#eventTab .ev-steps li{counter-increment:evs;display:flex;gap:10px;align-items:flex-start;font-size:.78rem;line-height:1.5;color:rgba(255,255,255,.84)}
+#eventTab .ev-steps li::before{content:counter(evs);flex:none;width:22px;height:22px;border-radius:50%;background:rgba(255,43,43,.14);border:1px solid rgba(255,43,43,.45);color:#ff6b6b;font:800 .7rem 'Outfit',sans-serif;display:grid;place-items:center;margin-top:1px}
+#eventTab .ev-risk{border-radius:18px;padding:14px 14px 12px;background:rgba(255,170,0,.07);border:1px solid rgba(255,170,0,.42)}
+#eventTab .ev-risk h3{margin:0 0 8px;font-size:1rem;color:#ffc861;display:flex;gap:8px;align-items:center}
+#eventTab .ev-risk ul{margin:0;padding-left:18px;display:grid;gap:6px;font-size:.76rem;line-height:1.55;color:rgba(255,255,255,.88)}
+#eventTab .ev-pkgs{display:grid;gap:10px}
+#eventTab .ev-pkg{width:100%;text-align:left;display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:center;padding:13px 14px;border-radius:16px;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);color:#fff;font-family:'Outfit',sans-serif;cursor:pointer;transition:border-color .18s,background .18s,transform .15s}
+#eventTab .ev-pkg:active{transform:scale(.985)}
+#eventTab .ev-pkg[aria-checked="true"]{border-color:#ff2b2b;background:rgba(255,43,43,.11)}
+#eventTab .ev-pkg b{font:700 1rem 'Rajdhani','Outfit',sans-serif;letter-spacing:.5px}
+#eventTab .ev-pkg small{font-size:.68rem;line-height:1.5;color:rgba(255,255,255,.62)}
+#eventTab .ev-pkg .ev-price{font:800 1.1rem 'Rajdhani','Outfit',sans-serif;color:#ff6b6b;text-align:right}
+#eventTab .ev-pkg .ev-price small{display:block;font:600 .64rem 'Outfit',sans-serif;color:rgba(255,255,255,.55)}
+#eventTab .ev-rules{margin:0;padding:0 0 0 18px;display:grid;gap:7px;font-size:.76rem;line-height:1.55;color:rgba(255,255,255,.82)}
+#eventTab .ev-box{border-radius:18px;padding:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)}
+#eventTab .ev-lbl{display:block;font:700 .74rem 'Outfit',sans-serif;color:rgba(255,255,255,.85);margin:0 0 6px 2px}
+#eventTab .ev-hint{font-size:.68rem;line-height:1.5;color:rgba(255,255,255,.5);margin:-4px 2px 12px}
+#eventTab .ev-err{font-size:.7rem;line-height:1.45;font-weight:700;color:#ff7a7a;margin:-6px 2px 12px}
+#eventTab .pc-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+#eventTab .pc-input{font-size:15px;font-weight:600;letter-spacing:0}
+#eventTab .pc-input[readonly]{opacity:.75}
+#eventTab .pc-input[aria-invalid="true"]{border-color:#ff5c5c;background:rgba(255,92,92,.08)}
+#eventTab select.pc-input{appearance:none;-webkit-appearance:none;padding-right:40px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23ff6b6b' stroke-width='3'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+#eventTab select.pc-input option{background:#161616;color:#fff}
+#eventTab .ev-radios{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+#eventTab .ev-radio{position:relative;display:block}
+#eventTab .ev-radio input{position:absolute;inset:0;width:100%;height:100%;opacity:0;margin:0;cursor:pointer}
+#eventTab .ev-radio span{display:flex;align-items:center;justify-content:center;gap:8px;padding:13px 10px;border-radius:13px;border:1.5px solid rgba(255,43,43,.38);background:rgba(255,43,43,.05);font:700 .82rem 'Outfit',sans-serif;color:#fff;transition:background .18s,border-color .18s}
+#eventTab .ev-radio input:checked+span{background:rgba(255,43,43,.18);border-color:#ff2b2b}
+#eventTab .ev-radio input:focus-visible+span{outline:2px solid #ff2b2b;outline-offset:2px}
+#eventTab .ev-sum{margin:2px 0 14px;padding:12px 14px;border-radius:14px;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.1)}
+#eventTab .ev-sum h4{margin:0 0 8px;font:800 .9rem 'Rajdhani','Outfit',sans-serif;letter-spacing:.6px;color:#fff}
+#eventTab .ev-sum dl{margin:0;display:grid;gap:7px}
+#eventTab .ev-sum dl div{display:grid;grid-template-columns:118px 1fr;gap:10px;font-size:.72rem;line-height:1.5}
+#eventTab .ev-sum dt{color:rgba(255,255,255,.5)}
+#eventTab .ev-sum dd{margin:0;color:rgba(255,255,255,.9);font-weight:600}
+#eventTab .ev-check{display:flex;gap:10px;align-items:flex-start;padding:12px;border-radius:14px;border:1.5px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);margin-bottom:12px;cursor:pointer}
+#eventTab .ev-check input{flex:none;width:20px;height:20px;margin:1px 0 0;accent-color:#ff2b2b;cursor:pointer}
+#eventTab .ev-check span{font-size:.74rem;line-height:1.55;color:rgba(255,255,255,.85)}
+#eventTab .ev-check.bad{border-color:#ff5c5c}
+#eventTab a.pc-btn{text-decoration:none;color:#fff}
+#eventTab .ev-ready{margin-top:4px;padding:14px;border-radius:16px;background:rgba(0,255,136,.05);border:1px solid rgba(0,255,136,.3)}
+#eventTab .ev-ready h4{margin:0 0 6px;font:800 .95rem 'Rajdhani','Outfit',sans-serif;color:#7CFFA0}
+#eventTab .ev-ready pre{margin:10px 0 12px;padding:12px;border-radius:12px;background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.85);font:500 .7rem/1.6 'Outfit',sans-serif;white-space:pre-wrap;overflow-wrap:anywhere;max-height:240px;overflow:auto}
+#eventTab .ev-ghost{width:100%;padding:13px;border-radius:13px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);color:#fff;font:700 .8rem 'Outfit',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+#eventTab .ev-est{font-size:.8rem;line-height:1.55;font-weight:700;color:#fff;margin-top:2px}
+#eventTab .ev-est.zero{color:#ffc861}
+@media (max-width:380px){#eventTab .ev-sum dl div{grid-template-columns:1fr;gap:2px}}
+@media (prefers-reduced-motion:reduce){#eventTab *{transition:none!important}}
+</style><div class="ev-wrap">
+
+<section id="evHub" aria-label="Daftar layanan Event">
+<div class="kl-sec"><span>Layanan</span></div>
+<div class="kl-card ev-card" role="button" tabindex="0" aria-label="Buka Sewa WhatsApp" data-ev-open="wa"><div class="kl-body"><span class="pc-head-icon"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></span><div class="kl-body-txt"><h3>Sewa WhatsApp</h3><p>Sewakan nomor WhatsApp untuk broadcast pesan. Dibayar per chat atau per menit.</p></div><span class="kl-go"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span></div></div>
+<div class="kl-card ev-card ev-static" aria-label="Clipper"><div class="kl-body"><div class="kl-body-txt"><h3>Clipper</h3></div></div></div>
+</section>
+
+<section id="evWa" aria-label="Sewa WhatsApp / Broadcast Pesan" hidden>
+<button type="button" class="ev-back" data-ev-back><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Kembali ke Event</button>
+<p class="pc-title"><span class="red">SEWA</span>&nbsp;<span class="wht">WHATSAPP</span></p>
+<p class="pc-sub">Broadcast Pesan &bull; Per Chat &amp; Per Menit</p>
+<p class="ev-note" style="margin-top:12px">Broadcast hanya boleh dilakukan kepada penerima yang sudah menyetujui menerima pesan, dan tetap wajib mematuhi kebijakan WhatsApp.</p>
+
+<h2 class="ev-sec">Cara kerja</h2>
+<ol class="ev-steps">
+<li>Kamu mendaftarkan nomor WhatsApp yang akan disewakan.</li>
+<li>Kamu memilih pricelist per chat atau per menit.</li>
+<li>Admin KZRIZUSMO memeriksa pendaftaran dan menyepakati target pekerjaan.</li>
+<li>Akun dipakai setelah kamu memahami cara kerjanya dan memberi persetujuan.</li>
+<li>Hasil pekerjaan diperiksa berdasarkan target paket.</li>
+<li>Pembayaran diberikan jika target yang disepakati tercapai sesuai ketentuan.</li>
+</ol>
+
+<h2 class="ev-sec">Peringatan risiko</h2>
+<div class="ev-risk" role="note">
+<h3><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> Baca sebelum menyewakan nomor</h3>
+<ul>
+<li>Akun WhatsApp dapat dibatasi sementara jika pola penggunaannya dianggap melanggar kebijakan.</li>
+<li>Lama pembatasan tidak dapat dijamin hanya beberapa jam.</li>
+<li>Admin KZRIZUSMO akan memberi arahan dan membantu mencari solusi yang tersedia jika terjadi pembatasan.</li>
+<li>Pemulihan akun tidak dapat dijamin.</li>
+<li>Pahami risikonya sebelum menyewakan nomor kamu.</li>
+</ul>
+</div>
+
+<h2 class="ev-sec">Pricelist per chat</h2>
+<p class="ev-note">Dibayar per chat yang <b>berhasil terkirim</b> dan memenuhi kriteria pekerjaan yang disepakati. Ketuk paket untuk memilih.</p>
+<div class="ev-pkgs" id="evListChat" role="radiogroup" aria-label="Pricelist per chat"></div>
+
+<h2 class="ev-sec">Pricelist per menit</h2>
+<p class="ev-note">Dihitung dari durasi penggunaan yang benar-benar memenuhi kriteria pekerjaan dan tercatat secara wajar, bukan sekadar waktu akun terhubung jika pekerjaan tidak berjalan.</p>
+<div class="ev-pkgs" id="evListMenit" role="radiogroup" aria-label="Pricelist per menit"></div>
+<p class="ev-note" style="margin-top:10px">Semua harga di atas adalah harga awal dan dapat disesuaikan admin di kemudian hari.</p>
+
+<h2 class="ev-sec">Aturan target dan pembayaran</h2>
+<ul class="ev-rules">
+<li>Metode pembayaran dan pricelist dipilih sebelum pekerjaan dimulai.</li>
+<li>Setiap paket punya target minimum dan batas maksimum.</li>
+<li>Jika target minimum tidak tercapai, tidak ada pembayaran untuk pekerjaan tersebut.</li>
+<li>Jika target tercapai, pembayaran mengikuti tarif paket dan hasil yang valid, tidak melebihi batas paket.</li>
+<li>Pesan duplikat, gagal terkirim, atau hasil yang tidak valid tidak dihitung.</li>
+<li>Pekerjaan baru dianggap berhasil setelah hasilnya diverifikasi.</li>
+</ul>
+
+<h2 class="ev-sec">Simulasi estimasi pendapatan</h2>
+<div class="ev-box">
+<label class="ev-lbl" for="evEstIn" id="evEstLbl">Pilih paket dulu</label>
+<div class="pc-input-wrap"><i class="pc-input-icon fa-solid fa-calculator" aria-hidden="true"></i><input class="pc-input" id="evEstIn" type="number" inputmode="numeric" min="0" step="1" placeholder="Masukkan angka" disabled></div>
+<div class="ev-est" id="evEstOut" aria-live="polite">Pilih paket di pricelist atau formulir untuk menghitung.</div>
+<p class="ev-hint" style="margin:8px 2px 0">Ini hanya simulasi, bukan saldo atau transaksi. Hasil akhir mengikuti verifikasi admin.</p>
+</div>
+
+<h2 class="ev-sec">Daftarkan nomor</h2>
+<form class="pc-card" id="evForm" novalidate autocomplete="off">
+<div class="pc-head"><div class="pc-head-icon"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></div><div class="pc-head-text"><h3>FORMULIR PENDAFTARAN</h3><p>Lengkapi data lalu kirim ke admin lewat WhatsApp</p></div></div>
+
+<label class="ev-lbl" for="evNum">Nomor WhatsApp aktif</label>
+<div class="pc-input-wrap"><i class="pc-input-icon fa-brands fa-whatsapp" aria-hidden="true"></i><input class="pc-input" id="evNum" type="tel" inputmode="tel" autocomplete="tel" maxlength="22" placeholder="+6281234567890" aria-describedby="evNumHint evErrNum"></div>
+<div class="ev-err" id="evErrNum" role="alert" hidden></div>
+<p class="ev-hint" id="evNumHint">Wajib memakai kode negara, misalnya +62xxxxxxxxxxx. Formulir ini tidak meminta PIN, kode OTP, atau kode verifikasi WhatsApp. Jangan membagikannya kepada siapa pun.</p>
+
+<label class="ev-lbl" for="evName">Nama pemilik nomor</label>
+<div class="pc-input-wrap"><i class="pc-input-icon fa-solid fa-user" aria-hidden="true"></i><input class="pc-input" id="evName" type="text" autocomplete="name" maxlength="60" placeholder="Nama lengkap pemilik nomor" aria-describedby="evErrName"></div>
+<div class="ev-err" id="evErrName" role="alert" hidden></div>
+
+<span class="ev-lbl" id="evMethodLbl">Metode pembayaran</span>
+<div class="ev-radios" role="radiogroup" aria-labelledby="evMethodLbl">
+<label class="ev-radio"><input type="radio" name="evMethod" value="chat"><span><i class="fa-regular fa-comment-dots" aria-hidden="true"></i> Per chat</span></label>
+<label class="ev-radio"><input type="radio" name="evMethod" value="menit"><span><i class="fa-regular fa-clock" aria-hidden="true"></i> Per menit</span></label>
+</div>
+<div class="ev-err" id="evErrMethod" role="alert" hidden></div>
+
+<label class="ev-lbl" for="evPkg">Pricelist</label>
+<div class="pc-input-wrap"><i class="pc-input-icon fa-solid fa-tags" aria-hidden="true"></i><select class="pc-input" id="evPkg" aria-describedby="evErrPkg"></select></div>
+<div class="ev-err" id="evErrPkg" role="alert" hidden></div>
+
+<label class="ev-lbl" for="evTarget" id="evTargetLbl">Target pekerjaan</label>
+<div class="pc-input-wrap"><i class="pc-input-icon fa-solid fa-bullseye" aria-hidden="true"></i><input class="pc-input" id="evTarget" type="number" inputmode="numeric" step="1" placeholder="Pilih paket dulu" readonly aria-describedby="evTargetHint evErrTarget"></div>
+<div class="ev-err" id="evErrTarget" role="alert" hidden></div>
+<p class="ev-hint" id="evTargetHint"></p>
+
+<div class="ev-sum" id="evSum" aria-live="polite"></div>
+
+<label class="ev-check" id="evCheckRow"><input type="checkbox" id="evConsent" aria-describedby="evErrConsent"><span>Saya sudah membaca dan menyetujui ketentuan layanan, termasuk risiko pembatasan akun WhatsApp yang tidak dapat dijamin pemulihannya.</span></label>
+<div class="ev-err" id="evErrConsent" role="alert" hidden></div>
+
+<button type="submit" class="pc-btn" id="evSubmit"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Daftarkan Nomor WhatsApp</button>
+
+<div class="ev-ready" id="evReady" hidden>
+<h4>Ringkasan siap dikirim ke admin</h4>
+<p class="ev-note" style="margin:0">Pendaftaran <b>belum terkirim</b>. Buka WhatsApp admin lalu kirim pesan di bawah. Pendaftaran baru dianggap diterima setelah admin membalas.</p>
+<pre id="evMsg" class="allow-copy"></pre>
+<a class="pc-btn" id="evOpenWa" target="_blank" rel="noopener noreferrer" href="#"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Buka WhatsApp Admin</a>
+<button type="button" class="ev-ghost" id="evCopy"><i class="fa-regular fa-copy" aria-hidden="true"></i> Salin ringkasan</button>
+</div>
+</form>
+
+<div class="footer" style="margin-top:14px;">&copy; 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
+</section>
+
+</div><script>
+(function(){
+var root=document.getElementById('eventTab');
+if(!root||root.__evInit)return;
+root.__evInit=1;
+
+/* Harga awal. Admin cukup mengubah angka di objek ini. */
+var CFG={
+ adminWa:'6283800287738',
+ chat:[
+  {id:'mini',name:'Paket Mini',rate:25,min:500,max:1000},
+  {id:'reguler',name:'Paket Reguler',rate:20,min:1001,max:5000},
+  {id:'besar',name:'Paket Besar',rate:15,min:5001,max:10000}
+ ],
+ menit:[
+  {id:'m10',name:'Paket 10 Menit',price:10000,min:10,max:10},
+  {id:'m30',name:'Paket 30 Menit',price:25000,min:30,max:30},
+  {id:'m60',name:'Paket 60 Menit',price:45000,min:60,max:60},
+  {id:'m120',name:'Paket 120 Menit',price:80000,min:120,max:120}
+ ]
+};
+var LBL={chat:'Per chat',menit:'Per menit'};
+var S={method:'',pkg:'',lastKey:''};
+
+function $(id){return document.getElementById(id)}
+function rp(n){return 'Rp'+Number(n).toLocaleString('id-ID')}
+function nf(n){return Number(n).toLocaleString('id-ID')}
+function unit(m){return m==='chat'?'chat':'menit'}
+function listOf(m){return CFG[m]||[]}
+function find(m,id){var l=listOf(m);for(var i=0;i<l.length;i++){if(l[i].id===id)return l[i]}return null}
+function cur(){return S.method&&S.pkg?find(S.method,S.pkg):null}
+function cap(m,p){return m==='chat'?p.rate*p.max:p.price}
+function toast(msg,ok){var f=window.showToast;if(typeof f==='function'){try{ok?f(msg,'success'):f(msg)}catch(e){}}}
+
+/* ---------- Pricelist ---------- */
+function pkgHtml(m,p){
+ var price=m==='chat'?rp(p.rate)+'<small>per chat berhasil terkirim</small>':rp(p.price)+'<small>per paket</small>';
+ return '<button type="button" class="ev-pkg" role="radio" aria-checked="false" data-m="'+m+'" data-id="'+p.id+'">'
+  +'<span><b>'+p.name+'</b><br><small>Target minimal '+nf(p.min)+' '+unit(m)+' dan maksimal '+nf(p.max)+' '+unit(m)+'.<br>Batas pembayaran '+rp(cap(m,p))+'</small></span>'
+  +'<span class="ev-price">'+price+'</span></button>';
+}
+function renderLists(){
+ ['chat','menit'].forEach(function(m){
+  $(m==='chat'?'evListChat':'evListMenit').innerHTML=listOf(m).map(function(p){return pkgHtml(m,p)}).join('');
+ });
+}
+
+/* ---------- Sinkronisasi pilihan ---------- */
+function fillSelect(){
+ var sel=$('evPkg'),h='<option value="">'+(S.method?'Pilih paket':'Pilih metode dulu')+'</option>';
+ listOf(S.method).forEach(function(p){
+  var d=S.method==='chat'?rp(p.rate)+' per chat':rp(p.price);
+  h+='<option value="'+p.id+'">'+p.name+' ('+d+')</option>';
+ });
+ sel.innerHTML=h;
+ sel.value=S.pkg||'';
+ sel.disabled=!S.method;
+}
+function setTarget(){
+ var inp=$('evTarget'),hint=$('evTargetHint'),lbl=$('evTargetLbl'),p=cur(),key=S.method+':'+S.pkg;
+ if(!p){
+  inp.value='';inp.readOnly=true;inp.removeAttribute('min');inp.removeAttribute('max');
+  inp.placeholder='Pilih paket dulu';hint.textContent='';lbl.textContent='Target pekerjaan';
+  S.lastKey='';return;
+ }
+ if(S.method==='chat'){
+  inp.readOnly=false;inp.min=p.min;inp.max=p.max;inp.placeholder=nf(p.min)+' - '+nf(p.max);
+  if(S.lastKey!==key)inp.value=p.min;
+  lbl.textContent='Target pekerjaan (jumlah chat)';
+  hint.textContent='Isi antara '+nf(p.min)+' dan '+nf(p.max)+' chat berhasil terkirim.';
+ }else{
+  inp.readOnly=true;inp.removeAttribute('min');inp.removeAttribute('max');
+  inp.value=p.min;lbl.textContent='Target pekerjaan (durasi menit)';
+  hint.textContent='Target tetap '+nf(p.min)+' menit sesuai paket.';
+ }
+ S.lastKey=key;
+}
+function row(dl,k,v){
+ var d=document.createElement('div'),a=document.createElement('dt'),b=document.createElement('dd');
+ a.textContent=k;b.textContent=v;d.appendChild(a);d.appendChild(b);dl.appendChild(d);
+}
+function renderSummary(){
+ var box=$('evSum'),p=cur();
+ box.textContent='';
+ var h=document.createElement('h4');h.textContent='Ringkasan sebelum kamu menyetujui';box.appendChild(h);
+ if(!p){
+  var n=document.createElement('p');n.className='ev-note';n.style.margin='0';
+  n.textContent='Pilih metode dan pricelist untuk melihat target, periode pengerjaan, cara menghitung hasil, dan batas pembayaran.';
+  box.appendChild(n);return;
+ }
+ var m=S.method,dl=document.createElement('dl'),t=Number($('evTarget').value);
+ row(dl,'Metode',LBL[m]);
+ row(dl,'Pricelist',p.name);
+ row(dl,'Tarif',m==='chat'?rp(p.rate)+' per chat berhasil terkirim':rp(p.price)+' per paket');
+ row(dl,'Target minimum',nf(p.min)+' '+unit(m));
+ row(dl,'Batas maksimum',nf(p.max)+' '+unit(m));
+ if(m==='chat'&&t)row(dl,'Target kamu',nf(t)+' chat');
+ row(dl,'Batas pembayaran',rp(cap(m,p)));
+ row(dl,'Periode pengerjaan','Disepakati bersama admin sebelum pekerjaan dimulai.');
+ row(dl,'Cara menghitung',m==='chat'
+  ?'Hanya chat yang berhasil terkirim, bukan duplikat, dan lolos verifikasi admin.'
+  :'Durasi pekerjaan yang benar-benar berjalan dan tercatat wajar, bukan sekadar akun terhubung.');
+ row(dl,'Target tidak tercapai','Tidak ada pembayaran untuk pekerjaan tersebut.');
+ box.appendChild(dl);
+}
+function renderEst(){
+ var inp=$('evEstIn'),lbl=$('evEstLbl'),out=$('evEstOut'),p=cur();
+ out.className='ev-est';
+ if(!p){
+  inp.disabled=true;inp.value='';lbl.textContent='Pilih paket dulu';
+  out.textContent='Pilih paket di pricelist atau formulir untuk menghitung.';return;
+ }
+ inp.disabled=false;
+ lbl.textContent=S.method==='chat'?'Jumlah chat berhasil terkirim dan valid':'Durasi pekerjaan valid (menit)';
+ var raw=inp.value.trim();
+ if(raw===''){out.textContent='Masukkan angka untuk melihat estimasi '+p.name+'.';return}
+ var v=Number(raw);
+ if(!isFinite(v)||v<0||Math.floor(v)!==v){out.textContent='Masukkan bilangan bulat 0 atau lebih.';return}
+ if(v<p.min){
+  out.className='ev-est zero';
+  out.textContent='Rp0. Target minimum '+nf(p.min)+' '+unit(S.method)+' belum tercapai, jadi tidak ada pembayaran.';return;
+ }
+ if(S.method==='chat'){
+  var c=Math.min(v,p.max),pay=c*p.rate;
+  out.textContent=rp(pay)+' ('+nf(c)+' chat x '+rp(p.rate)+')'+(v>p.max?'. '+nf(v-p.max)+' chat melebihi batas paket dan tidak dibayar.':'.');
+ }else{
+  out.textContent=rp(p.price)+' (target '+nf(p.min)+' menit tercapai).';
+ }
+}
+function hideReady(){var r=$('evReady');if(r)r.hidden=true}
+function sync(){
+ var rs=root.querySelectorAll('input[name="evMethod"]');
+ for(var i=0;i<rs.length;i++)rs[i].checked=(rs[i].value===S.method);
+ fillSelect();
+ var cs=root.querySelectorAll('.ev-pkg');
+ for(var j=0;j<cs.length;j++)cs[j].setAttribute('aria-checked',String(cs[j].getAttribute('data-m')===S.method&&cs[j].getAttribute('data-id')===S.pkg));
+ setTarget();renderSummary();renderEst();hideReady();
+}
+function choose(m,id){S.method=m;S.pkg=id;sync()}
+
+/* ---------- Validasi ---------- */
+var FIELDS={num:['evNum','evErrNum'],name:['evName','evErrName'],method:[null,'evErrMethod'],pkg:['evPkg','evErrPkg'],target:['evTarget','evErrTarget'],consent:['evConsent','evErrConsent']};
+function setErr(key,msg){
+ var f=FIELDS[key],el=f[0]?$(f[0]):null,er=$(f[1]);
+ if(msg){er.textContent=msg;er.hidden=false;if(el)el.setAttribute('aria-invalid','true')}
+ else{er.textContent='';er.hidden=true;if(el)el.removeAttribute('aria-invalid')}
+ if(key==='consent')$('evCheckRow').classList.toggle('bad',!!msg);
+}
+function cleanNum(v){return String(v||'').replace(/[\s\-().]/g,'')}
+function checkNum(){
+ var n=cleanNum($('evNum').value);
+ if(!n)return 'Nomor WhatsApp wajib diisi.';
+ if(/^0/.test(n))return 'Awali dengan kode negara, misalnya +62, bukan angka 0.';
+ if(/^[1-9]\d{7,14}$/.test(n))return 'Tambahkan tanda + di depan kode negara, menjadi +'+n+'.';
+ if(!/^\+[1-9]\d{7,14}$/.test(n))return 'Format nomor tidak valid. Contoh: +6281234567890 (8 sampai 15 digit setelah +).';
+ return '';
+}
+function checkName(){
+ var v=$('evName').value.trim();
+ if(!v)return 'Nama pemilik nomor wajib diisi.';
+ if(v.length<2||v.length>60)return 'Nama harus 2 sampai 60 karakter.';
+ if(!/[A-Za-z\u00C0-\u024F]/.test(v))return 'Nama harus berisi huruf.';
+ return '';
+}
+function checkTarget(){
+ var p=cur();if(!p)return '';
+ if(S.method!=='chat')return '';
+ var raw=$('evTarget').value.trim(),v=Number(raw);
+ if(!raw||!isFinite(v)||Math.floor(v)!==v||v<p.min||v>p.max)return 'Isi target antara '+nf(p.min)+' dan '+nf(p.max)+' chat.';
+ return '';
+}
+function validate(){
+ var errs={
+  num:checkNum(),
+  name:checkName(),
+  method:S.method?'':'Pilih metode pembayaran.',
+  pkg:!S.method?'Pilih metode pembayaran dulu.':(cur()?'':'Pilih salah satu pricelist.'),
+  target:cur()?checkTarget():'Pilih pricelist untuk menentukan target.',
+  consent:$('evConsent').checked?'':'Centang persetujuan untuk melanjutkan.'
+ };
+ var order=['num','name','method','pkg','target','consent'],first=null;
+ order.forEach(function(k){setErr(k,errs[k]);if(errs[k]&&!first)first=k});
+ if(first){
+  var f=first==='method'?root.querySelector('input[name="evMethod"]'):$(FIELDS[first][0]);
+  if(f){try{f.focus({preventScroll:false})}catch(e){f.focus()}}
+  return false;
+ }
+ return true;
+}
+
+/* ---------- Pesan ke admin (tanpa backend) ---------- */
+function buildMsg(){
+ var p=cur(),m=S.method,t=m==='chat'?Number($('evTarget').value):p.min;
+ var tarif=m==='chat'?rp(p.rate)+' per chat berhasil terkirim':rp(p.price)+' per paket';
+ return ['Halo Admin KZRIZUSMO, saya ingin mendaftarkan nomor WhatsApp untuk layanan Sewa WhatsApp / Broadcast Pesan.','',
+  'Nomor WhatsApp: '+cleanNum($('evNum').value),
+  'Nama pemilik: '+$('evName').value.trim(),
+  'Metode pembayaran: '+LBL[m],
+  'Pricelist: '+p.name+' ('+tarif+')',
+  'Target pekerjaan: '+nf(t)+' '+unit(m)+' (minimal '+nf(p.min)+', maksimal '+nf(p.max)+')',
+  'Batas pembayaran paket: '+rp(cap(m,p)),
+  'Periode pengerjaan: disepakati bersama admin',
+  '',
+  'Saya sudah membaca dan menyetujui ketentuan layanan serta risiko pembatasan akun WhatsApp. Pesan ini tidak berisi PIN, kode OTP, atau kode verifikasi WhatsApp.'
+ ].join('\n');
+}
+function showReady(){
+ var msg=buildMsg();
+ $('evMsg').textContent=msg;
+ $('evOpenWa').href='https://wa.me/'+CFG.adminWa+'?text='+encodeURIComponent(msg);
+ var r=$('evReady');r.hidden=false;
+ try{r.scrollIntoView({behavior:'smooth',block:'center'})}catch(e){}
+}
+function fallbackCopy(t,done){
+ var a=document.createElement('textarea');a.value=t;a.className='allow-copy';
+ a.style.cssText='position:fixed;top:0;left:-9999px;opacity:0;font-size:16px';
+ document.body.appendChild(a);a.select();
+ var ok=false;try{ok=document.execCommand('copy')}catch(e){}
+ a.remove();
+ if(ok)done();else toast('Salin manual dari kotak ringkasan.');
+}
+function copyText(t){
+ var done=function(){toast('Ringkasan disalin',true)};
+ if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t).then(done).catch(function(){fallbackCopy(t,done)})}
+ else fallbackCopy(t,done);
+}
+
+/* ---------- Tampilan (tanpa mengubah riwayat/tombol Back) ---------- */
+function view(v){
+ $('evHub').hidden=(v!=='hub');
+ $('evWa').hidden=(v!=='wa');
+ try{window.scrollTo(0,0)}catch(e){}
+}
+
+/* ---------- Event ---------- */
+root.addEventListener('click',function(e){
+ var t=e.target;if(!t||!t.closest)return;
+ var op=t.closest('[data-ev-open]');
+ if(op){view(op.getAttribute('data-ev-open'));return}
+ if(t.closest('[data-ev-back]')){view('hub');return}
+ var b=t.closest('.ev-pkg');
+ if(b){
+  var m=b.getAttribute('data-m'),p=find(m,b.getAttribute('data-id'));
+  if(p){choose(m,p.id);['method','pkg','target'].forEach(function(k){setErr(k,'')});toast('Dipilih: '+p.name+' ('+LBL[m]+')',true)}
+  return;
+ }
+ if(t.closest('#evCopy')){copyText($('evMsg').textContent)}
+});
+root.addEventListener('keydown',function(e){
+ var t=e.target;
+ if((e.key==='Enter'||e.key===' ')&&t&&t.matches&&t.matches('[data-ev-open]')){e.preventDefault();t.click()}
+});
+var radios=root.querySelectorAll('input[name="evMethod"]');
+for(var i=0;i<radios.length;i++){
+ radios[i].addEventListener('change',function(){
+  var m=this.value;
+  if(m!==S.method){S.method=m;S.pkg='';}
+  setErr('method','');setErr('pkg','');setErr('target','');
+  sync();
+ });
+}
+$('evPkg').addEventListener('change',function(){
+ S.pkg=this.value;setErr('pkg','');setErr('target','');sync();
+});
+$('evTarget').addEventListener('input',function(){setErr('target','');renderSummary();hideReady()});
+$('evNum').addEventListener('input',function(){setErr('num','');hideReady()});
+$('evName').addEventListener('input',function(){setErr('name','');hideReady()});
+$('evConsent').addEventListener('change',function(){setErr('consent','');hideReady()});
+$('evEstIn').addEventListener('input',renderEst);
+$('evForm').addEventListener('submit',function(e){
+ e.preventDefault();
+ if(validate())showReady();
+});
+
+renderLists();
+sync();
+})();
+</script></div><div class="page" id="shopTab"><div class="kl-sec"><span>Jelajahi</span></div><div class="kl-card" role="button" tabindex="0" aria-label="Buka daftar logo" onclick="openLogoDetail()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}"><div class="kl-visual"><div class="kl-mosaic" id="klMosaic"></div></div><div class="kl-body"><div class="kl-body-txt"><h3>Avatar &amp; Logo</h3><p>Ganti logo profil Zusmo dari ratusan pilihan.</p></div><span class="kl-go"><i class="fa-solid fa-arrow-right"></i></span></div><div class="kl-chip"><i class="fa-solid fa-circle-check"></i><span>Dipakai:</span><b id="klActiveLogo">Default</b></div></div><div class="kl-card" role="button" tabindex="0" aria-label="Buka pustaka musik" onclick="openMusicDetail()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}"><div class="kl-visual"><div class="kl-wave" aria-hidden="true"><i style="--h:38%;--n:0"></i><i style="--h:62%;--n:1"></i><i style="--h:48%;--n:2"></i><i style="--h:80%;--n:3"></i><i style="--h:56%;--n:4"></i><i style="--h:92%;--n:5"></i><i style="--h:44%;--n:6"></i><i style="--h:70%;--n:7"></i><i style="--h:100%;--n:8"></i><i style="--h:58%;--n:9"></i><i style="--h:76%;--n:10"></i><i style="--h:40%;--n:11"></i><i style="--h:88%;--n:12"></i><i style="--h:52%;--n:13"></i><i style="--h:66%;--n:14"></i><i style="--h:96%;--n:15"></i><i style="--h:46%;--n:16"></i><i style="--h:72%;--n:17"></i><i style="--h:60%;--n:18"></i><i style="--h:84%;--n:19"></i><i style="--h:42%;--n:20"></i><i style="--h:78%;--n:21"></i><i style="--h:54%;--n:22"></i><i style="--h:90%;--n:23"></i><i style="--h:50%;--n:24"></i><i style="--h:68%;--n:25"></i><i style="--h:82%;--n:26"></i><i style="--h:45%;--n:27"></i></div></div><div class="kl-body"><div class="kl-body-txt"><h3>Pustaka Musik</h3><p>Dengarkan preview, lalu pasang jadi backsound aplikasi.</p></div><span class="kl-go"><i class="fa-solid fa-arrow-right"></i></span></div><div class="kl-chip m"><i class="fa-solid fa-music"></i><span>Aktif:</span><b id="klActiveMusic">Musik Bawaan</b></div></div></div><div class="page" id="progressTab"><div class="prog-hero"><div class="prog-hero-glow"></div><div class="prog-hero-top"><div class="prog-hero-titles"><div class="prog-hero-icon"><i class="fa-solid fa-chart-line"></i></div><div><h1>PROGRESS</h1><span>TRACKING PESANAN</span></div></div><div class="prog-total-pill"><i class="fa-solid fa-boxes-stacked"></i><span><span id="progressTotalCount">0</span> Pesanan</span></div></div></div><div class="prog-search-wrap"><button type="button" class="prog-search-icon-btn" onclick="openProgFindModal()" aria-label="Cari pesanan pakai kode"><i class="fa-solid fa-magnifying-glass"></i></button><input type="text" id="progSearchInput" class="prog-search-input" placeholder="Cari UID atau produk..." oninput="onProgressSearchInput(this.value)"/><button type="button" class="prog-search-clear" id="progSearchClear" onclick="clearProgressSearch()" aria-label="Hapus pencarian"><i class="fa-solid fa-xmark"></i></button></div><div class="prog-filter-wrap" id="progFilterWrap"><div class="prog-filter-hint"><i class="fa-solid fa-circle-info"></i><span>Pantau orderan kamu dalam 7 hari terakhir</span></div><button class="prog-filter-btn" type="button" onclick="toggleProgressFilterPopup(event)"><i class="fa-solid fa-sliders"></i><span>Filter</span></button><div class="prog-filter-popup" id="progFilterPopup"><div class="pf-group"><div class="pf-group-title">Urutkan</div><div class="pf-opt-list"><button class="pf-opt on" type="button" data-sort="semua" onclick="setProgressSort(this,'semua')">Semua</button><button class="pf-opt" type="button" data-sort="terbaru" onclick="setProgressSort(this,'terbaru')">Terbaru</button><button class="pf-opt" type="button" data-sort="terlama" onclick="setProgressSort(this,'terlama')">Terlama</button></div></div><div class="pf-group"><div class="pf-group-title">Status</div><div class="pf-opt-list"><button class="pf-opt on" type="button" data-status="all" onclick="setProgressStatus(this,'all')">Semua</button><button class="pf-opt" type="button" data-status="pending" onclick="setProgressStatus(this,'pending')">Pending</button><button class="pf-opt" type="button" data-status="proses" onclick="setProgressStatus(this,'proses')">Proses</button><button class="pf-opt" type="button" data-status="sukses" onclick="setProgressStatus(this,'sukses')">Sukses</button></div></div><div class="pf-group"><div class="pf-group-title">Kategori</div><div class="pf-opt-list"><button class="pf-opt on" type="button" data-cat="all" onclick="setProgressCategory(this,'all')">Semua</button><button class="pf-opt" type="button" data-cat="Vip Zusmo Shadow" onclick="setProgressCategory(this,'Vip Zusmo Shadow')">VIP ZS</button><button class="pf-opt" type="button" data-cat="Suntik Like" onclick="setProgressCategory(this,'Suntik Like')">Suntik Like</button><button class="pf-opt" type="button" data-cat="Suntik Folls Craftland" onclick="setProgressCategory(this,'Suntik Folls Craftland')">Suntik Folls CF</button><button class="pf-opt" type="button" data-cat="Bot Glory" onclick="setProgressCategory(this,'Bot Glory')">Bot Glory</button></div></div></div></div><div class="prog-order-list" id="progressOrderList"></div><div class="prog-find-overlay" id="progFindOverlay"><div class="prog-find-card"><button type="button" class="prog-find-close" onclick="closeProgFindModal()" aria-label="Tutup"><i class="fa-solid fa-xmark"></i></button><div class="prog-find-icon"><i class="fa-solid fa-magnifying-glass"></i></div><div class="prog-find-title">Pesanan Anda Tidak Ditemukan?</div><div class="prog-find-sub">Minta kode pesanan Anda ke admin, lalu masukkan kode pesanan.</div><div class="prog-find-code-row" id="progFindCodeRow"><input type="tel" inputmode="numeric" maxlength="1" class="prog-find-digit" data-idx="0" oninput="pfDigitInput(this)" onkeydown="pfDigitKeydown(event,this)"/><input type="tel" inputmode="numeric" maxlength="1" class="prog-find-digit" data-idx="1" oninput="pfDigitInput(this)" onkeydown="pfDigitKeydown(event,this)"/><input type="tel" inputmode="numeric" maxlength="1" class="prog-find-digit" data-idx="2" oninput="pfDigitInput(this)" onkeydown="pfDigitKeydown(event,this)"/><input type="tel" inputmode="numeric" maxlength="1" class="prog-find-digit" data-idx="3" oninput="pfDigitInput(this)" onkeydown="pfDigitKeydown(event,this)"/><input type="tel" inputmode="numeric" maxlength="1" class="prog-find-digit" data-idx="4" oninput="pfDigitInput(this)" onkeydown="pfDigitKeydown(event,this)"/></div><button type="button" class="prog-find-btn" onclick="submitProgressOrderCode()"><i class="fa-solid fa-magnifying-glass"></i><span>Cari Pesanan</span></button><div class="prog-find-msg" id="progFindMsg"></div></div></div><div class="prog-dlfail-overlay" id="progDlFailOverlay"><div class="prog-dlfail-modal"><div class="prog-dlfail-icon"><i class="fa-solid fa-triangle-exclamation"></i></div><div class="prog-dlfail-title">Download Gagal</div><div class="prog-dlfail-sub">Aplikasi ini belum support download gambar. Salin link di bawah, lalu buka lewat <b>Chrome</b> untuk download progress kamu.</div><div class="prog-dlfail-linkbox"><span id="progDlFailLink">https://www.kzrizusmostore.com</span><button type="button" class="prog-dlfail-copy" id="progDlFailCopyIcon" onclick="copyProgDownloadLink()" aria-label="Salin link"><i class="fa-regular fa-copy"></i></button></div><div class="prog-dlfail-actions"><button type="button" class="prog-dlfail-btn prog-dlfail-btn-close" onclick="closeProgDownloadFailModal()">Tutup</button><button type="button" class="prog-dlfail-btn prog-dlfail-btn-copy" onclick="copyProgDownloadLink()">Salin Link</button></div></div></div></div><div class="page" id="communityTab"><div class="cm3-head"><div class="cm3-h" role="heading" aria-level="1"><i class="fa-solid fa-users" aria-hidden="true"></i>Komunitas Zusmo</div></div><div class="cm3-grid"><div class="cm3-tile cm3-chat" id="zcEntry" role="button" tabindex="0" aria-label="Buka Live Chat Zusmo" onclick="showPage('zcChat')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('zcChat')}"><span class="cm3-ic"><i class="fa-solid fa-comments" aria-hidden="true"></i><span class="cm3-badge" id="zcEntryBadge" title="Pesan belum dibaca" hidden>0</span></span><span class="cm3-fol cm3-on" id="zcEntryOn" hidden></span><strong class="cm3-t">Live Chat</strong><span class="cm3-s">Ngobrol real-time</span><i class="fa-solid fa-arrow-right cm3-go" aria-hidden="true"></i></div><a class="cm3-tile cm3-wa" href="https://whatsapp.com/channel/0029VbDOVUJIHphDqJoiNH1L" target="_blank" rel="noopener noreferrer"><span class="cm3-ic"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></span><span class="cm3-fol">12Rb</span><strong class="cm3-t">Saluran WhatsApp</strong><span class="cm3-s">Update &amp; Informasi</span></a><div class="cm3-tile cm3-feed" id="zfEntry" role="button" tabindex="0" aria-label="Buka Fyp Zusmo" onclick="showPage('zcFeed')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('zcFeed')}"><span class="cm3-ic"><i class="fa-solid fa-newspaper" aria-hidden="true"></i></span><strong class="cm3-t">Fyp</strong><span class="cm3-s">Beranda publik</span></div><a class="cm3-tile cm3-grp" href="https://chat.whatsapp.com/ECT06FXiivsL8kI0Jhecdj?s=cl&amp;p=a&amp;ilr=4" target="_blank" rel="noopener noreferrer"><span class="cm3-ic"><i class="fa-solid fa-user-group" aria-hidden="true"></i></span><strong class="cm3-t">Grup Diskusi</strong><span class="cm3-s">Tips &amp; tanya jawab</span></a><a class="cm3-tile cm3-grp" href="https://chat.whatsapp.com/KxF1644zngD9ZBNq6M5Ise?s=cl&amp;p=a&amp;ilr=4" target="_blank" rel="noopener noreferrer"><span class="cm3-ic"><i class="fa-solid fa-gift" aria-hidden="true"></i></span><strong class="cm3-t">Info &amp; Giveaway</strong><span class="cm3-s">Promo &amp; event diamond</span></a><a class="cm3-tile cm3-tt" href="https://www.tiktok.com/@kzrizusmo_store" target="_blank" rel="noopener noreferrer"><span class="cm3-ic"><i class="fa-brands fa-tiktok" aria-hidden="true"></i></span><span class="cm3-fol">40Rb</span><strong class="cm3-t">TikTok</strong><span class="cm3-s">Tutorial &amp; tips</span></a><a class="cm3-tile cm3-sup" href="https://saweria.co/kzrizusmo" target="_blank" rel="noopener"><span class="cm3-ic"><i class="fa-solid fa-mug-hot" aria-hidden="true"></i></span><strong class="cm3-t">Traktir Kopi</strong><span class="cm3-s">Dukung biar makin keren</span></a></div><section class="cm3-admin" id="cm2Admin" data-on="0" aria-label="Admin CS"><span class="cm3-ic"><i class="fa-solid fa-headset" aria-hidden="true"></i></span><span class="cm3-admin-txt"><strong class="cm3-t">Admin CS</strong><span class="cm3-status"><span class="cm3-dot" aria-hidden="true"></span><span id="cm2AdminText">Offline, dibalas saat jam kerja</span></span></span><a class="cm3-btn" href="https://wa.me/6283800287738" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i>Chat Admin</a></section><section class="cm3-info" id="cm3Info"><button type="button" class="cm3-toggle" onclick="toggleCmtyRules(this)" aria-expanded="false" aria-controls="cm3Rules"><span><i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i>Aturan &amp; info<b class="cm3-must">Wajib baca</b></span><i class="fa-solid fa-chevron-down cm3-chev" aria-hidden="true"></i></button><div class="cm3-rules" id="cm3Rules"><div class="cm3-rules-in"><div class="cm3-chips" role="group" aria-label="Pilih topik"><button type="button" class="cm3-chip on" data-p="admin" aria-pressed="true">Admin CS</button><button type="button" class="cm3-chip" data-p="wa" aria-pressed="false">Saluran</button><button type="button" class="cm3-chip" data-p="chat" aria-pressed="false">Live Chat</button><button type="button" class="cm3-chip" data-p="grup" aria-pressed="false">Grup</button><button type="button" class="cm3-chip" data-p="tt" aria-pressed="false">TikTok</button><button type="button" class="cm3-chip" data-p="sup" aria-pressed="false">Dukungan</button></div><div class="cm3-pane" data-p="admin"><p class="cm3-meta"><i class="fa-solid fa-clock" aria-hidden="true"></i>Jam operasional admin: 09.00 - 22.00 WIB</p><p class="cm3-meta"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i><span class="allow-copy">+62 838-0028-7738</span></p><ol><li>Dilarang telepon, 1× telepon akan diblokir.</li><li>Dilarang spam, 5× chat spam akan diblokir.</li><li>Chat wajib langsung ke inti keperluan.</li><li>Chat hanya ("p", "bang", "salam") atau tidak jelas tidak akan dibalas.</li><li>Chat belum dibalas dalam 24 jam, silahkan chat ulang.</li><li>Chat dibalas dari antrian pesan bawah ke atas, mohon sabar menunggu giliran dibalas.</li><li>Matikan timer chat saat chat admin.</li></ol><p>Patuhi S&amp;K saat chat admin CS! Dengan 100–300 chat per hari, wajib sabar menunggu admin membalas. Dalam 48 jam admin selalu rechat (hapus semua chat), jadi jika belum dibalas silahkan kirim ulang pesan.</p><p class="cm3-note">Chat dikelola oleh Admin CS, bukan owner.</p></div><div class="cm3-pane" data-p="wa" hidden><ol><li>Semua update &amp; informasi resmi HANYA lewat saluran ini.</li><li>Waspada akun tiruan yang mengatasnamakan Zusmo.</li><li>Admin tidak pernah minta password/OTP lewat DM.</li></ol><p class="cm3-note">Aktifkan notifikasi biar gak ketinggalan update.</p></div><div class="cm3-pane" data-p="chat" hidden><ol><li>Ngobrol bebas sama member lain secara real-time.</li><li>Diskusi bebas, bukan pengumuman resmi.</li></ol></div><div class="cm3-pane" data-p="grup" hidden><h4>Grup Diskusi Utama</h4><ol><li>Dilarang promosi/jualan produk di luar Zusmo.</li><li>Dilarang spam chat maupun broadcast berlebihan.</li><li>Wajib sopan &amp; saling menghargai sesama member.</li></ol><p class="cm3-note">Member yang melanggar bisa dikeluarkan tanpa peringatan.</p><h4>Grup Info &amp; Giveaway</h4><ol><li>Grup khusus info promo, event &amp; giveaway diamond.</li><li>Dilarang chat di luar topik info/giveaway.</li><li>Pantau terus biar gak ketinggalan giveaway.</li></ol><p class="cm3-note">Dipantau admin, bukan tempat jualan pihak luar.</p></div><div class="cm3-pane" data-p="tt" hidden><ol><li>Konten tutorial &amp; tips resmi dari admin Zusmo.</li><li>Cek tanda centang biru buat mastiin akun resmi.</li><li>Follow biar gak ketinggalan konten terbaru.</li></ol><p class="cm3-note">Waspada akun tiruan yang niru-niru konten Zusmo.</p></div><div class="cm3-pane" data-p="sup" hidden><ol><li>Dukungan dipakai buat biaya server, domain &amp; fitur baru.</li><li>Sekecil apa pun dukunganmu sangat berarti buat Zusmo.</li><li>Sukarela, bukan syarat buat pakai aplikasi.</li></ol><p class="cm3-note">Terima kasih buat semua yang udah &amp; akan dukung Zusmo 💛</p></div></div></div></section><script>(function(){var c=document.getElementById("cm2Admin"),t=document.getElementById("cm2AdminText");if(!c||!t)return;var last=null;function jam(){try{var p=new Intl.DateTimeFormat("en-GB",{timeZone:"Asia/Jakarta",hour:"2-digit",hourCycle:"h23"}).formatToParts(new Date());for(var i=0;i<p.length;i++){if(p[i].type==="hour")return parseInt(p[i].value,10)%24}}catch(e){}return new Date(Date.now()+25200000).getUTCHours()}function render(){var h=jam(),on=h>=9&&h<22;if(on===last)return;last=on;c.setAttribute("data-on",on?"1":"0");t.textContent=on?"Online sekarang":"Offline, dibalas saat jam kerja"}render();setInterval(render,30000);document.addEventListener("visibilitychange",function(){if(!document.hidden)render()})})();(function(){var r=document.getElementById("cm3Info");if(!r)return;r.addEventListener("click",function(e){var b=e.target.closest(".cm3-chip");if(!b)return;var k=b.getAttribute("data-p");r.querySelectorAll(".cm3-chip").forEach(function(x){var on=x===b;x.classList.toggle("on",on);x.setAttribute("aria-pressed",on?"true":"false")});r.querySelectorAll(".cm3-pane").forEach(function(p){p.hidden=p.getAttribute("data-p")!==k});try{navigator.vibrate&&navigator.vibrate(8)}catch(x){}})})();</script><script id="cm3-ripple">(function(){var r=document.getElementById("communityTab");if(!r||r.__rip)return;r.__rip=1;r.addEventListener("pointerdown",function(e){var t=e.target.closest&&e.target.closest(".cm3-tile,.cm3-btn");if(!t||!r.contains(t))return;var b=t.getBoundingClientRect(),d=Math.max(b.width,b.height)*2.2,s=document.createElement("span");s.className="cm3-rip";s.style.cssText="left:"+(e.clientX-b.left)+"px;top:"+(e.clientY-b.top)+"px;width:"+d+"px;height:"+d+"px";t.appendChild(s);s.addEventListener("animationend",function(){s.remove()});setTimeout(function(){if(s.parentNode)s.remove()},900)},{passive:true})})();</script><div class="hm-footer" style="margin-top:20px">© 2026 <span>KZRIZUSMO</span> DEV</div></div><div class="page" id="beta"><div class="dev-card"><img loading="lazy" decoding="async" src="zusmo-asset/9dfz0n.png"><div class="dev-badge">BETA TESTING</div><h1>𝗭𝗨𝗦𝗠𝗢 𝗕𝗘𝗧𝗔</h1><p class="dev-note">ZUSMO Beta sedang menjalani pengujian internal untuk memastikan seluruh fitur berjalan stabil, aman, dan siap digunakan sebelum dirilis kepada semua pengguna.</p><div class="dev-progress"><span style="width:60%"></span></div><p style="color:#00ff88;font-weight:700">Terima kasih telah menunggu. Fitur akan tersedia pada pembaruan berikutnya.</p></div></div><div class="page" id="emote"><div class="dev-card"><img loading="lazy" decoding="async" src="zusmo-asset/9rj69g.png"><div class="dev-badge">UNDER DEVELOPMENT</div><h1>𝗭𝗨𝗦𝗠𝗢 𝗘𝗠𝗢𝗧𝗘</h1><p class="dev-note">Tim pengembang sedang menambahkan koleksi emote baru serta meningkatkan kompatibilitas agar pengalaman penggunaan menjadi lebih optimal.</p><div class="dev-progress"><span style="width:85%"></span></div><p style="color:#00ff88;font-weight:700">Terima kasih telah menunggu. Fitur akan tersedia pada pembaruan berikutnya.</p></div></div><div class="page" id="lvl"><div class="dev-card"><img loading="lazy" decoding="async" src="zusmo-asset/eoih4t.png"><div class="dev-badge">COMING SOON</div><h1>𝗭𝗨𝗦𝗠𝗢 𝗟𝗘𝗩𝗘𝗟</h1><p class="dev-note">ZUSMO Level sedang dipersiapkan dengan berbagai fitur baru dan penyempurnaan sistem. Nantikan peluncuran resminya pada update berikutnya.</p><div class="dev-progress"><span style="width:30%"></span></div><p style="color:#00ff88;font-weight:700">Terima kasih telah menunggu. Fitur akan tersedia pada pembaruan berikutnya.</p></div></div><div class="page" id="leaderboardTab"><div class="testi-wrap"><h1 class="testi-title">𝗧𝗘𝗦𝗧𝗜𝗠𝗢𝗡𝗜</h1><p class="testi-sub">Testimoni asli dari pengguna KZRIZUSMO. Tap gambar untuk melihat ukuran penuh.</p><div class="testi-video-row" id="testiVideoRow"></div><div class="testi-grid" id="testiGrid"></div></div></div><div class="testi-video-lightbox" id="testiVideoLightbox" onclick="if(event.target===this) closeTestiVideo()"><div class="testi-video-lb-frame"><button class="testi-video-lb-close" onclick="closeTestiVideo()" aria-label="Tutup"><i class="fa-solid fa-xmark"></i></button><video id="testiVideoLbPlayer" playsinline controls></video></div></div><div class="testi-lightbox" id="testiLightbox" onclick="if(event.target===this) closeTestiLightbox()"><div class="testi-lb-row" onclick="if(event.target===this) closeTestiLightbox()"><button class="testi-lb-nav testi-lb-prev" onclick="testiLbNav(-1)" aria-label="Sebelumnya"><i class="fa-solid fa-chevron-left"></i></button><div class="testi-lb-frame"><img loading="lazy" decoding="async" id="testiLightboxImg" src="" alt="Testimoni"></div><button class="testi-lb-nav testi-lb-next" onclick="testiLbNav(1)" aria-label="Berikutnya"><i class="fa-solid fa-chevron-right"></i></button></div></div><div class="page" id="zcChat"><div class="zc-shell">
   <div class="zc-body">
     <div class="zc-view active" id="zcConvView">
       <div class="zc-head">
