@@ -1406,6 +1406,16 @@ body.ev-solid #zusmoWallpaperBg,body.ev-solid #zxOldWall{display:none!important}
 #eventTab[data-ev-theme="light"] .ev-lg-d{display:none!important}
 #eventTab .ev-lg:has(.ev-crop-in){background:rgba(255,255,255,.13);border-radius:12px;padding:0 12px;box-sizing:border-box;height:46px;margin:5px 0}
 #eventTab[data-ev-theme="light"] .ev-lg:has(.ev-crop-in){background:#e8eeec}
+#eventTab .ev-code{display:flex;align-items:center;justify-content:center;gap:3px;width:100%;max-width:140px;flex:none}
+#eventTab .ev-code i{flex:1 1 0;min-width:0;aspect-ratio:4/5;display:flex;align-items:center;justify-content:center;border-radius:4px;background:rgba(255,255,255,.1);color:#fff;font:700 9px/1 'Space Mono',monospace;font-style:normal;box-sizing:border-box}
+#eventTab .ev-code i.on{background:rgba(255,255,255,.04);box-shadow:inset 0 0 0 1.5px #22c55e}
+#eventTab .ev-code u{flex:none;width:5px;height:1.5px;margin:0 1px;background:#fff;text-decoration:none}
+#eventTab .ev-lg:has(.ev-code){background:rgba(255,255,255,.13);border-radius:12px;padding:0 12px;box-sizing:border-box;height:46px;margin:5px 0}
+#eventTab[data-ev-theme="light"] .ev-lg:has(.ev-code){background:#e8eeec}
+#eventTab[data-ev-theme="light"] .ev-code i{background:#161a1d;color:#fff}
+#eventTab[data-ev-theme="light"] .ev-code i.on{background:#fff;color:#161a1d;box-shadow:inset 0 0 0 1.5px #22c55e}
+#eventTab[data-ev-theme="light"] .ev-code u{background:#0f172a}
+
 /* teks pengantar Sewa WA */
 #eventTab .ev-pitch{margin:0 0 14px;padding:16px 14px;border-radius:20px;background:linear-gradient(160deg,rgba(37,211,102,.1),rgba(56,189,248,.05) 70%,rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.09)}
 #eventTab .ev-tags{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}
@@ -1624,13 +1634,22 @@ body.ev-solid.ev-light .topbar-pro{background:rgba(255,255,255,.86)!important;-w
 
 /* ===== Redesain UI Sewa WA Blast ===== */
 #eventTab #evWa{display:block}
-#eventTab #evWa>*{animation:evUp .45s cubic-bezier(.2,.7,.2,1) both}
+#eventTab #evWa>*{animation:evUp .45s cubic-bezier(.2,.7,.2,1) backwards}
 #eventTab #evWa>*:nth-child(3){animation-delay:.04s}
 #eventTab #evWa>*:nth-child(4){animation-delay:.08s}
 #eventTab #evWa>*:nth-child(5){animation-delay:.12s}
 #eventTab #evWa>*:nth-child(6){animation-delay:.16s}
 #eventTab #evWa>*:nth-child(7){animation-delay:.2s}
 @keyframes evUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+#eventTab .ev-tut{position:fixed!important;inset:0;width:100%;height:100%;box-sizing:border-box;z-index:2147483000}
+#eventTab[data-ev-theme="light"] .ev-tut{background:rgba(15,23,42,.38);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
+#eventTab[data-ev-theme="light"] .ev-tut-box{background:#fff;border:1px solid rgba(15,23,42,.1);box-shadow:0 18px 50px rgba(15,23,42,.22)}
+#eventTab[data-ev-theme="light"] .ev-tut-tab{background:#f1f5f9;border-color:rgba(15,23,42,.12);color:#475569}
+#eventTab[data-ev-theme="light"] .ev-tut-tab.on{background:#dcfce7;border-color:#16a34a;color:#14532d}
+#eventTab[data-ev-theme="light"] .ev-time{background:#fffbeb;border-color:rgba(217,119,6,.35);color:#92400e}
+#eventTab[data-ev-theme="light"] .ev-time b{color:#78350f}
+#eventTab[data-ev-theme="light"] .ev-tut-step{background:#f8fafc;border-color:rgba(15,23,42,.08)}
+
 @media (prefers-reduced-motion:reduce){#eventTab #evWa>*{animation:none}}
 
 /* header */
@@ -1725,7 +1744,7 @@ body.ev-solid.ev-light .topbar-pro{background:rgba(255,255,255,.86)!important;-w
 <div class="ev-err" id="evErrNum" role="alert" hidden></div>
 <span class="ev-lbl" id="evLoginLbl">Metode login</span>
 <div class="ev-radios" role="radiogroup" aria-labelledby="evLoginLbl">
-<label class="ev-radio"><input type="radio" name="evLogin" value="code"><span><b class="ev-lg" aria-hidden="true"><b class="ev-crop ev-crop-in"><img class="ev-lg-l" src="zusmo-asset/input1.png" alt="" decoding="async" draggable="false"><img class="ev-lg-d" src="zusmo-asset/input2.png" alt="" decoding="async" draggable="false"></b></b>Input Code</span><em class="ev-rec">Disarankan</em></label>
+<label class="ev-radio"><input type="radio" name="evLogin" value="code"><span><b class="ev-lg" aria-hidden="true"><b class="ev-code" aria-hidden="true"><i class="on">X</i><i>X</i><i>X</i><i>X</i><u></u><i>X</i><i>X</i><i>X</i><i>X</i></b></b>Input Code</span><em class="ev-rec">Disarankan</em></label>
 <label class="ev-radio"><input type="radio" name="evLogin" value="qr"><span><b class="ev-lg" aria-hidden="true"><b class="ev-crop ev-crop-qr"><img src="zusmo-asset/qrc.png" alt="" decoding="async" draggable="false"></b></b>QR Code</span></label>
 </div>
 <div class="ev-err" id="evErrLogin" role="alert" hidden></div>
@@ -1846,6 +1865,7 @@ function renderSummary(){
 }
 function tutOpen(k){
  var t=$('evTut');if(!t)return;
+ if(t.parentNode!==root){root.appendChild(t)}
  tutShow(k||checked('evLogin')||'code');
  t.hidden=false;
  try{document.documentElement.style.overflow='hidden'}catch(e){}
