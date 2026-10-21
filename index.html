@@ -1607,6 +1607,70 @@ body.ev-solid.ev-light .topbar-pro{background:rgba(255,255,255,.86)!important;-w
 #eventTab[data-ev-theme="light"] .pc-btn{background:linear-gradient(135deg,#22c55e 0%,#0f9d6e 55%,#0f766e 100%);box-shadow:0 10px 22px rgba(15,157,110,.32),inset 0 1px 0 rgba(255,255,255,.3)}
 #eventTab[data-ev-theme="light"] .ev-sec-n,#eventTab[data-ev-theme="light"] .ev-hero-ic{box-shadow:0 4px 10px rgba(22,163,74,.28)}
 #eventTab[data-ev-theme="light"] .ev-t-g{background:linear-gradient(90deg,#16a34a,#0d9488);-webkit-background-clip:text;background-clip:text}
+
+/* ===== Redesain UI Sewa WA Blast ===== */
+#eventTab #evWa{display:block}
+#eventTab #evWa>*{animation:evUp .45s cubic-bezier(.2,.7,.2,1) both}
+#eventTab #evWa>*:nth-child(3){animation-delay:.04s}
+#eventTab #evWa>*:nth-child(4){animation-delay:.08s}
+#eventTab #evWa>*:nth-child(5){animation-delay:.12s}
+#eventTab #evWa>*:nth-child(6){animation-delay:.16s}
+#eventTab #evWa>*:nth-child(7){animation-delay:.2s}
+@keyframes evUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){#eventTab #evWa>*{animation:none}}
+
+/* header */
+#eventTab .ev-top{gap:14px;padding:16px;margin:0 0 14px;border-radius:24px;background:linear-gradient(135deg,rgba(37,211,102,.16),rgba(18,140,126,.06) 60%,rgba(255,255,255,.03));border:1px solid rgba(37,211,102,.22)}
+#eventTab .ev-top .ev-hero-ic{width:58px;height:58px;border-radius:19px;font-size:1.75rem}
+#eventTab .ev-top .pc-title{font-size:1.65rem;line-height:1.1;letter-spacing:.4px}
+#eventTab .ev-top-sub{margin-top:6px;font-size:.76rem}
+#eventTab .ev-back{border-radius:50px;padding:10px 16px 10px 12px}
+#eventTab .ev-slider{border-radius:24px;margin-bottom:16px;box-shadow:0 10px 26px rgba(0,0,0,.28)}
+
+/* kartu langkah */
+#eventTab .ev-card2{padding:20px 16px 18px;margin-bottom:16px;border-radius:26px;background:linear-gradient(180deg,rgba(37,211,102,.09),rgba(255,255,255,.035) 130px);border-color:rgba(37,211,102,.16)}
+#eventTab .ev-card2 .ev-sec{font-size:1.1rem;gap:12px;margin-bottom:16px;letter-spacing:.5px}
+#eventTab .ev-sec-n{width:30px;height:30px;font-size:.84rem;box-shadow:0 4px 12px rgba(18,140,126,.4)}
+
+/* tarif */
+#eventTab .ev-rates{gap:12px}
+#eventTab .ev-rate{gap:8px;padding:20px 10px 16px;border-radius:22px}
+#eventTab .ev-rate>i{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-size:1.2rem;background:rgba(var(--c),.15)}
+#eventTab .ev-rate b{font-size:1.02rem}
+#eventTab .ev-rate .ev-price{font-size:1.55rem;line-height:1.1}
+#eventTab .ev-rate .ev-price small{margin-top:4px}
+#eventTab .ev-rate-hint{margin-top:14px;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.04);text-align:center}
+
+/* form */
+#eventTab .ev-fg-t{font-size:.76rem;margin-bottom:14px}
+#eventTab .ev-lbl{font-size:.76rem;margin:0 0 8px 4px}
+#eventTab .pc-input{min-height:54px;border-radius:16px;padding-left:44px;font-size:16px}
+#eventTab .ev-sel-btn{padding-left:16px}
+#eventTab .pc-input-icon{left:16px}
+#eventTab .ev-form .pc-input-wrap{margin-bottom:14px}
+#eventTab .ev-radios{gap:12px;margin-bottom:14px}
+#eventTab .ev-radio span{min-height:58px;border-radius:18px;font-size:.86rem;flex-direction:column;gap:4px;padding:10px}
+#eventTab .ev-radio span i{font-size:1.1rem}
+#eventTab .ev-tut-open{border-radius:16px;padding:13px;margin-bottom:6px}
+#eventTab .ev-check{border-radius:18px;padding:14px}
+#eventTab .ev-form .pc-btn{min-height:56px;border-radius:18px;font-size:14.5px;letter-spacing:.9px}
+#eventTab .ev-form .ev-note-end{margin-top:6px}
+
+/* info */
+#eventTab .ev-sec-info{margin:26px 4px 12px;font:800 .8rem 'Outfit',sans-serif;letter-spacing:1.4px;text-transform:uppercase}
+#eventTab .ev-group{gap:12px}
+#eventTab .ev-acc{border-radius:20px}
+#eventTab .ev-acc>summary{padding:15px 16px;font-size:.98rem}
+#eventTab .ev-acc-body{padding:0 16px 16px}
+#eventTab .ev-acc-n{width:28px;height:28px}
+
+/* terang */
+#eventTab[data-ev-theme="light"] .ev-top{background:linear-gradient(135deg,#fff,#e4f8ea 70%,#d4f3e0);border-color:rgba(22,163,74,.24);box-shadow:0 10px 26px rgba(22,101,52,.12)}
+#eventTab[data-ev-theme="light"] .ev-slider{box-shadow:0 12px 28px rgba(22,101,52,.16)}
+#eventTab[data-ev-theme="light"] .ev-card2{background:linear-gradient(180deg,#e9f9ef 0,#fff 130px);border-color:rgba(22,163,74,.2);box-shadow:0 10px 26px rgba(22,101,52,.09)}
+#eventTab[data-ev-theme="light"] .ev-rate-hint{background:rgba(22,163,74,.07)}
+#eventTab[data-ev-theme="light"] .ev-sec-info{color:#15803d}
+#eventTab[data-ev-theme="light"] .ev-radio span{background:linear-gradient(180deg,#fff,#f4fbf7)}
 </style><div class="ev-wrap">
 
 
