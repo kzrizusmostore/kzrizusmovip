@@ -1088,6 +1088,14 @@ AccessTokenDua
 #eventTab .ev-back{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;margin:0 0 14px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#fff;font:700 .78rem 'Outfit',sans-serif;cursor:pointer;transition:transform .15s}
 #eventTab .ev-back:active{transform:scale(.97)}
 #eventTab .ev-sec{font:800 1rem 'Rajdhani','Outfit',sans-serif;letter-spacing:.8px;margin:22px 2px 8px;color:#fff}
+#eventTab .ev-promo{margin:0 0 14px;padding:14px;border-radius:18px;background:linear-gradient(135deg,rgba(37,211,102,.16),rgba(255,43,43,.1));border:1px solid rgba(37,211,102,.35)}
+#eventTab .ev-promo-t{display:flex;align-items:center;gap:8px;font:800 .95rem 'Rajdhani','Outfit',sans-serif;letter-spacing:.4px;color:#fff}
+#eventTab .ev-promo-t i{color:#25d366}
+#eventTab .ev-promo p{margin:6px 0 10px;font-size:.78rem;line-height:1.6;color:rgba(255,255,255,.82)}
+#eventTab .ev-promo p b{color:#fff}
+#eventTab .ev-promo ul{list-style:none;margin:0;padding:0;display:grid;gap:5px}
+#eventTab .ev-promo li{display:flex;align-items:center;gap:8px;font:600 .74rem 'Outfit',sans-serif;color:rgba(255,255,255,.9)}
+#eventTab .ev-promo li i{color:#25d366;font-size:.7rem}
 #eventTab .ev-note{font-size:.72rem;line-height:1.6;color:rgba(255,255,255,.62);margin:0 2px 10px}
 #eventTab .ev-note b{color:#fff}
 #eventTab .ev-steps{list-style:none;counter-reset:evs;margin:0;padding:14px;display:grid;gap:10px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)}
@@ -1249,12 +1257,108 @@ body.ev-solid #zusmoWallpaperBg,body.ev-solid #zxOldWall{display:none!important}
 #eventTab .ev-sec-info{margin:22px 2px 10px;font-size:.9rem;color:rgba(255,255,255,.7)}
 #eventTab .ev-group{margin-top:6px}
 #eventTab .ev-form .ev-check{margin-top:18px}
+
+/* ===== Sewa WhatsApp v2: palet hijau WhatsApp + aksen teal/biru, UX lebih jelas ===== */
+#eventTab .ev-wrap{position:relative;isolation:isolate}
+#eventTab .ev-wrap::before{content:'';position:absolute;left:0;right:0;top:0;height:260px;z-index:-1;pointer-events:none;background:radial-gradient(60% 100% at 50% 0,rgba(37,211,102,.13),transparent 72%)}
+#eventTab #evSecRate,#eventTab #evFgNum,#eventTab #evFgWd,#eventTab #evAccRisk{scroll-margin-top:84px}
+#eventTab .kl-sec:after{background:linear-gradient(90deg,rgba(37,211,102,.35),transparent)}
+/* hub */
+#eventTab .ev-card{background:linear-gradient(135deg,rgba(37,211,102,.11),rgba(18,140,126,.06) 55%,rgba(255,255,255,.03));border-color:rgba(37,211,102,.28)}
+#eventTab .ev-card:active{background:linear-gradient(135deg,rgba(37,211,102,.18),rgba(18,140,126,.1) 55%,rgba(255,255,255,.04));border-color:rgba(37,211,102,.55)}
+#eventTab .ev-card:focus-visible{outline:2px solid #25d366;outline-offset:2px}
+#eventTab .ev-card.ev-static,#eventTab .ev-card.ev-static:active{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.09)}
+#eventTab .ev-soon{display:inline-block;margin-left:8px;padding:2px 8px;border-radius:99px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.62);font:700 .6rem 'Outfit',sans-serif;letter-spacing:.3px;vertical-align:middle}
+#eventTab .pc-head-icon{background:linear-gradient(145deg,rgba(37,211,102,.28),rgba(18,140,126,.16));border:1px solid rgba(37,211,102,.5);box-shadow:none}
+#eventTab .pc-head-icon i{color:#4ade80}
+#eventTab .kl-go{background:rgba(37,211,102,.14);border-color:rgba(37,211,102,.45);color:#4ade80}
+#eventTab .ev-back i{color:#4ade80}
+/* header */
+#eventTab .ev-hero-ic{background:linear-gradient(145deg,#25d366,#128c7e);border:0;color:#fff;box-shadow:0 8px 20px rgba(18,140,126,.35)}
+#eventTab .ev-top .pc-title{text-shadow:none}
+#eventTab .ev-top .pc-title .wht{text-shadow:none}
+#eventTab .ev-t-g{color:transparent;background:linear-gradient(90deg,#4ade80,#2dd4bf);-webkit-background-clip:text;background-clip:text;text-shadow:none}
+#eventTab .ev-chip{background:rgba(37,211,102,.09);border-color:rgba(37,211,102,.32)}
+#eventTab .ev-chip i{color:#4ade80}
+#eventTab .ev-chip:nth-child(2){background:rgba(56,189,248,.08);border-color:rgba(56,189,248,.3)}
+#eventTab .ev-chip:nth-child(2) i{color:#38bdf8}
+#eventTab .ev-promo{background:linear-gradient(135deg,rgba(37,211,102,.14),rgba(18,140,126,.08) 60%,rgba(56,189,248,.05));border-color:rgba(37,211,102,.3)}
+/* progres */
+#eventTab .ev-prog{list-style:none;margin:0 0 8px;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+#eventTab .ev-prog button{width:100%;display:flex;align-items:center;justify-content:center;gap:7px;padding:10px 6px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);color:rgba(255,255,255,.68);font:700 .72rem 'Outfit',sans-serif;cursor:pointer;transition:background .18s,border-color .18s,color .18s}
+#eventTab .ev-prog-dot{flex:none;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.12);font:800 .66rem 'Outfit',sans-serif}
+#eventTab .ev-prog li.done button{background:rgba(37,211,102,.1);border-color:rgba(37,211,102,.4);color:#fff}
+#eventTab .ev-prog li.done .ev-prog-dot{background:linear-gradient(145deg,#25d366,#128c7e);font-size:0}
+#eventTab .ev-prog li.done .ev-prog-dot::after{content:'\2713';font-size:.7rem;color:#fff}
+#eventTab .ev-prog-msg{margin:0 2px 14px;font-size:.72rem;line-height:1.5;color:rgba(255,255,255,.62)}
+#eventTab .ev-prog-msg.ok{color:#4ade80;font-weight:700}
+/* kartu & nomor seksi */
+#eventTab .ev-card2{background:rgba(255,255,255,.045);border-color:rgba(255,255,255,.09)}
+#eventTab .ev-sec-n{background:linear-gradient(145deg,#25d366,#128c7e)}
+#eventTab #evRegH .ev-sec-n{background:linear-gradient(145deg,#2dd4bf,#0ea5e9)}
+#eventTab .ev-fg-t{color:#4ade80}
+#eventTab .ev-fg-t::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:currentColor;margin-right:8px;vertical-align:middle}
+#eventTab #evFgWd .ev-fg-t{color:#38bdf8}
+/* tarif */
+#eventTab .ev-pkg{position:relative;background:rgba(255,255,255,.045);border:1.5px solid rgba(255,255,255,.1)}
+#eventTab .ev-pkg[data-m="chat"]{--c:37,211,102}
+#eventTab .ev-pkg[data-m="menit"]{--c:56,189,248}
+#eventTab .ev-rate>i{color:rgb(var(--c))}
+#eventTab .ev-pkg .ev-price{color:rgb(var(--c))}
+#eventTab .ev-pkg[aria-checked="true"]{border-color:rgb(var(--c));background:linear-gradient(160deg,rgba(var(--c),.18),rgba(var(--c),.06));box-shadow:0 0 0 3px rgba(var(--c),.12)}
+#eventTab .ev-pkg[aria-checked="true"]::after{content:'\2713';position:absolute;top:8px;right:8px;width:20px;height:20px;border-radius:50%;background:rgb(var(--c));color:#04210f;font:800 .7rem/20px 'Outfit',sans-serif;text-align:center}
+#eventTab .ev-rate-hint{margin:10px 2px 0;font-size:.72rem;line-height:1.5;color:rgba(255,255,255,.6)}
+#eventTab .ev-rate-hint b{color:#4ade80}
+/* input */
+#eventTab .pc-input{font-size:16px;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.14)}
+#eventTab .pc-input::placeholder{color:rgba(255,255,255,.38);font-weight:400}
+#eventTab .pc-input:focus{border-color:#25d366;background:rgba(37,211,102,.06);box-shadow:0 0 0 3px rgba(37,211,102,.16)}
+#eventTab .pc-input[aria-invalid="true"]{border-color:#f87171;background:rgba(248,113,113,.07);box-shadow:none}
+#eventTab .pc-input-icon{color:#4ade80}
+#eventTab .ev-hint{margin:-6px 2px 10px}
+#eventTab .ev-err{color:#fca5a5}
+#eventTab .ev-sel-ch{color:#4ade80}
+#eventTab .ev-sel-list{background:#0f1a15;border-color:rgba(37,211,102,.25)}
+#eventTab .ev-sel-list li:hover,#eventTab .ev-sel-list li:focus{background:rgba(37,211,102,.14)}
+#eventTab .ev-sel-list li[aria-selected="true"]{background:rgba(37,211,102,.22)}
+/* metode login */
+#eventTab .ev-radio:nth-child(1){--c:37,211,102}
+#eventTab .ev-radio:nth-child(2){--c:56,189,248}
+#eventTab .ev-radio span{border:1.5px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04)}
+#eventTab .ev-radio span i{color:rgb(var(--c))}
+#eventTab .ev-radio input:checked+span{background:rgba(var(--c),.16);border-color:rgb(var(--c))}
+#eventTab .ev-radio input:focus-visible+span{outline:2px solid rgb(var(--c));outline-offset:2px}
+#eventTab .ev-rec{padding:1px 7px}
+#eventTab .ev-tut-open{border-color:rgba(37,211,102,.45);background:rgba(37,211,102,.06)}
+#eventTab .ev-tut-open i,#eventTab .ev-tut-h i{color:#4ade80}
+/* ringkasan, persetujuan, kirim */
+#eventTab .ev-sum{background:linear-gradient(160deg,rgba(37,211,102,.08),rgba(0,0,0,.25));border-color:rgba(37,211,102,.25)}
+#eventTab .ev-sum dl div{grid-template-columns:86px 1fr}
+#eventTab .ev-sum dd{overflow-wrap:anywhere}
+#eventTab .ev-sum dd.mute{color:rgba(255,255,255,.35);font-weight:500}
+#eventTab .ev-check input{accent-color:#25d366}
+#eventTab .ev-check:has(input:checked){border-color:rgba(37,211,102,.5);background:rgba(37,211,102,.07)}
+#eventTab .ev-check.bad{border-color:#f87171}
+#eventTab .ev-linkbtn{background:none;border:0;padding:0;margin-left:4px;font:inherit;font-weight:700;color:#fbbf24;text-decoration:underline;cursor:pointer}
+#eventTab .pc-btn{background:linear-gradient(135deg,#1fa855 0%,#0f766e 100%);box-shadow:0 8px 20px rgba(15,118,110,.32),inset 0 1px 0 rgba(255,255,255,.18)}
+#eventTab .pc-btn:active{box-shadow:0 3px 10px rgba(15,118,110,.25)}
+#eventTab .ev-form .ev-note-end{text-align:center;margin:2px 4px 0;line-height:1.5}
+/* info & tutorial */
+#eventTab .ev-acc[open]{border-color:rgba(37,211,102,.25)}
+#eventTab .ev-acc-n{background:rgba(37,211,102,.14);border-color:rgba(37,211,102,.45);color:#4ade80}
+#eventTab .ev-acc-warn .ev-acc-n{background:rgba(251,191,36,.14);border-color:rgba(251,191,36,.5);color:#fbbf24}
+#eventTab .ev-acc:nth-of-type(3) .ev-acc-n{background:rgba(56,189,248,.12);border-color:rgba(56,189,248,.45);color:#38bdf8}
+#eventTab .ev-steps li::before{background:rgba(37,211,102,.14);border-color:rgba(37,211,102,.45);color:#4ade80}
+#eventTab .ev-tut-box{background:#0d1512}
+#eventTab .ev-tut-tab{border-color:rgba(37,211,102,.28);background:rgba(37,211,102,.04)}
+#eventTab .ev-tut-tab.on{background:rgba(37,211,102,.18);border-color:#25d366}
+#eventTab .ev-tut-thumb::after{background:linear-gradient(145deg,#25d366,#128c7e)}
 </style><div class="ev-wrap">
 
 <section id="evHub" aria-label="Daftar layanan Event">
 <div class="kl-sec"><span>Layanan</span></div>
 <div class="kl-card ev-card" role="button" tabindex="0" aria-label="Buka Sewa WhatsApp" data-ev-open="wa"><div class="kl-body"><span class="pc-head-icon"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></span><div class="kl-body-txt"><h3>Sewa WhatsApp</h3><p>Kirim pesan WhatsApp massal. Rp200/chat atau Rp1.000/menit.</p></div><span class="kl-go"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span></div></div>
-<div class="kl-card ev-card ev-static" aria-label="Clipper"><div class="kl-body"><div class="kl-body-txt"><h3>Clipper</h3></div></div></div>
+<div class="kl-card ev-card ev-static" aria-label="Clipper, segera hadir"><div class="kl-body"><div class="kl-body-txt"><h3>Clipper<span class="ev-soon">Segera hadir</span></h3></div></div></div>
 </section>
 
 <section id="evWa" aria-label="Sewa WA Blast" hidden>
@@ -1262,34 +1366,46 @@ body.ev-solid #zusmoWallpaperBg,body.ev-solid #zxOldWall{display:none!important}
 
 <header class="ev-top">
 <span class="ev-hero-ic"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></span>
-<div><p class="pc-title"><span class="red">SEWA</span>&nbsp;<span class="wht">WA BLAST</span></p>
-<p class="ev-top-sub">Kirim pesan WhatsApp massal ke banyak nomor sekaligus.</p></div>
+<div><p class="pc-title"><span class="ev-t-g">SEWA</span>&nbsp;<span class="wht">WA BLAST</span></p>
+<p class="ev-top-sub">Sewakan akun WhatsApp kamu, dapat saldo langsung.</p></div>
 </header>
 <div class="ev-chips"><span class="ev-chip"><i class="fa-solid fa-bolt" aria-hidden="true"></i> 1 nomor = 1&times; blast</span><span class="ev-chip"><i class="fa-solid fa-wallet" aria-hidden="true"></i> Min. WD Rp5.000</span></div>
+<div class="ev-promo"><b class="ev-promo-t"><i class="fa-solid fa-sack-dollar" aria-hidden="true"></i> Punya nomor WhatsApp nganggur?</b>
+<p>Daftarkan nomor, admin yang memandu prosesnya. Saldo bisa ditarik ke DANA, GoPay, ShopeePay, atau OVO.</p>
+<ul><li><i class="fa-solid fa-check" aria-hidden="true"></i> Daftar cepat lewat WhatsApp</li><li><i class="fa-solid fa-check" aria-hidden="true"></i> Tanpa modal, tanpa ribet</li><li><i class="fa-solid fa-check" aria-hidden="true"></i> WD mulai Rp5.000</li></ul></div>
 
-<section class="ev-card2" aria-labelledby="evPriceH">
+<ol class="ev-prog" id="evProg" aria-label="Progres pendaftaran">
+<li data-step="rate"><button type="button" data-go="evSecRate"><span class="ev-prog-dot">1</span>Tarif</button></li>
+<li data-step="data"><button type="button" data-go="evFgNum"><span class="ev-prog-dot">2</span>Data nomor</button></li>
+<li data-step="wd"><button type="button" data-go="evFgWd"><span class="ev-prog-dot">3</span>Penarikan</button></li>
+</ol>
+<p class="ev-prog-msg" id="evProgMsg" aria-live="polite">Mulai dari memilih tarif.</p>
+
+<section class="ev-card2" id="evSecRate" aria-labelledby="evPriceH">
 <h2 class="ev-sec" id="evPriceH"><span class="ev-sec-n">1</span>Pilih tarif</h2>
 <div class="ev-rates ev-pkgs" role="radiogroup" aria-label="Metode tarif">
 <button type="button" class="ev-pkg ev-rate" role="radio" aria-checked="false" data-m="chat"><i class="fa-regular fa-comment-dots" aria-hidden="true"></i><b>Per chat</b><span class="ev-price">Rp200<small>per 1 chat</small></span></button>
 <button type="button" class="ev-pkg ev-rate" role="radio" aria-checked="false" data-m="menit"><i class="fa-regular fa-clock" aria-hidden="true"></i><b>Per menit</b><span class="ev-price">Rp1.000<small>per 1 menit</small></span></button>
 </div>
+<p class="ev-rate-hint" id="evRateHint">Pilih salah satu tarif di atas.</p>
 <div class="ev-err" id="evErrMethod" role="alert" hidden></div>
 </section>
 
-<section class="ev-card2 ev-card2-form" aria-labelledby="evRegH">
+<section class="ev-card2 ev-card2-form" id="evSecForm" aria-labelledby="evRegH">
 <h2 class="ev-sec" id="evRegH"><span class="ev-sec-n">2</span>Daftarkan nomor</h2>
 <form class="ev-form" id="evForm" novalidate autocomplete="off">
 
-<div class="ev-fg"><h3 class="ev-fg-t">Data nomor</h3>
+<div class="ev-fg" id="evFgNum"><h3 class="ev-fg-t">Data nomor</h3>
 <label class="ev-lbl" for="evNum">Nomor WhatsApp</label>
-<div class="pc-input-wrap"><i class="pc-input-icon fa-brands fa-whatsapp" aria-hidden="true"></i><input class="pc-input" id="evNum" type="tel" inputmode="tel" autocomplete="tel" maxlength="22" placeholder="+6281234567890"></div>
+<div class="pc-input-wrap"><i class="pc-input-icon fa-brands fa-whatsapp" aria-hidden="true"></i><input class="pc-input" id="evNum" type="tel" inputmode="tel" autocomplete="tel" maxlength="22" placeholder="08123456789 atau +6281234567890"></div>
+<p class="ev-hint">Boleh ketik 08&hellip; atau 62&hellip;, otomatis dijadikan format +62.</p>
 <div class="ev-err" id="evErrNum" role="alert" hidden></div>
 <label class="ev-lbl" for="evName">Nama pemilik</label>
 <div class="pc-input-wrap"><i class="pc-input-icon fa-solid fa-user" aria-hidden="true"></i><input class="pc-input" id="evName" type="text" autocomplete="name" maxlength="60" placeholder="Nama lengkap"></div>
 <div class="ev-err" id="evErrName" role="alert" hidden></div>
 <span class="ev-lbl" id="evLoginLbl">Metode login</span>
 <div class="ev-radios" role="radiogroup" aria-labelledby="evLoginLbl">
-<label class="ev-radio"><input type="radio" name="evLogin" value="code"><span><i class="fa-solid fa-keyboard" aria-hidden="true"></i> Input Code</span><em class="ev-rec">Best</em></label>
+<label class="ev-radio"><input type="radio" name="evLogin" value="code"><span><i class="fa-solid fa-keyboard" aria-hidden="true"></i> Input Code</span><em class="ev-rec">Disarankan</em></label>
 <label class="ev-radio"><input type="radio" name="evLogin" value="qr"><span><i class="fa-solid fa-qrcode" aria-hidden="true"></i> QR Code</span></label>
 </div>
 <div class="ev-err" id="evErrLogin" role="alert" hidden></div>
@@ -1306,7 +1422,7 @@ body.ev-solid #zusmoWallpaperBg,body.ev-solid #zxOldWall{display:none!important}
 <div class="ev-sr"><input type="radio" name="evMethod" value="chat" tabindex="-1" aria-hidden="true"><input type="radio" name="evMethod" value="menit" tabindex="-1" aria-hidden="true"></div>
 </div>
 
-<div class="ev-fg"><h3 class="ev-fg-t">Penarikan dana (WD)</h3>
+<div class="ev-fg" id="evFgWd"><h3 class="ev-fg-t">Penarikan dana (WD)</h3>
 <span class="ev-lbl" id="evWdLbl">E-wallet</span>
 <div class="ev-sel" id="evSel"><input type="hidden" id="evWdType" value=""><button type="button" class="pc-input ev-sel-btn" id="evWdTrig" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="evWdLbl evWdVal"><span class="ev-sel-v" id="evWdVal"><span class="ev-sel-ph">Pilih e-wallet</span></span><i class="fa-solid fa-chevron-down ev-sel-ch" aria-hidden="true"></i></button><ul class="ev-sel-list" id="evWdList" role="listbox" aria-label="E-wallet" hidden><li role="option" tabindex="-1" data-v="DANA" aria-selected="false"><img src="zusmo-asset/logodana.png" alt="" loading="lazy" decoding="async" onerror="this.style.visibility='hidden'"><span>DANA</span></li><li role="option" tabindex="-1" data-v="GoPay" aria-selected="false"><img src="zusmo-asset/logogopay.png" alt="" loading="lazy" decoding="async" onerror="this.style.visibility='hidden'"><span>GoPay</span></li><li role="option" tabindex="-1" data-v="ShopeePay" aria-selected="false"><img src="zusmo-asset/logospay.png" alt="" loading="lazy" decoding="async" onerror="this.style.visibility='hidden'"><span>ShopeePay</span></li><li role="option" tabindex="-1" data-v="OVO" aria-selected="false"><img src="zusmo-asset/logoovo.png" alt="" loading="lazy" decoding="async" onerror="this.style.visibility='hidden'"><span>OVO</span></li></ul></div>
 <div class="ev-err" id="evErrWdType" role="alert" hidden></div>
@@ -1318,24 +1434,19 @@ body.ev-solid #zusmoWallpaperBg,body.ev-solid #zxOldWall{display:none!important}
 <div class="ev-err" id="evErrWdName" role="alert" hidden></div>
 </div>
 
-<label class="ev-check" id="evCheckRow"><input type="checkbox" id="evConsent"><span>Saya paham 1 nomor hanya 1&times; blast dan akun WhatsApp berisiko dibatasi tanpa jaminan pemulihan.</span></label>
+<div class="ev-sum" id="evSum" aria-live="polite" hidden></div>
+<label class="ev-check" id="evCheckRow"><input type="checkbox" id="evConsent"><span>Saya paham WhatsApp saya bisa dibatasi sementara.<button type="button" class="ev-linkbtn" data-ev-risk>Lihat risiko</button></span></label>
 <div class="ev-err" id="evErrConsent" role="alert" hidden></div>
 
-<button type="submit" class="pc-btn" id="evSubmit"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Daftar via WhatsApp Admin</button>
+<button type="submit" class="pc-btn" id="evSubmit"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Kirim ke admin lewat WhatsApp</button>
+<p class="ev-note-end">Kamu akan diarahkan ke WhatsApp admin. Jangan pernah kirim PIN atau kode OTP.</p>
 
-<div class="ev-ready" id="evReady" hidden>
-<h4>Siap dikirim ke admin</h4>
-<p class="ev-note" style="margin:0">Belum terkirim. Kirim pesan ini lewat WhatsApp admin.</p>
-<pre id="evMsg" class="allow-copy"></pre>
-<a class="pc-btn" id="evOpenWa" target="_blank" rel="noopener noreferrer" href="#"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Buka WhatsApp Admin</a>
-<button type="button" class="ev-ghost" id="evCopy"><i class="fa-regular fa-copy" aria-hidden="true"></i> Salin pesan</button>
-</div>
 </form>
 </section>
 
 <div class="ev-group">
 <h2 class="ev-sec ev-sec-info">Info &amp; ketentuan</h2>
-<details class="ev-acc"><summary><span class="ev-acc-n"><i class="fa-solid fa-list-check" aria-hidden="true"></i></span>Cara kerja<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><div class="ev-acc-body"><ol class="ev-steps"><li>Pilih tarif dan metode login.</li><li>Isi data nomor dan tujuan WD, lalu kirim ke admin.</li><li>Admin memandu proses login. QR Code / Input Code hanya berlaku 60 detik, jadi siapkan WhatsApp sebelum admin mengirim. Disarankan pakai Input Code.</li><li>Nomor dipakai untuk 1&times; blast, hasil diverifikasi admin.</li><li>Saldo ditarik lewat DANA, GoPay, ShopeePay, atau OVO (min. Rp5.000).</li></ol></div></details><details class="ev-acc ev-acc-warn"><summary><span class="ev-acc-n"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i></span>Risiko<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><div class="ev-acc-body"><ul class="ev-rules"><li>Akun WhatsApp dapat dibatasi, lama pembatasan tidak dapat dijamin.</li><li>Pemulihan akun tidak dapat dijamin.</li><li>Kirim hanya ke penerima yang setuju dan patuhi kebijakan WhatsApp.</li></ul></div></details><details class="ev-acc"><summary><span class="ev-acc-n"><i class="fa-solid fa-scale-balanced" aria-hidden="true"></i></span>Aturan pembayaran<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><div class="ev-acc-body"><ul class="ev-rules"><li>Per chat Rp200 untuk chat yang berhasil terkirim.</li><li>Per menit Rp1.000 untuk menit kerja yang valid.</li><li>Minimal WD Rp5.000.</li><li>QR Code / Input Code hanya berlaku 60 detik. Jika kedaluwarsa, minta admin kirim ulang.</li><li>Pesan duplikat atau gagal tidak dihitung.</li><li>Hasil diverifikasi admin. Tarif dapat disesuaikan.</li></ul></div></details>
+<details class="ev-acc"><summary><span class="ev-acc-n"><i class="fa-solid fa-list-check" aria-hidden="true"></i></span>Cara kerja<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><div class="ev-acc-body"><ol class="ev-steps"><li>Pilih tarif dan metode login.</li><li>Isi data nomor dan tujuan WD, lalu kirim ke admin.</li><li>Admin memandu proses login. QR Code / Input Code hanya berlaku 60 detik, jadi siapkan WhatsApp sebelum admin mengirim. Disarankan pakai Input Code.</li><li>Nomor dipakai untuk 1&times; blast, hasil diverifikasi admin.</li><li>Saldo ditarik lewat DANA, GoPay, ShopeePay, atau OVO (min. Rp5.000).</li></ol></div></details><details class="ev-acc ev-acc-warn" id="evAccRisk"><summary><span class="ev-acc-n"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i></span>Risiko<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><div class="ev-acc-body"><ul class="ev-rules"><li>Akun WhatsApp dapat dibatasi, lama pembatasan tidak dapat dijamin.</li><li>Pemulihan akun tidak dapat dijamin.</li><li>Kirim hanya ke penerima yang setuju dan patuhi kebijakan WhatsApp.</li></ul></div></details><details class="ev-acc"><summary><span class="ev-acc-n"><i class="fa-solid fa-scale-balanced" aria-hidden="true"></i></span>Aturan pembayaran<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><div class="ev-acc-body"><ul class="ev-rules"><li>Per chat Rp200 untuk chat yang berhasil terkirim.</li><li>Per menit Rp1.000 untuk menit kerja yang valid.</li><li>Minimal WD Rp5.000.</li><li>QR Code / Input Code hanya berlaku 60 detik. Jika kedaluwarsa, minta admin kirim ulang.</li><li>Pesan duplikat atau gagal tidak dihitung.</li><li>Hasil diverifikasi admin. Tarif dapat disesuaikan.</li></ul></div></details>
 </div>
 
 <div class="footer" style="margin-top:14px;">&copy; 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
@@ -1369,22 +1480,51 @@ function row(dl,k,v){
  var d=document.createElement('div'),a=document.createElement('dt'),b=document.createElement('dd');
  a.textContent=k;b.textContent=v;d.appendChild(a);d.appendChild(b);dl.appendChild(d);
 }
+function rowx(dl,k,v,mute){
+ var d=document.createElement('div'),a=document.createElement('dt'),b=document.createElement('dd');
+ a.textContent=k;b.textContent=v;if(mute)b.className='mute';d.appendChild(a);d.appendChild(b);dl.appendChild(d);
+}
+function stepState(){
+ return{
+  rate:!!S.method,
+  data:!checkNum()&&!checkPerson('evName','x')&&!!checked('evLogin'),
+  wd:!!$('evWdType').value&&!checkWdNum()&&!checkPerson('evWdName','x')
+ };
+}
+function updateProgress(){
+ var st=stepState(),n=0,lis=root.querySelectorAll('#evProg li');
+ for(var i=0;i<lis.length;i++){var k=lis[i].getAttribute('data-step'),d=!!st[k];lis[i].classList.toggle('done',d);if(!d)n++}
+ var m=$('evProgMsg');if(!m)return;
+ var ok=(n===0);
+ m.classList.toggle('ok',ok);
+ m.textContent=ok?($('evConsent').checked?'Semua siap. Cek ringkasan lalu kirim ke admin.':'Data lengkap. Centang persetujuan, lalu kirim ke admin.'):(n===3?'Mulai dari memilih tarif.':'Tinggal '+n+' langkah lagi.');
+}
+function updateRateHint(){
+ var h=$('evRateHint'),p=cur();if(!h)return;
+ h.textContent='';
+ if(!p){h.textContent='Pilih salah satu tarif di atas.';return}
+ h.appendChild(document.createTextNode('Minimal WD '+rp(CFG.minWd)+' setara '));
+ var b=document.createElement('b');b.textContent=nf(minUnits(p))+' '+p.unit;h.appendChild(b);
+ h.appendChild(document.createTextNode(' yang valid.'));
+}
 function renderSummary(){
- var box=$('evSum'),p=cur();if(!box)return;
- box.textContent='';
- var h=document.createElement('h4');h.textContent='Ringkasan sebelum kamu menyetujui';box.appendChild(h);
- var dl=document.createElement('dl');
- if(!p){
-  var n=document.createElement('p');n.className='ev-note';n.style.margin='0';
-  n.textContent='Pilih metode tarif untuk melihat tarif dan syarat penarikan dana.';
-  box.appendChild(n);return;
+ var box=$('evSum'),p=cur();
+ if(box){
+  var num=normNum($('evNum').value),nm=$('evName').value.trim(),lg=checked('evLogin'),wt=$('evWdType').value,wn=cleanNum($('evWdNum').value),wnm=$('evWdName').value.trim();
+  var any=p||num||nm||lg||wt||wn||wnm;
+  box.hidden=!any;
+  if(any){
+   box.textContent='';
+   var h=document.createElement('h4');h.textContent='Cek lagi sebelum dikirim';box.appendChild(h);
+   var dl=document.createElement('dl');
+   rowx(dl,'Tarif',p?p.name+': '+rp(p.rate)+' '+p.per:'Belum dipilih',!p);
+   rowx(dl,'Nomor WA',num?num+(nm?' ('+nm+')':''):'Belum diisi',!num);
+   rowx(dl,'Login',lg?LOGIN[lg]+' (berlaku 60 detik)':'Belum dipilih',!lg);
+   rowx(dl,'Penarikan',wt?wt+(wn?' '+wn:'')+(wnm?' a.n. '+wnm:''):'Belum diisi',!wt);
+   box.appendChild(dl);
+  }
  }
- row(dl,'Tarif',p.name+': '+rp(p.rate)+' '+p.per);
- row(dl,'Minimal WD',rp(CFG.minWd)+' (setara '+nf(minUnits(p))+' '+p.unit+')');
- var lg=checked('evLogin');if(lg)row(dl,'Metode login',LOGIN[lg]+'. Berlaku 60 detik');
- row(dl,'Batas pakai','1 nomor = 1× blast. Nomor yang sudah login/logout tidak bisa blast lagi.');
- row(dl,'Penarikan','DANA, GoPay, ShopeePay, atau OVO');
- box.appendChild(dl);
+ updateRateHint();updateProgress();
 }
 function tutOpen(k){
  var t=$('evTut');if(!t)return;
@@ -1425,8 +1565,15 @@ function setErr(key,msg){
  if(key==='consent')$('evCheckRow').classList.toggle('bad',!!msg);
 }
 function cleanNum(v){return String(v||'').replace(/[\s\-().]/g,'')}
+function normNum(v){
+ var n=cleanNum(v);
+ if(!n||n.charAt(0)==='+')return n;
+ if(/^0\d{7,14}$/.test(n))return '+62'+n.slice(1);
+ if(/^62\d{7,13}$/.test(n))return '+'+n;
+ return n;
+}
 function checkNum(){
- var n=cleanNum($('evNum').value);
+ var n=normNum($('evNum').value);
  if(!n)return 'Nomor WhatsApp wajib diisi.';
  if(/^0/.test(n))return 'Awali dengan kode negara, misalnya +62, bukan angka 0.';
  if(/^[1-9]\d{7,14}$/.test(n))return 'Tambahkan tanda + di depan kode negara, menjadi +'+n+'.';
@@ -1447,6 +1594,7 @@ function checkWdNum(){
  return '';
 }
 function validate(){
+ var nv=normNum($('evNum').value);if(nv)$('evNum').value=nv;
  var errs={
   num:checkNum(),
   name:checkPerson('evName','Nama pemilik nomor'),
@@ -1461,7 +1609,7 @@ function validate(){
  order.forEach(function(k){setErr(k,errs[k]);if(errs[k]&&!first)first=k});
  if(first){
   var f=first==='login'?root.querySelector('input[name="evLogin"]'):first==='method'?root.querySelector('.ev-rate'):$(FIELDS[first][0]);
-  if(f){try{f.focus({preventScroll:false})}catch(e){f.focus()}}
+  if(f){try{f.focus({preventScroll:false})}catch(e){f.focus()}try{f.scrollIntoView({block:'center',behavior:'smooth'})}catch(e){}}
   return false;
  }
  return true;
@@ -1471,7 +1619,7 @@ function validate(){
 function buildMsg(){
  var p=cur();
  return ['Halo Admin KZRIZUSMO, saya ingin mendaftarkan nomor WhatsApp untuk layanan Sewa WA Blast.','',
-  'Nomor WhatsApp: '+cleanNum($('evNum').value),
+  'Nomor WhatsApp: '+normNum($('evNum').value),
   'Nama pemilik: '+$('evName').value.trim(),
   'Metode login: '+LOGIN[checked('evLogin')]+' (berlaku 60 detik, saya siap sebelum kode/QR dikirim)',
   'Metode tarif: '+p.name+' ('+rp(p.rate)+' '+p.per+')',
@@ -1483,12 +1631,10 @@ function buildMsg(){
   'Saya paham 1 nomor hanya 1x blast, dan nomor yang sudah login/logout tidak bisa blast lagi. Saya juga menyetujui risiko pembatasan akun WhatsApp. Pesan ini tidak berisi PIN, kode OTP, atau kode verifikasi WhatsApp.'
  ].join('\n');
 }
-function showReady(){
- var msg=buildMsg();
- $('evMsg').textContent=msg;
- $('evOpenWa').href='https://wa.me/'+CFG.adminWa+'?text='+encodeURIComponent(msg);
- var r=$('evReady');r.hidden=false;
- try{r.scrollIntoView({behavior:'smooth',block:'center'})}catch(e){}
+function openWa(){
+ var url='https://wa.me/'+CFG.adminWa+'?text='+encodeURIComponent(buildMsg());
+ var w=null;try{w=window.open(url,'_blank','noopener')}catch(e){}
+ if(!w)window.location.href=url;
 }
 function fallbackCopy(t,done){
  var a=document.createElement('textarea');a.value=t;a.className='allow-copy';
@@ -1516,13 +1662,15 @@ root.addEventListener('click',function(e){
  var op=t.closest('[data-ev-open]');
  if(op){view(op.getAttribute('data-ev-open'));return}
  if(t.closest('[data-ev-back]')){view('hub');return}
+ var go=t.closest('[data-go]');
+ if(go){var g=$(go.getAttribute('data-go'));if(g){try{g.scrollIntoView({behavior:'smooth',block:'start'})}catch(x){g.scrollIntoView()}}return}
+ if(t.closest('[data-ev-risk]')){e.preventDefault();var rk=$('evAccRisk');if(rk){rk.open=true;try{rk.scrollIntoView({behavior:'smooth',block:'center'})}catch(x){rk.scrollIntoView()}}return}
  if(t.closest('[data-ev-tut-open]')){tutOpen();return}
  if(t.closest('[data-ev-tut-close]')||t.id==='evTut'){tutClose();return}
  var tt=t.closest('[data-ev-tut]');
  if(tt){tutShow(tt.getAttribute('data-ev-tut'));return}
  var b=t.closest('.ev-pkg');
  if(b){choose(b.getAttribute('data-m'));return}
- if(t.closest('#evCopy')){copyText($('evMsg').textContent)}
 });
 root.addEventListener('keydown',function(e){
  var t=e.target;
@@ -1539,7 +1687,7 @@ Array.prototype.forEach.call(root.querySelectorAll('input[name="evLogin"]'),func
  r.addEventListener('change',function(){setErr('login','');renderSummary();hideReady();tutShow(this.value)});
 });
 [['evNum','num'],['evName','name'],['evWdNum','wdNum'],['evWdName','wdName']].forEach(function(x){
- $(x[0]).addEventListener('input',function(){setErr(x[1],'');hideReady()});
+ $(x[0]).addEventListener('input',function(){setErr(x[1],'');hideReady();renderSummary()});
 });
 (function(){
  var inp=$('evWdType'),btn=$('evWdTrig'),list=$('evWdList'),val=$('evWdVal');
@@ -1549,7 +1697,7 @@ Array.prototype.forEach.call(root.querySelectorAll('input[name="evLogin"]'),func
   var v=li.getAttribute('data-v');inp.value=v;
   Array.prototype.forEach.call(list.children,function(c){c.setAttribute('aria-selected',String(c===li))});
   val.textContent='';var im=li.querySelector('img').cloneNode(true);var sp=document.createElement('span');sp.textContent=v;val.appendChild(im);val.appendChild(sp);
-  close(true);setErr('wdType','');hideReady();
+  close(true);setErr('wdType','');hideReady();renderSummary();
  }
  btn.addEventListener('click',function(){list.hidden?open():close()});
  list.addEventListener('click',function(e){var li=e.target.closest('li');if(li)pick(li)});
@@ -1562,10 +1710,15 @@ Array.prototype.forEach.call(root.querySelectorAll('input[name="evLogin"]'),func
  });
  document.addEventListener('click',function(e){if(!list.hidden&&!e.target.closest('#evSel'))close()});
 })();
-$('evConsent').addEventListener('change',function(){setErr('consent','');hideReady()});
+$('evConsent').addEventListener('change',function(){setErr('consent','');hideReady();updateProgress()});
+/* cek langsung saat pindah kolom, dan rapikan nomor otomatis */
+$('evNum').addEventListener('blur',function(){var v=normNum(this.value);if(v&&v!==this.value)this.value=v;if(this.value)setErr('num',checkNum());renderSummary()});
+$('evName').addEventListener('blur',function(){if(this.value)setErr('name',checkPerson('evName','Nama pemilik nomor'))});
+$('evWdNum').addEventListener('blur',function(){if(this.value)setErr('wdNum',checkWdNum())});
+$('evWdName').addEventListener('blur',function(){if(this.value)setErr('wdName',checkPerson('evWdName','Atas nama rekening'))});
 $('evForm').addEventListener('submit',function(e){
  e.preventDefault();
- if(validate())showReady();
+ if(validate()){toast('Membuka WhatsApp admin…',true);openWa()}
 });
 
 sync();
