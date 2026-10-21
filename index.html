@@ -1193,131 +1193,113 @@ body.ev-solid #zusmoWallpaperBg,body.ev-solid #zxOldWall{display:none!important}
 #eventTab .ev-rate>small{padding:3px 9px;border-radius:99px;background:rgba(255,255,255,.07);color:rgba(255,255,255,.75);font-weight:700}
 #eventTab .ev-sep{display:flex;align-items:center;gap:10px;margin:18px 0 12px;font:800 .78rem 'Outfit',sans-serif;letter-spacing:1px;text-transform:uppercase;color:#ff6b6b}
 #eventTab .ev-sep::before,#eventTab .ev-sep::after{content:'';flex:1;height:1px;background:rgba(255,43,43,.3)}
+
+#eventTab .ev-top{display:flex;align-items:center;gap:14px;margin:0 0 12px}
+#eventTab .ev-top .ev-hero-ic{margin:0;flex:none}
+#eventTab .ev-top .pc-title{margin:0;text-align:left;font-size:1.5rem}
+#eventTab .ev-top-sub{margin:3px 0 0;font-size:.74rem;line-height:1.45;color:rgba(255,255,255,.62)}
+#eventTab .ev-chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+#eventTab .ev-chip{display:inline-flex;align-items:center;gap:7px;padding:7px 12px;border-radius:99px;background:rgba(255,43,43,.1);border:1px solid rgba(255,43,43,.4);font:700 .72rem 'Outfit',sans-serif;color:#fff}
+#eventTab .ev-chip i{color:#ff6b6b}
+#eventTab .ev-rate{padding:18px 10px}
+#eventTab .ev-sim{margin-top:12px;border-radius:14px;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.08)}
+#eventTab .ev-sim>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px;padding:12px 14px;font:700 .8rem 'Outfit',sans-serif;color:rgba(255,255,255,.85)}
+#eventTab .ev-sim>summary::-webkit-details-marker{display:none}
+#eventTab .ev-sim>summary i:first-child{color:#ff6b6b}
+#eventTab .ev-sim>summary .fa-chevron-down{margin-left:auto;font-size:.7rem;color:rgba(255,255,255,.5);transition:transform .2s}
+#eventTab .ev-sim[open]>summary .fa-chevron-down{transform:rotate(180deg)}
+#eventTab .ev-sim .ev-box{padding:0 14px 14px}
+#eventTab .ev-fg{margin:0 0 6px}
+#eventTab .ev-fg+.ev-fg{margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.08)}
+#eventTab .ev-fg-t{margin:0 0 12px;font:800 .78rem 'Outfit',sans-serif;letter-spacing:1px;text-transform:uppercase;color:#ff6b6b}
+#eventTab .ev-sr{position:absolute;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none}
+#eventTab .ev-sec-info{margin:22px 2px 10px;font-size:.9rem;color:rgba(255,255,255,.7)}
+#eventTab .ev-group{margin-top:6px}
+#eventTab .ev-form .ev-check{margin-top:18px}
 </style><div class="ev-wrap">
 
 <section id="evHub" aria-label="Daftar layanan Event">
 <div class="kl-sec"><span>Layanan</span></div>
-<div class="kl-card ev-card" role="button" tabindex="0" aria-label="Buka Sewa WhatsApp" data-ev-open="wa"><div class="kl-body"><span class="pc-head-icon"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></span><div class="kl-body-txt"><h3>Sewa WhatsApp</h3><p>Sewa WA Blast: kirim pesan massal. Rp200 per chat atau Rp1.000 per menit, WD minimal Rp5.000.</p></div><span class="kl-go"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span></div></div>
+<div class="kl-card ev-card" role="button" tabindex="0" aria-label="Buka Sewa WhatsApp" data-ev-open="wa"><div class="kl-body"><span class="pc-head-icon"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></span><div class="kl-body-txt"><h3>Sewa WhatsApp</h3><p>Kirim pesan WhatsApp massal. Rp200/chat atau Rp1.000/menit.</p></div><span class="kl-go"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span></div></div>
 <div class="kl-card ev-card ev-static" aria-label="Clipper"><div class="kl-body"><div class="kl-body-txt"><h3>Clipper</h3></div></div></div>
 </section>
 
-<section id="evWa" aria-label="Sewa WhatsApp Blast" hidden>
-<button type="button" class="ev-back" data-ev-back><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Kembali ke Event</button>
+<section id="evWa" aria-label="Sewa WA Blast" hidden>
+<button type="button" class="ev-back" data-ev-back><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Kembali</button>
 
-<header class="ev-hero">
+<header class="ev-top">
 <span class="ev-hero-ic"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></span>
-<p class="pc-title"><span class="red">SEWA</span>&nbsp;<span class="wht">WA BLAST</span></p>
-<p class="pc-sub">Per Chat &bull; Per Menit &bull; WD Min. Rp5.000</p>
-<p class="ev-hero-note">Sewa WA Blast adalah layanan atau platform untuk mengirimkan pesan WhatsApp secara massal ke banyak nomor sekaligus. Kirim hanya ke penerima yang sudah setuju dan patuhi kebijakan WhatsApp.</p>
+<div><p class="pc-title"><span class="red">SEWA</span>&nbsp;<span class="wht">WA BLAST</span></p>
+<p class="ev-top-sub">Kirim pesan WhatsApp massal ke banyak nomor sekaligus.</p></div>
 </header>
-
-<div class="ev-risk-banner" role="note"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i><div><b>1 nomor = 1&times; blast</b><span>Nomor yang sudah login atau logout tidak bisa blast lagi. Akun bisa dibatasi WhatsApp dan pemulihan tidak dapat dijamin.</span></div></div>
-
-<div class="ev-group">
-<details class="ev-acc" open><summary><span class="ev-acc-n"><i class="fa-solid fa-list-check" aria-hidden="true"></i></span>Cara kerja<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary>
-<div class="ev-acc-body"><ol class="ev-steps">
-<li>Pilih metode login: QR Code atau Input Code.</li>
-<li>Pilih tarif: per chat atau per menit.</li>
-<li>Isi data nomor WhatsApp dan tujuan penarikan dana (WD).</li>
-<li>Kirim pendaftaran ke admin lewat WhatsApp, lalu admin memandu proses login.</li>
-<li>Nomor dipakai untuk 1&times; blast. Hasil diverifikasi admin.</li>
-<li>Saldo bisa ditarik lewat GoPay, ShopeePay, atau OVO jika sudah mencapai minimal WD Rp5.000.</li>
-</ol></div></details>
-<details class="ev-acc ev-acc-warn"><summary><span class="ev-acc-n"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i></span>Peringatan risiko<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary>
-<div class="ev-acc-body"><ul class="ev-rules">
-<li>Akun WhatsApp dapat dibatasi sementara jika pola penggunaannya dianggap melanggar kebijakan.</li>
-<li>Lama pembatasan tidak dapat dijamin hanya beberapa jam.</li>
-<li>Admin akan memberi arahan dan membantu mencari solusi jika terjadi pembatasan.</li>
-<li>Pemulihan akun tidak dapat dijamin.</li>
-<li>Pahami risikonya sebelum menyewakan nomor kamu.</li>
-</ul></div></details>
-<details class="ev-acc"><summary><span class="ev-acc-n"><i class="fa-solid fa-scale-balanced" aria-hidden="true"></i></span>Aturan &amp; pembayaran<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary>
-<div class="ev-acc-body"><ul class="ev-rules">
-<li>1 nomor = 1&times; blast. WhatsApp yang sudah login atau logout tidak bisa blast lagi.</li>
-<li>Per chat: Rp200 untuk setiap chat yang berhasil terkirim.</li>
-<li>Per menit: Rp1.000 untuk setiap menit pekerjaan yang valid.</li>
-<li>Minimal penarikan dana (WD) Rp5.000 untuk kedua metode.</li>
-<li>Pesan duplikat, gagal terkirim, atau hasil tidak valid tidak dihitung.</li>
-<li>Pekerjaan dianggap berhasil setelah diverifikasi admin. Tarif dapat disesuaikan admin di kemudian hari.</li>
-</ul></div></details>
-</div>
+<div class="ev-chips"><span class="ev-chip"><i class="fa-solid fa-bolt" aria-hidden="true"></i> 1 nomor = 1&times; blast</span><span class="ev-chip"><i class="fa-solid fa-wallet" aria-hidden="true"></i> Min. WD Rp5.000</span></div>
 
 <section class="ev-card2" aria-labelledby="evPriceH">
 <h2 class="ev-sec" id="evPriceH"><span class="ev-sec-n">1</span>Pilih tarif</h2>
 <div class="ev-rates ev-pkgs" role="radiogroup" aria-label="Metode tarif">
-<button type="button" class="ev-pkg ev-rate" role="radio" aria-checked="false" data-m="chat"><i class="fa-regular fa-comment-dots" aria-hidden="true"></i><b>Per chat</b><span class="ev-price">Rp200<small>per 1 chat</small></span><small>Minimal WD Rp5.000</small></button>
-<button type="button" class="ev-pkg ev-rate" role="radio" aria-checked="false" data-m="menit"><i class="fa-regular fa-clock" aria-hidden="true"></i><b>Per menit</b><span class="ev-price">Rp1.000<small>per 1 menit</small></span><small>Minimal WD Rp5.000</small></button>
+<button type="button" class="ev-pkg ev-rate" role="radio" aria-checked="false" data-m="chat"><i class="fa-regular fa-comment-dots" aria-hidden="true"></i><b>Per chat</b><span class="ev-price">Rp200<small>per 1 chat</small></span></button>
+<button type="button" class="ev-pkg ev-rate" role="radio" aria-checked="false" data-m="menit"><i class="fa-regular fa-clock" aria-hidden="true"></i><b>Per menit</b><span class="ev-price">Rp1.000<small>per 1 menit</small></span></button>
 </div>
 <div class="ev-err" id="evErrMethod" role="alert" hidden></div>
-<p class="ev-note ev-note-end">Per chat dihitung dari chat yang berhasil terkirim. Per menit dihitung dari durasi kerja yang valid.</p>
-</section>
-
-<section class="ev-card2" aria-labelledby="evSimH">
-<h2 class="ev-sec" id="evSimH"><span class="ev-sec-n">2</span>Simulasi pendapatan</h2>
+<details class="ev-sim"><summary><i class="fa-solid fa-calculator" aria-hidden="true"></i> Hitung estimasi<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary>
 <div class="ev-box">
 <label class="ev-lbl" for="evEstIn" id="evEstLbl">Pilih tarif dulu</label>
-<div class="pc-input-wrap"><i class="pc-input-icon fa-solid fa-calculator" aria-hidden="true"></i><input class="pc-input" id="evEstIn" type="number" inputmode="numeric" min="0" step="1" placeholder="Masukkan angka" disabled></div>
-<div class="ev-est" id="evEstOut" aria-live="polite">Pilih tarif di atas untuk menghitung.</div>
-<p class="ev-hint" style="margin:8px 2px 0">Ini hanya simulasi, bukan saldo atau transaksi. Hasil akhir mengikuti verifikasi admin.</p>
-</div>
+<div class="pc-input-wrap"><i class="pc-input-icon fa-solid fa-hashtag" aria-hidden="true"></i><input class="pc-input" id="evEstIn" type="number" inputmode="numeric" min="0" step="1" placeholder="Jumlah" disabled></div>
+<div class="ev-est" id="evEstOut" aria-live="polite"></div>
+</div></details>
 </section>
 
 <section class="ev-card2 ev-card2-form" aria-labelledby="evRegH">
-<h2 class="ev-sec" id="evRegH"><span class="ev-sec-n">3</span>Daftarkan nomor</h2>
+<h2 class="ev-sec" id="evRegH"><span class="ev-sec-n">2</span>Daftarkan nomor</h2>
 <form class="ev-form" id="evForm" novalidate autocomplete="off">
 
-<label class="ev-lbl" for="evNum">Nomor WhatsApp aktif</label>
+<div class="ev-fg"><h3 class="ev-fg-t">Data nomor</h3>
+<label class="ev-lbl" for="evNum">Nomor WhatsApp</label>
 <div class="pc-input-wrap"><i class="pc-input-icon fa-brands fa-whatsapp" aria-hidden="true"></i><input class="pc-input" id="evNum" type="tel" inputmode="tel" autocomplete="tel" maxlength="22" placeholder="+6281234567890"></div>
 <div class="ev-err" id="evErrNum" role="alert" hidden></div>
-<p class="ev-hint">Wajib memakai kode negara, misalnya +62xxxxxxxxxxx. Formulir ini tidak meminta PIN, kode OTP, atau kode verifikasi WhatsApp.</p>
-
-<label class="ev-lbl" for="evName">Nama pemilik nomor</label>
-<div class="pc-input-wrap"><i class="pc-input-icon fa-solid fa-user" aria-hidden="true"></i><input class="pc-input" id="evName" type="text" autocomplete="name" maxlength="60" placeholder="Nama lengkap pemilik nomor"></div>
+<label class="ev-lbl" for="evName">Nama pemilik</label>
+<div class="pc-input-wrap"><i class="pc-input-icon fa-solid fa-user" aria-hidden="true"></i><input class="pc-input" id="evName" type="text" autocomplete="name" maxlength="60" placeholder="Nama lengkap"></div>
 <div class="ev-err" id="evErrName" role="alert" hidden></div>
-
 <span class="ev-lbl" id="evLoginLbl">Metode login</span>
 <div class="ev-radios" role="radiogroup" aria-labelledby="evLoginLbl">
 <label class="ev-radio"><input type="radio" name="evLogin" value="qr"><span><i class="fa-solid fa-qrcode" aria-hidden="true"></i> QR Code</span></label>
 <label class="ev-radio"><input type="radio" name="evLogin" value="code"><span><i class="fa-solid fa-keyboard" aria-hidden="true"></i> Input Code</span></label>
 </div>
 <div class="ev-err" id="evErrLogin" role="alert" hidden></div>
-
-<span class="ev-lbl" id="evMethodLbl">Metode tarif</span>
-<div class="ev-radios" role="radiogroup" aria-labelledby="evMethodLbl">
-<label class="ev-radio"><input type="radio" name="evMethod" value="chat"><span><i class="fa-regular fa-comment-dots" aria-hidden="true"></i> Per chat</span></label>
-<label class="ev-radio"><input type="radio" name="evMethod" value="menit"><span><i class="fa-regular fa-clock" aria-hidden="true"></i> Per menit</span></label>
+<div class="ev-sr"><input type="radio" name="evMethod" value="chat" tabindex="-1" aria-hidden="true"><input type="radio" name="evMethod" value="menit" tabindex="-1" aria-hidden="true"></div>
 </div>
 
-<div class="ev-sep"><span>Penarikan dana (WD)</span></div>
-
-<label class="ev-lbl" for="evWdType">Metode penarikan</label>
+<div class="ev-fg"><h3 class="ev-fg-t">Penarikan dana (WD)</h3>
+<label class="ev-lbl" for="evWdType">E-wallet</label>
 <div class="pc-input-wrap"><i class="pc-input-icon fa-solid fa-wallet" aria-hidden="true"></i><select class="pc-input" id="evWdType"><option value="">Pilih e-wallet</option><option value="GoPay">GoPay</option><option value="ShopeePay">ShopeePay</option><option value="OVO">OVO</option></select></div>
 <div class="ev-err" id="evErrWdType" role="alert" hidden></div>
-
 <label class="ev-lbl" for="evWdNum">Nomor rekening</label>
-<div class="pc-input-wrap"><i class="pc-input-icon fa-solid fa-hashtag" aria-hidden="true"></i><input class="pc-input" id="evWdNum" type="tel" inputmode="numeric" maxlength="20" placeholder="Nomor e-wallet, mis. 08123456789"></div>
+<div class="pc-input-wrap"><i class="pc-input-icon fa-solid fa-hashtag" aria-hidden="true"></i><input class="pc-input" id="evWdNum" type="tel" inputmode="numeric" maxlength="20" placeholder="08123456789"></div>
 <div class="ev-err" id="evErrWdNum" role="alert" hidden></div>
-
 <label class="ev-lbl" for="evWdName">Atas nama rekening</label>
-<div class="pc-input-wrap"><i class="pc-input-icon fa-solid fa-id-card" aria-hidden="true"></i><input class="pc-input" id="evWdName" type="text" maxlength="60" placeholder="Nama sesuai akun e-wallet"></div>
+<div class="pc-input-wrap"><i class="pc-input-icon fa-solid fa-id-card" aria-hidden="true"></i><input class="pc-input" id="evWdName" type="text" maxlength="60" placeholder="Sesuai akun e-wallet"></div>
 <div class="ev-err" id="evErrWdName" role="alert" hidden></div>
+</div>
 
-<div class="ev-sum" id="evSum" aria-live="polite"></div>
-
-<label class="ev-check" id="evCheckRow"><input type="checkbox" id="evConsent"><span>Saya menyetujui ketentuan layanan: 1 nomor hanya 1&times; blast, risiko pembatasan akun WhatsApp tidak dapat dijamin pemulihannya, dan penarikan dana minimal Rp5.000.</span></label>
+<label class="ev-check" id="evCheckRow"><input type="checkbox" id="evConsent"><span>Saya paham 1 nomor hanya 1&times; blast dan akun WhatsApp berisiko dibatasi tanpa jaminan pemulihan.</span></label>
 <div class="ev-err" id="evErrConsent" role="alert" hidden></div>
 
-<button type="submit" class="pc-btn" id="evSubmit"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Daftarkan Nomor WhatsApp</button>
+<button type="submit" class="pc-btn" id="evSubmit"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Daftar via WhatsApp Admin</button>
 
 <div class="ev-ready" id="evReady" hidden>
-<h4>Ringkasan siap dikirim ke admin</h4>
-<p class="ev-note" style="margin:0">Pendaftaran <b>belum terkirim</b>. Buka WhatsApp admin lalu kirim pesan di bawah. Pendaftaran baru dianggap diterima setelah admin membalas.</p>
+<h4>Siap dikirim ke admin</h4>
+<p class="ev-note" style="margin:0">Belum terkirim. Kirim pesan ini lewat WhatsApp admin.</p>
 <pre id="evMsg" class="allow-copy"></pre>
 <a class="pc-btn" id="evOpenWa" target="_blank" rel="noopener noreferrer" href="#"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Buka WhatsApp Admin</a>
-<button type="button" class="ev-ghost" id="evCopy"><i class="fa-regular fa-copy" aria-hidden="true"></i> Salin ringkasan</button>
+<button type="button" class="ev-ghost" id="evCopy"><i class="fa-regular fa-copy" aria-hidden="true"></i> Salin pesan</button>
 </div>
 </form>
 </section>
+
+<div class="ev-group">
+<h2 class="ev-sec ev-sec-info">Info &amp; ketentuan</h2>
+<details class="ev-acc"><summary><span class="ev-acc-n"><i class="fa-solid fa-list-check" aria-hidden="true"></i></span>Cara kerja<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><div class="ev-acc-body"><ol class="ev-steps"><li>Pilih tarif dan metode login.</li><li>Isi data nomor dan tujuan WD, lalu kirim ke admin.</li><li>Admin memandu proses login.</li><li>Nomor dipakai untuk 1&times; blast, hasil diverifikasi admin.</li><li>Saldo ditarik lewat GoPay, ShopeePay, atau OVO (min. Rp5.000).</li></ol></div></details><details class="ev-acc ev-acc-warn"><summary><span class="ev-acc-n"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i></span>Risiko<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><div class="ev-acc-body"><ul class="ev-rules"><li>Akun WhatsApp dapat dibatasi, lama pembatasan tidak dapat dijamin.</li><li>Pemulihan akun tidak dapat dijamin.</li><li>Kirim hanya ke penerima yang setuju dan patuhi kebijakan WhatsApp.</li></ul></div></details><details class="ev-acc"><summary><span class="ev-acc-n"><i class="fa-solid fa-scale-balanced" aria-hidden="true"></i></span>Aturan pembayaran<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><div class="ev-acc-body"><ul class="ev-rules"><li>Per chat Rp200 untuk chat yang berhasil terkirim.</li><li>Per menit Rp1.000 untuk menit kerja yang valid.</li><li>Minimal WD Rp5.000.</li><li>Pesan duplikat atau gagal tidak dihitung.</li><li>Hasil diverifikasi admin. Tarif dapat disesuaikan.</li></ul></div></details>
+</div>
 
 <div class="footer" style="margin-top:14px;">&copy; 2026 <span class="footer-brand">KZRIZUSMO</span> DEV</div>
 </section>
@@ -1351,7 +1333,7 @@ function row(dl,k,v){
  a.textContent=k;b.textContent=v;d.appendChild(a);d.appendChild(b);dl.appendChild(d);
 }
 function renderSummary(){
- var box=$('evSum'),p=cur();
+ var box=$('evSum'),p=cur();if(!box)return;
  box.textContent='';
  var h=document.createElement('h4');h.textContent='Ringkasan sebelum kamu menyetujui';box.appendChild(h);
  var dl=document.createElement('dl');
@@ -1370,11 +1352,11 @@ function renderSummary(){
 function renderEst(){
  var inp=$('evEstIn'),lbl=$('evEstLbl'),out=$('evEstOut'),p=cur();
  out.className='ev-est';
- if(!p){inp.disabled=true;inp.value='';lbl.textContent='Pilih tarif dulu';out.textContent='Pilih tarif di atas untuk menghitung.';return}
+ if(!p){inp.disabled=true;inp.value='';lbl.textContent='Pilih tarif dulu';out.textContent='';return}
  inp.disabled=false;
  lbl.textContent=S.method==='chat'?'Jumlah chat berhasil terkirim dan valid':'Durasi pekerjaan valid (menit)';
  var raw=inp.value.trim();
- if(raw===''){out.textContent='Masukkan angka untuk melihat estimasi.';return}
+ if(raw===''){out.textContent='';return}
  var v=Number(raw);
  if(!isFinite(v)||v<0||Math.floor(v)!==v){out.textContent='Masukkan bilangan bulat 0 atau lebih.';return}
  var total=v*p.rate,txt=rp(total)+' ('+nf(v)+' '+p.unit+' x '+rp(p.rate)+')';
