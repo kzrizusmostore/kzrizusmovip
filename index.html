@@ -1697,6 +1697,18 @@ const NEXADEV_FF_ENDPOINT="https://api.nexadev.my.id/api/ff",NEXADEV_FF_USE_CORS
 const NEXA_FF_CACHE={},NEXA_FF_ITEM_URLS={},NEXA_FF_RAW={};
 function nexaFfStalkResult(uid){return nexaFfFetch(uid).then(function(d){const p=d.profile,g=function(o,k){return o&&null!=o[k]&&"object"!=typeof o[k]?o[k]:void 0},br=(p.ranks||{}).br,cs=(p.ranks||{}).cs,o={nickname:p.nickname,avatar:g(p.avatar,"url"),uid:p.uid||d.uid,level:p.level,exp:p.exp,likes:p.likes,region:p.region,server:p.server,releaseVersion:p.releaseVersion,seasonId:p.seasonId,accountType:p.accountType,primeLevel:g(p.prime,"level"),brPoints:g(br,"points"),brTier:g(br,"tier"),csPoints:g(cs,"points"),csTier:g(cs,"tier"),csStar:g(cs,"star"),booyahPass:g(p.booyahPass,"text"),creditScore:g(p.creditScore,"value"),signature:p.signature,clanName:g(p.clan,"name"),clanId:g(p.clan,"id"),clanLevel:g(p.clan,"level"),clanMember:g(p.clan,"memberNum"),petName:g(p.pet,"name"),petLevel:g(p.pet,"level"),akunDibuat:g(p.dates,"createdAtText"),loginTerakhir:g(p.dates,"lastLoginAtText"),usiaAkun:g(p.dates,"accountAgeText"),estimasiTopup:g(p.estimate,"text"),estimasiDiamond:g(p.estimate,"diamonds")};Object.keys(o).forEach(function(k){null!=o[k]&&""!==o[k]||delete o[k]});return{status:!0,result:o}})}
 function nexaFfError(m,x){const e=new Error(m);e.nexa=!0;return Object.assign(e,x||{})}
+function nexaFfNormalize(j){
+  if(!j||"object"!=typeof j||Array.isArray(j))return null;
+  if("boolean"==typeof j.ok&&(j.ok===!1||j.profile))return j;
+  const isP=function(o){return!!o&&"object"==typeof o&&!Array.isArray(o)&&(o.nickname!=null||null!=o.name&&null!=o.uid)};
+  let p=null;
+  const c=[j,j.data,j.result,j.response,j.player,j.account];
+  for(let i=0;i<c.length&&!p;i++){const x=c[i];if(!x||"object"!=typeof x||Array.isArray(x))continue;if(isP(x.profile))p=x.profile;else if(isP(x))p=x}
+  if(p){if(p.nickname==null&&p.name!=null)p=Object.assign({},p,{nickname:p.name});return Object.assign({},j,{ok:!0,profile:p})}
+  if(j.ok===!0)return j;
+  if(j.success===!1||j.status===!1||"error"===j.status)return{ok:!1,error:String(j.error||j.message||j.msg||"API NexaDev mengembalikan error.")};
+  return null
+}
 async function nexaFfFetch(uid,opts){
   opts=opts||{};uid=String(uid==null?"":uid).trim();
   if(!uid)throw nexaFfError("UID wajib diisi.",{code:"EMPTY_UID"});
@@ -1704,19 +1716,21 @@ async function nexaFfFetch(uid,opts){
   if(opts.signal&&opts.signal.aborted)throw new DOMException("Dibatalkan","AbortError");
   const hit=NEXA_FF_RAW[uid];if(hit&&!opts.fresh&&Date.now()-hit.ts<6e4)return hit.data;
   const ctl=new AbortController();let timedOut=!1,onAbort=null;
-  const timer=setTimeout(function(){timedOut=!0;ctl.abort()},opts.timeout||25000);
+  const timer=setTimeout(function(){timedOut=!0;ctl.abort()},opts.timeout||30000);
   if(opts.signal){onAbort=function(){ctl.abort()};opts.signal.addEventListener("abort",onAbort,{once:!0})}
   let res,data=null,lastErr=null;
   const q=encodeURIComponent(uid),cands=[NEXADEV_FF_ENDPOINT+"?id="+q];
-  if(NEXADEV_FF_USE_CORS_PROXY)cands.push("https://corsproxy.io/?"+NEXADEV_FF_ENDPOINT+"?id="+q);
+  if(NEXADEV_FF_USE_CORS_PROXY){const full=encodeURIComponent(NEXADEV_FF_ENDPOINT+"?id="+q);cands.push("https://corsproxy.io/?url="+full,"https://api.allorigins.win/raw?url="+full,"https://api.codetabs.com/v1/proxy/?quest="+full)}
   try{
     for(let i=0;i<cands.length&&!data;i++){
       try{
         res=await fetch(cands[i],{signal:ctl.signal,headers:{Accept:"application/json"},cache:"no-store",credentials:"omit",referrerPolicy:"no-referrer"});
         const txt=await res.text();let j;
         try{j=JSON.parse(txt)}catch(e){lastErr=nexaFfError("Respons API NexaDev bukan JSON yang valid (HTTP "+res.status+").",{code:"BAD_JSON",status:res.status});continue}
-        if(j&&"object"==typeof j&&!Array.isArray(j)&&"boolean"==typeof j.ok){data=j;break}
-        lastErr=nexaFfError("Respons API NexaDev tidak dikenali.",{code:"BAD_SHAPE"})
+        const nj=nexaFfNormalize(j);
+        if(nj){data=nj;break}
+        console.warn("[NexaDev] respons tidak dikenali dari",cands[i],"HTTP",res.status,j);
+        lastErr=nexaFfError("Respons API NexaDev tidak dikenali (HTTP "+res.status+(j&&"object"==typeof j?", kunci: "+Object.keys(j).slice(0,8).join(","):"")+(j&&(j.error||j.message)?" - "+String(j.error||j.message).slice(0,120):"")+").",{code:"BAD_SHAPE",status:res.status})
       }catch(err){
         if(opts.signal&&opts.signal.aborted)throw new DOMException("Dibatalkan","AbortError");
         if(timedOut)throw nexaFfError("API NexaDev tidak merespons (timeout). Coba lagi.",{isNetwork:!0,code:"TIMEOUT"});
@@ -16311,7 +16325,7 @@ await Promise.all([1,2].map(async function(){while(qi<ks.length)await one(qi++)}
 var c={Aktif:0,Limit:0,Mati:0,Timeout:0,Error:0};out.forEach(function(r){c[lab(r)[0]]++});
 $('sylKeyProg').textContent='Selesai · Aktif '+c.Aktif+' · Limit '+c.Limit+' · Mati '+c.Mati+' · Timeout '+c.Timeout+' · Error '+c.Error+' · '+new Date().toLocaleString('id-ID');
 b.disabled=false;kbusy=0};
-})();</script></body></html>
+})();</script>
 <script id="fd-swipe-tabs">
 /* Geser kiri/kanan ala pager: halaman tetangga (Postingan - Feed - Ulangan) ikut terlihat dan bergeser bersama
    halaman aktif mengikuti jari (setengah-setengah saat di tengah). Lepas jari = meluncur halus ke halaman tujuan
@@ -17554,3 +17568,153 @@ body.kz-fp-open .fd-layer{z-index:1000200}
   window.addEventListener('resize',function(){scan(document);},{passive:true});
 })();
 </script>
+
+<!-- KZ UX + native Chrome back-navigation patch -->
+<style id="kz-ux-polish-20261021">
+  :root{scroll-padding-top:calc(58px + env(safe-area-inset-top,0px));}
+  html{overscroll-behavior-y:contain;}
+  body{padding-top:calc(46px + env(safe-area-inset-top,0px))!important;padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))!important;}
+  .topbar-pro{top:env(safe-area-inset-top,0px)!important;}
+  .page{min-width:0;scroll-margin-top:calc(58px + env(safe-area-inset-top,0px));}
+  /* Hindari transform yang tertinggal dari animasi global: fixed modal di halaman panjang harus tetap relatif ke viewport. */
+  @keyframes kzPageFade{from{opacity:0}to{opacity:1}}
+  .page.active{opacity:1;animation:kzPageFade .22s ease;}
+  .page img,.page video,.page canvas,.page iframe{max-width:100%;}
+  .page :is(p,li,code,pre,.file-info,.zs-free-link-text){overflow-wrap:anywhere;}
+  .page :is(button,a,[role="button"],[onclick]){touch-action:manipulation;}
+  :is(button,a,input,textarea,select,[role="button"],[tabindex]):focus-visible{outline:2px solid #ff7777!important;outline-offset:3px!important;}
+  :is(button,[role="button"]):disabled{opacity:.55!important;cursor:not-allowed!important;filter:saturate(.65);}
+  .app-bottombar{left:50%!important;right:auto!important;width:min(720px,calc(100% - 16px))!important;min-height:58px;height:auto!important;transform:translateX(-50%);border-radius:20px!important;overflow:visible!important;padding:4px!important;gap:0!important;bottom:calc(8px + env(safe-area-inset-bottom,0px))!important;}
+  .app-bottombar .tab{flex:1 1 0!important;min-width:0!important;min-height:50px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:4px 1px!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important;font-size:clamp(7.8px,2.05vw,9px)!important;line-height:1.1!important;letter-spacing:0!important;text-align:center;overflow-wrap:anywhere;}
+  .app-bottombar .tab i{flex:none;font-size:16px!important;margin:0!important;line-height:1.1;}
+  .app-bottombar .tab-icon-wrap{display:inline-flex;align-items:center;justify-content:center;line-height:1;}
+  .app-bottombar .tab.active{border-radius:14px;}
+  .app-bottombar.hide{transform:translate(-50%,140%);}
+  #kzNativeBackHint{position:fixed;z-index:2147483000;left:50%;bottom:calc(82px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(8px);width:max-content;max-width:calc(100vw - 32px);padding:11px 15px;border:1px solid rgba(255,80,80,.42);border-radius:14px;background:rgba(15,15,18,.96);box-shadow:0 10px 30px rgba(0,0,0,.45),0 0 18px rgba(255,43,43,.12);color:#fff;font:600 12px/1.45 Inter,system-ui,sans-serif;text-align:center;opacity:0;pointer-events:none;transition:opacity .16s ease,transform .16s ease;}
+  #kzNativeBackHint.show{opacity:1;transform:translateX(-50%) translateY(0);}
+  @media(max-width:360px){.app-bottombar{width:calc(100% - 8px)!important;padding:3px!important}.app-bottombar .tab{font-size:7.6px!important;gap:2px}.app-bottombar .tab i{font-size:15px!important}.app-bottombar .home-center{width:auto!important;}}
+  @media(prefers-reduced-motion:reduce){#kzNativeBackHint{transition:none}.app-bottombar .tab{transition:none!important}}
+</style>
+<script id="kz-native-chrome-back-20261021">
+(function(){
+  'use strict';
+  var KEY='__kzNativePageHistoryV1';
+  var DOUBLE_BACK_MS=2000;
+  var lastHomeBackAt=0;
+  var nextSeq=1;
+  var originalShowPage=window.showPage;
+  var hint=null, hintTimer=0;
+  if(typeof originalShowPage!=='function'||!window.history||!history.pushState)return;
+
+  function activePageId(){
+    var p=document.querySelector('.page.active');
+    return p&&p.id?p.id:'home';
+  }
+  function pageExists(id){
+    var p=id&&document.getElementById(id);
+    return !!(p&&p.classList&&p.classList.contains('page'));
+  }
+  function metaOf(state){
+    return state&&typeof state==='object'&&state[KEY]&&typeof state[KEY]==='object'?state[KEY]:null;
+  }
+  function stateWithMeta(meta){
+    var state=history.state;
+    if(!state||typeof state!=='object'||Array.isArray(state))state={};
+    else state=Object.assign({},state);
+    state[KEY]=meta;
+    return state;
+  }
+  function pushPageState(id){
+    var current=metaOf(history.state);
+    var seq=Math.max(nextSeq,current&&Number(current.seq)||0);
+    nextSeq=seq+1;
+    try{history.pushState(stateWithMeta({page:id,seq:seq,kind:'page'}),'',location.href);}catch(e){}
+  }
+  function showHint(){
+    if(!hint){
+      hint=document.createElement('div');
+      hint.id='kzNativeBackHint';
+      hint.setAttribute('role','status');
+      hint.setAttribute('aria-live','polite');
+      hint.textContent='Tekan Kembali sekali lagi untuk keluar';
+      (document.body||document.documentElement).appendChild(hint);
+    }
+    hint.classList.add('show');
+    clearTimeout(hintTimer);
+    hintTimer=setTimeout(function(){if(hint)hint.classList.remove('show');},DOUBLE_BACK_MS);
+  }
+  function hideHint(){
+    lastHomeBackAt=0;
+    clearTimeout(hintTimer);
+    if(hint)hint.classList.remove('show');
+  }
+  function pushHomeGuard(){
+    try{history.pushState(stateWithMeta({page:activePageId(),seq:0,kind:'guard'}),'',location.href);}catch(e){}
+  }
+  function routeFromHistory(id){
+    if(!pageExists(id))return false;
+    hideHint();
+    var meta=metaOf(history.state);
+    if(meta&&Number(meta.seq))nextSeq=Math.max(nextSeq,Number(meta.seq)+1);
+    try{window.showPage(id,true);}catch(e){return false;}
+    return true;
+  }
+
+  // Wrap the final showPage implementation so every actual SPA page transition
+  // creates a real browser-history entry. Existing features and guards remain intact.
+  window.showPage=function(id,fromBack){
+    var before=activePageId();
+    var result=originalShowPage.apply(this,arguments);
+    var after=activePageId();
+    if(!fromBack&&after&&after!==before){
+      lastHomeBackAt=0;
+      if(hint)hint.classList.remove('show');
+      pushPageState(after);
+    }
+    return result;
+  };
+
+  window.addEventListener('popstate',function(ev){
+    var meta=metaOf(ev.state);
+    if(!meta)return; // Other UI overlays own their own history entries.
+    var target=String(meta.page||'home');
+    if(!pageExists(target))return;
+    var current=activePageId();
+
+    if(meta.kind==='base'){
+      // If another page is active, this traversal means return to the entry page first.
+      if(current!==target){
+        routeFromHistory(target);
+        pushHomeGuard();
+        return;
+      }
+      // On Home, one native Back arms exit; the next within two seconds leaves normally.
+      var now=Date.now();
+      if(lastHomeBackAt&&now-lastHomeBackAt<=DOUBLE_BACK_MS){
+        lastHomeBackAt=0;
+        if(hint)hint.classList.remove('show');
+        try{history.back();}catch(e){}
+        return;
+      }
+      lastHomeBackAt=now;
+      showHint();
+      pushHomeGuard();
+      return;
+    }
+
+    hideHint();
+    if(current!==target)routeFromHistory(target);
+  },false);
+
+  // The loaded URL becomes the app's base entry. A same-URL guard lets Chrome emit
+  // popstate on native Android/browser Back without changing the visible URL.
+  try{
+    var initialPage=activePageId();
+    var base={page:initialPage,seq:0,kind:'base'};
+    history.replaceState(stateWithMeta(base),'',location.href);
+    history.pushState(stateWithMeta({page:initialPage,seq:0,kind:'guard'}),'',location.href);
+  }catch(e){}
+})();
+</script>
+
+</body></html>
