@@ -2116,6 +2116,26 @@ body.ev-solid.ev-light .topbar-pro{background:rgba(255,255,255,.86)!important;-w
 #eventTab .fg>.fg-toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));z-index:9999;max-width:calc(100% - 32px);padding:11px 16px;border-radius:14px;background:#0f172a;color:#fff;border:1px solid rgba(255,255,255,.18);font:700 .76rem/1.4 'Outfit',sans-serif;text-align:center;box-shadow:0 12px 30px rgba(0,0,0,.35);opacity:0;transform:translate(-50%,12px);pointer-events:none;transition:opacity .22s,transform .22s;animation:none}
 #eventTab .fg>.fg-toast.on{opacity:1;transform:translate(-50%,0)}
 #eventTab .fg>.fg-toast.bad{background:#7f1d1d;border-color:rgba(248,113,113,.5)}
+
+/* slider banner Freelance Gmail */
+#eventTab .fg-slider{position:relative;overflow:hidden;margin:0 0 14px;border-radius:24px;aspect-ratio:16/7;background:linear-gradient(135deg,#dbeafe,#e0f2fe);border:1px solid rgba(var(--fg-a),.3);box-shadow:0 10px 26px rgba(var(--fg-a),.16)}
+#eventTab .fg-track{display:flex;height:100%;will-change:transform}
+#eventTab .fg-slide{flex:0 0 100%;height:100%}
+#eventTab .fg-slide img{display:block;width:100%;height:100%;object-fit:cover}
+#eventTab .fg-dots{position:absolute;left:0;right:0;bottom:8px;display:flex;justify-content:center;gap:6px;pointer-events:none}
+#eventTab .fg-dots i{width:6px;height:6px;border-radius:99px;background:rgba(15,23,42,.25);border:1px solid rgba(255,255,255,.85);transition:width .3s cubic-bezier(.2,.7,.2,1),background .25s}
+#eventTab .fg-dots i.on{width:16px;background:rgb(var(--fg-a));border-color:#fff}
+/* latar halaman Freelance Gmail: biru, bukan hijau */
+body.fg-on.ev-solid,body.fg-on.ev-solid:before{background:linear-gradient(180deg,#0b1d45 0,#06112b 320px,#030914 100%) fixed!important}
+body.fg-on.ev-solid.ev-light,body.fg-on.ev-solid.ev-light:before{background:linear-gradient(180deg,#dbeafe 0,#eaf3ff 240px,#f5f9ff 560px,#f5f9ff 100%) fixed!important}
+body.fg-on #eventTab .ev-wrap::before{background:radial-gradient(60% 100% at 50% 0,rgba(37,99,235,.28),transparent 72%)!important}
+body.fg-on #eventTab[data-ev-theme="light"] .ev-wrap::before{background:radial-gradient(70% 100% at 50% 0,rgba(56,189,248,.28),transparent 75%)!important}
+#eventTab #evEmail .ev-back i{color:#7dd3fc}
+#eventTab #evEmail .ev-theme:focus-visible,#eventTab #evEmail .ev-back:focus-visible{outline-color:#38bdf8}
+#eventTab[data-ev-theme="light"] #evEmail .ev-back i{color:#1d4ed8}
+#eventTab[data-ev-theme="light"] #evEmail .ev-back{background:rgba(255,255,255,.9);border-color:rgba(37,99,235,.28)}
+#eventTab[data-ev-theme="light"] #evEmail .ev-theme{background:linear-gradient(145deg,#fff,#eaf3ff);border-color:rgba(37,99,235,.3);box-shadow:0 4px 12px rgba(37,99,235,.16)}
+#eventTab[data-ev-theme="light"] #evEmail .ev-theme i{color:#1d4ed8}
 @keyframes fgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @keyframes fgFlash{0%{box-shadow:0 0 0 0 rgba(var(--fg-a2),.6)}100%{box-shadow:0 0 0 10px rgba(var(--fg-a2),0)}}
 @media(max-width:360px){#eventTab .fg-val{font-size:.72rem;padding:0 10px}}
@@ -2129,6 +2149,7 @@ body.ev-solid.ev-light .topbar-pro{background:rgba(255,255,255,.86)!important;-w
 <span class="fg-head-ic" aria-hidden="true"><i class="fa-solid fa-envelope"></i></span>
 <div><h1 class="fg-title">Freelance <b>Gmail</b></h1><p class="fg-sub">Buat 3 akun Gmail sesuai format yang ditentukan dan dapatkan bayaran Rp5.000.</p></div>
 </header>
+<div class="fg-slider" id="fgSlider" role="region" aria-label="Banner promo Freelance Gmail"><div class="fg-track" id="fgTrack"><div class="fg-slide"><img src="zusmo-asset/fg1.png" alt="Banner Freelance Gmail 1" decoding="async" onerror="this.style.visibility='hidden'"></div><div class="fg-slide"><img src="zusmo-asset/fg2.png" alt="Banner Freelance Gmail 2" decoding="async" onerror="this.style.visibility='hidden'"></div><div class="fg-slide"><img src="zusmo-asset/fg3.png" alt="Banner Freelance Gmail 3" decoding="async" onerror="this.style.visibility='hidden'"></div><div class="fg-slide" aria-hidden="true"><img src="zusmo-asset/fg1.png" alt="" decoding="async" onerror="this.style.visibility='hidden'"></div></div><div class="fg-dots" id="fgDots" aria-hidden="true"><i class="on"></i><i></i><i></i></div></div>
 
 <section class="fg-card fg-rate" aria-labelledby="fgRateH">
 <p class="fg-rate-lbl" id="fgRateH">Tarif Freelance Gmail</p>
@@ -2302,6 +2323,25 @@ $('fgConfirmYes').addEventListener('click',function(){accts=[];shown={};cf.hidde
 /* accordion: hanya satu terbuka */
 var acc=[].slice.call(root.querySelectorAll('#fgAccs details'));
 acc.forEach(function(d){d.addEventListener('toggle',function(){if(d.open)acc.forEach(function(o){if(o!==d&&o.open)o.open=false})})});
+
+/* slider banner: otomatis tiap 4 detik, berhenti saat halaman tertutup / tab disembunyikan */
+var tr=$('fgTrack'),dots=[].slice.call(root.querySelectorAll('#fgDots i')),SN=dots.length,si=0,stm=null,jt=0;
+function slGo(){
+ si++;tr.style.transition='transform .6s cubic-bezier(.65,0,.25,1)';tr.style.transform='translateX(-'+(si*100)+'%)';
+ dots.forEach(function(d,k){d.classList.toggle('on',k===(si%SN))});
+ if(si>=SN){clearTimeout(jt);jt=setTimeout(function(){tr.style.transition='none';tr.style.transform='translateX(0)';si=0;void tr.offsetWidth},680)}
+}
+function slReset(){clearTimeout(jt);si=0;tr.style.transition='none';tr.style.transform='translateX(0)';dots.forEach(function(d,k){d.classList.toggle('on',k===0)})}
+function slRun(on){if(on&&!stm)stm=setInterval(slGo,4000);else if(!on&&stm){clearInterval(stm);stm=null}}
+function fgSync(){
+ var open=!root.hidden;
+ document.body.classList.toggle('fg-on',open);
+ slRun(open&&!document.hidden);
+ if(!open)slReset();
+}
+document.addEventListener('visibilitychange',fgSync);
+try{new MutationObserver(fgSync).observe(root,{attributes:true,attributeFilter:['hidden']})}catch(e){}
+fgSync();
 
 /* data dikosongkan saat halaman ditutup agar password tidak tertinggal di layar */
 try{new MutationObserver(function(){if(root.hidden&&accts.length){accts=[];shown={};cf.hidden=true;render()}}).observe(root,{attributes:true,attributeFilter:['hidden']})}catch(e){}
