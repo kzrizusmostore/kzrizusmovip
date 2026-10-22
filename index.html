@@ -2591,11 +2591,140 @@ render();
 @media(max-width:390px){#eventTab .fgw-page-head{gap:8px}#eventTab .fgw-page-back{padding:0 9px;gap:5px;font-size:.7rem}#eventTab .fgw-page-title strong{font-size:1.2rem}#eventTab .fgw-page-mark{width:38px;height:38px}#eventTab .fgw-dashboard-balance{padding:18px 15px 14px}#eventTab .fgw-balance-meta{gap:6px}#eventTab .fgw-balance-meta span{font-size:.61rem;padding:6px 7px}#eventTab .fgw-content-card{padding:12px}#eventTab .fgw-recent-amount{font-size:.68rem}}
 @media(prefers-reduced-motion:reduce){#eventTab .fgw-sh{animation:none!important}#eventTab .fgw-action-card,#eventTab .fgw-page-back{transition:none!important}}
 </style>
+
+<style id="fgw-saldo-uiux-v2">
+/* Saldo Event v2 — hierarki jelas, aksi utama menonjol, dan logo kategori mutasi */
+#eventTab .fgw-page-head{gap:12px;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid rgba(var(--fg-a2),.18)}
+#eventTab .fgw-page-back{min-width:42px;min-height:42px;padding:0 12px;border-radius:14px;background:rgba(255,255,255,.035);border-color:rgba(255,255,255,.12)}
+#eventTab .fgw-page-title small{font-size:.62rem;letter-spacing:1.8px}
+#eventTab .fgw-page-title strong{font-size:clamp(1.45rem,5vw,1.85rem);letter-spacing:.25px}
+#eventTab .fgw-page-mark{width:44px;height:44px;border-radius:15px;background:linear-gradient(145deg,rgba(var(--fg-a),.2),rgba(var(--fg-a2),.12));box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
+#eventTab .fgw-dashboard-balance{margin:0 0 15px;padding:22px 20px 18px;border-radius:26px;background:radial-gradient(ellipse at 94% 0%,rgba(255,255,255,.18),transparent 38%),linear-gradient(135deg,#07833e 0%,#16a34a 48%,#32b36c 100%);border:1px solid rgba(134,239,172,.55);box-shadow:0 14px 30px rgba(22,163,74,.19),inset 0 1px 0 rgba(255,255,255,.24)}
+#eventTab .fgw-balance-top{position:relative;z-index:1}
+#eventTab .fgw-balance-label{font-size:.72rem;letter-spacing:1.15px}
+#eventTab .fgw-live-pill{padding:6px 10px;font-size:.61rem;background:rgba(255,255,255,.16)}
+#eventTab .fgw-balance-amount{position:relative;z-index:1;margin:16px 0 5px;font-size:clamp(2.15rem,8.4vw,3rem);letter-spacing:-.45px;line-height:1.04}
+#eventTab .fgw-dashboard-balance>p{position:relative;z-index:1;margin:8px 0 18px;font-size:.78rem;max-width:390px}
+#eventTab .fgw-balance-meta{position:relative;z-index:1;gap:7px}
+#eventTab .fgw-balance-meta span{padding:7px 10px;font-size:.67rem;background:rgba(0,0,0,.13);border-color:rgba(255,255,255,.18)}
+#eventTab .fgw-balance-progress{position:relative;z-index:1;margin:1px 0 14px;padding:12px 12px 10px;border:1px solid rgba(255,255,255,.2);border-radius:14px;background:rgba(0,0,0,.12)}
+#eventTab .fgw-progress-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px;font-size:.65rem;font-weight:700;color:rgba(255,255,255,.9)}
+#eventTab .fgw-progress-head b{font-size:.65rem;color:#fff;white-space:nowrap}
+#eventTab .fgw-progress-track{height:6px;border-radius:99px;overflow:hidden;background:rgba(0,0,0,.2)}
+#eventTab .fgw-progress-track span{display:block;width:0;height:100%;border-radius:inherit;background:linear-gradient(90deg,#bbf7d0,#fff);box-shadow:0 0 9px rgba(255,255,255,.28);transition:width .45s ease}
+#eventTab .fgw-progress-note{display:block;margin-top:7px;font-size:.63rem;line-height:1.45;color:rgba(255,255,255,.83)}
+#eventTab .fgw-balance-glow{right:-68px;top:-105px;width:245px;height:245px;opacity:.75}
+#eventTab .fgw-action-grid{display:grid;grid-template-columns:1fr;gap:9px;margin:0 0 15px}
+#eventTab .fgw-main-cta{position:relative;isolation:isolate;overflow:hidden;display:flex;align-items:center;gap:13px;width:100%;min-height:76px;padding:14px 15px;text-align:left;border-radius:19px;border:1px solid rgba(134,239,172,.45);background:linear-gradient(115deg,#0e9f55,#21bb68);color:#fff;box-shadow:0 7px 19px rgba(16,185,98,.13);cursor:pointer;transition:transform .17s,border-color .2s,filter .2s}
+#eventTab .fgw-main-cta:after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(110deg,transparent 25%,rgba(255,255,255,.12),transparent 68%);transform:translateX(-100%);transition:transform .45s}
+#eventTab .fgw-main-cta:active{transform:scale(.985);filter:brightness(.96)}
+#eventTab .fgw-main-cta:active:after{transform:translateX(100%)}
+#eventTab .fgw-main-cta .fgw-action-ico{width:48px;height:48px;border-radius:15px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:1.13rem;box-shadow:none}
+#eventTab .fgw-main-cta .fgw-action-tx b{font-size:.91rem;color:#fff}
+#eventTab .fgw-main-cta .fgw-action-tx small{color:rgba(255,255,255,.82);font-size:.7rem}
+#eventTab .fgw-main-cta .fgw-action-arrow{color:rgba(255,255,255,.9)}
+#eventTab .fgw-secondary-action{display:flex;align-items:center;gap:12px;width:100%;min-height:63px;padding:11px 13px;text-align:left;border:1px solid var(--fg-bd);border-radius:17px;background:var(--fg-card);color:var(--fg-tx);cursor:pointer;transition:transform .16s,border-color .18s}
+#eventTab .fgw-secondary-action:active{transform:scale(.99)}
+#eventTab .fgw-secondary-action .fgw-action-ico{width:40px;height:40px;border-radius:13px;background:rgba(var(--fg-a2),.12);color:rgb(var(--fg-a2));font-size:.97rem}
+#eventTab .fgw-secondary-action .fgw-action-tx b{font-size:.8rem}
+#eventTab .fgw-secondary-action .fgw-action-tx small{font-size:.66rem}
+#eventTab .fgw-action-admin{min-height:48px;padding:9px 11px;border-radius:14px;background:transparent;border-style:dashed;border-color:rgba(251,191,36,.25)}
+#eventTab .fgw-action-admin .fgw-action-ico{width:32px;height:32px;border-radius:10px;font-size:.8rem}
+#eventTab .fgw-action-admin .fgw-action-tx b{font-size:.73rem}
+#eventTab .fgw-action-admin .fgw-action-tx small{font-size:.61rem}
+#eventTab .fgw-pending-note{margin:0 0 15px;padding:12px;border-radius:15px}
+#eventTab .fgw-content-card{padding:15px 15px 6px;border-radius:21px;background:linear-gradient(180deg,var(--fg-card),rgba(255,255,255,.015));box-shadow:0 8px 22px rgba(0,0,0,.07)}
+#eventTab .fgw-section-head{margin-bottom:10px}
+#eventTab .fgw-section-head small{font-size:.61rem;letter-spacing:1.5px}
+#eventTab .fgw-section-head h3{font-size:1.2rem;letter-spacing:.2px}
+#eventTab .fgw-see-all{font-size:.7rem}
+#eventTab .fgw-recent-item{gap:10px;padding:12px 0}
+#eventTab .fgw-recent-ico,#eventTab .fgw-tx-ico{width:42px;height:42px;display:grid;place-items:center;flex:none;border:1px solid transparent;border-radius:14px;font-size:1rem}
+#eventTab .fgw-recent-ico.is-plus{background:rgba(52,211,153,.14);color:#34d399}
+#eventTab .fgw-recent-ico.is-minus{background:rgba(248,113,113,.12);color:#f87171}
+#eventTab .fgw-tx-ico.is-plus{background:rgba(52,211,153,.14);border-color:rgba(52,211,153,.16);color:#34d399}
+#eventTab .fgw-tx-ico.is-minus{background:rgba(248,113,113,.12);border-color:rgba(248,113,113,.15);color:#f87171}
+#eventTab .fgw-tx-ico.is-referral,#eventTab .fgw-recent-ico.is-referral{background:rgba(168,85,247,.14);border-color:rgba(168,85,247,.16);color:#c084fc}
+#eventTab .fgw-tx-ico.is-withdraw,#eventTab .fgw-recent-ico.is-withdraw{background:rgba(96,165,250,.14);border-color:rgba(96,165,250,.16);color:#60a5fa}
+#eventTab .fgw-tx-ico.is-whatsapp,#eventTab .fgw-recent-ico.is-whatsapp{background:rgba(34,197,94,.13);border-color:rgba(34,197,94,.17);color:#4ade80}
+#eventTab .fgw-tx-ico.is-email,#eventTab .fgw-recent-ico.is-email{background:rgba(96,165,250,.13);border-color:rgba(96,165,250,.17);color:#7dd3fc}
+#eventTab .fgw-tx-ico.is-clipper,#eventTab .fgw-recent-ico.is-clipper{background:rgba(251,146,60,.14);border-color:rgba(251,146,60,.17);color:#fb923c}
+#eventTab .fgw-tx-ico.is-adjust,#eventTab .fgw-recent-ico.is-adjust{background:rgba(250,204,21,.13);border-color:rgba(250,204,21,.17);color:#facc15}
+#eventTab .fgw-tx-ico.is-event,#eventTab .fgw-recent-ico.is-event{background:rgba(244,114,182,.13);border-color:rgba(244,114,182,.17);color:#f9a8d4}
+#eventTab .fgw-tx-ico.is-default,#eventTab .fgw-recent-ico.is-default{background:rgba(148,163,184,.13);border-color:rgba(148,163,184,.15);color:#cbd5e1}
+#eventTab .fgw-recent-copy b{font-size:.76rem}
+#eventTab .fgw-recent-copy small{font-size:.65rem;margin-top:1px}
+#eventTab .fgw-recent-amount{font-size:.76rem;letter-spacing:-.1px}
+#eventTab .fgw-recent-amount.neutral{color:var(--fg-tx)}
+#eventTab .fgw-help-card{margin-top:14px;padding:13px;border-radius:17px}
+#eventTab .fgw-login-state{padding:30px 20px;border-radius:24px}
+/* History: filters, event icons, concise status labels */
+#eventTab .fgw-history-summary{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:0 0 15px}
+#eventTab .fgw-history-stat{padding:12px 13px;border-radius:16px;border:1px solid var(--fg-bd);background:var(--fg-card)}
+#eventTab .fgw-history-stat small{display:block;margin-bottom:5px;font-size:.62rem;color:var(--fg-mu)}
+#eventTab .fgw-history-stat b{display:block;font:800 1.25rem/1.1 'Rajdhani','Outfit',sans-serif;color:var(--fg-tx)}
+#eventTab .fgw-filter-row{display:flex;gap:7px;overflow-x:auto;padding:1px 1px 9px;margin:0 0 6px;scrollbar-width:none}
+#eventTab .fgw-filter-row::-webkit-scrollbar{display:none}
+#eventTab .fgw-filter-chip{flex:none;min-height:34px;padding:0 12px;border-radius:99px;border:1px solid var(--fg-bd);background:var(--fg-card);color:var(--fg-mu);font:700 .69rem 'Outfit',sans-serif;cursor:pointer;white-space:nowrap}
+#eventTab .fgw-filter-chip.on{background:rgba(var(--fg-a2),.14);border-color:rgba(var(--fg-a2),.5);color:var(--fg-ac)}
+#eventTab .fgw-history-list{overflow:hidden;border:1px solid var(--fg-bd);border-radius:19px;background:var(--fg-card)}
+#eventTab .fgw-history-row{display:flex;align-items:center;gap:10px;padding:12px;border-bottom:1px solid var(--fg-bd)}
+#eventTab .fgw-history-row:last-child{border-bottom:0}
+#eventTab .fgw-history-copy{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+#eventTab .fgw-history-copy>b{font-size:.73rem;line-height:1.4;color:var(--fg-tx);overflow-wrap:anywhere}
+#eventTab .fgw-history-copy>small{font-size:.62rem;line-height:1.45;color:var(--fg-mu);overflow-wrap:anywhere}
+#eventTab .fgw-history-copy .fgw-admin-note{color:var(--fg-warn)}
+#eventTab .fgw-history-copy .fgw-lg img{width:15px;height:15px;border-radius:4px}
+#eventTab .fgw-history-copy .fgw-lg{font-size:.63rem}
+#eventTab .fgw-history-side{display:flex;align-items:flex-end;flex-direction:column;gap:5px;flex:none;max-width:42%;text-align:right}
+#eventTab .fgw-history-side .fgw-recent-amount,#eventTab .fgw-history-amount{font-size:.72rem;font-weight:800;white-space:nowrap}
+#eventTab .fgw-history-kind{font-size:.57rem;color:var(--fg-mu);white-space:nowrap}
+#eventTab .fgw-history-kind.is-referral{color:#c084fc}
+#eventTab .fgw-history-kind.is-whatsapp{color:#4ade80}
+#eventTab .fgw-history-kind.is-email{color:#7dd3fc}
+#eventTab .fgw-history-kind.is-clipper{color:#fb923c}
+#eventTab .fgw-history-kind.is-withdraw{color:#60a5fa}
+#eventTab .fgw-history-empty{padding:25px 14px;display:flex;align-items:center;flex-direction:column;gap:7px;text-align:center;color:var(--fg-mu)}
+#eventTab .fgw-history-empty>i{display:grid;place-items:center;width:48px;height:48px;margin-bottom:3px;border-radius:16px;background:rgba(var(--fg-a2),.12);color:rgb(var(--fg-a2));font-size:1.15rem}
+#eventTab .fgw-history-empty b{font-size:.8rem;color:var(--fg-tx)}
+#eventTab .fgw-history-empty span{font-size:.67rem;line-height:1.5;max-width:260px}
+#eventTab .fgw-history-summary+.fgw-filter-row{margin-top:0}
+#eventTab .fgw-sum{padding:12px 13px;border:1px solid var(--fg-bd);border-radius:14px;background:var(--fg-card)}
+#eventTab .fgw-sum b{color:var(--fg-tx)}
+@media(max-width:420px){
+ #eventTab .fgw-page-head{gap:9px;margin-bottom:15px}
+ #eventTab .fgw-page-back{width:42px;min-width:42px;padding:0;font-size:0;gap:0}
+ #eventTab .fgw-page-back i{font-size:.9rem}
+ #eventTab .fgw-page-title strong{font-size:1.4rem}
+ #eventTab .fgw-page-mark{width:40px;height:40px}
+ #eventTab .fgw-dashboard-balance{padding:19px 15px 15px;border-radius:23px}
+ #eventTab .fgw-balance-amount{font-size:clamp(2rem,8.3vw,2.55rem)}
+ #eventTab .fgw-progress-head{font-size:.61rem}
+ #eventTab .fgw-main-cta{min-height:72px;padding:12px}
+ #eventTab .fgw-content-card{padding:13px 12px 5px}
+ #eventTab .fgw-recent-ico,#eventTab .fgw-tx-ico{width:38px;height:38px;border-radius:12px;font-size:.9rem}
+ #eventTab .fgw-history-row{gap:8px;padding:11px 9px}
+ #eventTab .fgw-history-side{max-width:38%}
+ #eventTab .fgw-history-side .fgw-recent-amount,#eventTab .fgw-history-amount{font-size:.68rem}
+}
+@media(prefers-reduced-motion:reduce){#eventTab .fgw-progress-track span,#eventTab .fgw-main-cta:after{transition:none!important}}
+/* Halaman saldo penuh di area aplikasi — bukan modal/bottom-sheet */
+#eventTab .fgw-ov{inset:42px 0 calc(100px + env(safe-area-inset-bottom,0px));z-index:9998;align-items:stretch;justify-content:center;background:#050706;border-top:1px solid rgba(255,255,255,.045);backdrop-filter:none;-webkit-backdrop-filter:none}
+#eventTab .fgw-sh{width:100%;max-width:680px;height:100%;max-height:none;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:16px 16px 26px;border:0;border-radius:0;background:transparent;box-shadow:none;animation:fgPageIn .18s ease-out both}
+@keyframes fgPageIn{from{opacity:.55;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+#eventTab .fgw-page-head{position:relative}
+#eventTab[data-ev-theme="light"] .fgw-ov{background:#f8fafc;border-top-color:rgba(15,23,42,.08)}
+#eventTab[data-ev-theme="light"] .fgw-sh{background:transparent}
+#eventTab .fgw-page-back:focus-visible,#eventTab .fgw-main-cta:focus-visible,#eventTab .fgw-secondary-action:focus-visible,#eventTab .fgw-filter-chip:focus-visible{outline:2px solid #34d399;outline-offset:3px}
+@media(max-width:430px){#eventTab .fgw-sh{padding:13px 13px 24px}#eventTab .fgw-page-title strong{font-size:1.42rem}#eventTab .fgw-page-back{gap:7px}}
+@media(max-width:360px){#eventTab .fgw-page-head{gap:7px}#eventTab .fgw-page-back{padding:0 7px}#eventTab .fgw-page-back span{font-size:.63rem}#eventTab .fgw-page-title strong{font-size:1.22rem}#eventTab .fgw-page-mark{width:38px;height:38px}}
+@media(max-height:700px){#eventTab .fgw-ov{bottom:calc(90px + env(safe-area-inset-bottom,0px))}}
+</style>
 <script>
 (function(){
 if(window.__fgw)return;window.__fgw=1;
 var URL_='https://siqqdpnglqctyyaornmo.supabase.co',KEY='sb_publishable_lJ74c2lguDQRmCv5KJqmYA_crUTqEU6',MIN=5000;
-var sb=null,D=null,A=null,view='',tab='pending',busy=false,q='',target=null,ov,sh,tt,returnPage='evHub',returnScroll=0;
+var sb=null,D=null,A=null,view='',tab='pending',historyFilter='all',busy=false,q='',target=null,ov,sh,tt,returnPage='evHub',returnScroll=0;
 function $(id){return document.getElementById(id)}
 function rp(n){return 'Rp'+Number(n||0).toLocaleString('id-ID')}
 function rpd(n){return rp(n)+',00'}
@@ -2610,6 +2739,22 @@ function lg(e){return '<img src="zusmo-asset/'+e[2]+'" alt="" onerror="this.styl
 function ewFind(k){return EW.filter(function(e){return e[0]===String(k).toUpperCase()})[0]||[k,k,'']}
 function ewName(k){return ewFind(k)[1]}
 function ewl(k){return '<span class="fgw-lg">'+lg(ewFind(k))+'</span>'}
+function txInfo(r){
+ var raw=String((r&&r.note||'')+' '+(r&&r.type||'')).toLowerCase(),a=Number(r&&r.amount||0);
+ if(/referr|ajak teman|undang/.test(raw))return {icon:'fa-solid fa-users',cls:'is-referral',group:a>0?'in':'out'};
+ if(/withdraw|pencair|penarikan|e-wallet/.test(raw))return {icon:'fa-solid fa-money-bill-transfer',cls:'is-withdraw',group:'withdraw'};
+ if(/whatsapp|sewa wa|wa blast|\bwa\b/.test(raw))return {icon:'fa-brands fa-whatsapp',cls:'is-whatsapp',group:a>0?'in':'out'};
+ if(/gmail|freelance email|email/.test(raw))return {icon:'fa-solid fa-envelope',cls:'is-email',group:a>0?'in':'out'};
+ if(/clipper|klip|video/.test(raw))return {icon:'fa-solid fa-scissors',cls:'is-clipper',group:a>0?'in':'out'};
+ if(/koreksi|refund|pengembalian|adjust|pembatal/.test(raw))return {icon:'fa-solid fa-arrows-rotate',cls:'is-adjust',group:a>0?'in':'out'};
+ if(/bonus|reward|event|aktivitas|pendapatan/.test(raw))return {icon:'fa-solid fa-gift',cls:'is-event',group:a>0?'in':a<0?'out':'all'};
+ if(a>0)return {icon:'fa-solid fa-circle-arrow-down',cls:'is-plus',group:'in'};
+ if(a<0)return {icon:'fa-solid fa-circle-arrow-up',cls:'is-minus',group:'out'};
+ return {icon:'fa-solid fa-coins',cls:'is-default',group:'all'};
+}
+function txIcon(r,extra){var m=txInfo(r);return '<span class="fgw-tx-ico '+m.cls+(extra?' '+extra:'')+'" aria-hidden="true"><i class="'+m.icon+'"></i></span>'}
+function ledgerRow(r){var m=txInfo(r),a=Number(r&&r.amount||0);return '<article class="fgw-history-row">'+txIcon(r)+'<div class="fgw-history-copy"><b>'+esc(r.note||r.type||'Mutasi saldo')+'</b><small>'+dt(r.created_at)+'</small></div><div class="fgw-history-side"><b class="fgw-recent-amount '+(a>0?'pl':a<0?'mn':'neutral')+'">'+(a>0?'+':a<0?'-':'')+rp(Math.abs(a))+'</b><small class="fgw-history-kind '+m.cls+'">'+(a>0?'Saldo masuk':a<0?'Saldo keluar':'Mutasi')+'</small></div></article>'}
+function withdrawalRow(r){var label={pending:'Diproses',paid:'Dibayar',rejected:'Ditolak',approved:'Disetujui'}[r.status]||esc(r.status||'Menunggu');var c=r.status==='paid'?'paid':r.status==='rejected'?'rejected':'pending';return '<article class="fgw-history-row fgw-withdraw-row"><span class="fgw-tx-ico is-withdraw" aria-hidden="true"><i class="fa-solid fa-money-bill-transfer"></i></span><div class="fgw-history-copy"><b>Withdraw · '+esc(ewName(r.ewallet))+'</b><small>'+ewl(r.ewallet)+' '+esc(r.phone_number||'')+' · '+dt(r.created_at)+'</small>'+(r.admin_note?'<small class="fgw-admin-note">Catatan: '+esc(r.admin_note)+'</small>':'')+'</div><div class="fgw-history-side"><b class="fgw-history-amount">'+rp(r.amount)+'</b><small class="fgw-ch '+c+'">'+label+'</small></div></article>'}
 function tpl(list,act,id){return '<div class="fgw-tpl">'+list.map(function(t){return '<button type="button" class="fgw-tp" data-w="'+act+'" data-t="'+esc(t)+'"'+(id?' data-id="'+id+'"':'')+'>'+esc(t)+'</button>'}).join('')+'</div>'}
 function setErr(id,msg){var i=$(id),e=$(id+'e');if(!e)return;e.textContent=msg||'';e.hidden=!msg;if(i){if(msg)i.setAttribute('aria-invalid','true');else i.removeAttribute('aria-invalid')}}
 function chkNum(){var n=cleanNum($('wP').value),nm=ewName($('wE').value);if(!n)return 'Nomor '+nm+' wajib diisi.';if(!/^\+?\d{9,15}$/.test(n))return 'Nomor '+nm+' hanya angka, 9 sampai 15 digit.';return ''}
@@ -2671,13 +2816,16 @@ function draw(){
   if(D){
    var recent=(D.ledger||[]).slice(0,4);
    var pending=(D.withdrawals||[]).filter(function(r){return r.status==='pending'}).length;
+   var balance=Math.max(0,Number(D.balance||0));
+   var progress=Math.max(0,Math.min(100,balance/MIN*100));
+   var thresholdNote=balance>=MIN?'Saldo sudah memenuhi minimum withdraw.':'Butuh '+rp(MIN-balance)+' lagi untuk mencapai minimum withdraw.';
    x=hd('Saldo event')+
-    '<section class="fgw-dashboard-balance" aria-label="Ringkasan saldo"><div class="fgw-balance-top"><span class="fgw-balance-label"><i class="fa-solid fa-wallet" aria-hidden="true"></i> SALDO TERSEDIA</span><span class="fgw-live-pill"><i aria-hidden="true"></i> AKTIF</span></div><div class="fgw-balance-amount">'+rpd(D.balance)+'</div><p>Saldo dari aktivitas event yang tercatat di akunmu.</p><div class="fgw-balance-meta"><span><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Minimal '+rp(MIN)+'</span><span><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Diproses admin</span></div><div class="fgw-balance-glow" aria-hidden="true"></div></section>'+
-    '<div class="fgw-action-grid"><button type="button" class="fgw-action-card fgw-action-primary" data-w="goWd"><span class="fgw-action-ico"><i class="fa-solid fa-money-bill-transfer" aria-hidden="true"></i></span><span class="fgw-action-tx"><b>Withdraw saldo</b><small>Ajukan pencairan ke e-wallet</small></span><i class="fa-solid fa-chevron-right fgw-action-arrow" aria-hidden="true"></i></button><button type="button" class="fgw-action-card" data-w="goHist"><span class="fgw-action-ico"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></span><span class="fgw-action-tx"><b>Riwayat transaksi</b><small>Lihat mutasi dan status withdraw</small></span><i class="fa-solid fa-chevron-right fgw-action-arrow" aria-hidden="true"></i></button>'+(D.is_admin?'<button type="button" class="fgw-action-card fgw-action-admin" data-w="goAdm"><span class="fgw-action-ico"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></span><span class="fgw-action-tx"><b>Panel admin</b><small>Kelola pengajuan dan saldo pengguna</small></span><i class="fa-solid fa-chevron-right fgw-action-arrow" aria-hidden="true"></i></button>':'')+'</div>'+
-    (pending?'<div class="fgw-pending-note"><span class="fgw-pending-ico"><i class="fa-solid fa-hourglass-half" aria-hidden="true"></i></span><span><b>'+pending+' pengajuan withdraw sedang diproses</b><small>Periksa status dan catatan admin di halaman riwayat transaksi.</small></span><button type="button" data-w="goHist" aria-label="Lihat riwayat withdraw"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button></div>':'')+
-    '<section class="fgw-content-card"><div class="fgw-section-head"><div><small>AKTIVITAS AKUN</small><h3>Mutasi saldo</h3></div><button type="button" class="fgw-see-all" data-w="goHist">Lihat semua <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button></div>'+
-    (recent.length?recent.map(function(r){return '<div class="fgw-recent-item"><span class="fgw-recent-ico '+(r.amount>0?'is-plus':'is-minus')+'"><i class="fa-solid '+(r.amount>0?'fa-arrow-down-left':'fa-arrow-up-right')+'" aria-hidden="true"></i></span><span class="fgw-recent-copy"><b>'+esc(r.note||r.type||'Mutasi saldo')+'</b><small>'+dt(r.created_at)+'</small></span><b class="fgw-recent-amount '+(r.amount>0?'pl':'mn')+'">'+(r.amount>0?'+':'-')+rp(Math.abs(r.amount))+'</b></div>'}).join(''):'<div class="fgw-empty-inline"><i class="fa-solid fa-receipt" aria-hidden="true"></i><b>Belum ada mutasi saldo</b><span>Aktivitas saldo akan muncul di sini setelah tercatat.</span></div>')+
-    '</section><section class="fgw-help-card"><span class="fgw-help-ico"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></span><div><b>Informasi pencairan</b><p>'+(Number(D.balance||0)>=MIN?'Saldo kamu sudah memenuhi nominal minimum untuk mengajukan withdraw.':'Kumpulkan saldo hingga minimal '+rp(MIN)+' sebelum mengajukan withdraw.')+' Setelah diajukan, saldo akan ditahan sampai admin memproses permintaan.</p></div></section>'+pushRow();
+    '<section class="fgw-dashboard-balance" aria-label="Ringkasan saldo tersedia"><div class="fgw-balance-top"><span class="fgw-balance-label"><i class="fa-solid fa-wallet" aria-hidden="true"></i> SALDO TERSEDIA</span><span class="fgw-live-pill"><i aria-hidden="true"></i> AKTIF</span></div><div class="fgw-balance-amount">'+rpd(balance)+'</div><p>Saldo dari aktivitas Event dan bonus yang tercatat pada akunmu.</p><div class="fgw-balance-progress"><div class="fgw-progress-head"><span>Progress minimum withdraw</span><b>'+Math.round(progress)+'%</b></div><div class="fgw-progress-track" role="progressbar" aria-label="Progress minimum withdraw" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+Math.round(progress)+'%"><span style="width:'+progress+'%"></span></div><small class="fgw-progress-note">'+thresholdNote+' Minimum '+rp(MIN)+'.</small></div><div class="fgw-balance-meta"><span><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Saldo tercatat</span><span><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Verifikasi admin</span></div><div class="fgw-balance-glow" aria-hidden="true"></div></section>'+
+    '<div class="fgw-action-grid"><button type="button" class="fgw-main-cta" data-w="goWd"><span class="fgw-action-ico"><i class="fa-solid fa-money-bill-transfer" aria-hidden="true"></i></span><span class="fgw-action-tx"><b>Withdraw saldo</b><small>'+(balance>=MIN?'Ajukan pencairan ke e-wallet':'Minimal '+rp(MIN)+' untuk mengajukan pencairan')+'</small></span><i class="fa-solid fa-arrow-right fgw-action-arrow" aria-hidden="true"></i></button><button type="button" class="fgw-secondary-action" data-w="goHist"><span class="fgw-action-ico"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></span><span class="fgw-action-tx"><b>Riwayat transaksi</b><small>'+(D.ledger||[]).length+' mutasi · '+(D.withdrawals||[]).length+' pengajuan withdraw</small></span><i class="fa-solid fa-chevron-right fgw-action-arrow" aria-hidden="true"></i></button>'+(D.is_admin?'<button type="button" class="fgw-action-card fgw-action-admin" data-w="goAdm"><span class="fgw-action-ico"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></span><span class="fgw-action-tx"><b>Panel admin</b><small>Kelola pengajuan dan saldo pengguna</small></span><i class="fa-solid fa-chevron-right fgw-action-arrow" aria-hidden="true"></i></button>':'')+'</div>'+
+    (pending?'<div class="fgw-pending-note"><span class="fgw-pending-ico"><i class="fa-solid fa-hourglass-half" aria-hidden="true"></i></span><span><b>'+pending+' pengajuan withdraw sedang diproses</b><small>Periksa status dan catatan admin di halaman riwayat transaksi.</small></span><button type="button" data-w="goHist" aria-label="Lihat pengajuan withdraw"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button></div>':'')+
+    '<section class="fgw-content-card"><div class="fgw-section-head"><div><small>RINGKASAN AKTIVITAS</small><h3>Mutasi saldo terbaru</h3></div><button type="button" class="fgw-see-all" data-w="goHist">Lihat semua <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button></div>'+
+    (recent.length?recent.map(function(r){var m=txInfo(r);return '<div class="fgw-recent-item"><span class="fgw-recent-ico '+m.cls+'" aria-hidden="true"><i class="'+m.icon+'"></i></span><span class="fgw-recent-copy"><b>'+esc(r.note||r.type||'Mutasi saldo')+'</b><small>'+dt(r.created_at)+'</small></span><b class="fgw-recent-amount '+(r.amount>0?'pl':r.amount<0?'mn':'neutral')+'">'+(r.amount>0?'+':r.amount<0?'-':'')+rp(Math.abs(Number(r.amount||0)))+'</b></div>'}).join(''):'<div class="fgw-empty-inline"><i class="fa-solid fa-receipt" aria-hidden="true"></i><b>Belum ada mutasi saldo</b><span>Setiap pendapatan, bonus, dan penyesuaian saldo akan tercatat di sini.</span></div>')+
+    '</section><section class="fgw-help-card"><span class="fgw-help-ico"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></span><div><b>Info pencairan saldo</b><p>'+(balance>=MIN?'Saldo memenuhi syarat nominal minimum untuk mengajukan withdraw.':'Kumpulkan saldo hingga '+rp(MIN)+' agar bisa mengajukan withdraw.')+' Pengajuan akan ditahan sampai admin menyelesaikan pemeriksaan. Pantau statusnya di Riwayat transaksi.</p></div></section>'+pushRow();
   }else{
    x=hd('Saldo event')+'<section class="fgw-login-state"><span class="fgw-login-icon"><i class="fa-solid fa-wallet" aria-hidden="true"></i></span><small>DOMPET EVENT</small><h2>Masuk untuk melihat saldo</h2><p>Saldo, pengajuan withdraw, dan riwayat transaksi tersedia setelah kamu masuk ke akun Zusmo.</p><button type="button" class="fg-btn fg-btn-main" data-w="x"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Kembali ke layanan</button></section>';
   }
@@ -2689,9 +2837,17 @@ function draw(){
   '<label class="fgw-lbl" for="wA">Nominal withdraw</label><input class="fgw-in" id="wA" type="number" inputmode="numeric" min="'+MIN+'" step="1" placeholder="Minimal '+rp(MIN)+'"><div class="fgw-err" id="wAe" role="alert" hidden></div>'+
   '<p class="fgw-sum" id="wS"></p><button type="button" class="fg-btn fg-btn-main" data-w="wd">AJUKAN WITHDRAW</button>';
  }else if(view==='hist'){
-  var w=(D&&D.withdrawals)||[],l=(D&&D.ledger)||[];
-  x=hd('Riwayat')+pushRow()+'<p class="fgw-sec">Withdraw</p>'+(w.length?w.map(function(r){return '<div class="fgw-it"><span><b>'+ewl(r.ewallet)+'</b> '+esc(r.phone_number)+'<br>'+dt(r.created_at)+(r.admin_note?' &middot; '+esc(r.admin_note):'')+'</span><span style="text-align:right"><b>'+rp(r.amount)+'</b><br><span class="fgw-ch '+esc(r.status)+'">'+({pending:'Diproses',paid:'Dibayar',rejected:'Ditolak',approved:'Disetujui'}[r.status]||esc(r.status))+'</span></span></div>'}).join(''):'<p class="fgw-sum">Belum ada.</p>')+
-  '<p class="fgw-sec" style="margin-top:14px">Mutasi saldo</p>'+(l.length?l.map(function(r){return '<div class="fgw-it"><span>'+esc(r.note||r.type)+'<br>'+dt(r.created_at)+'</span><span class="'+(r.amount>0?'pl':'mn')+'">'+(r.amount>0?'+':'-')+rp(Math.abs(r.amount))+'</span></div>'}).join(''):'<p class="fgw-sum">Belum ada.</p>');
+  var withdrawals=(D&&D.withdrawals)||[],ledger=(D&&D.ledger)||[];
+  var totalItems=withdrawals.length+ledger.length;
+  var visible=[];
+  if(historyFilter==='all'||historyFilter==='wd')withdrawals.forEach(function(r){visible.push({kind:'withdraw',row:r,time:new Date(r.created_at||0).getTime()||0})});
+  if(historyFilter==='all'||historyFilter==='in'||historyFilter==='out')ledger.forEach(function(r){var m=txInfo(r);if(historyFilter==='all'||(historyFilter==='in'&&m.group==='in')||(historyFilter==='out'&&m.group==='out'))visible.push({kind:'ledger',row:r,time:new Date(r.created_at||0).getTime()||0})});
+  visible.sort(function(a,b){return b.time-a.time});
+  var filters=[['all','Semua'],['in','Saldo masuk'],['out','Saldo keluar'],['wd','Withdraw']];
+  x=hd('Riwayat transaksi')+
+   '<div class="fgw-history-summary"><div class="fgw-history-stat"><small>Total mutasi saldo</small><b>'+ledger.length+'</b></div><div class="fgw-history-stat"><small>Pengajuan withdraw</small><b>'+withdrawals.length+'</b></div></div>'+pushRow()+
+   '<div class="fgw-filter-row" role="group" aria-label="Filter riwayat transaksi">'+filters.map(function(f){return '<button type="button" class="fgw-filter-chip'+(historyFilter===f[0]?' on':'')+'" data-w="hFilter" data-filter="'+f[0]+'" aria-pressed="'+(historyFilter===f[0])+'">'+f[1]+'</button>'}).join('')+'</div>'+
+   '<section class="fgw-history-list" aria-live="polite">'+(visible.length?visible.map(function(e){return e.kind==='withdraw'?withdrawalRow(e.row):ledgerRow(e.row)}).join(''):'<div class="fgw-history-empty"><i class="fa-solid '+(historyFilter==='wd'?'fa-money-bill-transfer':'fa-receipt')+'" aria-hidden="true"></i><b>'+(historyFilter==='wd'?'Belum ada pengajuan withdraw':'Belum ada transaksi di kategori ini')+'</b><span>'+(historyFilter==='wd'?'Pengajuan pencairan akan muncul di sini setelah kamu mengirim permintaan.':'Mutasi saldo yang sesuai filter ini akan muncul otomatis setelah tercatat.')+'</span></div>')+'</section>';
  }else if(view==='adm'){
   x=hd('Panel admin')+'<div class="fgw-tabs">'+[['pending','Withdraw'],['adj','Atur saldo'],['audit','Audit']].map(function(t){return '<button type="button" class="fg-btn'+(tab===t[0]?' on':'')+'" data-w="tab" data-t="'+t[0]+'">'+t[1]+'</button>'}).join('')+'</div>';
   if(!A)x+='<p class="fgw-sum">Memuat...</p>';
@@ -2728,7 +2884,8 @@ function init(){
   else if(k==='tpl'){var ri=$('aR');ri.value=b.getAttribute('data-t');setErr('aR','');ri.focus()}
   else if(k==='rtpl'){var ci=sh.querySelector('[data-r="'+b.getAttribute('data-id')+'"]');if(ci){ci.value=b.getAttribute('data-t');ci.focus()}}
   else if(k==='goWd'){view='wd';draw()}
-  else if(k==='goHist'){view='hist';draw()}
+  else if(k==='goHist'){view='hist';historyFilter='all';draw()}
+  else if(k==='hFilter'){historyFilter=b.getAttribute('data-filter')||'all';draw()}
   else if(k==='goAdm'){view='adm';tab='pending';target=null;A=null;draw();loadAdm().then(draw).catch(fail)}
   else if(k==='tab'){tab=b.getAttribute('data-t');draw()}
   else if(k==='find'){q=($('aQ')||{}).value||'';A=null;draw();loadAdm().then(draw).catch(fail)}
