@@ -1902,36 +1902,8 @@ body.ev-solid.ev-light .topbar-pro{background:rgba(255,255,255,.86)!important;-w
    HALAMAN SEWA WHATSAPP (#evWa)
    ===================================================================== */
 
-/* Header: ring berdenyut (melebar lalu memudar) di sekitar ikon WhatsApp */
-#eventTab #evWa .ev-top .ev-hero-ic{position:relative;overflow:visible}
-#eventTab #evWa .ev-hero-ic::before,#eventTab #evWa .ev-hero-ic::after{
-  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
-  border:2px solid rgba(37,211,102,.55);opacity:0;
-  animation:evwRing 2.8s cubic-bezier(.2,.6,.3,1) infinite;
-  animation-play-state:var(--evps,running);
-}
-#eventTab #evWa .ev-hero-ic::after{animation-delay:1.4s}
-@keyframes evwRing{0%{transform:scale(1);opacity:.55}100%{transform:scale(1.65);opacity:0}}
-#eventTab[data-ev-theme="light"] #evWa .ev-hero-ic::before,
-#eventTab[data-ev-theme="light"] #evWa .ev-hero-ic::after{border-color:rgba(22,163,74,.5)}
-
-/* Header: 3 gelembung chat kecil naik perlahan */
-#eventTab .evw-bub{
-  position:absolute;top:2px;width:15px;height:11px;border-radius:7px 7px 7px 2px;pointer-events:none;
-  background:rgba(37,211,102,.75);opacity:0;
-  animation:evwBub 4.2s ease-out infinite;
-  animation-play-state:var(--evps,running);
-}
-#eventTab .evw-bub.b1{left:-4px;--dx:-8px;animation-delay:0s}
-#eventTab .evw-bub.b2{right:-4px;--dx:10px;animation-duration:4.6s;animation-delay:1.4s;border-radius:7px 7px 2px 7px}
-#eventTab .evw-bub.b3{left:22px;top:-2px;--dx:2px;width:12px;height:9px;animation-duration:3.8s;animation-delay:2.7s}
-@keyframes evwBub{
-  0%{transform:translate(0,4px) scale(.4);opacity:0}
-  15%{opacity:.9}
-  70%{opacity:.55}
-  100%{transform:translate(var(--dx,0),-24px) scale(1);opacity:0}
-}
-#eventTab[data-ev-theme="light"] .evw-bub{background:rgba(22,163,74,.6)}
+#eventTab #evWa .ev-top .ev-hero-ic{position:relative}
+#eventTab #evWa .ev-hero-ic::before,#eventTab #evWa .ev-hero-ic::after,#eventTab .evw-bub{content:none;display:none!important;animation:none!important}
 
 /* Slider: geser mulus (JS lama hanya mengatur durasi; easing ditimpa di sini) */
 #eventTab .ev-slider-track{transition-timing-function:cubic-bezier(.65,0,.25,1)!important}
@@ -2181,9 +2153,10 @@ body.ev-solid.ev-light .topbar-pro{background:rgba(255,255,255,.86)!important;-w
 #eventTab .evb-tap{position:absolute;inset:0;border:0;background:transparent;padding:0;margin:0;display:none;cursor:pointer}
 #eventTab .evb-card[data-p="0"].is-playing .evb-tap{display:block;z-index:2}
 #eventTab .evb-card[data-p="1"] .evb-tap{display:block;z-index:2}
-#eventTab .evb-bar{position:absolute;left:0;right:0;bottom:0;height:3px;background:rgba(255,255,255,.18);z-index:3}
-#eventTab .evb-bar i{display:block;height:100%;width:0;background:#25d366}
-#eventTab .evb-card:not([data-p="0"]) .evb-bar{display:none}
+#eventTab .evb-ring{position:absolute;inset:0;width:100%;height:100%;z-index:4;pointer-events:none;display:none;fill:none;stroke-width:2.4}
+#eventTab .evb-ring .t{stroke:rgba(255,255,255,.16)}
+#eventTab .evb-ring .p{stroke:#25d366;stroke-linecap:round;stroke-dasharray:0 100;filter:drop-shadow(0 0 2px rgba(37,211,102,.8))}
+#eventTab .evb-card[data-p="0"] .evb-ring{display:block}
 #eventTab .evb-err{position:absolute;inset:0;display:none;align-items:center;justify-content:center;text-align:center;padding:12px;font-size:11px;color:#cbd5e1;background:#0b1210}
 #eventTab .evb-card.is-err .evb-err{display:flex}
 #eventTab .evb-card.is-err .evb-play{display:none}
@@ -2198,12 +2171,12 @@ body.ev-solid.ev-light .topbar-pro{background:rgba(255,255,255,.86)!important;-w
 <section class="evb" id="evBlast" aria-label="Video blast">
 <h2 class="ev-sec ev-sec-info">Video blast</h2>
 <div class="evb-stage" id="evbStage" role="region" aria-roledescription="carousel" aria-label="Video blast, geser ke kanan untuk video berikutnya" tabindex="0">
-<figure class="evb-card" data-i="0"><video src="zusmo-asset/blast1.mp4#t=0.1" playsinline preload="metadata" aria-label="Video blast 1"></video><div class="evb-err">Video belum bisa dimuat</div><button type="button" class="evb-tap" aria-label="Jeda atau putar"></button><button type="button" class="evb-play" aria-label="Putar video"><span><i class="fa-solid fa-play" aria-hidden="true"></i></span></button><div class="evb-bar"><i></i></div></figure>
-<figure class="evb-card" data-i="1"><video src="zusmo-asset/blast2.mp4#t=0.1" playsinline preload="metadata" aria-label="Video blast 2"></video><div class="evb-err">Video belum bisa dimuat</div><button type="button" class="evb-tap" aria-label="Jeda atau putar"></button><button type="button" class="evb-play" aria-label="Putar video"><span><i class="fa-solid fa-play" aria-hidden="true"></i></span></button><div class="evb-bar"><i></i></div></figure>
-<figure class="evb-card" data-i="2"><video src="zusmo-asset/blast3.mp4#t=0.1" playsinline preload="metadata" aria-label="Video blast 3"></video><div class="evb-err">Video belum bisa dimuat</div><button type="button" class="evb-tap" aria-label="Jeda atau putar"></button><button type="button" class="evb-play" aria-label="Putar video"><span><i class="fa-solid fa-play" aria-hidden="true"></i></span></button><div class="evb-bar"><i></i></div></figure>
-<figure class="evb-card" data-i="3"><video src="zusmo-asset/blast4.mp4#t=0.1" playsinline preload="metadata" aria-label="Video blast 4"></video><div class="evb-err">Video belum bisa dimuat</div><button type="button" class="evb-tap" aria-label="Jeda atau putar"></button><button type="button" class="evb-play" aria-label="Putar video"><span><i class="fa-solid fa-play" aria-hidden="true"></i></span></button><div class="evb-bar"><i></i></div></figure>
-<figure class="evb-card" data-i="4"><video src="zusmo-asset/blast5.mp4#t=0.1" playsinline preload="metadata" aria-label="Video blast 5"></video><div class="evb-err">Video belum bisa dimuat</div><button type="button" class="evb-tap" aria-label="Jeda atau putar"></button><button type="button" class="evb-play" aria-label="Putar video"><span><i class="fa-solid fa-play" aria-hidden="true"></i></span></button><div class="evb-bar"><i></i></div></figure>
-<figure class="evb-card" data-i="5"><video src="zusmo-asset/blast6.mp4#t=0.1" playsinline preload="metadata" aria-label="Video blast 6"></video><div class="evb-err">Video belum bisa dimuat</div><button type="button" class="evb-tap" aria-label="Jeda atau putar"></button><button type="button" class="evb-play" aria-label="Putar video"><span><i class="fa-solid fa-play" aria-hidden="true"></i></span></button><div class="evb-bar"><i></i></div></figure>
+<figure class="evb-card" data-i="0"><video src="zusmo-asset/blast1.mp4#t=0.1" playsinline preload="metadata" aria-label="Video blast 1"></video><div class="evb-err">Video belum bisa dimuat</div><button type="button" class="evb-tap" aria-label="Jeda atau putar"></button><button type="button" class="evb-play" aria-label="Putar video"><span><i class="fa-solid fa-play" aria-hidden="true"></i></span></button><svg class="evb-ring" viewBox="0 0 90 160" aria-hidden="true"><rect class="t" x="1.3" y="1.3" width="87.4" height="157.4" rx="10" pathLength="100"/><rect class="p" x="1.3" y="1.3" width="87.4" height="157.4" rx="10" pathLength="100"/></svg></figure>
+<figure class="evb-card" data-i="1"><video src="zusmo-asset/blast2.mp4#t=0.1" playsinline preload="metadata" aria-label="Video blast 2"></video><div class="evb-err">Video belum bisa dimuat</div><button type="button" class="evb-tap" aria-label="Jeda atau putar"></button><button type="button" class="evb-play" aria-label="Putar video"><span><i class="fa-solid fa-play" aria-hidden="true"></i></span></button><svg class="evb-ring" viewBox="0 0 90 160" aria-hidden="true"><rect class="t" x="1.3" y="1.3" width="87.4" height="157.4" rx="10" pathLength="100"/><rect class="p" x="1.3" y="1.3" width="87.4" height="157.4" rx="10" pathLength="100"/></svg></figure>
+<figure class="evb-card" data-i="2"><video src="zusmo-asset/blast3.mp4#t=0.1" playsinline preload="metadata" aria-label="Video blast 3"></video><div class="evb-err">Video belum bisa dimuat</div><button type="button" class="evb-tap" aria-label="Jeda atau putar"></button><button type="button" class="evb-play" aria-label="Putar video"><span><i class="fa-solid fa-play" aria-hidden="true"></i></span></button><svg class="evb-ring" viewBox="0 0 90 160" aria-hidden="true"><rect class="t" x="1.3" y="1.3" width="87.4" height="157.4" rx="10" pathLength="100"/><rect class="p" x="1.3" y="1.3" width="87.4" height="157.4" rx="10" pathLength="100"/></svg></figure>
+<figure class="evb-card" data-i="3"><video src="zusmo-asset/blast4.mp4#t=0.1" playsinline preload="metadata" aria-label="Video blast 4"></video><div class="evb-err">Video belum bisa dimuat</div><button type="button" class="evb-tap" aria-label="Jeda atau putar"></button><button type="button" class="evb-play" aria-label="Putar video"><span><i class="fa-solid fa-play" aria-hidden="true"></i></span></button><svg class="evb-ring" viewBox="0 0 90 160" aria-hidden="true"><rect class="t" x="1.3" y="1.3" width="87.4" height="157.4" rx="10" pathLength="100"/><rect class="p" x="1.3" y="1.3" width="87.4" height="157.4" rx="10" pathLength="100"/></svg></figure>
+<figure class="evb-card" data-i="4"><video src="zusmo-asset/blast5.mp4#t=0.1" playsinline preload="metadata" aria-label="Video blast 5"></video><div class="evb-err">Video belum bisa dimuat</div><button type="button" class="evb-tap" aria-label="Jeda atau putar"></button><button type="button" class="evb-play" aria-label="Putar video"><span><i class="fa-solid fa-play" aria-hidden="true"></i></span></button><svg class="evb-ring" viewBox="0 0 90 160" aria-hidden="true"><rect class="t" x="1.3" y="1.3" width="87.4" height="157.4" rx="10" pathLength="100"/><rect class="p" x="1.3" y="1.3" width="87.4" height="157.4" rx="10" pathLength="100"/></svg></figure>
+<figure class="evb-card" data-i="5"><video src="zusmo-asset/blast6.mp4#t=0.1" playsinline preload="metadata" aria-label="Video blast 6"></video><div class="evb-err">Video belum bisa dimuat</div><button type="button" class="evb-tap" aria-label="Jeda atau putar"></button><button type="button" class="evb-play" aria-label="Putar video"><span><i class="fa-solid fa-play" aria-hidden="true"></i></span></button><svg class="evb-ring" viewBox="0 0 90 160" aria-hidden="true"><rect class="t" x="1.3" y="1.3" width="87.4" height="157.4" rx="10" pathLength="100"/><rect class="p" x="1.3" y="1.3" width="87.4" height="157.4" rx="10" pathLength="100"/></svg></figure>
 </div>
 <div class="evb-meta"><div class="evb-dots" id="evbDots" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div><span class="evb-count" id="evbCount" aria-live="polite">1/6</span></div>
 <p class="evb-hint">Geser ke kanan untuk video berikutnya</p>
@@ -2236,11 +2209,11 @@ function next(){
  setTimeout(function(){busy=false},380);
 }
 cards.forEach(function(c){
- var v=vid(c),bar=c.querySelector('.evb-bar i');
+ var v=vid(c),bar=c.querySelector('.evb-ring .p');
  v.addEventListener('play',function(){c.classList.add('is-playing')});
  v.addEventListener('pause',function(){c.classList.remove('is-playing')});
- v.addEventListener('timeupdate',function(){if(v.duration&&bar)bar.style.width=(v.currentTime/v.duration*100)+'%'});
- v.addEventListener('ended',function(){if(bar)bar.style.width='0';if(c===cards[cur])next()});
+ v.addEventListener('timeupdate',function(){if(v.duration&&bar)bar.style.strokeDasharray=(v.currentTime/v.duration*100)+' 100'});
+ v.addEventListener('ended',function(){if(bar)bar.style.strokeDasharray='0 100';if(c===cards[cur])next()});
  v.addEventListener('error',function(){c.classList.add('is-err')});
  c.querySelector('.evb-play').addEventListener('click',function(e){e.stopPropagation();want=true;playCur()});
  c.querySelector('.evb-tap').addEventListener('click',function(e){
@@ -17729,8 +17702,6 @@ window.apResetRole=function(){
 @media (min-width:520px){#zcChat .zc-stk-panel{grid-template-columns:repeat(7,1fr)}}
 </style>
 <style id="kz-ui-update-1018">
-/* penanda pembaruan UI (18 Okt 2026): terlihat di bagian bawah tiap halaman */
-body .footer::after{content:"Diperbarui 18 Okt 2026 \2022  UI baru";display:block;margin-top:6px;font-size:8.5px;letter-spacing:1.6px;color:#ff4747;opacity:.75}
 </style>
 <script id="zf-js">(function(){'use strict';
 /* =====================================================================
