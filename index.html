@@ -2525,7 +2525,8 @@ function pushRow(){
  return '<button type="button" class="fg-btn fg-btn-sm" data-w="pushOn" style="margin:12px 0"><i class="fa-solid fa-bell" aria-hidden="true"></i> Aktifkan notifikasi withdraw</button>';
 }
 var PM={ok:'Diproses, notifikasi terkirim',nosub:'Diproses. Notifikasi belum terkirim: user belum mengaktifkan notifikasi di HP-nya.',noapi:'Diproses. Notifikasi gagal: api/wallet-push.js belum terpasang di server.',env:'Diproses. Notifikasi gagal: variabel environment di Vercel belum lengkap.',db:'Diproses. Notifikasi gagal: cek SQL bagian 3 dan log Vercel.',dup:'Diproses. Notifikasi sudah pernah dikirim.',auth:'Diproses. Notifikasi gagal: sesi admin tidak valid.',fail:'Diproses. Notifikasi gagal dikirim.'};
-function notifyUser(id){return sdk().then(function(){return sb.auth.getSession()}).then(function(r){var t=r&&r.data&&r.data.session&&r.data.session.access_token;return fetch('/api/wallet-push',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+t},body:JSON.stringify({request_id:id})})}).then(function(r){return r.json().then(function(j){return {s:r.status,j:j||{}}},function(){return {s:r.status,j:{}}})}).then(function(o){var j=o.j;if(o.s===404||o.s===405)return 'noapi';if(o.s===401||o.s===403)return 'auth';if(o.s>=500)return j.error==='server_not_configured'?'env:'+((j.missing||[]).join(', ')):'db';if(j.sent>0)return 'ok';if(j.subs===0)return 'nosub';if(j.note)return 'dup';return 'fail'}).catch(function(){return 'noapi'})}
+function notifyUser(id){return sdk().then(function(){return sb.auth.getSession()}).then(function(r){var t=r&&r.data&&r.data.session&&r.data.session.access_token;return fetch('/api/wallet-push',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+t},body:JSON.stringify(typeof id==='object'?id:{request_id:id})})}).then(function(r){return r.json().then(function(j){return {s:r.status,j:j||{}}},function(){return {s:r.status,j:{}}})}).then(function(o){var j=o.j;if(o.s===404||o.s===405)return 'noapi';if(o.s===401||o.s===403)return 'auth';if(o.s>=500)return j.error==='server_not_configured'?'env:'+((j.missing||[]).join(', ')):'db';if(j.sent>0)return 'ok';if(j.subs===0)return 'nosub';if(j.note)return 'dup';return 'fail'}).catch(function(){return 'noapi'})}
+function pmMsg(st,lead){if(st.indexOf('env:')===0)return lead+'. Notifikasi gagal: di Vercel belum ada '+st.slice(4)+'.';return (PM[st]||PM.fail).replace(/^Diproses/,lead)}
 var pushSynced=false;
 function toast(m,bad){tt.textContent=m;tt.className='fg-toast on'+(bad?' bad':'');clearTimeout(toast.t);toast.t=setTimeout(function(){tt.className='fg-toast'},m.length>50?5200:2400)}
 function fail(e){var m=String((e&&e.message)||e);for(var k in ERR)if(m.indexOf(k)>-1)return toast(ERR[k],true);toast('Terjadi kendala. Coba lagi.',true)}
@@ -2613,7 +2614,8 @@ function init(){
   else if(k==='adj'){
    var n=parseInt($('aA').value,10),r=($('aR').value||'').trim();if(!n)return toast('Isi nominal.',true);if(r.length<3){setErr('aR','Alasan wajib diisi. Pilih template atau tulis sendiri.');$('aR').focus();return}
    if(!confirm('Ubah saldo '+target.n+' sebesar '+(n>0?'+':'-')+rp(Math.abs(n))+'?'))return;
-   run(rpc('admin_wallet_adjust',{p_user:target.u,p_amount:n,p_reason:'['+$('aS').value+'] '+r}),'Saldo diperbarui',function(){target=null;return loadAdm().then(load)});
+   var tu=target.u,st2='fail';
+   run(rpc('admin_wallet_adjust',{p_user:tu,p_amount:n,p_reason:'['+$('aS').value+'] '+r}).then(function(){return notifyUser({kind:'adjust',user_id:tu,amount:n,reason:r})}).then(function(o){st2=o}),function(){return pmMsg(st2,'Saldo diperbarui')},function(){target=null;return loadAdm().then(load)});
   }
  });
  [].forEach.call(T.querySelectorAll('[data-ev-page]'),function(pg){try{new MutationObserver(function(){if(!pg.hidden)load()}).observe(pg,{attributes:true,attributeFilter:['hidden']})}catch(e){}});
