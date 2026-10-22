@@ -2011,7 +2011,7 @@ body.ev-solid.ev-light .topbar-pro{background:rgba(255,255,255,.86)!important;-w
 </style>
 <button type="button" class="evs-hub" id="evSaldoHub" data-bal="1" data-a="22,163,74" data-a2="74,222,128" aria-label="Buka saldo event">
 <span class="evs-hub-ic"><i class="fa-solid fa-wallet" aria-hidden="true"></i></span>
-<span class="evs-hub-tx"><small>Saldo aktif</small><b data-bal-t>Rp0</b><p>Pendapatan dihitung dari pesan sukses dan reward referral.</p></span>
+<span class="evs-hub-tx"><span class="evs-hub-top"><small>Saldo</small><span class="evs-refresh" role="button" tabindex="0" data-evs-refresh aria-label="Refresh saldo"><i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh</span></span><b data-bal-t>Rp0</b><p>Pendapatan dihitung dari pesan sukses dan reward referral.</p></span>
 <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
 </button>
 <div class="kl-sec"><span>Layanan</span></div>
@@ -2791,6 +2791,8 @@ function rpc(fn,a){return sdk().then(function(){if(!sb)sb=window.supabase.create
 function setBal(){[].forEach.call(document.querySelectorAll('[data-bal-t]'),function(n){n.textContent=rp(D&&D.balance)})}
 function load(){return rpc('wallet_me').then(function(d){D=d;setBal();if(!pushSynced&&pushOk()&&Notification.permission==='granted'){pushSynced=true;pushEnable().catch(function(){pushSynced=false})}}).catch(function(e){D=null;setBal();if(String(e&&e.message).indexOf('not_authenticated')<0)console.warn(e)})}
 window.kzRefreshEventWallet=function(){return load().then(function(){if(ov&&!ov.hidden&&view==='main')draw();return D})};
+document.addEventListener('click',function(e){var r=e.target&&e.target.closest&&e.target.closest('[data-evs-refresh]');if(!r)return;e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();if(r.classList.contains('is-loading'))return;r.classList.add('is-loading');rpc('wallet_me').then(function(d){D=d;setBal();toast('Saldo diperbarui')}).catch(function(x){toast(String(x&&x.message).indexOf('not_authenticated')>-1?'Masuk ke akunmu dulu.':'Gagal memuat saldo. Coba lagi.',true)}).then(function(){r.classList.remove('is-loading')})},true);
+document.addEventListener('keydown',function(e){var r=e.target&&e.target.closest&&e.target.closest('[data-evs-refresh]');if(r&&(e.key==='Enter'||e.key===' ')){e.preventDefault();e.stopPropagation();r.click()}},true);
 window.addEventListener('kz:referral-credit-success',function(){try{window.kzRefreshEventWallet()}catch(e){}});
 function loadAdm(){return rpc('admin_wallet_list',{p_search:q}).then(function(d){A=d})}
 function setEventScreen(id){
@@ -2813,7 +2815,7 @@ function openMain(source){
 function close(){ov.hidden=true;view='';setEventScreen(returnPage||'evHub');try{window.scrollTo({top:Math.max(0,returnScroll),behavior:'smooth'})}catch(e){try{window.scrollTo(0,Math.max(0,returnScroll))}catch(_){}}}
 function hd(t){
  var main=view==='main';
- return '<div class="fgw-page-head"><button type="button" class="fgw-page-back" data-w="'+(main?'x':'back')+'" aria-label="'+(main?'Kembali ke layanan':'Kembali ke saldo')+'"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i><span>'+(main?'Kembali ke layanan':'Kembali')+'</span></button><div class="fgw-page-title"><small>DOMPET EVENT</small><strong>'+esc(t)+'</strong></div>'+(main?'<button type="button" class="fgw-page-mark fgw-referral-head-btn" data-w="goReferral" aria-label="Buka program referral" title="Program referral"><i class="fa-solid fa-user-group" aria-hidden="true"></i></button>':'')+'<button type="button" class="fgw-page-mark fgw-refresh-btn" data-w="refresh" aria-label="Refresh saldo" title="Refresh saldo"><i class="fa-solid fa-rotate" aria-hidden="true"></i></button>'+'<button type="button" class="fgw-page-mark fgw-theme-toggle" data-ev-toggle aria-label="Ganti ke mode gelap" title="Ganti tema"><i class="fa-solid fa-moon" aria-hidden="true"></i></button></div>';
+ return '<div class="fgw-page-head"><button type="button" class="fgw-page-back" data-w="'+(main?'x':'back')+'" aria-label="'+(main?'Kembali ke layanan':'Kembali ke saldo')+'"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i><span>'+(main?'Kembali ke layanan':'Kembali')+'</span></button><div class="fgw-page-title"><small>DOMPET EVENT</small><strong>'+esc(t)+'</strong></div>'+(main?'<button type="button" class="fgw-page-mark fgw-referral-head-btn" data-w="goReferral" aria-label="Buka program referral" title="Program referral"><i class="fa-solid fa-user-group" aria-hidden="true"></i></button>':'')+'<button type="button" class="fgw-page-mark fgw-theme-toggle" data-ev-toggle aria-label="Ganti ke mode gelap" title="Ganti tema"><i class="fa-solid fa-moon" aria-hidden="true"></i></button></div>';
 }
 function draw(){
  var x='';
@@ -2823,7 +2825,7 @@ function draw(){
    var pending=(D.withdrawals||[]).filter(function(r){return r.status==='pending'}).length;
    var balance=Math.max(0,Number(D.balance||0));
    x=hd('Saldo event')+
-    '<section class="fgw-dashboard-balance" aria-label="Ringkasan saldo tersedia"><div class="fgw-balance-top"><span class="fgw-balance-label"><i class="fa-solid fa-wallet" aria-hidden="true"></i> SALDO TERSEDIA</span><span class="fgw-live-pill"><i aria-hidden="true"></i> AKTIF</span></div><div class="fgw-balance-amount">'+rpd(balance)+'</div><p>Saldo dari aktivitas Event dan bonus yang tercatat pada akunmu.</p><div class="fgw-balance-glow" aria-hidden="true"></div></section>'+
+    '<section class="fgw-dashboard-balance" aria-label="Ringkasan saldo tersedia"><div class="fgw-balance-top"><span class="fgw-balance-label"><i class="fa-solid fa-wallet" aria-hidden="true"></i> SALDO TERSEDIA</span><button type="button" class="fgw-live-pill fgw-refresh-btn" data-w="refresh" aria-label="Refresh saldo"><i class="fa-solid fa-rotate" aria-hidden="true"></i> REFRESH</button></div><div class="fgw-balance-amount">'+rpd(balance)+'</div><p>Saldo dari aktivitas Event dan bonus yang tercatat pada akunmu.</p><div class="fgw-balance-glow" aria-hidden="true"></div></section>'+
     '<div class="fgw-action-grid"><button type="button" class="fgw-main-cta" data-w="goWd"><span class="fgw-action-ico"><i class="fa-solid fa-money-bill-transfer" aria-hidden="true"></i></span><span class="fgw-action-tx"><b>Withdraw saldo</b><small>'+(balance>=MIN?'Ajukan pencairan ke e-wallet':'Minimal '+rp(MIN)+' untuk mengajukan pencairan')+'</small></span><i class="fa-solid fa-arrow-right fgw-action-arrow" aria-hidden="true"></i></button><button type="button" class="fgw-secondary-action" data-w="goHist"><span class="fgw-action-ico"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></span><span class="fgw-action-tx"><b>Riwayat transaksi</b><small>'+(D.ledger||[]).length+' mutasi · '+(D.withdrawals||[]).length+' pengajuan withdraw</small></span><i class="fa-solid fa-chevron-right fgw-action-arrow" aria-hidden="true"></i></button>'+(D.is_admin?'<button type="button" class="fgw-action-card fgw-action-admin" data-w="goAdm"><span class="fgw-action-ico"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></span><span class="fgw-action-tx"><b>Panel admin</b><small>Kelola pengajuan dan saldo pengguna</small></span><i class="fa-solid fa-chevron-right fgw-action-arrow" aria-hidden="true"></i></button>':'')+'</div>'+
     '<button type="button" class="fgw-referral-entry" data-ref-open onclick="event.preventDefault();event.stopPropagation();if(window.kzOpenReferralPage)window.kzOpenReferralPage();return false;" aria-label="Buka Program Referral"><span class="fgw-referral-entry-ic"><i class="fa-solid fa-user-group" aria-hidden="true"></i></span><span class="fgw-referral-entry-copy"><b>Program Referral</b><small>Ajak teman dan pantau bonus undangan</small></span><i class="fa-solid fa-chevron-right fgw-referral-entry-arrow" aria-hidden="true"></i></button>'+
     (pending?'<div class="fgw-pending-note"><span class="fgw-pending-ico"><i class="fa-solid fa-hourglass-half" aria-hidden="true"></i></span><span><b>'+pending+' pengajuan withdraw sedang diproses</b><small>Periksa status dan catatan admin di halaman riwayat transaksi.</small></span><button type="button" data-w="goHist" aria-label="Lihat pengajuan withdraw"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button></div>':'')+
@@ -20892,10 +20894,32 @@ if(root){
 
 <style id="kz-referral-wallet-green-refresh-v3">
 /* Saldo di hub layanan juga memakai aksen hijau yang lebih jelas pada kedua tema. */
-#eventTab .evs-hub{background:linear-gradient(125deg,rgba(22,163,74,.42),rgba(74,222,128,.16))!important;border-color:rgba(74,222,128,.42)!important;box-shadow:0 9px 22px rgba(22,163,74,.10)!important}
-#eventTab .evs-hub-ic{background:rgba(74,222,128,.23)!important;color:#4ade80!important}
-#eventTab[data-ev-theme="light"] .evs-hub{color:#14532d!important;background:linear-gradient(125deg,#bbf7d0 0%,#d9fbe1 70%,#c6f6d4 100%)!important;border-color:rgba(22,163,74,.42)!important;box-shadow:0 8px 18px rgba(22,101,52,.12)!important}
-#eventTab[data-ev-theme="light"] .evs-hub-ic{background:rgba(22,163,74,.16)!important;color:#15803d!important}
+/* ===== UI Event v4: kartu saldo solid-gradasi + kartu layanan; statis, tanpa animasi berulang ===== */
+#eventTab .evs-hub{position:relative;overflow:hidden;isolation:isolate;display:flex;align-items:center;gap:14px;padding:18px 16px;border-radius:24px;color:#fff;background:linear-gradient(135deg,#047857 0%,#065f46 48%,#022c22 100%);border:1px solid rgba(110,231,183,.32);box-shadow:0 14px 30px rgba(4,120,87,.30)}
+#eventTab .evs-hub::before{content:"";position:absolute;z-index:-1;right:-46px;top:-60px;width:170px;height:170px;border-radius:50%;background:rgba(255,255,255,.08)}
+#eventTab .evs-hub::after{content:"";position:absolute;z-index:-1;right:34px;bottom:-70px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.05)}
+#eventTab .evs-hub-ic{width:52px;height:52px;border-radius:17px;font-size:1.3rem;color:#fff;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.28)}
+#eventTab .evs-hub-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+#eventTab .evs-hub small{opacity:.85;color:#fff}
+#eventTab .evs-hub b{font-size:2.1rem;letter-spacing:.2px;color:#fff}
+#eventTab .evs-hub p{opacity:.82;color:#fff}
+#eventTab .evs-refresh{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:99px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.32);color:#fff;font:800 .6rem 'Outfit',sans-serif;letter-spacing:.8px;text-transform:uppercase;cursor:pointer}
+#eventTab .evs-refresh:active{background:rgba(255,255,255,.3)}
+#eventTab .evs-refresh.is-loading i,#eventTab .fgw-refresh-btn.is-loading i{animation:fgwRefSpin .7s linear infinite}
+#eventTab[data-ev-theme="light"] .evs-hub{background:linear-gradient(135deg,#10b981 0%,#059669 55%,#047857 100%);border-color:rgba(255,255,255,.4);box-shadow:0 14px 28px rgba(5,150,105,.34)}
+#eventTab[data-ev-theme="light"] .evs-hub-ic{background:rgba(255,255,255,.22);color:#fff}
+#eventTab .fgw-refresh-btn{color:#fff;cursor:pointer;font-family:inherit;font-weight:800}
+#eventTab .fgw-refresh-btn i{width:auto;height:auto;border-radius:0;background:none;box-shadow:none;font-size:.7rem;color:#fff}
+/* kartu layanan */
+#eventTab .evc{min-height:122px;border-radius:22px}
+#eventTab .evc-shine{display:none}
+#eventTab .evc-tile,#eventTab .evc-ring{animation:none}
+#eventTab:not([data-ev-theme="light"]) .evc{color:#f8fafc;background:linear-gradient(135deg,rgba(var(--c),.16),rgba(var(--c),0) 60%),#14181d;border:1px solid rgba(var(--c),.34);box-shadow:0 10px 26px rgba(0,0,0,.45)}
+#eventTab:not([data-ev-theme="light"]) .evc-bd h3{color:#f8fafc}
+#eventTab:not([data-ev-theme="light"]) .evc-bd p{color:#9aa7b4}
+#eventTab:not([data-ev-theme="light"]) .evc-art{background:linear-gradient(160deg,rgba(var(--c),.22),rgba(var(--c),.06));border-color:rgba(var(--c),.3)}
+#eventTab[data-ev-theme="light"] .evc{background:linear-gradient(135deg,rgba(var(--c),.10),#fff 62%);border:1px solid rgba(var(--c),.28);box-shadow:0 8px 22px rgba(15,23,42,.08)}
+#eventTab .evc-locked{opacity:.72;filter:saturate(.6)}
 /* Referral hanya dibuka dari halaman Saldo Event; tombol ini menjadi akses tunggal referral dari layanan utama. */
 #eventTab .fgw-referral-entry{display:flex;align-items:center;gap:11px;width:100%;min-height:64px;padding:11px 13px;margin:11px 0 13px;border:1px solid rgba(34,197,94,.28);border-radius:17px;background:linear-gradient(115deg,rgba(22,163,74,.16),rgba(34,197,94,.07));color:var(--fg-tx);text-align:left;cursor:pointer;box-shadow:none;transition:transform .16s ease,border-color .16s ease,background .16s ease}
 #eventTab .fgw-referral-entry:active{transform:scale(.99)}
