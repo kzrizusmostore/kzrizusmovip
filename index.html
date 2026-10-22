@@ -20525,7 +20525,8 @@ if(root){
   function errorText(e){
     var m=String((e&&e.message)||e||'');
     if(m.indexOf('not_authenticated')>=0)return 'Masuk ke akun terlebih dahulu untuk menggunakan referral.';
-    if(m.indexOf('not_admin')>=0)return 'Pastikan akun terdaftar sebagai admin referral dan juga memiliki izin admin dompet.';
+    if(m.indexOf('referral_wallet_admin_denied')>=0)return 'Bonus belum bisa masuk: dompet menolak kredit otomatis. Jalankan referral_fix_not_admin.sql di Supabase, lalu coba lagi.';
+    if(m.indexOf('referral_wallet_admin_missing')<0&&m.indexOf('referral_wallet_admin_denied')<0&&m.indexOf('not_admin')>=0)return 'Fitur ini khusus admin referral.';
     if(m.indexOf('referral_code_invalid')>=0)return 'Kode referral tidak valid atau tidak ditemukan.';
     if(m.indexOf('referral_window_closed')>=0)return 'Program referral dibuka untuk pengguna lama maupun baru. Setiap akun hanya dapat memakai satu kode referral.';
     if(m.indexOf('referral_reward_state')>=0)return 'Status penyaluran bonus berubah. Muat ulang daftar dan periksa mutasi saldo sebelum mencoba lagi.';
@@ -20539,7 +20540,7 @@ if(root){
     if(m.indexOf('referral_reward_legacy_state')>=0)return 'Referral ini sudah memiliki catatan bonus lama. Periksa mutasi Saldo Event sebelum perubahan manual.';
     if(m==='sdk')return 'Pustaka Supabase tidak dapat dimuat. Periksa koneksi internet lalu coba lagi.';
     if(m.indexOf('schema cache')>=0||m.indexOf('Could not find the function')>=0||m.indexOf('function public.referral_')>=0)return 'SQL referral belum terpasang lengkap. Jalankan referral_system.sql di Supabase SQL Editor.';
-    if(m.indexOf('admin_wallet_adjust')>=0||m.indexOf('not_admin')>=0)return 'Gagal menambahkan bonus ke Saldo Event. Pastikan akun memiliki izin admin dompet.';
+    if(m.indexOf('admin_wallet_adjust')>=0)return 'Gagal menambahkan bonus ke Saldo Event. Jalankan referral_fix_not_admin.sql di Supabase.';
     return m.length>180?m.slice(0,180)+'…':(m||'Terjadi kendala. Coba lagi.');
   }
   function toast(msg,bad){if(!toastNode)return;toastNode.textContent=msg;toastNode.className='kzr-toast show'+(bad?' bad':'');clearTimeout(toastTimer);toastTimer=setTimeout(function(){toastNode.className='kzr-toast'},Math.max(2600,Math.min(6500,msg.length*45)))}
