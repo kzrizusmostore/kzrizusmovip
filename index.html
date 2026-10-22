@@ -2179,11 +2179,28 @@ body.fg-on #eventTab[data-ev-theme="light"] .ev-wrap::before{background:radial-g
 #eventTab .fgw-ch.rejected{color:var(--fg-bad);background:rgba(248,113,113,.12);border-color:rgba(248,113,113,.4)}
 #eventTab .fgw-sum{margin:0 0 10px;font-size:.76rem;line-height:1.5;color:var(--fg-mu)}
 #eventTab .fgw-sec{margin:0 0 8px;font:800 .7rem 'Outfit',sans-serif;letter-spacing:.8px;text-transform:uppercase;color:var(--fg-ac)}
-#eventTab .ev-bal{position:absolute;top:0;right:50px;z-index:6;display:inline-flex;align-items:center;gap:7px;height:42px;padding:0 13px;border-radius:21px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);color:#fff;font:800 .74rem 'Outfit',sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .15s}
+#eventTab .ev-bal{--bd:56,189,248;--bl:29,78,216;position:absolute;top:0;right:50px;z-index:6;display:inline-flex;align-items:center;gap:7px;height:42px;padding:0 13px;border-radius:21px;background:rgba(var(--bd),.16);border:1px solid rgba(var(--bd),.5);color:#fff;font:800 .74rem 'Outfit',sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .15s}
 #eventTab .ev-bal:active{transform:scale(.96)}
-#eventTab .ev-bal i{color:#7dd3fc;font-size:.82rem}
-#eventTab[data-ev-theme="light"] .ev-bal{background:#fff;border-color:rgba(15,23,42,.14);color:#0f172a;box-shadow:0 1px 2px rgba(15,23,42,.06)}
-#eventTab[data-ev-theme="light"] .ev-bal i{color:#1d4ed8}
+#eventTab .ev-bal i{color:rgb(var(--bd));font-size:.82rem}
+#eventTab[data-ev-theme="light"] .ev-bal{background:#fff;border-color:rgba(var(--bl),.5);color:#0f172a;box-shadow:0 1px 2px rgba(15,23,42,.06)}
+#eventTab[data-ev-theme="light"] .ev-bal i{color:rgb(var(--bl))}
+#eventTab .fgw-lbl{display:block;margin:0 0 6px 2px;font:700 .74rem 'Outfit',sans-serif;color:var(--fg-tx)}
+#eventTab .fgw-err{margin:-4px 2px 10px;font-size:.7rem;line-height:1.45;font-weight:700;color:var(--fg-bad)}
+#eventTab .fgw-err[hidden]{display:none}
+#eventTab .fgw-in[aria-invalid="true"]{border-color:var(--fg-bad)}
+#eventTab .fgw-sel{position:relative;margin:0 0 10px}
+#eventTab .fgw-selb{appearance:none;-webkit-appearance:none;width:100%;min-height:44px;padding:0 12px;display:flex;align-items:center;justify-content:space-between;gap:10px;border-radius:12px;border:1px solid var(--fg-bd);background:var(--fg-in);color:var(--fg-tx);font:600 .86rem 'Outfit',sans-serif;cursor:pointer}
+#eventTab .fgw-selv,#eventTab .fgw-sell li{display:flex;align-items:center;gap:10px}
+#eventTab .fgw-selv img,#eventTab .fgw-sell img{width:26px;height:26px;border-radius:8px;object-fit:contain;background:#fff}
+#eventTab .fgw-lg{display:inline-flex;align-items:center;vertical-align:middle;gap:6px}
+#eventTab .fgw-lg img{width:20px;height:20px;border-radius:6px;object-fit:contain;background:#fff}
+#eventTab .fgw-sell{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:5;margin:0;padding:6px;list-style:none;border-radius:14px;background:#10295e;border:1px solid var(--fg-bd);box-shadow:0 12px 28px rgba(0,0,0,.35)}
+#eventTab[data-ev-theme="light"] .fgw-sell{background:#fff}
+#eventTab .fgw-sell[hidden]{display:none}
+#eventTab .fgw-sell li{padding:9px 10px;border-radius:10px;cursor:pointer;font:600 .84rem 'Outfit',sans-serif}
+#eventTab .fgw-sell li:hover,#eventTab .fgw-sell li:focus{background:rgba(var(--fg-a2),.18);outline:none}
+#eventTab .fgw-tpl{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+#eventTab .fgw-tp{appearance:none;-webkit-appearance:none;padding:6px 10px;border-radius:99px;border:1px solid rgba(var(--fg-a2),.45);background:rgba(var(--fg-a2),.1);color:var(--fg-tx);font:700 .68rem 'Outfit',sans-serif;cursor:pointer}
 #eventTab .fgw-big{margin:0 0 14px;padding:14px;border-radius:18px;background:linear-gradient(135deg,rgba(var(--fg-a),.3),rgba(var(--fg-a2),.08));border:1px solid rgba(var(--fg-a2),.4)}
 #eventTab .fgw-big small{display:block;font:800 .66rem 'Outfit',sans-serif;letter-spacing:1px;text-transform:uppercase;color:var(--fg-ac)}
 #eventTab .fgw-big b{display:block;font:800 2rem/1.15 'Rajdhani','Outfit',sans-serif;color:var(--fg-tx)}
@@ -2429,9 +2446,22 @@ var URL_='https://siqqdpnglqctyyaornmo.supabase.co',KEY='sb_publishable_lJ74c2lg
 var sb=null,D=null,A=null,view='',tab='pending',busy=false,q='',target=null,ov,sh,tt;
 function $(id){return document.getElementById(id)}
 function rp(n){return 'Rp'+Number(n||0).toLocaleString('id-ID')}
-function esc(t){var d=document.createElement('div');d.textContent=t==null?'':String(t);return d.innerHTML}
+function esc(t){return String(t==null?'':t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
 function dt(t){try{return new Date(t).toLocaleString('id-ID',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}catch(e){return ''}}
-var ERR={not_authenticated:'Masuk ke akunmu dulu.',not_admin:'Khusus admin.',saldo_tidak_cukup:'Saldo tidak cukup.',min_withdraw:'Nominal di bawah minimum pencairan ('+rp(MIN)+').',ewallet_invalid:'E-wallet tidak valid.',nomor_invalid:'Nomor e-wallet tidak valid (08xx / 628xx).',nama_invalid:'Nama pemilik 2-60 karakter.',pending_exists:'Masih ada pencairan yang diproses.',request_processed:'Permintaan sudah diproses.',payout_ref_required:'Isi bukti/ref transfer.',reason_required:'Isi alasan (min 3 karakter).',amount_invalid:'Nominal tidak valid.'};
+var ERR={not_authenticated:'Masuk ke akunmu dulu.',not_admin:'Khusus admin.',saldo_tidak_cukup:'Saldo tidak cukup.',min_withdraw:'Minimal withdraw '+rp(MIN)+'.',ewallet_invalid:'E-wallet tidak valid.',nomor_invalid:'Nomor e-wallet hanya angka, 9 sampai 15 digit.',nama_invalid:'Nama pemilik 2-60 karakter.',pending_exists:'Masih ada withdraw yang diproses.',request_processed:'Permintaan sudah diproses.',payout_ref_required:'Isi bukti/ref transfer.',reason_required:'Isi alasan (min 3 karakter).',amount_invalid:'Nominal tidak valid.'};
+var COL={evEmail:['37,99,235','56,189,248'],evClipper:['234,88,12','251,146,60'],evMabar:['124,58,237','168,85,247'],evWa:['22,163,74','74,222,128']};
+var EW=[['DANA','DANA','logodana.png'],['GOPAY','GoPay','logogopay.png'],['SHOPEEPAY','ShopeePay','logospay.png'],['OVO','OVO','logoovo.png']];
+var TPL_ADD=['Hasil Sewa WA valid','3 akun Freelance Gmail terverifikasi','Hasil Clipper valid','Bonus event','Koreksi saldo (tambah)'],TPL_SUB=['Koreksi saldo (kurang)','Hasil tidak valid atau dibatalkan','Pelanggaran ketentuan event','Salah input sebelumnya'],TPL_REJ=['Nomor e-wallet tidak valid','Nama tidak sesuai akun','Data tidak lengkap','Saldo belum terverifikasi'];
+function cleanNum(v){return String(v||'').replace(/[\s\-().]/g,'')}
+function lg(e){return '<img src="zusmo-asset/'+e[2]+'" alt="" onerror="this.style.visibility=\'hidden\'"><span>'+e[1]+'</span>'}
+function ewFind(k){return EW.filter(function(e){return e[0]===String(k).toUpperCase()})[0]||[k,k,'']}
+function ewName(k){return ewFind(k)[1]}
+function ewl(k){return '<span class="fgw-lg">'+lg(ewFind(k))+'</span>'}
+function tpl(list,act,id){return '<div class="fgw-tpl">'+list.map(function(t){return '<button type="button" class="fgw-tp" data-w="'+act+'" data-t="'+esc(t)+'"'+(id?' data-id="'+id+'"':'')+'>'+esc(t)+'</button>'}).join('')+'</div>'}
+function setErr(id,msg){var i=$(id),e=$(id+'e');if(!e)return;e.textContent=msg||'';e.hidden=!msg;if(i){if(msg)i.setAttribute('aria-invalid','true');else i.removeAttribute('aria-invalid')}}
+function chkNum(){var n=cleanNum($('wP').value),nm=ewName($('wE').value);if(!n)return 'Nomor '+nm+' wajib diisi.';if(!/^\+?\d{9,15}$/.test(n))return 'Nomor '+nm+' hanya angka, 9 sampai 15 digit.';return ''}
+function chkName(){var v=($('wN').value||'').trim(),l='Atas nama rekening';if(!v)return l+' wajib diisi.';if(v.length<2||v.length>60)return l+' harus 2 sampai 60 karakter.';if(!/[A-Za-z\u00C0-\u024F]/.test(v))return l+' harus berisi huruf.';return ''}
+function chkAmt(){var a=parseInt($('wA').value,10);if(!(a>0))return 'Nominal wajib diisi.';if(a<MIN)return 'Minimal withdraw '+rp(MIN)+'.';if(D&&a>D.balance)return 'Saldo tidak cukup.';return ''}
 function toast(m,bad){tt.textContent=m;tt.className='fg-toast on'+(bad?' bad':'');clearTimeout(toast.t);toast.t=setTimeout(function(){tt.className='fg-toast'},2400)}
 function fail(e){var m=String((e&&e.message)||e);for(var k in ERR)if(m.indexOf(k)>-1)return toast(ERR[k],true);toast('Terjadi kendala. Coba lagi.',true)}
 function sdk(){if(window.supabase&&window.supabase.createClient)return Promise.resolve();return new Promise(function(ok,no){var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.js';s.onload=ok;s.onerror=function(){no(new Error('sdk'))};document.head.appendChild(s)})}
@@ -2445,39 +2475,53 @@ function hd(t){return '<div class="fgw-hd"><span>'+(view!=='main'?'<button type=
 function draw(){
  var x='';
  if(view==='main'){
-  x=hd('Saldo event')+(D?'<div class="fgw-big"><small>Saldo gabungan</small><b>'+rp(D.balance)+'</b><p>Dari semua event: Sewa WA, Freelance Gmail, dan Clipper.</p></div><div class="fgw-acts"><button type="button" class="fg-btn fg-btn-main" data-w="goWd"><i class="fa-solid fa-money-bill-transfer"></i> CAIRKAN KE E-WALLET</button><button type="button" class="fg-btn" data-w="goHist"><i class="fa-solid fa-clock-rotate-left"></i> Riwayat</button>'+(D.is_admin?'<button type="button" class="fg-btn" data-w="goAdm"><i class="fa-solid fa-shield-halved"></i> Panel admin</button>':'')+'</div>':'<p class="fgw-sum">Masuk ke akunmu dulu untuk melihat saldo.</p>');
+  x=hd('Saldo event')+(D?'<div class="fgw-big"><small>Saldo event</small><b>'+rp(D.balance)+'</b><p>Dari semua event: Sewa WA, Freelance Gmail, dan Clipper.</p></div><div class="fgw-acts"><button type="button" class="fg-btn fg-btn-main" data-w="goWd"><i class="fa-solid fa-money-bill-transfer"></i> WITHDRAW</button><button type="button" class="fg-btn" data-w="goHist"><i class="fa-solid fa-clock-rotate-left"></i> Riwayat</button>'+(D.is_admin?'<button type="button" class="fg-btn" data-w="goAdm"><i class="fa-solid fa-shield-halved"></i> Panel admin</button>':'')+'</div>':'<p class="fgw-sum">Masuk ke akunmu dulu untuk melihat saldo.</p>');
  }else if(view==='wd'){
-  x=hd('Cairkan saldo')+'<p class="fgw-sum">Saldo: <b>'+rp(D&&D.balance)+'</b>. Minimum '+rp(MIN)+'. Saldo ditahan sampai admin memproses.</p>'+
-  '<select class="fgw-in" id="wE"><option value="DANA">DANA</option><option value="GOPAY">GoPay</option><option value="SHOPEEPAY">ShopeePay</option><option value="OVO">OVO</option></select>'+
-  '<input class="fgw-in" id="wP" type="tel" inputmode="tel" placeholder="Nomor e-wallet (08xx)" autocomplete="off"><input class="fgw-in" id="wN" placeholder="Nama pemilik akun" maxlength="60" autocomplete="off"><input class="fgw-in" id="wA" type="number" inputmode="numeric" min="'+MIN+'" step="1" placeholder="Nominal (Rp)">'+
-  '<p class="fgw-sum" id="wS"></p><button type="button" class="fg-btn fg-btn-main" data-w="wd">AJUKAN PENCAIRAN</button>';
+  x=hd('Withdraw saldo')+'<p class="fgw-sum">Saldo event: <b>'+rp(D&&D.balance)+'</b>. Minimal withdraw '+rp(MIN)+'. Saldo ditahan sampai admin memproses.</p>'+
+  '<span class="fgw-lbl">E-wallet</span><div class="fgw-sel" id="wSel"><input type="hidden" id="wE" value="DANA"><button type="button" class="fgw-selb" data-w="selT" aria-haspopup="listbox" aria-expanded="false"><span class="fgw-selv" id="wV">'+lg(EW[0])+'</span><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button><ul class="fgw-sell" id="wL" role="listbox" hidden>'+EW.map(function(e){return '<li role="option" tabindex="0" data-w="pickE" data-v="'+e[0]+'">'+lg(e)+'</li>'}).join('')+'</ul></div>'+
+  '<label class="fgw-lbl" id="wPL" for="wP">Nomor DANA</label><input class="fgw-in" id="wP" type="tel" inputmode="numeric" maxlength="20" placeholder="08123456789" autocomplete="off"><div class="fgw-err" id="wPe" role="alert" hidden></div>'+
+  '<label class="fgw-lbl" for="wN">Atas nama rekening</label><input class="fgw-in" id="wN" type="text" maxlength="60" placeholder="Sesuai akun e-wallet" autocomplete="off"><div class="fgw-err" id="wNe" role="alert" hidden></div>'+
+  '<label class="fgw-lbl" for="wA">Nominal withdraw</label><input class="fgw-in" id="wA" type="number" inputmode="numeric" min="'+MIN+'" step="1" placeholder="Minimal '+rp(MIN)+'"><div class="fgw-err" id="wAe" role="alert" hidden></div>'+
+  '<p class="fgw-sum" id="wS"></p><button type="button" class="fg-btn fg-btn-main" data-w="wd">AJUKAN WITHDRAW</button>';
  }else if(view==='hist'){
   var w=(D&&D.withdrawals)||[],l=(D&&D.ledger)||[];
-  x=hd('Riwayat')+'<p class="fgw-sec">Pencairan</p>'+(w.length?w.map(function(r){return '<div class="fgw-it"><span><b>'+esc(r.ewallet)+'</b> '+esc(r.phone_number)+'<br>'+dt(r.created_at)+(r.admin_note?' &middot; '+esc(r.admin_note):'')+'</span><span style="text-align:right"><b>'+rp(r.amount)+'</b><br><span class="fgw-ch '+esc(r.status)+'">'+({pending:'Diproses',paid:'Dibayar',rejected:'Ditolak',approved:'Disetujui'}[r.status]||esc(r.status))+'</span></span></div>'}).join(''):'<p class="fgw-sum">Belum ada.</p>')+
+  x=hd('Riwayat')+'<p class="fgw-sec">Withdraw</p>'+(w.length?w.map(function(r){return '<div class="fgw-it"><span><b>'+ewl(r.ewallet)+'</b> '+esc(r.phone_number)+'<br>'+dt(r.created_at)+(r.admin_note?' &middot; '+esc(r.admin_note):'')+'</span><span style="text-align:right"><b>'+rp(r.amount)+'</b><br><span class="fgw-ch '+esc(r.status)+'">'+({pending:'Diproses',paid:'Dibayar',rejected:'Ditolak',approved:'Disetujui'}[r.status]||esc(r.status))+'</span></span></div>'}).join(''):'<p class="fgw-sum">Belum ada.</p>')+
   '<p class="fgw-sec" style="margin-top:14px">Mutasi saldo</p>'+(l.length?l.map(function(r){return '<div class="fgw-it"><span>'+esc(r.note||r.type)+'<br>'+dt(r.created_at)+'</span><span class="'+(r.amount>0?'pl':'mn')+'">'+(r.amount>0?'+':'-')+rp(Math.abs(r.amount))+'</span></div>'}).join(''):'<p class="fgw-sum">Belum ada.</p>');
  }else if(view==='adm'){
-  x=hd('Panel admin')+'<div class="fgw-tabs">'+[['pending','Pencairan'],['adj','Atur saldo'],['audit','Audit']].map(function(t){return '<button type="button" class="fg-btn'+(tab===t[0]?' on':'')+'" data-w="tab" data-t="'+t[0]+'">'+t[1]+'</button>'}).join('')+'</div>';
+  x=hd('Panel admin')+'<div class="fgw-tabs">'+[['pending','Withdraw'],['adj','Atur saldo'],['audit','Audit']].map(function(t){return '<button type="button" class="fg-btn'+(tab===t[0]?' on':'')+'" data-w="tab" data-t="'+t[0]+'">'+t[1]+'</button>'}).join('')+'</div>';
   if(!A)x+='<p class="fgw-sum">Memuat...</p>';
-  else if(tab==='pending')x+=(A.pending.length?A.pending.map(function(r){return '<div class="fgw-it" style="display:block"><b>'+esc(r.username)+'</b> &middot; '+rp(r.amount)+'<br>'+esc(r.ewallet)+' '+esc(r.phone_number)+' a.n. '+esc(r.account_name)+'<br>'+dt(r.created_at)+'<input class="fgw-in" style="margin-top:8px" data-r="'+r.id+'" placeholder="Ref transfer / alasan tolak"><div class="fg-row2" style="margin:0"><button type="button" class="fg-btn fg-btn-sm" data-w="paid" data-id="'+r.id+'">Dibayar</button><button type="button" class="fg-btn fg-btn-sm fg-btn-danger" data-w="rej" data-id="'+r.id+'">Tolak</button></div></div>'}).join(''):'<p class="fgw-sum">Tidak ada pencairan pending.</p>');
-  else if(tab==='adj')x+='<input class="fgw-in" id="aQ" placeholder="Cari username" value="'+esc(q)+'"><button type="button" class="fg-btn fg-btn-sm" data-w="find" style="margin:0 0 10px">Cari</button>'+A.users.map(function(u){return '<div class="fgw-it"><span><b>'+esc(u.username)+'</b><br>'+rp(u.balance)+'</span><button type="button" class="fg-btn fg-btn-sm" data-w="pick" data-u="'+esc(u.user_id)+'" data-n="'+esc(u.username)+'">Atur</button></div>'}).join('')+(target?'<div style="margin-top:12px"><p class="fgw-sec">Atur: '+esc(target.n)+'</p><select class="fgw-in" id="aS"><option>Sewa WA</option><option>Freelance Gmail</option><option>Clipper</option><option>Lainnya</option></select><input class="fgw-in" id="aA" type="number" inputmode="numeric" step="1" placeholder="Nominal (+tambah / -kurangi)"><input class="fgw-in" id="aR" placeholder="Alasan (wajib)" maxlength="120"><button type="button" class="fg-btn fg-btn-main" data-w="adj">TERAPKAN</button></div>':'');
+  else if(tab==='pending')x+=(A.pending.length?A.pending.map(function(r){return '<div class="fgw-it" style="display:block"><b>'+esc(r.username)+'</b> &middot; '+rp(r.amount)+'<br>'+ewl(r.ewallet)+' '+esc(r.phone_number)+' a.n. '+esc(r.account_name)+'<br>'+dt(r.created_at)+'<input class="fgw-in" style="margin-top:8px" data-r="'+r.id+'" placeholder="Ref transfer (dibayar) / alasan (tolak)">'+tpl(TPL_REJ,'rtpl',r.id)+'<div class="fg-row2" style="margin:0"><button type="button" class="fg-btn fg-btn-sm" data-w="paid" data-id="'+r.id+'">Dibayar</button><button type="button" class="fg-btn fg-btn-sm fg-btn-danger" data-w="rej" data-id="'+r.id+'">Tolak</button></div></div>'}).join(''):'<p class="fgw-sum">Tidak ada withdraw pending.</p>');
+  else if(tab==='adj')x+='<input class="fgw-in" id="aQ" placeholder="Cari username" value="'+esc(q)+'"><button type="button" class="fg-btn fg-btn-sm" data-w="find" style="margin:0 0 10px">Cari</button>'+A.users.map(function(u){return '<div class="fgw-it"><span><b>'+esc(u.username)+'</b><br>'+rp(u.balance)+'</span><button type="button" class="fg-btn fg-btn-sm" data-w="pick" data-u="'+esc(u.user_id)+'" data-n="'+esc(u.username)+'">Atur</button></div>'}).join('')+(target?'<div style="margin-top:12px"><p class="fgw-sec">Atur: '+esc(target.n)+'</p><select class="fgw-in" id="aS"><option>Sewa WA</option><option>Freelance Gmail</option><option>Clipper</option><option>Lainnya</option></select><input class="fgw-in" id="aA" type="number" inputmode="numeric" step="1" placeholder="Nominal (+tambah / -kurangi)"><label class="fgw-lbl" for="aR">Alasan (wajib)</label><div id="aT">'+tpl(TPL_ADD,'tpl')+'</div><input class="fgw-in" id="aR" placeholder="Pilih template atau tulis alasan" maxlength="120"><div class="fgw-err" id="aRe" role="alert" hidden></div><button type="button" class="fg-btn fg-btn-main" data-w="adj">TERAPKAN</button></div>':'');
   else x+=A.audit.length?A.audit.map(function(r){return '<div class="fgw-it"><span><b>'+esc(r.action)+'</b> '+esc(r.target_name)+'<br>oleh '+esc(r.admin_name)+' &middot; '+dt(r.created_at)+(r.reason?'<br>'+esc(r.reason):'')+'</span><span><b>'+rp(r.amount)+'</b></span></div>'}).join(''):'<p class="fgw-sum">Belum ada log.</p>';
  }
  sh.innerHTML=x;
 }
-function run(pr,okMsg,after){if(busy)return;busy=true;pr.then(function(){toast(okMsg);return after&&after()}).catch(fail).then(function(){busy=false;draw()})}
+function run(pr,okMsg,after){if(busy)return;busy=true;pr.then(function(){toast(okMsg);return after&&after()}).then(function(){busy=false;draw()},function(e){busy=false;fail(e)})}
 function init(){
  var T=$('eventTab');if(!T||T.__fgw)return;T.__fgw=1;
  var w=document.createElement('div');w.className='fg';
  w.innerHTML='<div class="fgw-ov" hidden><div class="fgw-sh" role="dialog" aria-modal="true" aria-label="Saldo event"></div></div><div class="fg-toast" role="status" aria-live="polite"></div>';
  T.appendChild(w);ov=w.firstChild;sh=ov.firstChild;tt=w.lastChild;
- [].forEach.call(T.querySelectorAll('[data-ev-toggle]'),function(t){var b=document.createElement('button');b.type='button';b.className='ev-bal';b.setAttribute('data-bal','1');b.setAttribute('aria-label','Saldo event');b.innerHTML='<i class="fa-solid fa-wallet" aria-hidden="true"></i><span data-bal-t>Rp0</span>';t.parentNode.insertBefore(b,t)});
- T.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('[data-bal]'))openMain()});
+ [].forEach.call(T.querySelectorAll('[data-ev-toggle]'),function(t){var b=document.createElement('button');b.type='button';b.className='ev-bal';b.setAttribute('data-bal','1');b.setAttribute('aria-label','Saldo event');var pg=t.closest('[data-ev-page]'),c=COL[pg&&pg.id]||COL.evEmail;b.style.setProperty('--bd',c[1]);b.style.setProperty('--bl',c[0]);b.setAttribute('data-a',c[0]);b.setAttribute('data-a2',c[1]);b.innerHTML='<i class="fa-solid fa-wallet" aria-hidden="true"></i><span data-bal-t>Rp0</span>';t.parentNode.insertBefore(b,t)});
+ T.addEventListener('click',function(e){var bb=e.target.closest&&e.target.closest('[data-bal]');if(!bb)return;var lt=T.getAttribute('data-ev-theme')==='light',a=bb.getAttribute('data-a'),a2=bb.getAttribute('data-a2');w.style.setProperty('--fg-a',a);w.style.setProperty('--fg-a2',a2);w.style.setProperty('--fg-ac','rgb('+(lt?a:a2)+')');openMain()});
  ov.addEventListener('click',function(e){if(e.target===ov)close()});
- sh.addEventListener('input',function(){var a=parseInt(($('wA')||{}).value,10),e=$('wE');if(!e||!$('wS'))return;$('wS').textContent=a>0?'Kamu akan mencairkan '+rp(a)+' ke '+e.options[e.selectedIndex].text+' '+($('wP').value||'')+' a.n. '+($('wN').value||'')+'.':''});
+ sh.addEventListener('input',function(ev){
+  var t=ev.target,id=t&&t.id;
+  if(id==='wP'||id==='wN'||id==='wA'||id==='aR')setErr(id,'');
+  if(id==='aA'){var c=$('aT');if(c)c.innerHTML=tpl(parseInt(t.value,10)<0?TPL_SUB:TPL_ADD,'tpl')}
+  if($('wS')){var a=parseInt($('wA').value,10);$('wS').textContent=a>0?'Kamu akan withdraw '+rp(a)+' ke '+ewName($('wE').value)+' '+cleanNum($('wP').value)+' a.n. '+$('wN').value.trim()+'.':''}
+ });
+ sh.addEventListener('focusout',function(ev){var t=ev.target,id=t&&t.id;if(!t||!t.value)return;if(id==='wP')setErr('wP',chkNum());else if(id==='wN')setErr('wN',chkName());else if(id==='wA')setErr('wA',chkAmt())});
+ sh.addEventListener('keydown',function(ev){var t=ev.target;if((ev.key==='Enter'||ev.key===' ')&&t.getAttribute&&t.getAttribute('data-w')==='pickE'){ev.preventDefault();t.click()}});
  sh.addEventListener('click',function(e){
+  var l0=$('wL');if(l0&&!l0.hidden&&!(e.target.closest&&e.target.closest('#wSel')))l0.hidden=true;
   var b=e.target.closest&&e.target.closest('[data-w]');if(!b)return;var k=b.getAttribute('data-w');
   if(k==='x')close();
   else if(k==='back'){view='main';draw()}
+  else if(k==='selT'){var l=$('wL');l.hidden=!l.hidden;b.setAttribute('aria-expanded',String(!l.hidden))}
+  else if(k==='pickE'){var v2=b.getAttribute('data-v'),en=ewFind(v2);$('wE').value=v2;$('wV').innerHTML=lg(en);$('wPL').textContent='Nomor '+en[1];$('wL').hidden=true;sh.querySelector('[data-w="selT"]').setAttribute('aria-expanded','false');if($('wP').value)setErr('wP',chkNum())}
+  else if(k==='tpl'){var ri=$('aR');ri.value=b.getAttribute('data-t');setErr('aR','');ri.focus()}
+  else if(k==='rtpl'){var ci=sh.querySelector('[data-r="'+b.getAttribute('data-id')+'"]');if(ci){ci.value=b.getAttribute('data-t');ci.focus()}}
   else if(k==='goWd'){view='wd';draw()}
   else if(k==='goHist'){view='hist';draw()}
   else if(k==='goAdm'){view='adm';tab='pending';target=null;A=null;draw();loadAdm().then(draw).catch(fail)}
@@ -2485,17 +2529,22 @@ function init(){
   else if(k==='find'){q=($('aQ')||{}).value||'';A=null;draw();loadAdm().then(draw).catch(fail)}
   else if(k==='pick'){target={u:b.getAttribute('data-u'),n:b.getAttribute('data-n')};draw()}
   else if(k==='wd'){
-   var a=parseInt($('wA').value,10);if(!(a>0))return toast('Isi nominal.',true);
-   if(!confirm('Ajukan pencairan '+rp(a)+' ke '+$('wE').value+' '+$('wP').value+' a.n. '+$('wN').value+'?'))return;
-   run(rpc('wallet_request_withdraw',{p_ewallet:$('wE').value,p_phone:$('wP').value,p_name:$('wN').value,p_amount:a}),'Pencairan diajukan',function(){return load().then(function(){view='hist'})});
+   var er=[['wP',chkNum()],['wN',chkName()],['wA',chkAmt()]],f=null;
+   er.forEach(function(x){setErr(x[0],x[1]);if(x[1]&&!f)f=x[0]});
+   if(f){$(f).focus();return}
+   var a=parseInt($('wA').value,10),ew=$('wE').value,ph=cleanNum($('wP').value),nm=$('wN').value.trim();
+   if(!confirm('Ajukan withdraw '+rp(a)+' ke '+ewName(ew)+' '+ph+' a.n. '+nm+'?'))return;
+   run(rpc('wallet_request_withdraw',{p_ewallet:ew,p_phone:ph,p_name:nm,p_amount:a}),'Withdraw diajukan',function(){return load().then(function(){view='hist'})});
   }
   else if(k==='paid'||k==='rej'){
    var id=parseInt(b.getAttribute('data-id'),10),i=sh.querySelector('[data-r="'+id+'"]'),v=i?i.value:'';
+   if(k==='paid'&&!v.trim())return toast(ERR.payout_ref_required,true);
+   if(k==='rej'&&v.trim().length<3)return toast('Isi alasan tolak (pilih template).',true);
    if(!confirm(k==='paid'?'Tandai sudah dibayar?':'Tolak dan kembalikan saldo?'))return;
    run(rpc('admin_withdraw_process',{p_id:id,p_action:k==='paid'?'paid':'rejected',p_ref:v,p_note:v}),'Diproses',loadAdm);
   }
   else if(k==='adj'){
-   var n=parseInt($('aA').value,10),r=($('aR').value||'').trim();if(!n)return toast('Isi nominal.',true);if(r.length<3)return toast(ERR.reason_required,true);
+   var n=parseInt($('aA').value,10),r=($('aR').value||'').trim();if(!n)return toast('Isi nominal.',true);if(r.length<3){setErr('aR','Alasan wajib diisi. Pilih template atau tulis sendiri.');$('aR').focus();return}
    if(!confirm('Ubah saldo '+target.n+' sebesar '+(n>0?'+':'-')+rp(Math.abs(n))+'?'))return;
    run(rpc('admin_wallet_adjust',{p_user:target.u,p_amount:n,p_reason:'['+$('aS').value+'] '+r}),'Saldo diperbarui',function(){target=null;return loadAdm().then(load)});
   }
