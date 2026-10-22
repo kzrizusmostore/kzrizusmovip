@@ -2138,6 +2138,17 @@ body.ev-solid.ev-light .topbar-pro{background:rgba(255,255,255,.86)!important;-w
 #eventTab .fg-acc[open]>p{animation:fgIn .28s ease backwards}
 #eventTab .fg>.fg-toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));z-index:9999;max-width:calc(100% - 32px);padding:11px 16px;border-radius:14px;background:#0f172a;color:#fff;border:1px solid rgba(255,255,255,.18);font:700 .76rem/1.4 'Outfit',sans-serif;text-align:center;box-shadow:0 12px 30px rgba(0,0,0,.35);opacity:0;transform:translate(-50%,12px);pointer-events:none;transition:opacity .22s,transform .22s;animation:none}
 #eventTab .fg>.fg-toast.on{opacity:1;transform:translate(-50%,0)}
+#eventTab .fg-modal{position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(2,6,23,.55)}
+#eventTab .fg-modal-box{width:100%;max-width:340px;box-sizing:border-box;padding:22px 20px 16px;border-radius:22px;background:#fff;color:#0f172a;border:1px solid rgba(15,23,42,.08);box-shadow:0 20px 50px rgba(0,0,0,.35)}
+#eventTab .fg-modal-box h4{margin:0 0 8px;font:800 1.05rem 'Outfit',sans-serif}
+#eventTab .fg-modal-box p{margin:0 0 18px;font-size:.84rem;line-height:1.55;color:#475569}
+#eventTab .fg-modal-acts{display:flex;gap:10px}
+#eventTab .fg-modal-acts button{flex:1;min-height:44px;border-radius:13px;font:800 .82rem 'Outfit',sans-serif;cursor:pointer;border:1px solid rgba(15,23,42,.12);background:#f1f5f9;color:#0f172a}
+#eventTab .fg-modal-acts .fg-modal-ok{border:0;color:#fff;background:linear-gradient(135deg,#2563eb,#38bdf8)}
+#eventTab:not([data-ev-theme="light"]) .fg-modal-box{background:#161b22;color:#f1f5f9;border-color:rgba(255,255,255,.1)}
+#eventTab:not([data-ev-theme="light"]) .fg-modal-box p{color:#9aa7b4}
+#eventTab:not([data-ev-theme="light"]) .fg-modal-acts button{background:#222a33;color:#f1f5f9;border-color:rgba(255,255,255,.1)}
+#eventTab:not([data-ev-theme="light"]) .fg-modal-acts .fg-modal-ok{background:linear-gradient(135deg,#2563eb,#38bdf8);color:#fff}
 #eventTab .fg>.fg-toast.bad{background:#7f1d1d;border-color:rgba(248,113,113,.5)}
 
 /* slider banner Freelance Gmail */
@@ -2287,7 +2298,7 @@ body.fg-on #eventTab[data-ev-theme="light"] .ev-wrap::before{background:radial-g
 </div>
 <div class="fg-wa-box"><button type="button" class="fg-btn fg-btn-main fg-btn-wa" id="fgWa"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> KONFIRMASI AKUN SUDAH DIBUAT</button></div>
 <div class="fg-how"><h3>Cara kerja</h3><ol>
-<li>Buat akun Gmail baru di Google sesuai <b>data akun di atas</b>. Jika email sudah terpakai, tekan Generate Ulang.</li>
+<li>Buat akun Gmail baru di Google sesuai <b>data akun di atas</b>. Jika email sudah terpakai, tekan Generate 3 Akun untuk membuat data baru.</li>
 <li>Saat membuat akun, <b>email dan password harus sama persis</b> seperti data yang diminta.</li>
 <li>Tekan <b>Akun sudah dibuat</b> setelah selesai, lanjut ke akun berikutnya. Setelah ketiganya selesai, tekan Konfirmasi ke WhatsApp.</li>
 </ol></div>
@@ -2310,7 +2321,7 @@ if(!root||root.__fg)return;root.__fg=1;
 function $(id){return document.getElementById(id)}
 var PREFIX='kzrizusmo',SUFFIX='@gmail.com',CH='abcdefghijklmnopqrstuvwxyz0123456789',LEN=5,N=3,GAP=10,WA='6283800287738';
 var list=$('fgList'),empty=$('fgEmpty'),res=$('fgRes'),dotsEl=$('fgDots'),cnt=$('fgCount'),prev=$('fgPrev'),next=$('fgNext'),btnGen=$('fgGen'),btnAll=$('fgCopyAll'),btnReset=$('fgReset'),btnWa=$('fgWa'),cf=$('fgConfirm'),toastEl=$('fgToast');
-var accts=[],shown={},toastT=0,cur=0,raf=0,done=0,lockUI=false;
+var accts=[],shown={},toastT=0,cur=0,raf=0,done=0,lockUI=false,t0=0,nI=0;
 
 function rnd(max){
  var c=window.crypto||window.msCrypto;
@@ -2366,15 +2377,11 @@ function card(i,flash){
  var p=accts[i],a=document.createElement('article');
  a.className='fg-acct'+(flash?' fg-flash':'');a.setAttribute('aria-label','Akun '+(i+1)+' dari '+accts.length);
  var top=document.createElement('div');top.className='fg-acct-top';
- top.innerHTML='<span class="fg-acct-n">AKUN '+(i+1)+'</span><span class="fg-acct-tag">Kandidat</span>';
+ top.innerHTML='<span class="fg-acct-n">AKUN '+(i+1)+'</span>';
  a.appendChild(top);
  a.appendChild(field('Email',email(p),false,i));
  a.appendChild(field('Password',pass(p),true,i));
- var ac=document.createElement('div');ac.className='fg-acts';
- var b=document.createElement('button');b.type='button';b.className='fg-btn fg-btn-sm';b.setAttribute('data-fg','re');b.setAttribute('data-i',i);
- b.innerHTML='<i class="fa-solid fa-arrows-rotate" aria-hidden="true"></i> Generate Ulang';
- ac.appendChild(b);a.appendChild(ac);
- var dn=document.createElement('button');dn.type='button';dn.className='fg-btn fg-btn-done'+(i!==done?' is-locked':'');dn.setAttribute('data-fg','dn');dn.setAttribute('data-i',i);
+  var dn=document.createElement('button');dn.type='button';dn.className='fg-btn fg-btn-done'+(i!==done?' is-locked':'');dn.setAttribute('data-fg','dn');dn.setAttribute('data-i',i);
  dn.innerHTML='<i class="fa-solid fa-check" aria-hidden="true"></i> Akun sudah dibuat';a.appendChild(dn);
  if(i<done)a.hidden=true;
  return a;
@@ -2406,19 +2413,30 @@ function render(flashIdx){
  go(cur,false);mark();
 }
 function genAll(){
- var taken=[];accts=[];shown={};cur=0;done=0;
+ var taken=[];accts=[];shown={};cur=0;done=0;t0=Date.now();
  for(var i=0;i<N;i++){var p=uniq(taken);taken.push(p);accts.push(p)}
  cf.hidden=true;render(-1);
  try{res.scrollIntoView({block:'nearest',behavior:'smooth'})}catch(x){}
 }
+function ask(title,msg,okTxt,cb){
+ var host=toastEl.parentNode,old=host.querySelector('.fg-modal');if(old)old.remove();
+ var m=document.createElement('div');m.className='fg-modal';m.setAttribute('role','dialog');m.setAttribute('aria-modal','true');
+ m.innerHTML='<div class="fg-modal-box"><h4></h4><p></p><div class="fg-modal-acts"><button type="button" class="fg-modal-no">Batal</button><button type="button" class="fg-modal-ok"></button></div></div>';
+ m.querySelector('h4').textContent=title;m.querySelector('p').textContent=msg;m.querySelector('.fg-modal-ok').textContent=okTxt;
+ m.addEventListener('click',function(e){if(e.target===m||e.target.closest('.fg-modal-no'))m.remove();else if(e.target.closest('.fg-modal-ok')){m.remove();cb()}});
+ host.appendChild(m);m.querySelector('.fg-modal-ok').focus();
+}
+var NOTE=['Akun ini belum terdeteksi terdaftar di Google. Selesaikan pendaftaran Gmail sampai tuntas, lalu coba lagi.','Verifikasi akun belum selesai. Pastikan akun benar-benar sudah dibuat dengan email dan password yang sama.','Sistem belum menemukan akun ini. Cek kembali proses pendaftaran di Google, lalu tekan lagi.'];
 function markDone(i){
  if(lockUI)return;
  if(i<done)return toast('Akun ini sudah ditandai dibuat.',true);
  if(i>done)return toast('Selesaikan akun '+(done+1)+' dulu.',true);
- if(!confirm('Sudah membuat akun '+(i+1)+' dengan email dan password yang persis sama seperti data ini?'))return;
- if(i>=accts.length-1){done++;render(-1);toast('Ketiga akun sudah dibuat. Silakan konfirmasi ke WhatsApp.');return}
- lockUI=true;go(i+1,true);toast('Akun '+(i+1)+' selesai. Lanjut ke akun '+(i+2)+'.');
- setTimeout(function(){done++;cur=done;render(-1);lockUI=false},420);
+ if(Date.now()-t0<60000)return toast(NOTE[nI++%NOTE.length],true);
+ ask('Konfirmasi akun '+(i+1),'Sudah membuat akun '+(i+1)+' dengan email dan password yang persis sama seperti data ini?','Ya, sudah',function(){
+  if(i>=accts.length-1){done++;render(-1);toast('Ketiga akun sudah dibuat. Silakan konfirmasi ke WhatsApp.');return}
+  lockUI=true;go(i+1,true);toast('Akun '+(i+1)+' selesai. Lanjut ke akun '+(i+2)+'.');
+  setTimeout(function(){done++;cur=done;t0=Date.now();render(-1);lockUI=false},420);
+ });
 }
 function regen(i){
  var taken=accts.filter(function(_,k){return k!==i});
@@ -2465,7 +2483,7 @@ root.addEventListener('click',function(e){
 });
 btnGen.addEventListener('click',function(){
  if(accts.length&&done>0&&done<accts.length)return toast('Selesaikan dulu ketiga akun, atau tekan Reset untuk mulai ulang.',true);
- if(accts.length&&done>=accts.length&&!confirm('Data paket sebelumnya akan dihapus. Pastikan sudah dikonfirmasi ke WhatsApp. Lanjut?'))return;
+ if(accts.length&&done>=accts.length){ask('Buat paket baru?','Data paket sebelumnya akan dihapus. Pastikan sudah dikonfirmasi ke WhatsApp.','Lanjut',function(){genAll();toast('3 akun dibuat')});return}
  genAll();toast('3 akun dibuat');
 });
 btnAll.addEventListener('click',function(){if(accts.length)doCopy(allText(),'Semua data disalin')});
@@ -2823,7 +2841,7 @@ function draw(){
    var pending=(D.withdrawals||[]).filter(function(r){return r.status==='pending'}).length;
    var balance=Math.max(0,Number(D.balance||0));
    x=hd('Saldo event')+
-    '<section class="fgw-dashboard-balance" aria-label="Ringkasan saldo tersedia"><div class="fgw-balance-top"><span class="fgw-balance-label"><i class="fa-solid fa-wallet" aria-hidden="true"></i> SALDO TERSEDIA</span><button type="button" class="fgw-live-pill fgw-refresh-btn" data-w="refresh" aria-label="Refresh saldo"><i class="fa-solid fa-rotate" aria-hidden="true"></i> REFRESH</button></div><div class="fgw-balance-amount">'+rpd(balance)+'</div><p>Saldo dari aktivitas Event dan bonus yang tercatat pada akunmu.</p><div class="fgw-balance-glow" aria-hidden="true"></div></section>'+
+    '<section class="fgw-dashboard-balance" aria-label="Ringkasan saldo tersedia"><div class="fgw-balance-top"><span class="fgw-balance-label"><i class="fa-solid fa-wallet" aria-hidden="true"></i> SALDO TERSEDIA</span><button type="button" class="fgw-live-pill fgw-refresh-btn" data-w="refresh" aria-label="Refresh saldo"><i class="fa-solid fa-rotate" aria-hidden="true"></i> REFRESH</button></div><div class="fgw-balance-amount"><span class="fgw-cur">Rp</span>'+rp(balance).replace(/^Rp/,'')+'<span class="fgw-cents">,00</span></div><p>Saldo dari aktivitas Event dan bonus yang tercatat pada akunmu.</p><div class="fgw-ew"><span>Cairkan ke</span>'+EW.map(function(e){return '<i class="fgw-ew-chip"><img src="zusmo-asset/'+e[2]+'" alt="'+e[1]+'" onerror="this.parentNode.textContent=this.alt"></i>'}).join('')+'</div><div class="fgw-balance-glow" aria-hidden="true"></div></section>'+
     '<div class="fgw-action-grid"><button type="button" class="fgw-main-cta" data-w="goWd"><span class="fgw-action-ico"><i class="fa-solid fa-money-bill-transfer" aria-hidden="true"></i></span><span class="fgw-action-tx"><b>Withdraw saldo</b><small>'+(balance>=MIN?'Ajukan pencairan ke e-wallet':'Minimal '+rp(MIN)+' untuk mengajukan pencairan')+'</small></span><i class="fa-solid fa-arrow-right fgw-action-arrow" aria-hidden="true"></i></button><button type="button" class="fgw-secondary-action" data-w="goHist"><span class="fgw-action-ico"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></span><span class="fgw-action-tx"><b>Riwayat transaksi</b><small>'+(D.ledger||[]).length+' mutasi · '+(D.withdrawals||[]).length+' pengajuan withdraw</small></span><i class="fa-solid fa-chevron-right fgw-action-arrow" aria-hidden="true"></i></button>'+(D.is_admin?'<button type="button" class="fgw-action-card fgw-action-admin" data-w="goAdm"><span class="fgw-action-ico"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></span><span class="fgw-action-tx"><b>Panel admin</b><small>Kelola pengajuan dan saldo pengguna</small></span><i class="fa-solid fa-chevron-right fgw-action-arrow" aria-hidden="true"></i></button>':'')+'</div>'+
     '<button type="button" class="fgw-referral-entry" data-ref-open onclick="event.preventDefault();event.stopPropagation();if(window.kzOpenReferralPage)window.kzOpenReferralPage();return false;" aria-label="Buka Program Referral"><span class="fgw-referral-entry-ic"><i class="fa-solid fa-user-group" aria-hidden="true"></i></span><span class="fgw-referral-entry-copy"><b>Program Referral</b><small>Ajak teman dan pantau bonus undangan</small></span><i class="fa-solid fa-chevron-right fgw-referral-entry-arrow" aria-hidden="true"></i></button>'+
     (pending?'<div class="fgw-pending-note"><span class="fgw-pending-ico"><i class="fa-solid fa-hourglass-half" aria-hidden="true"></i></span><span><b>'+pending+' pengajuan withdraw sedang diproses</b><small>Periksa status dan catatan admin di halaman riwayat transaksi.</small></span><button type="button" data-w="goHist" aria-label="Lihat pengajuan withdraw"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button></div>':'')+
@@ -20919,6 +20937,17 @@ body.ev-solid:not(.ev-light),body.ev-solid:not(.ev-light):before{background:radi
 #eventTab:not([data-ev-theme="light"]) .evc-art{background:linear-gradient(160deg,rgba(var(--c),.22),rgba(var(--c),.06));border-color:rgba(var(--c),.3)}
 #eventTab[data-ev-theme="light"] .evc{background:linear-gradient(135deg,rgba(var(--c),.10),#fff 62%);border:1px solid rgba(var(--c),.28);box-shadow:0 8px 22px rgba(15,23,42,.08)}
 #eventTab .evc-locked{opacity:.72;filter:saturate(.6)}
+#eventTab .evs-hub b{font-size:clamp(2.3rem,10.5vw,2.9rem);font-weight:900;line-height:1;letter-spacing:-.5px;margin:3px 0 6px}
+#eventTab .evs-hub small{font-size:.62rem}
+#eventTab .evs-hub p{font-size:.64rem;opacity:.72}
+#eventTab .fgw-balance-amount{font-size:clamp(2.9rem,13vw,3.8rem)!important;font-weight:900;line-height:1;letter-spacing:-1px;margin:14px 0 8px!important}
+#eventTab .fgw-cur{font-size:.46em;font-weight:800;opacity:.85;margin-right:5px;vertical-align:.5em;letter-spacing:0}
+#eventTab .fgw-cents{font-size:.4em;font-weight:700;opacity:.7;margin-left:2px;letter-spacing:0}
+#eventTab .fgw-dashboard-balance>p{font-size:.7rem;opacity:.82;margin:6px 0 14px}
+#eventTab .fgw-ew{position:relative;z-index:1;display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:0 0 4px}
+#eventTab .fgw-ew>span{font:800 .6rem 'Outfit',sans-serif;letter-spacing:.9px;text-transform:uppercase;opacity:.8;margin-right:2px}
+#eventTab .fgw-ew-chip{display:inline-flex;align-items:center;justify-content:center;height:26px;padding:0 9px;border-radius:9px;background:#fff;color:#0f172a;font:800 .6rem 'Outfit',sans-serif;font-style:normal}
+#eventTab .fgw-ew-chip img{height:14px;width:auto;max-width:54px;object-fit:contain;display:block}
 /* Referral hanya dibuka dari halaman Saldo Event; tombol ini menjadi akses tunggal referral dari layanan utama. */
 #eventTab .fgw-referral-entry{display:flex;align-items:center;gap:11px;width:100%;min-height:64px;padding:11px 13px;margin:11px 0 13px;border:1px solid rgba(34,197,94,.28);border-radius:17px;background:linear-gradient(115deg,rgba(22,163,74,.16),rgba(34,197,94,.07));color:var(--fg-tx);text-align:left;cursor:pointer;box-shadow:none;transition:transform .16s ease,border-color .16s ease,background .16s ease}
 #eventTab .fgw-referral-entry:active{transform:scale(.99)}
@@ -21168,22 +21197,57 @@ body.ev-solid:not(.ev-light),body.ev-solid:not(.ev-light):before{background:radi
  #kzReferralApp .kzr-reward-line-simple>span.kzr-reward-tip{text-align:left!important}
 }
 </style>
-<script id="kz-referral-navbar-keep-visible-final-v5">
+<style id="kz-subpage-nonav">
+body.kz-subpage .app-bottombar{display:none!important}
+body.kz-subpage #eventTab .fgw-ov{bottom:env(safe-area-inset-bottom,0px)!important;inset:42px 0 env(safe-area-inset-bottom,0px) 0!important}
+body.kz-subpage #kzReferralApp{bottom:0!important}
+</style>
+<script id="kz-subpage-nonav-js">
+/* Saldo & Referral adalah sub-halaman: navbar bawah disembunyikan selama salah satunya terbuka. */
 (function(){
-  function nav(){
-    var bar=document.querySelector('.app-bottombar');if(!bar)return;
+  function sync(){
     var ref=document.getElementById('kzReferralApp');
     var wallet=document.querySelector('#eventTab .fgw-ov:not([hidden])');
-    if((ref&&!ref.hidden)||wallet){bar.classList.remove('hide');bar.style.removeProperty('visibility');bar.style.removeProperty('opacity');bar.style.removeProperty('display');}
+    document.body.classList.toggle('kz-subpage',!!((ref&&!ref.hidden)||wallet));
   }
-  document.addEventListener('DOMContentLoaded',nav);
-  window.addEventListener('scroll',nav,{passive:true});
-  document.addEventListener('touchmove',function(){nav()},{passive:true});
-  var ref=document.getElementById('kzReferralApp');
-  if(ref&&window.MutationObserver){new MutationObserver(nav).observe(ref,{attributes:true,attributeFilter:['hidden','class']});}
-  var ev=document.getElementById('eventTab');
-  if(ev&&window.MutationObserver){new MutationObserver(nav).observe(ev,{subtree:true,attributes:true,attributeFilter:['hidden']});}
-  nav();
+  document.addEventListener('DOMContentLoaded',sync);
+  if(window.MutationObserver){
+    var ref=document.getElementById('kzReferralApp');
+    if(ref)new MutationObserver(sync).observe(ref,{attributes:true,attributeFilter:['hidden','class']});
+    var ev=document.getElementById('eventTab');
+    if(ev)new MutationObserver(sync).observe(ev,{subtree:true,attributes:true,attributeFilter:['hidden']});
+  }
+  sync();
+})();
+</script>
+
+<style id="kz-nav-v2">
+/* Navbar bawah: lebih rendah, kotak merah pudar di tiap ikon, ripple saat ditekan */
+body .app-bottombar{height:60px!important;min-height:60px!important;padding:0 6px!important;bottom:calc(10px + env(safe-area-inset-bottom,0px))!important;border-radius:20px!important}
+body .app-bottombar .tab{min-height:0!important;gap:2px!important;padding:5px 1px 4px!important;justify-content:center!important;transform:none!important;opacity:.82}
+body .app-bottombar .tab.active{opacity:1!important;transform:none!important}
+body .app-bottombar .tab:not(.home-center){overflow:hidden!important;border-radius:16px!important}
+body .app-bottombar .tab:not(.home-center) i{display:inline-flex!important;align-items:center;justify-content:center;width:36px;height:27px;border-radius:12px!important;font-size:15px!important;background:rgba(255,43,43,.13)!important;box-shadow:inset 0 0 0 1px rgba(255,43,43,.24),0 0 8px rgba(255,43,43,.26)!important;text-shadow:none!important}
+body .app-bottombar .tab.active:not(.home-center) i{background:rgba(255,43,43,.28)!important;box-shadow:inset 0 0 0 1px rgba(255,43,43,.5),0 0 11px rgba(255,43,43,.42)!important}
+body .app-bottombar .home-center{top:-12px!important;overflow:visible!important}
+body .app-bottombar .home-circle{width:46px!important;height:46px!important;overflow:hidden;position:relative;box-shadow:0 0 12px rgba(255,43,43,.5)!important}
+body .app-bottombar .home-circle i{font-size:18px!important}
+.kz-nav-rip{position:absolute;z-index:0;border-radius:50%;pointer-events:none;background:rgba(255,255,255,.38);transform:translate(-50%,-50%) scale(0);animation:kzNavRip .55s ease-out forwards}
+body.ev-light .kz-nav-rip{background:rgba(255,43,43,.24)}
+@keyframes kzNavRip{from{transform:translate(-50%,-50%) scale(0);opacity:.6}to{transform:translate(-50%,-50%) scale(1);opacity:0}}
+</style>
+<script id="kz-nav-v2-js">
+(function(){
+  document.addEventListener('pointerdown',function(e){
+    var tab=e.target&&e.target.closest?e.target.closest('.app-bottombar .tab'):null;if(!tab)return;
+    var host=tab.classList.contains('home-center')?(tab.querySelector('.home-circle')||tab):tab;
+    var r=host.getBoundingClientRect(),d=Math.max(r.width,r.height)*1.6;
+    var x=(e.clientX||r.left+r.width/2)-r.left,y=(e.clientY||r.top+r.height/2)-r.top;
+    var n=document.createElement('span');n.className='kz-nav-rip';
+    n.style.cssText='left:'+x+'px;top:'+y+'px;width:'+d+'px;height:'+d+'px';
+    if(getComputedStyle(host).position==='static')host.style.position='relative';
+    host.appendChild(n);setTimeout(function(){if(n.parentNode)n.parentNode.removeChild(n)},620);
+  },{passive:true});
 })();
 </script>
 
