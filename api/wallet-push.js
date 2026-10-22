@@ -1,4 +1,5 @@
-// Vercel Serverless Function: kirim Web Push saat withdraw diproses admin (paid / rejected).
+// Vercel Serverless Function: kirim Web Push saat withdraw diproses admin (paid / rejected)
+// dan saat admin mengatur saldo event (kind:'adjust').
 // Tanpa dependency. Env yang dibutuhkan (pakai VAPID yang SAMA dengan push Live Chat):
 //   SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY, VAPID_SUBJECT (mailto:...)
 const crypto = require('crypto');
@@ -35,11 +36,13 @@ const NAMES = { DANA: 'DANA', GOPAY: 'GoPay', SHOPEEPAY: 'ShopeePay', OVO: 'OVO'
 module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).json({ error: 'method_not_allowed' });
   const E = process.env, U = E.SUPABASE_URL, K = E.SUPABASE_SERVICE_ROLE_KEY;
-  if (!U || !K || !E.VAPID_PUBLIC_KEY || !E.VAPID_PRIVATE_KEY) return res.status(500).json({ error: 'server_not_configured' });
+  const missing = [['SUPABASE_URL', U], ['SUPABASE_SERVICE_ROLE_KEY', K], ['VAPID_PUBLIC_KEY', E.VAPID_PUBLIC_KEY], ['VAPID_PRIVATE_KEY', E.VAPID_PRIVATE_KEY]].filter((x) => !x[1]).map((x) => x[0]);
+  if (missing.length) return res.status(500).json({ error: 'server_not_configured', missing });
   try {
     const tok = String(req.headers.authorization || '').replace(/^Bearer\s+/i, '');
-    const id = parseInt((req.body || {}).request_id, 10);
-    if (!tok || !(id > 0)) return res.status(400).json({ error: 'bad_request' });
+    const B = req.body || {}, isAdj = B.kind === 'adjust';
+    const id = parseInt(B.request_id, 10);
+    if (!tok || (!isAdj && !(id > 0))) return res.status(400).json({ error: 'bad_request' });
     const rest = (path, opt) => fetch(U + '/rest/v1/' + path, Object.assign({ headers: { apikey: K, Authorization: 'Bearer ' + K, 'Content-Type': 'application/json', Prefer: 'return=representation' } }, opt));
     const J = async (path, opt) => { // error database dibuat jelas, bukan diam-diam
       const r = await rest(path, opt);
@@ -53,6 +56,31 @@ module.exports = async (req, res) => {
     const uid = (await me.json()).id;
     const adm = await J('wallet_admins?user_id=eq.' + encodeURIComponent(uid) + '&select=user_id');
     if (!adm.length) return res.status(403).json({ error: 'not_admin' });
+    const sendAll = async (subs, msg) => {
+    let sent = 0, retry = false;
+    for (const s of subs) {
+      try {
+        const r = await fetch(s.endpoint, { method: 'POST', headers: { 'Content-Encoding': 'aes128gcm', 'Content-Type': 'application/octet-stream', TTL: '86400', Urgency: 'high', Authorization: vapidHeader(s.endpoint, E.VAPID_PUBLIC_KEY, E.VAPID_PRIVATE_KEY, E.VAPID_SUBJECT || 'mailto:admin@localhost') }, body: encrypt(s, msg) });
+        if (r.status >= 200 && r.status < 300) sent++;
+        else if (r.status === 404 || r.status === 410) await rest('wallet_push_subs?id=eq.' + s.id, { method: 'DELETE' });
+        else { retry = true; console.error('push gagal', r.status, await r.text().catch(() => '')); }
+      } catch (e) { retry = true; console.error('push error', e && e.message); }
+    }
+    return { sent, retry };
+    };
+    // 1b) atur saldo: pesan dari data admin terverifikasi (pemanggil sudah dicek admin)
+    if (isAdj) {
+      const tu = String(B.user_id || ''), amt = parseInt(B.amount, 10);
+      if (!/^[0-9a-f-]{36}$/i.test(tu) || !amt || Math.abs(amt) > 1e9) return res.status(400).json({ error: 'bad_request' });
+      const asubs = await J('wallet_push_subs?user_id=eq.' + tu + '&select=id,endpoint,p256dh,auth');
+      const amsg = JSON.stringify({
+        type: 'wallet', tag: 'wallet-adj-' + Date.now(), url: '/',
+        title: amt > 0 ? 'Saldo event bertambah' : 'Saldo event dikurangi',
+        body: (amt > 0 ? '+' : '-') + rp(Math.abs(amt)) + (B.reason ? '. ' + String(B.reason).slice(0, 80) : '')
+      });
+      const r2 = await sendAll(asubs, amsg);
+      return res.status(200).json({ sent: r2.sent, subs: asubs.length });
+    }
     // 2) klaim sekali saja (anti notifikasi ganda); isi pesan murni dari database
     const cl = await J('withdraw_requests?id=eq.' + id + '&status=in.(paid,rejected)&notified_at=is.null', { method: 'PATCH', body: JSON.stringify({ notified_at: new Date().toISOString() }) });
     if (!cl.length) return res.status(200).json({ sent: 0, note: 'sudah dikirim atau belum diproses' });
@@ -65,15 +93,7 @@ module.exports = async (req, res) => {
     });
     // 3) kirim ke semua perangkat user
     const subs = await J('wallet_push_subs?user_id=eq.' + w.user_id + '&select=id,endpoint,p256dh,auth');
-    let sent = 0, retry = false;
-    for (const s of subs) {
-      try {
-        const r = await fetch(s.endpoint, { method: 'POST', headers: { 'Content-Encoding': 'aes128gcm', 'Content-Type': 'application/octet-stream', TTL: '86400', Urgency: 'high', Authorization: vapidHeader(s.endpoint, E.VAPID_PUBLIC_KEY, E.VAPID_PRIVATE_KEY, E.VAPID_SUBJECT || 'mailto:admin@localhost') }, body: encrypt(s, msg) });
-        if (r.status >= 200 && r.status < 300) sent++;
-        else if (r.status === 404 || r.status === 410) await rest('wallet_push_subs?id=eq.' + s.id, { method: 'DELETE' });
-        else { retry = true; console.error('push gagal', r.status, await r.text().catch(() => '')); }
-      } catch (e) { retry = true; console.error('push error', e && e.message); }
-    }
+    const { sent } = await sendAll(subs, msg);
     if (!sent) await rest('withdraw_requests?id=eq.' + id, { method: 'PATCH', body: JSON.stringify({ notified_at: null }) }); // boleh dicoba lagi
     return res.status(200).json({ sent, subs: subs.length });
   } catch (e) {
