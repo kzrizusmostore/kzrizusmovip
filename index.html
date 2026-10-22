@@ -2010,8 +2010,8 @@ body.ev-solid.ev-light .topbar-pro{background:rgba(255,255,255,.86)!important;-w
   <div class="evc-art" aria-hidden="true"><span class="evc-ring"></span><span class="evc-tile"><i class="fa-solid fa-envelope"></i></span></div>
   <div class="evc-bd">
     <h3>Freelance Gmail</h3>
-    <p>Buat 3 akun Gmail sesuai format yang ditentukan dan dapatkan bayaran Rp5.000.</p>
-    <div class="evc-ft"><div class="evc-chips"><span class="evc-chip"><i class="fa-solid fa-envelope" aria-hidden="true"></i>3 akun per paket</span><span class="evc-chip"><i class="fa-solid fa-wallet" aria-hidden="true"></i>Rp5.000</span></div><span class="evc-go" aria-hidden="true"><i class="fa-solid fa-arrow-right"></i></span></div>
+    <p>Buat 3 akun Gmail sesuai format. Kami bayar Rp5.000 per paket.</p>
+    <div class="evc-ft"><div class="evc-chips"><span class="evc-chip"><i class="fa-solid fa-envelope" aria-hidden="true"></i>3 akun per paket</span><span class="evc-chip"><i class="fa-solid fa-wallet" aria-hidden="true"></i>Dibayar Rp5.000</span></div><span class="evc-go" aria-hidden="true"><i class="fa-solid fa-arrow-right"></i></span></div>
   </div>
 </div>
 
@@ -2117,14 +2117,21 @@ body.ev-solid.ev-light .topbar-pro{background:rgba(255,255,255,.86)!important;-w
 #eventTab .fg>.fg-toast.on{opacity:1;transform:translate(-50%,0)}
 #eventTab .fg>.fg-toast.bad{background:#7f1d1d;border-color:rgba(248,113,113,.5)}
 
-/* slider banner Freelance Gmail */
-#eventTab .fg-slider{position:relative;overflow:hidden;margin:0 0 14px;border-radius:24px;aspect-ratio:16/7;background:linear-gradient(135deg,#dbeafe,#e0f2fe);border:1px solid rgba(var(--fg-a),.3);box-shadow:0 10px 26px rgba(var(--fg-a),.16)}
-#eventTab .fg-track{display:flex;height:100%;will-change:transform}
-#eventTab .fg-slide{flex:0 0 100%;height:100%}
-#eventTab .fg-slide img{display:block;width:100%;height:100%;object-fit:cover}
-#eventTab .fg-dots{position:absolute;left:0;right:0;bottom:8px;display:flex;justify-content:center;gap:6px;pointer-events:none}
-#eventTab .fg-dots i{width:6px;height:6px;border-radius:99px;background:rgba(15,23,42,.25);border:1px solid rgba(255,255,255,.85);transition:width .3s cubic-bezier(.2,.7,.2,1),background .25s}
-#eventTab .fg-dots i.on{width:16px;background:rgb(var(--fg-a));border-color:#fff}
+/* hasil generate: geser ke samping, satu akun per layar */
+#eventTab .fg-bar{display:flex;align-items:center;justify-content:space-between;margin:14px 0 10px}
+#eventTab .fg-cnt{font:800 .82rem 'Rajdhani','Outfit',sans-serif;letter-spacing:1px;color:var(--fg-ac)}
+#eventTab .fg-nav{display:flex;gap:8px}
+#eventTab .fg-nav .fg-btn{width:42px;min-height:38px;padding:0}
+#eventTab .fg-pager{position:relative;display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none;border-radius:18px}
+#eventTab .fg-pager::-webkit-scrollbar{display:none}
+#eventTab .fg-pager:focus-visible{outline:2px solid rgb(var(--fg-a2));outline-offset:3px}
+#eventTab .fg-pager .fg-acct{flex:0 0 100%;min-width:0;scroll-snap-align:start;scroll-snap-stop:always}
+#eventTab .fg-dts{display:flex;justify-content:center;gap:7px;margin:12px 0 0}
+#eventTab .fg-dt{appearance:none;-webkit-appearance:none;width:8px;height:8px;padding:0;border:0;border-radius:99px;background:rgba(var(--fg-a2),.35);cursor:pointer;transition:width .25s,background .25s}
+#eventTab .fg-dt.on{width:22px;background:rgb(var(--fg-a))}
+#eventTab .fg-note{display:flex;gap:8px;align-items:flex-start;margin:14px 0 0;font-size:.72rem;line-height:1.5;color:var(--fg-mu)}
+#eventTab .fg-note i{flex:none;margin-top:2px;color:var(--fg-warn)}
+#eventTab .fg-eye.fg-cp{color:var(--fg-ac)}
 /* latar halaman Freelance Gmail: biru, bukan hijau */
 body.fg-on.ev-solid,body.fg-on.ev-solid:before{background:linear-gradient(180deg,#0b1d45 0,#06112b 320px,#030914 100%) fixed!important}
 body.fg-on.ev-solid.ev-light,body.fg-on.ev-solid.ev-light:before{background:linear-gradient(180deg,#dbeafe 0,#eaf3ff 240px,#f5f9ff 560px,#f5f9ff 100%) fixed!important}
@@ -2147,57 +2154,40 @@ body.fg-on #eventTab[data-ev-theme="light"] .ev-wrap::before{background:radial-g
 
 <header class="fg-head">
 <span class="fg-head-ic" aria-hidden="true"><i class="fa-solid fa-envelope"></i></span>
-<div><h1 class="fg-title">Freelance <b>Gmail</b></h1><p class="fg-sub">Buat 3 akun Gmail sesuai format yang ditentukan dan dapatkan bayaran Rp5.000.</p></div>
+<div><h1 class="fg-title">Freelance <b>Gmail</b></h1><p class="fg-sub">Buat 3 akun Gmail sesuai format. Kami bayar Rp5.000 per paket.</p></div>
 </header>
-<div class="fg-slider" id="fgSlider" role="region" aria-label="Banner promo Freelance Gmail"><div class="fg-track" id="fgTrack"><div class="fg-slide"><img src="zusmo-asset/fg1.png" alt="Banner Freelance Gmail 1" decoding="async" onerror="this.style.visibility='hidden'"></div><div class="fg-slide"><img src="zusmo-asset/fg2.png" alt="Banner Freelance Gmail 2" decoding="async" onerror="this.style.visibility='hidden'"></div><div class="fg-slide"><img src="zusmo-asset/fg3.png" alt="Banner Freelance Gmail 3" decoding="async" onerror="this.style.visibility='hidden'"></div><div class="fg-slide" aria-hidden="true"><img src="zusmo-asset/fg1.png" alt="" decoding="async" onerror="this.style.visibility='hidden'"></div></div><div class="fg-dots" id="fgDots" aria-hidden="true"><i class="on"></i><i></i><i></i></div></div>
 
-<section class="fg-card fg-rate" aria-labelledby="fgRateH">
-<p class="fg-rate-lbl" id="fgRateH">Tarif Freelance Gmail</p>
-<div class="fg-price"><b>Rp5.000</b><span>per paket</span></div>
-<ul class="fg-rate-list">
-<li><i class="fa-solid fa-circle-check" aria-hidden="true"></i><span><b>3 akun Gmail</b> dalam 1 paket.</span></li>
-<li><i class="fa-solid fa-circle-check" aria-hidden="true"></i><span>Harga <b>Rp5.000</b> berlaku untuk satu paket berisi 3 akun yang sudah memenuhi ketentuan.</span></li>
-</ul>
-<div class="fg-fmt">Format akun yang harus dipenuhi:<br><code>kzrizusmo + 5 karakter acak + @gmail.com</code></div>
+<section class="fg-card fg-rate" aria-label="Tarif dan format">
+<div class="fg-price"><b>Rp5.000</b><span>dibayar per paket &middot; 3 akun Gmail</span></div>
+<div class="fg-fmt">Format akun:<br><code>kzrizusmo + 5 karakter acak + @gmail.com</code></div>
 </section>
 
 <section class="fg-card" aria-labelledby="fgGenH">
 <h2 class="fg-h" id="fgGenH"><span class="fg-h-ic" aria-hidden="true"><i class="fa-solid fa-wand-magic-sparkles"></i></span>Generator akun</h2>
-<div class="fg-cand"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>Hasil di bawah hanya <b>kandidat</b> username dan password. Ketersediaan username belum diperiksa dan akun <b>belum dibuat</b> sampai kamu mendaftar lewat proses resmi Google.</span></div>
 <button type="button" class="fg-btn fg-btn-main" id="fgGen"><i class="fa-solid fa-bolt" aria-hidden="true"></i> GENERATE 3 AKUN</button>
-<div class="fg-empty" id="fgEmpty"><i class="fa-regular fa-envelope" aria-hidden="true"></i>Belum ada hasil. Tekan <b>GENERATE 3 AKUN</b> untuk membuat 3 kandidat.</div>
-<div class="fg-list" id="fgList" aria-live="polite"></div>
+<div class="fg-empty" id="fgEmpty"><i class="fa-regular fa-envelope" aria-hidden="true"></i>Tekan <b>GENERATE 3 AKUN</b>, lalu geser untuk melihat tiap akun.</div>
+<div class="fg-res" id="fgRes" hidden>
+<div class="fg-bar"><span class="fg-cnt" id="fgCount" aria-live="polite"></span><div class="fg-nav"><button type="button" class="fg-btn" id="fgPrev" aria-label="Akun sebelumnya"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i></button><button type="button" class="fg-btn" id="fgNext" aria-label="Akun berikutnya"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button></div></div>
+<div class="fg-pager" id="fgList" tabindex="0" role="group" aria-label="Hasil akun, geser ke samping"></div>
+<div class="fg-dts" id="fgDots"></div>
 <div class="fg-row2">
-<button type="button" class="fg-btn" id="fgCopyAll" disabled><i class="fa-regular fa-copy" aria-hidden="true"></i> Salin Semua Data</button>
-<button type="button" class="fg-btn fg-btn-danger" id="fgReset" disabled><i class="fa-solid fa-rotate-left" aria-hidden="true"></i> Reset Hasil</button>
+<button type="button" class="fg-btn" id="fgCopyAll" disabled><i class="fa-regular fa-copy" aria-hidden="true"></i> Salin Semua</button>
+<button type="button" class="fg-btn fg-btn-danger" id="fgReset" disabled><i class="fa-solid fa-rotate-left" aria-hidden="true"></i> Reset</button>
+</div>
 </div>
 <div class="fg-confirm" id="fgConfirm" role="alertdialog" aria-label="Konfirmasi reset hasil" hidden>
 <p>Kosongkan semua hasil? Email dan password yang belum kamu salin akan hilang.</p>
 <div class="fg-row2" style="margin:0"><button type="button" class="fg-btn fg-btn-danger" id="fgConfirmYes">Ya, kosongkan</button><button type="button" class="fg-btn" id="fgConfirmNo">Batal</button></div>
 </div>
-<div class="fg-warn"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i><span><b>Peringatan keamanan:</b> password yang mengikuti pola username mudah ditebak. Ganti dengan password unik yang kuat sebelum akun digunakan.</span></div>
-</section>
-
-<section class="fg-card" aria-labelledby="fgStepH">
-<h2 class="fg-h" id="fgStepH"><span class="fg-h-ic" aria-hidden="true"><i class="fa-solid fa-list-check"></i></span>Cara kerja</h2>
-<ol class="fg-steps">
-<li>Buka halaman Freelance Gmail dan pahami ketentuan pengerjaan.</li>
-<li>Generate 3 kandidat username beserta password-nya.</li>
-<li>Periksa ketersediaan username dan buat akun melalui proses resmi Google jika diizinkan.</li>
-<li>Pastikan seluruh akun yang diminta benar-benar berhasil dibuat dan memenuhi ketentuan.</li>
-<li>Ikuti prosedur penyerahan dan verifikasi hasil yang ditetapkan pengelola sebelum pembayaran diproses.</li>
-</ol>
+<p class="fg-note"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>Hasil hanya <b>kandidat</b>: ketersediaan belum diperiksa dan akun belum dibuat. Ganti password dengan yang kuat sebelum akun dipakai.</span></p>
 </section>
 
 <section class="fg-card" aria-labelledby="fgInfoH">
-<h2 class="fg-h" id="fgInfoH"><span class="fg-h-ic" aria-hidden="true"><i class="fa-solid fa-shield-halved"></i></span>Keamanan &amp; ketentuan</h2>
+<h2 class="fg-h" id="fgInfoH"><span class="fg-h-ic" aria-hidden="true"><i class="fa-solid fa-shield-halved"></i></span>Info penting</h2>
 <div class="fg-accs" id="fgAccs">
-<details class="fg-acc"><summary>Format username dan password<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><p>Username: kzrizusmo + 5 karakter acak (huruf kecil dan angka) + @gmail.com. Password: bagian username sebelum @gmail.com yang ditulis dengan huruf kapital. Contoh: kzrizusmo98aa7@gmail.com dengan password KZRIZUSMO98AA7.</p></details>
-<details class="fg-acc"><summary>Username acak belum tentu tersedia<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><p>Generator tidak terhubung ke Google, jadi hasilnya hanya kandidat. Jika username sudah dipakai, tekan Generate Ulang pada akun tersebut dan coba lagi saat pendaftaran resmi.</p></details>
-<details class="fg-acc"><summary>Password pola username tidak aman jangka panjang<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><p>Karena password dibentuk dari username, siapa pun yang tahu polanya bisa menebaknya. Ganti dengan password unik yang kuat sebelum akun dipakai.</p></details>
-<details class="fg-acc"><summary>Ketentuan Google dan larangan penyalahgunaan<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><p>Pembuatan akun harus mematuhi ketentuan Google. Akun tidak boleh digunakan untuk spam, penipuan, atau penyalahgunaan layanan lain. Jangan mengakali verifikasi atau CAPTCHA.</p></details>
-<details class="fg-acc"><summary>Data yang tidak boleh diminta atau disimpan<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><p>Jangan pernah meminta, membagikan, atau menyimpan kode OTP, kode pemulihan, atau kredensial pribadi yang tidak diperlukan. Halaman ini tidak menyimpan password di perangkat.</p></details>
-<details class="fg-acc"><summary>Penyerahan, pengelolaan, dan pembayaran<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><p>Aplikasi ini belum memproses penyerahan akun, verifikasi hasil, maupun pembayaran secara otomatis. Prosedur penyerahan, tanggung jawab pengelolaan akun, dan pembayaran ditetapkan pengelola dan dijelaskan admin sebelum pengerjaan.</p></details>
+<details class="fg-acc"><summary>Cara kerja &amp; pembayaran<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><p>Generate 3 kandidat, periksa ketersediaan lalu buat akun lewat proses resmi Google, kemudian serahkan sesuai prosedur pengelola. Pembayaran Rp5.000 dari kami diproses setelah 3 akun diverifikasi memenuhi ketentuan.</p></details>
+<details class="fg-acc"><summary>Format &amp; ketentuan akun<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><p>Username: kzrizusmo + 5 karakter acak (huruf kecil dan angka) + @gmail.com. Password: bagian username sebelum @gmail.com dalam huruf kapital. Jika username sudah dipakai, tekan Generate Ulang. Pembuatan akun harus mematuhi ketentuan Google dan tidak boleh dipakai untuk spam atau penipuan.</p></details>
+<details class="fg-acc"><summary>Keamanan data<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><p>Password mengikuti pola username sehingga mudah ditebak; ganti dengan password unik yang kuat. Jangan pernah membagikan kode OTP atau kode pemulihan. Halaman ini tidak menyimpan data, hasil hilang saat halaman ditutup.</p></details>
 </div>
 </section>
 
@@ -2207,11 +2197,10 @@ body.fg-on #eventTab[data-ev-theme="light"] .ev-wrap::before{background:radial-g
 var root=document.getElementById('evEmail');
 if(!root||root.__fg)return;root.__fg=1;
 function $(id){return document.getElementById(id)}
-var PREFIX='kzrizusmo',SUFFIX='@gmail.com',CH='abcdefghijklmnopqrstuvwxyz0123456789',LEN=5,N=3;
-var list=$('fgList'),empty=$('fgEmpty'),btnGen=$('fgGen'),btnAll=$('fgCopyAll'),btnReset=$('fgReset'),cf=$('fgConfirm'),toastEl=$('fgToast');
-var accts=[],shown={},toastT=0;
+var PREFIX='kzrizusmo',SUFFIX='@gmail.com',CH='abcdefghijklmnopqrstuvwxyz0123456789',LEN=5,N=3,GAP=10;
+var list=$('fgList'),empty=$('fgEmpty'),res=$('fgRes'),dotsEl=$('fgDots'),cnt=$('fgCount'),prev=$('fgPrev'),next=$('fgNext'),btnGen=$('fgGen'),btnAll=$('fgCopyAll'),btnReset=$('fgReset'),cf=$('fgConfirm'),toastEl=$('fgToast');
+var accts=[],shown={},toastT=0,cur=0,raf=0;
 
-/* acak: crypto.getRandomValues (tanpa bias), cadangan Math.random bila crypto tidak ada */
 function rnd(max){
  var c=window.crypto||window.msCrypto;
  if(c&&c.getRandomValues){
@@ -2223,7 +2212,7 @@ function rnd(max){
 function part(){var s='';for(var i=0;i<LEN;i++)s+=CH.charAt(rnd(CH.length));return s}
 function uniq(taken){var p,i=0;do{p=part();i++}while(taken.indexOf(p)!==-1&&i<200);return p}
 function email(p){return PREFIX+p+SUFFIX}
-function pass(p){return (PREFIX+p).toUpperCase()}   /* selalu diturunkan dari username terbaru */
+function pass(p){return (PREFIX+p).toUpperCase()}
 
 function toast(msg,bad){
  toastEl.textContent=msg;toastEl.className='fg-toast on'+(bad?' bad':'');
@@ -2233,70 +2222,82 @@ function legacy(t){
  try{
   var ta=document.createElement('textarea');ta.value=t;ta.setAttribute('readonly','');
   ta.style.cssText='position:fixed;top:0;left:0;opacity:0;font-size:16px';
-  ta.style.setProperty('-webkit-user-select','text','important');ta.style.setProperty('user-select','text','important');
   document.body.appendChild(ta);ta.focus();ta.select();ta.setSelectionRange(0,t.length);
   var ok=document.execCommand('copy');document.body.removeChild(ta);return !!ok;
  }catch(e){return false}
 }
 function copy(t){
- return new Promise(function(res){
+ return new Promise(function(r){
   if(navigator.clipboard&&navigator.clipboard.writeText&&window.isSecureContext){
-   navigator.clipboard.writeText(t).then(function(){res(true)},function(){res(legacy(t))});
-  }else res(legacy(t));
+   navigator.clipboard.writeText(t).then(function(){r(true)},function(){r(legacy(t))});
+  }else r(legacy(t));
  });
 }
-function doCopy(t,okMsg){copy(t).then(function(ok){ok?toast(okMsg):toast('Gagal menyalin. Salin manual dari kotak di layar.',true)})}
+function doCopy(t,okMsg){copy(t).then(function(ok){ok?toast(okMsg):toast('Gagal menyalin. Coba lagi.',true)})}
 
-function field(label,id,val,isPass,i){
+function ib(cls,act,i,icon,label,pressed){
+ var e=document.createElement('button');e.type='button';e.className='fg-eye '+cls;
+ e.setAttribute('data-fg',act);e.setAttribute('data-i',i);e.setAttribute('aria-label',label);
+ if(pressed!==undefined)e.setAttribute('aria-pressed',pressed?'true':'false');
+ e.innerHTML='<i class="fa-solid '+icon+'" aria-hidden="true"></i>';return e;
+}
+function field(label,val,isPass,i){
  var d=document.createElement('div');d.className='fg-fld';
  var l=document.createElement('span');l.className='fg-lbl';l.textContent=label;
  var v=document.createElement('div');v.className='fg-val';
- var s=document.createElement('span');s.setAttribute('data-fg-v',id);
+ var s=document.createElement('span');
  s.textContent=isPass&&!shown[i]?'\u2022'.repeat(val.length):val;
  v.appendChild(s);
- if(isPass){
-  var e=document.createElement('button');e.type='button';e.className='fg-eye';e.setAttribute('data-fg','eye');e.setAttribute('data-i',i);
-  e.setAttribute('aria-label',shown[i]?'Sembunyikan password':'Tampilkan password');
-  e.setAttribute('aria-pressed',shown[i]?'true':'false');
-  e.innerHTML='<i class="fa-solid '+(shown[i]?'fa-eye-slash':'fa-eye')+'" aria-hidden="true"></i>';
-  v.appendChild(e);
- }
+ if(isPass)v.appendChild(ib('','eye',i,shown[i]?'fa-eye-slash':'fa-eye',shown[i]?'Sembunyikan password':'Tampilkan password',!!shown[i]));
+ v.appendChild(ib('fg-cp',isPass?'cp':'ce',i,'fa-copy',isPass?'Salin password':'Salin email'));
  d.appendChild(l);d.appendChild(v);return d;
 }
-function btn(txt,icon,act,i){
- var b=document.createElement('button');b.type='button';b.className='fg-btn fg-btn-sm';
- b.setAttribute('data-fg',act);b.setAttribute('data-i',i);
- b.innerHTML='<i class="'+icon+'" aria-hidden="true"></i> ';b.appendChild(document.createTextNode(txt));return b;
-}
-function card(i,flash,isNew){
+function card(i,flash){
  var p=accts[i],a=document.createElement('article');
- a.className='fg-acct'+(isNew?' fg-new':'')+(flash?' fg-flash':'');a.setAttribute('data-n',i);
+ a.className='fg-acct'+(flash?' fg-flash':'');a.setAttribute('aria-label','Akun '+(i+1)+' dari '+accts.length);
  var top=document.createElement('div');top.className='fg-acct-top';
  top.innerHTML='<span class="fg-acct-n">AKUN '+(i+1)+'</span><span class="fg-acct-tag">Kandidat</span>';
  a.appendChild(top);
- a.appendChild(field('Email','e',email(p),false,i));
- a.appendChild(field('Password','p',pass(p),true,i));
+ a.appendChild(field('Email',email(p),false,i));
+ a.appendChild(field('Password',pass(p),true,i));
  var ac=document.createElement('div');ac.className='fg-acts';
- ac.appendChild(btn('Salin Email','fa-regular fa-copy','ce',i));
- ac.appendChild(btn('Salin Password','fa-solid fa-key','cp',i));
- ac.appendChild(btn('Generate Ulang','fa-solid fa-arrows-rotate','re',i));
- a.appendChild(ac);return a;
+ var b=document.createElement('button');b.type='button';b.className='fg-btn fg-btn-sm';b.setAttribute('data-fg','re');b.setAttribute('data-i',i);
+ b.innerHTML='<i class="fa-solid fa-arrows-rotate" aria-hidden="true"></i> Generate Ulang';
+ ac.appendChild(b);a.appendChild(ac);return a;
 }
-function render(flashIdx,isNew){
- while(list.firstChild)list.removeChild(list.firstChild);
- for(var i=0;i<accts.length;i++)list.appendChild(card(i,i===flashIdx,!!isNew));
+function mark(){
+ var n=accts.length;if(!n)return;
+ cnt.textContent='Akun '+(cur+1)+' dari '+n;
+ prev.disabled=cur<=0;next.disabled=cur>=n-1;
+ [].forEach.call(dotsEl.children,function(d,k){d.classList.toggle('on',k===cur)});
+}
+function go(i,smooth){
+ var c=list.children[Math.max(0,Math.min(accts.length-1,i))];if(!c)return;
+ try{list.scrollTo({left:c.offsetLeft,behavior:smooth?'smooth':'auto'})}catch(e){list.scrollLeft=c.offsetLeft}
+}
+function render(flashIdx){
  var has=accts.length>0;
- empty.hidden=has;btnAll.disabled=!has;btnReset.disabled=!has;
- if(!has)cf.hidden=true;
+ empty.hidden=has;res.hidden=!has;btnAll.disabled=!has;btnReset.disabled=!has;
+ while(list.firstChild)list.removeChild(list.firstChild);
+ while(dotsEl.firstChild)dotsEl.removeChild(dotsEl.firstChild);
+ if(!has){cf.hidden=true;return}
+ cur=Math.max(0,Math.min(cur,accts.length-1));
+ for(var i=0;i<accts.length;i++){
+  list.appendChild(card(i,i===flashIdx));
+  var d=document.createElement('button');d.type='button';d.className='fg-dt';d.setAttribute('data-fg','dot');d.setAttribute('data-i',i);d.setAttribute('aria-label','Akun '+(i+1));
+  dotsEl.appendChild(d);
+ }
+ go(cur,false);mark();
 }
 function genAll(){
- var taken=[];accts=[];shown={};
+ var taken=[];accts=[];shown={};cur=0;
  for(var i=0;i<N;i++){var p=uniq(taken);taken.push(p);accts.push(p)}
- cf.hidden=true;render(-1,true);
+ cf.hidden=true;render(-1);
+ try{res.scrollIntoView({block:'nearest',behavior:'smooth'})}catch(x){}
 }
 function regen(i){
  var taken=accts.filter(function(_,k){return k!==i});
- accts[i]=uniq(taken);shown[i]=false;render(i);toast('Akun '+(i+1)+' dibuat ulang');
+ accts[i]=uniq(taken);shown[i]=false;cur=i;render(i);toast('Akun '+(i+1)+' dibuat ulang');
 }
 function allText(){
  var o=['FREELANCE GMAIL - KANDIDAT AKUN','(Ketersediaan belum diperiksa. Akun belum dibuat.)',''];
@@ -2304,47 +2305,48 @@ function allText(){
  return o.join('\n').replace(/\s+$/,'');
 }
 
+list.addEventListener('scroll',function(){
+ if(raf)return;
+ raf=requestAnimationFrame(function(){
+  raf=0;var w=list.clientWidth+GAP;if(!w)return;
+  var k=Math.round(list.scrollLeft/w);
+  if(k!==cur&&k>=0&&k<accts.length){cur=k;mark()}
+ });
+},{passive:true});
+list.addEventListener('keydown',function(e){
+ if(e.key==='ArrowRight'){e.preventDefault();go(cur+1,true)}
+ else if(e.key==='ArrowLeft'){e.preventDefault();go(cur-1,true)}
+});
+prev.addEventListener('click',function(){go(cur-1,true)});
+next.addEventListener('click',function(){go(cur+1,true)});
+
 root.addEventListener('click',function(e){
  var t=e.target;if(!t||!t.closest)return;
  var b=t.closest('[data-fg]');if(!b||!root.contains(b))return;
  var i=parseInt(b.getAttribute('data-i'),10),act=b.getAttribute('data-fg');
  if(isNaN(i)||!accts[i])return;
  if(act==='eye'){shown[i]=!shown[i];render();var nb=list.querySelector('[data-fg="eye"][data-i="'+i+'"]');if(nb)nb.focus()}
- else if(act==='ce')doCopy(email(accts[i]),'Email berhasil disalin');
- else if(act==='cp')doCopy(pass(accts[i]),'Password berhasil disalin');
+ else if(act==='ce')doCopy(email(accts[i]),'Email disalin');
+ else if(act==='cp')doCopy(pass(accts[i]),'Password disalin');
  else if(act==='re')regen(i);
+ else if(act==='dot')go(i,true);
 });
 btnGen.addEventListener('click',function(){genAll();toast('3 kandidat akun dibuat')});
-btnAll.addEventListener('click',function(){if(accts.length)doCopy(allText(),'Semua data berhasil disalin')});
+btnAll.addEventListener('click',function(){if(accts.length)doCopy(allText(),'Semua data disalin')});
 btnReset.addEventListener('click',function(){if(accts.length){cf.hidden=false;try{cf.scrollIntoView({block:'nearest',behavior:'smooth'})}catch(x){}}});
 $('fgConfirmNo').addEventListener('click',function(){cf.hidden=true});
-$('fgConfirmYes').addEventListener('click',function(){accts=[];shown={};cf.hidden=true;render();toast('Hasil dikosongkan')});
+$('fgConfirmYes').addEventListener('click',function(){accts=[];shown={};cur=0;cf.hidden=true;render();toast('Hasil dikosongkan')});
 
-/* accordion: hanya satu terbuka */
 var acc=[].slice.call(root.querySelectorAll('#fgAccs details'));
 acc.forEach(function(d){d.addEventListener('toggle',function(){if(d.open)acc.forEach(function(o){if(o!==d&&o.open)o.open=false})})});
 
-/* slider banner: otomatis tiap 4 detik, berhenti saat halaman tertutup / tab disembunyikan */
-var tr=$('fgTrack'),dots=[].slice.call(root.querySelectorAll('#fgDots i')),SN=dots.length,si=0,stm=null,jt=0;
-function slGo(){
- si++;tr.style.transition='transform .6s cubic-bezier(.65,0,.25,1)';tr.style.transform='translateX(-'+(si*100)+'%)';
- dots.forEach(function(d,k){d.classList.toggle('on',k===(si%SN))});
- if(si>=SN){clearTimeout(jt);jt=setTimeout(function(){tr.style.transition='none';tr.style.transform='translateX(0)';si=0;void tr.offsetWidth},680)}
-}
-function slReset(){clearTimeout(jt);si=0;tr.style.transition='none';tr.style.transform='translateX(0)';dots.forEach(function(d,k){d.classList.toggle('on',k===0)})}
-function slRun(on){if(on&&!stm)stm=setInterval(slGo,4000);else if(!on&&stm){clearInterval(stm);stm=null}}
 function fgSync(){
  var open=!root.hidden;
  document.body.classList.toggle('fg-on',open);
- slRun(open&&!document.hidden);
- if(!open)slReset();
+ if(!open&&accts.length){accts=[];shown={};cur=0;cf.hidden=true;render()}
 }
-document.addEventListener('visibilitychange',fgSync);
 try{new MutationObserver(fgSync).observe(root,{attributes:true,attributeFilter:['hidden']})}catch(e){}
 fgSync();
-
-/* data dikosongkan saat halaman ditutup agar password tidak tertinggal di layar */
-try{new MutationObserver(function(){if(root.hidden&&accts.length){accts=[];shown={};cf.hidden=true;render()}}).observe(root,{attributes:true,attributeFilter:['hidden']})}catch(e){}
 render();
 })();
 </script>
