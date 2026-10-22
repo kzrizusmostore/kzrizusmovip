@@ -2008,11 +2008,6 @@ body.ev-solid.ev-light .topbar-pro{background:rgba(255,255,255,.86)!important;-w
 <span class="evs-hub-tx"><small>Saldo aktif</small><b data-bal-t>Rp0</b><p>Pendapatan dihitung dari pesan sukses dan reward referral.</p></span>
 <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
 </button>
-<button type="button" class="evs-referral" id="evReferralHub" data-ref-open aria-label="Buka Program Referral">
-  <span class="evs-referral-ic"><i class="fa-solid fa-user-plus" aria-hidden="true"></i></span>
-  <span class="evs-referral-tx"><small>PROGRAM AJAK TEMAN</small><b>Referral &amp; Bonus</b><p>Bagikan link unik, pantau undangan, dan lihat status reward.</p></span>
-  <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
-</button>
 <div class="kl-sec"><span>Layanan</span></div>
 <!-- 4 kartu, 1 kolom. Aksen lewat --c (R,G,B). data-ev-open tetap dipakai logika lama. -->
 <div class="evc-list">
@@ -2821,6 +2816,7 @@ function draw(){
    x=hd('Saldo event')+
     '<section class="fgw-dashboard-balance" aria-label="Ringkasan saldo tersedia"><div class="fgw-balance-top"><span class="fgw-balance-label"><i class="fa-solid fa-wallet" aria-hidden="true"></i> SALDO TERSEDIA</span><span class="fgw-live-pill"><i aria-hidden="true"></i> AKTIF</span></div><div class="fgw-balance-amount">'+rpd(balance)+'</div><p>Saldo dari aktivitas Event dan bonus yang tercatat pada akunmu.</p><div class="fgw-balance-meta"><span><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Saldo tercatat</span><span><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Verifikasi admin</span></div><div class="fgw-balance-glow" aria-hidden="true"></div></section>'+
     '<div class="fgw-action-grid"><button type="button" class="fgw-main-cta" data-w="goWd"><span class="fgw-action-ico"><i class="fa-solid fa-money-bill-transfer" aria-hidden="true"></i></span><span class="fgw-action-tx"><b>Withdraw saldo</b><small>'+(balance>=MIN?'Ajukan pencairan ke e-wallet':'Minimal '+rp(MIN)+' untuk mengajukan pencairan')+'</small></span><i class="fa-solid fa-arrow-right fgw-action-arrow" aria-hidden="true"></i></button><button type="button" class="fgw-secondary-action" data-w="goHist"><span class="fgw-action-ico"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></span><span class="fgw-action-tx"><b>Riwayat transaksi</b><small>'+(D.ledger||[]).length+' mutasi · '+(D.withdrawals||[]).length+' pengajuan withdraw</small></span><i class="fa-solid fa-chevron-right fgw-action-arrow" aria-hidden="true"></i></button>'+(D.is_admin?'<button type="button" class="fgw-action-card fgw-action-admin" data-w="goAdm"><span class="fgw-action-ico"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></span><span class="fgw-action-tx"><b>Panel admin</b><small>Kelola pengajuan dan saldo pengguna</small></span><i class="fa-solid fa-chevron-right fgw-action-arrow" aria-hidden="true"></i></button>':'')+'</div>'+
+    '<button type="button" class="fgw-referral-entry" data-ref-open aria-label="Buka Program Referral"><span class="fgw-referral-entry-ic"><i class="fa-solid fa-user-plus" aria-hidden="true"></i></span><span class="fgw-referral-entry-copy"><b>Program Referral</b><small>Ajak teman dan pantau bonus undangan</small></span><i class="fa-solid fa-chevron-right fgw-referral-entry-arrow" aria-hidden="true"></i></button>'+
     (pending?'<div class="fgw-pending-note"><span class="fgw-pending-ico"><i class="fa-solid fa-hourglass-half" aria-hidden="true"></i></span><span><b>'+pending+' pengajuan withdraw sedang diproses</b><small>Periksa status dan catatan admin di halaman riwayat transaksi.</small></span><button type="button" data-w="goHist" aria-label="Lihat pengajuan withdraw"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button></div>':'')+
     '<section class="fgw-content-card"><div class="fgw-section-head"><div><small>RINGKASAN AKTIVITAS</small><h3>Mutasi saldo terbaru</h3></div><button type="button" class="fgw-see-all" data-w="goHist">Lihat semua <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button></div>'+
     (recent.length?recent.map(function(r){var m=txInfo(r);return '<div class="fgw-recent-item"><span class="fgw-recent-ico '+m.cls+'" aria-hidden="true"><i class="'+m.icon+'"></i></span><span class="fgw-recent-copy"><b>'+esc(r.note||r.type||'Mutasi saldo')+'</b><small>'+dt(r.created_at)+'</small></span><b class="fgw-recent-amount '+(r.amount>0?'pl':r.amount<0?'mn':'neutral')+'">'+(r.amount>0?'+':r.amount<0?'-':'')+rp(Math.abs(Number(r.amount||0)))+'</b></div>'}).join(''):'<div class="fgw-empty-inline"><i class="fa-solid fa-receipt" aria-hidden="true"></i><b>Belum ada mutasi saldo</b><span>Setiap pendapatan, bonus, dan penyesuaian saldo akan tercatat di sini.</span></div>')+
@@ -20480,12 +20476,7 @@ if(root){
 }
 })();
 </script>
-<style id="kz-referral-ui-styles">
-#eventTab .evs-referral{display:flex;align-items:center;gap:14px;width:100%;box-sizing:border-box;margin:0 0 20px;padding:14px 16px;border-radius:20px;text-align:left;cursor:pointer;color:#fff;background:linear-gradient(125deg,rgba(88,28,135,.34),rgba(147,51,234,.08));border:1px solid rgba(192,132,252,.36);font-family:'Outfit',sans-serif;transition:transform .18s ease,border-color .18s ease;}
-#eventTab .evs-referral:active{transform:scale(.99)}
-#eventTab .evs-referral-ic{flex:none;width:46px;height:46px;border-radius:15px;display:grid;place-items:center;font-size:1.15rem;background:rgba(168,85,247,.2);color:#d8b4fe}
-#eventTab .evs-referral-tx{flex:1;min-width:0}#eventTab .evs-referral small{display:block;font:800 .66rem 'Outfit',sans-serif;letter-spacing:1px;text-transform:uppercase;opacity:.76}#eventTab .evs-referral b{display:block;margin:2px 0 4px;font:800 1.2rem/1.1 'Rajdhani','Outfit',sans-serif}#eventTab .evs-referral p{margin:0;font-size:.7rem;line-height:1.4;opacity:.74}#eventTab .evs-referral>i{flex:none;opacity:.62}
-#eventTab[data-ev-theme="light"] .evs-referral{color:#3b0764;background:linear-gradient(135deg,#f3e8ff,#fff);border-color:rgba(147,51,234,.24);box-shadow:0 4px 14px rgba(88,28,135,.06)}#eventTab[data-ev-theme="light"] .evs-referral-ic{color:#7e22ce;background:rgba(147,51,234,.11)}
+
 #kzReferralApp{--kzr-bg:#09090d;--kzr-panel:#121219;--kzr-panel2:#181821;--kzr-border:rgba(255,255,255,.09);--kzr-text:#f8fafc;--kzr-muted:#9ca3af;--kzr-purple:#c084fc;--kzr-green:#34d399;--kzr-red:#fb7185;position:fixed;inset:0;z-index:2147483000;overflow-y:auto;overscroll-behavior:contain;background:var(--kzr-bg);color:var(--kzr-text);font-family:Inter,Outfit,system-ui,sans-serif;padding:calc(env(safe-area-inset-top,0px) + 8px) 0 calc(env(safe-area-inset-bottom,0px) + 22px);box-sizing:border-box;-webkit-overflow-scrolling:touch}
 #kzReferralApp[hidden]{display:none!important}#kzReferralApp *{box-sizing:border-box}#kzReferralApp button{font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}#kzReferralApp[data-theme="light"]{--kzr-bg:#f8fafc;--kzr-panel:#fff;--kzr-panel2:#f1f5f9;--kzr-border:rgba(15,23,42,.09);--kzr-text:#111827;--kzr-muted:#64748b;--kzr-purple:#7e22ce;--kzr-green:#047857;--kzr-red:#be123c}
 #kzReferralApp .kzr-page{width:min(100%,820px);margin:0 auto;padding:0 17px 20px}#kzReferralApp .kzr-top{display:flex;align-items:center;gap:12px;min-height:52px;margin-bottom:17px}#kzReferralApp .kzr-top>div{min-width:0;flex:1}#kzReferralApp .kzr-top small{display:block;font-size:9px;font-weight:900;letter-spacing:1.8px;color:var(--kzr-muted)}#kzReferralApp .kzr-top h1{margin:2px 0 0;text-align:left;font-size:21px;letter-spacing:.1px;line-height:1.2;color:var(--kzr-text);font-family:Inter,Outfit,system-ui,sans-serif;font-weight:850}#kzReferralApp .kzr-back,#kzReferralApp .kzr-refresh{display:grid;place-items:center;flex:none;width:39px;height:39px;padding:0;border:1px solid var(--kzr-border);border-radius:13px;background:var(--kzr-panel);color:var(--kzr-text)}#kzReferralApp .kzr-top-mark{display:grid;place-items:center;flex:none;width:39px;height:39px;border-radius:14px;color:var(--kzr-purple);background:rgba(168,85,247,.12)}
@@ -20574,7 +20565,7 @@ if(root){
     var link=getInviteLink(),rows=data.referrals||[],reward=Number(data.reward_amount||0),paid=Number(data.reward_paid||0),due=Number(data.reward_due||0);
     var hello='<header class="kzr-top"><button type="button" class="kzr-back" data-ref-action="close" aria-label="Kembali"><i class="fa-solid fa-arrow-left"></i></button><div><small>PROGRAM KOMUNITAS</small><h1>Referral Zusmo</h1></div><button type="button" class="kzr-refresh" data-ref-action="refresh" aria-label="Muat ulang"><i class="fa-solid fa-rotate"></i></button></header>';
     var hero='<section class="kzr-guest-hero"><span class="kzr-guest-icon"><i class="fa-solid fa-users"></i></span><div><p class="kzr-guest-eyebrow">PROGRAM REFERRAL</p><h2>Ajak teman, dapat bonus.</h2><p>'+(data.enabled?'Bagikan kode ini. Bonus '+esc(rp(reward))+' diberikan untuk undangan valid setelah diverifikasi.':'Program bonus sedang nonaktif. Kode tetap bisa dilihat, tetapi bonus belum tersedia.')+'</p></div></section>';
-    var invite='<section class="kzr-panel kzr-main-invite"><div class="kzr-simple-heading"><div><h3>Kode undanganmu</h3><p>Teman memakai kode ini saat mendaftar.</p></div><span class="kzr-live-pill"><i class="fa-solid fa-link"></i> Link aktif</span></div><div class="kzr-code-box"><div><small>KODE REFERRAL</small><b>'+esc(data.code||'--------')+'</b></div><button type="button" data-ref-action="copy-code" aria-label="Salin kode referral"><i class="fa-regular fa-copy"></i></button></div><div class="kzr-link-box"><span>'+esc(link)+'</span><button type="button" data-ref-action="copy-link" aria-label="Salin link referral"><i class="fa-regular fa-copy"></i> Salin</button></div><button type="button" class="kzr-primary kzr-share-main" data-ref-action="share"><i class="fa-solid fa-share-nodes"></i> Bagikan undangan</button></section>';
+    var invite='<section class="kzr-panel kzr-main-invite"><div class="kzr-simple-heading"><div><h3>Kode undanganmu</h3><p>Teman memakai kode ini saat mendaftar.</p></div><span class="kzr-live-pill"><i class="fa-solid fa-link"></i> Link aktif</span></div><div class="kzr-code-box"><div><small>KODE REFERRAL</small><b>'+esc(data.code||'--------')+'</b></div><button type="button" data-ref-action="copy-code" aria-label="Salin kode referral"><i class="fa-regular fa-copy"></i></button></div><div class="kzr-link-box"><span>'+esc(link)+'</span><button type="button" data-ref-action="copy-link" aria-label="Salin link referral"><i class="fa-regular fa-copy"></i> Salin</button></div><button type="button" class="kzr-primary kzr-share-main" data-ref-action="share"><i class="fa-solid fa-link"></i> Bagikan link undangan</button><button type="button" class="kzr-share-code" data-ref-action="share-code"><i class="fa-solid fa-ticket"></i> Bagikan kode saja</button></section>';
     var stats='<section class="kzr-stats"><article class="kzr-stat"><span><i class="fa-solid fa-user-group"></i></span><b>'+Number(data.total_invited||0).toLocaleString('id-ID')+'</b><small>Teman bergabung</small></article><article class="kzr-stat"><span class="wait"><i class="fa-solid fa-clock"></i></span><b>'+Number(data.pending_count||0).toLocaleString('id-ID')+'</b><small>Menunggu</small></article><article class="kzr-stat"><span class="good"><i class="fa-solid fa-circle-check"></i></span><b>'+Number(data.qualified_count||0).toLocaleString('id-ID')+'</b><small>Terverifikasi</small></article></section>';
     var rewards='<section class="kzr-reward-line"><div><small>Bonus sudah masuk</small><b>'+esc(rp(paid))+'</b></div><span></span><div><small>Menunggu penyaluran</small><b>'+esc(rp(due))+'</b></div></section>';
     var historyHead='<div class="kzr-list-head"><div><h3>Riwayat undangan</h3><p>Status teman dan bonus tercatat di server.</p></div><button type="button" data-ref-action="refresh" aria-label="Muat ulang riwayat"><i class="fa-solid fa-rotate"></i></button></div>';
@@ -20633,6 +20624,14 @@ if(root){
     if(action==='refresh'){withBusy(action,function(){return loadData().then(function(){return 'Data referral diperbarui.'})});return;}
     if(action==='copy-code'){withBusy(action,function(){return copyText(data&&data.code||'').then(function(){return 'Kode referral berhasil disalin.'})});return;}
     if(action==='copy-link'){withBusy(action,function(){return copyText(getInviteLink()).then(function(){return 'Link undangan berhasil disalin.'})});return;}
+    if(action==='share-code'){
+      var code=String(data&&data.code||'').trim().toUpperCase();
+      if(!/^[A-Z0-9]{8}$/.test(code)){toast('Kode referral belum tersedia. Muat ulang data terlebih dahulu.',true);return;}
+      var codeMessage='Yuk gabung di KZRIZUSMO! Saat daftar, masukkan kode referral saya: '+code+'.';
+      if(navigator.share){navigator.share({title:'Kode referral KZRIZUSMO',text:codeMessage}).then(function(){},function(err){if(err&&err.name!=='AbortError')copyText(codeMessage).then(function(){toast('Teks kode referral disalin.')}).catch(function(){toast('Gagal membagikan kode.',true)})});}
+      else copyText(codeMessage).then(function(){toast('Teks kode referral disalin.')}).catch(function(){toast('Gagal menyalin kode.',true)});
+      return;
+    }
     if(action==='share'){
       var link=getInviteLink(),msg='Gabung di Zusmo lewat link undanganku: '+link;
       if(navigator.share){navigator.share({title:'Undangan Zusmo',text:'Gabung di Zusmo lewat link undanganku.',url:link}).then(function(){},function(err){if(err&&err.name!=='AbortError')copyText(msg).then(function(){toast('Link tidak dapat dibagikan langsung. Teks undangan disalin.')}).catch(function(){toast('Gagal membagikan link.',true)})})}
@@ -20806,4 +20805,56 @@ if(root){
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',tryOpen,{once:true});else setTimeout(tryOpen,150);
 })();
 </script>
+
+<style id="kz-referral-wallet-green-refresh-v3">
+/* Saldo di hub layanan juga memakai aksen hijau yang lebih jelas pada kedua tema. */
+#eventTab .evs-hub{background:linear-gradient(125deg,rgba(22,163,74,.42),rgba(74,222,128,.16))!important;border-color:rgba(74,222,128,.42)!important;box-shadow:0 9px 22px rgba(22,163,74,.10)!important}
+#eventTab .evs-hub-ic{background:rgba(74,222,128,.23)!important;color:#4ade80!important}
+#eventTab[data-ev-theme="light"] .evs-hub{color:#14532d!important;background:linear-gradient(125deg,#bbf7d0 0%,#d9fbe1 70%,#c6f6d4 100%)!important;border-color:rgba(22,163,74,.42)!important;box-shadow:0 8px 18px rgba(22,101,52,.12)!important}
+#eventTab[data-ev-theme="light"] .evs-hub-ic{background:rgba(22,163,74,.16)!important;color:#15803d!important}
+/* Referral hanya dibuka dari halaman Saldo Event; tombol ini menjadi akses tunggal referral dari layanan utama. */
+#eventTab .fgw-referral-entry{display:flex;align-items:center;gap:11px;width:100%;min-height:64px;padding:11px 13px;margin:11px 0 13px;border:1px solid rgba(34,197,94,.28);border-radius:17px;background:linear-gradient(115deg,rgba(22,163,74,.16),rgba(34,197,94,.07));color:var(--fg-tx);text-align:left;cursor:pointer;box-shadow:none;transition:transform .16s ease,border-color .16s ease,background .16s ease}
+#eventTab .fgw-referral-entry:active{transform:scale(.99)}
+#eventTab .fgw-referral-entry-ic{display:grid;place-items:center;flex:none;width:40px;height:40px;border-radius:13px;background:rgba(34,197,94,.16);color:#22c55e;font-size:15px}
+#eventTab .fgw-referral-entry-copy{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+#eventTab .fgw-referral-entry-copy b{font-size:12px;font-weight:850;line-height:1.25}
+#eventTab .fgw-referral-entry-copy small{font-size:10px;line-height:1.45;color:var(--fg-muted,#839188)}
+#eventTab .fgw-referral-entry-arrow{color:#22c55e;font-size:12px}
+#eventTab[data-ev-theme="light"] .fgw-ov{background:linear-gradient(180deg,#e5f7e9 0%,#eef9f0 48%,#f3faf4 100%)!important}
+#eventTab[data-ev-theme="light"] .fgw-sh{background:transparent!important}
+#eventTab[data-ev-theme="light"] .fgw-content-card,
+#eventTab[data-ev-theme="light"] .fgw-help-card,
+#eventTab[data-ev-theme="light"] .fgw-secondary-action,
+#eventTab[data-ev-theme="light"] .fgw-action-card,
+#eventTab[data-ev-theme="light"] .fgw-history-row,
+#eventTab[data-ev-theme="light"] .fgw-sum:not(:empty){background:#e9f7ec!important;border-color:rgba(22,163,74,.18)!important;color:#12331d!important}
+#eventTab[data-ev-theme="light"] .fgw-content-card h3,
+#eventTab[data-ev-theme="light"] .fgw-help-card b,
+#eventTab[data-ev-theme="light"] .fgw-action-tx b{color:#12331d!important}
+#eventTab[data-ev-theme="light"] .fgw-action-tx small,
+#eventTab[data-ev-theme="light"] .fgw-content-card small,
+#eventTab[data-ev-theme="light"] .fgw-help-card p{color:#4c6c56!important}
+#eventTab[data-ev-theme="dark"] .fgw-secondary-action,
+#eventTab[data-ev-theme="dark"] .fgw-content-card,
+#eventTab[data-ev-theme="dark"] .fgw-help-card,
+#eventTab[data-ev-theme="dark"] .fgw-action-card{background:linear-gradient(120deg,rgba(10,42,22,.72),rgba(10,18,13,.96))!important;border-color:rgba(74,222,128,.16)!important}
+#kzReferralApp{--kzr-bg:#06170b;--kzr-panel:#0d2414;--kzr-panel2:#12311b;--kzr-border:rgba(74,222,128,.19);--kzr-text:#f1fff4;--kzr-muted:#a7c3ad;--kzr-purple:#4ade80;--kzr-green:#4ade80;background:var(--kzr-bg)!important}
+#kzReferralApp[data-theme="light"]{--kzr-bg:#e4f6e9;--kzr-panel:#effcf2;--kzr-panel2:#dff3e4;--kzr-border:rgba(22,163,74,.20);--kzr-text:#12351e;--kzr-muted:#50745a;--kzr-purple:#15803d;--kzr-green:#15803d}
+#kzReferralApp .kzr-panel,
+#kzReferralApp .kzr-stat,
+#kzReferralApp .kzr-reward-line{background:var(--kzr-panel)!important;border-color:var(--kzr-border)!important}
+#kzReferralApp .kzr-guest-hero{background:linear-gradient(135deg,rgba(34,197,94,.15),var(--kzr-panel))!important;border-color:var(--kzr-border)!important}
+#kzReferralApp[data-theme="light"] .kzr-guest-hero{background:linear-gradient(135deg,#d4f5dc,#effcf2 78%)!important}
+#kzReferralApp .kzr-guest-icon,
+#kzReferralApp .kzr-stat>span,
+#kzReferralApp .kzr-row-ic{background:rgba(34,197,94,.15)!important;color:var(--kzr-green)!important}
+#kzReferralApp .kzr-code-box{background:rgba(34,197,94,.09)!important;border-color:rgba(34,197,94,.38)!important}
+#kzReferralApp[data-theme="light"] .kzr-code-box{background:#d8f5df!important;border-color:rgba(22,163,74,.30)!important}
+#kzReferralApp .kzr-live-pill{background:rgba(34,197,94,.15)!important;color:var(--kzr-green)!important}
+#kzReferralApp .kzr-share-main{margin-bottom:8px}
+#kzReferralApp .kzr-share-code{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:41px;padding:10px 12px;border:1px solid rgba(34,197,94,.32);border-radius:12px;background:rgba(34,197,94,.09);color:var(--kzr-green);font-size:12px;font-weight:800;cursor:pointer}
+#kzReferralApp[data-theme="light"] .kzr-share-code{background:#d9f5e0;border-color:rgba(22,163,74,.25);color:#166534}
+@media(prefers-reduced-motion:reduce){#eventTab .fgw-referral-entry{transition:none}}
+</style>
+
 </body></html>
