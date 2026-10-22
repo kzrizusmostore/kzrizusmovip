@@ -2008,6 +2008,11 @@ body.ev-solid.ev-light .topbar-pro{background:rgba(255,255,255,.86)!important;-w
 <span class="evs-hub-tx"><small>Saldo aktif</small><b data-bal-t>Rp0</b><p>Pendapatan dihitung dari pesan sukses dan reward referral.</p></span>
 <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
 </button>
+<button type="button" class="evs-referral" id="evReferralHub" data-ref-open aria-label="Buka Program Referral">
+  <span class="evs-referral-ic"><i class="fa-solid fa-user-plus" aria-hidden="true"></i></span>
+  <span class="evs-referral-tx"><small>PROGRAM AJAK TEMAN</small><b>Referral &amp; Bonus</b><p>Bagikan link unik, pantau undangan, dan lihat status reward.</p></span>
+  <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+</button>
 <div class="kl-sec"><span>Layanan</span></div>
 <!-- 4 kartu, 1 kolom. Aksen lewat --c (R,G,B). data-ev-open tetap dipakai logika lama. -->
 <div class="evc-list">
@@ -16024,8 +16029,12 @@ function zauHideGate(){if($('zauGate'))$('zauGate').hidden=true;window.__kzAuthG
 
 async function zauCheckUsername(username){var r=await S.sb.rpc('zusmo_username_available',{p_username:username});if(r.error)throw r.error;var d=r.data;if(Array.isArray(d))d=d.length?d[0]:false;if(d&&typeof d==='object'){d=Object.prototype.hasOwnProperty.call(d,'zusmo_username_available')?d.zusmo_username_available:(Object.prototype.hasOwnProperty.call(d,'available')?d.available:Object.values(d)[0]);}return d===true||d==='t';}
 async function zauSetServerUsername(username){var e=await S.sb.rpc('zc_set_username',{p_username:username});if(e.error)throw e.error;var d=one(e.data);if(d&&d.username&&String(d.username).trim().toLowerCase()!==username.trim().toLowerCase())throw new Error('Username tidak berhasil diverifikasi di server.');}
+function kzReferralPendingCode(){
+ try{var u=new URLSearchParams(window.location.search).get('ref')||'',st=sessionStorage.getItem('kz_referral_pending_v1')||'',v=String(u||st).trim().toUpperCase();return /^[A-Z0-9]{8}$/.test(v)?v:'';}catch(e){return '';}
+}
+try{var kzRefFromUrl=new URLSearchParams(window.location.search).get('ref');if(kzRefFromUrl&&/^[A-Za-z0-9]{8}$/.test(kzRefFromUrl.trim()))sessionStorage.setItem('kz_referral_pending_v1',kzRefFromUrl.trim().toUpperCase());}catch(e){}
 async function zauSubmitAuth(){
- zauEnsureUi();if(S.me&&!zauCanLeave()){zauShowMessage('zauMsg','Akun terkunci di perangkat ini. Ganti akun hanya bisa dilakukan oleh admin/developer.');return;}var username=String($('zauUser').value||'').trim(),password=String($('zauPass').value||''),isReg=!$('zauConfirmWrap').hidden,confirmation=String($('zauConfirm').value||''),btn=$('zauSubmit');
+ zauEnsureUi();if(S.me&&!zauCanLeave()){zauShowMessage('zauMsg','Akun terkunci di perangkat ini. Ganti akun hanya bisa dilakukan oleh admin/developer.');return;}var username=String($('zauUser').value||'').trim(),password=String($('zauPass').value||''),isReg=!$('zauConfirmWrap').hidden,confirmation=String($('zauConfirm').value||''),btn=$('zauSubmit'),regReferralCode=isReg?kzReferralPendingCode():'';
  zauShowMessage('zauMsg','');
  if(!NAME_RE.test(username)){zauShowMessage('zauMsg','Format username tidak valid. Gunakan 3–24 karakter: A–Z, angka, titik, garis bawah.');return;}
  var nameVal=isReg?String(($('zauName')||{}).value||'').trim().replace(/\s+/g,' '):'';
@@ -16049,7 +16058,7 @@ async function zauSubmitAuth(){
    var login=await S.sb.auth.signInWithPassword({email:zauEmail(username),password:password});if(login.error)throw login.error;
    if(!login.data||!login.data.session)throw new Error('Login belum membuat sesi. Periksa konfigurasi Auth Supabase.');
    try{var pr=await S.sb.from('chat_profiles').select('display_name').eq('user_id',login.data.session.user.id).maybeSingle();var dn=pr&&pr.data?String(pr.data.display_name||'').trim():'';zauForceIdentity(username,dn);}catch(e){}
-   zauRememberUsername(username);zauAfterAuthNotif(null);zauHideGate();$('zauAccount').hidden=true;S.starting=null;start();return;
+   try{sessionStorage.removeItem('kz_referral_pending_v1')}catch(e){}zauRememberUsername(username);zauAfterAuthNotif(null);zauHideGate();$('zauAccount').hidden=true;S.starting=null;start();return;
   }
   var isAnon=!!(session&&session.user&&session.user.is_anonymous);
   /* Username yang sudah tercatat di profil Supabase milik sesi ini (dibaca ulang saat submit supaya selalu terbaru). */
@@ -16064,12 +16073,14 @@ async function zauSubmitAuth(){
    var linked=await S.sb.auth.updateUser({email:zauEmail(username),password:password});
    if(linked.error){if(renamed&&ownName){try{await zauSetServerUsername(ownName);}catch(e2){}}throw linked.error;}
   }else{
-   var signup=await S.sb.auth.signUp({email:zauEmail(username),password:password,options:{data:{username:username}}});if(signup.error)throw signup.error;
+   var authMeta={username:username};if(regReferralCode)authMeta.referral_code=regReferralCode;var signup=await S.sb.auth.signUp({email:zauEmail(username),password:password,options:{data:authMeta}});if(signup.error)throw signup.error;
    if(!signup.data||!signup.data.session){throw new Error('Supabase tidak memberi sesi setelah daftar. Matikan Confirm email dan Secure email change (jika tersedia) di Auth, lalu periksa apakah ada akun percobaan yang belum terkonfirmasi.');}
+   if(regReferralCode){try{var kzClaimReferral=await S.sb.rpc('referral_claim',{p_code:regReferralCode});if(kzClaimReferral.error)console.warn('[REFERRAL] Kode tidak dikaitkan:',kzClaimReferral.error.message);}catch(kzClaimError){console.warn('[REFERRAL] Klaim referral:',kzClaimError);}}
+   try{sessionStorage.removeItem('kz_referral_pending_v1')}catch(e){}
    var ens2=await S.sb.rpc('chat_ensure_profile',{p_username:username});if(ens2.error)throw ens2.error;
    await zauSetServerUsername(username);
   }
-  zauRememberUsername(username);await zauSaveName(nameVal);zauAfterAuthNotif(null);
+  try{sessionStorage.removeItem('kz_referral_pending_v1')}catch(e){}zauRememberUsername(username);await zauSaveName(nameVal);zauAfterAuthNotif(null);
   zauHideGate();$('zauAccount').hidden=true;S.starting=null;start();
  }catch(e){zauShowMessage('zauMsg',zauErrorText(e,isReg?'register':'login'));console.warn('[ZUSMO AUTH]',e&&e.message||e);}
  finally{btn.dataset.busy='';btn.disabled=false;btn.textContent=isReg?'Buat akun':'Masuk';zauSyncNotifBox();}
@@ -20272,5 +20283,184 @@ if(root){
  });
 }
 })();
+</script>
+<style id="kz-referral-ui-styles">
+#eventTab .evs-referral{display:flex;align-items:center;gap:14px;width:100%;box-sizing:border-box;margin:0 0 20px;padding:14px 16px;border-radius:20px;text-align:left;cursor:pointer;color:#fff;background:linear-gradient(125deg,rgba(88,28,135,.34),rgba(147,51,234,.08));border:1px solid rgba(192,132,252,.36);font-family:'Outfit',sans-serif;transition:transform .18s ease,border-color .18s ease;}
+#eventTab .evs-referral:active{transform:scale(.99)}
+#eventTab .evs-referral-ic{flex:none;width:46px;height:46px;border-radius:15px;display:grid;place-items:center;font-size:1.15rem;background:rgba(168,85,247,.2);color:#d8b4fe}
+#eventTab .evs-referral-tx{flex:1;min-width:0}#eventTab .evs-referral small{display:block;font:800 .66rem 'Outfit',sans-serif;letter-spacing:1px;text-transform:uppercase;opacity:.76}#eventTab .evs-referral b{display:block;margin:2px 0 4px;font:800 1.2rem/1.1 'Rajdhani','Outfit',sans-serif}#eventTab .evs-referral p{margin:0;font-size:.7rem;line-height:1.4;opacity:.74}#eventTab .evs-referral>i{flex:none;opacity:.62}
+#eventTab[data-ev-theme="light"] .evs-referral{color:#3b0764;background:linear-gradient(135deg,#f3e8ff,#fff);border-color:rgba(147,51,234,.24);box-shadow:0 4px 14px rgba(88,28,135,.06)}#eventTab[data-ev-theme="light"] .evs-referral-ic{color:#7e22ce;background:rgba(147,51,234,.11)}
+#kzReferralApp{--kzr-bg:#09090d;--kzr-panel:#121219;--kzr-panel2:#181821;--kzr-border:rgba(255,255,255,.09);--kzr-text:#f8fafc;--kzr-muted:#9ca3af;--kzr-purple:#c084fc;--kzr-green:#34d399;--kzr-red:#fb7185;position:fixed;inset:0;z-index:2147483000;overflow-y:auto;overscroll-behavior:contain;background:var(--kzr-bg);color:var(--kzr-text);font-family:Inter,Outfit,system-ui,sans-serif;padding:calc(env(safe-area-inset-top,0px) + 8px) 0 calc(env(safe-area-inset-bottom,0px) + 22px);box-sizing:border-box;-webkit-overflow-scrolling:touch}
+#kzReferralApp[hidden]{display:none!important}#kzReferralApp *{box-sizing:border-box}#kzReferralApp button{font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}#kzReferralApp[data-theme="light"]{--kzr-bg:#f8fafc;--kzr-panel:#fff;--kzr-panel2:#f1f5f9;--kzr-border:rgba(15,23,42,.09);--kzr-text:#111827;--kzr-muted:#64748b;--kzr-purple:#7e22ce;--kzr-green:#047857;--kzr-red:#be123c}
+#kzReferralApp .kzr-page{width:min(100%,820px);margin:0 auto;padding:0 17px 20px}#kzReferralApp .kzr-top{display:flex;align-items:center;gap:12px;min-height:52px;margin-bottom:17px}#kzReferralApp .kzr-top>div{min-width:0;flex:1}#kzReferralApp .kzr-top small{display:block;font-size:9px;font-weight:900;letter-spacing:1.8px;color:var(--kzr-muted)}#kzReferralApp .kzr-top h1{margin:2px 0 0;text-align:left;font-size:21px;letter-spacing:.1px;line-height:1.2;color:var(--kzr-text);font-family:Inter,Outfit,system-ui,sans-serif;font-weight:850}#kzReferralApp .kzr-back,#kzReferralApp .kzr-refresh{display:grid;place-items:center;flex:none;width:39px;height:39px;padding:0;border:1px solid var(--kzr-border);border-radius:13px;background:var(--kzr-panel);color:var(--kzr-text)}#kzReferralApp .kzr-top-mark{display:grid;place-items:center;flex:none;width:39px;height:39px;border-radius:14px;color:var(--kzr-purple);background:rgba(168,85,247,.12)}
+#kzReferralApp .kzr-hero{position:relative;isolation:isolate;overflow:hidden;padding:22px 19px 21px;border:1px solid rgba(192,132,252,.23);border-radius:25px;background:radial-gradient(ellipse at 90% 5%,rgba(168,85,247,.26),transparent 50%),linear-gradient(135deg,rgba(76,29,149,.4),rgba(18,18,25,.95) 70%);margin-bottom:14px}#kzReferralApp[data-theme="light"] .kzr-hero{background:radial-gradient(ellipse at 90% 5%,rgba(168,85,247,.12),transparent 50%),linear-gradient(135deg,#f3e8ff,#fff 72%)}#kzReferralApp .kzr-hero h2{position:relative;z-index:1;margin:11px 0 8px;text-align:left;font-size:26px;line-height:1.12;letter-spacing:-.5px;font-family:Inter,Outfit,system-ui,sans-serif;font-weight:900;color:var(--kzr-text);max-width:500px}#kzReferralApp .kzr-hero p{position:relative;z-index:1;margin:0;max-width:590px;font-size:12px;line-height:1.65;color:var(--kzr-muted)}#kzReferralApp .kzr-hero-icon{display:grid;place-items:center;width:44px;height:44px;border-radius:15px;background:rgba(192,132,252,.14);border:1px solid rgba(192,132,252,.22);color:var(--kzr-purple);font-size:18px}#kzReferralApp .kzr-eyebrow{font-size:9px!important;letter-spacing:1.7px;font-weight:900;color:var(--kzr-purple)!important;margin-top:13px!important}#kzReferralApp .kzr-hero-badge{position:relative;z-index:1;display:inline-flex;align-items:center;gap:7px;padding:7px 10px;border-radius:99px;font-size:10px;font-weight:850;color:var(--kzr-purple);background:rgba(168,85,247,.12);border:1px solid rgba(168,85,247,.2)}#kzReferralApp .kzr-hero-orb{position:absolute;z-index:-1;right:-36px;border:1px solid rgba(192,132,252,.13);border-radius:50%;pointer-events:none}#kzReferralApp .orb1{width:150px;height:150px;top:10px}#kzReferralApp .orb2{width:92px;height:92px;top:38px;right:-8px}
+#kzReferralApp .kzr-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:0 0 13px}#kzReferralApp .kzr-stat{min-width:0;padding:13px 11px 12px;background:var(--kzr-panel);border:1px solid var(--kzr-border);border-radius:18px}#kzReferralApp .kzr-stat>span{display:grid;place-items:center;width:29px;height:29px;border-radius:10px;margin-bottom:11px;background:rgba(168,85,247,.12);color:var(--kzr-purple);font-size:12px}#kzReferralApp .kzr-stat>span.wait{color:#fbbf24;background:rgba(251,191,36,.1)}#kzReferralApp .kzr-stat>span.good,#kzReferralApp .kzr-stat>span.paid{color:var(--kzr-green);background:rgba(52,211,153,.1)}#kzReferralApp .kzr-stat b{display:block;font-size:22px;font-weight:900;line-height:1.1;letter-spacing:-.4px;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}#kzReferralApp .kzr-stat small{display:block;margin-top:5px;font-size:10px;line-height:1.45;color:var(--kzr-muted)}#kzReferralApp .kzr-reward-stats{grid-template-columns:repeat(2,minmax(0,1fr))}#kzReferralApp .kzr-wide-stat b{font-size:20px}
+#kzReferralApp .kzr-panel{margin:0 0 13px;padding:17px 15px;background:var(--kzr-panel);border:1px solid var(--kzr-border);border-radius:22px}#kzReferralApp .kzr-panel-heading{display:flex;align-items:center;gap:11px;margin-bottom:14px}#kzReferralApp .kzr-panel-icon{display:grid;place-items:center;flex:none;width:40px;height:40px;border-radius:13px;color:var(--kzr-purple);background:rgba(168,85,247,.12)}#kzReferralApp .kzr-panel-icon.purple{background:rgba(99,102,241,.12);color:#a5b4fc}#kzReferralApp[data-theme="light"] .kzr-panel-icon.purple{color:#4f46e5}#kzReferralApp .kzr-panel-icon.admin{background:rgba(251,191,36,.12);color:#fbbf24}#kzReferralApp .kzr-panel-heading>div{min-width:0}#kzReferralApp .kzr-panel h3,#kzReferralApp .kzr-list-head h3{margin:0;text-align:left;font-family:Inter,Outfit,system-ui,sans-serif;font-size:14px;font-weight:850;letter-spacing:0;color:var(--kzr-text)}#kzReferralApp .kzr-panel-heading p,#kzReferralApp .kzr-list-head p{font-size:10.5px;line-height:1.5;margin:4px 0 0;color:var(--kzr-muted)}
+#kzReferralApp .kzr-code-box{position:relative;display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 10px;padding:12px 13px;border:1px dashed rgba(192,132,252,.43);border-radius:15px;background:rgba(168,85,247,.06)}#kzReferralApp .kzr-code-box small{display:block;font-size:8px;font-weight:900;letter-spacing:1.7px;color:var(--kzr-muted);margin-bottom:4px}#kzReferralApp .kzr-code-box b{display:block;font-size:25px;letter-spacing:3px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--kzr-purple)}#kzReferralApp .kzr-code-box button{flex:none;width:37px;height:37px;border:1px solid var(--kzr-border);border-radius:12px;background:var(--kzr-panel2);color:var(--kzr-text)}#kzReferralApp .kzr-link-box{display:flex;align-items:center;gap:8px;padding:9px 9px 9px 12px;border:1px solid var(--kzr-border);background:var(--kzr-panel2);border-radius:14px}#kzReferralApp .kzr-link-box span{flex:1;min-width:0;overflow-wrap:anywhere;font-size:10px;line-height:1.5;color:var(--kzr-muted)}#kzReferralApp .kzr-link-box button{flex:none;display:flex;align-items:center;gap:6px;border:0;border-radius:10px;padding:9px 10px;background:rgba(168,85,247,.15);color:var(--kzr-purple);font-size:10px;font-weight:850}#kzReferralApp .kzr-buttons{display:grid;grid-template-columns:1.4fr 1fr;gap:8px;margin-top:11px}#kzReferralApp .kzr-primary,#kzReferralApp .kzr-secondary{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:10px 13px;border-radius:13px;font-size:11px;font-weight:850;border:1px solid transparent;text-align:center;transition:transform .15s ease,filter .15s ease}#kzReferralApp .kzr-primary{background:linear-gradient(135deg,#9333ea,#7e22ce);color:#fff;box-shadow:0 6px 16px rgba(126,34,206,.17)}#kzReferralApp .kzr-secondary{background:var(--kzr-panel2);border-color:var(--kzr-border);color:var(--kzr-text)}#kzReferralApp .kzr-primary:active,#kzReferralApp .kzr-secondary:active{transform:scale(.98)}#kzReferralApp .kzr-muted{color:var(--kzr-muted)!important}
+#kzReferralApp .kzr-list-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:5px 2px 12px}#kzReferralApp .kzr-list-head>div{min-width:0}#kzReferralApp .kzr-list-head button{flex:none;display:grid;place-items:center;width:35px;height:35px;border:1px solid var(--kzr-border);border-radius:12px;background:var(--kzr-panel);color:var(--kzr-muted)}#kzReferralApp .kzr-history{display:flex;flex-direction:column;gap:0}#kzReferralApp .kzr-row{display:flex;align-items:flex-start;gap:10px;padding:12px 0;border-top:1px solid var(--kzr-border)}#kzReferralApp .kzr-row:first-child{border-top:0}#kzReferralApp .kzr-row-ic{display:grid;place-items:center;flex:none;width:34px;height:34px;border-radius:12px;color:var(--kzr-purple);background:rgba(168,85,247,.1);font-size:13px}#kzReferralApp .kzr-row-main{flex:1;min-width:0}#kzReferralApp .kzr-row-main>b{display:block;font-size:11px;font-weight:850;color:var(--kzr-text);overflow-wrap:anywhere}#kzReferralApp .kzr-row-main>small{display:block;font-size:9.5px;line-height:1.5;color:var(--kzr-muted);margin-top:3px}#kzReferralApp .kzr-row-note{overflow-wrap:anywhere}#kzReferralApp .kzr-status{display:inline-flex;align-items:center;padding:4px 7px;margin-top:7px;border-radius:99px;font-size:8px;font-weight:850;background:rgba(251,191,36,.1);color:#fbbf24}#kzReferralApp .kzr-status.good{background:rgba(52,211,153,.1);color:var(--kzr-green)}#kzReferralApp .kzr-status.bad{background:rgba(251,113,133,.1);color:var(--kzr-red)}#kzReferralApp .kzr-row-right{min-width:78px;text-align:right}#kzReferralApp .kzr-row-right b{display:block;font-size:11px;font-weight:850;white-space:nowrap}#kzReferralApp .kzr-row-right small{display:block;margin-top:5px;font-size:8.5px;line-height:1.4;color:var(--kzr-muted);max-width:100px;margin-left:auto}#kzReferralApp .kzr-empty{text-align:center;padding:26px 9px;color:var(--kzr-muted)}#kzReferralApp .kzr-empty-icon{display:grid;place-items:center;width:48px;height:48px;margin:0 auto 12px;border-radius:17px;background:var(--kzr-panel2);color:var(--kzr-purple);font-size:17px}#kzReferralApp .kzr-empty>b,#kzReferralApp .kzr-empty> b{display:block;color:var(--kzr-text);font-size:12px}#kzReferralApp .kzr-empty p{font-size:10px;line-height:1.6;margin:7px auto 0;max-width:290px}#kzReferralApp .kzr-empty.compact{padding:16px 5px}#kzReferralApp .kzr-empty.compact p{max-width:none}
+#kzReferralApp .kzr-steps{display:flex;flex-direction:column;gap:12px}#kzReferralApp .kzr-steps p{display:flex;align-items:flex-start;gap:10px;margin:0;font-size:10.5px;line-height:1.6;color:var(--kzr-muted)}#kzReferralApp .kzr-steps p b{display:grid;place-items:center;flex:none;width:26px;height:26px;border-radius:9px;background:rgba(168,85,247,.12);color:var(--kzr-purple);font-size:9px}#kzReferralApp .kzr-login-panel{text-align:center;padding:24px 18px}#kzReferralApp .kzr-login-panel h3,#kzReferralApp .kzr-error-panel h3{text-align:center;font-size:16px;margin:7px 0}#kzReferralApp .kzr-login-panel p,#kzReferralApp .kzr-error-panel p{max-width:360px;margin:0 auto 15px;font-size:11px;line-height:1.65;color:var(--kzr-muted)}#kzReferralApp .kzr-login-icon,#kzReferralApp .kzr-error-icon{display:grid;place-items:center;width:52px;height:52px;margin:0 auto 10px;border-radius:18px;background:rgba(168,85,247,.13);color:var(--kzr-purple);font-size:20px}#kzReferralApp .kzr-error-icon{background:rgba(251,191,36,.1);color:#fbbf24}#kzReferralApp .kzr-error-panel{text-align:center;padding:25px 17px}#kzReferralApp .kzr-error-panel .kzr-primary{margin:0 auto}
+#kzReferralApp .kzr-admin{border-color:rgba(251,191,36,.24)}#kzReferralApp .kzr-admin-summary{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:15px}#kzReferralApp .kzr-admin-summary span{padding:6px 8px;border-radius:99px;background:var(--kzr-panel2);color:var(--kzr-muted);font-size:9px;font-weight:800}#kzReferralApp .kzr-admin-label{margin:15px 0 7px;color:var(--kzr-muted);font-size:9px;font-weight:900;letter-spacing:1.4px;text-transform:uppercase}#kzReferralApp .kzr-admin-row{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:11px 0;border-top:1px solid var(--kzr-border)}#kzReferralApp .kzr-admin-row>div:first-child{flex:1;min-width:0}#kzReferralApp .kzr-admin-row b{display:block;font-size:11px;overflow-wrap:anywhere}#kzReferralApp .kzr-admin-row small{display:block;margin-top:4px;color:var(--kzr-muted);font-size:9px;line-height:1.4}#kzReferralApp .kzr-admin-actions{display:flex;flex-direction:column;gap:6px;flex:none;max-width:155px}#kzReferralApp .kzr-small{min-height:32px;padding:7px 9px;font-size:9px;border-radius:10px;white-space:normal}#kzReferralApp .kzr-footer{margin:19px 0 0;text-align:center;font-size:9px;line-height:1.6;color:var(--kzr-muted)}#kzReferralApp .kzr-loader{width:27px;height:27px;border:2px solid var(--kzr-border);border-top-color:var(--kzr-purple);border-radius:50%;animation:kzrSpin .8s linear infinite;margin:7px auto 13px}#kzReferralApp .kzr-panel:has(.kzr-loader){text-align:center;padding:26px 15px}#kzReferralApp .kzr-panel:has(.kzr-loader) p{font-size:11px;color:var(--kzr-muted)}@keyframes kzrSpin{to{transform:rotate(360deg)}}#kzReferralApp.is-busy [data-ref-action]{opacity:.7;pointer-events:none}#kzReferralApp .kzr-toast{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:2;transform:translate(-50%,12px);width:max-content;max-width:calc(100% - 32px);padding:12px 15px;border-radius:13px;background:#20202a;border:1px solid rgba(255,255,255,.1);color:#f8fafc;font-size:11px;line-height:1.5;box-shadow:0 12px 35px rgba(0,0,0,.28);opacity:0;pointer-events:none;transition:.2s ease}#kzReferralApp .kzr-toast.show{opacity:1;transform:translate(-50%,0)}#kzReferralApp .kzr-toast.bad{background:#3f1721;border-color:rgba(251,113,133,.4)}
+@media(min-width:620px){#kzReferralApp .kzr-page{padding-left:25px;padding-right:25px}#kzReferralApp .kzr-hero{padding:28px}#kzReferralApp .kzr-hero h2{font-size:32px}#kzReferralApp .kzr-panel{padding:20px}#kzReferralApp .kzr-stats{gap:12px}#kzReferralApp .kzr-stat{padding:16px}}
+@media(max-width:390px){#kzReferralApp .kzr-page{padding-left:12px;padding-right:12px}#kzReferralApp .kzr-hero{padding:18px 15px}#kzReferralApp .kzr-hero h2{font-size:23px}#kzReferralApp .kzr-stat{padding:11px 8px}#kzReferralApp .kzr-stat b{font-size:19px}#kzReferralApp .kzr-stat small{font-size:9px}#kzReferralApp .kzr-link-box{align-items:flex-start;flex-direction:column}#kzReferralApp .kzr-link-box button{align-self:stretch;justify-content:center}#kzReferralApp .kzr-admin-row{flex-direction:column}#kzReferralApp .kzr-admin-actions{width:100%;max-width:none;flex-direction:row}#kzReferralApp .kzr-admin-actions>*{flex:1}}
+@media(prefers-reduced-motion:reduce){#kzReferralApp *{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+</style>
+<div id="kzReferralApp" hidden data-theme="dark" aria-label="Halaman Referral Zusmo">
+  <div class="kzr-page">
+    <div id="kzrContent" aria-live="polite"><header class="kzr-top"><div><small>PROGRAM KOMUNITAS</small><h1>Referral Zusmo</h1></div></header></div>
+  </div>
+  <div id="kzrToast" class="kzr-toast" role="status" aria-live="polite"></div>
+</div>
+
+<script id="kz-referral-system">
+(function(){
+  'use strict';
+  if(window.__kzReferralAppReady)return;
+  window.__kzReferralAppReady=true;
+  var SUPABASE_URL='https://siqqdpnglqctyyaornmo.supabase.co';
+  var SUPABASE_KEY='sb_publishable_lJ74c2lguDQRmCv5KJqmYA_crUTqEU6';
+  var sb=null, data=null, adminRows=[], root=null, content=null, toastNode=null, toastTimer=null, busy=false, filter='all', pageY=0;
+  function $(id){return document.getElementById(id)}
+  function esc(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
+  function rp(v){return 'Rp'+Number(v||0).toLocaleString('id-ID')}
+  function date(v){try{return new Date(v).toLocaleString('id-ID',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})}catch(e){return '-'}}
+  function sdk(){
+    if(window.supabase&&window.supabase.createClient)return Promise.resolve();
+    return new Promise(function(ok,no){var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.js';s.onload=ok;s.onerror=function(){no(new Error('sdk'))};document.head.appendChild(s)});
+  }
+  function client(){return sdk().then(function(){if(!sb)sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});return sb})}
+  function rpc(fn,args){return client().then(function(c){return c.auth.getSession().then(function(s){if(!s.data||!s.data.session)throw new Error('not_authenticated');return c.rpc(fn,args||{})})}).then(function(r){if(r.error)throw r.error;return r.data})}
+  function errorText(e){
+    var m=String((e&&e.message)||e||'');
+    if(m.indexOf('not_authenticated')>=0)return 'Masuk ke akun terlebih dahulu untuk menggunakan referral.';
+    if(m.indexOf('not_admin')>=0)return 'Pastikan akun terdaftar sebagai admin referral dan juga memiliki izin admin dompet.';
+    if(m.indexOf('referral_code_invalid')>=0)return 'Kode referral tidak valid atau tidak ditemukan.';
+    if(m.indexOf('referral_window_closed')>=0)return 'Kode referral hanya dapat diikat saat pendaftaran baru, bukan ke akun lama.';
+    if(m.indexOf('referral_reward_state')>=0)return 'Status penyaluran bonus berubah. Muat ulang daftar dan periksa mutasi saldo sebelum mencoba lagi.';
+    if(m.indexOf('referral_already_processed')>=0)return 'Referral ini sudah pernah diproses.';
+    if(m==='sdk')return 'Pustaka Supabase tidak dapat dimuat. Periksa koneksi internet lalu coba lagi.';
+    if(m.indexOf('schema cache')>=0||m.indexOf('Could not find the function')>=0||m.indexOf('function public.referral_')>=0)return 'SQL referral belum terpasang lengkap. Jalankan referral_system.sql di Supabase SQL Editor.';
+    if(m.indexOf('admin_wallet_adjust')>=0||m.indexOf('not_admin')>=0)return 'Gagal menambahkan bonus ke Saldo Event. Pastikan akun memiliki izin admin dompet.';
+    return m.length>180?m.slice(0,180)+'…':(m||'Terjadi kendala. Coba lagi.');
+  }
+  function toast(msg,bad){if(!toastNode)return;toastNode.textContent=msg;toastNode.className='kzr-toast show'+(bad?' bad':'');clearTimeout(toastTimer);toastTimer=setTimeout(function(){toastNode.className='kzr-toast'},Math.max(2600,Math.min(6500,msg.length*45)))}
+  function codeFromUrl(){try{var u=new URLSearchParams(window.location.search).get('ref')||'';return String(u).trim().toUpperCase()}catch(e){return ''}}
+  function getInviteLink(){
+    if(!data||!data.code)return '';
+    try{var u=new URL(window.location.href);u.search='';u.searchParams.set('ref',data.code);return u.toString()}catch(e){return String(data.invite_url||'')}
+  }
+  function copyText(text){
+    if(!text)return Promise.reject(new Error('Tidak ada teks untuk disalin.'));
+    if(navigator.clipboard&&window.isSecureContext)return navigator.clipboard.writeText(text);
+    return new Promise(function(resolve,reject){var ta=document.createElement('textarea');ta.value=text;ta.setAttribute('readonly','');ta.style.position='fixed';ta.style.opacity='0';ta.style.left='-9999px';document.body.appendChild(ta);ta.select();try{var ok=document.execCommand('copy');ta.remove();ok?resolve():reject(new Error('Gagal menyalin otomatis.'))}catch(e){ta.remove();reject(e)}});
+  }
+  function statusName(st){return ({pending:'Menunggu verifikasi',qualified:'Terverifikasi',rejected:'Ditolak',due:'Menunggu penyaluran',processing:'Penyaluran diproses',paid:'Bonus masuk',waived:'Bonus dibatalkan',none:'Belum ada bonus'})[st]||st||'-'}
+  function referralItems(rows){
+    if(!rows||!rows.length)return '<div class="kzr-empty"><span class="kzr-empty-icon"><i class="fa-solid fa-user-plus"></i></span><b>Belum ada teman yang bergabung</b><p>Bagikan link referral. Undangan baru akan muncul di sini setelah orang tersebut benar-benar membuat akun.</p></div>';
+    return rows.map(function(r){
+      var st=String(r.status||'pending'),badge=st==='qualified'?'good':(st==='rejected'?'bad':'wait');
+      return '<article class="kzr-row"><span class="kzr-row-ic"><i class="fa-solid '+(st==='qualified'?'fa-circle-check':st==='rejected'?'fa-circle-xmark':'fa-clock')+'"></i></span><span class="kzr-row-main"><b>Anggota '+esc(String(r.id||'').slice(0,8).toUpperCase())+'</b><small>'+esc(date(r.created_at))+'</small>'+(r.admin_note?'<small class="kzr-row-note">'+esc(r.admin_note)+'</small>':'')+'<span class="kzr-status '+badge+'">'+esc(statusName(st))+'</span></span><span class="kzr-row-right"><b>'+rp(r.reward_amount||0)+'</b><small>'+esc(statusName(r.reward_status||'none'))+'</small></span></article>';
+    }).join('');
+  }
+  function renderLoggedOut(){
+    var ref=codeFromUrl();
+    content.innerHTML='<header class="kzr-top"><button type="button" class="kzr-back" data-ref-action="close" aria-label="Kembali"><i class="fa-solid fa-arrow-left"></i></button><div><small>PROGRAM KOMUNITAS</small><h1>Referral Zusmo</h1></div><span class="kzr-top-mark"><i class="fa-solid fa-users"></i></span></header><section class="kzr-hero"><div class="kzr-hero-icon"><i class="fa-solid fa-link"></i></div><p class="kzr-eyebrow">AJAK TEMAN, TUMBUH BARENG</p><h2>Bagikan link. Lihat progresnya.</h2><p>Referral tercatat di database setelah akun baru berhasil dibuat. Bonus baru diberikan setelah admin memverifikasi aktivitas Event yang valid.</p></section><section class="kzr-panel kzr-login-panel"><div class="kzr-login-icon"><i class="fa-solid fa-lock"></i></div><h3>Masuk untuk melihat referral</h3><p>'+(ref?'Kode undangan <b>'+esc(ref)+'</b> terdeteksi. Daftar melalui link ini agar undangan dapat dikaitkan ke akun baru.':'Kamu perlu masuk ke akun Zusmo untuk melihat kode undangan, jumlah teman, dan status bonus.')+'</p><button class="kzr-primary" type="button" data-ref-action="register"><i class="fa-solid fa-user-plus"></i> Masuk / Buat akun</button></section><section class="kzr-panel"><h3>Bagaimana referral bekerja?</h3><div class="kzr-steps"><p><b>01</b><span>Bagikan link referral unik milikmu.</span></p><p><b>02</b><span>Teman membuat akun baru lewat link tersebut.</span></p><p><b>03</b><span>Admin memverifikasi aktivitas Event yang sah.</span></p><p><b>04</b><span>Bonus dikirim ke Saldo Event dan tercatat di mutasi.</span></p></div></section>';
+  }
+  function renderError(message){
+    content.innerHTML='<header class="kzr-top"><button type="button" class="kzr-back" data-ref-action="close" aria-label="Kembali"><i class="fa-solid fa-arrow-left"></i></button><div><small>PROGRAM KOMUNITAS</small><h1>Referral Zusmo</h1></div><span class="kzr-top-mark"><i class="fa-solid fa-users"></i></span></header><section class="kzr-panel kzr-error-panel"><span class="kzr-error-icon"><i class="fa-solid fa-triangle-exclamation"></i></span><h3>Referral belum siap digunakan</h3><p>'+esc(message)+'</p><p class="kzr-muted">Pastikan referral_system.sql sudah dijalankan pada proyek Supabase yang digunakan website ini.</p><button class="kzr-primary" type="button" data-ref-action="refresh"><i class="fa-solid fa-rotate"></i> Coba lagi</button></section>';
+  }
+  function render(){
+    if(!data){renderLoggedOut();return;}
+    var link=getInviteLink(),rows=data.referrals||[],reward=Number(data.reward_amount||0);
+    var hello='<header class="kzr-top"><button type="button" class="kzr-back" data-ref-action="close" aria-label="Kembali"><i class="fa-solid fa-arrow-left"></i></button><div><small>PROGRAM KOMUNITAS</small><h1>Referral Zusmo</h1></div><button type="button" class="kzr-refresh" data-ref-action="refresh" aria-label="Muat ulang"><i class="fa-solid fa-rotate"></i></button></header>';
+    var hero='<section class="kzr-hero"><div class="kzr-hero-badge"><i class="fa-solid fa-gift"></i> '+(data.enabled?'BONUS PER UNDANGAN VALID '+esc(rp(reward)):'PROGRAM REFERRAL SEDANG NONAKTIF')+'</div><h2>Ajak teman, kumpulkan bonus.</h2><p>'+(data.enabled?'Bagikan kode unikmu. Teman yang benar-benar bergabung tercatat otomatis, dan bonus masuk ke Saldo Event setelah aktivitasnya diverifikasi admin.':'Kode undangan tetap ditampilkan, tetapi referral baru belum dapat memperoleh bonus sampai program diaktifkan kembali.')+'</p><div class="kzr-hero-orb orb1"></div><div class="kzr-hero-orb orb2"></div></section>';
+    var stats='<section class="kzr-stats"><article class="kzr-stat"><span><i class="fa-solid fa-user-group"></i></span><b>'+Number(data.total_invited||0).toLocaleString('id-ID')+'</b><small>Total diundang</small></article><article class="kzr-stat"><span class="wait"><i class="fa-solid fa-clock"></i></span><b>'+Number(data.pending_count||0).toLocaleString('id-ID')+'</b><small>Menunggu</small></article><article class="kzr-stat"><span class="good"><i class="fa-solid fa-circle-check"></i></span><b>'+Number(data.qualified_count||0).toLocaleString('id-ID')+'</b><small>Terverifikasi</small></article></section>';
+    var invite='<section class="kzr-panel kzr-invite"><div class="kzr-panel-heading"><span class="kzr-panel-icon"><i class="fa-solid fa-paper-plane"></i></span><div><h3>Link undanganmu</h3><p>Gunakan link ini agar pendaftaran teman dapat dikaitkan.</p></div></div><div class="kzr-code-box"><small>KODE REFERRAL</small><b>'+esc(data.code||'--------')+'</b><button type="button" data-ref-action="copy-code" aria-label="Salin kode referral"><i class="fa-regular fa-copy"></i></button></div><div class="kzr-link-box"><span>'+esc(link)+'</span><button type="button" data-ref-action="copy-link"><i class="fa-regular fa-copy"></i> Salin link</button></div><div class="kzr-buttons"><button type="button" class="kzr-primary" data-ref-action="share"><i class="fa-solid fa-share-nodes"></i> Bagikan undangan</button><button type="button" class="kzr-secondary" data-ref-action="copy-code"><i class="fa-solid fa-ticket"></i> Salin kode</button></div></section>';
+    var rewards='<section class="kzr-stats kzr-reward-stats"><article class="kzr-stat kzr-wide-stat"><span class="paid"><i class="fa-solid fa-wallet"></i></span><b>'+esc(rp(data.reward_paid||0))+'</b><small>Total bonus masuk ke Saldo Event</small></article><article class="kzr-stat kzr-wide-stat"><span class="wait"><i class="fa-solid fa-hourglass-half"></i></span><b>'+esc(rp(data.reward_due||0))+'</b><small>Bonus menunggu penyaluran</small></article></section>';
+    var filterbar='<div class="kzr-list-head"><div><h3>Teman yang diundang</h3><p>Riwayat tersimpan di database server.</p></div><button type="button" data-ref-action="refresh" aria-label="Muat ulang daftar"><i class="fa-solid fa-rotate"></i></button></div>';
+    var history='<section class="kzr-panel"><div class="kzr-panel-heading"><span class="kzr-panel-icon purple"><i class="fa-solid fa-clock-rotate-left"></i></span><div><h3>Riwayat referral</h3><p>Status undangan dan status bonus.</p></div></div><div class="kzr-history">'+referralItems(rows)+'</div></section>';
+    var steps='<section class="kzr-panel"><div class="kzr-panel-heading"><span class="kzr-panel-icon"><i class="fa-solid fa-shield-halved"></i></span><div><h3>Syarat bonus</h3><p>Supaya program tetap adil bagi semua anggota.</p></div></div><div class="kzr-steps"><p><b>01</b><span>Akun undangan harus benar-benar baru dan hanya bisa dikaitkan satu kali.</span></p><p><b>02</b><span>Undangan diri sendiri dan kode tidak valid tidak akan dihitung.</span></p><p><b>03</b><span>Admin memverifikasi minimal satu aktivitas Event yang valid sebelum bonus dibayarkan.</span></p><p><b>04</b><span>Bonus yang sudah terkirim akan masuk ke mutasi Saldo Event.</span></p></div></section>';
+    var admin='';
+    if(data.is_admin){
+      var pend=adminRows.filter(function(r){return r.status==='pending'}),due=adminRows.filter(function(r){return r.reward_status==='due'}),processing=adminRows.filter(function(r){return r.reward_status==='processing'});
+      admin='<section class="kzr-panel kzr-admin"><div class="kzr-panel-heading"><span class="kzr-panel-icon admin"><i class="fa-solid fa-user-shield"></i></span><div><h3>Kontrol admin referral</h3><p>Verifikasi aktivitas undangan sebelum bonus diberikan.</p></div></div><div class="kzr-admin-summary"><span>'+pend.length+' menunggu</span><span>'+due.length+' siap disalurkan</span><span>'+processing.length+' perlu pemeriksaan</span></div>';
+      if(pend.length){admin+='<h4 class="kzr-admin-label">Menunggu verifikasi</h4>'+pend.map(function(r){return '<article class="kzr-admin-row"><div><b>@'+esc(r.referred_username||'member')+'</b><small>Mengundang: @'+esc(r.referrer_username||'member')+'</small><small>'+esc(date(r.created_at))+'</small></div><div class="kzr-admin-actions"><button type="button" class="kzr-primary kzr-small" data-ref-action="approve" data-id="'+esc(r.id)+'">Verifikasi + bayar</button><button type="button" class="kzr-secondary kzr-small" data-ref-action="reject" data-id="'+esc(r.id)+'">Tolak</button></div></article>'}).join('')}
+      if(due.length){admin+='<h4 class="kzr-admin-label">Siap disalurkan</h4>'+due.map(function(r){return '<article class="kzr-admin-row"><div><b>@'+esc(r.referrer_username||'member')+'</b><small>Bonus referral: '+esc(rp(r.reward_amount))+'</small><small>Kode undangan ID: '+esc(String(r.id).slice(0,8))+'</small></div><div class="kzr-admin-actions"><button type="button" class="kzr-primary kzr-small" data-ref-action="send-reward" data-id="'+esc(r.id)+'">Salurkan bonus</button></div></article>'}).join('')}
+      if(processing.length){admin+='<h4 class="kzr-admin-label">Perlu pemeriksaan saldo</h4>'+processing.map(function(r){return '<article class="kzr-admin-row"><div><b>@'+esc(r.referrer_username||'member')+'</b><small>'+esc(rp(r.reward_amount))+' · status penyaluran belum final</small><small>Jangan ulangi sebelum cek mutasi Saldo Event.</small></div><div class="kzr-admin-actions"><button type="button" class="kzr-secondary kzr-small" data-ref-action="reconcile-paid" data-id="'+esc(r.id)+'">Bonus sudah masuk</button><button type="button" class="kzr-secondary kzr-small" data-ref-action="reconcile-retry" data-id="'+esc(r.id)+'">Belum masuk</button></div></article>'}).join('')}
+      if(!pend.length&&!due.length&&!processing.length)admin+='<div class="kzr-empty compact"><b>Tidak ada referral yang perlu diproses</b><p>Undangan baru akan muncul setelah seseorang membuat akun lewat link referral.</p></div>';
+      admin+='</section>';
+    }
+    content.innerHTML=hello+hero+stats+invite+rewards+filterbar+history+steps+admin+'<p class="kzr-footer">Referral disimpan di server. Kode undangan bukan bukti bahwa bonus sudah dibayarkan.</p>';
+  }
+  function initDom(){root=$('kzReferralApp');content=$('kzrContent');toastNode=$('kzrToast');if(!root||!content)return;}
+  function setTheme(){var t=$('eventTab');root.setAttribute('data-theme',t&&t.getAttribute('data-ev-theme')==='light'?'light':'dark')}
+  function openPage(){
+    initDom();if(!root)return;
+    setTheme();try{pageY=window.pageYOffset||document.documentElement.scrollTop||0}catch(e){pageY=0}
+    root.hidden=false;document.body.style.overflow='hidden';content.innerHTML='<header class="kzr-top"><button type="button" class="kzr-back" data-ref-action="close"><i class="fa-solid fa-arrow-left"></i></button><div><small>PROGRAM KOMUNITAS</small><h1>Referral Zusmo</h1></div></header><section class="kzr-panel"><div class="kzr-loader"></div><p>Memuat data referral dari server…</p></section>';
+    loadData().catch(function(e){data=null;adminRows=[];renderError(errorText(e))});
+  }
+  function closePage(){if(!root)return;root.hidden=true;document.body.style.overflow='';try{window.scrollTo({top:pageY,behavior:'smooth'})}catch(e){}}
+  function loadData(){
+    return client().then(function(c){return c.auth.getSession().then(function(s){if(!s.data||!s.data.session){data=null;adminRows=[];render();return null;}return rpc('referral_me').then(function(d){data=d;adminRows=[];if(data.is_admin)return rpc('referral_admin_list',{p_status:'all'}).then(function(a){adminRows=Array.isArray(a)?a:[];render()}).catch(function(e){render();toast('Data pengguna berhasil dimuat, tetapi daftar admin gagal: '+errorText(e),true)});render();})})});
+  }
+  function withBusy(action, fn){if(busy)return;busy=true;root.classList.add('is-busy');Promise.resolve().then(fn).then(function(msg){if(msg)toast(msg,false);return loadData()}).catch(function(e){toast(errorText(e),true);return loadData().catch(function(){})}).finally(function(){busy=false;root.classList.remove('is-busy')})}
+  function approve(id){
+    return rpc('referral_admin_process',{p_referral_id:id,p_action:'approve',p_note:'Aktivitas Event valid telah diverifikasi admin.'}).then(function(res){
+      var amount=Number(res&&res.reward_amount||0);
+      if(amount<=0)return 'Referral diverifikasi. Bonus tidak aktif atau nominal bonus Rp0.';
+      return sendReward(id).then(function(){return 'Referral valid. Bonus '+rp(amount)+' berhasil dimasukkan ke Saldo Event pengundang.'});
+    });
+  }
+  function sendReward(id){
+    return rpc('referral_admin_begin_credit',{p_referral_id:id}).then(function(r){
+      var amt=Number(r.amount||0);if(!(amt>0))throw new Error('referral_reward_not_found');
+      return rpc('admin_wallet_adjust',{p_user:r.referrer_id,p_amount:amt,p_reason:'Reward referral '+String(id).slice(0,8)}).then(function(){
+        return rpc('referral_admin_mark_paid',{p_referral_id:id,p_reference:'admin_wallet_adjust / referral '+String(id).slice(0,8)});
+      });
+    });
+  }
+  function handleClick(e){
+    var open=e.target.closest&&e.target.closest('[data-ref-open]');if(open){e.preventDefault();openPage();return;}
+    var b=e.target.closest&&e.target.closest('[data-ref-action]');if(!b)return;
+    var action=b.getAttribute('data-ref-action'),id=b.getAttribute('data-id');
+    if(action==='close'){closePage();return;}
+    if(action==='register'){closePage();try{if(typeof window.zauShowGate==='function')window.zauShowGate('register');else if(typeof window.zauShowGate==='function')window.zauShowGate();}catch(e){}return;}
+    if(action==='refresh'){withBusy(action,function(){return loadData().then(function(){return 'Data referral diperbarui.'})});return;}
+    if(action==='copy-code'){withBusy(action,function(){return copyText(data&&data.code||'').then(function(){return 'Kode referral berhasil disalin.'})});return;}
+    if(action==='copy-link'){withBusy(action,function(){return copyText(getInviteLink()).then(function(){return 'Link undangan berhasil disalin.'})});return;}
+    if(action==='share'){
+      var link=getInviteLink(),msg='Gabung di Zusmo lewat link undanganku: '+link;
+      if(navigator.share){navigator.share({title:'Undangan Zusmo',text:'Gabung di Zusmo lewat link undanganku.',url:link}).then(function(){},function(err){if(err&&err.name!=='AbortError')copyText(msg).then(function(){toast('Link tidak dapat dibagikan langsung. Teks undangan disalin.')}).catch(function(){toast('Gagal membagikan link.',true)})})}
+      else copyText(msg).then(function(){toast('Teks undangan berhasil disalin.')}).catch(function(){toast('Gagal menyalin link.',true)});
+      return;
+    }
+    if(action==='approve'){
+      if(!confirm('Verifikasi undangan ini dan kirim bonus ke Saldo Event pengundang? Lanjutkan hanya setelah aktivitas Event valid sudah diperiksa.'))return;
+      withBusy(action,function(){return approve(id)});return;
+    }
+    if(action==='reject'){
+      if(!confirm('Tolak referral ini? Bonus tidak akan diberikan.'))return;
+      withBusy(action,function(){return rpc('referral_admin_process',{p_referral_id:id,p_action:'reject',p_note:'Referral ditolak setelah pemeriksaan admin.'}).then(function(){return 'Referral ditolak.'})});return;
+    }
+    if(action==='send-reward'){
+      if(!confirm('Salurkan bonus ke Saldo Event? Pastikan bonus ini belum pernah dimasukkan.'))return;
+      withBusy(action,function(){return sendReward(id).then(function(){return 'Bonus berhasil dimasukkan ke Saldo Event.'})});return;
+    }
+    if(action==='reconcile-paid'){
+      if(!confirm('Tandai bonus sudah dibayar hanya jika kamu sudah memeriksa mutasi Saldo Event dan nominalnya memang sudah masuk.'))return;
+      withBusy(action,function(){return rpc('referral_admin_reconcile',{p_referral_id:id,p_action:'mark_paid',p_note:'Admin sudah memeriksa mutasi dompet dan memastikan bonus masuk.'}).then(function(){return 'Status bonus ditandai sudah dibayar.'})});return;
+    }
+    if(action==='reconcile-retry'){
+      if(!confirm('PENTING: hanya pilih ini setelah memeriksa mutasi dan memastikan bonus BELUM masuk. Jika sudah masuk, mencoba ulang dapat menggandakan pembayaran.'))return;
+      withBusy(action,function(){return rpc('referral_admin_reconcile',{p_referral_id:id,p_action:'retry',p_note:'Admin memeriksa mutasi dompet; bonus belum masuk dan aman untuk dicoba ulang.'}).then(function(){return sendReward(id)}).then(function(){return 'Penyaluran bonus berhasil diselesaikan.'})});return;
+    }
+  }
+  document.addEventListener('click',handleClick);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&root&&!root.hidden)closePage()});
+  document.addEventListener('DOMContentLoaded',function(){initDom();});
+  // Rekam parameter ref sebagai intent sementara untuk signup; database tetap menjadi sumber kebenaran.
+  try{var incoming=codeFromUrl();if(/^[A-Z0-9]{8}$/.test(incoming))sessionStorage.setItem('kz_referral_pending_v1',incoming)}catch(e){}
+})();
+
 </script>
 </body></html>
