@@ -20478,6 +20478,7 @@ if(root){
 })();
 </script>
 
+<style id="kz-referral-base-css">
 #kzReferralApp{--kzr-bg:#09090d;--kzr-panel:#121219;--kzr-panel2:#181821;--kzr-border:rgba(255,255,255,.09);--kzr-text:#f8fafc;--kzr-muted:#9ca3af;--kzr-purple:#c084fc;--kzr-green:#34d399;--kzr-red:#fb7185;position:fixed;inset:0;z-index:2147483000;overflow-y:auto;overscroll-behavior:contain;background:var(--kzr-bg);color:var(--kzr-text);font-family:Inter,Outfit,system-ui,sans-serif;padding:calc(env(safe-area-inset-top,0px) + 8px) 0 calc(env(safe-area-inset-bottom,0px) + 22px);box-sizing:border-box;-webkit-overflow-scrolling:touch}
 #kzReferralApp[hidden]{display:none!important}#kzReferralApp *{box-sizing:border-box}#kzReferralApp button{font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}#kzReferralApp[data-theme="light"]{--kzr-bg:#f8fafc;--kzr-panel:#fff;--kzr-panel2:#f1f5f9;--kzr-border:rgba(15,23,42,.09);--kzr-text:#111827;--kzr-muted:#64748b;--kzr-purple:#7e22ce;--kzr-green:#047857;--kzr-red:#be123c}
 #kzReferralApp .kzr-page{width:min(100%,820px);margin:0 auto;padding:0 17px 20px}#kzReferralApp .kzr-top{display:flex;align-items:center;gap:12px;min-height:52px;margin-bottom:17px}#kzReferralApp .kzr-top>div{min-width:0;flex:1}#kzReferralApp .kzr-top small{display:block;font-size:9px;font-weight:900;letter-spacing:1.8px;color:var(--kzr-muted)}#kzReferralApp .kzr-top h1{margin:2px 0 0;text-align:left;font-size:21px;letter-spacing:.1px;line-height:1.2;color:var(--kzr-text);font-family:Inter,Outfit,system-ui,sans-serif;font-weight:850}#kzReferralApp .kzr-back,#kzReferralApp .kzr-refresh{display:grid;place-items:center;flex:none;width:39px;height:39px;padding:0;border:1px solid var(--kzr-border);border-radius:13px;background:var(--kzr-panel);color:var(--kzr-text)}#kzReferralApp .kzr-top-mark{display:grid;place-items:center;flex:none;width:39px;height:39px;border-radius:14px;color:var(--kzr-purple);background:rgba(168,85,247,.12)}
@@ -20506,7 +20507,7 @@ if(root){
   window.__kzReferralAppReady=true;
   var SUPABASE_URL='https://siqqdpnglqctyyaornmo.supabase.co';
   var SUPABASE_KEY='sb_publishable_lJ74c2lguDQRmCv5KJqmYA_crUTqEU6';
-  var sb=null, data=null, adminRows=[], root=null, content=null, toastNode=null, toastTimer=null, busy=false, filter='all', pageY=0;
+  var sb=null, data=null, adminRows=[], root=null, content=null, toastNode=null, toastTimer=null, busy=false, filter='all', pageY=0, bodyOverflowBefore='', htmlOverflowBefore='';
   function $(id){return document.getElementById(id)}
   function esc(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
   function rp(v){return 'Rp'+Number(v||0).toLocaleString('id-ID')}
@@ -20588,10 +20589,11 @@ if(root){
   function openPage(){
     initDom();if(!root)return;
     setTheme();try{pageY=window.pageYOffset||document.documentElement.scrollTop||0}catch(e){pageY=0}
-    root.hidden=false;document.body.style.overflow='hidden';content.innerHTML='<header class="kzr-top"><button type="button" class="kzr-back" data-ref-action="close"><i class="fa-solid fa-arrow-left"></i></button><div><small>PROGRAM KOMUNITAS</small><h1>Referral Zusmo</h1></div></header><section class="kzr-panel"><div class="kzr-loader"></div><p>Memuat data referral dari server…</p></section>';
+    bodyOverflowBefore=document.body.style.overflow;htmlOverflowBefore=document.documentElement.style.overflow;
+    root.hidden=false;document.body.style.overflow='hidden';document.documentElement.style.overflow='hidden';content.innerHTML='<header class="kzr-top"><button type="button" class="kzr-back" data-ref-action="close"><i class="fa-solid fa-arrow-left"></i></button><div><small>PROGRAM KOMUNITAS</small><h1>Referral Zusmo</h1></div></header><section class="kzr-panel"><div class="kzr-loader"></div><p>Memuat data referral dari server…</p></section>';
     loadData().catch(function(e){data=null;adminRows=[];renderError(errorText(e))});
   }
-  function closePage(){if(!root)return;root.hidden=true;document.body.style.overflow='';try{window.scrollTo({top:pageY,behavior:'smooth'})}catch(e){}}
+  function closePage(){if(!root)return;root.hidden=true;document.body.style.overflow=bodyOverflowBefore||'';document.documentElement.style.overflow=htmlOverflowBefore||'';try{window.scrollTo({top:pageY,behavior:'smooth'})}catch(e){}}
   window.kzOpenReferralPage=openPage;
   window.kzCloseReferralPage=closePage;
   function loadData(){
@@ -20890,3 +20892,40 @@ if(root){
 </style>
 
 </body></html>
+
+
+<style id="kz-referral-scroll-contrast-hotfix-v1">
+/* Referral must be a real full-screen layer, not text in the document. */
+#kzReferralApp[hidden]{display:none!important}
+#kzReferralApp:not([hidden]){display:block!important;position:fixed!important;inset:0!important;z-index:2147483000!important;overflow-x:hidden!important;overflow-y:auto!important;overscroll-behavior:contain!important;-webkit-overflow-scrolling:touch!important;pointer-events:auto!important;touch-action:pan-y!important}
+#kzReferralApp .kzr-page,#kzReferralApp #kzrContent{min-width:0;pointer-events:auto}
+#eventTab .fgw-referral-entry,#eventTab .fgw-referral-head-btn{position:relative;z-index:3;pointer-events:auto!important;touch-action:manipulation}
+/* Event content should remain scrollable after closing Referral and around the fixed bottom bar. */
+#eventTab{min-height:0}
+#eventTab:not([hidden]){overflow:visible!important;overscroll-behavior-y:auto}
+#eventTab #evHub{overflow:visible!important}
+#eventTab .ev-wrap{padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))!important}
+/* A high-contrast, lively green primary Withdraw action in both themes. */
+#eventTab .fgw-main-cta{
+  color:#fff!important;
+  background:linear-gradient(112deg,#08763d 0%,#0b9147 48%,#16a653 100%)!important;
+  border:1px solid rgba(134,239,172,.62)!important;
+  box-shadow:0 8px 22px rgba(22,163,74,.22),inset 0 1px 0 rgba(255,255,255,.22)!important;
+}
+#eventTab .fgw-main-cta .fgw-action-ico{
+  display:grid!important;place-items:center!important;
+  color:#fff!important;
+  background:linear-gradient(145deg,rgba(255,255,255,.23),rgba(255,255,255,.11))!important;
+  border:1px solid rgba(255,255,255,.27)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.15),0 4px 10px rgba(0,0,0,.08)!important;
+}
+#eventTab .fgw-main-cta .fgw-action-tx b,
+#eventTab[data-ev-theme="light"] .fgw-main-cta .fgw-action-tx b,
+#eventTab[data-ev-theme="dark"] .fgw-main-cta .fgw-action-tx b{color:#fff!important;text-shadow:0 1px 2px rgba(0,0,0,.12)!important}
+#eventTab .fgw-main-cta .fgw-action-tx small,
+#eventTab[data-ev-theme="light"] .fgw-main-cta .fgw-action-tx small,
+#eventTab[data-ev-theme="dark"] .fgw-main-cta .fgw-action-tx small{color:rgba(255,255,255,.92)!important}
+#eventTab .fgw-main-cta .fgw-action-arrow{color:#fff!important;opacity:.96}
+#eventTab .fgw-main-cta:active{filter:brightness(.96);transform:scale(.99)}
+@media(prefers-reduced-motion:reduce){#eventTab .fgw-main-cta{transition:none!important}}
+</style>
