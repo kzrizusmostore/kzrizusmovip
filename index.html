@@ -20619,6 +20619,39 @@ if(root){
   function closePage(){if(!root)return;root.hidden=true;document.body.style.overflow=bodyOverflowBefore||'';document.documentElement.style.overflow=htmlOverflowBefore||'';try{window.scrollTo({top:pageY,behavior:'smooth'})}catch(e){}}
   window.kzOpenReferralPage=openPage;
   window.kzCloseReferralPage=closePage;
+  // API internal untuk mengaktifkan kode dari link ?ref=... tanpa tombol konfirmasi.
+  // Klaim tetap divalidasi server-side; akun anonim/tanpa sesi hanya menyimpan kode untuk proses daftar.
+  window.kzApplyReferralFromLink=function(rawCode){
+    var code=String(rawCode||'').trim().toUpperCase();
+    if(!/^[A-Z0-9]{8}$/.test(code))return Promise.reject(new Error('referral_code_invalid'));
+    return client().then(function(c){
+      return c.auth.getSession().then(function(sess){
+        var user=sess&&sess.data&&sess.data.session&&sess.data.session.user;
+        if(!user||user.is_anonymous)return {ok:false,needs_signup:true};
+        return rpc('referral_claim',{p_code:code}).then(function(result){
+          if(result&&(result.credited||result.already_claimed)){
+            try{sessionStorage.removeItem('kz_referral_pending_v1')}catch(e){}
+            if(result.credited){
+              try{window.dispatchEvent(new Event('kz:referral-credit-success'))}catch(e){}
+              toast('Bonus referral berhasil diproses otomatis ke Saldo Event.',false);
+            }
+            return loadData().catch(function(){}).then(function(){return result});
+          }
+          return result;
+        });
+      });
+    }).catch(function(err){
+      // Jangan menandai selesai apabila konfigurasi dompet belum benar; kode tetap bisa dicoba lagi.
+      try{console.warn('[REFERRAL AUTO CLAIM]',err&&err.message||err)}catch(e){}
+      if(String(err&&err.message||err).indexOf('referral_wallet_admin_missing')>=0)toast('Bonus belum aktif: jalankan migrasi Referral terbaru dan pastikan admin dompet terdeteksi di Supabase.',true);
+      else if(String(err&&err.message||err).indexOf('referral_wallet_adjust_missing')>=0)toast('RPC admin_wallet_adjust belum tersedia di Supabase.',true);
+      else if(String(err&&err.message||err).indexOf('referral_already_claimed')>=0)toast('Akun ini sudah menggunakan satu kode referral. Kode baru tidak dapat dipakai.',true);
+      else if(String(err&&err.message||err).indexOf('referral_self')>=0)toast('Kode referral akun sendiri tidak dapat digunakan.',true);
+      else toast(errorText(err),true);
+      throw err;
+    });
+  };
+  window.kzRefreshReferralPage=function(){return loadData()};
   function loadData(){
     return client().then(function(c){return c.auth.getSession().then(function(s){if(!s.data||!s.data.session){data=null;adminRows=[];render();return null;}return rpc('referral_me').then(function(d){data=d;adminRows=[];if(data.is_admin)return rpc('referral_admin_list',{p_status:'all'}).then(function(a){adminRows=Array.isArray(a)?a:[];render()}).catch(function(e){render();toast('Data pengguna berhasil dimuat, tetapi daftar admin gagal: '+errorText(e),true)});render();})})});
   }
@@ -20979,6 +21012,16 @@ if(root){
       if(typeof window.kzOpenReferralPage==='function'){
         window.__kzReferralDirectOpened=true;
         window.kzOpenReferralPage();
+        // Pengunjung yang sudah login langsung mengklaim kode dari URL. Pengunjung
+        // yang belum punya akun tetap menyimpan kode dan klaim berjalan setelah daftar.
+        if(!window.__kzReferralAutoClaimStarted&&typeof window.kzApplyReferralFromLink==='function'){
+          window.__kzReferralAutoClaimStarted=true;
+          setTimeout(function(){
+            try{window.kzApplyReferralFromLink(code).then(function(result){
+              if(result&&result.needs_signup){try{sessionStorage.setItem('kz_referral_pending_v1',code)}catch(e){}}
+            }).catch(function(){});}catch(e){}
+          },160);
+        }
         return;
       }
       if(tries++<40){setTimeout(openReferral,125);return;}
