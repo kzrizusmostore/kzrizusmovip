@@ -2548,6 +2548,7 @@ function draw(){
   '<label class="fgw-lbl" id="wPL" for="wP">Nomor DANA</label><input class="fgw-in" id="wP" type="tel" inputmode="numeric" maxlength="20" placeholder="08123456789" autocomplete="off"><div class="fgw-err" id="wPe" role="alert" hidden></div>'+
   '<label class="fgw-lbl" for="wN">Atas nama rekening</label><input class="fgw-in" id="wN" type="text" maxlength="60" placeholder="Sesuai akun e-wallet" autocomplete="off"><div class="fgw-err" id="wNe" role="alert" hidden></div>'+
   '<label class="fgw-lbl" for="wA">Nominal withdraw</label><input class="fgw-in" id="wA" type="number" inputmode="numeric" min="'+MIN+'" step="1" placeholder="Minimal '+rp(MIN)+'"><div class="fgw-err" id="wAe" role="alert" hidden></div>'+
+  '<div class="fgw-tpl" id="wQ">'+[[5000,'5k'],[10000,'10k'],[20000,'20k'],[50000,'50k'],[100000,'100k'],['all','Semua']].map(function(c){return '<button type="button" class="fgw-tp" data-w="amt" data-v="'+c[0]+'">'+c[1]+'</button>'}).join('')+'</div>'+
   '<p class="fgw-sum" id="wS"></p><button type="button" class="fg-btn fg-btn-main" data-w="wd">AJUKAN WITHDRAW</button>';
  }else if(view==='hist'){
   var w=(D&&D.withdrawals)||[],l=(D&&D.ledger)||[];
@@ -2570,7 +2571,15 @@ function init(){
  T.appendChild(w);ov=w.firstChild;sh=ov.firstChild;tt=w.lastChild;
  [].forEach.call(T.querySelectorAll('[data-ev-toggle]'),function(t){var b=document.createElement('button');b.type='button';b.className='ev-bal';b.setAttribute('data-bal','1');b.setAttribute('aria-label','Saldo event');var pg=t.closest('[data-ev-page]'),c=COL[pg&&pg.id]||COL.evEmail;b.style.setProperty('--bd',c[1]);b.style.setProperty('--bl',c[0]);b.setAttribute('data-a',c[0]);b.setAttribute('data-a2',c[1]);b.innerHTML='<i class="fa-solid fa-wallet" aria-hidden="true"></i><span data-bal-t>Rp0</span>';t.parentNode.insertBefore(b,t)});
  T.addEventListener('click',function(e){var bb=e.target.closest&&e.target.closest('[data-bal]');if(!bb)return;var lt=T.getAttribute('data-ev-theme')==='light',a=bb.getAttribute('data-a'),a2=bb.getAttribute('data-a2');w.style.setProperty('--fg-a',a);w.style.setProperty('--fg-a2',a2);w.style.setProperty('--fg-ac','rgb('+(lt?a:a2)+')');openMain()});
- ov.addEventListener('click',function(e){if(e.target===ov)close()});
+   function evsTheme(){var c=COL.evWa,lt=T.getAttribute('data-ev-theme')==='light';w.style.setProperty('--fg-a',c[0]);w.style.setProperty('--fg-a2',c[1]);w.style.setProperty('--fg-ac','rgb('+(lt?c[0]:c[1])+')')}
+ function evsFill(a){var i=$('wA');if(i&&a>0){i.value=a;i.dispatchEvent(new Event('input',{bubbles:true}))}}
+ T.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('[data-evs]');if(!b)return;var k=b.getAttribute('data-evs'),inp=$('evsAmt');
+  if(k==='chip'){var v=b.getAttribute('data-v'),bal=Math.floor((D&&D.balance)||0);if(v==='all'&&!bal){toast('Saldo kamu masih Rp0.',true);return}inp.value=v==='all'?bal:v;[].forEach.call(T.querySelectorAll('.evs-chip'),function(c){c.classList.toggle('on',c===b)})}
+  else if(k==='wd'){var a=parseInt(inp.value,10)||0;if(a&&a<MIN){toast('Minimal withdraw '+rp(MIN)+'.',true);return}evsTheme();ov.hidden=false;view='wd';var had=!!D;draw();evsFill(a);load().then(function(){if(!had&&view==='wd'){var cur=$('wA')?$('wA').value:'';draw();evsFill(parseInt(cur,10)||a)}})}
+  else if(k==='hist'){evsTheme();ov.hidden=false;view='hist';draw();load().then(function(){if(view==='hist')draw()})}
+ });
+ T.addEventListener('input',function(e){if(e.target&&e.target.id==='evsAmt'){var v=parseInt(e.target.value,10);[].forEach.call(T.querySelectorAll('.evs-chip'),function(c){c.classList.toggle('on',String(v)===c.getAttribute('data-v'))})}});
+ov.addEventListener('click',function(e){if(e.target===ov)close()});
  sh.addEventListener('input',function(ev){
   var t=ev.target,id=t&&t.id;
   if(id==='wP'||id==='wN'||id==='wA'||id==='aR')setErr(id,'');
@@ -2589,6 +2598,7 @@ function init(){
   else if(k==='pickE'){var v2=b.getAttribute('data-v'),en=ewFind(v2);$('wE').value=v2;$('wV').innerHTML=lg(en);$('wPL').textContent='Nomor '+en[1];$('wL').hidden=true;sh.querySelector('[data-w="selT"]').setAttribute('aria-expanded','false');if($('wP').value)setErr('wP',chkNum())}
   else if(k==='tpl'){var ri=$('aR');ri.value=b.getAttribute('data-t');setErr('aR','');ri.focus()}
   else if(k==='rtpl'){var ci=sh.querySelector('[data-r="'+b.getAttribute('data-id')+'"]');if(ci){ci.value=b.getAttribute('data-t');ci.focus()}}
+  else if(k==='amt'){var av=b.getAttribute('data-v'),ai=$('wA');ai.value=av==='all'?Math.floor((D&&D.balance)||0):av;setErr('wA','');ai.dispatchEvent(new Event('input',{bubbles:true}))}
   else if(k==='goWd'){view='wd';draw()}
   else if(k==='goHist'){view='hist';draw()}
   else if(k==='goAdm'){view='adm';tab='pending';target=null;A=null;draw();loadAdm().then(draw).catch(fail)}
@@ -2644,6 +2654,37 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 <section id="evWa" data-ev-page aria-label="Sewa WA Blast" hidden>
 <button type="button" class="ev-theme" data-ev-toggle aria-label="Ganti ke mode gelap"><i class="fa-solid fa-moon" aria-hidden="true"></i></button>
 <button type="button" class="ev-back" data-ev-back><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Kembali</button>
+
+<style>
+#eventTab .evs-card{margin:6px 0 14px}
+#eventTab .evs-top{display:flex;align-items:center;gap:12px;margin:0 0 14px}
+#eventTab .evs-top>div{flex:1;min-width:0}
+#eventTab .evs-ic{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:1.1rem;background:rgba(74,222,128,.16);color:#4ade80;flex:none}
+#eventTab .evs-top small{display:block;font:700 .66rem 'Outfit',sans-serif;letter-spacing:.9px;text-transform:uppercase;opacity:.7}
+#eventTab .evs-top b{display:block;font:800 1.7rem/1.1 'Rajdhani','Outfit',sans-serif;color:#fff}
+#eventTab .evs-hist{appearance:none;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);color:#fff;border-radius:99px;padding:8px 12px;font:700 .72rem 'Outfit',sans-serif;cursor:pointer}
+#eventTab .evs-lbl{display:block;margin:0 0 6px 2px;font:700 .74rem 'Outfit',sans-serif;opacity:.85}
+#eventTab .evs-in{width:100%;box-sizing:border-box;min-height:46px;padding:0 14px;border-radius:14px;border:1.5px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:#fff;font:700 1rem 'Outfit',sans-serif;-moz-appearance:textfield}
+#eventTab .evs-in::-webkit-outer-spin-button,#eventTab .evs-in::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+#eventTab .evs-in:focus{outline:2px solid #4ade80;outline-offset:1px}
+#eventTab .evs-chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 12px}
+#eventTab .evs-chip{appearance:none;padding:8px 14px;border-radius:99px;border:1.5px solid rgba(74,222,128,.5);background:rgba(74,222,128,.1);color:#86efac;font:800 .78rem 'Outfit',sans-serif;cursor:pointer}
+#eventTab .evs-chip.on{background:#16a34a;border-color:#16a34a;color:#fff}
+#eventTab .evs-chip:active{transform:scale(.96)}
+#eventTab .evs-go{width:100%}
+#eventTab[data-ev-theme="light"] .evs-top b{color:#0f172a}
+#eventTab[data-ev-theme="light"] .evs-hist{background:#f1f5f9;border-color:rgba(15,23,42,.14);color:#0f172a}
+#eventTab[data-ev-theme="light"] .evs-in{background:#f8fafc;border-color:rgba(15,23,42,.14);color:#0f172a}
+#eventTab[data-ev-theme="light"] .evs-chip{color:#15803d;background:#f0fdf4}
+#eventTab[data-ev-theme="light"] .evs-chip.on{color:#fff;background:#16a34a}
+</style>
+<section class="ev-card2 evs-card" id="evSaldo" aria-label="Saldo event">
+<div class="evs-top"><span class="evs-ic"><i class="fa-solid fa-wallet" aria-hidden="true"></i></span><div><small>Saldo kamu</small><b data-bal-t>Rp0</b></div><button type="button" class="evs-hist" data-evs="hist"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i> Riwayat</button></div>
+<label class="evs-lbl" for="evsAmt">Nominal withdraw</label>
+<input class="evs-in" id="evsAmt" type="number" inputmode="numeric" min="5000" step="1" placeholder="Minimal Rp5.000">
+<div class="evs-chips" role="group" aria-label="Pilih nominal cepat"><button type="button" class="evs-chip" data-evs="chip" data-v="5000">5k</button><button type="button" class="evs-chip" data-evs="chip" data-v="10000">10k</button><button type="button" class="evs-chip" data-evs="chip" data-v="20000">20k</button><button type="button" class="evs-chip" data-evs="chip" data-v="50000">50k</button><button type="button" class="evs-chip" data-evs="chip" data-v="100000">100k</button><button type="button" class="evs-chip" data-evs="chip" data-v="all">Semua</button></div>
+<button type="button" class="pc-btn evs-go" data-evs="wd"><i class="fa-solid fa-money-bill-transfer" aria-hidden="true"></i> Tarik saldo</button>
+</section>
 
 <header class="ev-top">
 <span class="ev-hero-ic"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i><b class="evw-bub b1" aria-hidden="true"></b><b class="evw-bub b2" aria-hidden="true"></b><b class="evw-bub b3" aria-hidden="true"></b></span>
