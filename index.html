@@ -1992,7 +1992,7 @@ body.ev-solid.ev-light .topbar-pro{background:rgba(255,255,255,.86)!important;-w
 
 <section id="evHub" aria-label="Daftar layanan Event">
 <style>
-#eventTab .evs-hub{display:flex;align-items:center;gap:14px;width:100%;box-sizing:border-box;margin:0 0 16px;padding:16px;border-radius:20px;text-align:left;cursor:pointer;color:#fff;background:linear-gradient(135deg,rgba(22,163,74,.34),rgba(74,222,128,.08));border:1px solid rgba(74,222,128,.4);font-family:'Outfit',sans-serif}
+#eventTab .evs-hub{display:flex;align-items:center;gap:14px;width:100%;box-sizing:border-box;margin:0 0 16px;padding:16px;border-radius:20px;text-align:left;cursor:pointer;color:#fff;background:linear-gradient(135deg,#053d22 0%,#0b6b38 100%);border:1px solid rgba(74,222,128,.35);box-shadow:0 8px 22px rgba(0,0,0,.35);font-family:'Outfit',sans-serif}
 #eventTab .evs-hub:active{transform:scale(.99)}
 #eventTab .evs-hub-ic{flex:none;width:46px;height:46px;border-radius:15px;display:grid;place-items:center;font-size:1.15rem;background:rgba(74,222,128,.2);color:#4ade80}
 #eventTab .evs-hub-tx{flex:1;min-width:0}
@@ -2000,8 +2000,14 @@ body.ev-solid.ev-light .topbar-pro{background:rgba(255,255,255,.86)!important;-w
 #eventTab .evs-hub b{display:block;margin:2px 0 4px;font:800 1.9rem/1.1 'Rajdhani','Outfit',sans-serif}
 #eventTab .evs-hub p{margin:0;font-size:.7rem;line-height:1.4;opacity:.72}
 #eventTab .evs-hub>i{flex:none;opacity:.6}
-#eventTab[data-ev-theme="light"] .evs-hub{color:#0f172a;background:linear-gradient(135deg,#dcfce7,#fff);border-color:rgba(22,163,74,.35);box-shadow:0 4px 14px rgba(22,101,52,.08)}
-#eventTab[data-ev-theme="light"] .evs-hub-ic{color:#16a34a;background:rgba(22,163,74,.14)}
+#eventTab[data-ev-theme="light"] .evs-hub{color:#fff;background:linear-gradient(135deg,#0e9f55 0%,#22c55e 100%);border-color:rgba(255,255,255,.35);box-shadow:0 8px 20px rgba(22,163,74,.28)}
+#eventTab[data-ev-theme="light"] .evs-hub-ic{color:#fff;background:rgba(255,255,255,.22)}
+#eventTab .evs-hub-ic{color:#fff}
+#eventTab .evc-locked{cursor:not-allowed;filter:saturate(.55);opacity:.82}
+#eventTab .evc-locked:active{transform:none}
+#eventTab .evc-soon{display:inline-flex;align-items:center;gap:6px;padding:7px 11px;border-radius:99px;font:800 .64rem 'Outfit',sans-serif;letter-spacing:.8px;text-transform:uppercase;color:#fff;background:rgba(var(--c),.85)}
+#eventTab .fgw-refresh-btn.is-loading i{animation:fgwRefSpin .7s linear infinite}
+@keyframes fgwRefSpin{to{transform:rotate(360deg)}}
 </style>
 <button type="button" class="evs-hub" id="evSaldoHub" data-bal="1" data-a="22,163,74" data-a2="74,222,128" aria-label="Buka saldo event">
 <span class="evs-hub-ic"><i class="fa-solid fa-wallet" aria-hidden="true"></i></span>
@@ -2032,23 +2038,23 @@ body.ev-solid.ev-light .topbar-pro{background:rgba(255,255,255,.86)!important;-w
   </div>
 </div>
 
-<div class="evc" style="--c:208,116,42" role="button" tabindex="0" aria-label="Buka Clipper" data-ev-open="clipper">
+<div class="evc evc-locked" style="--c:208,116,42" role="button" tabindex="0" aria-disabled="true" aria-label="Clipper, segera hadir" data-ev-soon="Clipper">
   <span class="evc-shine" aria-hidden="true"></span>
   <div class="evc-art" aria-hidden="true"><span class="evc-ring"></span><span class="evc-tile"><i class="fa-solid fa-scissors"></i></span></div>
   <div class="evc-bd">
     <h3>Clipper</h3>
     <p>Potong video jadi duit! Klip viral, bonus mengalir terus.</p>
-    <div class="evc-ft"><span class="evc-go" aria-hidden="true"><i class="fa-solid fa-arrow-right"></i></span></div>
+    <div class="evc-ft"><span class="evc-soon"><i class="fa-solid fa-lock" aria-hidden="true"></i> Coming soon</span></div>
   </div>
 </div>
 
-<div class="evc" style="--c:130,98,204" role="button" tabindex="0" aria-label="Buka Zusmo Mabar" data-ev-open="mabar">
+<div class="evc evc-locked" style="--c:130,98,204" role="button" tabindex="0" aria-disabled="true" aria-label="Zusmo Mabar, segera hadir" data-ev-soon="Zusmo Mabar">
   <span class="evc-shine" aria-hidden="true"></span>
   <div class="evc-art" aria-hidden="true"><span class="evc-ring"></span><span class="evc-tile"><i class="fa-solid fa-gamepad"></i></span></div>
   <div class="evc-bd">
     <h3>Zusmo Mabar</h3>
     <p>Mabar seru bareng Zusmo, menang bawa pulang hadiah.</p>
-    <div class="evc-ft"><span class="evc-go" aria-hidden="true"><i class="fa-solid fa-arrow-right"></i></span></div>
+    <div class="evc-ft"><span class="evc-soon"><i class="fa-solid fa-lock" aria-hidden="true"></i> Coming soon</span></div>
   </div>
 </div>
 
@@ -2807,7 +2813,7 @@ function openMain(source){
 function close(){ov.hidden=true;view='';setEventScreen(returnPage||'evHub');try{window.scrollTo({top:Math.max(0,returnScroll),behavior:'smooth'})}catch(e){try{window.scrollTo(0,Math.max(0,returnScroll))}catch(_){}}}
 function hd(t){
  var main=view==='main';
- return '<div class="fgw-page-head"><button type="button" class="fgw-page-back" data-w="'+(main?'x':'back')+'" aria-label="'+(main?'Kembali ke layanan':'Kembali ke saldo')+'"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i><span>'+(main?'Kembali ke layanan':'Kembali')+'</span></button><div class="fgw-page-title"><small>DOMPET EVENT</small><strong>'+esc(t)+'</strong></div>'+(main?'<button type="button" class="fgw-page-mark fgw-referral-head-btn" data-w="goReferral" aria-label="Buka program referral" title="Program referral"><i class="fa-solid fa-user-group" aria-hidden="true"></i></button>':'')+'<button type="button" class="fgw-page-mark fgw-theme-toggle" data-ev-toggle aria-label="Ganti ke mode gelap" title="Ganti tema"><i class="fa-solid fa-moon" aria-hidden="true"></i></button></div>';
+ return '<div class="fgw-page-head"><button type="button" class="fgw-page-back" data-w="'+(main?'x':'back')+'" aria-label="'+(main?'Kembali ke layanan':'Kembali ke saldo')+'"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i><span>'+(main?'Kembali ke layanan':'Kembali')+'</span></button><div class="fgw-page-title"><small>DOMPET EVENT</small><strong>'+esc(t)+'</strong></div>'+(main?'<button type="button" class="fgw-page-mark fgw-referral-head-btn" data-w="goReferral" aria-label="Buka program referral" title="Program referral"><i class="fa-solid fa-user-group" aria-hidden="true"></i></button>':'')+'<button type="button" class="fgw-page-mark fgw-refresh-btn" data-w="refresh" aria-label="Refresh saldo" title="Refresh saldo"><i class="fa-solid fa-rotate" aria-hidden="true"></i></button>'+'<button type="button" class="fgw-page-mark fgw-theme-toggle" data-ev-toggle aria-label="Ganti ke mode gelap" title="Ganti tema"><i class="fa-solid fa-moon" aria-hidden="true"></i></button></div>';
 }
 function draw(){
  var x='';
@@ -2884,6 +2890,7 @@ function init(){
   else if(k==='amtAll'){var allBalance=Math.floor(Number(D&&D.balance||0));if(allBalance<MIN)return toast('Saldo belum mencapai minimum withdraw '+rp(MIN)+'.',true);$('wA').value=String(allBalance);setErr('wA','');syncWithdrawAmount()}
   else if(k==='tpl'){var ri=$('aR');ri.value=b.getAttribute('data-t');setErr('aR','');ri.focus()}
   else if(k==='rtpl'){var ci=sh.querySelector('[data-r="'+b.getAttribute('data-id')+'"]');if(ci){ci.value=b.getAttribute('data-t');ci.focus()}}
+  else if(k==='refresh'){if(b.classList.contains('is-loading'))return;b.classList.add('is-loading');rpc('wallet_me').then(function(d){D=d;setBal();draw();toast('Saldo diperbarui')}).catch(function(e){b.classList.remove('is-loading');toast(String(e&&e.message).indexOf('not_authenticated')>-1?'Masuk ke akunmu dulu.':'Gagal memuat saldo. Coba lagi.',true)})}
   else if(k==='goWd'){view='wd';draw()}
   else if(k==='goHist'){view='hist';historyFilter='all';draw()}
   else if(k==='hFilter'){historyFilter=b.getAttribute('data-filter')||'all';draw()}
@@ -3334,7 +3341,9 @@ function syncBar(){
 document.addEventListener('visibilitychange',function(){syncBar()});
 var EVP={wa:'evWa',email:'evEmail',clipper:'evClipper',mabar:'evMabar'};
 function evAnyPage(){for(var k in EVP){var e=$(EVP[k]);if(e&&!e.hidden)return true}return false}
+function soonToast(m){var n=document.getElementById('evSoonToast');if(!n){n=document.createElement('div');n.id='evSoonToast';n.setAttribute('role','status');n.style.cssText='position:fixed;left:50%;bottom:90px;transform:translateX(-50%);z-index:99999;max-width:86vw;padding:11px 16px;border-radius:14px;background:#111;color:#fff;font:700 .8rem Outfit,sans-serif;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.4);display:none';document.body.appendChild(n)}n.textContent=m;n.style.display='block';clearTimeout(n._t);n._t=setTimeout(function(){n.style.display='none'},2200)}
 function view(v){
+ if(v==='clipper'||v==='mabar')v='hub';
  tutClose();
  $('evHub').hidden=(v!=='hub');
  for(var k in EVP){var e=$(EVP[k]);if(e)e.hidden=(v!==k)}
@@ -3356,6 +3365,8 @@ root.addEventListener('click',function(e){
    if(sibling!==activeAcc&&sibling.tagName==='DETAILS'&&sibling.classList.contains('ev-acc'))sibling.open=false;
   });
  }
+ var soon=t.closest('[data-ev-soon]');
+ if(soon){soonToast((soon.getAttribute('data-ev-soon')||'Fitur ini')+' segera hadir. Coming soon!');return}
  var op=t.closest('[data-ev-open]');
  if(op){view(op.getAttribute('data-ev-open'));return}
  if(t.closest('[data-ev-back]')){view('hub');return}
@@ -3371,7 +3382,7 @@ root.addEventListener('click',function(e){
 });
 root.addEventListener('keydown',function(e){
  var t=e.target;
- if((e.key==='Enter'||e.key===' ')&&t&&t.matches&&t.matches('[data-ev-open]')){e.preventDefault();t.click()}
+ if((e.key==='Enter'||e.key===' ')&&t&&t.matches&&t.matches('[data-ev-open],[data-ev-soon]')){e.preventDefault();t.click()}
 });
 document.addEventListener('keydown',function(e){
  if(e.key!=='Escape')return;
