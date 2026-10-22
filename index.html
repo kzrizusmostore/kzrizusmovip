@@ -2179,6 +2179,16 @@ body.fg-on #eventTab[data-ev-theme="light"] .ev-wrap::before{background:radial-g
 #eventTab .fgw-ch.rejected{color:var(--fg-bad);background:rgba(248,113,113,.12);border-color:rgba(248,113,113,.4)}
 #eventTab .fgw-sum{margin:0 0 10px;font-size:.76rem;line-height:1.5;color:var(--fg-mu)}
 #eventTab .fgw-sec{margin:0 0 8px;font:800 .7rem 'Outfit',sans-serif;letter-spacing:.8px;text-transform:uppercase;color:var(--fg-ac)}
+#eventTab .ev-bal{position:absolute;top:0;right:50px;z-index:6;display:inline-flex;align-items:center;gap:7px;height:42px;padding:0 13px;border-radius:21px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);color:#fff;font:800 .74rem 'Outfit',sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .15s}
+#eventTab .ev-bal:active{transform:scale(.96)}
+#eventTab .ev-bal i{color:#7dd3fc;font-size:.82rem}
+#eventTab[data-ev-theme="light"] .ev-bal{background:#fff;border-color:rgba(15,23,42,.14);color:#0f172a;box-shadow:0 1px 2px rgba(15,23,42,.06)}
+#eventTab[data-ev-theme="light"] .ev-bal i{color:#1d4ed8}
+#eventTab .fgw-big{margin:0 0 14px;padding:14px;border-radius:18px;background:linear-gradient(135deg,rgba(var(--fg-a),.3),rgba(var(--fg-a2),.08));border:1px solid rgba(var(--fg-a2),.4)}
+#eventTab .fgw-big small{display:block;font:800 .66rem 'Outfit',sans-serif;letter-spacing:1px;text-transform:uppercase;color:var(--fg-ac)}
+#eventTab .fgw-big b{display:block;font:800 2rem/1.15 'Rajdhani','Outfit',sans-serif;color:var(--fg-tx)}
+#eventTab .fgw-big p{margin:4px 0 0;font-size:.72rem;color:var(--fg-mu)}
+#eventTab .fgw-acts{display:grid;gap:8px}
 @keyframes fgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @keyframes fgFlash{0%{box-shadow:0 0 0 0 rgba(var(--fg-a2),.6)}100%{box-shadow:0 0 0 10px rgba(var(--fg-a2),0)}}
 @media(max-width:360px){#eventTab .fg-val{font-size:.72rem;padding:0 10px}}
@@ -2197,11 +2207,6 @@ body.fg-on #eventTab[data-ev-theme="light"] .ev-wrap::before{background:radial-g
 <section class="fg-card fg-rate" aria-label="Tarif dan format">
 <div class="fg-price"><b>Rp5.000</b><span>dibayar per paket &middot; 3 akun Gmail</span></div>
 <div class="fg-fmt">Format akun:<br><code>kzrizusmo + 5 karakter acak + @gmail.com</code></div>
-</section>
-
-<section class="fg-card fg-wal" id="fgWal" aria-label="Saldo">
-<div class="fg-wal-t"><small>Saldo kamu</small><b id="fgBal">Rp0</b></div>
-<div class="fg-wal-a"><button type="button" class="fg-btn fg-btn-sm" id="fgWdBtn"><i class="fa-solid fa-money-bill-transfer" aria-hidden="true"></i> Cairkan</button><button type="button" class="fg-btn fg-btn-sm" id="fgHistBtn"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i> Riwayat</button><button type="button" class="fg-btn fg-btn-sm" id="fgAdmBtn" hidden><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Admin</button></div>
 </section>
 
 <section class="fg-card" aria-labelledby="fgGenH">
@@ -2235,7 +2240,6 @@ body.fg-on #eventTab[data-ev-theme="light"] .ev-wrap::before{background:radial-g
 </div>
 </section>
 
-<div class="fgw-ov" id="fgwOv" hidden><div class="fgw-sh" id="fgwSh" role="dialog" aria-modal="true"></div></div>
 <div class="fg-toast" id="fgToast" role="status" aria-live="polite"></div>
 <script>
 (function(){
@@ -2420,30 +2424,32 @@ render();
 </script>
 <script>
 (function(){
-var root=document.getElementById('evEmail');
-if(!root||root.__fgw)return;root.__fgw=1;
-var URL_='https://siqqdpnglqctyyaornmo.supabase.co',KEY='sb_publishable_lJ74c2lguDQRmCv5KJqmYA_crUTqEU6';
-var sb=null,D=null,A=null,view='',tab='pending',busy=false,q='',target=null;
+if(window.__fgw)return;window.__fgw=1;
+var URL_='https://siqqdpnglqctyyaornmo.supabase.co',KEY='sb_publishable_lJ74c2lguDQRmCv5KJqmYA_crUTqEU6',MIN=5000;
+var sb=null,D=null,A=null,view='',tab='pending',busy=false,q='',target=null,ov,sh,tt;
 function $(id){return document.getElementById(id)}
 function rp(n){return 'Rp'+Number(n||0).toLocaleString('id-ID')}
 function esc(t){var d=document.createElement('div');d.textContent=t==null?'':String(t);return d.innerHTML}
 function dt(t){try{return new Date(t).toLocaleString('id-ID',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}catch(e){return ''}}
-var ERR={not_authenticated:'Masuk ke akunmu dulu.',not_admin:'Khusus admin.',saldo_tidak_cukup:'Saldo tidak cukup.',min_withdraw:'Nominal di bawah minimum pencairan (Rp10.000).',ewallet_invalid:'E-wallet tidak valid.',nomor_invalid:'Nomor e-wallet tidak valid (08xx / 628xx).',nama_invalid:'Nama pemilik 2-60 karakter.',pending_exists:'Masih ada pencairan yang diproses.',request_processed:'Permintaan sudah diproses.',payout_ref_required:'Isi bukti/ref transfer.',reason_required:'Isi alasan (min 3 karakter).',amount_invalid:'Nominal tidak valid.'};
-function toast(m,bad){var t=$('fgToast');t.textContent=m;t.className='fg-toast on'+(bad?' bad':'');clearTimeout(toast.t);toast.t=setTimeout(function(){t.className='fg-toast'},2400)}
+var ERR={not_authenticated:'Masuk ke akunmu dulu.',not_admin:'Khusus admin.',saldo_tidak_cukup:'Saldo tidak cukup.',min_withdraw:'Nominal di bawah minimum pencairan ('+rp(MIN)+').',ewallet_invalid:'E-wallet tidak valid.',nomor_invalid:'Nomor e-wallet tidak valid (08xx / 628xx).',nama_invalid:'Nama pemilik 2-60 karakter.',pending_exists:'Masih ada pencairan yang diproses.',request_processed:'Permintaan sudah diproses.',payout_ref_required:'Isi bukti/ref transfer.',reason_required:'Isi alasan (min 3 karakter).',amount_invalid:'Nominal tidak valid.'};
+function toast(m,bad){tt.textContent=m;tt.className='fg-toast on'+(bad?' bad':'');clearTimeout(toast.t);toast.t=setTimeout(function(){tt.className='fg-toast'},2400)}
 function fail(e){var m=String((e&&e.message)||e);for(var k in ERR)if(m.indexOf(k)>-1)return toast(ERR[k],true);toast('Terjadi kendala. Coba lagi.',true)}
 function sdk(){if(window.supabase&&window.supabase.createClient)return Promise.resolve();return new Promise(function(ok,no){var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.js';s.onload=ok;s.onerror=function(){no(new Error('sdk'))};document.head.appendChild(s)})}
 function rpc(fn,a){return sdk().then(function(){if(!sb)sb=window.supabase.createClient(URL_,KEY,{auth:{persistSession:true,autoRefreshToken:false,detectSessionInUrl:false}});return sb.auth.getSession()}).then(function(){return sb.rpc(fn,a||{})}).then(function(r){if(r.error)throw r.error;return r.data})}
-function load(){return rpc('wallet_me').then(function(d){D=d;$('fgBal').textContent=rp(d.balance);$('fgAdmBtn').hidden=!d.is_admin}).catch(function(e){D=null;$('fgBal').textContent='Rp0';$('fgAdmBtn').hidden=true;if(String(e&&e.message).indexOf('not_authenticated')<0)console.warn(e)})}
+function setBal(){[].forEach.call(document.querySelectorAll('[data-bal-t]'),function(n){n.textContent=rp(D&&D.balance)})}
+function load(){return rpc('wallet_me').then(function(d){D=d;setBal()}).catch(function(e){D=null;setBal();if(String(e&&e.message).indexOf('not_authenticated')<0)console.warn(e)})}
 function loadAdm(){return rpc('admin_wallet_list',{p_search:q}).then(function(d){A=d})}
-function open(v){view=v;$('fgwOv').hidden=false;draw()}
-function close(){$('fgwOv').hidden=true;view=''}
-function hd(t){return '<div class="fgw-hd"><span>'+t+'</span><button type="button" class="fg-eye" data-w="x" aria-label="Tutup"><i class="fa-solid fa-xmark"></i></button></div>'}
+function openMain(){ov.hidden=false;view='main';draw();load().then(draw)}
+function close(){ov.hidden=true;view=''}
+function hd(t){return '<div class="fgw-hd"><span>'+(view!=='main'?'<button type="button" class="fg-eye" data-w="back" aria-label="Kembali" style="display:inline-grid;vertical-align:middle;margin-right:4px"><i class="fa-solid fa-arrow-left"></i></button>':'')+t+'</span><button type="button" class="fg-eye" data-w="x" aria-label="Tutup"><i class="fa-solid fa-xmark"></i></button></div>'}
 function draw(){
- var h=$('fgwSh'),x='';
- if(view==='wd'){
-  x=hd('Cairkan saldo')+'<p class="fgw-sum">Saldo: <b>'+rp(D&&D.balance)+'</b>. Minimum Rp10.000. Saldo ditahan sampai admin memproses.</p>'+
+ var x='';
+ if(view==='main'){
+  x=hd('Saldo event')+(D?'<div class="fgw-big"><small>Saldo gabungan</small><b>'+rp(D.balance)+'</b><p>Dari semua event: Sewa WA, Freelance Gmail, dan Clipper.</p></div><div class="fgw-acts"><button type="button" class="fg-btn fg-btn-main" data-w="goWd"><i class="fa-solid fa-money-bill-transfer"></i> CAIRKAN KE E-WALLET</button><button type="button" class="fg-btn" data-w="goHist"><i class="fa-solid fa-clock-rotate-left"></i> Riwayat</button>'+(D.is_admin?'<button type="button" class="fg-btn" data-w="goAdm"><i class="fa-solid fa-shield-halved"></i> Panel admin</button>':'')+'</div>':'<p class="fgw-sum">Masuk ke akunmu dulu untuk melihat saldo.</p>');
+ }else if(view==='wd'){
+  x=hd('Cairkan saldo')+'<p class="fgw-sum">Saldo: <b>'+rp(D&&D.balance)+'</b>. Minimum '+rp(MIN)+'. Saldo ditahan sampai admin memproses.</p>'+
   '<select class="fgw-in" id="wE"><option value="DANA">DANA</option><option value="GOPAY">GoPay</option><option value="SHOPEEPAY">ShopeePay</option><option value="OVO">OVO</option></select>'+
-  '<input class="fgw-in" id="wP" type="tel" inputmode="tel" placeholder="Nomor e-wallet (08xx)" autocomplete="off"><input class="fgw-in" id="wN" placeholder="Nama pemilik akun" maxlength="60" autocomplete="off"><input class="fgw-in" id="wA" type="number" inputmode="numeric" min="10000" step="1" placeholder="Nominal (Rp)">'+
+  '<input class="fgw-in" id="wP" type="tel" inputmode="tel" placeholder="Nomor e-wallet (08xx)" autocomplete="off"><input class="fgw-in" id="wN" placeholder="Nama pemilik akun" maxlength="60" autocomplete="off"><input class="fgw-in" id="wA" type="number" inputmode="numeric" min="'+MIN+'" step="1" placeholder="Nominal (Rp)">'+
   '<p class="fgw-sum" id="wS"></p><button type="button" class="fg-btn fg-btn-main" data-w="wd">AJUKAN PENCAIRAN</button>';
  }else if(view==='hist'){
   var w=(D&&D.withdrawals)||[],l=(D&&D.ledger)||[];
@@ -2453,42 +2459,51 @@ function draw(){
   x=hd('Panel admin')+'<div class="fgw-tabs">'+[['pending','Pencairan'],['adj','Atur saldo'],['audit','Audit']].map(function(t){return '<button type="button" class="fg-btn'+(tab===t[0]?' on':'')+'" data-w="tab" data-t="'+t[0]+'">'+t[1]+'</button>'}).join('')+'</div>';
   if(!A)x+='<p class="fgw-sum">Memuat...</p>';
   else if(tab==='pending')x+=(A.pending.length?A.pending.map(function(r){return '<div class="fgw-it" style="display:block"><b>'+esc(r.username)+'</b> &middot; '+rp(r.amount)+'<br>'+esc(r.ewallet)+' '+esc(r.phone_number)+' a.n. '+esc(r.account_name)+'<br>'+dt(r.created_at)+'<input class="fgw-in" style="margin-top:8px" data-r="'+r.id+'" placeholder="Ref transfer / alasan tolak"><div class="fg-row2" style="margin:0"><button type="button" class="fg-btn fg-btn-sm" data-w="paid" data-id="'+r.id+'">Dibayar</button><button type="button" class="fg-btn fg-btn-sm fg-btn-danger" data-w="rej" data-id="'+r.id+'">Tolak</button></div></div>'}).join(''):'<p class="fgw-sum">Tidak ada pencairan pending.</p>');
-  else if(tab==='adj')x+='<input class="fgw-in" id="aQ" placeholder="Cari username" value="'+esc(q)+'"><button type="button" class="fg-btn fg-btn-sm" data-w="find" style="margin:0 0 10px">Cari</button>'+A.users.map(function(u){return '<div class="fgw-it"><span><b>'+esc(u.username)+'</b><br>'+rp(u.balance)+'</span><button type="button" class="fg-btn fg-btn-sm" data-w="pick" data-u="'+esc(u.user_id)+'" data-n="'+esc(u.username)+'">Atur</button></div>'}).join('')+(target?'<div style="margin-top:12px"><p class="fgw-sec">Atur: '+esc(target.n)+'</p><input class="fgw-in" id="aA" type="number" inputmode="numeric" step="1" placeholder="Nominal (+tambah / -kurangi)"><input class="fgw-in" id="aR" placeholder="Alasan (wajib)" maxlength="120"><button type="button" class="fg-btn fg-btn-main" data-w="adj">TERAPKAN</button></div>':'');
+  else if(tab==='adj')x+='<input class="fgw-in" id="aQ" placeholder="Cari username" value="'+esc(q)+'"><button type="button" class="fg-btn fg-btn-sm" data-w="find" style="margin:0 0 10px">Cari</button>'+A.users.map(function(u){return '<div class="fgw-it"><span><b>'+esc(u.username)+'</b><br>'+rp(u.balance)+'</span><button type="button" class="fg-btn fg-btn-sm" data-w="pick" data-u="'+esc(u.user_id)+'" data-n="'+esc(u.username)+'">Atur</button></div>'}).join('')+(target?'<div style="margin-top:12px"><p class="fgw-sec">Atur: '+esc(target.n)+'</p><select class="fgw-in" id="aS"><option>Sewa WA</option><option>Freelance Gmail</option><option>Clipper</option><option>Lainnya</option></select><input class="fgw-in" id="aA" type="number" inputmode="numeric" step="1" placeholder="Nominal (+tambah / -kurangi)"><input class="fgw-in" id="aR" placeholder="Alasan (wajib)" maxlength="120"><button type="button" class="fg-btn fg-btn-main" data-w="adj">TERAPKAN</button></div>':'');
   else x+=A.audit.length?A.audit.map(function(r){return '<div class="fgw-it"><span><b>'+esc(r.action)+'</b> '+esc(r.target_name)+'<br>oleh '+esc(r.admin_name)+' &middot; '+dt(r.created_at)+(r.reason?'<br>'+esc(r.reason):'')+'</span><span><b>'+rp(r.amount)+'</b></span></div>'}).join(''):'<p class="fgw-sum">Belum ada log.</p>';
  }
- h.innerHTML=x;
+ sh.innerHTML=x;
 }
-function run(p,okMsg,after){if(busy)return;busy=true;p.then(function(){toast(okMsg);return after&&after()}).catch(fail).then(function(){busy=false;draw()})}
-$('fgWdBtn').addEventListener('click',function(){load().then(function(){open('wd')})});
-$('fgHistBtn').addEventListener('click',function(){load().then(function(){open('hist')})});
-$('fgAdmBtn').addEventListener('click',function(){tab='pending';target=null;A=null;open('adm');loadAdm().then(draw).catch(fail)});
-$('fgwOv').addEventListener('click',function(e){if(e.target===this)close()});
-$('fgwSh').addEventListener('input',function(){var a=parseInt(($('wA')||{}).value,10),e=$('wE');if(!e||!$('wS'))return;$('wS').textContent=a>0?'Kamu akan mencairkan '+rp(a)+' ke '+e.options[e.selectedIndex].text+' '+($('wP').value||'')+' a.n. '+($('wN').value||'')+'.':''});
-$('fgwSh').addEventListener('click',function(e){
- var b=e.target.closest&&e.target.closest('[data-w]');if(!b)return;var w=b.getAttribute('data-w');
- if(w==='x')close();
- else if(w==='tab'){tab=b.getAttribute('data-t');draw()}
- else if(w==='find'){q=($('aQ')||{}).value||'';A=null;draw();loadAdm().then(draw).catch(fail)}
- else if(w==='pick'){target={u:b.getAttribute('data-u'),n:b.getAttribute('data-n')};draw()}
- else if(w==='wd'){
-  var a=parseInt($('wA').value,10);if(!(a>0))return toast('Isi nominal.',true);
-  if(!confirm('Ajukan pencairan '+rp(a)+' ke '+$('wE').value+' '+$('wP').value+' a.n. '+$('wN').value+'?'))return;
-  run(rpc('wallet_request_withdraw',{p_ewallet:$('wE').value,p_phone:$('wP').value,p_name:$('wN').value,p_amount:a}),'Pencairan diajukan',function(){return load().then(function(){view='hist'})});
- }
- else if(w==='paid'||w==='rej'){
-  var id=parseInt(b.getAttribute('data-id'),10),i=$('fgwSh').querySelector('[data-r="'+id+'"]'),v=i?i.value:'';
-  if(!confirm(w==='paid'?'Tandai sudah dibayar?':'Tolak dan kembalikan saldo?'))return;
-  run(rpc('admin_withdraw_process',{p_id:id,p_action:w==='paid'?'paid':'rejected',p_ref:v,p_note:v}),'Diproses',loadAdm);
- }
- else if(w==='adj'){
-  var n=parseInt($('aA').value,10);if(!n)return toast('Isi nominal.',true);
-  if(!confirm('Ubah saldo '+target.n+' sebesar '+(n>0?'+':'')+rp(n).replace('Rp-','-Rp')+'?'))return;
-  run(rpc('admin_wallet_adjust',{p_user:target.u,p_amount:n,p_reason:$('aR').value}),'Saldo diperbarui',function(){target=null;return loadAdm()});
- }
-});
-function sync(){if(!root.hidden)load()}
-try{new MutationObserver(sync).observe(root,{attributes:true,attributeFilter:['hidden']})}catch(e){}
-sync();
+function run(pr,okMsg,after){if(busy)return;busy=true;pr.then(function(){toast(okMsg);return after&&after()}).catch(fail).then(function(){busy=false;draw()})}
+function init(){
+ var T=$('eventTab');if(!T||T.__fgw)return;T.__fgw=1;
+ var w=document.createElement('div');w.className='fg';
+ w.innerHTML='<div class="fgw-ov" hidden><div class="fgw-sh" role="dialog" aria-modal="true" aria-label="Saldo event"></div></div><div class="fg-toast" role="status" aria-live="polite"></div>';
+ T.appendChild(w);ov=w.firstChild;sh=ov.firstChild;tt=w.lastChild;
+ [].forEach.call(T.querySelectorAll('[data-ev-toggle]'),function(t){var b=document.createElement('button');b.type='button';b.className='ev-bal';b.setAttribute('data-bal','1');b.setAttribute('aria-label','Saldo event');b.innerHTML='<i class="fa-solid fa-wallet" aria-hidden="true"></i><span data-bal-t>Rp0</span>';t.parentNode.insertBefore(b,t)});
+ T.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('[data-bal]'))openMain()});
+ ov.addEventListener('click',function(e){if(e.target===ov)close()});
+ sh.addEventListener('input',function(){var a=parseInt(($('wA')||{}).value,10),e=$('wE');if(!e||!$('wS'))return;$('wS').textContent=a>0?'Kamu akan mencairkan '+rp(a)+' ke '+e.options[e.selectedIndex].text+' '+($('wP').value||'')+' a.n. '+($('wN').value||'')+'.':''});
+ sh.addEventListener('click',function(e){
+  var b=e.target.closest&&e.target.closest('[data-w]');if(!b)return;var k=b.getAttribute('data-w');
+  if(k==='x')close();
+  else if(k==='back'){view='main';draw()}
+  else if(k==='goWd'){view='wd';draw()}
+  else if(k==='goHist'){view='hist';draw()}
+  else if(k==='goAdm'){view='adm';tab='pending';target=null;A=null;draw();loadAdm().then(draw).catch(fail)}
+  else if(k==='tab'){tab=b.getAttribute('data-t');draw()}
+  else if(k==='find'){q=($('aQ')||{}).value||'';A=null;draw();loadAdm().then(draw).catch(fail)}
+  else if(k==='pick'){target={u:b.getAttribute('data-u'),n:b.getAttribute('data-n')};draw()}
+  else if(k==='wd'){
+   var a=parseInt($('wA').value,10);if(!(a>0))return toast('Isi nominal.',true);
+   if(!confirm('Ajukan pencairan '+rp(a)+' ke '+$('wE').value+' '+$('wP').value+' a.n. '+$('wN').value+'?'))return;
+   run(rpc('wallet_request_withdraw',{p_ewallet:$('wE').value,p_phone:$('wP').value,p_name:$('wN').value,p_amount:a}),'Pencairan diajukan',function(){return load().then(function(){view='hist'})});
+  }
+  else if(k==='paid'||k==='rej'){
+   var id=parseInt(b.getAttribute('data-id'),10),i=sh.querySelector('[data-r="'+id+'"]'),v=i?i.value:'';
+   if(!confirm(k==='paid'?'Tandai sudah dibayar?':'Tolak dan kembalikan saldo?'))return;
+   run(rpc('admin_withdraw_process',{p_id:id,p_action:k==='paid'?'paid':'rejected',p_ref:v,p_note:v}),'Diproses',loadAdm);
+  }
+  else if(k==='adj'){
+   var n=parseInt($('aA').value,10),r=($('aR').value||'').trim();if(!n)return toast('Isi nominal.',true);if(r.length<3)return toast(ERR.reason_required,true);
+   if(!confirm('Ubah saldo '+target.n+' sebesar '+(n>0?'+':'-')+rp(Math.abs(n))+'?'))return;
+   run(rpc('admin_wallet_adjust',{p_user:target.u,p_amount:n,p_reason:'['+$('aS').value+'] '+r}),'Saldo diperbarui',function(){target=null;return loadAdm().then(load)});
+  }
+ });
+ [].forEach.call(T.querySelectorAll('[data-ev-page]'),function(pg){try{new MutationObserver(function(){if(!pg.hidden)load()}).observe(pg,{attributes:true,attributeFilter:['hidden']})}catch(e){}});
+ load();
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 </script>
 </section>
@@ -2556,17 +2571,6 @@ sync();
 <div class="ev-sr"><input type="radio" name="evMethod" value="chat" tabindex="-1" aria-hidden="true"><input type="radio" name="evMethod" value="menit" tabindex="-1" aria-hidden="true"></div>
 </div>
 
-<div class="ev-fg" id="evFgWd"><h3 class="ev-fg-t">Penarikan dana (WD)</h3>
-<span class="ev-lbl" id="evWdLbl">E-wallet</span>
-<div class="ev-sel" id="evSel"><input type="hidden" id="evWdType" value=""><button type="button" class="pc-input ev-sel-btn" id="evWdTrig" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="evWdLbl evWdVal"><span class="ev-sel-v" id="evWdVal"><span class="ev-sel-ph">Pilih e-wallet</span></span><i class="fa-solid fa-chevron-down ev-sel-ch" aria-hidden="true"></i></button><ul class="ev-sel-list" id="evWdList" role="listbox" aria-label="E-wallet" hidden><li role="option" tabindex="-1" data-v="DANA" aria-selected="false"><img src="zusmo-asset/logodana.png" alt="" loading="lazy" decoding="async" onerror="this.style.visibility='hidden'"><span>DANA</span></li><li role="option" tabindex="-1" data-v="GoPay" aria-selected="false"><img src="zusmo-asset/logogopay.png" alt="" loading="lazy" decoding="async" onerror="this.style.visibility='hidden'"><span>GoPay</span></li><li role="option" tabindex="-1" data-v="ShopeePay" aria-selected="false"><img src="zusmo-asset/logospay.png" alt="" loading="lazy" decoding="async" onerror="this.style.visibility='hidden'"><span>ShopeePay</span></li><li role="option" tabindex="-1" data-v="OVO" aria-selected="false"><img src="zusmo-asset/logoovo.png" alt="" loading="lazy" decoding="async" onerror="this.style.visibility='hidden'"><span>OVO</span></li></ul></div>
-<div class="ev-err" id="evErrWdType" role="alert" hidden></div>
-<label class="ev-lbl" for="evWdNum" id="evWdNumLbl">Nomor DANA</label>
-<div class="pc-input-wrap"><i class="pc-input-icon fa-solid fa-hashtag" aria-hidden="true"></i><input class="pc-input" id="evWdNum" type="tel" inputmode="numeric" maxlength="20" placeholder="08123456789"></div>
-<div class="ev-err" id="evErrWdNum" role="alert" hidden></div>
-<label class="ev-lbl" for="evWdName">Atas nama rekening</label>
-<div class="pc-input-wrap"><i class="pc-input-icon fa-solid fa-id-card" aria-hidden="true"></i><input class="pc-input" id="evWdName" type="text" maxlength="60" placeholder="Sesuai akun e-wallet"></div>
-<div class="ev-err" id="evErrWdName" role="alert" hidden></div>
-</div>
 
 <label class="ev-check" id="evCheckRow"><input type="checkbox" id="evConsent"><span>Saya paham WhatsApp saya bisa dibatasi sementara.<button type="button" class="ev-linkbtn" data-ev-risk>Lihat risiko</button></span></label>
 <div class="ev-err" id="evErrConsent" role="alert" hidden></div>
@@ -2701,7 +2705,7 @@ qs.forEach(function(d){
 </script>
 <div class="ev-group">
 <h2 class="ev-sec ev-sec-info">Info &amp; ketentuan</h2>
-<details class="ev-acc"><summary><span class="ev-acc-n"><i class="fa-solid fa-list-check" aria-hidden="true"></i></span>Cara kerja<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><div class="ev-acc-body"><ol class="ev-steps"><li><span class="ev-step-text">Pilih tarif <b>Rp200 per chat</b> atau <b>Rp1.000 per menit</b>, isi nomor WhatsApp dan tujuan penarikan, lalu tekan <b>Daftar sewa</b>.</span></li><li><span class="ev-step-text">Kamu akan diarahkan ke WhatsApp admin untuk menerima panduan proses. admin akan menautkan perangkat whatsapp kamu untuk blast pesan iklan, admin mengirim code (input/qr) ke kamu. klik notifikasi whatsapp yang muncul diatas, lalu masukkan code yang diberikan admin (proses penautan selesai).</span></li><li><span class="ev-step-text">Saat sesi blast aktif, sistem memproses pesan promosi ke penerima di luar kontak pribadi. Isi iklan dapat bervariasi, dan pengiriman dijadwalkan sekitar <b>1 penerima setiap 1 detik</b>.</span></li><li><span class="ev-step-text">WhatsApp dapat tetap digunakan selama proses berjalan.</span></li><li><span class="ev-step-text"><b>Jangan menghapus pesan atau memblokir penerima ketika status blast masih aktif.</b> Menurut ketentuan layanan ini, tindakan tersebut dapat membuat hasil sesi tidak dihitung atau tidak dapat dicairkan. Lakukan hanya setelah blast berhenti/selesai atau setelah penarikan berhasil.</span></li><li><span class="ev-step-text">Minimal penarikan adalah <b>Rp5.000</b> (25 chat valid atau 5 menit). Jika target belum tercapai, saldo dicatat sebagai <b>deposit sementara oleh admin</b> dan belum bisa ditarik. Kamu dapat melanjutkan target dengan nomor/akun lain; saldo yang tercatat dapat diajukan untuk WD setelah batas minimum terpenuhi dan hasil diverifikasi.</span></li></ol></div></details><details class="ev-acc ev-acc-warn" id="evAccRisk"><summary><span class="ev-acc-n"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i></span>Risiko<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><div class="ev-acc-body"><ul class="ev-rules"><li>kamu dapat dilaporkan sebagai spam dan membuat WhatsApp membatasi akun sementara (biasanya kurang dari 10 jam)</li><li>Usia akun yang lebih lama menjamin batas pengiriman lebih besar. Akun baru dapat lebih rentan terkena pembatasan.</li></li></ul></div></details><details class="ev-acc"><summary><span class="ev-acc-n"><i class="fa-solid fa-scale-balanced" aria-hidden="true"></i></span>Aturan pembayaran<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><div class="ev-acc-body"><ul class="ev-rules"><li>Tarif per chat adalah <b>Rp200</b> untuk chat yang dinyatakan berhasil dan valid.</li><li>Tarif per menit adalah <b>Rp1.000</b> untuk menit kerja yang valid.</li><li></li><li>Minimal WD <b>Rp5.000</b>: setara 25 chat valid atau 5 menit. Penarikan dapat diajukan ke DANA, GoPay, ShopeePay, atau OVO.</li><li>Jika target minimal belum terpenuhi, saldo yang tercatat ditahan sebagai deposit dan belum dapat dicairkan sampai target akumulatif tercapai. Kelanjutan dengan nomor lain tetap perlu diverifikasi admin.</li><li>Hasil akhir diverifikasi admin. Tarif dan ketentuan dapat berubah; baca ketentuan terbaru sebelum mendaftar.</li></ul></div></details><details class="ev-acc"><summary><span class="ev-acc-n"><i class="fa-solid fa-circle-question" aria-hidden="true"></i></span>Tanya jawab<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><div class="ev-acc-body"><details class="ev-qa"><summary>Apa itu Sewa WhatsApp Blast?<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><p>Nomor WhatsApp disewakan untuk memproses pesan promosi massal.</p></details><details class="ev-qa"><summary>Pesan dikirim ke mana dan isinya apa?<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><p>Pesan diproses ke penerima di luar kontak pribadi. Isi promosi dapat bervariasi.</p></details><details class="ev-qa"><summary>Seberapa cepat pesan dikirim?<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><p>Pengiriman dijadwalkan sekitar satu penerima setiap satu detik. Jumlah yang berhasil terkirim tetap bergantung pada kondisi akun, sistem, dan pembatasan WhatsApp.</p></details><details class="ev-qa"><summary>Apakah WhatsApp tetap bisa dipakai?<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><p>WhatsApp dapat tetap digunakan saat blast berjalan.</p></details><details class="ev-qa"><summary>Bisa memakai WhatsApp biasa atau WhatsApp Business?<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><p>Keduanya dapat digunakan, tetapi keduanya tetap memiliki risiko pembatasan. Akun baru dapat lebih rentan, sedangkan usia akun yang lama menjamin limit lebih besar.</p></details><details class="ev-qa"><summary>Bolehkah menghapus pesan atau memblokir penerima?<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><p>Menurut ketentuan layanan ini, lakukan hanya setelah status blast berhenti/selesai atau setelah WD berhasil. Menghapus atau memblokir saat blast masih aktif dapat membuat hasil tidak dihitung dan saldo tidak dapat dicairkan.</p></details><details class="ev-qa"><summary>Bagaimana jika belum mencapai 25 chat atau 5 menit?<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><p>Saldo yang telah dicatat disimpan sebagai deposit sementara dan belum bisa ditarik. Kamu dapat melanjutkan target menggunakan nomor/akun lain; setelah saldo akumulatif mencapai Rp5.000 dan diverifikasi admin, penarikan bisa diajukan.</p></details><details class="ev-qa"><summary>Berapa minimal WD dan metode pencairannya?<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><p>Minimal WD Rp5.000, setara 25 chat valid atau 5 menit. Metode yang tersedia: DANA, GoPay, ShopeePay, atau OVO.</p></details><details class="ev-qa"><summary>Apakah admin bisa melihat isi chat pribadi saya?<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><p>Alur broadcast ini tidak ditujukan untuk membaca chat pribadi. Namun, karena proses dapat melibatkan penautan akun/perangkat, jangan menganggap keamanan akun dijamin sepenuhnya. Periksa perangkat tertaut dan jangan bagikan PIN atau kode OTP.</p></details><details class="ev-qa"><summary>Input Code atau QR Code?<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><p>Ikuti panduan koneksi yang ditampilkan dan pastikan kamu memahami akses yang sedang diberikan. Kode koneksi dapat kedaluwarsa; jangan pernah memberikan PIN atau kode OTP untuk login kepada siapa pun.</p></details></div></details>
+<details class="ev-acc"><summary><span class="ev-acc-n"><i class="fa-solid fa-list-check" aria-hidden="true"></i></span>Cara kerja<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><div class="ev-acc-body"><ol class="ev-steps"><li><span class="ev-step-text">Pilih tarif <b>Rp200 per chat</b> atau <b>Rp1.000 per menit</b>, isi nomor WhatsApp, lalu tekan <b>Daftar sewa</b>.</span></li><li><span class="ev-step-text">Kamu akan diarahkan ke WhatsApp admin untuk menerima panduan proses. admin akan menautkan perangkat whatsapp kamu untuk blast pesan iklan, admin mengirim code (input/qr) ke kamu. klik notifikasi whatsapp yang muncul diatas, lalu masukkan code yang diberikan admin (proses penautan selesai).</span></li><li><span class="ev-step-text">Saat sesi blast aktif, sistem memproses pesan promosi ke penerima di luar kontak pribadi. Isi iklan dapat bervariasi, dan pengiriman dijadwalkan sekitar <b>1 penerima setiap 1 detik</b>.</span></li><li><span class="ev-step-text">WhatsApp dapat tetap digunakan selama proses berjalan.</span></li><li><span class="ev-step-text"><b>Jangan menghapus pesan atau memblokir penerima ketika status blast masih aktif.</b> Menurut ketentuan layanan ini, tindakan tersebut dapat membuat hasil sesi tidak dihitung atau tidak dapat dicairkan. Lakukan hanya setelah blast berhenti/selesai atau setelah penarikan berhasil.</span></li><li><span class="ev-step-text">Minimal penarikan adalah <b>Rp5.000</b> (25 chat valid atau 5 menit). Jika target belum tercapai, saldo dicatat sebagai <b>deposit sementara oleh admin</b> dan belum bisa ditarik. Kamu dapat melanjutkan target dengan nomor/akun lain; saldo yang tercatat dapat diajukan untuk WD setelah batas minimum terpenuhi dan hasil diverifikasi.</span></li></ol></div></details><details class="ev-acc ev-acc-warn" id="evAccRisk"><summary><span class="ev-acc-n"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i></span>Risiko<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><div class="ev-acc-body"><ul class="ev-rules"><li>kamu dapat dilaporkan sebagai spam dan membuat WhatsApp membatasi akun sementara (biasanya kurang dari 10 jam)</li><li>Usia akun yang lebih lama menjamin batas pengiriman lebih besar. Akun baru dapat lebih rentan terkena pembatasan.</li></li></ul></div></details><details class="ev-acc"><summary><span class="ev-acc-n"><i class="fa-solid fa-scale-balanced" aria-hidden="true"></i></span>Aturan pembayaran<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><div class="ev-acc-body"><ul class="ev-rules"><li>Tarif per chat adalah <b>Rp200</b> untuk chat yang dinyatakan berhasil dan valid.</li><li>Tarif per menit adalah <b>Rp1.000</b> untuk menit kerja yang valid.</li><li></li><li>Minimal WD <b>Rp5.000</b>: setara 25 chat valid atau 5 menit. Penarikan dapat diajukan ke DANA, GoPay, ShopeePay, atau OVO.</li><li>Jika target minimal belum terpenuhi, saldo yang tercatat ditahan sebagai deposit dan belum dapat dicairkan sampai target akumulatif tercapai. Kelanjutan dengan nomor lain tetap perlu diverifikasi admin.</li><li>Hasil akhir diverifikasi admin. Tarif dan ketentuan dapat berubah; baca ketentuan terbaru sebelum mendaftar.</li></ul></div></details><details class="ev-acc"><summary><span class="ev-acc-n"><i class="fa-solid fa-circle-question" aria-hidden="true"></i></span>Tanya jawab<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><div class="ev-acc-body"><details class="ev-qa"><summary>Apa itu Sewa WhatsApp Blast?<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><p>Nomor WhatsApp disewakan untuk memproses pesan promosi massal.</p></details><details class="ev-qa"><summary>Pesan dikirim ke mana dan isinya apa?<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><p>Pesan diproses ke penerima di luar kontak pribadi. Isi promosi dapat bervariasi.</p></details><details class="ev-qa"><summary>Seberapa cepat pesan dikirim?<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><p>Pengiriman dijadwalkan sekitar satu penerima setiap satu detik. Jumlah yang berhasil terkirim tetap bergantung pada kondisi akun, sistem, dan pembatasan WhatsApp.</p></details><details class="ev-qa"><summary>Apakah WhatsApp tetap bisa dipakai?<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><p>WhatsApp dapat tetap digunakan saat blast berjalan.</p></details><details class="ev-qa"><summary>Bisa memakai WhatsApp biasa atau WhatsApp Business?<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><p>Keduanya dapat digunakan, tetapi keduanya tetap memiliki risiko pembatasan. Akun baru dapat lebih rentan, sedangkan usia akun yang lama menjamin limit lebih besar.</p></details><details class="ev-qa"><summary>Bolehkah menghapus pesan atau memblokir penerima?<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><p>Menurut ketentuan layanan ini, lakukan hanya setelah status blast berhenti/selesai atau setelah WD berhasil. Menghapus atau memblokir saat blast masih aktif dapat membuat hasil tidak dihitung dan saldo tidak dapat dicairkan.</p></details><details class="ev-qa"><summary>Bagaimana jika belum mencapai 25 chat atau 5 menit?<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><p>Saldo yang telah dicatat disimpan sebagai deposit sementara dan belum bisa ditarik. Kamu dapat melanjutkan target menggunakan nomor/akun lain; setelah saldo akumulatif mencapai Rp5.000 dan diverifikasi admin, penarikan bisa diajukan.</p></details><details class="ev-qa"><summary>Berapa minimal WD dan metode pencairannya?<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><p>Minimal WD Rp5.000, setara 25 chat valid atau 5 menit. Metode yang tersedia: DANA, GoPay, ShopeePay, atau OVO.</p></details><details class="ev-qa"><summary>Apakah admin bisa melihat isi chat pribadi saya?<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><p>Alur broadcast ini tidak ditujukan untuk membaca chat pribadi. Namun, karena proses dapat melibatkan penautan akun/perangkat, jangan menganggap keamanan akun dijamin sepenuhnya. Periksa perangkat tertaut dan jangan bagikan PIN atau kode OTP.</p></details><details class="ev-qa"><summary>Input Code atau QR Code?<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><p>Ikuti panduan koneksi yang ditampilkan dan pastikan kamu memahami akses yang sedang diberikan. Kode koneksi dapat kedaluwarsa; jangan pernah memberikan PIN atau kode OTP untuk login kepada siapa pun.</p></details></div></details>
 </div>
 
 
@@ -2742,8 +2746,7 @@ function rowx(dl,k,v,mute){
 function stepState(){
  return{
   rate:!!S.method,
-  data:!checkNum()&&!!checked('evLogin'),
-  wd:!!$('evWdType').value&&!checkWdNum()&&!checkPerson('evWdName','x')
+  data:!checkNum()&&!!checked('evLogin')
  };
 }
 function updateProgress(){
@@ -2765,8 +2768,8 @@ function updateRateHint(){
 function renderSummary(){
  var box=$('evSum'),p=cur();
  if(box){
-  var num=normNum($('evNum').value),nm='',lg=checked('evLogin'),wt=$('evWdType').value,wn=cleanNum($('evWdNum').value),wnm=$('evWdName').value.trim();
-  var any=p||num||nm||lg||wt||wn||wnm;
+  var num=normNum($('evNum').value),nm='',lg=checked('evLogin');
+  var any=p||num||nm||lg;
   box.hidden=!any;
   if(any){
    box.textContent='';
@@ -2775,7 +2778,6 @@ function renderSummary(){
    rowx(dl,'Tarif',p?p.name+': '+rp(p.rate)+' '+p.per:'Belum dipilih',!p);
    rowx(dl,'Nomor WA',num?num+(nm?' ('+nm+')':''):'Belum diisi',!num);
    rowx(dl,'Login',lg?LOGIN[lg]+' (berlaku 60 detik)':'Belum dipilih',!lg);
-   rowx(dl,'Penarikan',wt?wt+(wn?' '+wn:'')+(wnm?' a.n. '+wnm:''):'Belum diisi',!wt);
    box.appendChild(dl);
   }
  }
@@ -2813,7 +2815,7 @@ function sync(){
 function choose(m){S.method=m;setErr('method','');sync()}
 
 /* ---------- Validasi ---------- */
-var FIELDS={num:['evNum','evErrNum'],login:[null,'evErrLogin'],method:[null,'evErrMethod'],wdType:['evWdTrig','evErrWdType'],wdNum:['evWdNum','evErrWdNum'],wdName:['evWdName','evErrWdName'],consent:['evConsent','evErrConsent']};
+var FIELDS={num:['evNum','evErrNum'],login:[null,'evErrLogin'],method:[null,'evErrMethod'],consent:['evConsent','evErrConsent']};
 function setErr(key,msg){
  var f=FIELDS[key],el=f[0]?$(f[0]):null,er=$(f[1]);
  if(msg){er.textContent=msg;er.hidden=false;if(el)el.setAttribute('aria-invalid','true')}
@@ -2843,25 +2845,15 @@ function checkPerson(id,label){
  if(!/[A-Za-zÀ-ɏ]/.test(v))return label+' harus berisi huruf.';
  return '';
 }
-function wdName(){return $('evWdType').value||'e-wallet'}
-function checkWdNum(){
- var n=cleanNum($('evWdNum').value);
- if(!n)return 'Nomor '+wdName()+' wajib diisi.';
- if(!/^\+?\d{9,15}$/.test(n))return 'Nomor '+wdName()+' hanya angka, 9 sampai 15 digit.';
- return '';
-}
 function validate(){
  var nv=normNum($('evNum').value);if(nv)$('evNum').value=nv;
  var errs={
   num:checkNum(),
   login:checked('evLogin')?'':'Pilih metode login.',
   method:S.method?'':'Pilih metode tarif.',
-  wdType:$('evWdType').value?'':'Pilih metode penarikan.',
-  wdNum:checkWdNum(),
-  wdName:checkPerson('evWdName','Atas nama rekening'),
   consent:$('evConsent').checked?'':'Centang persetujuan untuk melanjutkan.'
  };
- var order=['num','login','method','wdType','wdNum','wdName','consent'],first=null;
+ var order=['num','login','method','consent'],first=null;
  order.forEach(function(k){setErr(k,errs[k]);if(errs[k]&&!first)first=k});
  if(first){
   var f=first==='login'?root.querySelector('input[name="evLogin"]'):first==='method'?root.querySelector('.ev-rate'):$(FIELDS[first][0]);
@@ -2877,10 +2869,7 @@ function buildMsg(){
  return ['Halo Admin KZRIZUSMO, saya ingin mendaftarkan nomor WhatsApp untuk layanan Sewa WA Blast.','',
   'Nomor WhatsApp: '+normNum($('evNum').value),
   'Metode login: '+LOGIN[checked('evLogin')],
-  'Metode tarif: '+p.name,
-  'Penarikan dana: '+$('evWdType').value,
-  'Nomor rekening: '+cleanNum($('evWdNum').value),
-  'Atas nama rekening: '+$('evWdName').value.trim()
+  'Metode tarif: '+p.name
  ].join('\n');
 }
 function openWa(){
@@ -2978,37 +2967,12 @@ Array.prototype.forEach.call(root.querySelectorAll('input[name="evMethod"]'),fun
 Array.prototype.forEach.call(root.querySelectorAll('input[name="evLogin"]'),function(r){
  r.addEventListener('change',function(){setErr('login','');renderSummary();hideReady();tutShow(this.value)});
 });
-[['evNum','num'],['evWdNum','wdNum'],['evWdName','wdName']].forEach(function(x){
+[['evNum','num']].forEach(function(x){
  $(x[0]).addEventListener('input',function(){setErr(x[1],'');hideReady();renderSummary()});
 });
-(function(){
- var inp=$('evWdType'),btn=$('evWdTrig'),list=$('evWdList'),val=$('evWdVal');
- function close(f){list.hidden=true;btn.setAttribute('aria-expanded','false');if(f){try{btn.focus()}catch(e){}}}
- function open(){list.hidden=false;btn.setAttribute('aria-expanded','true');var s=list.querySelector('[aria-selected="true"]')||list.firstElementChild;if(s)s.focus()}
- function pick(li,quiet){
-  var v=li.getAttribute('data-v');inp.value=v;
-  Array.prototype.forEach.call(list.children,function(c){c.setAttribute('aria-selected',String(c===li))});
-  val.textContent='';var im=li.querySelector('img').cloneNode(true);var sp=document.createElement('span');sp.textContent=v;val.appendChild(im);val.appendChild(sp);
-  var lb=$('evWdNumLbl');if(lb)lb.textContent='Nomor '+v;
-  if(!quiet)close(true);setErr('wdType','');if($('evWdNum').value)setErr('wdNum','');hideReady();renderSummary();
- }
- btn.addEventListener('click',function(){list.hidden?open():close()});
- pick(list.firstElementChild,true); /* default: DANA */
- list.addEventListener('click',function(e){var li=e.target.closest('li');if(li)pick(li)});
- list.addEventListener('keydown',function(e){
-  var li=e.target.closest('li');if(!li)return;
-  if(e.key==='Enter'||e.key===' '){e.preventDefault();pick(li)}
-  else if(e.key==='ArrowDown'){e.preventDefault();(li.nextElementSibling||list.firstElementChild).focus()}
-  else if(e.key==='ArrowUp'){e.preventDefault();(li.previousElementSibling||list.lastElementChild).focus()}
-  else if(e.key==='Escape'){e.stopPropagation();close(true)}
- });
- document.addEventListener('click',function(e){if(!list.hidden&&!e.target.closest('#evSel'))close()});
-})();
 $('evConsent').addEventListener('change',function(){setErr('consent','');hideReady();updateProgress()});
 /* cek langsung saat pindah kolom, dan rapikan nomor otomatis */
 $('evNum').addEventListener('blur',function(){var v=normNum(this.value);if(v&&v!==this.value)this.value=v;if(this.value)setErr('num',checkNum());renderSummary()});
-$('evWdNum').addEventListener('blur',function(){if(this.value)setErr('wdNum',checkWdNum())});
-$('evWdName').addEventListener('blur',function(){if(this.value)setErr('wdName',checkPerson('evWdName','Atas nama rekening'))});
 $('evForm').addEventListener('submit',function(e){
  e.preventDefault();
  if(validate()){toast('Membuka WhatsApp admin…',true);openWa()}
