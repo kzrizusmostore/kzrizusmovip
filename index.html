@@ -2212,6 +2212,19 @@ body.fg-on #eventTab[data-ev-theme="light"] .ev-wrap::before{background:radial-g
 #eventTab .evc-bd p{color:#475569}
 #eventTab .evc-art{background:linear-gradient(160deg,rgba(var(--c),.2),rgba(var(--c),.08));border-color:rgba(var(--c),.22)}
 #eventTab .fg-wa-box{margin:14px 0 0}
+#eventTab .fg-btn-done{width:100%;margin-top:8px;background:linear-gradient(135deg,#2563eb,#38bdf8);color:#fff;border-color:transparent;box-shadow:0 10px 22px rgba(37,99,235,.3)}
+#eventTab .fg-btn.is-locked{opacity:.45;box-shadow:none}
+#eventTab .fg-pager .fg-acct[hidden]{display:none!important}
+#eventTab .fg-dt.ok{background:#34d399}
+#eventTab .fg-alldone{flex:0 0 100%;display:flex;flex-direction:column;align-items:center;gap:6px;padding:22px 14px;border-radius:18px;text-align:center;background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.4)}
+#eventTab .fg-alldone i{font-size:2rem;color:#34d399}
+#eventTab .fg-alldone b{font:800 1rem 'Rajdhani','Outfit',sans-serif;color:var(--fg-tx)}
+#eventTab .fg-alldone span{font-size:.76rem;line-height:1.5;color:var(--fg-mu)}
+#eventTab .fg-how{margin:14px 0 0;padding:12px 14px;border-radius:14px;background:rgba(var(--fg-a2),.08);border:1px solid rgba(var(--fg-a2),.25)}
+#eventTab .fg-how h3{margin:0 0 8px;font:800 .72rem 'Outfit',sans-serif;letter-spacing:.8px;text-transform:uppercase;color:var(--fg-ac)}
+#eventTab .fg-how ol{margin:0;padding-left:18px;font-size:.76rem;line-height:1.55;color:var(--fg-mu)}
+#eventTab .fg-how li+li{margin-top:4px}
+#eventTab .fg-how b{color:var(--fg-tx)}
 @keyframes fgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @keyframes fgFlash{0%{box-shadow:0 0 0 0 rgba(var(--fg-a2),.6)}100%{box-shadow:0 0 0 10px rgba(var(--fg-a2),0)}}
 @media(max-width:360px){#eventTab .fg-val{font-size:.72rem;padding:0 10px}}
@@ -2249,8 +2262,12 @@ body.fg-on #eventTab[data-ev-theme="light"] .ev-wrap::before{background:radial-g
 <p>Kosongkan semua hasil? Email dan password yang belum kamu salin akan hilang.</p>
 <div class="fg-row2" style="margin:0"><button type="button" class="fg-btn fg-btn-danger" id="fgConfirmYes">Ya, kosongkan</button><button type="button" class="fg-btn" id="fgConfirmNo">Batal</button></div>
 </div>
-<div class="fg-wa-box"><button type="button" class="fg-btn fg-btn-main fg-btn-wa" id="fgWa" disabled><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> KONFIRMASI AKUN SUDAH DIBUAT</button><p class="fgw-sum" style="margin:8px 2px 0;text-align:center">Aktif setelah akun di-generate. Pesan ke WhatsApp admin berisi email dan password semua akun.</p></div>
-<p class="fg-note"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>Hasil hanya <b>kandidat</b>: ketersediaan belum diperiksa dan akun belum dibuat. Ganti password dengan yang kuat sebelum akun dipakai.</span></p>
+<div class="fg-wa-box"><button type="button" class="fg-btn fg-btn-main fg-btn-wa" id="fgWa"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> KONFIRMASI AKUN SUDAH DIBUAT</button></div>
+<div class="fg-how"><h3>Cara kerja</h3><ol>
+<li>Buat akun Gmail baru di Google sesuai <b>data akun di atas</b>. Jika email sudah terpakai, tekan Generate Ulang.</li>
+<li>Saat membuat akun, <b>email dan password harus sama persis</b> seperti data yang diminta.</li>
+<li>Tekan <b>Akun sudah dibuat</b> setelah selesai, lanjut ke akun berikutnya. Setelah ketiganya selesai, tekan Konfirmasi ke WhatsApp.</li>
+</ol></div>
 </section>
 
 <section class="fg-card" aria-labelledby="fgInfoH">
@@ -2258,7 +2275,7 @@ body.fg-on #eventTab[data-ev-theme="light"] .ev-wrap::before{background:radial-g
 <div class="fg-accs" id="fgAccs">
 <details class="fg-acc"><summary>Cara kerja &amp; pembayaran<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><p>Generate 3 kandidat, periksa ketersediaan lalu buat akun lewat proses resmi Google, lalu centang konfirmasi dan kirim datanya ke WhatsApp admin. Pembayaran Rp5.000 dari kami diproses setelah 3 akun diverifikasi memenuhi ketentuan.</p></details>
 <details class="fg-acc"><summary>Format &amp; ketentuan akun<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><p>Username: kzrizusmo + 5 karakter acak (huruf kecil dan angka) + @gmail.com. Password: bagian username sebelum @gmail.com dalam huruf kapital. Jika username sudah dipakai, tekan Generate Ulang. Pembuatan akun harus mematuhi ketentuan Google dan tidak boleh dipakai untuk spam atau penipuan.</p></details>
-<details class="fg-acc"><summary>Keamanan data<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><p>Password mengikuti pola username sehingga mudah ditebak; ganti dengan password unik yang kuat. Jangan pernah membagikan kode OTP atau kode pemulihan. Halaman ini tidak menyimpan data, hasil hilang saat halaman ditutup.</p></details>
+<details class="fg-acc"><summary>Keamanan data<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><p>Password mengikuti pola username sehingga mudah ditebak; karena itu jangan pakai akun ini untuk keperluan pribadi. Jangan pernah membagikan kode OTP atau kode pemulihan. Halaman ini tidak menyimpan data, hasil hilang saat halaman ditutup.</p></details>
 </div>
 </section>
 
@@ -2270,7 +2287,7 @@ if(!root||root.__fg)return;root.__fg=1;
 function $(id){return document.getElementById(id)}
 var PREFIX='kzrizusmo',SUFFIX='@gmail.com',CH='abcdefghijklmnopqrstuvwxyz0123456789',LEN=5,N=3,GAP=10,WA='6283800287738';
 var list=$('fgList'),empty=$('fgEmpty'),res=$('fgRes'),dotsEl=$('fgDots'),cnt=$('fgCount'),prev=$('fgPrev'),next=$('fgNext'),btnGen=$('fgGen'),btnAll=$('fgCopyAll'),btnReset=$('fgReset'),btnWa=$('fgWa'),cf=$('fgConfirm'),toastEl=$('fgToast');
-var accts=[],shown={},toastT=0,cur=0,raf=0;
+var accts=[],shown={},toastT=0,cur=0,raf=0,done=0,lockUI=false;
 
 function rnd(max){
  var c=window.crypto||window.msCrypto;
@@ -2287,7 +2304,7 @@ function pass(p){return (PREFIX+p).toUpperCase()}
 
 function toast(msg,bad){
  toastEl.textContent=msg;toastEl.className='fg-toast on'+(bad?' bad':'');
- clearTimeout(toastT);toastT=setTimeout(function(){toastEl.className='fg-toast'},2200);
+ clearTimeout(toastT);toastT=setTimeout(function(){toastEl.className='fg-toast'},msg.length>45?4200:2200);
 }
 function legacy(t){
  try{
@@ -2333,37 +2350,52 @@ function card(i,flash){
  var ac=document.createElement('div');ac.className='fg-acts';
  var b=document.createElement('button');b.type='button';b.className='fg-btn fg-btn-sm';b.setAttribute('data-fg','re');b.setAttribute('data-i',i);
  b.innerHTML='<i class="fa-solid fa-arrows-rotate" aria-hidden="true"></i> Generate Ulang';
- ac.appendChild(b);a.appendChild(ac);return a;
+ ac.appendChild(b);a.appendChild(ac);
+ var dn=document.createElement('button');dn.type='button';dn.className='fg-btn fg-btn-done'+(i!==done?' is-locked':'');dn.setAttribute('data-fg','dn');dn.setAttribute('data-i',i);
+ dn.innerHTML='<i class="fa-solid fa-check" aria-hidden="true"></i> Akun sudah dibuat';a.appendChild(dn);
+ if(i<done)a.hidden=true;
+ return a;
 }
 function mark(){
  var n=accts.length;if(!n)return;
- cnt.textContent='Akun '+(cur+1)+' dari '+n;
- prev.disabled=cur<=0;next.disabled=cur>=n-1;
- [].forEach.call(dotsEl.children,function(d,k){d.classList.toggle('on',k===cur)});
+ if(done>=n){cnt.textContent='Semua akun selesai';prev.disabled=true;next.disabled=true}
+ else{cnt.textContent='Akun '+(cur+1)+' dari '+n;prev.disabled=cur<=done;next.disabled=cur>=n-1}
+ [].forEach.call(dotsEl.children,function(d,k){d.classList.toggle('on',k===cur&&done<n)});
 }
 function go(i,smooth){
- var c=list.children[Math.max(0,Math.min(accts.length-1,i))];if(!c)return;
+ var c=list.children[Math.max(Math.min(done,accts.length-1),Math.min(accts.length-1,i))];if(!c)return;
  try{list.scrollTo({left:c.offsetLeft,behavior:smooth?'smooth':'auto'})}catch(e){list.scrollLeft=c.offsetLeft}
 }
 function render(flashIdx){
  var has=accts.length>0;
- btnWa.disabled=!has;empty.hidden=has;res.hidden=!has;btnAll.disabled=!has;btnReset.disabled=!has;
+ btnWa.classList.toggle('is-locked',!(has&&done>=accts.length));empty.hidden=has;res.hidden=!has;btnAll.disabled=!has;btnReset.disabled=!has;
  while(list.firstChild)list.removeChild(list.firstChild);
  while(dotsEl.firstChild)dotsEl.removeChild(dotsEl.firstChild);
  if(!has){cf.hidden=true;return}
- cur=Math.max(0,Math.min(cur,accts.length-1));
+ cur=Math.max(done<accts.length?done:0,Math.min(cur,accts.length-1));
  for(var i=0;i<accts.length;i++){
   list.appendChild(card(i,i===flashIdx));
   var d=document.createElement('button');d.type='button';d.className='fg-dt';d.setAttribute('data-fg','dot');d.setAttribute('data-i',i);d.setAttribute('aria-label','Akun '+(i+1));
+  if(i<done){d.classList.add('ok');d.disabled=true}
   dotsEl.appendChild(d);
  }
+ if(done>=accts.length){var ad=document.createElement('div');ad.className='fg-alldone';ad.innerHTML='<i class="fa-solid fa-circle-check" aria-hidden="true"></i><b>Ketiga akun sudah dibuat</b><span>Tekan tombol konfirmasi ke WhatsApp di bawah.</span>';list.appendChild(ad)}
  go(cur,false);mark();
 }
 function genAll(){
- var taken=[];accts=[];shown={};cur=0;
+ var taken=[];accts=[];shown={};cur=0;done=0;
  for(var i=0;i<N;i++){var p=uniq(taken);taken.push(p);accts.push(p)}
  cf.hidden=true;render(-1);
  try{res.scrollIntoView({block:'nearest',behavior:'smooth'})}catch(x){}
+}
+function markDone(i){
+ if(lockUI)return;
+ if(i<done)return toast('Akun ini sudah ditandai dibuat.',true);
+ if(i>done)return toast('Selesaikan akun '+(done+1)+' dulu.',true);
+ if(!confirm('Sudah membuat akun '+(i+1)+' dengan email dan password yang persis sama seperti data ini?'))return;
+ if(i>=accts.length-1){done++;render(-1);toast('Ketiga akun sudah dibuat. Silakan konfirmasi ke WhatsApp.');return}
+ lockUI=true;go(i+1,true);toast('Akun '+(i+1)+' selesai. Lanjut ke akun '+(i+2)+'.');
+ setTimeout(function(){done++;cur=done;render(-1);lockUI=false},420);
 }
 function regen(i){
  var taken=accts.filter(function(_,k){return k!==i});
@@ -2385,7 +2417,7 @@ list.addEventListener('scroll',function(){
  if(raf)return;
  raf=requestAnimationFrame(function(){
   raf=0;var w=list.clientWidth+GAP;if(!w)return;
-  var k=Math.round(list.scrollLeft/w);
+  var k=Math.round(list.scrollLeft/w)+done;
   if(k!==cur&&k>=0&&k<accts.length){cur=k;mark()}
  });
 },{passive:true});
@@ -2405,17 +2437,22 @@ root.addEventListener('click',function(e){
  else if(act==='ce')doCopy(email(accts[i]),'Email disalin');
  else if(act==='cp')doCopy(pass(accts[i]),'Password disalin');
  else if(act==='re')regen(i);
+ else if(act==='dn')markDone(i);
  else if(act==='dot')go(i,true);
 });
-btnGen.addEventListener('click',function(){genAll();toast('3 kandidat akun dibuat')});
+btnGen.addEventListener('click',function(){
+ if(accts.length&&done>0&&done<accts.length)return toast('Selesaikan dulu ketiga akun, atau tekan Reset untuk mulai ulang.',true);
+ if(accts.length&&done>=accts.length&&!confirm('Data paket sebelumnya akan dihapus. Pastikan sudah dikonfirmasi ke WhatsApp. Lanjut?'))return;
+ genAll();toast('3 akun dibuat');
+});
 btnAll.addEventListener('click',function(){if(accts.length)doCopy(allText(),'Semua data disalin')});
 btnReset.addEventListener('click',function(){if(accts.length){cf.hidden=false;try{cf.scrollIntoView({block:'nearest',behavior:'smooth'})}catch(x){}}});
 $('fgConfirmNo').addEventListener('click',function(){cf.hidden=true});
-$('fgConfirmYes').addEventListener('click',function(){accts=[];shown={};cur=0;cf.hidden=true;render();toast('Hasil dikosongkan')});
+$('fgConfirmYes').addEventListener('click',function(){accts=[];shown={};cur=0;done=0;cf.hidden=true;render();toast('Hasil dikosongkan')});
 
 btnWa.addEventListener('click',function(){
- if(!accts.length)return;
- if(!confirm('Kirim konfirmasi ke WhatsApp? Pastikan '+accts.length+' akun sudah benar-benar dibuat.'))return;
+ if(!accts.length)return toast('Generate akun dulu, lalu buat ketiga akunnya.',true);
+ if(done<accts.length)return toast('Selesaikan dulu pembuatan ketiga akun ('+done+' dari '+accts.length+' selesai), lalu konfirmasi ke WhatsApp.',true);
  window.open('https://wa.me/'+WA+'?text='+encodeURIComponent(waMsg()),'_blank','noopener');
 });
 
@@ -2436,7 +2473,7 @@ function fgSync(){
  document.body.classList.toggle('fg-on',open);
  slRun(open&&!document.hidden);
  if(!open)slReset();
- if(!open&&accts.length){accts=[];shown={};cur=0;cf.hidden=true;render()}
+ if(!open&&accts.length){accts=[];shown={};cur=0;done=0;cf.hidden=true;render()}
 }
 document.addEventListener('visibilitychange',fgSync);
 try{new MutationObserver(fgSync).observe(root,{attributes:true,attributeFilter:['hidden']})}catch(e){}
@@ -2488,7 +2525,7 @@ function pushRow(){
  return '<button type="button" class="fg-btn fg-btn-sm" data-w="pushOn" style="margin:12px 0"><i class="fa-solid fa-bell" aria-hidden="true"></i> Aktifkan notifikasi withdraw</button>';
 }
 var PM={ok:'Diproses, notifikasi terkirim',nosub:'Diproses. Notifikasi belum terkirim: user belum mengaktifkan notifikasi di HP-nya.',noapi:'Diproses. Notifikasi gagal: api/wallet-push.js belum terpasang di server.',env:'Diproses. Notifikasi gagal: variabel environment di Vercel belum lengkap.',db:'Diproses. Notifikasi gagal: cek SQL bagian 3 dan log Vercel.',dup:'Diproses. Notifikasi sudah pernah dikirim.',auth:'Diproses. Notifikasi gagal: sesi admin tidak valid.',fail:'Diproses. Notifikasi gagal dikirim.'};
-function notifyUser(id){return sdk().then(function(){return sb.auth.getSession()}).then(function(r){var t=r&&r.data&&r.data.session&&r.data.session.access_token;return fetch('/api/wallet-push',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+t},body:JSON.stringify({request_id:id})})}).then(function(r){return r.json().then(function(j){return {s:r.status,j:j||{}}},function(){return {s:r.status,j:{}}})}).then(function(o){var j=o.j;if(o.s===404||o.s===405)return 'noapi';if(o.s===401||o.s===403)return 'auth';if(o.s>=500)return j.error==='server_not_configured'?'env':'db';if(j.sent>0)return 'ok';if(j.subs===0)return 'nosub';if(j.note)return 'dup';return 'fail'}).catch(function(){return 'noapi'})}
+function notifyUser(id){return sdk().then(function(){return sb.auth.getSession()}).then(function(r){var t=r&&r.data&&r.data.session&&r.data.session.access_token;return fetch('/api/wallet-push',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+t},body:JSON.stringify({request_id:id})})}).then(function(r){return r.json().then(function(j){return {s:r.status,j:j||{}}},function(){return {s:r.status,j:{}}})}).then(function(o){var j=o.j;if(o.s===404||o.s===405)return 'noapi';if(o.s===401||o.s===403)return 'auth';if(o.s>=500)return j.error==='server_not_configured'?'env:'+((j.missing||[]).join(', ')):'db';if(j.sent>0)return 'ok';if(j.subs===0)return 'nosub';if(j.note)return 'dup';return 'fail'}).catch(function(){return 'noapi'})}
 var pushSynced=false;
 function toast(m,bad){tt.textContent=m;tt.className='fg-toast on'+(bad?' bad':'');clearTimeout(toast.t);toast.t=setTimeout(function(){tt.className='fg-toast'},m.length>50?5200:2400)}
 function fail(e){var m=String((e&&e.message)||e);for(var k in ERR)if(m.indexOf(k)>-1)return toast(ERR[k],true);toast('Terjadi kendala. Coba lagi.',true)}
@@ -2571,7 +2608,7 @@ function init(){
    if(k==='rej'&&v.trim().length<3)return toast('Isi alasan tolak (pilih template).',true);
    if(!confirm(k==='paid'?'Tandai sudah dibayar?':'Tolak dan kembalikan saldo?'))return;
    var st='fail';
-   run(rpc('admin_withdraw_process',{p_id:id,p_action:k==='paid'?'paid':'rejected',p_ref:v,p_note:v}).then(function(){return notifyUser(id)}).then(function(o){st=o}),function(){return PM[st]||PM.fail},loadAdm);
+   run(rpc('admin_withdraw_process',{p_id:id,p_action:k==='paid'?'paid':'rejected',p_ref:v,p_note:v}).then(function(){return notifyUser(id)}).then(function(o){st=o}),function(){return st.indexOf('env:')===0?'Diproses. Notifikasi gagal: di Vercel belum ada '+st.slice(4)+'.':(PM[st]||PM.fail)},loadAdm);
   }
   else if(k==='adj'){
    var n=parseInt($('aA').value,10),r=($('aR').value||'').trim();if(!n)return toast('Isi nominal.',true);if(r.length<3){setErr('aR','Alasan wajib diisi. Pilih template atau tulis sendiri.');$('aR').focus();return}
