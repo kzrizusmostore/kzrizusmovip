@@ -2498,11 +2498,99 @@ fgSync();
 render();
 })();
 </script>
+<style id="fgw-page-redesign">
+/* Saldo Event: tampil sebagai halaman penuh di dalam tab Event, bukan bottom-sheet */
+#eventTab .fgw-ov{position:relative!important;inset:auto!important;z-index:1!important;display:block!important;width:100%;max-width:640px;margin:0 auto;background:transparent!important;align-items:stretch!important;justify-content:flex-start!important;padding:0 0 18px!important;}
+#eventTab .fgw-ov[hidden]{display:none!important}
+#eventTab .fgw-sh{width:100%!important;max-width:640px!important;max-height:none!important;overflow:visible!important;overscroll-behavior:initial!important;padding:4px 0 calc(24px + env(safe-area-inset-bottom,0px))!important;border:0!important;border-radius:0!important;background:transparent!important;color:var(--fg-tx);animation:fgWalletPageIn .28s cubic-bezier(.2,.7,.2,1) both;}
+#eventTab[data-ev-theme="light"] .fgw-sh{background:transparent!important}
+@keyframes fgWalletPageIn{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+#eventTab .fgw-page-head{display:flex;align-items:center;gap:12px;margin:0 0 16px;padding:2px 0 15px;border-bottom:1px solid var(--fg-bd);}
+#eventTab .fgw-page-back{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:42px;padding:0 12px;flex:none;border:1px solid var(--fg-bd);border-radius:13px;background:var(--fg-card);color:var(--fg-tx);font:700 .76rem 'Outfit',sans-serif;cursor:pointer;transition:transform .16s,border-color .16s;}
+#eventTab .fgw-page-back:active{transform:scale(.97)}
+#eventTab .fgw-page-back i{font-size:.8rem;color:rgb(var(--fg-a2))}
+#eventTab .fgw-page-title{min-width:0;flex:1;display:flex;flex-direction:column;gap:1px;}
+#eventTab .fgw-page-title small{font:800 .6rem 'Outfit',sans-serif;letter-spacing:1.6px;color:var(--fg-ac)}
+#eventTab .fgw-page-title strong{font:800 1.35rem/1.12 'Rajdhani','Outfit',sans-serif;letter-spacing:.2px;color:var(--fg-tx)}
+#eventTab .fgw-page-mark{display:grid;place-items:center;flex:none;width:42px;height:42px;border-radius:14px;color:rgb(var(--fg-a2));background:rgba(var(--fg-a2),.13);border:1px solid rgba(var(--fg-a2),.25);font-size:1rem;}
+#eventTab .fgw-dashboard-balance{position:relative;isolation:isolate;overflow:hidden;margin:0 0 16px;padding:21px 19px 16px;border:1px solid rgba(var(--fg-a2),.42);border-radius:24px;color:#fff;background:linear-gradient(135deg,rgba(var(--fg-a),.96),rgba(var(--fg-a2),.76) 125%);box-shadow:0 12px 26px rgba(var(--fg-a),.19),inset 0 1px 0 rgba(255,255,255,.2);}
+#eventTab .fgw-balance-glow{position:absolute;z-index:-1;right:-60px;top:-94px;width:230px;height:230px;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.14);box-shadow:0 0 0 25px rgba(255,255,255,.035),0 0 0 52px rgba(255,255,255,.025);pointer-events:none;}
+#eventTab .fgw-balance-top{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+#eventTab .fgw-balance-label{display:inline-flex;align-items:center;gap:7px;font:800 .68rem 'Outfit',sans-serif;letter-spacing:1.05px;color:rgba(255,255,255,.88);}
+#eventTab .fgw-balance-label i{font-size:.9rem}
+#eventTab .fgw-live-pill{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border-radius:99px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.2);font:800 .58rem 'Outfit',sans-serif;letter-spacing:.8px;white-space:nowrap;}
+#eventTab .fgw-live-pill i{width:6px;height:6px;border-radius:50%;background:#bbf7d0;box-shadow:0 0 8px #bbf7d0;}
+#eventTab .fgw-balance-amount{margin:13px 0 4px;font:800 clamp(1.9rem,7vw,2.65rem)/1 'Rajdhani','Outfit',sans-serif;letter-spacing:.2px;overflow-wrap:anywhere;text-shadow:0 2px 10px rgba(0,0,0,.12);}
+#eventTab .fgw-dashboard-balance>p{max-width:360px;margin:8px 0 17px;color:rgba(255,255,255,.82);font-size:.75rem;line-height:1.5;}
+#eventTab .fgw-balance-meta{display:flex;flex-wrap:wrap;gap:7px;}
+#eventTab .fgw-balance-meta span{display:inline-flex;align-items:center;gap:6px;padding:7px 9px;border-radius:10px;background:rgba(0,0,0,.12);border:1px solid rgba(255,255,255,.12);font-size:.65rem;font-weight:700;color:rgba(255,255,255,.93);}
+#eventTab .fgw-balance-meta i{font-size:.68rem;color:#dcfce7;}
+#eventTab .fgw-action-grid{display:grid;grid-template-columns:1fr;gap:10px;margin:0 0 18px;}
+#eventTab .fgw-action-card{width:100%;min-width:0;display:flex;align-items:center;gap:12px;text-align:left;padding:13px 14px;border-radius:17px;border:1px solid var(--fg-bd);background:var(--fg-card);color:var(--fg-tx);cursor:pointer;transition:transform .16s,border-color .18s,background .18s;}
+#eventTab .fgw-action-card:active{transform:scale(.985)}
+#eventTab .fgw-action-primary{border-color:rgba(var(--fg-a2),.48);background:linear-gradient(135deg,rgba(var(--fg-a),.15),rgba(var(--fg-a2),.08));}
+#eventTab .fgw-action-admin{border-color:rgba(251,191,36,.27);}
+#eventTab .fgw-action-ico{width:44px;height:44px;display:grid;place-items:center;flex:none;border-radius:14px;background:rgba(var(--fg-a2),.14);color:rgb(var(--fg-a2));font-size:1rem;}
+#eventTab .fgw-action-primary .fgw-action-ico{color:#fff;background:linear-gradient(135deg,rgb(var(--fg-a)),rgb(var(--fg-a2)));box-shadow:0 5px 12px rgba(var(--fg-a),.2);}
+#eventTab .fgw-action-admin .fgw-action-ico{color:#fbbf24;background:rgba(251,191,36,.12);}
+#eventTab .fgw-action-tx{min-width:0;flex:1;display:flex;flex-direction:column;gap:3px;}
+#eventTab .fgw-action-tx b{font-size:.85rem;font-weight:800;color:var(--fg-tx);}
+#eventTab .fgw-action-tx small{font-size:.69rem;line-height:1.45;color:var(--fg-mu);}
+#eventTab .fgw-action-arrow{flex:none;font-size:.76rem;color:var(--fg-mu);}
+#eventTab .fgw-pending-note{display:flex;align-items:center;gap:10px;margin:0 0 16px;padding:12px;border-radius:16px;background:rgba(251,191,36,.09);border:1px solid rgba(251,191,36,.3);}
+#eventTab .fgw-pending-ico{width:38px;height:38px;display:grid;place-items:center;flex:none;border-radius:12px;background:rgba(251,191,36,.14);color:#fbbf24;}
+#eventTab .fgw-pending-note>span:nth-child(2){min-width:0;flex:1;display:flex;flex-direction:column;gap:3px;}
+#eventTab .fgw-pending-note b{font-size:.73rem;color:var(--fg-tx);}
+#eventTab .fgw-pending-note small{font-size:.66rem;line-height:1.45;color:var(--fg-mu);}
+#eventTab .fgw-pending-note button{width:32px;height:32px;display:grid;place-items:center;flex:none;border-radius:10px;border:1px solid rgba(251,191,36,.28);background:rgba(251,191,36,.08);color:#fbbf24;cursor:pointer;}
+#eventTab .fgw-content-card{margin:0 0 14px;padding:15px;border-radius:19px;background:var(--fg-card);border:1px solid var(--fg-bd);}
+#eventTab .fgw-section-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 9px;}
+#eventTab .fgw-section-head>div{min-width:0;}
+#eventTab .fgw-section-head small{display:block;margin-bottom:2px;font:800 .58rem 'Outfit',sans-serif;letter-spacing:1.2px;color:var(--fg-ac);}
+#eventTab .fgw-section-head h3{font:800 1.05rem 'Rajdhani','Outfit',sans-serif;color:var(--fg-tx);}
+#eventTab .fgw-see-all{display:inline-flex;align-items:center;gap:6px;padding:7px 0 7px 7px;border:0;background:transparent;color:rgb(var(--fg-a2));font:700 .68rem 'Outfit',sans-serif;white-space:nowrap;cursor:pointer;}
+#eventTab .fgw-recent-item{display:flex;align-items:center;gap:10px;padding:11px 0;border-top:1px solid var(--fg-bd);}
+#eventTab .fgw-recent-ico{width:36px;height:36px;display:grid;place-items:center;flex:none;border-radius:12px;background:rgba(148,163,184,.12);color:var(--fg-mu);font-size:.8rem;}
+#eventTab .fgw-recent-ico.is-plus{background:rgba(52,211,153,.12);color:var(--fg-ok);}
+#eventTab .fgw-recent-ico.is-minus{background:rgba(248,113,113,.1);color:var(--fg-bad);}
+#eventTab .fgw-recent-copy{min-width:0;flex:1;display:flex;flex-direction:column;gap:3px;}
+#eventTab .fgw-recent-copy b{font-size:.73rem;line-height:1.4;color:var(--fg-tx);overflow-wrap:anywhere;}
+#eventTab .fgw-recent-copy small{font-size:.64rem;color:var(--fg-mu);}
+#eventTab .fgw-recent-amount{font:800 .76rem 'Outfit',sans-serif;white-space:nowrap;}
+#eventTab .fgw-empty-inline{display:flex;flex-direction:column;align-items:center;text-align:center;gap:5px;padding:18px 8px;color:var(--fg-mu);}
+#eventTab .fgw-empty-inline i{font-size:1.35rem;color:rgb(var(--fg-a2));margin-bottom:3px;}
+#eventTab .fgw-empty-inline b{font-size:.78rem;color:var(--fg-tx);}
+#eventTab .fgw-empty-inline span{font-size:.67rem;line-height:1.45;}
+#eventTab .fgw-help-card{display:flex;align-items:flex-start;gap:11px;margin:0 0 14px;padding:13px;border:1px solid var(--fg-bd);border-radius:16px;background:rgba(var(--fg-a2),.055);}
+#eventTab .fgw-help-ico{width:34px;height:34px;display:grid;place-items:center;flex:none;border-radius:11px;background:rgba(var(--fg-a2),.14);color:rgb(var(--fg-a2));}
+#eventTab .fgw-help-card>div{min-width:0;}
+#eventTab .fgw-help-card b{display:block;margin:1px 0 4px;font-size:.75rem;color:var(--fg-tx);}
+#eventTab .fgw-help-card p{font-size:.68rem;line-height:1.55;color:var(--fg-mu);}
+#eventTab .fgw-login-state{padding:28px 20px;border-radius:22px;border:1px solid var(--fg-bd);background:var(--fg-card);text-align:center;}
+#eventTab .fgw-login-icon{width:62px;height:62px;display:grid;place-items:center;margin:0 auto 15px;border-radius:20px;background:rgba(var(--fg-a2),.14);color:rgb(var(--fg-a2));font-size:1.35rem;}
+#eventTab .fgw-login-state>small{font:800 .62rem 'Outfit',sans-serif;letter-spacing:1.6px;color:var(--fg-ac);}
+#eventTab .fgw-login-state h2{margin:6px 0;font:800 1.35rem 'Rajdhani','Outfit',sans-serif;color:var(--fg-tx);}
+#eventTab .fgw-login-state p{max-width:360px;margin:0 auto 17px;font-size:.76rem;line-height:1.6;color:var(--fg-mu);}
+#eventTab .fgw-login-state .fg-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;}
+#eventTab .fgw-sh .fgw-acts{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+#eventTab .fgw-sh .fgw-acts .fg-btn{min-height:44px;padding:10px;border-radius:13px;}
+#eventTab .fgw-sh .fgw-acts .fg-btn-main{grid-column:1/-1;}
+#eventTab .fgw-sh .fgw-it{align-items:flex-start;gap:12px;padding:13px 0;}
+#eventTab .fgw-sh .fgw-it>span{min-width:0;overflow-wrap:anywhere;}
+#eventTab .fgw-sh .fgw-sec{margin:18px 0 8px;}
+#eventTab .fgw-sh .fgw-sum{line-height:1.6;}
+#eventTab .fgw-sh .fgw-in{margin-bottom:12px;}
+#eventTab .fg-toast{position:sticky;bottom:72px;z-index:20;max-width:640px;margin:0 auto;}
+#eventTab[data-ev-theme="light"] .fgw-content-card,#eventTab[data-ev-theme="light"] .fgw-action-card,#eventTab[data-ev-theme="light"] .fgw-login-state{box-shadow:0 4px 18px rgba(15,23,42,.045);}
+#eventTab .fgw-page-back:focus-visible,#eventTab .fgw-action-card:focus-visible,#eventTab .fgw-pending-note button:focus-visible,#eventTab .fgw-see-all:focus-visible{outline:2px solid rgb(var(--fg-a2));outline-offset:3px;}
+@media(max-width:390px){#eventTab .fgw-page-head{gap:8px}#eventTab .fgw-page-back{padding:0 9px;gap:5px;font-size:.7rem}#eventTab .fgw-page-title strong{font-size:1.2rem}#eventTab .fgw-page-mark{width:38px;height:38px}#eventTab .fgw-dashboard-balance{padding:18px 15px 14px}#eventTab .fgw-balance-meta{gap:6px}#eventTab .fgw-balance-meta span{font-size:.61rem;padding:6px 7px}#eventTab .fgw-content-card{padding:12px}#eventTab .fgw-recent-amount{font-size:.68rem}}
+@media(prefers-reduced-motion:reduce){#eventTab .fgw-sh{animation:none!important}#eventTab .fgw-action-card,#eventTab .fgw-page-back{transition:none!important}}
+</style>
 <script>
 (function(){
 if(window.__fgw)return;window.__fgw=1;
 var URL_='https://siqqdpnglqctyyaornmo.supabase.co',KEY='sb_publishable_lJ74c2lguDQRmCv5KJqmYA_crUTqEU6',MIN=5000;
-var sb=null,D=null,A=null,view='',tab='pending',busy=false,q='',target=null,ov,sh,tt;
+var sb=null,D=null,A=null,view='',tab='pending',busy=false,q='',target=null,ov,sh,tt,returnPage='evHub',returnScroll=0;
 function $(id){return document.getElementById(id)}
 function rp(n){return 'Rp'+Number(n||0).toLocaleString('id-ID')}
 function rpd(n){return rp(n)+',00'}
@@ -2552,13 +2640,42 @@ function rpc(fn,a){return sdk().then(function(){if(!sb)sb=window.supabase.create
 function setBal(){[].forEach.call(document.querySelectorAll('[data-bal-t]'),function(n){n.textContent=rp(D&&D.balance)})}
 function load(){return rpc('wallet_me').then(function(d){D=d;setBal();if(!pushSynced&&pushOk()&&Notification.permission==='granted'){pushSynced=true;pushEnable().catch(function(){pushSynced=false})}}).catch(function(e){D=null;setBal();if(String(e&&e.message).indexOf('not_authenticated')<0)console.warn(e)})}
 function loadAdm(){return rpc('admin_wallet_list',{p_search:q}).then(function(d){A=d})}
-function openMain(){ov.hidden=false;view='main';draw();load().then(draw)}
-function close(){ov.hidden=true;view=''}
-function hd(t){return '<div class="fgw-hd"><span>'+(view!=='main'?'<button type="button" class="fg-eye" data-w="back" aria-label="Kembali" style="display:inline-grid;vertical-align:middle;margin-right:4px"><i class="fa-solid fa-arrow-left"></i></button>':'')+t+'</span><button type="button" class="fg-eye" data-w="x" aria-label="Tutup"><i class="fa-solid fa-xmark"></i></button></div>'}
+function setEventScreen(id){
+ var T=$('eventTab');if(!T)return;
+ var hub=$('evHub');if(hub)hub.hidden=(id!=='evHub');
+ [].forEach.call(T.querySelectorAll('[data-ev-page]'),function(pg){pg.hidden=(pg.id!==id)});
+}
+function openMain(source){
+ var pg=source&&source.closest?source.closest('[data-ev-page]'):null,T=$('eventTab');
+ returnPage=pg&&pg.id?pg.id:'evHub';
+ try{returnScroll=window.pageYOffset||document.documentElement.scrollTop||0}catch(e){returnScroll=0}
+ setEventScreen('__wallet__');
+ ov.hidden=false;view='main';draw();
+ load().then(function(){if(!ov.hidden)draw()});
+ try{if(T){var y=T.getBoundingClientRect().top+returnScroll-50;window.scrollTo({top:Math.max(0,y),behavior:'smooth'})}}catch(e){try{window.scrollTo(0,Math.max(0,T?T.offsetTop-50:0))}catch(_){}}
+ try{sh.focus({preventScroll:true})}catch(e){try{sh.focus()}catch(_){}}
+}
+function close(){ov.hidden=true;view='';setEventScreen(returnPage||'evHub');try{window.scrollTo({top:Math.max(0,returnScroll),behavior:'smooth'})}catch(e){try{window.scrollTo(0,Math.max(0,returnScroll))}catch(_){}}}
+function hd(t){
+ var main=view==='main';
+ return '<div class="fgw-page-head"><button type="button" class="fgw-page-back" data-w="'+(main?'x':'back')+'" aria-label="'+(main?'Kembali ke layanan':'Kembali ke saldo')+'"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i><span>'+(main?'Kembali ke layanan':'Kembali')+'</span></button><div class="fgw-page-title"><small>DOMPET EVENT</small><strong>'+esc(t)+'</strong></div><span class="fgw-page-mark" aria-hidden="true"><i class="fa-solid fa-wallet"></i></span></div>';
+}
 function draw(){
  var x='';
  if(view==='main'){
-  x=hd('Saldo event')+(D?'<div class="fgw-big"><small>Saldo event</small><b>'+rpd(D.balance)+'</b></div><div class="fgw-acts"><button type="button" class="fg-btn fg-btn-main" data-w="goWd"><i class="fa-solid fa-money-bill-transfer"></i> WITHDRAW</button><button type="button" class="fg-btn" data-w="goHist"><i class="fa-solid fa-clock-rotate-left"></i> Riwayat</button>'+(D.is_admin?'<button type="button" class="fg-btn" data-w="goAdm"><i class="fa-solid fa-shield-halved"></i> Panel admin</button>':'')+'</div>'+pushRow():'<p class="fgw-sum">Masuk ke akunmu dulu untuk melihat saldo.</p>');
+  if(D){
+   var recent=(D.ledger||[]).slice(0,4);
+   var pending=(D.withdrawals||[]).filter(function(r){return r.status==='pending'}).length;
+   x=hd('Saldo event')+
+    '<section class="fgw-dashboard-balance" aria-label="Ringkasan saldo"><div class="fgw-balance-top"><span class="fgw-balance-label"><i class="fa-solid fa-wallet" aria-hidden="true"></i> SALDO TERSEDIA</span><span class="fgw-live-pill"><i aria-hidden="true"></i> AKTIF</span></div><div class="fgw-balance-amount">'+rpd(D.balance)+'</div><p>Saldo dari aktivitas event yang tercatat di akunmu.</p><div class="fgw-balance-meta"><span><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Minimal '+rp(MIN)+'</span><span><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Diproses admin</span></div><div class="fgw-balance-glow" aria-hidden="true"></div></section>'+
+    '<div class="fgw-action-grid"><button type="button" class="fgw-action-card fgw-action-primary" data-w="goWd"><span class="fgw-action-ico"><i class="fa-solid fa-money-bill-transfer" aria-hidden="true"></i></span><span class="fgw-action-tx"><b>Withdraw saldo</b><small>Ajukan pencairan ke e-wallet</small></span><i class="fa-solid fa-chevron-right fgw-action-arrow" aria-hidden="true"></i></button><button type="button" class="fgw-action-card" data-w="goHist"><span class="fgw-action-ico"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></span><span class="fgw-action-tx"><b>Riwayat transaksi</b><small>Lihat mutasi dan status withdraw</small></span><i class="fa-solid fa-chevron-right fgw-action-arrow" aria-hidden="true"></i></button>'+(D.is_admin?'<button type="button" class="fgw-action-card fgw-action-admin" data-w="goAdm"><span class="fgw-action-ico"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></span><span class="fgw-action-tx"><b>Panel admin</b><small>Kelola pengajuan dan saldo pengguna</small></span><i class="fa-solid fa-chevron-right fgw-action-arrow" aria-hidden="true"></i></button>':'')+'</div>'+
+    (pending?'<div class="fgw-pending-note"><span class="fgw-pending-ico"><i class="fa-solid fa-hourglass-half" aria-hidden="true"></i></span><span><b>'+pending+' pengajuan withdraw sedang diproses</b><small>Periksa status dan catatan admin di halaman riwayat transaksi.</small></span><button type="button" data-w="goHist" aria-label="Lihat riwayat withdraw"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button></div>':'')+
+    '<section class="fgw-content-card"><div class="fgw-section-head"><div><small>AKTIVITAS AKUN</small><h3>Mutasi saldo</h3></div><button type="button" class="fgw-see-all" data-w="goHist">Lihat semua <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button></div>'+
+    (recent.length?recent.map(function(r){return '<div class="fgw-recent-item"><span class="fgw-recent-ico '+(r.amount>0?'is-plus':'is-minus')+'"><i class="fa-solid '+(r.amount>0?'fa-arrow-down-left':'fa-arrow-up-right')+'" aria-hidden="true"></i></span><span class="fgw-recent-copy"><b>'+esc(r.note||r.type||'Mutasi saldo')+'</b><small>'+dt(r.created_at)+'</small></span><b class="fgw-recent-amount '+(r.amount>0?'pl':'mn')+'">'+(r.amount>0?'+':'-')+rp(Math.abs(r.amount))+'</b></div>'}).join(''):'<div class="fgw-empty-inline"><i class="fa-solid fa-receipt" aria-hidden="true"></i><b>Belum ada mutasi saldo</b><span>Aktivitas saldo akan muncul di sini setelah tercatat.</span></div>')+
+    '</section><section class="fgw-help-card"><span class="fgw-help-ico"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></span><div><b>Informasi pencairan</b><p>'+(Number(D.balance||0)>=MIN?'Saldo kamu sudah memenuhi nominal minimum untuk mengajukan withdraw.':'Kumpulkan saldo hingga minimal '+rp(MIN)+' sebelum mengajukan withdraw.')+' Setelah diajukan, saldo akan ditahan sampai admin memproses permintaan.</p></div></section>'+pushRow();
+  }else{
+   x=hd('Saldo event')+'<section class="fgw-login-state"><span class="fgw-login-icon"><i class="fa-solid fa-wallet" aria-hidden="true"></i></span><small>DOMPET EVENT</small><h2>Masuk untuk melihat saldo</h2><p>Saldo, pengajuan withdraw, dan riwayat transaksi tersedia setelah kamu masuk ke akun Zusmo.</p><button type="button" class="fg-btn fg-btn-main" data-w="x"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Kembali ke layanan</button></section>';
+  }
  }else if(view==='wd'){
   x=hd('Withdraw saldo')+'<p class="fgw-sum">Saldo event: <b>'+rpd(D&&D.balance)+'</b>. Minimal withdraw '+rp(MIN)+'. Saldo ditahan sampai admin memproses.</p>'+
   '<span class="fgw-lbl">E-wallet</span><div class="fgw-sel" id="wSel"><input type="hidden" id="wE" value="DANA"><button type="button" class="fgw-selb" data-w="selT" aria-haspopup="listbox" aria-expanded="false"><span class="fgw-selv" id="wV">'+lg(EW[0])+'</span><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button><ul class="fgw-sell" id="wL" role="listbox" hidden>'+EW.map(function(e){return '<li role="option" tabindex="0" data-w="pickE" data-v="'+e[0]+'">'+lg(e)+'</li>'}).join('')+'</ul></div>'+
@@ -2583,11 +2700,10 @@ function run(pr,okMsg,after){if(busy)return;busy=true;pr.then(function(){toast(t
 function init(){
  var T=$('eventTab');if(!T||T.__fgw)return;T.__fgw=1;
  var w=document.createElement('div');w.className='fg';
- w.innerHTML='<div class="fgw-ov" hidden><div class="fgw-sh" role="dialog" aria-modal="true" aria-label="Saldo event"></div></div><div class="fg-toast" role="status" aria-live="polite"></div>';
+ w.innerHTML='<div class="fgw-ov" hidden><section class="fgw-sh" role="region" tabindex="-1" aria-label="Halaman saldo event"></section></div><div class="fg-toast" role="status" aria-live="polite"></div>';
  T.appendChild(w);ov=w.firstChild;sh=ov.firstChild;tt=w.lastChild;
  [].forEach.call(T.querySelectorAll('[data-ev-toggle]'),function(t){var b=document.createElement('button');b.type='button';b.className='ev-bal';b.setAttribute('data-bal','1');b.setAttribute('aria-label','Saldo event');var pg=t.closest('[data-ev-page]'),c=COL[pg&&pg.id]||COL.evEmail;b.style.setProperty('--bd',c[1]);b.style.setProperty('--bl',c[0]);b.setAttribute('data-a',c[0]);b.setAttribute('data-a2',c[1]);b.innerHTML='<i class="fa-solid fa-wallet" aria-hidden="true"></i><span data-bal-t>Rp0</span>';t.parentNode.insertBefore(b,t)});
- T.addEventListener('click',function(e){var bb=e.target.closest&&e.target.closest('[data-bal]');if(!bb)return;var lt=T.getAttribute('data-ev-theme')==='light',a=bb.getAttribute('data-a'),a2=bb.getAttribute('data-a2');w.style.setProperty('--fg-a',a);w.style.setProperty('--fg-a2',a2);w.style.setProperty('--fg-ac','rgb('+(lt?a:a2)+')');openMain()});
- ov.addEventListener('click',function(e){if(e.target===ov)close()});
+ T.addEventListener('click',function(e){var bb=e.target.closest&&e.target.closest('[data-bal]');if(!bb)return;var lt=T.getAttribute('data-ev-theme')==='light',a=bb.getAttribute('data-a'),a2=bb.getAttribute('data-a2');w.style.setProperty('--fg-a',a);w.style.setProperty('--fg-a2',a2);w.style.setProperty('--fg-ac','rgb('+(lt?a:a2)+')');openMain(bb)});
  sh.addEventListener('input',function(ev){
   var t=ev.target,id=t&&t.id;
   if(id==='wP'||id==='wN'||id==='wA'||id==='aR')setErr(id,'');
