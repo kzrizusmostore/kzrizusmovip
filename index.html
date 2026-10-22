@@ -2011,7 +2011,7 @@ body.ev-solid.ev-light .topbar-pro{background:rgba(255,255,255,.86)!important;-w
 </style>
 <button type="button" class="evs-hub" id="evSaldoHub" data-bal="1" data-a="22,163,74" data-a2="74,222,128" aria-label="Buka saldo event">
 <span class="evs-hub-ic"><i class="fa-solid fa-wallet" aria-hidden="true"></i></span>
-<span class="evs-hub-tx"><span class="evs-hub-top"><small>Saldo</small><span class="evs-refresh" role="button" tabindex="0" data-evs-refresh aria-label="Refresh saldo"><i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh</span></span><b data-bal-t>Rp0</b><p>Pendapatan dihitung dari pesan sukses dan reward referral.</p></span>
+<span class="evs-hub-tx"><small>Saldo</small><b data-bal-t>Rp0</b><p>Pendapatan dihitung dari pesan sukses dan reward referral.</p></span>
 <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
 </button>
 <div class="kl-sec"><span>Layanan</span></div>
@@ -2791,8 +2791,6 @@ function rpc(fn,a){return sdk().then(function(){if(!sb)sb=window.supabase.create
 function setBal(){[].forEach.call(document.querySelectorAll('[data-bal-t]'),function(n){n.textContent=rp(D&&D.balance)})}
 function load(){return rpc('wallet_me').then(function(d){D=d;setBal();if(!pushSynced&&pushOk()&&Notification.permission==='granted'){pushSynced=true;pushEnable().catch(function(){pushSynced=false})}}).catch(function(e){D=null;setBal();if(String(e&&e.message).indexOf('not_authenticated')<0)console.warn(e)})}
 window.kzRefreshEventWallet=function(){return load().then(function(){if(ov&&!ov.hidden&&view==='main')draw();return D})};
-document.addEventListener('click',function(e){var r=e.target&&e.target.closest&&e.target.closest('[data-evs-refresh]');if(!r)return;e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();if(r.classList.contains('is-loading'))return;r.classList.add('is-loading');rpc('wallet_me').then(function(d){D=d;setBal();toast('Saldo diperbarui')}).catch(function(x){toast(String(x&&x.message).indexOf('not_authenticated')>-1?'Masuk ke akunmu dulu.':'Gagal memuat saldo. Coba lagi.',true)}).then(function(){r.classList.remove('is-loading')})},true);
-document.addEventListener('keydown',function(e){var r=e.target&&e.target.closest&&e.target.closest('[data-evs-refresh]');if(r&&(e.key==='Enter'||e.key===' ')){e.preventDefault();e.stopPropagation();r.click()}},true);
 window.addEventListener('kz:referral-credit-success',function(){try{window.kzRefreshEventWallet()}catch(e){}});
 function loadAdm(){return rpc('admin_wallet_list',{p_search:q}).then(function(d){A=d})}
 function setEventScreen(id){
@@ -20903,13 +20901,14 @@ if(root){
 #eventTab .evs-hub small{opacity:.85;color:#fff}
 #eventTab .evs-hub b{font-size:2.1rem;letter-spacing:.2px;color:#fff}
 #eventTab .evs-hub p{opacity:.82;color:#fff}
-#eventTab .evs-refresh{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:99px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.32);color:#fff;font:800 .6rem 'Outfit',sans-serif;letter-spacing:.8px;text-transform:uppercase;cursor:pointer}
-#eventTab .evs-refresh:active{background:rgba(255,255,255,.3)}
 #eventTab .evs-refresh.is-loading i,#eventTab .fgw-refresh-btn.is-loading i{animation:fgwRefSpin .7s linear infinite}
 #eventTab[data-ev-theme="light"] .evs-hub{background:linear-gradient(135deg,#10b981 0%,#059669 55%,#047857 100%);border-color:rgba(255,255,255,.4);box-shadow:0 14px 28px rgba(5,150,105,.34)}
 #eventTab[data-ev-theme="light"] .evs-hub-ic{background:rgba(255,255,255,.22);color:#fff}
 #eventTab .fgw-refresh-btn{color:#fff;cursor:pointer;font-family:inherit;font-weight:800}
 #eventTab .fgw-refresh-btn i{width:auto;height:auto;border-radius:0;background:none;box-shadow:none;font-size:.7rem;color:#fff}
+/* latar halaman Event: gradasi berwarna + pola titik halus (statis) */
+body.ev-solid.ev-light,body.ev-solid.ev-light:before{background:radial-gradient(420px 320px at 100% 0,rgba(16,185,129,.30),transparent 70%),radial-gradient(380px 300px at 0 36%,rgba(59,130,246,.17),transparent 70%),radial-gradient(380px 300px at 100% 64%,rgba(249,115,22,.15),transparent 70%),radial-gradient(420px 320px at 0 100%,rgba(139,92,246,.17),transparent 70%),radial-gradient(rgba(15,23,42,.06) 1px,transparent 1.3px) 0 0/18px 18px,linear-gradient(180deg,#d6f3e1 0,#e8f5ee 40%,#eef3fa 100%)!important;background-attachment:fixed!important}
+body.ev-solid:not(.ev-light),body.ev-solid:not(.ev-light):before{background:radial-gradient(420px 320px at 100% 0,rgba(16,185,129,.24),transparent 70%),radial-gradient(380px 300px at 0 36%,rgba(59,130,246,.15),transparent 70%),radial-gradient(380px 300px at 100% 64%,rgba(249,115,22,.12),transparent 70%),radial-gradient(420px 320px at 0 100%,rgba(139,92,246,.16),transparent 70%),radial-gradient(rgba(255,255,255,.05) 1px,transparent 1.3px) 0 0/18px 18px,linear-gradient(180deg,#07140f 0,#050709 48%,#08060e 100%)!important;background-attachment:fixed!important}
 /* kartu layanan */
 #eventTab .evc{min-height:122px;border-radius:22px}
 #eventTab .evc-shine{display:none}
