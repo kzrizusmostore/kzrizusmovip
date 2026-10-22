@@ -2285,6 +2285,117 @@ body.fg-on #eventTab[data-ev-theme="light"] .ev-wrap::before{background:radial-g
 <div class="fg-fmt">Format akun:<br><code>kzrizusmo + 5 karakter acak + @gmail.com</code></div>
 </section>
 
+<style>
+#eventTab .fgc{margin:6px 0 18px}
+#eventTab .fgc-stage{position:relative;width:100%;max-width:440px;margin:0 auto;aspect-ratio:1/1.05;overflow:hidden;touch-action:pan-y;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
+#eventTab .fgc-card{position:absolute;left:50%;top:50%;width:46%;aspect-ratio:9/16;margin:0;border-radius:18px;overflow:hidden;background:#000;border:1px solid rgba(255,255,255,.12);box-shadow:0 10px 28px rgba(0,0,0,.35);transform:translate(-50%,-50%);transition:transform .5s cubic-bezier(.22,.8,.3,1),opacity .4s ease,filter .4s ease;will-change:transform,opacity;pointer-events:none}
+#eventTab .fgc-card video{display:block;width:100%;height:100%;object-fit:cover;background:#000}
+#eventTab .fgc-card[data-p="0"]{z-index:3;pointer-events:auto;border-color:rgba(37,99,235,.55);box-shadow:0 14px 34px rgba(0,0,0,.45),0 0 0 1px rgba(37,99,235,.25)}
+#eventTab .fgc-card[data-p="1"]{z-index:2;transform:translate(calc(-50% + 74%),-50%) scale(.7);filter:brightness(.38) saturate(.7);opacity:.9;pointer-events:auto}
+#eventTab .fgc-card[data-p="-1"]{z-index:2;transform:translate(calc(-50% - 74%),-50%) scale(.7);filter:brightness(.38) saturate(.7);opacity:.9}
+#eventTab .fgc-card[data-p="r"]{z-index:1;transform:translate(calc(-50% + 120%),-50%) scale(.6);opacity:0;filter:brightness(.3)}
+#eventTab .fgc-card[data-p="l"]{z-index:1;transform:translate(calc(-50% - 120%),-50%) scale(.6);opacity:0;filter:brightness(.3)}
+#eventTab .fgc-card[data-p="h"]{z-index:0;transform:translate(-50%,-50%) scale(.55);opacity:0;filter:brightness(.3)}
+#eventTab .fgc-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.35));border:0;padding:0;margin:0;cursor:pointer;color:#fff;transition:opacity .2s}
+#eventTab .fgc-play span{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(37,99,235,.92);font-size:20px;padding-left:3px;box-shadow:0 6px 18px rgba(0,0,0,.4)}
+#eventTab .fgc-card.is-playing .fgc-play{opacity:0;pointer-events:none}
+#eventTab .fgc-card:not([data-p="0"]) .fgc-play{display:none}
+#eventTab .fgc-tap{position:absolute;inset:0;border:0;background:transparent;padding:0;margin:0;display:none;cursor:pointer}
+#eventTab .fgc-card[data-p="0"].is-playing .fgc-tap{display:block;z-index:2}
+#eventTab .fgc-card[data-p="1"] .fgc-tap{display:block;z-index:2}
+#eventTab .fgc-ring{position:absolute;inset:0;width:100%;height:100%;z-index:4;pointer-events:none;display:none;fill:none;stroke-width:.7}
+#eventTab .fgc-ring .t{stroke:rgba(255,255,255,.1)}
+#eventTab .fgc-ring .p{stroke:#3b82f6;stroke-linecap:round;stroke-dasharray:0 100;opacity:.9}
+#eventTab .fgc-card[data-p="0"] .fgc-ring{display:block}
+#eventTab .fgc-err{position:absolute;inset:0;display:none;align-items:center;justify-content:center;text-align:center;padding:12px;font-size:11px;color:#cbd5e1;background:#0b1220}
+#eventTab .fgc-card.is-err .fgc-err{display:flex}
+#eventTab .fgc-card.is-err .fgc-play{display:none}
+@media(prefers-reduced-motion:reduce){#eventTab .fgc-card{transition:none}}
+
+</style>
+<section class="fgc" id="fgContoh" aria-label="Contoh freelance">
+<h2 class="fg-h"><span class="fg-h-ic" aria-hidden="true"><i class="fa-solid fa-circle-play"></i></span>Contoh freelance</h2>
+<div class="fgc-stage" id="fgcStage" role="region" aria-roledescription="carousel" aria-label="Contoh freelance" tabindex="0">
+<figure class="fgc-card" data-i="0"><video src="zusmo-asset/fg1.mp4#t=0.1" playsinline preload="metadata" aria-label="Contoh freelance 1"></video><div class="fgc-err">Video belum bisa dimuat</div><button type="button" class="fgc-tap" aria-label="Jeda atau putar"></button><button type="button" class="fgc-play" aria-label="Putar video"><span><i class="fa-solid fa-play" aria-hidden="true"></i></span></button><svg class="fgc-ring" viewBox="0 0 90 160" aria-hidden="true"><rect class="t" x="0.5" y="0.5" width="89" height="159" rx="8.5" pathLength="100"/><rect class="p" x="0.5" y="0.5" width="89" height="159" rx="8.5" pathLength="100"/></svg></figure>
+<figure class="fgc-card" data-i="1"><video src="zusmo-asset/fg2.mp4#t=0.1" playsinline preload="metadata" aria-label="Contoh freelance 2"></video><div class="fgc-err">Video belum bisa dimuat</div><button type="button" class="fgc-tap" aria-label="Jeda atau putar"></button><button type="button" class="fgc-play" aria-label="Putar video"><span><i class="fa-solid fa-play" aria-hidden="true"></i></span></button><svg class="fgc-ring" viewBox="0 0 90 160" aria-hidden="true"><rect class="t" x="0.5" y="0.5" width="89" height="159" rx="8.5" pathLength="100"/><rect class="p" x="0.5" y="0.5" width="89" height="159" rx="8.5" pathLength="100"/></svg></figure>
+<figure class="fgc-card" data-i="2"><video src="zusmo-asset/fg3.mp4#t=0.1" playsinline preload="metadata" aria-label="Contoh freelance 3"></video><div class="fgc-err">Video belum bisa dimuat</div><button type="button" class="fgc-tap" aria-label="Jeda atau putar"></button><button type="button" class="fgc-play" aria-label="Putar video"><span><i class="fa-solid fa-play" aria-hidden="true"></i></span></button><svg class="fgc-ring" viewBox="0 0 90 160" aria-hidden="true"><rect class="t" x="0.5" y="0.5" width="89" height="159" rx="8.5" pathLength="100"/><rect class="p" x="0.5" y="0.5" width="89" height="159" rx="8.5" pathLength="100"/></svg></figure>
+<figure class="fgc-card" data-i="3"><video src="zusmo-asset/fg4.mp4#t=0.1" playsinline preload="metadata" aria-label="Contoh freelance 4"></video><div class="fgc-err">Video belum bisa dimuat</div><button type="button" class="fgc-tap" aria-label="Jeda atau putar"></button><button type="button" class="fgc-play" aria-label="Putar video"><span><i class="fa-solid fa-play" aria-hidden="true"></i></span></button><svg class="fgc-ring" viewBox="0 0 90 160" aria-hidden="true"><rect class="t" x="0.5" y="0.5" width="89" height="159" rx="8.5" pathLength="100"/><rect class="p" x="0.5" y="0.5" width="89" height="159" rx="8.5" pathLength="100"/></svg></figure>
+<figure class="fgc-card" data-i="4"><video src="zusmo-asset/fg5.mp4#t=0.1" playsinline preload="metadata" aria-label="Contoh freelance 5"></video><div class="fgc-err">Video belum bisa dimuat</div><button type="button" class="fgc-tap" aria-label="Jeda atau putar"></button><button type="button" class="fgc-play" aria-label="Putar video"><span><i class="fa-solid fa-play" aria-hidden="true"></i></span></button><svg class="fgc-ring" viewBox="0 0 90 160" aria-hidden="true"><rect class="t" x="0.5" y="0.5" width="89" height="159" rx="8.5" pathLength="100"/><rect class="p" x="0.5" y="0.5" width="89" height="159" rx="8.5" pathLength="100"/></svg></figure>
+<figure class="fgc-card" data-i="5"><video src="zusmo-asset/fg6.mp4#t=0.1" playsinline preload="metadata" aria-label="Contoh freelance 6"></video><div class="fgc-err">Video belum bisa dimuat</div><button type="button" class="fgc-tap" aria-label="Jeda atau putar"></button><button type="button" class="fgc-play" aria-label="Putar video"><span><i class="fa-solid fa-play" aria-hidden="true"></i></span></button><svg class="fgc-ring" viewBox="0 0 90 160" aria-hidden="true"><rect class="t" x="0.5" y="0.5" width="89" height="159" rx="8.5" pathLength="100"/><rect class="p" x="0.5" y="0.5" width="89" height="159" rx="8.5" pathLength="100"/></svg></figure>
+<figure class="fgc-card" data-i="6"><video src="zusmo-asset/fg7.mp4#t=0.1" playsinline preload="metadata" aria-label="Contoh freelance 7"></video><div class="fgc-err">Video belum bisa dimuat</div><button type="button" class="fgc-tap" aria-label="Jeda atau putar"></button><button type="button" class="fgc-play" aria-label="Putar video"><span><i class="fa-solid fa-play" aria-hidden="true"></i></span></button><svg class="fgc-ring" viewBox="0 0 90 160" aria-hidden="true"><rect class="t" x="0.5" y="0.5" width="89" height="159" rx="8.5" pathLength="100"/><rect class="p" x="0.5" y="0.5" width="89" height="159" rx="8.5" pathLength="100"/></svg></figure>
+<figure class="fgc-card" data-i="7"><video src="zusmo-asset/fg8.mp4#t=0.1" playsinline preload="metadata" aria-label="Contoh freelance 8"></video><div class="fgc-err">Video belum bisa dimuat</div><button type="button" class="fgc-tap" aria-label="Jeda atau putar"></button><button type="button" class="fgc-play" aria-label="Putar video"><span><i class="fa-solid fa-play" aria-hidden="true"></i></span></button><svg class="fgc-ring" viewBox="0 0 90 160" aria-hidden="true"><rect class="t" x="0.5" y="0.5" width="89" height="159" rx="8.5" pathLength="100"/><rect class="p" x="0.5" y="0.5" width="89" height="159" rx="8.5" pathLength="100"/></svg></figure>
+</div>
+</section>
+<script>
+(function(){
+var st=document.getElementById('fgcStage');if(!st||st.__fgc)return;st.__fgc=1;
+var cards=[].slice.call(st.querySelectorAll('.fgc-card')),N=cards.length,cur=0,want=false,busy=false;
+var dots=[].slice.call(document.querySelectorAll('#fgcDots i')),cnt=document.getElementById('fgcCount');
+function vid(c){return c.querySelector('video')}
+function pos(i){var d=(i-cur+N)%N;if(d===0)return'0';if(d===1)return'1';if(d===N-1)return'-1';if(d===2)return'r';if(d===N-2)return'l';return'h'}
+function render(){
+ cards.forEach(function(c,i){c.setAttribute('data-p',pos(i));c.setAttribute('aria-hidden',i===cur?'false':'true')});
+ dots.forEach(function(d,i){d.classList.toggle('on',i===cur)});
+ if(cnt)cnt.textContent=(cur+1)+'/'+N;
+}
+function pauseAll(except){cards.forEach(function(c){var v=vid(c);if(v!==except&&!v.paused)v.pause()})}
+function playCur(){
+ var c=cards[cur],v=vid(c);
+ pauseAll(v);v.muted=false;
+ var p=v.play();
+ if(p&&p.catch)p.catch(function(){c.classList.remove('is-playing')});
+}
+function next(){
+ if(busy)return;busy=true;
+ var old=vid(cards[cur]);old.pause();try{old.currentTime=0}catch(e){}
+ cards[cur].classList.remove('is-playing');
+ cur=(cur+1)%N;render();
+ if(want)playCur();
+ setTimeout(function(){busy=false},380);
+}
+cards.forEach(function(c){
+ var v=vid(c),bar=c.querySelector('.fgc-ring .p');
+ var raf=0;
+ function tick(){
+  if(v.duration&&bar)bar.style.strokeDasharray=(v.currentTime/v.duration*100).toFixed(3)+' 100';
+  raf=(v.paused||v.ended)?0:requestAnimationFrame(tick);
+ }
+ function startTick(){if(!raf)raf=requestAnimationFrame(tick)}
+ function stopTick(){if(raf){cancelAnimationFrame(raf);raf=0}}
+ v.addEventListener('play',function(){c.classList.add('is-playing');startTick()});
+ v.addEventListener('playing',startTick);
+ v.addEventListener('pause',function(){c.classList.remove('is-playing');stopTick();tick()});
+ v.addEventListener('seeked',tick);
+ v.addEventListener('timeupdate',function(){if(!raf)tick()});
+ v.addEventListener('ended',function(){stopTick();if(bar)bar.style.strokeDasharray='0 100';if(c===cards[cur])next()});
+ v.addEventListener('error',function(){c.classList.add('is-err')});
+ c.querySelector('.fgc-play').addEventListener('click',function(e){e.stopPropagation();want=true;playCur()});
+ c.querySelector('.fgc-tap').addEventListener('click',function(e){
+  e.stopPropagation();
+  if(c.getAttribute('data-p')==='1'){next();return}
+  if(!v.paused){want=false;v.pause()}else{want=true;playCur()}
+ });
+});
+/* geser: hanya ke kanan (jari ke kiri) = video berikutnya; arah sebaliknya diabaikan */
+var sx=null,sy=null,moved=false;
+st.addEventListener('pointerdown',function(e){sx=e.clientX;sy=e.clientY;moved=false});
+st.addEventListener('pointermove',function(e){if(sx!==null&&Math.abs(e.clientX-sx)>8)moved=true});
+function end(e){
+ if(sx===null)return;
+ var dx=e.clientX-sx,dy=e.clientY-sy;sx=null;
+ if(dx<-40&&Math.abs(dx)>Math.abs(dy)*1.2)next();
+}
+st.addEventListener('pointerup',end);
+st.addEventListener('pointercancel',function(){sx=null});
+st.addEventListener('click',function(e){if(moved){e.stopPropagation();e.preventDefault()}},true);
+st.addEventListener('keydown',function(e){if(e.key==='ArrowRight'){e.preventDefault();next()}});
+/* berhenti saat halaman disembunyikan / keluar layar / tab ditutup */
+function stop(){pauseAll(null)}
+if('IntersectionObserver' in window){new IntersectionObserver(function(en){if(!en[0].isIntersecting)stop()},{threshold:.25}).observe(st)}
+document.addEventListener('visibilitychange',function(){if(document.hidden)stop()});
+render();
+})();
+</script>
 <section class="fg-card" aria-labelledby="fgGenH">
 <h2 class="fg-h" id="fgGenH"><span class="fg-h-ic" aria-hidden="true"><i class="fa-solid fa-wand-magic-sparkles"></i></span>Generator akun</h2>
 <button type="button" class="fg-btn fg-btn-main" id="fgGen"><i class="fa-solid fa-bolt" aria-hidden="true"></i> GENERATE 3 AKUN</button>
