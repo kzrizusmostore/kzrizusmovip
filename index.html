@@ -2831,7 +2831,7 @@ function draw(){
  }else if(view==='wd'){
   x=hd('Withdraw saldo')+'<p class="fgw-sum">Saldo event: <b>'+rpd(D&&D.balance)+'</b>. Minimal withdraw '+rp(MIN)+'. Saldo ditahan sampai admin memproses.</p>'+
   '<span class="fgw-lbl">E-wallet</span><div class="fgw-sel" id="wSel"><input type="hidden" id="wE" value="DANA"><button type="button" class="fgw-selb" data-w="selT" aria-haspopup="listbox" aria-expanded="false"><span class="fgw-selv" id="wV">'+lg(EW[0])+'</span><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button><ul class="fgw-sell" id="wL" role="listbox" hidden>'+EW.map(function(e){return '<li role="option" tabindex="0" data-w="pickE" data-v="'+e[0]+'">'+lg(e)+'</li>'}).join('')+'</ul></div>'+
-  '<label class="fgw-lbl" id="wPL" for="wP">Nomor DANA</label><input class="fgw-in" id="wP" type="tel" inputmode="numeric" maxlength="20" placeholder="08123456789" autocomplete="off"><div class="fgw-err" id="wPe" role="alert" hidden></div>'+
+  '<label class="fgw-lbl" id="wPL" for="wP">Nomor DANA</label><input class="fgw-in" id="wP" type="tel" inputmode="numeric" maxlength="20" placeholder="Masukkan nomor DANA" autocomplete="off"><div class="fgw-err" id="wPe" role="alert" hidden></div>'+
   '<label class="fgw-lbl" for="wN">Atas nama rekening</label><input class="fgw-in" id="wN" type="text" maxlength="60" placeholder="Sesuai akun e-wallet" autocomplete="off"><div class="fgw-err" id="wNe" role="alert" hidden></div>'+
   '<section class="fgw-amount-picker" aria-label="Pilih nominal withdraw"><div class="fgw-amount-picker-head"><span><i class="fa-solid fa-sliders" aria-hidden="true"></i> Pilih nominal cepat</span><button type="button" class="fgw-withdraw-all" data-w="amtAll" '+(Number(D&&D.balance||0)>=MIN?'':'disabled')+'><i class="fa-solid fa-wallet" aria-hidden="true"></i> Tarik semua</button></div><div class="fgw-amount-grid">'+[5000,10000,20000,50000,100000,150000,200000,250000].map(function(n){var avail=Math.max(0,Number(D&&D.balance||0));return '<button type="button" class="fgw-amount-option" data-w="amtPick" data-amount="'+n+'" aria-pressed="false" '+(n>avail?'disabled':'')+'>'+rp(n)+'</button>'}).join('')+'</div><small class="fgw-amount-hint">Pilihan di atas saldo tersedia otomatis dinonaktifkan.</small></section>'+
   '<label class="fgw-lbl" for="wA">Atau masukkan nominal sendiri</label><input class="fgw-in" id="wA" type="number" inputmode="numeric" min="'+MIN+'" step="1" placeholder="Ketik nominal, mis. 25000"><div class="fgw-amount-available">Saldo tersedia: <b>'+rpd(D&&D.balance)+'</b></div><div class="fgw-err" id="wAe" role="alert" hidden></div>'+
@@ -2880,7 +2880,7 @@ function init(){
   else if(k==='back'){view='main';draw()}
   else if(k==='pushOn'){pushEnable().then(function(){toast('Notifikasi aktif');draw()},function(e){toast(String(e&&e.message).indexOf('denied')>-1?'Izin notifikasi ditolak.':'Gagal mengaktifkan notifikasi.',true);draw()})}
   else if(k==='selT'){var l=$('wL');l.hidden=!l.hidden;b.setAttribute('aria-expanded',String(!l.hidden))}
-  else if(k==='pickE'){var v2=b.getAttribute('data-v'),en=ewFind(v2);$('wE').value=v2;$('wV').innerHTML=lg(en);$('wPL').textContent='Nomor '+en[1];$('wL').hidden=true;sh.querySelector('[data-w="selT"]').setAttribute('aria-expanded','false');if($('wP').value)setErr('wP',chkNum());if($('wS'))syncWithdrawAmount()}
+  else if(k==='pickE'){var v2=b.getAttribute('data-v'),en=ewFind(v2);$('wE').value=v2;$('wV').innerHTML=lg(en);$('wPL').textContent='Nomor '+en[1];$('wP').placeholder='Masukkan nomor '+en[1];$('wL').hidden=true;sh.querySelector('[data-w="selT"]').setAttribute('aria-expanded','false');if($('wP').value)setErr('wP',chkNum());if($('wS'))syncWithdrawAmount()}
   else if(k==='amtPick'){var picked=parseInt(b.getAttribute('data-amount'),10);if(!Number.isFinite(picked))return;$('wA').value=String(picked);setErr('wA','');syncWithdrawAmount()}
   else if(k==='amtAll'){var allBalance=Math.floor(Number(D&&D.balance||0));if(allBalance<MIN)return toast('Saldo belum mencapai minimum withdraw '+rp(MIN)+'.',true);$('wA').value=String(allBalance);setErr('wA','');syncWithdrawAmount()}
   else if(k==='tpl'){var ri=$('aR');ri.value=b.getAttribute('data-t');setErr('aR','');ri.focus()}
@@ -20658,4 +20658,44 @@ if(root){
 })();
 
 </script>
+
+<style id="fgw-ewallet-dark-cleanup-v1">
+/* Dropdown e-wallet mengikuti tema dan tidak menggunakan panel biru. */
+#eventTab .fgw-sell{
+  background:#111713!important;
+  color:#f8fafc!important;
+  border-color:rgba(255,255,255,.13)!important;
+  box-shadow:0 14px 34px rgba(0,0,0,.46)!important;
+  max-height:220px!important;
+  overflow-y:auto!important;
+  overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+}
+#eventTab .fgw-sell li{color:inherit!important;min-height:44px!important;padding:8px 10px!important}
+#eventTab .fgw-sell li:hover,#eventTab .fgw-sell li:focus{background:rgba(74,222,128,.12)!important}
+#eventTab[data-ev-theme="light"] .fgw-sell{
+  background:#fff!important;
+  color:#0f172a!important;
+  border-color:rgba(15,23,42,.12)!important;
+  box-shadow:0 12px 28px rgba(15,23,42,.14)!important;
+}
+#eventTab[data-ev-theme="light"] .fgw-sell li:hover,#eventTab[data-ev-theme="light"] .fgw-sell li:focus{background:#f0fdf4!important}
+/* Hapus kotak putih di belakang logo DANA/GoPay/ShopeePay/OVO. */
+#eventTab .fgw-selv img,
+#eventTab .fgw-sell img,
+#eventTab .fgw-lg img{
+  background:transparent!important;
+  box-shadow:none!important;
+  border:0!important;
+  object-fit:contain!important;
+}
+#eventTab .fgw-selv img,#eventTab .fgw-sell img{border-radius:7px!important}
+#eventTab .fgw-lg img{border-radius:4px!important}
+/* Mutasi withdraw hanya menampilkan logo transparan kecil tanpa panel putih. */
+#eventTab .fgw-history-copy .fgw-lg{background:transparent!important;box-shadow:none!important}
+/* Hapus kartu nominal kosong; kartu ringkasan hanya tampil ketika ada teks. */
+#eventTab .fgw-sum:empty{display:none!important;margin:0!important;padding:0!important;border:0!important;min-height:0!important;height:0!important}
+#eventTab .fgw-sum:not(:empty){margin-top:10px}
+</style>
+
 </body></html>
