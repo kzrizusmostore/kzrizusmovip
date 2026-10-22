@@ -1845,7 +1845,7 @@ body.ev-solid.ev-light .topbar-pro{background:rgba(255,255,255,.86)!important;-w
   margin:0;font:500 .76rem/1.5 'Outfit',sans-serif;color:rgba(255,255,255,.74);
   display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;
 }
-#eventTab .evc-ft{display:flex;align-items:flex-end;justify-content:space-between;gap:8px;margin-top:3px}
+#eventTab .evc-ft{display:flex;align-items:flex-end;justify-content:flex-end;gap:8px;margin-top:3px}
 #eventTab .evc-chips{display:flex;flex-wrap:wrap;gap:5px;min-width:0}
 #eventTab .evc-chip{
   display:inline-flex;align-items:center;gap:5px;padding:4px 9px;border-radius:99px;
@@ -2001,7 +2001,7 @@ body.ev-solid.ev-light .topbar-pro{background:rgba(255,255,255,.86)!important;-w
   <div class="evc-bd">
     <h3>Sewa WhatsApp</h3>
     <p>Nganggur jadi cuan! Sewain WA kamu, dibayar per chat, langsung cair.</p>
-    <div class="evc-ft"><div class="evc-chips"><span class="evc-chip"><i class="fa-solid fa-gift" aria-hidden="true"></i>Bonus perdana</span><span class="evc-chip"><i class="fa-solid fa-bolt" aria-hidden="true"></i>Cair cepat</span></div><span class="evc-go" aria-hidden="true"><i class="fa-solid fa-arrow-right"></i></span></div>
+    <div class="evc-ft"><span class="evc-go" aria-hidden="true"><i class="fa-solid fa-arrow-right"></i></span></div>
   </div>
 </div>
 
@@ -2011,7 +2011,7 @@ body.ev-solid.ev-light .topbar-pro{background:rgba(255,255,255,.86)!important;-w
   <div class="evc-bd">
     <h3>Freelance Gmail</h3>
     <p>Buat 3 akun Gmail sesuai format. Kami bayar Rp5.000 per paket.</p>
-    <div class="evc-ft"><div class="evc-chips"><span class="evc-chip"><i class="fa-solid fa-envelope" aria-hidden="true"></i>3 akun per paket</span><span class="evc-chip"><i class="fa-solid fa-wallet" aria-hidden="true"></i>Dibayar Rp5.000</span></div><span class="evc-go" aria-hidden="true"><i class="fa-solid fa-arrow-right"></i></span></div>
+    <div class="evc-ft"><span class="evc-go" aria-hidden="true"><i class="fa-solid fa-arrow-right"></i></span></div>
   </div>
 </div>
 
@@ -2021,7 +2021,7 @@ body.ev-solid.ev-light .topbar-pro{background:rgba(255,255,255,.86)!important;-w
   <div class="evc-bd">
     <h3>Clipper</h3>
     <p>Potong video jadi duit! Klip viral, bonus mengalir terus.</p>
-    <div class="evc-ft"><div class="evc-chips"><span class="evc-chip"><i class="fa-solid fa-fire" aria-hidden="true"></i>Bonus viral</span><span class="evc-chip"><i class="fa-solid fa-wallet" aria-hidden="true"></i>Cair rutin</span></div><span class="evc-go" aria-hidden="true"><i class="fa-solid fa-arrow-right"></i></span></div>
+    <div class="evc-ft"><span class="evc-go" aria-hidden="true"><i class="fa-solid fa-arrow-right"></i></span></div>
   </div>
 </div>
 
@@ -2031,7 +2031,7 @@ body.ev-solid.ev-light .topbar-pro{background:rgba(255,255,255,.86)!important;-w
   <div class="evc-bd">
     <h3>Zusmo Mabar</h3>
     <p>Mabar seru bareng Zusmo, menang bawa pulang hadiah.</p>
-    <div class="evc-ft"><div class="evc-chips"><span class="evc-chip"><i class="fa-solid fa-trophy" aria-hidden="true"></i>Hadiah seru</span><span class="evc-chip"><i class="fa-solid fa-calendar-check" aria-hidden="true"></i>Jadwal rutin</span></div><span class="evc-go" aria-hidden="true"><i class="fa-solid fa-arrow-right"></i></span></div>
+    <div class="evc-ft"><span class="evc-go" aria-hidden="true"><i class="fa-solid fa-arrow-right"></i></span></div>
   </div>
 </div>
 
@@ -2206,6 +2206,12 @@ body.fg-on #eventTab[data-ev-theme="light"] .ev-wrap::before{background:radial-g
 #eventTab .fgw-big b{display:block;font:800 2rem/1.15 'Rajdhani','Outfit',sans-serif;color:var(--fg-tx)}
 #eventTab .fgw-big p{margin:4px 0 0;font-size:.72rem;color:var(--fg-mu)}
 #eventTab .fgw-acts{display:grid;gap:8px}
+/* kartu event beranda: latar putih */
+#eventTab .evc{background:#fff;color:#0f172a;border:1px solid rgba(var(--c),.3);box-shadow:0 1px 2px rgba(15,23,42,.08),0 10px 24px -8px rgba(15,23,42,.35)}
+#eventTab .evc-bd h3{color:#0f172a}
+#eventTab .evc-bd p{color:#475569}
+#eventTab .evc-art{background:linear-gradient(160deg,rgba(var(--c),.2),rgba(var(--c),.08));border-color:rgba(var(--c),.22)}
+#eventTab .fg-wa-box{margin:14px 0 0}
 @keyframes fgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @keyframes fgFlash{0%{box-shadow:0 0 0 0 rgba(var(--fg-a2),.6)}100%{box-shadow:0 0 0 10px rgba(var(--fg-a2),0)}}
 @media(max-width:360px){#eventTab .fg-val{font-size:.72rem;padding:0 10px}}
@@ -2238,13 +2244,12 @@ body.fg-on #eventTab[data-ev-theme="light"] .ev-wrap::before{background:radial-g
 <button type="button" class="fg-btn" id="fgCopyAll" disabled><i class="fa-regular fa-copy" aria-hidden="true"></i> Salin Semua</button>
 <button type="button" class="fg-btn fg-btn-danger" id="fgReset" disabled><i class="fa-solid fa-rotate-left" aria-hidden="true"></i> Reset</button>
 </div>
-<label class="fg-chk"><input type="checkbox" id="fgDone"><span>Saya sudah membuat semua akun di atas</span></label>
-<button type="button" class="fg-btn fg-btn-main fg-btn-wa" id="fgWa" disabled><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> KONFIRMASI &amp; KIRIM KE WHATSAPP</button>
 </div>
 <div class="fg-confirm" id="fgConfirm" role="alertdialog" aria-label="Konfirmasi reset hasil" hidden>
 <p>Kosongkan semua hasil? Email dan password yang belum kamu salin akan hilang.</p>
 <div class="fg-row2" style="margin:0"><button type="button" class="fg-btn fg-btn-danger" id="fgConfirmYes">Ya, kosongkan</button><button type="button" class="fg-btn" id="fgConfirmNo">Batal</button></div>
 </div>
+<div class="fg-wa-box"><button type="button" class="fg-btn fg-btn-main fg-btn-wa" id="fgWa" disabled><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> KONFIRMASI AKUN SUDAH DIBUAT</button><p class="fgw-sum" style="margin:8px 2px 0;text-align:center">Aktif setelah akun di-generate. Pesan ke WhatsApp admin berisi email dan password semua akun.</p></div>
 <p class="fg-note"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>Hasil hanya <b>kandidat</b>: ketersediaan belum diperiksa dan akun belum dibuat. Ganti password dengan yang kuat sebelum akun dipakai.</span></p>
 </section>
 
@@ -2264,7 +2269,7 @@ var root=document.getElementById('evEmail');
 if(!root||root.__fg)return;root.__fg=1;
 function $(id){return document.getElementById(id)}
 var PREFIX='kzrizusmo',SUFFIX='@gmail.com',CH='abcdefghijklmnopqrstuvwxyz0123456789',LEN=5,N=3,GAP=10,WA='6283800287738';
-var list=$('fgList'),empty=$('fgEmpty'),res=$('fgRes'),dotsEl=$('fgDots'),cnt=$('fgCount'),prev=$('fgPrev'),next=$('fgNext'),btnGen=$('fgGen'),btnAll=$('fgCopyAll'),btnReset=$('fgReset'),chk=$('fgDone'),btnWa=$('fgWa'),cf=$('fgConfirm'),toastEl=$('fgToast');
+var list=$('fgList'),empty=$('fgEmpty'),res=$('fgRes'),dotsEl=$('fgDots'),cnt=$('fgCount'),prev=$('fgPrev'),next=$('fgNext'),btnGen=$('fgGen'),btnAll=$('fgCopyAll'),btnReset=$('fgReset'),btnWa=$('fgWa'),cf=$('fgConfirm'),toastEl=$('fgToast');
 var accts=[],shown={},toastT=0,cur=0,raf=0;
 
 function rnd(max){
@@ -2342,7 +2347,7 @@ function go(i,smooth){
 }
 function render(flashIdx){
  var has=accts.length>0;
- chk.checked=false;btnWa.disabled=true;empty.hidden=has;res.hidden=!has;btnAll.disabled=!has;btnReset.disabled=!has;
+ btnWa.disabled=!has;empty.hidden=has;res.hidden=!has;btnAll.disabled=!has;btnReset.disabled=!has;
  while(list.firstChild)list.removeChild(list.firstChild);
  while(dotsEl.firstChild)dotsEl.removeChild(dotsEl.firstChild);
  if(!has){cf.hidden=true;return}
@@ -2408,9 +2413,9 @@ btnReset.addEventListener('click',function(){if(accts.length){cf.hidden=false;tr
 $('fgConfirmNo').addEventListener('click',function(){cf.hidden=true});
 $('fgConfirmYes').addEventListener('click',function(){accts=[];shown={};cur=0;cf.hidden=true;render();toast('Hasil dikosongkan')});
 
-chk.addEventListener('change',function(){btnWa.disabled=!chk.checked||!accts.length});
 btnWa.addEventListener('click',function(){
- if(!accts.length||!chk.checked)return;
+ if(!accts.length)return;
+ if(!confirm('Kirim konfirmasi ke WhatsApp? Pastikan '+accts.length+' akun sudah benar-benar dibuat.'))return;
  window.open('https://wa.me/'+WA+'?text='+encodeURIComponent(waMsg()),'_blank','noopener');
 });
 
@@ -2446,6 +2451,7 @@ var URL_='https://siqqdpnglqctyyaornmo.supabase.co',KEY='sb_publishable_lJ74c2lg
 var sb=null,D=null,A=null,view='',tab='pending',busy=false,q='',target=null,ov,sh,tt;
 function $(id){return document.getElementById(id)}
 function rp(n){return 'Rp'+Number(n||0).toLocaleString('id-ID')}
+function rpd(n){return rp(n)+',00'}
 function esc(t){return String(t==null?'':t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
 function dt(t){try{return new Date(t).toLocaleString('id-ID',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}catch(e){return ''}}
 var ERR={not_authenticated:'Masuk ke akunmu dulu.',not_admin:'Khusus admin.',saldo_tidak_cukup:'Saldo tidak cukup.',min_withdraw:'Minimal withdraw '+rp(MIN)+'.',ewallet_invalid:'E-wallet tidak valid.',nomor_invalid:'Nomor e-wallet hanya angka, 9 sampai 15 digit.',nama_invalid:'Nama pemilik 2-60 karakter.',pending_exists:'Masih ada withdraw yang diproses.',request_processed:'Permintaan sudah diproses.',payout_ref_required:'Isi bukti/ref transfer.',reason_required:'Isi alasan (min 3 karakter).',amount_invalid:'Nominal tidak valid.'};
@@ -2462,12 +2468,33 @@ function setErr(id,msg){var i=$(id),e=$(id+'e');if(!e)return;e.textContent=msg||
 function chkNum(){var n=cleanNum($('wP').value),nm=ewName($('wE').value);if(!n)return 'Nomor '+nm+' wajib diisi.';if(!/^\+?\d{9,15}$/.test(n))return 'Nomor '+nm+' hanya angka, 9 sampai 15 digit.';return ''}
 function chkName(){var v=($('wN').value||'').trim(),l='Atas nama rekening';if(!v)return l+' wajib diisi.';if(v.length<2||v.length>60)return l+' harus 2 sampai 60 karakter.';if(!/[A-Za-z\u00C0-\u024F]/.test(v))return l+' harus berisi huruf.';return ''}
 function chkAmt(){var a=parseInt($('wA').value,10);if(!(a>0))return 'Nominal wajib diisi.';if(a<MIN)return 'Minimal withdraw '+rp(MIN)+'.';if(D&&a>D.balance)return 'Saldo tidak cukup.';return ''}
+function pushKey(){return String(window.ZUSMO_PUSH_VAPID_PUBLIC_KEY||'').trim()}
+function pushOk(){return 'serviceWorker' in navigator&&'PushManager' in window&&'Notification' in window&&window.isSecureContext&&!!pushKey()}
+function b2u(b){var p='='.repeat((4-b.length%4)%4),r=atob((b+p).replace(/-/g,'+').replace(/_/g,'/')),o=new Uint8Array(r.length);for(var i=0;i<r.length;i++)o[i]=r.charCodeAt(i);return o}
+async function pushEnable(){
+ if(!pushOk())throw new Error('push_unsupported');
+ var perm=Notification.permission;if(perm==='default')perm=await Notification.requestPermission();
+ if(perm!=='granted')throw new Error('push_denied');
+ var reg=(await navigator.serviceWorker.getRegistration('/'))||(await navigator.serviceWorker.ready);
+ var sub=(await reg.pushManager.getSubscription())||(await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:b2u(pushKey())}));
+ var j=sub.toJSON(),k=j.keys||{};
+ await rpc('wallet_push_save',{p_endpoint:j.endpoint,p_p256dh:k.p256dh,p_auth:k.auth,p_ua:String(navigator.userAgent||'').slice(0,200)});
+}
+function pushRow(){
+ if(!pushOk())return '';
+ var p=Notification.permission;
+ if(p==='granted')return '<p class="fgw-sum" style="margin-top:12px"><i class="fa-solid fa-bell" aria-hidden="true"></i> Notifikasi withdraw aktif.</p>';
+ if(p==='denied')return '<p class="fgw-sum" style="margin-top:12px">Notifikasi diblokir. Izinkan lewat pengaturan situs di browser.</p>';
+ return '<button type="button" class="fg-btn fg-btn-sm" data-w="pushOn" style="margin:12px 0"><i class="fa-solid fa-bell" aria-hidden="true"></i> Aktifkan notifikasi withdraw</button>';
+}
+function notifyUser(id){return sdk().then(function(){return sb.auth.getSession()}).then(function(r){var t=r&&r.data&&r.data.session&&r.data.session.access_token;return fetch('/api/wallet-push',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+t},body:JSON.stringify({request_id:id})})}).then(function(r){return r.json()}).then(function(j){return j&&j.sent>0}).catch(function(){return false})}
+var pushSynced=false;
 function toast(m,bad){tt.textContent=m;tt.className='fg-toast on'+(bad?' bad':'');clearTimeout(toast.t);toast.t=setTimeout(function(){tt.className='fg-toast'},2400)}
 function fail(e){var m=String((e&&e.message)||e);for(var k in ERR)if(m.indexOf(k)>-1)return toast(ERR[k],true);toast('Terjadi kendala. Coba lagi.',true)}
 function sdk(){if(window.supabase&&window.supabase.createClient)return Promise.resolve();return new Promise(function(ok,no){var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.js';s.onload=ok;s.onerror=function(){no(new Error('sdk'))};document.head.appendChild(s)})}
 function rpc(fn,a){return sdk().then(function(){if(!sb)sb=window.supabase.createClient(URL_,KEY,{auth:{persistSession:true,autoRefreshToken:false,detectSessionInUrl:false}});return sb.auth.getSession()}).then(function(){return sb.rpc(fn,a||{})}).then(function(r){if(r.error)throw r.error;return r.data})}
 function setBal(){[].forEach.call(document.querySelectorAll('[data-bal-t]'),function(n){n.textContent=rp(D&&D.balance)})}
-function load(){return rpc('wallet_me').then(function(d){D=d;setBal()}).catch(function(e){D=null;setBal();if(String(e&&e.message).indexOf('not_authenticated')<0)console.warn(e)})}
+function load(){return rpc('wallet_me').then(function(d){D=d;setBal();if(!pushSynced&&pushOk()&&Notification.permission==='granted'){pushSynced=true;pushEnable().catch(function(){pushSynced=false})}}).catch(function(e){D=null;setBal();if(String(e&&e.message).indexOf('not_authenticated')<0)console.warn(e)})}
 function loadAdm(){return rpc('admin_wallet_list',{p_search:q}).then(function(d){A=d})}
 function openMain(){ov.hidden=false;view='main';draw();load().then(draw)}
 function close(){ov.hidden=true;view=''}
@@ -2475,9 +2502,9 @@ function hd(t){return '<div class="fgw-hd"><span>'+(view!=='main'?'<button type=
 function draw(){
  var x='';
  if(view==='main'){
-  x=hd('Saldo event')+(D?'<div class="fgw-big"><small>Saldo event</small><b>'+rp(D.balance)+'</b><p>Dari semua event: Sewa WA, Freelance Gmail, dan Clipper.</p></div><div class="fgw-acts"><button type="button" class="fg-btn fg-btn-main" data-w="goWd"><i class="fa-solid fa-money-bill-transfer"></i> WITHDRAW</button><button type="button" class="fg-btn" data-w="goHist"><i class="fa-solid fa-clock-rotate-left"></i> Riwayat</button>'+(D.is_admin?'<button type="button" class="fg-btn" data-w="goAdm"><i class="fa-solid fa-shield-halved"></i> Panel admin</button>':'')+'</div>':'<p class="fgw-sum">Masuk ke akunmu dulu untuk melihat saldo.</p>');
+  x=hd('Saldo event')+(D?'<div class="fgw-big"><small>Saldo event</small><b>'+rpd(D.balance)+'</b></div><div class="fgw-acts"><button type="button" class="fg-btn fg-btn-main" data-w="goWd"><i class="fa-solid fa-money-bill-transfer"></i> WITHDRAW</button><button type="button" class="fg-btn" data-w="goHist"><i class="fa-solid fa-clock-rotate-left"></i> Riwayat</button>'+(D.is_admin?'<button type="button" class="fg-btn" data-w="goAdm"><i class="fa-solid fa-shield-halved"></i> Panel admin</button>':'')+'</div>'+pushRow():'<p class="fgw-sum">Masuk ke akunmu dulu untuk melihat saldo.</p>');
  }else if(view==='wd'){
-  x=hd('Withdraw saldo')+'<p class="fgw-sum">Saldo event: <b>'+rp(D&&D.balance)+'</b>. Minimal withdraw '+rp(MIN)+'. Saldo ditahan sampai admin memproses.</p>'+
+  x=hd('Withdraw saldo')+'<p class="fgw-sum">Saldo event: <b>'+rpd(D&&D.balance)+'</b>. Minimal withdraw '+rp(MIN)+'. Saldo ditahan sampai admin memproses.</p>'+
   '<span class="fgw-lbl">E-wallet</span><div class="fgw-sel" id="wSel"><input type="hidden" id="wE" value="DANA"><button type="button" class="fgw-selb" data-w="selT" aria-haspopup="listbox" aria-expanded="false"><span class="fgw-selv" id="wV">'+lg(EW[0])+'</span><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button><ul class="fgw-sell" id="wL" role="listbox" hidden>'+EW.map(function(e){return '<li role="option" tabindex="0" data-w="pickE" data-v="'+e[0]+'">'+lg(e)+'</li>'}).join('')+'</ul></div>'+
   '<label class="fgw-lbl" id="wPL" for="wP">Nomor DANA</label><input class="fgw-in" id="wP" type="tel" inputmode="numeric" maxlength="20" placeholder="08123456789" autocomplete="off"><div class="fgw-err" id="wPe" role="alert" hidden></div>'+
   '<label class="fgw-lbl" for="wN">Atas nama rekening</label><input class="fgw-in" id="wN" type="text" maxlength="60" placeholder="Sesuai akun e-wallet" autocomplete="off"><div class="fgw-err" id="wNe" role="alert" hidden></div>'+
@@ -2485,7 +2512,7 @@ function draw(){
   '<p class="fgw-sum" id="wS"></p><button type="button" class="fg-btn fg-btn-main" data-w="wd">AJUKAN WITHDRAW</button>';
  }else if(view==='hist'){
   var w=(D&&D.withdrawals)||[],l=(D&&D.ledger)||[];
-  x=hd('Riwayat')+'<p class="fgw-sec">Withdraw</p>'+(w.length?w.map(function(r){return '<div class="fgw-it"><span><b>'+ewl(r.ewallet)+'</b> '+esc(r.phone_number)+'<br>'+dt(r.created_at)+(r.admin_note?' &middot; '+esc(r.admin_note):'')+'</span><span style="text-align:right"><b>'+rp(r.amount)+'</b><br><span class="fgw-ch '+esc(r.status)+'">'+({pending:'Diproses',paid:'Dibayar',rejected:'Ditolak',approved:'Disetujui'}[r.status]||esc(r.status))+'</span></span></div>'}).join(''):'<p class="fgw-sum">Belum ada.</p>')+
+  x=hd('Riwayat')+pushRow()+'<p class="fgw-sec">Withdraw</p>'+(w.length?w.map(function(r){return '<div class="fgw-it"><span><b>'+ewl(r.ewallet)+'</b> '+esc(r.phone_number)+'<br>'+dt(r.created_at)+(r.admin_note?' &middot; '+esc(r.admin_note):'')+'</span><span style="text-align:right"><b>'+rp(r.amount)+'</b><br><span class="fgw-ch '+esc(r.status)+'">'+({pending:'Diproses',paid:'Dibayar',rejected:'Ditolak',approved:'Disetujui'}[r.status]||esc(r.status))+'</span></span></div>'}).join(''):'<p class="fgw-sum">Belum ada.</p>')+
   '<p class="fgw-sec" style="margin-top:14px">Mutasi saldo</p>'+(l.length?l.map(function(r){return '<div class="fgw-it"><span>'+esc(r.note||r.type)+'<br>'+dt(r.created_at)+'</span><span class="'+(r.amount>0?'pl':'mn')+'">'+(r.amount>0?'+':'-')+rp(Math.abs(r.amount))+'</span></div>'}).join(''):'<p class="fgw-sum">Belum ada.</p>');
  }else if(view==='adm'){
   x=hd('Panel admin')+'<div class="fgw-tabs">'+[['pending','Withdraw'],['adj','Atur saldo'],['audit','Audit']].map(function(t){return '<button type="button" class="fg-btn'+(tab===t[0]?' on':'')+'" data-w="tab" data-t="'+t[0]+'">'+t[1]+'</button>'}).join('')+'</div>';
@@ -2496,7 +2523,7 @@ function draw(){
  }
  sh.innerHTML=x;
 }
-function run(pr,okMsg,after){if(busy)return;busy=true;pr.then(function(){toast(okMsg);return after&&after()}).then(function(){busy=false;draw()},function(e){busy=false;fail(e)})}
+function run(pr,okMsg,after){if(busy)return;busy=true;pr.then(function(){toast(typeof okMsg==='function'?okMsg():okMsg);return after&&after()}).then(function(){busy=false;draw()},function(e){busy=false;fail(e)})}
 function init(){
  var T=$('eventTab');if(!T||T.__fgw)return;T.__fgw=1;
  var w=document.createElement('div');w.className='fg';
@@ -2518,6 +2545,7 @@ function init(){
   var b=e.target.closest&&e.target.closest('[data-w]');if(!b)return;var k=b.getAttribute('data-w');
   if(k==='x')close();
   else if(k==='back'){view='main';draw()}
+  else if(k==='pushOn'){pushEnable().then(function(){toast('Notifikasi aktif');draw()},function(e){toast(String(e&&e.message).indexOf('denied')>-1?'Izin notifikasi ditolak.':'Gagal mengaktifkan notifikasi.',true);draw()})}
   else if(k==='selT'){var l=$('wL');l.hidden=!l.hidden;b.setAttribute('aria-expanded',String(!l.hidden))}
   else if(k==='pickE'){var v2=b.getAttribute('data-v'),en=ewFind(v2);$('wE').value=v2;$('wV').innerHTML=lg(en);$('wPL').textContent='Nomor '+en[1];$('wL').hidden=true;sh.querySelector('[data-w="selT"]').setAttribute('aria-expanded','false');if($('wP').value)setErr('wP',chkNum())}
   else if(k==='tpl'){var ri=$('aR');ri.value=b.getAttribute('data-t');setErr('aR','');ri.focus()}
@@ -2541,7 +2569,8 @@ function init(){
    if(k==='paid'&&!v.trim())return toast(ERR.payout_ref_required,true);
    if(k==='rej'&&v.trim().length<3)return toast('Isi alasan tolak (pilih template).',true);
    if(!confirm(k==='paid'?'Tandai sudah dibayar?':'Tolak dan kembalikan saldo?'))return;
-   run(rpc('admin_withdraw_process',{p_id:id,p_action:k==='paid'?'paid':'rejected',p_ref:v,p_note:v}),'Diproses',loadAdm);
+   var st=false;
+   run(rpc('admin_withdraw_process',{p_id:id,p_action:k==='paid'?'paid':'rejected',p_ref:v,p_note:v}).then(function(){return notifyUser(id)}).then(function(o){st=o}),function(){return st?'Diproses, notifikasi terkirim':'Diproses (notifikasi tidak terkirim)'},loadAdm);
   }
   else if(k==='adj'){
    var n=parseInt($('aA').value,10),r=($('aR').value||'').trim();if(!n)return toast('Isi nominal.',true);if(r.length<3){setErr('aR','Alasan wajib diisi. Pilih template atau tulis sendiri.');$('aR').focus();return}
