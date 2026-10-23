@@ -937,7 +937,76 @@ window.addEventListener('load',function(){api.migrate();});
 </style><style id="kz-first-paint-locks">
 /* Kunci sebelum paint pertama: wallpaper Zusmo Old tidak boleh bocor ke Home. */
 #zxOldWall{display:none!important;visibility:hidden!important;opacity:0!important;transition:none!important}
-</style></head><body><div id="kzSplash" class="kzs" aria-hidden="true">
+</style><style id="kz-nav-critical">
+/* Salinan awal CSS navbar bawah di <head>: mencegah navbar tampil mentah saat halaman besar ini masih dimuat. Blok kz-nav-v4-canonical di bawah tetap dipakai. */
+
+.app-bottombar{
+  position:fixed!important;left:50%!important;right:auto!important;top:auto!important;
+  bottom:calc(10px + env(safe-area-inset-bottom,0px))!important;
+  width:min(720px,calc(100% - 16px))!important;max-width:720px!important;
+  height:54px!important;min-height:54px!important;max-height:none!important;
+  display:flex!important;align-items:center!important;justify-content:space-around!important;
+  gap:0!important;padding:0 6px!important;margin:0!important;
+  transform:translateX(-50%);overflow:visible!important;box-sizing:border-box!important;
+  border:0!important;border-radius:20px!important;
+  background:rgba(12,12,16,.78)!important;
+  -webkit-backdrop-filter:blur(18px) saturate(160%)!important;
+  backdrop-filter:blur(18px) saturate(160%)!important;
+  box-shadow:0 12px 28px rgba(0,0,0,.55),0 0 22px rgba(255,43,43,.14)!important;
+  z-index:2147483001!important;touch-action:manipulation!important;
+  transition:transform .25s ease!important;
+}
+.app-bottombar .tab{
+  position:relative!important;top:auto!important;align-self:center!important;
+  flex:1 1 0!important;min-width:0!important;max-width:none!important;
+  min-height:50px!important;height:auto!important;margin:0!important;
+  display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;
+  gap:3px!important;padding:4px 1px!important;overflow:visible!important;
+  white-space:normal!important;overflow-wrap:anywhere!important;text-overflow:clip!important;
+  border:0!important;border-radius:14px!important;background:transparent!important;
+  box-shadow:none!important;color:rgba(255,255,255,.76)!important;
+  opacity:.82;transform:none!important;filter:none!important;text-shadow:none!important;
+  font:600 clamp(7.8px,2.05vw,9px)/1.1 'Rajdhani',sans-serif!important;
+  letter-spacing:0!important;text-align:center!important;cursor:pointer!important;
+  pointer-events:auto!important;-webkit-tap-highlight-color:transparent;
+}
+.app-bottombar .tab.active{
+  color:#fff!important;opacity:1!important;transform:none!important;
+  background:transparent!important;box-shadow:none!important;
+}
+.app-bottombar .tab i{
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  flex:none!important;width:auto!important;height:auto!important;margin:0!important;padding:0!important;
+  overflow:visible!important;max-width:none!important;border:0!important;border-radius:0!important;
+  background:transparent!important;box-shadow:none!important;text-shadow:none!important;filter:none!important;
+  color:#ff3b3b!important;font-size:15px!important;line-height:1.1!important;
+  transition:transform .2s ease!important;
+}
+.app-bottombar .tab.active:not(.home-center) i{transform:scale(1.2)!important}
+.app-bottombar .tab::before,.app-bottombar .tab::after{content:none!important;display:none!important}
+.app-bottombar .tab-icon-wrap{position:relative!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:0!important;overflow:visible!important;max-width:none!important;padding:0 4px!important;line-height:1!important}
+.app-bottombar .tab-unread-badge:not([hidden]){position:absolute!important;top:-5px!important;right:-7px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;min-width:14px!important;height:14px!important;padding:0 3px!important;border:1px solid #111!important;border-radius:999px!important;background:#ff2b2b!important;color:#fff!important;font:700 8px/1 system-ui,sans-serif!important;box-shadow:none!important;filter:none!important;text-shadow:none!important;animation:none!important}
+.app-bottombar .tab-unread-badge[hidden]{display:none!important}
+.app-bottombar .tab-new-dot,.app-bottombar .nav-indicator,.app-bottombar .nav-ripple{display:none!important}
+.app-bottombar .home-center{position:relative!important;top:-12px!important;overflow:visible!important;background:transparent!important;box-shadow:none!important}
+.app-bottombar .home-circle{
+  position:relative!important;display:flex!important;align-items:center!important;justify-content:center!important;
+  width:46px!important;height:46px!important;min-width:46px!important;min-height:46px!important;
+  margin:0 auto!important;overflow:hidden!important;border-radius:50%!important;
+  border:2px solid #ff2b2b!important;background:#050505!important;box-shadow:none!important;flex-shrink:0!important;
+}
+.app-bottombar .home-circle i{font-size:18px!important;color:#ff2b2b!important;transform:none!important}
+.app-bottombar.hide,.app-bottombar.kz-modal-hidden{transform:translate(-50%,140%)!important;pointer-events:none!important}
+body.kz-subpage .app-bottombar,body.ev-nobar .app-bottombar{display:none!important}
+body.ev-solid.ev-light .app-bottombar{background:#fff!important;border:1px solid rgba(15,23,42,.1)!important;box-shadow:0 8px 24px rgba(15,23,42,.14)!important}
+body.ev-solid.ev-light .app-bottombar .tab{color:#64748b!important}
+body.ev-solid.ev-light .app-bottombar .tab.active{color:#0f172a!important}
+body.ev-solid.ev-light .app-bottombar .tab i{color:#ff2b2b!important;text-shadow:none!important}
+@media(max-width:430px){.app-bottombar{width:calc(100% - 12px)!important}}
+@media(max-width:360px){.app-bottombar{width:calc(100% - 8px)!important;padding:0 3px!important}.app-bottombar .tab{font-size:7.6px!important;gap:2px!important}.app-bottombar .tab i{font-size:15px!important}.app-bottombar .home-center{width:auto!important}}
+@media(prefers-reduced-motion:reduce){.app-bottombar,.app-bottombar .tab,.app-bottombar .tab i{transition:none!important}}
+</style>
+</head><body><div id="kzSplash" class="kzs" aria-hidden="true">
 <div class="kzs-glow"></div>
 <div class="kzs-stage">
 <div class="kzs-orb">
