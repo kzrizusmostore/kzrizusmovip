@@ -20692,108 +20692,10 @@ body.kz-fp-open .fd-layer{z-index:1000200}
 </script>
 
 
-<style id="ev-gate-css">
-#evGate{position:fixed;inset:0;z-index:2147482000;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.82);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
-#evGate.on{display:flex}
-#evGate .eg-card{width:100%;max-width:340px;padding:22px 18px 18px;border-radius:22px;background:#111;border:1px solid rgba(255,43,43,.4);box-shadow:0 24px 60px rgba(0,0,0,.7);text-align:center;font-family:'Outfit',system-ui,sans-serif;color:#fff}
-#evGate .eg-ic{display:inline-grid;place-items:center;width:52px;height:52px;border-radius:16px;background:rgba(37,211,102,.16);border:1px solid rgba(37,211,102,.5);color:#4ade80;font-size:1.4rem;margin-bottom:10px}
-#evGate h3{margin:0 0 4px;font:800 1.15rem 'Rajdhani','Outfit',sans-serif;letter-spacing:.8px}
-#evGate p{margin:0 0 14px;font-size:.74rem;line-height:1.55;color:rgba(255,255,255,.6)}
-#evGate input{width:100%;padding:13px 14px;border-radius:13px;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.14);color:#fff;font:600 16px 'Outfit',sans-serif;outline:0;text-align:center}
-#evGate input:focus{border-color:#25d366;box-shadow:0 0 0 3px rgba(37,211,102,.16)}
-#evGate input.bad{border-color:#ff5c5c;background:rgba(255,92,92,.08)}
-#evGate .eg-err{min-height:18px;margin:8px 0 6px;font-size:.72rem;font-weight:700;color:#ff7a7a}
-#evGate .eg-row{display:grid;grid-template-columns:1fr 1.4fr;gap:10px}
-#evGate button{padding:13px;border-radius:13px;border:0;font:800 .82rem 'Outfit',sans-serif;cursor:pointer;color:#fff}
-#evGate .eg-cancel{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14)}
-#evGate .eg-ok{background:linear-gradient(135deg,#1fa855,#0f766e)}
-#evGate button:disabled{opacity:.5}
-</style>
-<div id="evGate" role="dialog" aria-modal="true" aria-labelledby="evGateT"><form class="eg-card" id="evGateF" autocomplete="off">
-<span class="eg-ic"><i class="fa-solid fa-lock" aria-hidden="true"></i></span>
-<h3 id="evGateT">AKSES ADMIN</h3>
-<p>Halaman Event hanya bisa dibuka dengan password admin.</p>
-<input type="password" id="evGatePw" placeholder="Password admin" autocomplete="off" aria-label="Password admin" aria-describedby="evGateErr">
-<div class="eg-err" id="evGateErr" role="alert"></div>
-<div class="eg-row"><button type="button" class="eg-cancel" id="evGateNo">Batal</button><button type="submit" class="eg-ok" id="evGateGo">Buka</button></div>
-</form></div>
+
+
 <script id="ev-gate-script">
 (function(){
-/* Password admin disimpan sebagai hash SHA-256 (bukan teks asli).
-   Ganti nilai ADMIN_HASH dengan hash password baru (lihat catatan cara membuatnya). */
-var ADMIN_HASH='c93c2f0bd041efce6a67fef97f2d58156f29c6e3df268b1865874ab42190c3f3';
-var KEY='kz_ev_admin_ok',MAXTRY=5,LOCKMS=30000;
-var unlocked=true,tries=0,lockUntil=0,pending=false; /* Event dibuka untuk publik: gerbang password admin dinonaktifkan */
-/* Disimpan permanen (localStorage) supaya cukup sekali input di perangkat ini. Sesi lama (sessionStorage) tetap dikenali. */
-function stored(st){try{return st.getItem(KEY)===ADMIN_HASH.slice(0,16)}catch(e){return false}}
-unlocked=stored(window.localStorage)||stored(window.sessionStorage);
-if(unlocked){try{localStorage.setItem(KEY,ADMIN_HASH.slice(0,16))}catch(e){}}
-
-function sha256(s){
- var K=[],H=[],i,j,p=0,isP={};
- function r(x,n){return (x>>>n)|(x<<(32-n))}
- for(var c=2;p<64;c++){if(!isP[c]){for(i=c*c;i<312;i+=c)isP[i]=c;H[p]=(Math.pow(c,.5)*4294967296)|0;K[p++]=(Math.pow(c,1/3)*4294967296)|0}}
- var b=unescape(encodeURIComponent(s)),l=b.length,w=[];
- b+='\x80';while(b.length%64-56)b+='\x00';
- for(i=0;i<b.length;i++){j=b.charCodeAt(i);w[i>>2]=(w[i>>2]||0)|(j<<((3-i%4)*8))}
- w[w.length]=((l*8)/4294967296)|0;w[w.length]=(l*8)|0;
- var h=H.slice(0,8);
- for(j=0;j<w.length;){
-  var W=w.slice(j,j+=16),o=h.slice(0);
-  for(i=0;i<64;i++){
-   var w15=W[i-15],w2=W[i-2];
-   var a=o[0],e=o[4];
-   var t1=o[7]+(r(e,6)^r(e,11)^r(e,25))+((e&o[5])^(~e&o[6]))+K[i]+(W[i]=(i<16)?W[i]:(W[i-16]+(r(w15,7)^r(w15,18)^(w15>>>3))+W[i-7]+(r(w2,17)^r(w2,19)^(w2>>>10)))|0);
-   var t2=(r(a,2)^r(a,13)^r(a,22))+((a&o[1])^(a&o[2])^(o[1]&o[2]));
-   o=[(t1+t2)|0].concat(o);o[4]=(o[4]+t1)|0;o.pop();
-  }
-  for(i=0;i<8;i++)h[i]=(h[i]+o[i])|0;
- }
- var out='';for(i=0;i<8;i++)for(j=3;j+1;j--){var bb=(h[i]>>(j*8))&255;out+=(bb<16?'0':'')+bb.toString(16)}
- return out;
-}
-
-var gate=document.getElementById('evGate'),form=document.getElementById('evGateF'),pw=document.getElementById('evGatePw'),err=document.getElementById('evGateErr'),go=document.getElementById('evGateGo');
-function open(){
- pw.value='';pw.classList.remove('bad');err.textContent='';gate.classList.add('on');
- setTimeout(function(){try{pw.focus()}catch(e){}},50);
-}
-function close(){gate.classList.remove('on');pw.value=''}
-document.getElementById('evGateNo').addEventListener('click',close);
-gate.addEventListener('click',function(e){if(e.target===gate)close()});
-document.addEventListener('keydown',function(e){if(e.key==='Escape'&&gate.classList.contains('on'))close()});
-form.addEventListener('submit',function(e){
- e.preventDefault();
- var now=Date.now();
- if(now<lockUntil){err.textContent='Terlalu banyak percobaan. Coba lagi dalam '+Math.ceil((lockUntil-now)/1000)+' detik.';return}
- var v=pw.value;
- if(!v){err.textContent='Masukkan password admin.';pw.classList.add('bad');return}
- if(sha256(v)===ADMIN_HASH){
-  unlocked=true;tries=0;try{localStorage.setItem(KEY,ADMIN_HASH.slice(0,16))}catch(x){}try{sessionStorage.setItem(KEY,ADMIN_HASH.slice(0,16))}catch(x){}
-  close();
-  pending=true;try{window.showPage('eventTab')}finally{pending=false}
- }else{
-  tries++;pw.classList.add('bad');pw.value='';
-  if(tries>=MAXTRY){lockUntil=Date.now()+LOCKMS;tries=0;err.textContent='Terlalu banyak percobaan. Coba lagi dalam 30 detik.'}
-  else err.textContent='Password salah. Sisa percobaan: '+(MAXTRY-tries)+'.';
- }
-});
-
-/* Gerbang: semua jalur ke #eventTab lewat showPage */
-var prev=window.showPage;
-window.showPage=function(id){
- if(id==='eventTab'&&!unlocked){open();return}
- return prev.apply(this,arguments);
-};
-/* Kalau halaman Event aktif tanpa lewat showPage (mis. state lama), tutup lagi */
-function guard(){
- var ev=document.getElementById('eventTab');
- if(ev&&ev.classList.contains('active')&&!unlocked){
-  try{prev.call(window,'home',true)}catch(e){}
-  open();
- }
-}
-
 /* Background solid saat halaman Event aktif */
 function solid(){
  var ev=document.getElementById('eventTab'),on=!!(ev&&ev.classList.contains('active'));
@@ -20804,8 +20706,8 @@ function solid(){
  try{if(on)v.pause();else if(getComputedStyle(v).display!=='none'){var q=v.play();if(q&&q.catch)q.catch(function(){})}}catch(e){}
 }
 var ev0=document.getElementById('eventTab');
-if(ev0){try{new MutationObserver(function(){guard();solid()}).observe(ev0,{attributes:true,attributeFilter:['class']})}catch(e){}}
-guard();solid();
+if(ev0){try{new MutationObserver(function(){solid()}).observe(ev0,{attributes:true,attributeFilter:['class']})}catch(e){}}
+solid();
 
 /* Tab Per chat / Per menit di pricelist */
 var root=document.getElementById('eventTab');
