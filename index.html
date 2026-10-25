@@ -22154,7 +22154,7 @@ body.kz-fp-open .fd-layer{z-index:1000200}
       chat.getClientRects().length > 0;
   }
   function hideTarget(el){
-    if (!el || el.nodeType !== 1 || el.id === 'zcFab' ||
+    if (!el || el.nodeType !== 1 || el.id === 'zcFab' || (el.closest && el.closest('.zcai-fabs')) ||
         el.hasAttribute('data-zc-chat-floating-hidden')) return false;
     if (el.closest && el.closest('.zc-modal,.zc-psheet,.zc-fp-quick,.zc-pf-actions')) return false;
     var cs = window.getComputedStyle(el);
@@ -23501,7 +23501,7 @@ body.ev-light .kz-nav-rip{background:rgba(255,43,43,.24)}
 </script>
 
 <style id="zcai-css">
-/* Zusmo AI di Live Chat: 2 tombol kiri bawah + tampilan chat ala Live Chat */
+/* Zusmo AI di Live Chat: 2 tombol kanan bawah + tampilan chat ala Live Chat */
 #zcAiView .zc-list{flex:1;min-height:0;gap:2px;padding:8px 0 10px;border:0;border-radius:0;background-color:#090909;background-image:radial-gradient(rgba(255,255,255,.035) 1.2px,transparent 1.4px),radial-gradient(rgba(255,255,255,.025) 1px,transparent 1.3px);background-size:26px 26px,38px 38px;background-position:0 0,13px 17px}
 #zcAiView .zc-row{display:flex;align-items:flex-end;width:100%;min-width:0;gap:5px;padding:1px 10px}
 #zcAiView .zc-row.zc-mine{justify-content:flex-end}
@@ -23516,14 +23516,14 @@ body.ev-light .kz-nav-rip{background:rgba(255,43,43,.24)}
 #zcAiView .zc-bub .zc-tx{font-size:15px;line-height:1.4;letter-spacing:.1px}
 #zcAiView .zc-bub .zc-nm{letter-spacing:.2px}
 #zcChat .zc-body{position:relative}
-#zcChat .zcai-fabs{position:absolute;left:14px;bottom:84px;z-index:7;display:flex;flex-direction:column;align-items:center;gap:12px}
+#zcChat .zcai-fabs{position:absolute;right:14px;bottom:84px;z-index:7;display:flex;flex-direction:column;align-items:center;gap:12px}
 #zcConvView[data-zctab]:not([data-zctab="chat"]) .zcai-fabs{display:none}
 #zcChat .zcai-ai{width:46px;height:46px;border:1px solid rgba(255,255,255,.12);border-radius:15px;background:#1c1c20;font-size:19px;box-shadow:0 4px 14px rgba(0,0,0,.5);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
 #zcChat .zcai-ai i{background:linear-gradient(135deg,#ff6b6b,#a855f7 55%,#38bdf8);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
 #zcChat .zcai-new{width:60px;height:60px;border:0;border-radius:18px;background:var(--wa-green,#ff2b2b);color:#090909;font-size:24px;box-shadow:0 4px 14px rgba(0,0,0,.5);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
 #zcChat .zcai-ai:active,#zcChat .zcai-new:active{transform:scale(.94)}
-#zcAiView,#zcNcView{position:absolute;inset:0;z-index:30;display:none;flex-direction:column;min-height:0;background:var(--wa-bg,#090909)}
-#zcAiView.on,#zcNcView.on{display:flex}
+#zcChat #zcAiView,#zcChat #zcNcView{position:absolute;top:0;right:0;bottom:0;left:0;flex:none;z-index:30;display:none;flex-direction:column;min-height:0;background:var(--wa-bg,#090909)}
+#zcChat #zcAiView.on,#zcChat #zcNcView.on{display:flex}
 #zcChat .zcai-av{display:flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(135deg,#ff2b2b,#a855f7 70%,#38bdf8);font-size:15px;flex:none}
 #zcChat .zcai-chip{margin-left:6px;padding:1px 6px;border-radius:6px;font:800 9px/1.5 Inter,sans-serif;letter-spacing:.5px;color:#fff;background:linear-gradient(135deg,#a855f7,#38bdf8)}
 #zcChat .zcai-dots{display:inline-flex;gap:4px;padding:6px 2px 4px}
@@ -23610,7 +23610,7 @@ function save(){try{localStorage.setItem(KEY,JSON.stringify(msgs.slice(-MAX)))}c
 function fabsPlace(){var f=$('zcAiFabs'),n=$('zcNav');if(f)f.style.bottom=((n&&n.offsetHeight)||64)+16+'px'}
 
 /* ---- tampilan ---- */
-var view,nc,list,input,sendBtn,sub,hmenu,ncSeq=0,ncTimer=0;
+var view,nc,cmp,list,input,sendBtn,sub,hmenu,ncSeq=0,ncTimer=0;
 function avatar(){var a=el('span','zc-av sm zcai-av');a.setAttribute('aria-hidden','true');a.innerHTML='<i class="fa-solid fa-wand-magic-sparkles"></i>';return a}
 function addRow(parent,m,prev,typing){
   var mine=m.r==='u',first=!prev||prev.r!==m.r;
@@ -23670,7 +23670,7 @@ async function ask(text){
 }
 async function send(){
   var text=input.value.trim();if(!text||busy)return;
-  input.value='';fit();sendBtn.disabled=true;
+  input.value='';fit();sendBtn.disabled=true;cmp.classList.remove('has-text');
   var um={r:'u',t:text,at:Date.now()};msgs.push(um);busy=true;save();render();
   try{
     var out=await ask(text);um.d=true;msgs.push({r:'a',t:out,at:Date.now()});
@@ -23726,7 +23726,7 @@ function init(){
   hmenu=el('div','zcai-menu');hmenu.hidden=true;hmenu.innerHTML='<button type="button" data-m="new"><i class="fa-solid fa-message" aria-hidden="true"></i>Obrolan baru</button><button type="button" data-m="disc"><i class="fa-solid fa-user-group" aria-hidden="true"></i>Temukan teman</button><button type="button" data-m="prof"><i class="fa-solid fa-user" aria-hidden="true"></i>Tampilan profil di Live Chat</button>';conv.appendChild(hmenu);
   var f=document.createElement('div');f.innerHTML=window.__zcAiFabsHtml;conv.appendChild(f.firstElementChild);
   window.__zcAiViewHtml=window.__zcAiFabsHtml=null;
-  list=$('zcAiList');input=$('zcAiIn');sendBtn=$('zcAiSend');sub=$('zcAiSub');
+  cmp=view.querySelector('.zc-compose');list=$('zcAiList');input=$('zcAiIn');sendBtn=$('zcAiSend');sub=$('zcAiSub');
   $('zcAiOpen').addEventListener('click',openAi);
   $('zcAiNew').addEventListener('click',openNc);
   if($('zcAiCam'))$('zcAiCam').addEventListener('click',cam);
@@ -23741,7 +23741,7 @@ function init(){
   $('zcAiNo').addEventListener('click',function(){$('zcAiDlg').hidden=true});
   $('zcAiYes').addEventListener('click',function(){msgs=[];try{localStorage.removeItem(KEY)}catch(e){}$('zcAiDlg').hidden=true;ensureGreeting();render()});
   $('zcAiDlg').addEventListener('click',function(e){if(e.target===this)this.hidden=true});
-  input.addEventListener('input',function(){sendBtn.disabled=!input.value.trim()||busy;fit()});
+  input.addEventListener('input',function(){var h=!!input.value.trim();sendBtn.disabled=!h||busy;cmp.classList.toggle('has-text',h);fit()});
   input.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey&&window.matchMedia&&matchMedia('(pointer:fine)').matches){e.preventDefault();send()}});
   sendBtn.addEventListener('click',send);
   fabsPlace();setTimeout(fabsPlace,700);window.addEventListener('resize',fabsPlace);
