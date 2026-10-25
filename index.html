@@ -15858,7 +15858,7 @@ function zcPollNode(list,m,pl){
  if(st.closed)top.appendChild(el('span','zc-poll-tag zc-poll-tag-x',st.ended&&!st.adminClosed?'Waktu habis':'Ditutup'));
  box.appendChild(top);
  if(pl.im){var hi=el('div','zc-poll-img'),himg=document.createElement('img');himg.alt='Foto polling';himg.loading='lazy';himg.decoding='async';himg.src=zcPlUrl(pl.im);himg.addEventListener('click',function(e){e.stopPropagation();zcImgOpen(zcPlUrl(pl.im));});hi.appendChild(himg);box.appendChild(hi);}
- if(pl.vd){var hv=el('div','zc-poll-img zc-poll-vid'),vv=document.createElement('video');vv.controls=true;vv.playsInline=true;vv.setAttribute('playsinline','');vv.preload='metadata';vv.src=zcPlVUrl(pl.vd)+'#t=0.1';vv.setAttribute('aria-label','Video polling');vv.addEventListener('click',function(e){e.stopPropagation();});hv.appendChild(vv);box.appendChild(hv);}
+ if(pl.vd){var hv=el('div','zc-poll-img zc-poll-vid'),vv=document.createElement('video');vv.controls=false;vv.removeAttribute('controls');vv.autoplay=true;vv.muted=true;vv.defaultMuted=true;vv.setAttribute('muted','');vv.loop=true;vv.playsInline=true;vv.setAttribute('playsinline','');vv.setAttribute('disablepictureinpicture','');vv.preload='auto';vv.src=zcPlVUrl(pl.vd);var kick=function(){try{var pp=vv.play();if(pp&&pp.catch)pp.catch(function(){});}catch(e){}};vv.addEventListener('loadeddata',kick);vv.addEventListener('pause',function(){if(vv.isConnected&&!document.hidden&&!vv.ended)setTimeout(kick,60);});setTimeout(kick,0);vv.setAttribute('aria-label','Video polling');vv.addEventListener('click',function(e){e.stopPropagation();});hv.appendChild(vv);box.appendChild(hv);}
  box.appendChild(el('div','zc-poll-q',pl.q));
  var opts=el('div','zc-poll-opts'+(pl.hi?' zc-poll-grid':''));
  pl.o.forEach(function(lb,i){
@@ -15867,7 +15867,7 @@ function zcPollNode(list,m,pl){
   if(pl.qz>=0&&(st.closed||voted)){if(i===pl.qz)cls+=' ok';else if(st.mine.indexOf(i)>=0)cls+=' bad';}
   var b=el('button',cls);b.type='button';b.setAttribute('role',pl.mu?'checkbox':'radio');b.setAttribute('aria-checked',on?'true':'false');
   var fill=el('span','zc-poll-fill'),pc=showRes&&st.voters?Math.round(st.cnt[i]/st.voters*100):0;
-  fill.style.width=(showRes?pc:0)+'%';b.appendChild(fill);
+  fill.style.width=(showRes?pc:0)+'%';var trk=el('span','zc-poll-tr');trk.appendChild(fill);b.appendChild(trk);
   var ip=pl.i&&pl.i[i];
   if(ip){b.classList.add('card');var oi=el('span','zc-poll-oi'),oim=document.createElement('img');oim.alt='';oim.loading='lazy';oim.decoding='async';oim.src=zcPlUrl(ip);oi.appendChild(oim);
    b.appendChild(oi);}
@@ -23919,6 +23919,29 @@ init();
 #zcAiView .zc-compose>.zc-send i{margin-left:-2px}
 
 #zcChat .zc-poll-vid video{display:block;width:100%;max-height:320px;border-radius:12px;background:#000}
+
+/* Polling ala WhatsApp: radio kiri, label + bar hasil di tengah, gambar kecil persegi di kanan */
+#zcChat .zc-poll-opts,#zcChat .zc-poll-opts.zc-poll-grid{display:block}
+#zcChat .zc-poll-opt,#zcChat .zc-poll-opt.card{display:grid;grid-template-columns:24px minmax(0,1fr) auto;grid-template-areas:"ck lb th" "ck tr th" "ck pc th";align-items:start;column-gap:0;width:100%;min-height:0;margin:0;padding:10px 0;border:0;border-radius:0;background:transparent;overflow:visible;text-align:left}
+#zcChat .zc-poll-opt+.zc-poll-opt{border-top:1px solid rgba(255,255,255,.08)}
+#zcChat .zc-poll-opt.on{background:transparent;border-color:rgba(255,255,255,.08)}
+#zcChat .zc-poll-opt .zc-poll-ck{grid-area:ck;width:22px;height:22px;margin:1px 10px 0 0;align-self:start}
+#zcChat .zc-poll-opt.on .zc-poll-ck{background:#25d366;border-color:#25d366;color:#fff}
+#zcChat .zc-poll-opt .zc-poll-lb,#zcChat .zc-poll-opt.card .zc-poll-lb{grid-area:lb;padding:0;font-size:.95rem;font-weight:600;line-height:1.3}
+#zcChat .zc-poll-opt .zc-poll-tr{grid-area:tr;position:relative;display:block;height:8px;margin:7px 0 4px;border-radius:99px;background:rgba(255,255,255,.12);overflow:hidden}
+#zcChat .zc-poll-opt .zc-poll-tr .zc-poll-fill{position:absolute;left:0;top:0;bottom:0;background:#25d366;border-radius:99px}
+#zcChat .zc-poll-opt.ok .zc-poll-tr .zc-poll-fill{background:#2ecc71}
+#zcChat .zc-poll-opt.bad .zc-poll-tr .zc-poll-fill{background:#ff6b6b}
+#zcChat .zc-poll-opt .zc-poll-pc{grid-area:pc;font-size:.78rem;font-weight:600;opacity:.8}
+#zcChat .zc-poll-opt .zc-poll-oi{grid-area:th;position:relative;flex:none;width:68px;height:68px;margin:0 0 0 12px;aspect-ratio:1/1;border-radius:10px;overflow:hidden;background:rgba(0,0,0,.3)}
+#zcChat .zc-poll-opt .zc-poll-oi img{display:block;width:100%;height:100%;object-fit:cover}
+/* teks polling lebih tipis */
+#zcChat .zc-poll-top{font-weight:600}
+#zcChat .zc-poll-q{font-weight:600;font-size:.98rem}
+#zcChat .zc-poll-opt .zc-poll-lb,#zcChat .zc-poll-opt.card .zc-poll-lb{font-weight:400;font-size:.92rem}
+#zcChat .zc-poll-opt .zc-poll-pc{font-weight:500}
+#zcChat .zc-poll-tag,#zcChat .zc-poll-ab,#zcChat .zc-poll-go,#zcChat .zc-cmb{font-weight:600}
+#zcChat .zc-poll-vid video{pointer-events:none}
 #zcChat .zc-pl-thb video{width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block;pointer-events:none}
 
 #zcChat .zc-fps-reply{position:absolute;left:50%;bottom:0;transform:translateX(-50%);z-index:6;display:flex;align-items:center;gap:8px;max-width:100%;box-sizing:border-box;padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));background:linear-gradient(to top,rgba(0,0,0,.65),transparent)}
