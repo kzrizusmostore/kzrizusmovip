@@ -4062,6 +4062,71 @@ syncIdle();
 
       </div>
       <button type="button" class="zc-fab" id="zcFab" aria-label="Cari teman untuk chat baru"><i class="fa-solid fa-message" aria-hidden="true"></i></button>
+<style id="zcn-css">
+/* ===== Navbar Live Chat: Chat · Pembaruan · Panggilan (CSS khusus #zcConvView / #zcNav) ===== */
+#zcConvView[data-zctab]:not([data-zctab="chat"])>:is(.zc-search,.zc-chips,.zc-chatscroll,.zc-fab){display:none!important}
+#zcConvView[data-zctab="chat"]>#zcSt,#zcConvView[data-zctab="call"]>#zcSt{display:none!important}
+#zcConvView[data-zctab="upd"]>#zcSt::before{content:'Status';display:block;padding:6px 16px 0;font:700 12px/1.2 'Outfit',system-ui,sans-serif;letter-spacing:.5px;text-transform:uppercase;color:var(--wa-sub,#8696a0)}
+#zcNav{flex:none;position:relative;z-index:6;display:flex;align-items:stretch;justify-content:space-around;gap:4px;padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px));background:#0e0e10;border-top:1px solid rgba(255,255,255,.08)}
+#zcNav .zcn-tab{flex:1;min-width:0;min-height:56px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;border:0;border-radius:14px;background:transparent;color:var(--wa-sub,#8696a0);cursor:pointer;font:600 11.5px/1 'Outfit',system-ui,sans-serif;letter-spacing:.2px;-webkit-tap-highlight-color:transparent;transition:color .18s ease}
+#zcNav .zcn-ic{position:relative;width:60px;height:30px;border-radius:15px;display:grid;place-items:center;font-size:17px;transition:background .2s ease,color .2s ease,transform .15s ease}
+#zcNav .zcn-tab:active .zcn-ic{transform:scale(.92)}
+#zcNav .zcn-tab.on{color:#fff}
+#zcNav .zcn-tab.on .zcn-ic{background:rgba(255,43,43,.22);color:#ff6a6a}
+#zcNav .zcn-tab:focus-visible{outline:2px solid #ff6a6a;outline-offset:-2px}
+#zcNav .zcn-bd{position:absolute;top:-6px;right:5px;box-sizing:border-box;min-width:20px;height:20px;padding:0 5px;border-radius:10px;background:#ff2b2b;color:#fff;border:2px solid #0e0e10;font:800 10.5px/16px 'Outfit',system-ui,sans-serif;text-align:center}
+#zcNav .zcn-dot{position:absolute;top:-2px;right:15px;box-sizing:border-box;width:12px;height:12px;border-radius:50%;background:#ff2b2b;border:2px solid #0e0e10}
+#zcConvView .zcn-pane{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:0 0 14px;animation:zcnIn .22s ease}
+@keyframes zcnIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+#zcConvView .zcn-sec{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px 6px;font:700 12px/1.2 'Outfit',system-ui,sans-serif;letter-spacing:.5px;text-transform:uppercase;color:var(--wa-sub,#8696a0)}
+#zcConvView .zcn-sec button{min-height:36px;padding:0 4px;border:0;background:transparent;color:#ff6a6a;font:700 12px 'Outfit',system-ui,sans-serif;letter-spacing:.3px;text-transform:none;cursor:pointer}
+#zcConvView .zcn-row{display:flex;align-items:center;gap:2px;padding-right:6px}
+#zcConvView .zcn-main{flex:1;min-width:0;display:flex;align-items:center;gap:13px;min-height:68px;padding:8px 8px 8px 16px;border:0;background:transparent;color:var(--wa-text,#e9edef);text-align:left;cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent}
+#zcConvView .zcn-main:active{background:rgba(255,255,255,.05)}
+#zcConvView .zcn-main:focus-visible,#zcConvView .zcn-act:focus-visible,#zcConvView .zcn-q:focus-visible{outline:2px solid #ff6a6a;outline-offset:-2px}
+#zcConvView .zcn-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+#zcConvView .zcn-t{font:700 15.5px/1.25 'Outfit',system-ui,sans-serif;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#zcConvView .zcn-t.bad{color:#ff6a6a}
+#zcConvView .zcn-s{font:500 13px/1.3 'Outfit',system-ui,sans-serif;color:var(--wa-sub,#8696a0);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#zcConvView .zcn-s i{margin-right:6px;font-size:11px}
+#zcConvView .zcn-s i.bad{color:#ff6a6a}
+#zcConvView .zcn-act{flex:none;width:44px;height:44px;border:0;border-radius:50%;background:transparent;color:#ff6a6a;font-size:17px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+#zcConvView .zcn-act:active{background:rgba(255,43,43,.16)}
+#zcConvView .zcn-act.pri{background:rgba(255,43,43,.2)}
+#zcConvView .zcn-ring{position:relative;flex:none;width:54px;height:54px;border-radius:50%;padding:3px;box-sizing:border-box;background:rgba(255,255,255,.16)}
+#zcConvView .zcn-ring.new{background:conic-gradient(from 200deg,#ff2b2b,#ff9a3d,#ff2b2b)}
+#zcConvView .zcn-ring.empty{background:none;border:2px dashed rgba(255,255,255,.3);padding:2px}
+#zcConvView .zcn-chimg{flex:none;width:52px;height:52px;border-radius:50%;object-fit:cover;background:#1f2c34}
+#zcConvView .zcn-quick{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px 16px 2px}
+#zcConvView .zcn-q{display:flex;align-items:center;gap:10px;min-height:58px;padding:0 12px;border:1px solid rgba(255,255,255,.09);border-radius:16px;background:linear-gradient(180deg,#1c1c1f,#151517);color:#fff;font:700 13.5px/1.2 'Outfit',system-ui,sans-serif;text-align:left;cursor:pointer;transition:transform .15s ease;-webkit-tap-highlight-color:transparent}
+#zcConvView .zcn-q:active{transform:scale(.97)}
+#zcConvView .zcn-q i{flex:none;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:rgba(255,43,43,.18);color:#ff6a6a;font-size:15px}
+#zcConvView .zcn-empty{display:flex;flex-direction:column;align-items:center;gap:8px;padding:34px 28px 22px;text-align:center;color:var(--wa-sub,#8696a0);font:500 13.5px/1.55 'Outfit',system-ui,sans-serif}
+#zcConvView .zcn-eic{width:68px;height:68px;margin-bottom:4px;border-radius:50%;display:grid;place-items:center;background:rgba(255,43,43,.12);color:#ff6a6a;font-size:26px}
+#zcConvView .zcn-empty b{color:#fff;font-size:16px}
+#zcConvView .zcn-pill{min-height:44px;margin-top:8px;padding:0 20px;border:0;border-radius:22px;background:#ff2b2b;color:#fff;font:700 13.5px 'Outfit',system-ui,sans-serif;cursor:pointer}
+#zcConvView .zcn-pill:active{transform:scale(.96)}
+#zcConvView .zcn-note{display:flex;gap:9px;align-items:flex-start;margin:14px 16px 0;padding:11px 13px;border-radius:12px;background:rgba(255,255,255,.04);color:var(--wa-sub,#8696a0);font:500 12px/1.5 'Outfit',system-ui,sans-serif}
+#zcConvView .zcn-note i{margin-top:2px;color:#ff6a6a}
+#zcConvView .zcn-pick{position:absolute;inset:0;z-index:20;display:flex;flex-direction:column;background:var(--wa-bg,#0b0b0c);animation:zcnIn .2s ease}
+#zcConvView .zcn-pk-hd{flex:none;display:flex;align-items:center;gap:6px;padding:8px 8px 4px}
+#zcConvView .zcn-pk-back{width:44px;height:44px;border:0;border-radius:50%;background:transparent;color:#fff;font-size:18px;cursor:pointer}
+#zcConvView .zcn-pk-back:active{background:rgba(255,255,255,.08)}
+#zcConvView .zcn-pk-t{font:800 19px/1.2 'Outfit',system-ui,sans-serif;color:#fff}
+#zcConvView .zcn-pk-sr{margin:4px 14px 6px}
+#zcConvView .zcn-pk-list{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding-bottom:calc(14px + env(safe-area-inset-bottom,0px))}
+@media(max-width:340px){#zcNav .zcn-tab{font-size:10.5px}#zcNav .zcn-ic{width:52px}#zcConvView .zcn-q{font-size:12.5px;padding:0 9px}}
+@media(prefers-reduced-motion:reduce){#zcConvView .zcn-pane,#zcConvView .zcn-pick{animation:none}#zcNav .zcn-ic,#zcConvView .zcn-q,#zcNav .zcn-tab{transition:none}}
+</style>
+
+      <div class="zcn-pane" id="zcPaneUpd" role="tabpanel" aria-label="Pembaruan" hidden></div>
+      <div class="zcn-pane" id="zcPaneCall" role="tabpanel" aria-label="Panggilan" hidden></div>
+      <nav id="zcNav" role="tablist" aria-label="Menu Live Chat">
+        <button type="button" class="zcn-tab on" role="tab" aria-selected="true" data-zctab="chat"><span class="zcn-ic"><i class="fa-solid fa-comment-dots" aria-hidden="true"></i><b class="zcn-bd" id="zcnBdChat" hidden></b></span><span>Chat</span></button>
+        <button type="button" class="zcn-tab" role="tab" aria-selected="false" data-zctab="upd"><span class="zcn-ic"><i class="fa-solid fa-circle-dot" aria-hidden="true"></i><span class="zcn-dot" id="zcnBdUpd" hidden></span></span><span>Pembaruan</span></button>
+        <button type="button" class="zcn-tab" role="tab" aria-selected="false" data-zctab="call"><span class="zcn-ic"><i class="fa-solid fa-phone" aria-hidden="true"></i><b class="zcn-bd" id="zcnBdCall" hidden></b></span><span>Panggilan</span></button>
+      </nav>
+
     </div>
 
     <div class="zc-view" id="zcDiscView">
@@ -19802,6 +19867,259 @@ function zcdStop(){
  show();
 })();
 
+
+/* ===== NAVBAR LIVE CHAT: Chat · Pembaruan (status + saluran) · Panggilan (riwayat + telepon baru) =====
+   Memakai fitur yang sudah ada: status (ZST), telepon WebRTC (ZCL), daftar chat (S.convs). Riwayat panggilan disimpan
+   lokal per akun (localStorage, dibungkus try/catch) karena sinyal telepon lewat broadcast tanpa tabel server. */
+var ZCN={tab:'chat',pick:null,asked:{}};
+var ZCN_TT={chat:'Live Chat',upd:'Pembaruan',call:'Panggilan'};
+function zcnKey(k){return k+':'+((S.me&&S.me.id)||'');}
+function zcnLoadLog(){try{var a=JSON.parse(localStorage.getItem(zcnKey('zc_calllog'))||'[]');return Array.isArray(a)?a:[];}catch(e){return [];}}
+function zcnSaveLog(a){try{localStorage.setItem(zcnKey('zc_calllog'),JSON.stringify(a.slice(0,100)));}catch(e){}}
+function zcnSeenGet(){try{return +localStorage.getItem(zcnKey('zc_call_seen'))||0;}catch(e){return 0;}}
+function zcnSeenSet(){try{localStorage.setItem(zcnKey('zc_call_seen'),String(Date.now()));}catch(e){}}
+function zcnRes(st,msg){
+ msg=String(msg||'');
+ if(st==='active')return 'done';
+ if(st==='ringing')return /ditolak/i.test(msg)?'declined':'missed';
+ if(st==='calling'){
+  if(/izin|belum mendukung/i.test(msg))return '';
+  if(/ditolak/i.test(msg))return 'declined';
+  if(/panggilan lain/i.test(msg))return 'busy';
+  if(/tidak dijawab/i.test(msg))return 'noans';
+  return 'cancel';}
+ return /berakhir/i.test(msg)?'cancel':'fail';
+}
+function zcnResLabel(e){
+ var m={done:'Terhubung',missed:'Tidak terjawab',declined:e.d==='in'?'Kamu tolak':'Ditolak',noans:'Tidak dijawab',busy:'Sibuk',cancel:'Dibatalkan',fail:'Gagal tersambung'};
+ return m[e.r]||'Panggilan';
+}
+function zcnLog(peer,dir,vc,st,msg,t0,at){
+ var r=zcnRes(st,msg);if(!r||!S.me)return;
+ var dur=(r==='done'&&t0)?Math.max(0,Math.round((Date.now()-t0)/1000)):0;
+ var a=zcnLoadLog();a.unshift({u:peer,d:dir==='in'?'in':'out',v:vc?1:0,r:r,t:at||Date.now(),s:dur});
+ zcnSaveLog(a);
+ if(ZCN.tab==='call')zcnSeenSet();
+ try{zcnRefreshBadges();zcnPaintCall();}catch(e){}
+}
+/* catat panggilan: arah ditandai lewat zclUi('in'|'out'), hasil dicatat saat zclEnd */
+(function(){
+ var ou=zclUi;
+ zclUi=function(mode,text){
+  try{if(mode==='in'||mode==='out'){ZCL.dir=mode;if(ZCL.zcnCid!==ZCL.cid){ZCL.zcnCid=ZCL.cid;ZCL.zcnAt=Date.now();}}}catch(e){}
+  return ou.apply(this,arguments);};
+ var oe=zclEnd;
+ zclEnd=function(notify,msg){
+  var st=ZCL.st,peer=ZCL.peer,vc=!!ZCL.vc,t0=ZCL.t0;
+  var dir=st==='ringing'?'in':(st==='calling'?'out':ZCL.dir);
+  var at=(ZCL.zcnCid===ZCL.cid&&ZCL.zcnAt)||Date.now();
+  var r=oe.apply(this,arguments);
+  try{if(st&&st!=='idle'&&peer)zcnLog(peer,dir,vc,st,msg,t0,at);}catch(e){console.warn('[zc-nav] catat panggilan:',e);}
+  return r;};
+})();
+function zcnChatBadge(){
+ var u=$('zcUnread'),b=$('zcnBdChat');if(!b)return;
+ var on=!!(u&&!u.hidden&&String(u.textContent||'').trim());
+ b.hidden=!on;b.textContent=on?String(u.textContent).trim():'';
+}
+function zcnUpdOthers(){
+ var by=ZST.by||{},me=S.me&&S.me.id;
+ return Object.keys(by).filter(function(u){return u!==me&&by[u]&&by[u].length;}).map(function(u){
+  var l=by[u],t=Date.parse(l[l.length-1].created)||0;return{u:u,l:l,t:t,n:t>(+ZST.seen[u]||0)};
+ }).sort(function(a,b){return (b.n-a.n)||(b.t-a.t);});
+}
+function zcnUpdDot(){
+ var d=$('zcnBdUpd');if(!d)return;
+ var n=S.me?zcnUpdOthers().filter(function(o){return o.n;}).length:0;
+ d.hidden=!n||ZCN.tab==='upd';
+}
+function zcnCallBadge(){
+ var b=$('zcnBdCall');if(!b)return;
+ var n=0;
+ if(S.me&&ZCN.tab!=='call'){var sn=zcnSeenGet();zcnLoadLog().forEach(function(e){if(e.r==='missed'&&e.t>sn)n++;});}
+ b.hidden=!n;b.textContent=n>9?'9+':String(n||'');
+}
+function zcnRefreshBadges(){zcnChatBadge();zcnUpdDot();zcnCallBadge();}
+function zcnIcon(cls){var i=document.createElement('i');i.className=cls;i.setAttribute('aria-hidden','true');return i;}
+function zcnMkRow(o){
+ var row=el('div','zcn-row'),main=el('button','zcn-main');main.type='button';
+ if(o.label)main.setAttribute('aria-label',o.label);
+ main.appendChild(o.lead);
+ var tx=el('span','zcn-tx'),sb=el('span','zcn-s');
+ tx.appendChild(el('span','zcn-t'+(o.bad?' bad':''),o.title));
+ if(o.icon){var ic=zcnIcon(o.icon);if(o.bad)ic.className+=' bad';sb.appendChild(ic);}
+ sb.appendChild(document.createTextNode(o.sub||''));tx.appendChild(sb);main.appendChild(tx);
+ if(o.click)main.addEventListener('click',o.click);
+ row.appendChild(main);
+ (o.acts||[]).forEach(function(a){
+  var b=el('button','zcn-act'+(a.pri?' pri':''));b.type='button';b.title=a.label;b.setAttribute('aria-label',a.label);
+  b.appendChild(zcnIcon(a.icon));
+  b.addEventListener('click',function(e){e.stopPropagation();a.fn();});row.appendChild(b);});
+ return row;
+}
+function zcnEmpty(icon,title,text,btn){
+ var w=el('div','zcn-empty'),c=el('span','zcn-eic');c.appendChild(zcnIcon(icon));
+ w.appendChild(c);w.appendChild(el('b','',title));w.appendChild(el('span','',text));
+ if(btn){var b=el('button','zcn-pill',btn.t);b.type='button';b.addEventListener('click',btn.fn);w.appendChild(b);}
+ return w;
+}
+function zcnNote(icon,text){var n=el('div','zcn-note');n.appendChild(zcnIcon(icon));n.appendChild(el('span','',text));return n;}
+function zcnRing(uid,cls){var r=el('span','zcn-ring '+cls);r.appendChild(zstAvatar(uid));return r;}
+function zcnPaintUpd(){
+ var box=$('zcPaneUpd');if(!box)return;
+ try{zcnUpdDot();}catch(e){}
+ if(ZCN.tab!=='upd')return;
+ var top=box.scrollTop;box.textContent='';
+ var me=S.me&&S.me.id;
+ if(!me){box.appendChild(el('div','zcn-empty','Menghubungkan…'));return;}
+ var mine=(ZST.by&&ZST.by[me])||[];
+ box.appendChild(el('div','zcn-sec','Status saya'));
+ var lead=zcnRing(me,mine.length?'seen':'empty');
+ if(!mine.length){var pl=el('span','zc-st-plus');pl.appendChild(zcnIcon('fa-solid fa-plus'));lead.appendChild(pl);}
+ box.appendChild(zcnMkRow({lead:lead,title:'Status saya',label:mine.length?'Lihat status saya':'Tambah status',
+  sub:mine.length?(mine.length+' status · '+ago(mine[mine.length-1].created)):'Ketuk untuk menambah status',
+  click:function(){if(mine.length)zstView(me);else zstAddMenu();},
+  acts:[{icon:'fa-solid fa-camera',label:'Tambah status',fn:function(){zstAddMenu();}}]}));
+ var others=zcnUpdOthers();
+ function group(title,arr,cls){
+  if(!arr.length)return;
+  box.appendChild(el('div','zcn-sec',title));
+  arr.forEach(function(o){
+   var last=o.l[o.l.length-1];
+   box.appendChild(zcnMkRow({lead:zcnRing(o.u,cls),title:zstName(o.u),label:'Lihat status '+zstName(o.u),
+    sub:(o.l.length>1?o.l.length+' status · ':'')+ago(last.created),click:function(){zstView(o.u);}}));
+  });
+ }
+ group('Pembaruan terbaru',others.filter(function(o){return o.n;}),'new');
+ group('Sudah dilihat',others.filter(function(o){return !o.n;}),'seen');
+ if(!others.length){
+  if(ZST.off)box.appendChild(zcnEmpty('fa-solid fa-cloud-arrow-down','Status belum bisa dimuat','Periksa koneksi lalu coba lagi.',{t:'Muat ulang',fn:function(){try{zstLoad();}catch(e){}}}));
+  else box.appendChild(zcnEmpty('fa-regular fa-circle-dot','Belum ada pembaruan','Status dari pengguna lain muncul di sini dan hilang otomatis setelah 24 jam.'));
+ }
+ var ch=$('zcGroupItem_official');
+ if(ch&&!ch.hidden){
+  box.appendChild(el('div','zcn-sec','Saluran'));
+  var im=ch.querySelector('img'),nm=ch.querySelector('.zc-item-name'),av;
+  if(im&&im.getAttribute('src')){av=el('img','zcn-chimg');av.alt='';av.src=im.getAttribute('src');av.loading='lazy';}
+  else{av=el('span','zcn-chimg');}
+  box.appendChild(zcnMkRow({lead:av,title:(nm&&nm.textContent)||'Saluran',icon:'fa-solid fa-bullhorn',sub:'Saluran resmi · hanya admin yang mengirim',
+   label:'Buka saluran',click:function(){ch.click();}}));
+ }
+ box.appendChild(zcnNote('fa-regular fa-clock','Status aktif selama 24 jam, lalu hilang sendiri.'));
+ box.scrollTop=top;
+}
+function zcnTimeLabel(t){var d=new Date(t);return dayLabel(d)+', '+hhmm(d);}
+function zcnPaintCall(){
+ var box=$('zcPaneCall');if(!box||ZCN.tab!=='call')return;
+ var top=box.scrollTop;box.textContent='';
+ if(!S.me){box.appendChild(el('div','zcn-empty','Menghubungkan…'));return;}
+ var q=el('div','zcn-quick');
+ [['fa-solid fa-phone','Panggilan suara',false],['fa-solid fa-video','Panggilan video',true]].forEach(function(x){
+  var b=el('button','zcn-q');b.type='button';b.appendChild(zcnIcon(x[0]));b.appendChild(el('span','',x[1]));
+  b.addEventListener('click',function(){zcnPickOpen(x[2]);});q.appendChild(b);});
+ box.appendChild(q);
+ var log=zcnLoadLog();
+ if(!log.length){
+  box.appendChild(zcnEmpty('fa-solid fa-phone-volume','Belum ada riwayat panggilan','Telepon temanmu langsung dari sini. Panggilan masuk dan keluar tercatat di daftar ini.',{t:'Mulai panggilan',fn:function(){zcnPickOpen(false);}}));
+ }else{
+  var sec=el('div','zcn-sec'),sp=el('span','','Terbaru'),cl=el('button','','Hapus riwayat');cl.type='button';
+  cl.addEventListener('click',function(){if(!window.confirm('Hapus semua riwayat panggilan di perangkat ini?'))return;zcnSaveLog([]);zcnRefreshBadges();zcnPaintCall();flash('Riwayat panggilan dihapus.');});
+  sec.appendChild(sp);sec.appendChild(cl);box.appendChild(sec);
+  var miss=[];
+  log.forEach(function(e){if(!S.profiles[e.u]&&!ZCN.asked[e.u]){ZCN.asked[e.u]=1;miss.push(e.u);}});
+  if(miss.length){try{ensureProfiles(miss).then(function(){zcnPaintCall();},function(){});}catch(e){}}
+  log.forEach(function(e){
+   var nm=zstName(e.u),wrap=el('span','zc-av-wrap');wrap.appendChild(avatar(e.u,nm));
+   var bad=e.r==='missed',time=zcnTimeLabel(e.t);
+   var sub=e.r==='done'?(time+(e.s?' · '+zclFmt(e.s*1000):'')):(zcnResLabel(e)+' · '+time);
+   box.appendChild(zcnMkRow({lead:wrap,title:nm,bad:bad,sub:sub,label:'Buka chat dengan '+nm,
+    icon:e.d==='in'?'fa-solid fa-arrow-down-left':'fa-solid fa-arrow-up-right',
+    click:function(){try{openThread(e.u);}catch(x){}},
+    acts:[{icon:e.v?'fa-solid fa-video':'fa-solid fa-phone',label:(e.v?'Video call ':'Telepon ')+nm,fn:function(){zcnCall(e.u,!!e.v);}}]}));
+  });
+ }
+ box.appendChild(zcnNote('fa-solid fa-circle-info','Panggilan tersambung langsung antar pengguna. Di jaringan seluler tertentu sambungan bisa gagal; coba pindah jaringan.'));
+ box.scrollTop=top;
+}
+function zcnCall(uid,video){
+ if(!S.ready||!S.me){flash('Live Chat belum siap. Coba lagi sebentar.');return;}
+ if(ZCL.st!=='idle'){flash('Sedang dalam panggilan.');return;}
+ var prev=S.peer;S.peer=uid;
+ try{var p=zclStart(!!video);if(p&&p.catch)p.catch(function(e){console.warn('[zc-nav] telepon:',e);});}
+ finally{S.peer=prev;}
+ zcnPickClose();
+}
+function zcnPickClose(){var p=ZCN.pick;if(p&&p.ov&&p.ov.parentNode)p.ov.parentNode.removeChild(p.ov);ZCN.pick=null;}
+function zcnPickPaint(){
+ var p=ZCN.pick;if(!p)return;
+ var q=String(p.inp.value||'').trim().toLowerCase().replace(/^@/,'');
+ p.list.textContent='';
+ var me=S.me&&S.me.id;
+ var arr=Object.keys(S.convs||{}).map(function(k){return S.convs[k];}).filter(function(c){
+  var id=c&&c.peer_id;if(!id||id===me)return false;
+  if(typeof ZC_BOT_ID!=='undefined'&&id===ZC_BOT_ID)return false;
+  var pr=S.profiles[id]||{};if(pr.blacklisted)return false;
+  if(q&&String(pr.username||'').toLowerCase().indexOf(q)===-1&&String(pr.display_name||'').toLowerCase().indexOf(q)===-1)return false;
+  return true;
+ }).sort(function(a,b){return Date.parse(b.last_at||0)-Date.parse(a.last_at||0);});
+ if(!arr.length){
+  p.list.appendChild(q?zcnEmpty('fa-solid fa-magnifying-glass','Tidak ketemu','Coba nama atau username lain.')
+   :zcnEmpty('fa-solid fa-user-group','Belum ada kontak','Mulai chat dengan seseorang dulu, lalu kembali ke sini untuk menelepon.',{t:'Ke tab Chat',fn:function(){zcnTab('chat');}}));
+  return;
+ }
+ arr.forEach(function(c){
+  var id=c.peer_id,pr=S.profiles[id]||{},nm=zstName(id),wrap=el('span','zc-av-wrap');wrap.appendChild(avatar(id,nm));
+  p.list.appendChild(zcnMkRow({lead:wrap,title:nm,sub:pr.username?'@'+pr.username:'',label:'Pilih '+nm,
+   click:function(){zcnCall(id,p.video);},
+   acts:[{icon:'fa-solid fa-phone',label:'Telepon '+nm,pri:!p.video,fn:function(){zcnCall(id,false);}},
+         {icon:'fa-solid fa-video',label:'Video call '+nm,pri:!!p.video,fn:function(){zcnCall(id,true);}}]}));
+ });
+}
+function zcnPickOpen(video){
+ var v=$('zcConvView');if(!v)return;
+ zcnPickClose();
+ var ov=el('div','zcn-pick');ov.setAttribute('role','dialog');ov.setAttribute('aria-modal','true');ov.setAttribute('aria-label','Pilih kontak untuk menelepon');
+ var hd=el('div','zcn-pk-hd'),bk=el('button','zcn-pk-back');bk.type='button';bk.setAttribute('aria-label','Tutup');bk.appendChild(zcnIcon('fa-solid fa-arrow-left'));
+ bk.addEventListener('click',zcnPickClose);
+ hd.appendChild(bk);hd.appendChild(el('div','zcn-pk-t',video?'Panggilan video':'Panggilan suara'));
+ var sr=document.createElement('label');sr.className='zc-search zcn-pk-sr';sr.appendChild(zcnIcon('fa-solid fa-magnifying-glass'));
+ var inp=document.createElement('input');inp.type='text';inp.placeholder='Cari nama atau username';inp.maxLength=24;inp.autocomplete='off';
+ inp.setAttribute('autocapitalize','off');inp.spellcheck=false;sr.appendChild(inp);
+ var list=el('div','zcn-pk-list');
+ ov.appendChild(hd);ov.appendChild(sr);ov.appendChild(list);v.appendChild(ov);
+ ZCN.pick={ov:ov,list:list,inp:inp,video:!!video};
+ inp.addEventListener('input',zcnPickPaint);
+ ov.addEventListener('keydown',function(e){if(e.key==='Escape'){e.stopPropagation();zcnPickClose();}});
+ zcnPickPaint();
+}
+function zcnTab(t){
+ var v=$('zcConvView');if(!v)return;
+ if(t!=='upd'&&t!=='call')t='chat';
+ ZCN.tab=t;v.setAttribute('data-zctab',t);
+ [].forEach.call(document.querySelectorAll('#zcNav .zcn-tab'),function(b){var on=b.getAttribute('data-zctab')===t;b.classList.toggle('on',on);b.setAttribute('aria-selected',on?'true':'false');b.tabIndex=on?0:-1;});
+ var pu=$('zcPaneUpd'),pc=$('zcPaneCall');if(pu)pu.hidden=t!=='upd';if(pc)pc.hidden=t!=='call';
+ var ti=document.querySelector('#zcConvView .zc-title');if(ti)ti.textContent=ZCN_TT[t];
+ zcnPickClose();
+ if(t==='upd'){try{zstLoad();}catch(e){}zcnPaintUpd();}
+ else if(t==='call'){zcnSeenSet();zcnPaintCall();}
+ zcnRefreshBadges();
+}
+(function(){
+ var oz=zstPaint;
+ zstPaint=function(){var r=oz.apply(this,arguments);try{zcnPaintUpd();}catch(e){}return r;};
+ var nav=$('zcNav');if(!nav)return;
+ nav.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.zcn-tab');if(b)zcnTab(b.getAttribute('data-zctab'));});
+ nav.addEventListener('keydown',function(e){
+  if(e.key!=='ArrowLeft'&&e.key!=='ArrowRight')return;
+  var tabs=[].slice.call(nav.querySelectorAll('.zcn-tab')),i=tabs.indexOf(document.activeElement);if(i<0)return;
+  e.preventDefault();var n=tabs[(i+(e.key==='ArrowRight'?1:tabs.length-1))%tabs.length];n.focus();zcnTab(n.getAttribute('data-zctab'));});
+ zcnTab('chat');
+ var u=$('zcUnread');
+ if(u&&window.MutationObserver){try{new MutationObserver(zcnChatBadge).observe(u,{attributes:true,childList:true,characterData:true,subtree:true});}catch(e){}}
+ setInterval(function(){if(S.me)zcnRefreshBadges();},4000);
+ setTimeout(zcnRefreshBadges,1500);
+})();
+
 zcpInitUi();
 
 })();
@@ -23152,4 +23470,288 @@ body.kz-offmain .app-bottombar{display:none!important}
 #zcChat .zc-call.vid .zc-call-row{position:relative;z-index:4;margin:0 0 calc(env(safe-area-inset-bottom,0px) + 34px);gap:20px;padding:0 12px;flex-wrap:wrap;justify-content:center}
 #zcChat .zc-call.vid .zc-call-bw small{text-shadow:0 1px 4px rgba(0,0,0,.7)}
 </style>
+<style id="kz-nav-v2">
+/* Navbar bawah: lebih rendah, kotak merah pudar di tiap ikon, ripple saat ditekan */
+body .app-bottombar{height:60px!important;min-height:60px!important;padding:0 6px!important;bottom:calc(10px + env(safe-area-inset-bottom,0px))!important;border-radius:20px!important}
+body .app-bottombar .tab{min-height:0!important;gap:2px!important;padding:5px 1px 4px!important;justify-content:center!important;transform:none!important;opacity:.82}
+body .app-bottombar .tab.active{opacity:1!important;transform:none!important}
+body .app-bottombar .tab:not(.home-center){overflow:hidden!important;border-radius:16px!important}
+body .app-bottombar .tab:not(.home-center) i{display:inline-flex!important;align-items:center;justify-content:center;width:36px;height:27px;border-radius:12px!important;font-size:15px!important;background:rgba(255,43,43,.13)!important;box-shadow:inset 0 0 0 1px rgba(255,43,43,.24),0 0 8px rgba(255,43,43,.26)!important;text-shadow:none!important}
+body .app-bottombar .tab.active:not(.home-center) i{background:rgba(255,43,43,.28)!important;box-shadow:inset 0 0 0 1px rgba(255,43,43,.5),0 0 11px rgba(255,43,43,.42)!important}
+body .app-bottombar .home-center{top:-12px!important;overflow:visible!important}
+body .app-bottombar .home-circle{width:46px!important;height:46px!important;overflow:hidden;position:relative;box-shadow:0 0 12px rgba(255,43,43,.5)!important}
+body .app-bottombar .home-circle i{font-size:18px!important}
+.kz-nav-rip{position:absolute;z-index:0;border-radius:50%;pointer-events:none;background:rgba(255,255,255,.38);transform:translate(-50%,-50%) scale(0);animation:kzNavRip .55s ease-out forwards}
+body.ev-light .kz-nav-rip{background:rgba(255,43,43,.24)}
+@keyframes kzNavRip{from{transform:translate(-50%,-50%) scale(0);opacity:.6}to{transform:translate(-50%,-50%) scale(1);opacity:0}}
+</style>
+<script id="kz-nav-v2-js">
+(function(){
+  document.addEventListener('pointerdown',function(e){
+    var tab=e.target&&e.target.closest?e.target.closest('.app-bottombar .tab'):null;if(!tab)return;
+    var host=tab.classList.contains('home-center')?(tab.querySelector('.home-circle')||tab):tab;
+    var r=host.getBoundingClientRect(),d=Math.max(r.width,r.height)*1.6;
+    var x=(e.clientX||r.left+r.width/2)-r.left,y=(e.clientY||r.top+r.height/2)-r.top;
+    var n=document.createElement('span');n.className='kz-nav-rip';
+    n.style.cssText='left:'+x+'px;top:'+y+'px;width:'+d+'px;height:'+d+'px';
+    if(getComputedStyle(host).position==='static')host.style.position='relative';
+    host.appendChild(n);setTimeout(function(){if(n.parentNode)n.parentNode.removeChild(n)},620);
+  },{passive:true});
+})();
+</script>
+
+<style id="zcai-css">
+/* Zusmo AI di Live Chat: 2 tombol kiri bawah + tampilan chat ala Live Chat */
+#zcAiView .zc-list{flex:1;min-height:0;gap:2px;padding:8px 0 10px;border:0;border-radius:0;background-color:#090909;background-image:radial-gradient(rgba(255,255,255,.035) 1.2px,transparent 1.4px),radial-gradient(rgba(255,255,255,.025) 1px,transparent 1.3px);background-size:26px 26px,38px 38px;background-position:0 0,13px 17px}
+#zcAiView .zc-row{display:flex;align-items:flex-end;width:100%;min-width:0;gap:5px;padding:1px 10px}
+#zcAiView .zc-row.zc-mine{justify-content:flex-end}
+#zcAiView .zc-bub{position:relative;display:block;width:fit-content;max-width:min(82%,520px);min-width:0;padding:7px 9px 5px;border-radius:12px;box-sizing:border-box;flex:0 1 auto}
+#zcAiView .zc-tx{display:block;min-width:0;white-space:pre-wrap;overflow-wrap:anywhere;word-break:normal;line-height:1.32;font-size:14.5px;padding-right:1px}
+#zcAiView .zc-meta{display:flex;width:100%;min-width:0;align-items:center;justify-content:flex-end;gap:4px;margin-top:2px;white-space:nowrap;font-size:10px;line-height:1.15}
+#zcAiView .zc-bub .zc-tx{width:auto;max-width:100%;min-width:0;white-space:pre-wrap;overflow-wrap:anywhere;word-break:normal}
+@media(max-width:380px){#zcAiView .zc-bub{max-width:86%;padding:6px 8px 4px}}
+@media(max-width:380px){#zcAiView .zc-tx{font-size:14px}}
+#zcAiView .zc-bub{border-radius:18px 18px 18px 5px;padding:8px 12px 6px;color:#eceff1;background:linear-gradient(180deg,#26282d,#1c1e22);border:1px solid rgba(255,255,255,.06);box-shadow:0 2px 8px rgba(0,0,0,.32)}
+#zcAiView .zc-mine .zc-bub{border-radius:18px 18px 5px 18px;color:#fff;background:linear-gradient(135deg,#d42436 0%,#8e1224 62%,#6d0c1b 100%);border:1px solid rgba(255,140,150,.26);box-shadow:0 3px 12px rgba(190,25,45,.28)}
+#zcAiView .zc-bub .zc-tx{font-size:15px;line-height:1.4;letter-spacing:.1px}
+#zcAiView .zc-bub .zc-nm{letter-spacing:.2px}
+#zcChat .zc-body{position:relative}
+#zcChat .zcai-fabs{position:absolute;left:14px;bottom:84px;z-index:7;display:flex;flex-direction:column;align-items:center;gap:12px}
+#zcConvView[data-zctab]:not([data-zctab="chat"]) .zcai-fabs{display:none}
+#zcChat .zcai-ai{width:46px;height:46px;border:1px solid rgba(255,255,255,.12);border-radius:15px;background:#1c1c20;font-size:19px;box-shadow:0 4px 14px rgba(0,0,0,.5);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+#zcChat .zcai-ai i{background:linear-gradient(135deg,#ff6b6b,#a855f7 55%,#38bdf8);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+#zcChat .zcai-new{width:60px;height:60px;border:0;border-radius:18px;background:var(--wa-green,#ff2b2b);color:#090909;font-size:24px;box-shadow:0 4px 14px rgba(0,0,0,.5);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+#zcChat .zcai-ai:active,#zcChat .zcai-new:active{transform:scale(.94)}
+#zcAiView,#zcNcView{position:absolute;inset:0;z-index:30;display:none;flex-direction:column;min-height:0;background:var(--wa-bg,#090909)}
+#zcAiView.on,#zcNcView.on{display:flex}
+#zcChat .zcai-av{display:flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(135deg,#ff2b2b,#a855f7 70%,#38bdf8);font-size:15px;flex:none}
+#zcChat .zcai-chip{margin-left:6px;padding:1px 6px;border-radius:6px;font:800 9px/1.5 Inter,sans-serif;letter-spacing:.5px;color:#fff;background:linear-gradient(135deg,#a855f7,#38bdf8)}
+#zcChat .zcai-dots{display:inline-flex;gap:4px;padding:6px 2px 4px}
+#zcChat .zcai-dots i{width:7px;height:7px;border-radius:50%;background:#9aa0a6;animation:zcaiDot 1s infinite ease-in-out}
+#zcChat .zcai-dots i:nth-child(2){animation-delay:.15s}#zcChat .zcai-dots i:nth-child(3){animation-delay:.3s}
+@keyframes zcaiDot{0%,80%,100%{transform:translateY(0);opacity:.5}40%{transform:translateY(-4px);opacity:1}}
+#zcAiView .zcai-dlg{position:absolute;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;padding:22px;background:rgba(0,0,0,.62)}
+#zcAiView .zcai-dlg[hidden]{display:none}
+#zcAiView .zcai-box{width:100%;max-width:330px;box-sizing:border-box;padding:20px 18px 14px;border-radius:20px;background:#17171a;color:#f1f1f3;border:1px solid rgba(255,255,255,.1)}
+#zcAiView .zcai-box b{display:block;margin-bottom:6px;font-size:16px}
+#zcAiView .zcai-box p{margin:0 0 16px;font-size:13px;line-height:1.5;color:#a1a1aa}
+#zcAiView .zcai-acts{display:flex;gap:10px}
+#zcAiView .zcai-acts button{flex:1;min-height:42px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:#25252a;color:#f1f1f3;font:700 13px Inter,sans-serif;cursor:pointer}
+#zcAiView .zcai-acts .zcai-yes{border:0;background:linear-gradient(135deg,#ff2b2b,#b30000);color:#fff}
+#zcConvView .zc-head #zcPushOpenBtn{display:none!important}
+#zcChat .zcai-hbar{margin-left:auto;display:flex;align-items:center;gap:2px;flex:none}
+#zcChat .zcai-hb{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border:0;border-radius:50%;background:transparent;color:#f1f1f3;font-size:19px;cursor:pointer;padding:0}
+#zcChat .zcai-hb:active{background:rgba(255,255,255,.12)}
+#zcChat .zcai-menu{position:absolute;top:54px;right:10px;z-index:40;min-width:230px;padding:6px 0;border-radius:14px;background:#1f1f23;border:1px solid rgba(255,255,255,.1);box-shadow:0 10px 30px rgba(0,0,0,.55)}
+#zcChat .zcai-menu[hidden]{display:none}
+#zcChat .zcai-menu button{display:flex;width:100%;align-items:center;gap:12px;padding:12px 16px;border:0;background:transparent;color:#f1f1f3;font:600 14px Inter,sans-serif;text-align:left;cursor:pointer}
+#zcChat .zcai-menu button:active{background:rgba(255,255,255,.08)}
+#zcChat .zcai-menu i{width:18px;text-align:center;color:#a1a1aa}
+#zcChat .zcai-toast{position:absolute;left:50%;bottom:96px;transform:translateX(-50%);z-index:60;max-width:84%;padding:10px 14px;border-radius:12px;background:#111;color:#fff;font:600 13px Inter,sans-serif;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.5);pointer-events:none}
+#zcNcView .zc-search{margin:6px 14px 8px}
+#zcNcView .zc-chatscroll{flex:1;min-height:0;overflow-y:auto;padding-bottom:calc(16px + env(safe-area-inset-bottom,0px))}
+#zcChat .zcai-nc-act,#zcChat .zcai-nc-row{display:flex;align-items:center;gap:14px;width:100%;padding:10px 16px;border:0;background:transparent;color:#f1f1f3;text-align:left;cursor:pointer;box-sizing:border-box}
+#zcChat .zcai-nc-act:active,#zcChat .zcai-nc-row:active{background:rgba(255,255,255,.07)}
+#zcChat .zcai-nc-ic{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none;background:var(--wa-green,#ff2b2b);color:#090909;font-size:18px}
+#zcChat .zcai-nc-av{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none;color:#fff;font:700 18px Inter,sans-serif}
+#zcChat .zcai-nc-t{min-width:0}
+#zcChat .zcai-nc-t b{display:block;font:600 15.5px Inter,sans-serif;color:#f1f1f3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#zcChat .zcai-nc-t small{color:#8696a0;font-size:12.5px}
+#zcChat .zcai-nc-sec{padding:14px 16px 6px;font:700 13px Inter,sans-serif;color:#8696a0}
+
+</style>
+<script id="zcai-js">
+window.__zcAiViewHtml=`<div class="zc-view" id="zcAiView" role="dialog" aria-label="Chat dengan Zusmo AI">
+  <div class="zc-thread-head">
+    <button type="button" class="zc-back" id="zcAiBack" aria-label="Kembali ke daftar chat"><i class="fa-solid fa-arrow-left"></i></button>
+    <span class="zc-av sm zcai-av" aria-hidden="true"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+    <div class="zc-thread-title"><b>Zusmo AI</b><small id="zcAiSub">Online</small></div>
+    <button type="button" class="zc-callb" id="zcAiClear" aria-label="Hapus obrolan" title="Hapus obrolan"><i class="fa-solid fa-trash-can" aria-hidden="true"></i></button>
+  </div>
+  <div class="zc-list" id="zcAiList" aria-live="polite"></div>
+  <div class="zc-compose">
+    <div class="zc-field"><textarea id="zcAiIn" rows="1" maxlength="500" placeholder="Ketik pesan"></textarea></div>
+    <button type="button" class="zc-send" id="zcAiSend" aria-label="Kirim" disabled><i class="fa-solid fa-paper-plane"></i></button>
+  </div>
+  <div class="zcai-dlg" id="zcAiDlg" hidden><div class="zcai-box"><b>Hapus obrolan?</b><p>Semua pesan dengan Zusmo AI di perangkat ini akan dihapus.</p><div class="zcai-acts"><button type="button" id="zcAiNo">Batal</button><button type="button" class="zcai-yes" id="zcAiYes">Hapus</button></div></div></div>
+</div>
+<div class="zc-view" id="zcNcView" role="dialog" aria-label="Obrolan baru">
+  <div class="zc-thread-head">
+    <button type="button" class="zc-back" id="zcNcBack" aria-label="Kembali ke daftar chat"><i class="fa-solid fa-arrow-left"></i></button>
+    <div class="zc-thread-title"><b>Obrolan baru</b><small id="zcNcSub"></small></div>
+  </div>
+  <label class="zc-search"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i><input type="text" id="zcNcQ" placeholder="Cari nama atau @username" maxlength="24" autocomplete="off" autocapitalize="off" spellcheck="false"></label>
+  <div class="zc-chatscroll" id="zcNcScroll">
+    <button type="button" class="zcai-nc-act" id="zcNcDisc"><span class="zcai-nc-ic"><i class="fa-solid fa-user-group" aria-hidden="true"></i></span><span class="zcai-nc-t"><b>Temukan teman</b></span></button>
+    <div class="zcai-nc-sec">Daftar pengguna Live Chat</div>
+    <div id="zcNcList"></div>
+  </div>
+</div>`;
+window.__zcAiFabsHtml=`<div class="zcai-fabs" id="zcAiFabs">
+  <button type="button" class="zcai-ai" id="zcAiOpen" aria-label="Chat dengan Zusmo AI" title="Zusmo AI"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i></button>
+  <button type="button" class="zcai-new" id="zcAiNew" aria-label="Chat baru" title="Chat baru"><i class="fa-solid fa-message" aria-hidden="true"></i></button>
+</div>`;
+(function(){
+'use strict';
+var KEY='zusmoLcAiThread',MAX=60;
+var chat=document.getElementById('zcChat'),conv=document.getElementById('zcConvView'),body=chat&&chat.querySelector('.zc-body');
+if(!chat||!conv||!body)return;
+function $(i){return document.getElementById(i)}
+function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
+function pad(n){return n<10?'0'+n:''+n}
+var BLN=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+function hm(d){return pad(d.getHours())+':'+pad(d.getMinutes())}
+function dk(d){return d.getFullYear()+'-'+d.getMonth()+'-'+d.getDate()}
+function dl(d){var n=new Date();if(dk(d)===dk(n))return 'Hari ini';if(dk(d)===dk(new Date(n.getTime()-864e5)))return 'Kemarin';return d.getDate()+' '+BLN[d.getMonth()]+' '+d.getFullYear()}
+var GREET='Halo! Aku Zusmo AI. Mau ngobrol atau tanya apa hari ini?';
+var msgs=[],busy=false;
+function load(){try{var a=JSON.parse(localStorage.getItem(KEY)||'[]');if(Array.isArray(a))msgs=a.filter(function(m){return m&&(m.r==='u'||m.r==='a')&&typeof m.t==='string'}).slice(-MAX)}catch(e){msgs=[]}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(msgs.slice(-MAX)))}catch(e){}}
+function fabsPlace(){var f=$('zcAiFabs'),n=$('zcNav');if(f)f.style.bottom=((n&&n.offsetHeight)||64)+16+'px'}
+
+/* ---- tampilan ---- */
+var view,nc,list,input,sendBtn,sub,hmenu,ncSeq=0,ncTimer=0;
+function avatar(){var a=el('span','zc-av sm zcai-av');a.setAttribute('aria-hidden','true');a.innerHTML='<i class="fa-solid fa-wand-magic-sparkles"></i>';return a}
+function addRow(parent,m,prev,typing){
+  var mine=m.r==='u',first=!prev||prev.r!==m.r;
+  var r=el('div','zc-row '+(mine?'zc-mine':'zc-other')+(first?' zc-first':''));
+  if(!mine){var a=avatar();if(!first)a.style.opacity='0';r.appendChild(a)}
+  var b=el('div','zc-bub');
+  if(!mine&&first){var nl=el('div','zc-name-line'),nm=el('button','zc-nm','Zusmo AI');nm.type='button';nm.style.color='hsl(280,80%,75%)';nl.appendChild(nm);nl.appendChild(el('span','zcai-chip','AI'));b.appendChild(nl)}
+  if(typing){var d=el('span','zcai-dots');d.innerHTML='<i></i><i></i><i></i>';b.appendChild(d)}
+  else{
+    b.appendChild(el('div','zc-tx',m.t));
+    var meta=el('div','zc-meta');meta.appendChild(el('span','',hm(new Date(m.at||Date.now()))));
+    if(mine)meta.appendChild(el('i','fa-solid '+(m.d?'fa-check-double zc-delivered':'fa-check')));
+    b.appendChild(meta);
+  }
+  r.appendChild(b);parent.appendChild(r);
+}
+function render(){
+  var frag=document.createDocumentFragment(),prev=null,pd=null;
+  msgs.forEach(function(m){
+    var d=new Date(m.at||Date.now());
+    if(!pd||dk(d)!==dk(pd)){frag.appendChild(el('div','zc-day',dl(d)));prev=null}
+    addRow(frag,m,prev,false);prev=m;pd=d;
+  });
+  if(busy)addRow(frag,{r:'a'},prev,true);
+  list.textContent='';list.appendChild(frag);list.scrollTop=list.scrollHeight;
+  sub.textContent=busy?'sedang mengetik…':'Online';
+}
+function ensureGreeting(){if(!msgs.length){msgs.push({r:'a',t:GREET,at:Date.now(),g:1});save()}}
+
+/* ---- AI (memakai mesin AI yang sudah ada di aplikasi) ---- */
+function ctxLen(s){try{return typeof aicEncodedLen==='function'?aicEncodedLen(s):encodeURIComponent(s).length}catch(e){return s.length}}
+function buildPrompt(text){
+  var persona='Kamu adalah Zusmo AI, teman ngobrol di Live Chat aplikasi Zusmo. Balas dalam bahasa Indonesia yang santai dan ramah, singkat (maksimal 4 kalimat kecuali diminta panjang), tanpa markdown dan tanpa tanda bintang.';
+  var prior=msgs.filter(function(m){return !m.g&&!m.e}).slice(0,-1).slice(-6).map(function(m){return (m.r==='u'?'Pengguna: ':'Zusmo AI: ')+m.t.slice(0,300)});
+  var p;
+  do{p=[persona].concat(prior,['Pengguna: '+text,'Zusmo AI:']).join('\n');if(ctxLen(p)<=3200||!prior.length)break;prior.shift()}while(true);
+  return p;
+}
+function clean(t){
+  t=String(t||'').trim();
+  try{if(typeof aicStripChatStars==='function')t=aicStripChatStars(t)}catch(e){}
+  t=t.replace(/^\s*Zusmo AI\s*:\s*/i,'').replace(/\*+/g,'').trim();
+  return t.slice(0,2000);
+}
+async function ask(text){
+  if(typeof slvRequest!=='function'||typeof AIC_MODELS==='undefined'||typeof aicBuildChatUrl!=='function'||typeof aicExtractText!=='function')throw new Error('mesin AI belum siap');
+  var first=(typeof aicActiveModel!=='undefined'&&aicActiveModel)||'gpt',order=[first,'seek','seeklite'].filter(function(k,i,a){return AIC_MODELS[k]&&a.indexOf(k)===i}),prompt=buildPrompt(text),last=null;
+  for(var i=0;i<order.length;i++){
+    var cfg=AIC_MODELS[order[i]];
+    try{
+      var res=await slvRequest(function(k){return aicBuildChatUrl(cfg,k,prompt,{})},{isDataOk:function(e){return !!aicExtractText(e)}});
+      var out=clean(aicExtractText(res));
+      if(out)return out;
+    }catch(e){last=e}
+  }
+  throw last||new Error('tidak ada balasan');
+}
+async function send(){
+  var text=input.value.trim();if(!text||busy)return;
+  input.value='';fit();sendBtn.disabled=true;
+  var um={r:'u',t:text,at:Date.now()};msgs.push(um);busy=true;save();render();
+  try{
+    var out=await ask(text);um.d=true;msgs.push({r:'a',t:out,at:Date.now()});
+  }catch(e){
+    console.warn('[zc-ai]',e);um.d=true;msgs.push({r:'a',t:'Maaf, aku lagi gangguan nih. Coba kirim lagi sebentar lagi ya.',at:Date.now(),e:1});
+  }
+  busy=false;save();render();input.focus&&input.focus();
+}
+function fit(){input.style.height='auto';input.style.height=Math.min(input.scrollHeight,120)+'px'}
+
+/* ---- buka / tutup ---- */
+function openAi(){load();ensureGreeting();view.classList.add('on');render();setTimeout(function(){list.scrollTop=list.scrollHeight},30)}
+function closeAi(){view.classList.remove('on');$('zcAiDlg').hidden=true}
+function toast(m){var t=el('div','zcai-toast',m);body.appendChild(t);setTimeout(function(){if(t.parentNode)t.parentNode.removeChild(t)},2300)}
+function hue(s){var h=0;s=String(s||'');for(var i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))%360;return h}
+function ncPaint(rows,msg){
+  var l=$('zcNcList');l.textContent='';
+  if(msg){l.appendChild(el('div','zcai-nc-sec',msg));return}
+  rows.forEach(function(p){
+    var r=el('button','zcai-nc-row');r.type='button';
+    var nm=(p.display_name&&String(p.display_name).trim())||('@'+p.username);
+    var av=el('span','zcai-nc-av',nm.replace(/^@/,'').charAt(0).toUpperCase());av.style.background='hsl('+hue(p.user_id||p.username)+',45%,38%)';
+    var t=el('span','zcai-nc-t');t.appendChild(el('b','',nm));t.appendChild(el('small','','@'+p.username));
+    r.appendChild(av);r.appendChild(t);
+    r.addEventListener('click',function(){closeNc();if(typeof window.__zcOpenUser==='function')window.__zcOpenUser(p.user_id)});
+    l.appendChild(r);
+  });
+}
+async function ncFetch(q){
+  var seq=++ncSeq;q=String(q||'').replace(/[^A-Za-z0-9._ ]/g,'').trim();ncPaint([],'Memuat…');
+  try{
+    if(typeof window.__zcCtx!=='function')throw new Error('belum siap');
+    var S=await window.__zcCtx();
+    var qb=S.sb.from('chat_profiles').select('user_id,username,display_name');
+    if(q)qb=qb.or('username.ilike.*'+q+'*,display_name.ilike.*'+q+'*');
+    var r=await qb.order('username',{ascending:true}).limit(100);
+    if(seq!==ncSeq)return;
+    if(r.error)throw r.error;
+    var me=S.me&&S.me.id,rows=(r.data||[]).filter(function(p){return p&&p.username&&p.user_id!==me});
+    $('zcNcSub').textContent=rows.length+' pengguna';
+    ncPaint(rows,rows.length?'':'Pengguna tidak ditemukan.');
+  }catch(e){if(seq===ncSeq){$('zcNcSub').textContent='';ncPaint([],'Gagal memuat pengguna. Pastikan sudah masuk, lalu coba lagi.')}}
+}
+function openNc(){hmenu.hidden=true;$('zcNcQ').value='';nc.classList.add('on');ncFetch('')}
+function closeNc(){nc.classList.remove('on')}
+function discover(){hmenu.hidden=true;var all=$('zdAll');closeNc();if(all&&all.offsetParent!==null){all.click();return}openNc()}
+function cam(){var p=document.querySelector('#zcStRow .zc-st-plus');if(p){p.click();return}toast('Status belum siap. Masuk akun lalu coba lagi.')}
+function init(){
+  if($('zcAiView'))return;
+  var d=document.createElement('div');d.innerHTML=window.__zcAiViewHtml;view=d.children[0];nc=d.children[1];body.appendChild(view);body.appendChild(nc);
+  var head=conv.querySelector('.zc-head');
+  if(head){var hb=el('div','zcai-hbar');hb.innerHTML='<button type="button" class="zcai-hb" id="zcAiCam" aria-label="Kamera status" title="Tambah status"><i class="fa-solid fa-camera" aria-hidden="true"></i></button><button type="button" class="zcai-hb" id="zcAiMore" aria-label="Menu lainnya" title="Menu"><i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i></button>';head.appendChild(hb)}
+  hmenu=el('div','zcai-menu');hmenu.hidden=true;hmenu.innerHTML='<button type="button" data-m="new"><i class="fa-solid fa-message" aria-hidden="true"></i>Obrolan baru</button><button type="button" data-m="disc"><i class="fa-solid fa-user-group" aria-hidden="true"></i>Temukan teman</button><button type="button" data-m="prof"><i class="fa-solid fa-user" aria-hidden="true"></i>Tampilan profil di Live Chat</button>';conv.appendChild(hmenu);
+  var f=document.createElement('div');f.innerHTML=window.__zcAiFabsHtml;conv.appendChild(f.firstElementChild);
+  window.__zcAiViewHtml=window.__zcAiFabsHtml=null;
+  list=$('zcAiList');input=$('zcAiIn');sendBtn=$('zcAiSend');sub=$('zcAiSub');
+  $('zcAiOpen').addEventListener('click',openAi);
+  $('zcAiNew').addEventListener('click',openNc);
+  if($('zcAiCam'))$('zcAiCam').addEventListener('click',cam);
+  if($('zcAiMore'))$('zcAiMore').addEventListener('click',function(e){e.stopPropagation();hmenu.hidden=!hmenu.hidden});
+  hmenu.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('button[data-m]');if(!b)return;var m=b.getAttribute('data-m');hmenu.hidden=true;if(m==='new')openNc();else if(m==='disc')discover();else if(m==='prof'){if(typeof window.ZUSMO_LCVIS_OPEN==='function')window.ZUSMO_LCVIS_OPEN();else toast('Pengaturan belum siap.')}});
+  document.addEventListener('click',function(e){if(!hmenu.hidden&&!(e.target.closest&&e.target.closest('.zcai-menu,#zcAiMore')))hmenu.hidden=true});
+  $('zcNcBack').addEventListener('click',closeNc);
+  $('zcNcDisc').addEventListener('click',discover);
+  $('zcNcQ').addEventListener('input',function(){clearTimeout(ncTimer);var v=this.value;ncTimer=setTimeout(function(){ncFetch(v)},300)});
+  $('zcAiBack').addEventListener('click',closeAi);
+  $('zcAiClear').addEventListener('click',function(){$('zcAiDlg').hidden=false});
+  $('zcAiNo').addEventListener('click',function(){$('zcAiDlg').hidden=true});
+  $('zcAiYes').addEventListener('click',function(){msgs=[];try{localStorage.removeItem(KEY)}catch(e){}$('zcAiDlg').hidden=true;ensureGreeting();render()});
+  $('zcAiDlg').addEventListener('click',function(e){if(e.target===this)this.hidden=true});
+  input.addEventListener('input',function(){sendBtn.disabled=!input.value.trim()||busy;fit()});
+  input.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey&&window.matchMedia&&matchMedia('(pointer:fine)').matches){e.preventDefault();send()}});
+  sendBtn.addEventListener('click',send);
+  fabsPlace();setTimeout(fabsPlace,700);window.addEventListener('resize',fabsPlace);
+  if(window.MutationObserver){
+    new MutationObserver(function(){if(!chat.classList.contains('active')){closeAi();closeNc();hmenu.hidden=true}else fabsPlace()}).observe(chat,{attributes:true,attributeFilter:['class']});
+    new MutationObserver(fabsPlace).observe(conv,{attributes:true,attributeFilter:['class','data-zctab']});
+  }
+}
+init();
+})();
+</script>
+
 </body></html>
