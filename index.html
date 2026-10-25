@@ -19627,6 +19627,63 @@ function zcbConfirm(title,body,routeText){
   bx.appendChild(ok);bx.appendChild(no);cf.appendChild(bx);sheet.appendChild(cf);
  });
 }
+/* ---- kirim broadcast: baca error server dengan benar + coba ulang sesi + kirim bertahap ---- */
+async function zcbErrInfo(err){
+ var info={status:0,msg:String((err&&err.message)||'Gagal mengirim')};
+ try{
+  var ctx=err&&err.context;
+  if(ctx&&typeof ctx.status==='number'){
+   info.status=ctx.status;
+   var txt='';try{txt=await ctx.text();}catch(e){}
+   var j=null;try{j=JSON.parse(txt);}catch(e){}
+   var m=j&&(j.error||j.message||j.msg||j.detail||j.hint);
+   if(m&&typeof m==='object')m=m.message||JSON.stringify(m);
+   if(!m&&txt)m=txt.replace(/\s+/g,' ').slice(0,160);
+   if(m)info.msg=String(m);
+  }
+ }catch(e){}
+ return info;
+}
+function zcbHint(info){
+ var st=info.status,m=String(info.msg||'');
+ if(st===401||/invalid jwt|jwt expired|not authenticated|unauthori[sz]ed/i.test(m))return 'Sesi login habis. Muat ulang halaman lalu login lagi, kemudian kirim ulang.';
+ if(st===403)return 'Akun ini tidak diizinkan mengirim broadcast (hanya admin).';
+ if(st===404)return 'Edge Function "zusmo-broadcast" tidak ditemukan di Supabase. Deploy ulang functionnya.';
+ if(st===429)return 'Terlalu banyak permintaan. Tunggu sebentar lalu coba lagi.';
+ if(st===502||st===503||st===504||st===546||/worker_limit|resource limit|timed? ?out|compute/i.test(m))return 'Server kehabisan waktu/sumber daya saat mengirim. Pasang function versi baru (kirim bertahap) lalu coba lagi.';
+ if(/non-2xx/i.test(m))return 'Server menolak permintaan tanpa pesan (HTTP '+(st||'?')+'). Buka Supabase > Edge Functions > zusmo-broadcast > Logs untuk melihat penyebabnya.';
+ return m+(st?' (HTTP '+st+')':'');
+}
+async function zcbInvoke(payload){
+ var r=await S.sb.functions.invoke('zusmo-broadcast',{body:payload});
+ if(r.error){
+  var info=await zcbErrInfo(r.error);
+  if(info.status===401||/invalid jwt|jwt expired/i.test(info.msg)){
+   try{await S.sb.auth.refreshSession();}catch(e){}
+   r=await S.sb.functions.invoke('zusmo-broadcast',{body:payload});
+   if(!r.error)return r.data||{};
+   info=await zcbErrInfo(r.error);
+  }
+  throw new Error(zcbHint(info));
+ }
+ return r.data||{};
+}
+async function zcbSendAll(title,body,route){
+ var payload={title:title,body:body,route:route},tot={ok:true,sent:0,failed:0,removed:0,reasons:{}},guard=0;
+ for(;;){
+  var d=await zcbInvoke(payload);
+  if(!d.ok)throw new Error(d.error||'Server tidak mengonfirmasi pengiriman.');
+  tot.sent+=Number(d.sent)||0;tot.failed+=Number(d.failed)||0;tot.removed+=Number(d.removed)||0;
+  if(d.reasons&&typeof d.reasons==='object')Object.keys(d.reasons).forEach(function(k){tot.reasons[k]=(tot.reasons[k]||0)+(Number(d.reasons[k])||0);});
+  if(d.done===false&&d.cursor!=null&&guard++<400){
+   payload.cursor=d.cursor;payload.batch_id=d.batch_id;
+   zcbMsg('Mengirim… '+tot.sent+(d.total?(' / '+d.total):'')+' perangkat');
+   continue;
+  }
+  break;
+ }
+ return tot;
+}
 async function zcbSend(){
  var btn=zcpById('zcbSend');if(!btn||btn.disabled)return;
  var title=String(zcpById('zcbTitle').value||'').trim(),body=String(zcpById('zcbBody').value||'').trim(),sel=String(zcpById('zcbRoute').value||''),route=sel;
@@ -19643,15 +19700,9 @@ async function zcbSend(){
  btn.disabled=true;zcbMsg('Mengirim…');
  try{
   await zcpContext();
-  var r=await S.sb.functions.invoke('zusmo-broadcast',{body:{title:title,body:body,route:route}});
-  if(r.error){
-   var m=r.error.message||'Gagal mengirim';
-   try{if(r.error.context&&r.error.context.json){var j=await r.error.context.json();if(j&&j.error)m=j.error;}}catch(x){}
-   throw new Error(m);
-  }
-  var d=r.data||{};
-  if(!d.ok)throw new Error(d.error||'Server tidak mengonfirmasi pengiriman.');
-  zcbMsg('Terkirim ke '+d.sent+' perangkat'+(d.failed?(' · gagal '+d.failed):'')+(d.removed?(' · '+d.removed+' langganan kedaluwarsa dibersihkan'):'')+'.');
+  var d=await zcbSendAll(title,body,route);
+  var rs=Object.keys(d.reasons||{}).map(function(k){return (/^\d+$/.test(k)?'HTTP '+k:k)+' x'+d.reasons[k];}).join(', ');
+  zcbMsg('Terkirim ke '+d.sent+' perangkat'+(d.failed?(' · gagal '+d.failed+(rs?' ('+rs+')':'')):'')+(d.removed?(' · '+d.removed+' langganan kedaluwarsa dibersihkan'):'')+'.');
   zcpById('zcbTitle').value='';zcpById('zcbBody').value='';zcpById('zcbUrl').value='';
   zcpById('zcbTitle').dispatchEvent(new Event('input'));
   ZCB.at=0;zcbLoadHist();
