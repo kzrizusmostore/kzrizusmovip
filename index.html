@@ -15808,7 +15808,8 @@ function zcPollState(list,m,pl){
  var st={cnt:pl.o.map(function(){return 0;}),by:pl.o.map(function(){return [];}),voters:0,mine:[],closed:closed,ended:ended,adminClosed:!!c.closed},latest={};
  (ix.votes[id]||[]).forEach(function(v){
   if(v.t>cut)return;
-  if(latest[v.u]&&pl.qz>=0)return;   /* kuis: suara pertama terkunci */
+  if(!v.o||!v.o.length)return;       /* tarik suara tidak berlaku */
+  if(latest[v.u])return;             /* suara pertama terkunci: tidak bisa diubah/dihapus */
   latest[v.u]=v;
  });
  var me=S.me?String(S.me.id):'';
@@ -15829,6 +15830,7 @@ function zcPollResultText(pl,st){
 var ZC_PL_SEL={},zcPlBusy=0;
 function zcPollCan(){if(!S.ready||!S.me||!S.me.id||S.me.blacklisted){flash('Masuk dulu untuk ikut memilih.');return false;}return true;}
 async function zcPollVote(m,sel){
+ if(!sel||!sel.length)return;
  if(Date.now()-zcPlBusy<600)return;zcPlBusy=Date.now();
  await zcSxSend(ZC_PV_PREFIX+JSON.stringify({p:String(m.id),o:sel}));
 }
@@ -15838,10 +15840,11 @@ async function zcPollCtl(m,patch){
  var o=Object.assign({p:String(m.id)},patch);
  await zcSxSend(ZC_PC_PREFIX+JSON.stringify(o));
 }
+function zcPollMuteIcon(hv){try{var v=hv&&hv.querySelector('video'),b=hv&&hv.querySelector('.zc-poll-mute');if(!v||!b)return;b.innerHTML='<i class="fa-solid '+(v.muted?'fa-volume-xmark':'fa-volume-high')+'" aria-hidden="true"></i>';b.setAttribute('aria-label',v.muted?'Nyalakan suara':'Bisukan suara');}catch(e){}}
 function zcPollKeepVid(oldN,newN){
  try{
   var ov=oldN&&oldN.querySelector('.zc-poll-vid video'),nv=newN&&newN.querySelector('.zc-poll-vid video');
-  if(ov&&nv&&nv.parentNode&&(ov.getAttribute('src')||ov.src)===(nv.getAttribute('src')||nv.src))nv.parentNode.replaceChild(ov,nv);
+  if(ov&&nv&&nv.parentNode&&(ov.getAttribute('src')||ov.src)===(nv.getAttribute('src')||nv.src)){nv.parentNode.replaceChild(ov,nv);zcPollMuteIcon(newN.querySelector('.zc-poll-vid'));}
  }catch(e){}
  return newN;
 }
@@ -15859,7 +15862,10 @@ function zcPollNode(list,m,pl){
  if(st.closed)top.appendChild(el('span','zc-poll-tag zc-poll-tag-x',st.ended&&!st.adminClosed?'Waktu habis':'Ditutup'));
  if(top.children.length)box.appendChild(top);
  if(pl.im){var hi=el('div','zc-poll-img'),himg=document.createElement('img');himg.alt='Foto polling';himg.loading='lazy';himg.decoding='async';himg.src=zcPlUrl(pl.im);himg.addEventListener('click',function(e){e.stopPropagation();zcImgOpen(zcPlUrl(pl.im));});hi.appendChild(himg);box.appendChild(hi);}
- if(pl.vd){var hv=el('div','zc-poll-img zc-poll-vid'),vv=document.createElement('video');vv.controls=false;vv.removeAttribute('controls');vv.autoplay=true;vv.muted=true;vv.defaultMuted=true;vv.setAttribute('muted','');vv.loop=true;vv.playsInline=true;vv.setAttribute('playsinline','');vv.setAttribute('disablepictureinpicture','');vv.preload='auto';vv.src=zcPlVUrl(pl.vd);var kick=function(){try{var pp=vv.play();if(pp&&pp.catch)pp.catch(function(){});}catch(e){}};vv.addEventListener('loadeddata',kick);vv.addEventListener('pause',function(){if(vv.isConnected&&!document.hidden&&!vv.ended)setTimeout(kick,60);});setTimeout(kick,0);vv.setAttribute('aria-label','Video polling');vv.addEventListener('click',function(e){e.stopPropagation();});hv.appendChild(vv);box.appendChild(hv);}
+ if(pl.vd){var hv=el('div','zc-poll-img zc-poll-vid'),vv=document.createElement('video');vv.controls=false;vv.removeAttribute('controls');vv.autoplay=true;vv.muted=true;vv.defaultMuted=true;vv.setAttribute('muted','');vv.loop=true;vv.playsInline=true;vv.setAttribute('playsinline','');vv.setAttribute('disablepictureinpicture','');vv.preload='auto';vv.src=zcPlVUrl(pl.vd);var kick=function(){try{var pp=vv.play();if(pp&&pp.catch)pp.catch(function(){});}catch(e){}};vv.addEventListener('loadeddata',kick);vv.addEventListener('pause',function(){if(vv.isConnected&&!document.hidden&&!vv.ended)setTimeout(kick,60);});setTimeout(kick,0);vv.setAttribute('aria-label','Video polling');vv.addEventListener('click',function(e){e.stopPropagation();});hv.appendChild(vv);
+  var mb=el('button','zc-poll-mute');mb.type='button';mb.setAttribute('aria-label','Nyalakan suara');mb.innerHTML='<i class="fa-solid fa-volume-xmark" aria-hidden="true"></i>';
+  mb.addEventListener('click',function(e){e.stopPropagation();var v=hv.querySelector('video');if(!v)return;v.muted=!v.muted;if(!v.muted){v.defaultMuted=false;v.removeAttribute('muted');if(v.volume===0)v.volume=1;}zcPollMuteIcon(hv);try{var pp=v.play();if(pp&&pp.catch)pp.catch(function(){});}catch(x){}});
+  hv.appendChild(mb);box.appendChild(hv);}
  box.appendChild(el('div','zc-poll-q',pl.q));
  var opts=el('div','zc-pos');
  pl.o.forEach(function(lb,i){
@@ -15878,9 +15884,8 @@ function zcPollNode(list,m,pl){
    e.stopPropagation();
    if(st.closed){flash('Polling sudah ditutup.');return;}
    if(!zcPollCan())return;
+   if(voted){flash('Suara sudah terkirim dan tidak bisa diubah atau ditarik.');return;}
    if(pl.mu){var k=sel.indexOf(i);if(k>=0)sel.splice(k,1);else sel.push(i);ZC_PL_SEL[id]=sel;repaint();return;}
-   if(pl.qz>=0&&voted){flash('Jawaban kuis tidak bisa diubah.');return;}
-   if(voted&&st.mine[0]===i){ZC_PL_SEL[id]=[];zcPollVote(m,[]);return;}   /* ketuk pilihan yang sama = tarik suara */
    zcPollVote(m,[i]);
   });
   opts.appendChild(b);
@@ -15889,15 +15894,10 @@ function zcPollNode(list,m,pl){
  var foot=el('div','zc-poll-foot');
  foot.appendChild(el('span','',showRes?(st.voters+' suara'):'Pilih untuk melihat hasil'));
  if(!st.closed&&pl.e>0){foot.appendChild(el('span','','· sisa '+zcPlLeft(pl.e-Date.now())));}
- if(!st.closed&&pl.mu){
-  var go=el('button','zc-poll-go',voted&&sel.length?'Ubah suara':(voted?'Tarik suara':'Kirim suara'));go.type='button';
-  go.addEventListener('click',function(e){e.stopPropagation();if(!zcPollCan())return;if(!sel.length){if(voted){ZC_PL_SEL[id]=[];zcPollVote(m,[]);}else flash('Pilih minimal satu opsi.');return;}ZC_PL_SEL[id]=sel.slice();zcPollVote(m,sel.slice().sort(function(a,b){return a-b;}));});
+ if(!st.closed&&pl.mu&&!voted){
+  var go=el('button','zc-poll-go','Kirim suara');go.type='button';
+  go.addEventListener('click',function(e){e.stopPropagation();if(!zcPollCan())return;if(!sel.length){flash('Pilih minimal satu opsi.');return;}ZC_PL_SEL[id]=sel.slice();zcPollVote(m,sel.slice().sort(function(a,b){return a-b;}));});
   foot.appendChild(go);
- }
- if(!st.closed&&voted&&pl.qz<0){
-  var rt=el('button','zc-poll-go ghost','Tarik suara');rt.type='button';
-  rt.addEventListener('click',function(e){e.stopPropagation();if(!zcPollCan())return;ZC_PL_SEL[id]=[];zcPollVote(m,[]);});
-  foot.appendChild(rt);
  }
  box.appendChild(foot);
  if(isAdm){
@@ -23970,6 +23970,9 @@ init();
 #zcChat .zc-poll-opt .zc-poll-pc{font-weight:500}
 #zcChat .zc-poll-tag,#zcChat .zc-poll-ab,#zcChat .zc-poll-go,#zcChat .zc-cmb{font-weight:600}
 #zcChat .zc-poll-vid video{pointer-events:none}
+#zcChat .zc-poll-vid{position:relative}
+#zcChat .zc-poll-mute{position:absolute;right:10px;bottom:10px;width:36px;height:36px;border:0;border-radius:50%;display:grid;place-items:center;background:rgba(0,0,0,.6);color:#fff;font-size:15px;cursor:pointer;z-index:2;-webkit-tap-highlight-color:transparent}
+#zcChat .zc-poll-mute:active{transform:scale(.92)}
 
 /* ===== Opsi polling (UI baru, ala WhatsApp) ===== */
 #zcChat .zc-pos{display:block;margin:2px 0 0}
