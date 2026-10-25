@@ -13776,7 +13776,7 @@ function setComposerState(){
  else if(muted){$('zcGlobalIn').placeholder=_mt;$('zcThreadIn').placeholder=_mt;}
  else{$('zcGlobalIn').placeholder='Ketik pesan';$('zcThreadIn').placeholder='Ketik pesan';}
  var m1=$('zcModerationNote'),m2=$('zcModerationNoteT');if(m1&&m2){m2.hidden=m1.hidden;m2.textContent=m1.textContent;}
- var g=ok?(threadGate()||adminLimit()):null;
+ var g=ok?adminLimit():null;
  if(g){var ti=$('zcThreadIn'),ts=$('zcThreadSend');ti.disabled=true;ts.disabled=true;ti.placeholder=g.ph;if(m2&&g.msg){m2.hidden=false;m2.textContent=g.msg;m2.dataset.gate='1';m2.style.cursor='pointer';}}
  else if(m2&&m2.dataset.gate){delete m2.dataset.gate;m2.style.cursor='';}
 }
@@ -15375,7 +15375,6 @@ async function sendThread(){
  var uid=String(S.me.id||'');
  if(!UUID_RE.test(uid)||!UUID_RE.test(peer)){flash('ID pengguna tidak valid untuk Live Chat.');return;}
  var pp=S.profiles[peer];if(pp&&pp.blacklisted){flash('Pengguna ini sedang diblacklist dan tidak dapat diajak chat.');return;}
- if(threadGate()){flash('Saling ikuti dulu untuk chat pribadi.');return;}
  var _al=adminLimit();if(_al){flash(_al.msg);setComposerState();return;}
  if(clientBanned(txt)){var _why=banMsg();S.sending=true;S.lastSend=Date.now();try{await zcViolate('private',_why,peer);ta.value='';autosize(ta);sendTyping('private',false);clearThreadReply();}finally{S.sending=false;}return;}
  S.sending=true;S.lastSend=Date.now();
@@ -16427,7 +16426,7 @@ function zcVwInit(){
  },20000);
 }
 zcVwInit();
-/* ===== IKUTI / TEMAN: profil orang lain; chat pribadi hanya jika saling mengikuti ===== */
+/* ===== IKUTI / TEMAN: profil orang lain; chat pribadi bebas (tanpa syarat saling mengikuti) ===== */
 S.social={ok:null,busy:{}};S.rel={};S.cnt={};S.extraSig='';
 /* Prompt 5: angka like = poin ledger dari server (follow_bonus 100 + profile_like 100, maks 200 per pemberi->penerima). Tidak ada pengali di tampilan. ZC_LIKE_WEIGHT hanya fallback untuk backend lama. */
 var ZC_LIKE_WEIGHT=100;
@@ -17029,21 +17028,8 @@ async function togglePfLike(){
  finally{delete S.social.busy['l'+uid];}
  if(pfUid===uid)paintProfile(uid);
 }
-/* Chat pribadi terkunci sampai kedua pihak saling mengikuti (server juga menegakkan lewat trigger). */
-function threadGate(){
- return null; /* chat pribadi tidak lagi butuh saling ikuti */
- var peer=S.peer;if(!peer||!S.me||S.social.ok===false)return null;
- if(isAdminPeer(peer))return null;
- if(S.me.is_admin||String(S.me.username||'').toLowerCase()===ZC_OWNER_USERNAME)return null;
- var r=S.rel[peer];
- if(r&&r.error)return null;
- if(!r)return {ph:'Memeriksa pertemanan…',msg:''};
- if(r.i_follow&&r.follows_me)return null;
- var p=S.profiles[peer]||{},u='@'+(p.username||'pengguna');
- if(r.follows_me)return {ph:'Ikuti balik untuk chat',msg:u+' sudah mengikutimu. Ikuti balik untuk membuka chat pribadi. Ketuk untuk lihat profil.'};
- if(r.i_follow)return {ph:'Menunggu '+u+' mengikuti balik',msg:'Menunggu '+u+' mengikutimu balik. Chat pribadi terbuka setelah kalian saling mengikuti.'};
- return {ph:'Saling ikuti dulu untuk chat',msg:'Kalian belum saling mengikuti. Ketuk untuk buka profil lalu ikuti '+u+'.'};
-}
+/* Chat pribadi TIDAK lagi butuh saling ikuti (siapa pun bisa chat siapa pun, termasuk admin). Fungsi dipertahankan agar pemanggil lama aman. */
+function threadGate(){return null;}
 function openSheet(id){var x=$(id);x.classList.add('on');x.setAttribute('aria-hidden','false');}
 function closeSheet(id){var x=$(id);x.classList.remove('on');x.setAttribute('aria-hidden','true');if(id==='zcProfileSheet'){var bv=x.querySelector('.zc-pf-cover-vid');if(bv){try{bv.pause();}catch(e){}}}}
 function admHhmm(v){var d=v?new Date(v):null;if(!d||isNaN(d.getTime()))return '-';function z(n){return ('0'+n).slice(-2);}var now=new Date(),same=d.toDateString()===now.toDateString();return z(d.getHours())+':'+z(d.getMinutes())+(same?'':' '+z(d.getDate())+'/'+z(d.getMonth()+1));}
@@ -17177,7 +17163,6 @@ function pollTick(){
  var bad=Object.keys(S.statuses).some(function(k){return S.statuses[k]!=='SUBSCRIBED';});
  /* Realtime putus -> polling cepat (6 dtk). Normal -> jaring pengaman tiap 30 dtk. */
  if(bad||pollN%5===0)resync();
- if(S.peer&&S.tab==='private'&&S.social.ok!==false&&threadGate()&&pollN%2===0)loadRelation(S.peer).then(function(){setComposerState();});
 }
 /* ===== ZUSMO SOCIAL DISCOVERY (Prompt 3) — memakai RPC/tabel yang sudah ada: chat_profiles, zc_follow_list, zc_profile_card, zc_follow/zc_unfollow, presence S.online, openThread. Tanpa data palsu. ===== */
 var ZD={uid:null,tab:'rec',shown:8,seed:Date.now(),fol:{},folIds:[],folOk:true,pools:{},raw:{},marked:{},loaded:false,loading:false,err:'',open:true,bound:false,t:null,seq:0,cardBusy:{},openGreet:null};
@@ -17263,8 +17248,6 @@ function zdRowEl(p){
 }
 function zdGreetEl(id){
  var box=el('div','zd-greet'),rel=S.rel&&S.rel[id];
- var can=!!(S.me.is_admin||isAdminPeer(id)||(rel&&rel.i_follow&&rel.follows_me));
- if(!can){var p=S.profiles[id]||{};box.appendChild(el('div','zd-gnote',(rel&&rel.follows_me?'Ikuti balik':'Ikuti')+' @'+(p.username||'pengguna')+' dulu. Chat pribadi terbuka setelah kalian saling mengikuti.'));return box;}
  box.appendChild(el('div','zd-gnote','Sapa: pilih pesan pembuka. Pesan baru terkirim setelah kamu menekan kirim.'));
  var w=el('div','zd-tpls');ZD_TPL.forEach(function(t){var b=el('button','zd-tpl',t);b.type='button';b.dataset.act='t';b.dataset.tpl=t;w.appendChild(b);});box.appendChild(w);return box;
 }
@@ -18572,7 +18555,7 @@ function zstOpenViewer(uid){
   if(S.me.blacklisted){flash('Kamu tidak bisa mengirim pesan.');return;}
   inp.disabled=true;
   try{var r=await S.sb.rpc('zc_send_private',{p_receiver:g.uid,p_content:'↩️ Membalas status: '+txt});if(r.error)throw r.error;inp.value='';flash('Balasan terkirim.');inp.blur();}
-  catch(x){flash(String((x&&x.message)||'Gagal mengirim balasan.'));}
+  catch(x){var _em=String((x&&x.message)||'Gagal mengirim balasan.');flash(/saling\s+(ikuti|mengikuti)/i.test(_em)?'Server masih mewajibkan saling ikuti. Jalankan zusmo-chat-tanpa-saling-ikuti.sql di Supabase.':_em);}
   finally{inp.disabled=false;}}
  function buildBot(g){
   bot.textContent='';
