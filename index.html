@@ -15852,12 +15852,12 @@ function zcPollNode(list,m,pl){
  function repaint(){var n=zcPollKeepVid(box,zcPollNode(list,m,pl));if(box.parentNode)box.parentNode.replaceChild(n,box);}
  var sel=ZC_PL_SEL[id]||(ZC_PL_SEL[id]=st.mine.slice());
  if(!pl.mu)sel=[];
- var top=el('div','zc-poll-top');top.innerHTML='<i class="fa-solid fa-square-poll-vertical" aria-hidden="true"></i>';top.appendChild(el('span','','POLLING'));
+ var top=el('div','zc-poll-top');
  if(pl.qz>=0)top.appendChild(el('span','zc-poll-tag','Kuis'));
  if(pl.mu)top.appendChild(el('span','zc-poll-tag','Pilih banyak'));
  
  if(st.closed)top.appendChild(el('span','zc-poll-tag zc-poll-tag-x',st.ended&&!st.adminClosed?'Waktu habis':'Ditutup'));
- box.appendChild(top);
+ if(top.children.length)box.appendChild(top);
  if(pl.im){var hi=el('div','zc-poll-img'),himg=document.createElement('img');himg.alt='Foto polling';himg.loading='lazy';himg.decoding='async';himg.src=zcPlUrl(pl.im);himg.addEventListener('click',function(e){e.stopPropagation();zcImgOpen(zcPlUrl(pl.im));});hi.appendChild(himg);box.appendChild(hi);}
  if(pl.vd){var hv=el('div','zc-poll-img zc-poll-vid'),vv=document.createElement('video');vv.controls=false;vv.removeAttribute('controls');vv.autoplay=true;vv.muted=true;vv.defaultMuted=true;vv.setAttribute('muted','');vv.loop=true;vv.playsInline=true;vv.setAttribute('playsinline','');vv.setAttribute('disablepictureinpicture','');vv.preload='auto';vv.src=zcPlVUrl(pl.vd);var kick=function(){try{var pp=vv.play();if(pp&&pp.catch)pp.catch(function(){});}catch(e){}};vv.addEventListener('loadeddata',kick);vv.addEventListener('pause',function(){if(vv.isConnected&&!document.hidden&&!vv.ended)setTimeout(kick,60);});setTimeout(kick,0);vv.setAttribute('aria-label','Video polling');vv.addEventListener('click',function(e){e.stopPropagation();});hv.appendChild(vv);box.appendChild(hv);}
  box.appendChild(el('div','zc-poll-q',pl.q));
@@ -15888,7 +15888,7 @@ function zcPollNode(list,m,pl){
  box.appendChild(opts);
  var foot=el('div','zc-poll-foot');
  foot.appendChild(el('span','',showRes?(st.voters+' suara'):'Pilih untuk melihat hasil'));
- if(!st.closed){foot.appendChild(el('span','',pl.e>0?'· sisa '+zcPlLeft(pl.e-Date.now()):'· tanpa batas waktu'));}
+ if(!st.closed&&pl.e>0){foot.appendChild(el('span','','· sisa '+zcPlLeft(pl.e-Date.now())));}
  if(!st.closed&&pl.mu){
   var go=el('button','zc-poll-go',voted&&sel.length?'Ubah suara':(voted?'Tarik suara':'Kirim suara'));go.type='button';
   go.addEventListener('click',function(e){e.stopPropagation();if(!zcPollCan())return;if(!sel.length){if(voted){ZC_PL_SEL[id]=[];zcPollVote(m,[]);}else flash('Pilih minimal satu opsi.');return;}ZC_PL_SEL[id]=sel.slice();zcPollVote(m,sel.slice().sort(function(a,b){return a-b;}));});
@@ -16361,11 +16361,11 @@ function zcVwSeen(){
 function zcVwSave(){try{var k=Object.keys(ZC_VW.seen||{}).slice(-600);localStorage.setItem('zc_vw_seen_v1:'+(S.me&&S.me.id||''),JSON.stringify(k));}catch(e){}}
 function zcVwPaint(id){
  var n=ZC_VW.counts[id];if(n==null)return;
- Array.prototype.forEach.call(document.querySelectorAll('#zcChat .zc-views[data-vw="'+String(id).replace(/"/g,'')+'"]'),function(s){s.hidden=false;var b=s.lastChild;if(b)b.textContent=zcVwFmt(n);s.title=n+' tayangan';});
+ Array.prototype.forEach.call(document.querySelectorAll('#zcChat .zc-views[data-vw="'+String(id).replace(/"/g,'')+'"]'),function(s){s.hidden=!(S.me&&S.me.is_admin);var b=s.lastChild;if(b)b.textContent=zcVwFmt(n);s.title=n+' tayangan';});
 }
 function zcViewsEl(m){
  var s=el('span','zc-views');s.dataset.vw=String(m.id);s.innerHTML='<i class="fa-regular fa-eye" aria-hidden="true"></i>';
- s.appendChild(el('b','',zcVwFmt(ZC_VW.counts[m.id]||0)));s.hidden=ZC_VW.counts[m.id]==null;return s;
+ s.appendChild(el('b','',zcVwFmt(ZC_VW.counts[m.id]||0)));s.hidden=!(S.me&&S.me.is_admin)||ZC_VW.counts[m.id]==null;return s;
 }
 function zcVwOff(e){
  var t=String(e&&(e.message||e.code||e)||'');
@@ -23993,6 +23993,7 @@ init();
 #zcChat .zc-po-th{flex:none;display:block;width:56px;height:56px;border-radius:10px;overflow:hidden;background:rgba(0,0,0,.3)}
 #zcChat .zc-po-th img{display:block;width:100%;height:100%;object-fit:cover}
 #zcChat .zc-poll-q{margin:0 0 6px}
+#zcChat .zc-views[hidden]{display:none!important}
 #zcChat .zc-poll-img,#zcChat .zc-poll-vid{margin-bottom:10px}
 #zcChat .zc-pl-thb video{width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block;pointer-events:none}
 
