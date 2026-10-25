@@ -14417,6 +14417,7 @@ function openMsgMenu(m,o){
  function add(icon,label,cls,fn){var b=el('button','zc-mm-btn'+(cls?' '+cls:''));b.type='button';b.innerHTML='<i class="'+icon+'" aria-hidden="true"></i>';b.appendChild(el('span','',label));b.addEventListener('click',fn);sh.appendChild(b);return b;}
  if(o.allowReply)add('fa-solid fa-reply','Balas','',function(){zcCloseMsgMenu();setReply(m,isG?'group':'thread');});
  if(!isStk)add('fa-regular fa-copy','Salin pesan','',function(){zcCloseMsgMenu();zcCopyText(txtOf(m));});
+ if(isG&&zcIsChan()&&!m.deleted_at&&m.id!=null)add('fa-solid fa-link','Salin link','',function(){zcCloseMsgMenu();zcCopyText(zcMsgLink(m),'Link pesan disalin.');});
  if(mine&&!isStk&&zcCanEdit(m))add('fa-regular fa-pen-to-square','Edit pesan','',function(){zcEditOpen(m,list);});
  if(!mine&&!(S.me&&S.me.is_admin)&&!m.deleted_at&&m.id!=null)add('fa-regular fa-flag','Laporkan pesan','zc-mm-del',function(){zcReportOpen(m,isG?'global':'private');});
  if(mine){var armed=false;var db=add('fa-regular fa-trash-can','Hapus untuk semua orang','zc-mm-del',async function(){
@@ -15836,11 +15837,18 @@ async function zcPollCtl(m,patch){
  var o=Object.assign({p:String(m.id)},patch);
  await zcSxSend(ZC_PC_PREFIX+JSON.stringify(o));
 }
+function zcPollKeepVid(oldN,newN){
+ try{
+  var ov=oldN&&oldN.querySelector('.zc-poll-vid video'),nv=newN&&newN.querySelector('.zc-poll-vid video');
+  if(ov&&nv&&nv.parentNode&&(ov.getAttribute('src')||ov.src)===(nv.getAttribute('src')||nv.src))nv.parentNode.replaceChild(ov,nv);
+ }catch(e){}
+ return newN;
+}
 function zcPollNode(list,m,pl){
  var st=zcPollState(list,m,pl),isAdm=!!(S.me&&S.me.is_admin),voted=st.mine.length>0,id=String(m.id);
  var showRes=st.closed||voted||isAdm||!pl.hd;
  var box=el('div','zc-poll');box.dataset.pollId=id;
- function repaint(){var n=zcPollNode(list,m,pl);if(box.parentNode)box.parentNode.replaceChild(n,box);}
+ function repaint(){var n=zcPollKeepVid(box,zcPollNode(list,m,pl));if(box.parentNode)box.parentNode.replaceChild(n,box);}
  var sel=ZC_PL_SEL[id]||(ZC_PL_SEL[id]=st.mine.slice());
  if(!pl.mu)sel=[];
  var top=el('div','zc-poll-top');top.innerHTML='<i class="fa-solid fa-square-poll-vertical" aria-hidden="true"></i>';top.appendChild(el('span','','POLLING'));
@@ -15862,8 +15870,7 @@ function zcPollNode(list,m,pl){
   fill.style.width=(showRes?pc:0)+'%';b.appendChild(fill);
   var ip=pl.i&&pl.i[i];
   if(ip){b.classList.add('card');var oi=el('span','zc-poll-oi'),oim=document.createElement('img');oim.alt='';oim.loading='lazy';oim.decoding='async';oim.src=zcPlUrl(ip);oi.appendChild(oim);
-   var ox=el('span','zc-poll-ox');ox.setAttribute('aria-label','Perbesar foto');ox.innerHTML='<i class="fa-solid fa-expand" aria-hidden="true"></i>';
-   ox.addEventListener('click',function(e){e.stopPropagation();e.preventDefault();zcImgOpen(zcPlUrl(ip));});oi.appendChild(ox);b.appendChild(oi);}
+   b.appendChild(oi);}
   var ck=el('span','zc-poll-ck');ck.innerHTML=on?'<i class="fa-solid fa-check" aria-hidden="true"></i>':'';b.appendChild(ck);
   b.appendChild(el('span','zc-poll-lb',lb));
   if(showRes)b.appendChild(el('span','zc-poll-pc',pc+'%'));
@@ -15874,7 +15881,7 @@ function zcPollNode(list,m,pl){
    if(!zcPollCan())return;
    if(pl.mu){var k=sel.indexOf(i);if(k>=0)sel.splice(k,1);else sel.push(i);ZC_PL_SEL[id]=sel;repaint();return;}
    if(pl.qz>=0&&voted){flash('Jawaban kuis tidak bisa diubah.');return;}
-   if(voted&&st.mine[0]===i)return;
+   if(voted&&st.mine[0]===i){ZC_PL_SEL[id]=[];zcPollVote(m,[]);return;}   /* ketuk pilihan yang sama = tarik suara */
    zcPollVote(m,[i]);
   });
   opts.appendChild(b);
@@ -15884,8 +15891,8 @@ function zcPollNode(list,m,pl){
  foot.appendChild(el('span','',showRes?(st.voters+' suara'):'Pilih untuk melihat hasil'));
  if(!st.closed){foot.appendChild(el('span','',pl.e>0?'· sisa '+zcPlLeft(pl.e-Date.now()):'· tanpa batas waktu'));}
  if(!st.closed&&pl.mu){
-  var go=el('button','zc-poll-go',voted?'Ubah suara':'Kirim suara');go.type='button';
-  go.addEventListener('click',function(e){e.stopPropagation();if(!zcPollCan())return;if(!sel.length){flash('Pilih minimal satu opsi.');return;}ZC_PL_SEL[id]=sel.slice();zcPollVote(m,sel.slice().sort(function(a,b){return a-b;}));});
+  var go=el('button','zc-poll-go',voted&&sel.length?'Ubah suara':(voted?'Tarik suara':'Kirim suara'));go.type='button';
+  go.addEventListener('click',function(e){e.stopPropagation();if(!zcPollCan())return;if(!sel.length){if(voted){ZC_PL_SEL[id]=[];zcPollVote(m,[]);}else flash('Pilih minimal satu opsi.');return;}ZC_PL_SEL[id]=sel.slice();zcPollVote(m,sel.slice().sort(function(a,b){return a-b;}));});
   foot.appendChild(go);
  }
  if(!st.closed&&voted&&pl.qz<0){
@@ -16067,7 +16074,7 @@ function zcSxRefreshPost(list,id){
   var m=list.ids[id];
   if(row&&m&&!m.deleted_at){
    var bub=row.querySelector('.zc-bub');
-   if(bub){var pn=bub.querySelector('.zc-poll'),pl=pn?zcPollParse(m):null;if(pn&&pl)pn.parentNode.replaceChild(zcPollNode(list,m,pl),pn);zcCmBtn(list,m,bub);}
+   if(bub){var pn=bub.querySelector('.zc-poll'),pl=pn?zcPollParse(m):null;if(pn&&pl)pn.parentNode.replaceChild(zcPollKeepVid(pn,zcPollNode(list,m,pl)),pn);zcCmBtn(list,m,bub);}
   }
  }
  if(ZC_CM.id===id&&document.getElementById('zcCmSheet'))zcCmPaint();
@@ -16509,6 +16516,34 @@ window.__zcFollowList=async function(kind){
 };
 window.__zcOpenUser=function(uid){if(typeof showPage==='function')showPage('zcChat');setTimeout(function(){try{openProfile(uid);}catch(e){}},260);};
 window.__zcOpenChat=function(uid){if(typeof showPage==='function')showPage('zcChat');var go=function(){try{if(S.ready)openThread(uid);else start().then(function(){openThread(uid);});}catch(e){}};setTimeout(go,260);};
+/* ===== Link pesan saluran (ala WhatsApp): ?saluran=<kunci>&pesan=<id> membuka saluran lalu melompat ke pesan ===== */
+function zcMsgLink(m){
+ var base;try{base=location.protocol==='file:'?'https://www.kzrizusmostore.com/':location.origin+location.pathname;}catch(e){base='https://www.kzrizusmostore.com/';}
+ return base+'?saluran='+encodeURIComponent(zcCurGrp())+'&pesan='+encodeURIComponent(String(m.id));
+}
+window.__zcOpenMsgLink=async function(key,id){
+ if(!ZC_GRPS[key]||key==='community'||id==null)return;
+ id=String(id);
+ try{
+  if(typeof showPage==='function')showPage('zcChat');
+  if(!S.ready||!S.sb)await start();
+  if(!S.ready){flash('Masuk dulu untuk membuka link pesan.');return;}
+  zcOpenGrp(key);
+  var t=0;while(t<40&&!gList.items.length){await new Promise(function(r){setTimeout(r,150);});t++;}
+  var tries=0;
+  while(!gList.ids[id]&&gList.more&&tries<15){var n=gList.items.length;await loadOlderGlobal();tries++;if(gList.items.length===n)break;}
+  if(!gList.ids[id]){flash('Pesan tidak ditemukan atau sudah dihapus.');return;}
+  setTimeout(function(){if(!gList.scrollToId(id))flash('Pesan tidak ditemukan.');},350);
+ }catch(e){console.warn('[zc-chat] link pesan:',e);flash('Link pesan tidak bisa dibuka.');}
+};
+(function(){
+ var k='',id='';
+ try{var q=new URLSearchParams(location.search);k=String(q.get('saluran')||'');id=String(q.get('pesan')||'');}catch(e){}
+ if(!k||!id)return;
+ try{var u=new URL(location.href);u.searchParams.delete('saluran');u.searchParams.delete('pesan');history.replaceState(history.state,'',u.pathname+(u.search||'')+u.hash);}catch(e){}
+ var go=function(){setTimeout(function(){window.__zcOpenMsgLink(k,id);},900);};
+ if(document.readyState==='complete')go();else window.addEventListener('load',go);
+})();
 window.__zcCtx=function(){return ((S.sb&&S.me&&S.ready)?Promise.resolve():start()).then(function(){return S;});};
 window.__zcRefreshSocial=function(){return S.ready?refreshMySocial():start().then(function(){return refreshMySocial();});};
 /* ===== Cari akun admin/developer (kzrizusmo_store). Admin mengikuti pengguna lain HANYA manual lewat tombol Ikuti di profil. ===== */
@@ -23342,7 +23377,7 @@ body.kz-offmain .app-bottombar{display:none!important}
 #zcChat #zcGroupInfoBtn[hidden]{display:none!important}
 #zcChat.zc-is-chan #zcGroupInfoBtn,#zcChat.zc-is-chan #zcGalBtn{display:none!important}
 /* Saluran ala WhatsApp: tanpa avatar & nama, semua pesan rata kiri */
-#zcGroupView .zc-row.zc-chan{justify-content:flex-start;padding:2px 10px}
+#zcGroupView .zc-row.zc-chan,#zcGroupView .zc-row.zc-chan.zc-mine,#zcGroupView .zc-row.zc-chan.zc-other{justify-content:center;padding:2px 10px}
 #zcGroupView .zc-row.zc-chan .zc-bub{max-width:min(94%,560px)}
 #zcGroupMembersModal.zc-gm-chan .zc-gm-actions,#zcGroupMembersModal.zc-gm-chan #zcGmSec{display:none!important}
 #zcGroupMembersModal .zc-chan-d{white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;font-size:13px;line-height:1.65;color:#d8d8d8;text-align:left}
@@ -23386,7 +23421,7 @@ body.kz-offmain .app-bottombar{display:none!important}
 #zcChat .zc-poll-ck{width:20px;height:20px}
 #zcChat .zc-poll-lb{font-size:.88rem;font-weight:600}
 #zcChat .zc-poll-pc{font-size:.78rem}
-#zcChat .zc-poll-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+#zcChat .zc-poll-grid{grid-template-columns:minmax(0,1fr)}
 #zcChat .zc-poll-grid .zc-poll-opt:not(.card){grid-column:1/-1}
 #zcChat .zc-poll-opt.card{flex-wrap:wrap;align-content:flex-start;align-items:center;gap:0 8px;padding:0 10px 8px}
 #zcChat .zc-poll-oi{position:relative;flex:0 0 calc(100% + 20px);margin:0 -10px 8px;aspect-ratio:4/3;background:rgba(0,0,0,.3)}
