@@ -18373,7 +18373,8 @@ function zstCompose(blob,kind){
 }
 function zstTextCompose(){
  var ov=zstShell('Status teks'),pi=0,fr=el('div','zc-stc-fr zc-stc-tx'),ta=document.createElement('textarea');
- ta.className='zc-stc-ta';ta.placeholder='Ketik status…';ta.maxLength=240;fr.appendChild(ta);ov.appendChild(fr);
+ ta.className='zc-stc-ta';ta.placeholder='Ketik status…';ta.maxLength=240;ta.rows=1;fr.appendChild(ta);ov.appendChild(fr);
+  function fitTa(){ta.style.height='auto';ta.style.height=Math.min(ta.scrollHeight,(fr.clientHeight||600)*.8)+'px';}ta.addEventListener('input',fitTa);fitTa();
  function bg(){fr.style.background='linear-gradient(135deg,'+ZST_PAL[pi][0]+','+ZST_PAL[pi][1]+')';}bg();
  var bar=el('div','zc-stc-bar'),pal=el('button','zc-stc-pal'),go=el('button','zc-stc-go');
  pal.type='button';pal.setAttribute('aria-label','Ganti warna');pal.innerHTML='<i class="fa-solid fa-palette"></i>';pal.addEventListener('click',function(){pi=(pi+1)%ZST_PAL.length;bg();});
@@ -20053,6 +20054,15 @@ function zcnPaintUpd(){
    label:'Buka saluran',click:function(){ch.click();}}));
   var pr=box.lastChild;if(pr){var pin=el('span','zcn-pin');pin.setAttribute('aria-label','Disematkan');pin.appendChild(zcnIcon('fa-solid fa-thumbtack'));pr.appendChild(pin);}
  }
+ var fav=el('span','zcn-chimg zcn-find');fav.appendChild(zcnIcon('fa-solid fa-user-group'));
+ box.appendChild(zcnMkRow({lead:fav,title:'Temukan teman',icon:'fa-solid fa-magnifying-glass',sub:'Cari dan ikuti pengguna lain',label:'Temukan teman',click:function(){var b=$('zdAll');if(b)b.click();}}));
+ var fw=el('div','zcn-fabwrap'),pen=el('button','zcn-fab zcn-fab-pen'),cm=el('button','zcn-fab');
+ pen.type='button';pen.setAttribute('aria-label','Status teks');pen.title='Status teks';pen.appendChild(zcnIcon('fa-solid fa-pencil'));
+ pen.addEventListener('click',function(){if(!S.me){flash('Masuk dulu untuk membuat status.');return;}zstTextCompose();});
+ cm.type='button';cm.setAttribute('aria-label','Kamera status');cm.title='Kamera status';
+ cm.innerHTML='<i class="fa-solid fa-camera" aria-hidden="true"></i><b class="zcn-fab-plus"><i class="fa-solid fa-plus" aria-hidden="true"></i></b>';
+ cm.addEventListener('click',function(){if(!S.me){flash('Masuk dulu untuk membuat status.');return;}zstInputs();var c=$('zcStCam');if(c)c.click();});
+ fw.appendChild(pen);fw.appendChild(cm);box.appendChild(fw);
  box.scrollTop=top;
 }
 function zcnTimeLabel(t){var d=new Date(t);return dayLabel(d)+', '+hhmm(d);}
@@ -23434,7 +23444,7 @@ body.kz-offmain .app-bottombar{display:none!important}
 #zcChat .zc-stc-fr{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
 #zcChat .zc-stc-fr>img,#zcChat .zc-stc-fr>video{max-width:100%;max-height:100%;object-fit:contain}
 #zcChat .zc-stc-tx{margin:0 12px;border-radius:22px}
-#zcChat .zc-stc-ta{width:88%;height:60%;background:transparent;border:0!important;outline:0!important;box-shadow:none!important;color:#fff;font:800 28px/1.3 'Outfit',system-ui,sans-serif;text-align:center;resize:none}
+#zcChat .zc-stc-ta{width:88%;height:auto;max-height:80%;overflow-y:auto;background:transparent;border:0!important;outline:0!important;box-shadow:none!important;color:#fff;font:800 28px/1.3 'Outfit',system-ui,sans-serif;text-align:center;resize:none}
 #zcChat .zc-stc-ta::placeholder{color:rgba(255,255,255,.6)}
 #zcChat .zc-stc-bar{flex:none;display:flex;align-items:center;gap:10px;padding:10px 12px calc(env(safe-area-inset-bottom,0px) + 12px)}
 #zcChat .zc-stc-cap{flex:1;min-width:0;height:46px;padding:0 16px;border-radius:24px;border:0!important;outline:0!important;background:rgba(255,255,255,.14);color:#fff;font-size:16px}
@@ -23772,7 +23782,7 @@ async function ncFetch(q){
 }
 function openNc(){hmenu.hidden=true;$('zcNcQ').value='';nc.classList.add('on');ncFetch('')}
 function closeNc(){nc.classList.remove('on')}
-function discover(){hmenu.hidden=true;var all=$('zdAll');closeNc();if(all&&all.offsetParent!==null){all.click();return}openNc()}
+function discover(){hmenu.hidden=true;var all=$('zdAll');closeNc();if(all){all.click();return}openNc()}
 function cam(){var dc=document.getElementById('zcStCam');if(dc){dc.click();return}var p=document.querySelector('#zcStRow .zc-st-plus');if(p){p.click();return}toast('Status belum siap. Masuk akun lalu coba lagi.')}
 function init(){
   if($('zcAiView'))return;
@@ -23812,6 +23822,8 @@ init();
 
 <style id="zc-livechat-fix1">
 #zcConvView #zcChanLabel,#zcConvView #zcGroupItem_official{display:none!important}
+#zcConvView #zcDisc{display:none!important}
+#zcConvView .zcn-chimg.zcn-find{display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px}
 .zcai-menu .zcai-adm-item .zc-rep-n{position:static!important;margin-left:auto;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:#ff3b3b;color:#fff;font:700 11px/18px Inter,sans-serif;text-align:center}
 .zcai-menu .zcai-adm-item .zc-rep-n[hidden]{display:none!important}
 </style>
@@ -23848,6 +23860,10 @@ init();
 #zcConvView .zcn-fabwrap{position:sticky;bottom:16px;height:0;pointer-events:none}
 #zcConvView .zcn-fab{pointer-events:auto;position:absolute;right:16px;bottom:0;width:58px;height:58px;border:0;border-radius:18px;background:#ff2b2b;color:#fff;font-size:21px;display:grid;place-items:center;cursor:pointer;box-shadow:none;-webkit-tap-highlight-color:transparent}
 #zcConvView .zcn-fab:active{opacity:.85}
+#zcConvView #zcPaneUpd:not([hidden]),#zcConvView #zcPaneCall:not([hidden]){display:flex;flex-direction:column}
+#zcConvView #zcPaneUpd>*,#zcConvView #zcPaneCall>*{flex:none}
+#zcConvView #zcPaneUpd .zcn-fabwrap,#zcConvView #zcPaneCall .zcn-fabwrap{margin-top:auto}
+#zcConvView .zcn-fab.zcn-fab-pen{width:46px;height:46px;border-radius:15px;right:22px;bottom:70px;font-size:17px;background:#26282d}
 #zcConvView .zcn-fab .zcn-fab-plus{position:absolute;top:13px;right:11px;font-size:9px;line-height:1}
 #zcConvView .zcn-fab .zcn-fab-plus i{font-size:9px;color:#fff}
 
