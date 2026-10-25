@@ -13710,6 +13710,7 @@ function pageActive(){var p=$('zcChat');return !!(p&&p.classList.contains('activ
 function flash(msg){var f=$('zcFlash');if(!f)return;f.textContent=msg;f.classList.add('on');clearTimeout(flash.t);flash.t=setTimeout(function(){f.classList.remove('on');},3400);}
 function friendly(err){
  var m=(err&&(err.message||err.error_description))||String(err||''),c=(err&&err.code)||'';
+ if(/hanya admin yang dapat mengirim pesan di saluran/i.test(m))return 'Belum bisa dikirim. Coba lagi nanti.';
  if(/anonymous sign-ins are disabled/i.test(m))return 'Anonymous Sign-in belum aktif di Supabase.';
  if(/kata terlarang|banned|blacklist|blacklisted|dibisukan|khusus admin/i.test(m))return m;
  if(/username.*(taken|reserved|unique|sudah|dipakai|bentrok)/i.test(m))return 'Username sudah dipakai atau dicadangkan. Ganti username di profil.';
@@ -15712,7 +15713,7 @@ function zcSxPre(r){r=String(r||'');return r.indexOf('[[ZC_PVOTE_V1]]')===0||r.i
 /* non-admin hanya boleh mengirim suara dan komentar ke saluran */
 function zcSxAllowed(vs){
  if(!vs||!vs.length)return false;
- return vs.every(function(v){var c=String(v&&(v.content!=null?v.content:v.message)||'');return c.indexOf('[[ZC_PVOTE_V1]]')===0||c.indexOf('[[ZC_CMT_V1]]')===0;});
+ return vs.every(function(v){var c=String(v&&(v.content!=null?v.content:v.message)||'');return c.indexOf('[[ZC_PVOTE_V1]]')===0||c.indexOf('[[ZC_CMT_V1]]')===0||c.indexOf('[[ZC_RCT_V1]]')===0;});
 }
 function zcSxParse(m){
  if(!m)return null;if(m._sx!==undefined)return m._sx;
@@ -17657,7 +17658,7 @@ function zcApplyGrpHead(){try{var _c=$('zcChat');if(_c)_c.classList.toggle('zc-i
  try{zcPollSync();}catch(e){}
  try{var cp=document.querySelector('#zcGroupView .zc-compose'),nt=$('zcChanNote'),ro=zcIsChan()&&!(S.me&&S.me.is_admin);
  if(cp&&!nt){nt=document.createElement('div');nt.id='zcChanNote';nt.style.cssText='display:none;padding:14px 16px;text-align:center;font-size:13px;color:#9aa4ab;border-top:1px solid rgba(255,255,255,.06)';nt.textContent='Hanya admin yang dapat mengirim pesan di saluran ini.';cp.parentNode.insertBefore(nt,cp);}
- if(cp)cp.style.display=ro?'none':'';if(nt)nt.style.display=ro?'block':'none';}catch(e){}
+ if(cp)cp.style.display=ro?'none':'';if(nt)nt.style.display='none';}catch(e){}
 }
 function zcGrpBackToCommunity(){
  S.grp='community';try{gList.reset();}catch(e){}
