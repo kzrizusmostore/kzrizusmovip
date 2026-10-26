@@ -1,0 +1,1 @@
+function apResetVerification(){var ok=false;try{if(typeof window.o22ResetVerification==="function"){ok=window.o22ResetVerification()===true}else{localStorage.removeItem("zusmo_old22_keys");ok=true}}catch(e){ok=false}var msg=ok?"Verifikasi direset. Wajib verifikasi ulang.":"Gagal reset verifikasi.";if(typeof apPrimeToast==="function")apPrimeToast(msg)}

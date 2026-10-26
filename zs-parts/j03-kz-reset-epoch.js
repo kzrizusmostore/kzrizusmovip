@@ -1,0 +1,1 @@
+(function(){var KZ_RESET_EPOCH="2026-10-16-r1";try{if(localStorage.getItem("kz_reset_epoch")===KZ_RESET_EPOCH)return;["hmDisplayName","dpUsername","dpNameChangedAt","dpUserChangedAt"].forEach(function(k){localStorage.removeItem(k)});localStorage.setItem("kz_reset_epoch",KZ_RESET_EPOCH)}catch(e){}})();

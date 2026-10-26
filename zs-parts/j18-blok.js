@@ -1,0 +1,1 @@
+(function(){var qs=[].slice.call(document.querySelectorAll("#eventTab details.ev-qa"));qs.forEach(function(d){d.addEventListener("toggle",function(){if(!d.open)return;qs.forEach(function(o){if(o!==d&&o.open)o.open=false})})})})();

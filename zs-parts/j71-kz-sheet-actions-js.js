@@ -1,0 +1,1 @@
+(function(){function wire(id,fb){var b=document.getElementById(id);if(!b)return;function lab(){var t=(b.textContent||"").trim()||fb;b.setAttribute("aria-label",t);b.title=t}lab();try{new MutationObserver(lab).observe(b,{childList:true,characterData:true,subtree:true})}catch(e){}}wire("zcSheetFollow","Ikuti");wire("zcSheetChat","Chat Pribadi")})();

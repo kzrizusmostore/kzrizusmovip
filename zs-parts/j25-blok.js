@@ -1,0 +1,1 @@
+document.addEventListener("keydown",function(e){var b=document.getElementById("kzInstallBanner");if(e.key==="Escape"&&b&&b.classList.contains("show")&&typeof window.kzInstallDismiss==="function")window.kzInstallDismiss()});

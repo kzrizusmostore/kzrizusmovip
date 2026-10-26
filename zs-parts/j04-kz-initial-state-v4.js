@@ -1,0 +1,1 @@
+(function(){try{var key="zusmo_diamond_balance";var mig="kz_diamond_9999_migration_v4";if(localStorage.getItem(mig)!=="1"){var raw=localStorage.getItem(key);var n=parseInt(raw,10);if(raw===null||raw===""||isNaN(n)||n===0||n===2500){localStorage.setItem(key,"9999")}localStorage.setItem(mig,"1")}}catch(e){}})();
