@@ -1,14 +1,21 @@
-// Proxy Info Player Free Fire (Vercel serverless).
-// Memanggil API siambhau69 dari server (API key tidak ikut ke browser) lalu
-// mengubah responsnya ke format yang dipakai halaman: { ok, uid, profile:{...} }.
-const BASE = 'http://siambhau69.eu.cc';
+// Proxy Info Player Free Fire (Vercel serverless, simpan sebagai api/ff.js).
+// Hanya memakai API siambhau69. API key tetap di server dan tidak ikut ke browser.
+// Mengubah respons API ke format yang dipakai halaman: { ok, uid, profile:{...} }.
+//
+// Environment variable (opsional, disarankan diisi di dashboard Vercel):
+//   FFINFO_KEY  = API key siambhau69
+//   FFINFO_BASE = alamat API (default: http://siambhau69.eu.cc)
+const BASE = String(process.env.FFINFO_BASE || 'http://siambhau69.eu.cc').replace(/\/+$/, '');
 const KEY = process.env.FFINFO_KEY || 'kzrizusmo:FFINFO:XDI';
 const REGIONS = ['ID', 'SG', 'BD', 'IND', 'TH', 'VN'];
-const ICON = 'https://adenpedia.my.id/update01/images/avatar/';
-const regionCache = new Map();
+
+// Setiap panggilan ke API memakai kuota harian, jadi hasil disimpan sementara.
+const regionCache = new Map();   // uid -> region yang berhasil
+const missCache = new Map();     // uid -> waktu terakhir tidak ditemukan
+const MISS_TTL = 10 * 60 * 1000;
 
 function num(v) { const n = Number(v); return Number.isFinite(n) ? n : undefined; }
-function icon(id) { return id ? { id: Number(id), url: ICON + id + '.png' } : null; }
+function icon(id) { return id ? { id: Number(id) } : null; }
 function iso(sec) { const n = Number(sec); return n > 0 ? new Date(n * 1000).toISOString() : undefined; }
 function dateText(sec, withTime) {
   const n = Number(sec); if (!(n > 0)) return undefined;
@@ -39,7 +46,7 @@ function toProfile(j, uid, region) {
     seasonId: num(b.seasonId),
     accountType: num(b.accountType),
     likes: num(b.liked),
-    prime: prime ? { level: prime, image: 'https://adenpedia.my.id/update01/prime' + prime + '.png' } : undefined,
+    prime: prime ? { level: prime } : undefined,
     ranks: {
       br: { points: num(b.rankingPoints), rankId: num(b.rank), maxRank: num(b.maxRank) },
       cs: { points: num(b.csRankingPoints), rankId: num(b.csRank), maxRank: num(b.csMaxRank) }
@@ -48,6 +55,7 @@ function toProfile(j, uid, region) {
     signature: so.signature || '',
     clan: cl.clanId ? { id: String(cl.clanId), name: cl.clanName, level: num(cl.clanLevel), captainId: cl.captainId, memberNum: num(cl.memberNum), capacity: num(cl.capacity) } : null,
     pet: pt.id ? { id: pt.id, level: num(pt.level), exp: num(pt.exp), skinId: pt.skinId } : null,
+    // Hanya ID. Gambar item dibangun oleh halaman dari ID ini.
     avatar: icon(pi.avatarId || b.headPic),
     assets: {
       avatar: icon(b.headPic), profileAvatar: icon(pi.avatarId), title: icon(b.title), pin: icon(b.pinId), banner: icon(b.bannerId),
@@ -68,16 +76,23 @@ function toProfile(j, uid, region) {
   return p;
 }
 
+// Kesalahan yang menandakan masalah key/kuota (bukan UID salah): jangan lanjut coba region lain.
+const SERVICE_ERR = /key|quota|kuota|limit|expire|unauthor|forbidden|suspend|inactive/i;
+
 async function ask(uid, region) {
   const ctl = new AbortController();
   const timer = setTimeout(() => ctl.abort(), 12000);
   try {
-    const url = BASE + '/freefireinfo/bhau?uid=' + encodeURIComponent(uid) + '&region=' + region + '&key=' + encodeURIComponent(KEY);
+    const url = BASE + '/freefireinfo/bhau?uid=' + encodeURIComponent(uid) + '&region=' + encodeURIComponent(region) + '&key=' + encodeURIComponent(KEY);
     const r = await fetch(url, { headers: { Accept: 'application/json' }, signal: ctl.signal });
     const t = await r.text();
-    let j; try { j = JSON.parse(t); } catch (e) { return { err: 'Respons server bukan JSON (HTTP ' + r.status + ').' }; }
+    let j; try { j = JSON.parse(t); } catch (e) { return { err: 'Respons server data Free Fire bukan JSON (HTTP ' + r.status + ').', net: true }; }
     if (j && j.basicInfo && j.basicInfo.nickname) return { j };
-    return { err: String((j && (j.error || j.message)) || 'Tidak ditemukan'), notFound: true, status: r.status };
+    const msg = String((j && (j.error || j.message)) || 'Tidak ditemukan');
+    if (r.status === 401 || r.status === 403 || r.status === 429 || SERVICE_ERR.test(msg)) {
+      return { err: 'Layanan data Free Fire sedang tidak tersedia atau kuota harian habis. Coba lagi nanti.', service: true, status: r.status === 429 ? 429 : 503 };
+    }
+    return { err: msg, notFound: true };
   } catch (e) {
     return { err: 'Gagal menghubungi server data Free Fire.', net: true };
   } finally { clearTimeout(timer); }
@@ -91,21 +106,30 @@ module.exports = async function (req, res) {
   const q = req.query || {};
   const uid = String(q.id || q.uid || '').trim();
   if (!/^\d{5,15}$/.test(uid)) return res.status(400).json({ ok: false, error: 'UID tidak valid' });
+
+  const miss = missCache.get(uid);
+  if (miss && Date.now() - miss < MISS_TTL) return res.status(404).json({ ok: false, error: 'UID Free Fire tidak ditemukan.' });
+
   const want = String(q.region || '').toUpperCase();
   const order = [].concat(want ? [want] : [], regionCache.has(uid) ? [regionCache.get(uid)] : [], REGIONS)
     .filter((r, i, a) => /^[A-Z]{2,4}$/.test(r) && a.indexOf(r) === i);
+
   let last = null;
   for (const region of order) {
     const r = await ask(uid, region);
     if (r.j) {
       regionCache.set(uid, region);
+      missCache.delete(uid);
       res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate=600');
       return res.status(200).json({ ok: true, uid, source: 'siambhau', profile: toProfile(r.j, uid, region) });
     }
     last = r;
-    if (r.net) break;
+    if (r.net || r.service) break;
   }
-  const msg = last && last.net ? last.err : 'UID Free Fire tidak ditemukan.';
-  return res.status(last && last.net ? 502 : 404).json({ ok: false, error: msg });
+  if (last && (last.net || last.service)) {
+    return res.status(last.service ? last.status : 502).json({ ok: false, error: last.err });
+  }
+  missCache.set(uid, Date.now());
+  return res.status(404).json({ ok: false, error: 'UID Free Fire tidak ditemukan.' });
 };
 module.exports.toProfile = toProfile;
