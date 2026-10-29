@@ -1854,21 +1854,25 @@ function nf(n){return Number(n||0).toLocaleString('id-ID')}
 function toast(m){try{if(typeof window.showToast==='function')window.showToast(m)}catch(e){}}
 function ctx(){if(typeof window.__zcCtx!=='function')return Promise.reject(new Error('chat_not_ready'));return window.__zcCtx()}
 function rpc(fn,args){return ctx().then(function(S){if(!S||!S.sb)throw new Error('chat_not_ready');return S.sb.rpc(fn,args||{})}).then(function(r){if(r.error)throw r.error;return r.data})}
-function invoke(name,body){return ctx().then(function(S){if(!S||!S.sb||!S.sb.functions)throw new Error('chat_not_ready');return S.sb.functions.invoke(name,{body:body})}).then(function(r){if(r.error)throw r.error;return r.data})}
+function invoke(name,body){return ctx().then(function(S){if(!S||!S.sb||!S.sb.functions)throw new Error('chat_not_ready');return S.sb.functions.invoke(name,{body:body})}).then(function(r){
+ if(!r.error)return r.data;
+ var e=r.error,c=e&&e.context;
+ if(c&&typeof c.text==='function'){return c.text().then(function(t){var x=new Error('HTTP '+(c.status||'')+' '+String(t||'').slice(0,160));x.code='FN_HTTP';throw x},function(){throw e})}
+ throw e})}
 function kind(e){var m=String((e&&e.message)||e||''),c=String((e&&e.code)||'');
  if(c==='42501'||/forbidden/i.test(m))return 'forbidden';
  if(c==='42883'||c==='PGRST202'||/could not find the function|does not exist|schema cache/i.test(m))return 'nobackend';
- if(/Failed to send a request|FunctionsFetchError|FunctionsRelayError|404/i.test(m))return 'nofn';
+ if(/Failed to send a request|FunctionsFetchError|FunctionsRelayError|Failed to fetch|NetworkError/i.test(m))return 'nofn';
  if(/chat_not_ready|not_authenticated|jwt|not logged/i.test(m))return 'login';
  if(/bad_uid/i.test(m))return 'baduid';
  return 'other:'+m.slice(0,140)}
 function friendly(e){var k=kind(e);
  if(k==='forbidden')return 'Hanya admin yang boleh memakai Auto Like.';
  if(k==='nobackend')return 'Backend belum dipasang. Jalankan zusmo_autolike_v2.sql di Supabase SQL Editor.';
- if(k==='nofn')return 'Fungsi server autolike-run belum dipasang atau tidak bisa dijangkau.';
+ if(k==='nofn')return 'Browser tidak bisa menghubungi fungsi autolike-run. Cek: sudah di-Deploy, namanya persis autolike-run, dan Verify JWT dimatikan. Lihat Logs fungsi untuk detail.';
  if(k==='login')return 'Login ke akun admin dulu, lalu buka halaman ini lagi.';
  if(k==='baduid')return 'UID tidak valid. Isi 6 sampai 14 digit angka.';
- return 'Gagal: '+k.replace(/^other:/,'')}
+ if(/^other:HTTP 404/.test(k))return 'Fungsi autolike-run tidak ditemukan (404). Pastikan namanya persis autolike-run dan sudah di-Deploy.';return 'Gagal: '+k.replace(/^other:/,'')}
 function view(w){$('al2Load').hidden=w!=='load';$('al2Lock').hidden=w!=='lock';$('al2Main').hidden=w!=='main'}
 function lock(m,retry){$('al2LockMsg').textContent=m;$('al2Retry').hidden=!retry;view('lock')}
 function msg(err,ok){var e=$('al2Err'),o=$('al2Ok');e.textContent=err||'';e.hidden=!err;o.textContent=ok||'';o.hidden=!ok}
