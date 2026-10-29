@@ -1834,7 +1834,7 @@ window.wlReset=function(){if(inp){inp.value="";inp.focus()}var b=document.getEle
 <div class="al2-tiles"><div class="g"><span>Sukses terpakai</span><b id="al2KUsed">0</b></div><div class="o"><span>Tersisa</span><b id="al2KLeft">0</b></div><div><span>Total key</span><b id="al2KAll">0</b></div></div>
 <div class="al2-bar" aria-hidden="true"><i id="al2KBar"></i></div>
 <div class="al2-keys" id="al2Keys"></div>
-<p class="al2-note">Terpakai = pemakaian key yang berhasil hari ini. Tersisa = sisa jatah key yang masih aktif. Reset otomatis tiap tengah malam WIB.</p>
+<p class="al2-note">Terpakai = pemakaian key yang berhasil hari ini. Tersisa = sisa jatah key (∞ bila key tanpa batas). Jika API menjawab limit, key dilewati 30 menit lalu dicoba lagi.</p>
 </section>
 
 <section class="al2-card" aria-label="Riwayat">
@@ -1899,12 +1899,12 @@ function render(d){
  if(document.activeElement!==$('al2Time'))$('al2Time').value=d.schedule_time||'07:00';
  $('al2Next').textContent=d.auto_enabled?('Berikutnya: '+nextTxt(d.next_run)):'Nonaktif';
  var k=d.keys||{},items=k.items||[];
- $('al2KUsed').textContent=nf(k.used_ok);$('al2KLeft').textContent=nf(k.remaining);$('al2KAll').textContent=nf(k.total);
+ $('al2KUsed').textContent=nf(k.used_ok);$('al2KLeft').textContent=k.unlimited?'∞':nf(k.remaining);$('al2KAll').textContent=nf(k.total);
  var cap=(Number(k.used_ok)||0)+(Number(k.remaining)||0);
- $('al2KBar').style.width=(cap?Math.round((Number(k.used_ok)||0)/cap*100):0)+'%';
+ $('al2KBar').style.width=k.unlimited?'100%':(cap?Math.round((Number(k.used_ok)||0)/cap*100):0)+'%';
  var kl=$('al2Keys');kl.textContent='';
  if(!items.length){var p=el('p','al2-note','Belum ada API key. Tambahkan di tabel zusmo_al2_keys.');p.style.margin='8px 0 0';kl.appendChild(p)}
- items.forEach(function(x){var st=KST[x.status]||[String(x.status||'—'),''];var r=el('div','al2-k');var a=el('div','',(x.label||'Key')+' · ••••'+(x.tail||''));a.appendChild(el('span','',nf(x.used_today)+' / '+nf(x.quota)+' terpakai'+(x.last_error?' · '+x.last_error:'')));r.appendChild(a);r.appendChild(el('i','al2-pill '+st[1],st[0]));kl.appendChild(r)});
+ items.forEach(function(x){var st=KST[x.status]||[String(x.status||'—'),''];var r=el('div','al2-k');var a=el('div','',(x.label||'Key')+' · ••••'+(x.tail||''));a.appendChild(el('span','',(Number(x.quota)===0?nf(x.used_today)+' terpakai · tanpa batas':nf(x.used_today)+' / '+nf(x.quota)+' terpakai')+(x.last_error?' · '+x.last_error:'')));r.appendChild(a);r.appendChild(el('i','al2-pill '+st[1],st[0]));kl.appendChild(r)});
  var lg=$('al2Log');lg.textContent='';var logs=d.logs||[];
  if(!logs.length){var q=el('p','al2-note','Belum ada riwayat.');q.style.margin='0';lg.appendChild(q)}
  logs.forEach(function(l){var m=LST[l.status]||[String(l.status||'—'),'warn'];var r=el('div','al2-l'+(m[1]?' '+m[1]:''));
