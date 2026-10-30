@@ -21538,18 +21538,74 @@ start();
 })();</script>
 <script id="sl-banner-fit">(function(){var p=document.getElementById("cekidffLikes");if(!p)return;function fit(){var h=p.querySelector(".slx-hero");if(!h||!p.classList.contains("active"))return;var tb=document.getElementById("topbarPro"),bt=tb?tb.getBoundingClientRect().bottom:42,cur=parseFloat(h.style.marginTop)||0,top=h.getBoundingClientRect().top+(window.pageYOffset||0),d=top-bt;if(Math.abs(d)>.5)h.style.marginTop=(cur-d)+"px"}function vid(){var v=document.getElementById("zusmoWallpaperBg");if(!v)return;try{if(p.classList.contains("active"))v.pause();else if(getComputedStyle(v).display!=="none"){var r=v.play();if(r&&r.catch)r.catch(function(){})}}catch(e){}}function run(){fit();vid()}try{new MutationObserver(run).observe(p,{attributes:true,attributeFilter:["class"]})}catch(e){}window.addEventListener("resize",fit);window.addEventListener("load",run);p.addEventListener("animationend",fit);[120,400,900,1800].forEach(function(ms){setTimeout(run,ms)});try{new ResizeObserver(fit).observe(document.body)}catch(e){}})();</script><style id="kz-wall-redblack">body:before{background:linear-gradient(rgba(0,0,0,.04),rgba(0,0,0,.22))!important}#hmMainTileGrid{position:relative;isolation:isolate;overflow:hidden;background:linear-gradient(150deg,rgba(255,255,255,.075) 0%,rgba(255,255,255,.022) 42%,rgba(255,255,255,.045) 100%),rgba(10,10,14,.25)!important;border:1px solid rgba(255,255,255,.12)!important;-webkit-backdrop-filter:blur(1px) saturate(150%)!important;backdrop-filter:blur(1px) saturate(150%)!important;box-shadow:0 14px 34px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.09),inset 0 -1px 0 rgba(255,255,255,.02)!important}
 </style><style id="kz-home-label-dim">#home .hm-tile-label{color:#b6b6bf!important}</style><style id="kz-home-icons">
-/* Ikon menu Home: warna solid saja (tanpa gradasi dan tanpa glow). Kotak grafit + garis merah + ikon putih; tile LAINNYA dibalik (kotak putih + ikon merah). */
-#home #hmMainTileGrid .hm-tile-icon{width:44px;height:44px;border-radius:15px;background:#121216;border:1.5px solid #ff2b2b;box-shadow:none;transition:background .16s ease,border-color .16s ease}
-#home #hmMainTileGrid .hm-tile-icon i{font-size:18px;color:#fff;text-shadow:none;transition:color .16s ease}
-#home #hmMainTileGrid .hm-tile:active .hm-tile-icon{background:#ff2b2b}
-#home #hmMainTileGrid .hm-tile:last-child .hm-tile-icon{background:#fff;border-color:#fff}
-#home #hmMainTileGrid .hm-tile:last-child .hm-tile-icon i{color:#ff2b2b}
-#home #hmMainTileGrid .hm-tile:last-child:active .hm-tile-icon{background:#ff2b2b;border-color:#ff2b2b}
-#home #hmMainTileGrid .hm-tile:last-child:active .hm-tile-icon i{color:#fff}
-@media(max-width:360px){#home #hmMainTileGrid .hm-tile-icon{width:38px;height:38px;border-radius:13px}#home #hmMainTileGrid .hm-tile-icon i{font-size:16px}}
-#home .hm-menu-icon{background:#121216;border:1.5px solid #ff2b2b;box-shadow:none}
-#home .hm-menu-icon i{color:#fff;text-shadow:none}
-@media(prefers-reduced-motion:reduce){#home #hmMainTileGrid .hm-tile-icon,#home #hmMainTileGrid .hm-tile-icon i{transition:none}}
+/* Ikon menu Home v2: kotak gelap dengan garis tipis bergradasi, ikon bergradasi merah-koral, panel kaca halus.
+   Berlaku untuk grid menu utama, grid Lainnya, dan kartu menu (REDEEM KODE, TOKO ZUSMO, dst). */
+#home #hmMainTileGrid{gap:8px 3px;padding:15px 6px 11px;border-radius:24px;border:1px solid rgba(255,255,255,.1)!important;box-shadow:0 16px 36px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.08)!important}
+#home #hmMainTileGrid::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(120% 65% at 50% -12%,rgba(255,43,43,.17),transparent 62%),radial-gradient(70% 45% at 100% 100%,rgba(255,43,43,.07),transparent 70%)}
+#home #hmMainTileGrid .hm-tile{justify-content:flex-start;gap:6px;transition:transform .16s ease}
+#home #hmMainTileGrid .hm-tile:active{background:transparent!important;transform:scale(.95)}
+
+#home #hmMainTileGrid .hm-tile-icon,
+#moreMenu .hm-tile-icon,
+#home .hm-menu .hm-menu-icon{
+  position:relative;border:1px solid transparent;
+  background:
+    linear-gradient(160deg,#27191c 0%,#170e11 58%,#0e090a 100%) padding-box,
+    linear-gradient(150deg,rgba(255,110,100,.8) 0%,rgba(255,43,43,.2) 36%,rgba(255,43,43,.07) 62%,rgba(255,110,100,.5) 100%) border-box;
+  box-shadow:0 7px 14px rgba(0,0,0,.5),0 0 16px rgba(255,43,43,.09),inset 0 1px 0 rgba(255,255,255,.08);
+  transition:transform .16s ease,box-shadow .16s ease,filter .16s ease;
+}
+#home #hmMainTileGrid .hm-tile-icon{width:46px;height:46px;border-radius:15px}
+#home .hm-menu .hm-menu-icon{width:50px;height:50px;border-radius:16px}
+#home #hmMainTileGrid .hm-tile-icon::after,
+#moreMenu .hm-tile-icon::after,
+#home .hm-menu .hm-menu-icon::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,.07),transparent 46%)}
+
+#home #hmMainTileGrid .hm-tile-icon i,
+#moreMenu .hm-tile-icon i,
+#home .hm-menu .hm-menu-icon i{
+  font-size:19px;color:transparent;text-shadow:none;
+  background:linear-gradient(160deg,#ffc2b8 0%,#ff6a5f 46%,#ff2b2b 100%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 2px 5px rgba(255,43,43,.4));
+}
+#home .hm-menu .hm-menu-icon i{font-size:21px}
+
+#home #hmMainTileGrid .hm-tile:active .hm-tile-icon{transform:scale(.94);box-shadow:0 3px 8px rgba(0,0,0,.5),0 0 18px rgba(255,43,43,.28),inset 0 1px 0 rgba(255,255,255,.06)}
+@media(hover:hover){
+  #home #hmMainTileGrid .hm-tile:hover .hm-tile-icon,#moreMenu .hm-tile:hover .hm-tile-icon,#home .hm-menu:hover .hm-menu-icon{box-shadow:0 9px 18px rgba(0,0,0,.55),0 0 20px rgba(255,43,43,.22),inset 0 1px 0 rgba(255,255,255,.1);filter:brightness(1.08)}
+  #home #hmMainTileGrid .hm-tile:hover{transform:translateY(-1px)}
+}
+
+/* LAINNYA: gaya "ghost" merah transparan, bukan kotak putih */
+#home #hmMainTileGrid .hm-tile:last-child .hm-tile-icon{
+  background:
+    linear-gradient(160deg,rgba(255,43,43,.26) 0%,rgba(255,43,43,.1) 100%) padding-box,
+    linear-gradient(150deg,rgba(255,130,120,.95) 0%,rgba(255,43,43,.4) 50%,rgba(255,130,120,.7) 100%) border-box;
+  box-shadow:0 7px 14px rgba(0,0,0,.45),0 0 18px rgba(255,43,43,.22),inset 0 1px 0 rgba(255,255,255,.12);
+}
+#home #hmMainTileGrid .hm-tile:last-child .hm-tile-icon i{background:linear-gradient(160deg,#ffe6e1 0%,#ff9d92 100%);-webkit-background-clip:text;background-clip:text}
+
+/* label */
+#home #hmMainTileGrid .hm-tile-label{font-size:8px;font-weight:700;letter-spacing:.2px;line-height:1.2;color:#cfd0d8!important}
+#home #hmMainTileGrid .hm-tile:active .hm-tile-label{color:#fff!important}
+
+/* kartu menu (Lainnya) */
+#home .hm-menu{border:1px solid rgba(255,255,255,.07);background:linear-gradient(135deg,rgba(32,23,26,.94),rgba(14,12,14,.94));box-shadow:0 10px 22px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.05)}
+
+@media(max-width:360px){
+  #home #hmMainTileGrid{gap:6px 3px;padding:12px 5px 9px}
+  #home #hmMainTileGrid .hm-tile-icon{width:40px;height:40px;border-radius:13px}
+  #home #hmMainTileGrid .hm-tile-icon i{font-size:16px}
+  #home #hmMainTileGrid .hm-tile-label{font-size:7px;letter-spacing:.1px}
+  #home .hm-menu .hm-menu-icon{width:44px;height:44px;border-radius:14px}
+}
+@media(prefers-reduced-motion:reduce){
+  #home #hmMainTileGrid .hm-tile,#home #hmMainTileGrid .hm-tile-icon,#moreMenu .hm-tile-icon,#home .hm-menu .hm-menu-icon{transition:none}
+}
+
+#home .hm-menu .hm-menu-arrow{color:rgba(255,255,255,.35);font-size:13px}
+
 </style><style id="kz-story-immersive">
 /* Viewer status/story layar penuh: topbar dan navbar bawah disembunyikan selama viewer terbuka (muncul lagi otomatis saat viewer ditutup). */
 body:has(.zc-sv) :is(.topbar-pro,.app-bottombar){display:none!important}
